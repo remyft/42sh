@@ -60,6 +60,13 @@ static void sig_hdlr(int sig)
 	ft_putchar('\n');
 }
 
+struct s_lst
+{
+	char	*content;
+	struct s_lst	*prev;
+	struct s_lst	*next;
+};
+
 int		main(void)
 {
 	char	tmp[10];
@@ -76,7 +83,39 @@ int		main(void)
 	int		j;
 	char	tchar;
 	char	cbis;
+	int		fd;
+	t_list	*history;
+	t_list	*begin;
+	int		continu;
+	int		len;
 
+	fd = open(".21sh_history", O_RDWR | O_APPEND | O_CREAT, 0644);
+	continu = 1;
+	history = NULL;
+	len = 0;
+	while (continu)
+	{
+		history = ft_memalloc(sizeof(t_list));
+		if (!len)
+			begin = history;
+		else
+			ft_lstadd_back(begin, history);
+		continu = get_next_line(fd, (char**)&(history->content));
+		if (!continu)
+		{
+			free(history);
+			history = NULL;
+		}
+		else
+			history->content_size = ft_strlen((char*)history->content);
+		len++;
+	}
+	history = begin;
+	while (history && history->content)
+	{
+		ft_putendl((char*)history->content);
+		history = history->next;
+	}
 	term = getenv("TERM");
 	ret = tgetent(NULL, term);
 	ft_define_new_term_cap(&save);
@@ -84,7 +123,8 @@ int		main(void)
 	signal(SIGINT, &sig_hdlr);
 	signal(SIGQUIT, &sig_hdlr);
 	i = 0;
-	tputs(tgetstr("cl", NULL), 1, ft_pchar);
+//	tputs(tgetstr("cl", NULL), 1, ft_pchar);
+	ft_bzero(buff, 8193);
 	while (1)
 	{
 		ft_putstr("$> ");
@@ -99,7 +139,7 @@ int		main(void)
 		//		ft_putnbend(tmp[j], "  ");
 			ret = tgetent(NULL, term);
 			nb_col = tgetnum("co");
-			if (i + (nb_read = read(0, tmp, 10)) < 8192)
+			if (i + (nb_read = read(0, tmp, 10)) < 8192) /* Type and cmd+V */
 			{
 				cp = 0;
 				while (cp < nb_read && ft_isprint(tmp[cp]))
@@ -110,6 +150,7 @@ int		main(void)
 					buff[index++] = tmp[cp];
 					i++;
 					j = 1;
+					ft_putchar(tmp[cp++]);
 					if (index != i)
 					{
 						while (index + j < i)
@@ -119,44 +160,46 @@ int		main(void)
 							tchar = cbis;
 							j++;
 						}
-					}
-					ft_putchar(tmp[cp++]);
-					if (index != i)
-					{
+						if ((index + 3) % nb_col == 0)
+						{
+							tputs(tgetstr("do", NULL), 1, ft_pchar);
+							tputs(tgetstr("cr", NULL), 1, ft_pchar);
+							tputs(tgetstr("dl", NULL), 1, ft_pchar);
+						}
 						tputs(tgetstr("sc", NULL), 1, ft_pchar);
 						ft_putstr(&buff[index]);
 						tputs(tgetstr("rc", NULL), 1, ft_pchar);
 					}
 				}
 			}
-			if (nb_read == 1 && tmp[0] == 4 && !buff[0])
+			if (nb_read == 1 && tmp[0] == 4 && !buff[0]) /* ctrl+D*/
 			{
 				ft_term_restore(save);
 				ft_putchar('\n');
 				exit(0);
 			}
-			else if (nb_read == 1 && tmp[0] == 3)
+			else if (nb_read == 1 && tmp[0] == 3) /* ctrl+C */
 			{
 				i = i % nb_col < nb_col ? i + (nb_col - i % nb_col) : i;
 				while ((index = index + nb_col) < i)
 					ft_putchar('\n');
 				tmp[0] = -1;
 			}
-			else if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 68)
+			else if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 68) /* left key */
 			{
 				index = index > 0 ? index - 1 : 0;
 				if (index && (index + 3) % nb_col == nb_col - 1)
 					tputs(tgetstr("up", NULL), 1, ft_pchar);
 				tputs(tgoto(tgetstr("ch", NULL), 0, (index + 3) % nb_col), 1, ft_pchar);
 			}
-			else if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 67)
+			else if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 67) /* right key*/
 			{
 				index = index < i ? index + 1 : i;
 				if (index && (index + 3) % nb_col == 0)
 					tputs(tgetstr("do", NULL), 1, ft_pchar);
 				tputs(tgoto(tgetstr("ch", NULL), 0, (index + 3) % nb_col), 1, ft_pchar);
 			}
-			else if (nb_read == 1 && tmp[0] == 127)
+			else if (nb_read == 1 && tmp[0] == 127) /* delete left */
 			{
 				j = 0;
 				if (index && (index + 2) % nb_col == nb_col - 1)
@@ -184,31 +227,47 @@ int		main(void)
 				{
 					j = index / nb_col;
 					ret = i / nb_col;
-					
 					tputs(tgetstr("sc", NULL), 1, ft_pchar);
-					tputs(tgetstr("cr", NULL), 1, ft_pchar);
-					tputs(tgetstr("dl", NULL), 1, ft_pchar);
-					tputs(tgetstr("rc", NULL), 1, ft_pchar);
 					while (j++ < ret)
 					{
-						tputs(tgetstr("sc", NULL), 1, ft_pchar);
 						tputs(tgetstr("do", NULL), 1, ft_pchar);
 						tputs(tgetstr("cr", NULL), 1, ft_pchar);
 						tputs(tgetstr("dl", NULL), 1, ft_pchar);
-						tputs(tgetstr("rc", NULL), 1, ft_pchar);
 					}
+					tputs(tgetstr("rc", NULL), 1, ft_pchar);
 					tputs(tgetstr("sc", NULL), 1, ft_pchar);
 					index < i ? ft_putstr(&buff[index]) : ft_putstr("");
 					tputs(tgetstr("rc", NULL), 1, ft_pchar);
 				}
 			}
-			else if (nb_read == 1 && tmp[0] == 12)
+			else if (nb_read == 4 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 51 && tmp[3] == 126) /* delete right */
+			{
+				j = -1;
+				while (index + ++j < i)
+					buff[index + j] = buff[index + j + 1];
+				j = index / nb_col;
+				ret = i / nb_col;
+				tputs(tgetstr("dc", NULL), 1, ft_pchar);
+				tputs(tgetstr("sc", NULL), 1, ft_pchar);
+				while (j++ < ret)
+				{
+					tputs(tgetstr("do", NULL), 1, ft_pchar);
+					tputs(tgetstr("cr", NULL), 1, ft_pchar);
+					tputs(tgetstr("dl", NULL), 1, ft_pchar);
+				}
+				tputs(tgetstr("rc", NULL), 1, ft_pchar);
+				tputs(tgetstr("sc", NULL), 1, ft_pchar);
+				index < i ? ft_putstr(&buff[index]) : ft_putstr("");
+				tputs(tgetstr("rc", NULL), 1, ft_pchar);
+				i = i > index ? i - 1 : index;
+			}
+			else if (nb_read == 1 && tmp[0] == 12) /* ctrl+L */
 			{
 				tputs(tgetstr("cl", NULL), 1, ft_pchar);
 				ft_putstr("$> ");
 				ft_putstr(buff);
 			}
-			else if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 72)
+			else if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 72) /* home */
 			{
 				j = index / nb_col;
 				while (j--)
@@ -216,7 +275,7 @@ int		main(void)
 				tputs(tgoto(tgetstr("ch", NULL), 0, 3), 1, ft_pchar);
 				index = 0;
 			}
-			else if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 70)
+			else if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 70) /* end */
 			{
 				j = index / nb_col - 1;
 				ret = i / nb_col;
@@ -225,27 +284,7 @@ int		main(void)
 				tputs(tgoto(tgetstr("ch", NULL), 0, (i + 3) % nb_col), 1, ft_pchar);
 				index = i;
 			}
-			else if (nb_read == 4 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 51 && tmp[3] == 126)
-			{
-				j = -1;
-				while (index + ++j < i)
-					buff[index + j] = buff[index + j + 1];
-				j = index / nb_col;
-				ret = i / nb_col;
-				while (j++ < ret)
-				{
-					tputs(tgetstr("sc", NULL), 1, ft_pchar);
-					tputs(tgetstr("do", NULL), 1, ft_pchar);
-					tputs(tgetstr("cr", NULL), 1, ft_pchar);
-					tputs(tgetstr("dl", NULL), 1, ft_pchar);
-					tputs(tgetstr("rc", NULL), 1, ft_pchar);
-				}
-				tputs(tgetstr("sc", NULL), 1, ft_pchar);
-				index < i ? ft_putstr(&buff[index]) : ft_putstr("");
-				tputs(tgetstr("rc", NULL), 1, ft_pchar);
-				i = i > index ? i - 1 : index;
-			}
-			else if (nb_read == 1 && tmp[0] == 23)
+			else if (nb_read == 1 && tmp[0] == 23) /* ctrl+W */
 			{
 				while (buff[index] != ' ' && index < i)
 				{
@@ -262,7 +301,11 @@ int		main(void)
 		ft_putchar('\n');
 		if (buff[0] && tmp[0] != -1)
 		{
-			buff[i] = '\0';
+			j = index / nb_col - 1;
+			ret = i / nb_col;
+			while (++j < ret)
+				tputs(tgetstr("do", NULL), 1, ft_pchar);
+			ft_putendl_fd(buff, fd);
 			ft_putendl(buff);
 		}
 		/*nb_read = read(0, tmp, 10);

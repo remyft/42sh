@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/11 08:05:20 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/13 02:42:01 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ int		main(int ac, char **av, char **ep)
 	char	**parse;
 	char	**cmd;
 	char	prompt[4097];
-	char	nani[5];
 
 	i = 0;
 	(void)ac;
