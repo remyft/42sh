@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/13 02:42:01 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/18 23:48:23 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static void sig_hdlr(int sig)
 	(void)sig;
 }
 
-int		main(int ac, char **av, char **ep)
+int		main(__unused int ac, __unused char **av, char **ep)
 {
 	char	*line;
 	char	**env;
@@ -104,23 +104,79 @@ int		main(int ac, char **av, char **ep)
 	char	**parse;
 	char	**cmd;
 	char	prompt[4097];
+	char	tmp[10];
+	struct termios	save;
+	int		nb_read;
+	char	buff[8193];
+	int		index;
+	t_hist	*curr;
+	char	*term;
+	char	buff_tmp[8194];
 
-	i = 0;
-	(void)ac;
-	(void)av;
 	i = 0;
 	env = collect_env(ep);
 	line = NULL;
+	term = getenv("TERM");
+	tgetent(NULL, term);
+	curr = NULL;
+	create_hist(&curr);
+	curr = curr->begin;
+	ft_define_new_term_cap(&save);
+	nb_read = 0;
 	signal(SIGINT, &sig_hdlr);
+	signal(SIGQUIT, &sig_hdlr);
+	tputs(tgetstr("cl", NULL), 1, ft_pchar);
+	ft_bzero(buff_tmp, 8194);
 	while (1)
 	{
 		ft_putstr(RESET);
 		ft_putend_cl(ft_strrchr(getcwd(prompt, 4097), '/') + 1, RED,  " $> ", BLUE);
 		ft_putstr(WHITE);
-		line = get_line(0);
+		ft_bzero(buff, 8193);
+		i = 0;
+		index = 0;
+		tmp[0] = '\0';
+		while (tmp[0] != 10 && tmp[0] != -1)
+		{
+			//	j = -1;
+			//	while (++j < nb_read)
+			//		ft_putnbend(tmp[j], "  ");
+			if (i + (nb_read = read(0, tmp, 10)) < 8192) /* Type and cmd+V */
+				i = get_typing(&index, buff, tmp, nb_read);
+			if (nb_read == 1 && tmp[0] == 4 && !buff[0]) /* ctrl+D*/
+				ft_exit2(save, &(curr->begin));
+			else if (nb_read == 1 && tmp[0] == 3) /* ctrl+C */
+				tmp[0] = ft_cancel(index, i, buff_tmp, &curr);
+			else if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 65) /* up arrow */
+				i = up_arrow(&index, buff, buff_tmp, &curr);
+			else if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 66) /* down key */
+				i = down_arrow(&index, buff, buff_tmp, &curr);
+			else if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 67) /* right key*/
+				right_arrow(&index, i);
+			else if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 68) /* left key */
+				left_arrow(&index);
+			else if (nb_read == 1 && tmp[0] == 127) /* delete left */
+				i = del_left(&index, buff, buff_tmp, curr);
+			else if (nb_read == 4 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 51 && tmp[3] == 126) /* delete right */
+				del_right(index, &i, buff);
+			else if (nb_read == 1 && tmp[0] == 12) /* ctrl+L */
+				ft_clear(buff);
+			else if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 72) /* home */
+				index = go_home(index);
+			else if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 70) /* end */
+				index = go_end(index, i);
+			else if (nb_read == 1 && tmp[0] == 23) /* ctrl+W */
+				next_word(&index, i, buff);
+			else if (nb_read == 1 && tmp[0] == 2) /* ctrl+B */
+				prev_word(&index, i, buff);
+		}
+		ft_putchar('\n');
+		if (buff[0] && tmp[0] != -1)
+		{
+			deal_commande(index, buff, buff_tmp, &curr);
+		//line = get_line(0);
 		parse = NULL;
-		if (line)
-			parse = ft_strsplit(line, ';');
+		parse = ft_strsplit(buff, ';');
 		i = -1;
 		while (parse && parse[++i])
 		{
@@ -132,8 +188,7 @@ int		main(int ac, char **av, char **ep)
 		}
 		if (parse)
 			free_tab(&parse);
-		if (line)
-			free(line);
+		}
 	}
 	return (0);
 }

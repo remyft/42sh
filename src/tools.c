@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/06 05:48:08 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/10 00:17:03 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/18 23:49:25 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ char	*replace_str(char *path, char *src, char *replace)
 	return (str);
 }
 
-void	free_tab(char ***tab)
+void	free_tab(char ***tabl)
 {
 	int i;
 
 	i = -1;
-	while ((*tab)[++i])
-		free((*tab)[i]);
-	free(*tab);
+	while ((*tabl)[++i])
+		free((*tabl)[i]);
+	free(*tabl);
 }
 
 char	**ft_ralloc(char ***env, int len)
@@ -87,12 +87,12 @@ char	**ft_ralloc(char ***env, int len)
 	return (tmp);
 }
 
-int		get_tab_len(char **tab)
+int		get_tab_len(char **tabl)
 {
 	int i;
 
 	i = 0;
-	while (tab[i])
+	while (tabl[i])
 		i++;
 	return (i);
 }

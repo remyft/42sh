@@ -2,8 +2,17 @@
 #include <term.h>
 #include "../libft/libft.h"
 
+typedef struct			s_history
+{
+	char				*content;
+	char				*tmp;
+	size_t				c_size;
+	struct s_history	*begin;
+	struct s_history	*prev;
+	struct s_history	*next;
+}						t_hist;
 
-char        *ft_tgetstr(char *t)
+char		*ft_tgetstr(char *t)
 {
 	char            *tmp;
 
@@ -59,15 +68,6 @@ static void sig_hdlr(int sig)
 	ft_putnbr(sig);
 	ft_putchar('\n');
 }
-
-typedef struct			s_history
-{
-	char				*content;
-	char				*tmp;
-	struct s_history	*begin;
-	struct s_history	*prev;
-	struct s_history	*next;
-}						t_hist;
 
 int		go_home(int index)
 {
@@ -139,29 +139,33 @@ void	right_arrow(int *index, int i)
 int		up_arrow(int *index, char *buff, char *buff_tmp, t_hist **curr)
 {
 	int		i;
+	int		len;
 
+	len = ft_strlen(buff_tmp);
 	i = ft_strlen(buff);
-	if (*curr && (*curr)->next && (ft_strcmp((*curr)->content, buff) == 0 || *curr != (*curr)->begin))
+	if (*curr && (*curr)->next && ((ft_strcmp((*curr)->content, buff) == 0 && buff_tmp[8193]) || *curr != (*curr)->begin))
 	{
 		if ((*curr)->tmp)
 			free((*curr)->tmp);
 		(*curr)->tmp = ft_strdup(buff);
 		(*curr) = (*curr)->next;
-		while ((*curr)->next && ft_strstr((*curr)->content, buff_tmp) != (*curr)->content)
+		while ((*curr)->next && (ft_strstr((*curr)->content, buff_tmp) != (*curr)->content || (*curr)->c_size <= len))
 			(*curr) = (*curr)->next;
-		while ((*curr)->prev && ft_strstr((*curr)->content, buff_tmp) != (*curr)->content)
+		while ((*curr)->prev && (ft_strstr((*curr)->content, buff_tmp) != (*curr)->content || (*curr)->c_size <= len))
 			(*curr) = (*curr)->prev;
 	}
 	else if ((*curr)->next)
 	{
-		while ((*curr)->next && ft_strstr((*curr)->content, buff) != (*curr)->content)
+		len = ft_strlen(buff);
+		while ((*curr)->next && (ft_strstr((*curr)->content, buff) != (*curr)->content || (*curr)->c_size <= len))
 			*curr = (*curr)->next;
-		if (*curr != (*curr)->begin && ft_strstr((*curr)->content, buff) != (*curr)->content)
+		if (*curr != (*curr)->begin && (ft_strstr((*curr)->content, buff) != (*curr)->content || (*curr)->c_size <= len))
 			while ((*curr)->prev)
 				*curr = (*curr)->prev;
 		ft_strcpy(buff_tmp, buff);
+		buff_tmp[8193] = 1;
 	}
-	if (*curr && ft_strstr((*curr)->content, buff_tmp) == (*curr)->content)
+	if (*curr && ft_strstr((*curr)->content, buff_tmp) == (*curr)->content && (*curr)->c_size > len)
 	{
 		ft_bzero(buff, i);
 		if ((*curr)->tmp)
@@ -181,7 +185,9 @@ int		up_arrow(int *index, char *buff, char *buff_tmp, t_hist **curr)
 int		down_arrow(int *index, char *buff, char *buff_tmp, t_hist **curr)
 {
 	int		i;
+	int		len;
 
+	len = ft_strlen(buff_tmp);
 	i = ft_strlen(buff);
 	if (*curr && (*curr)->prev)
 	{
@@ -189,9 +195,9 @@ int		down_arrow(int *index, char *buff, char *buff_tmp, t_hist **curr)
 			free((*curr)->tmp);
 		(*curr)->tmp = ft_strdup(buff);
 		*curr = (*curr)->prev;
-		while ((*curr)->prev && ft_strstr((*curr)->content, buff_tmp) != (*curr)->content)
+		while ((*curr)->prev && (ft_strstr((*curr)->content, buff_tmp) != (*curr)->content || (*curr)->c_size <= len))
 			*curr = (*curr)->prev;
-		if (ft_strstr((*curr)->content, buff_tmp) == (*curr)->content)
+		if (ft_strstr((*curr)->content, buff_tmp) == (*curr)->content && (*curr)->c_size > len)
 		{
 			ft_bzero(buff, i);
 			if ((*curr)->tmp)
@@ -205,10 +211,11 @@ int		down_arrow(int *index, char *buff, char *buff_tmp, t_hist **curr)
 			ft_strcpy(buff, buff_tmp);
 		}
 	}
-	else if (*curr)
+	else if (*curr && buff_tmp[8193])
 	{
 		ft_bzero(buff, i);
 		ft_strcpy(buff, buff_tmp);
+		ft_bzero(buff_tmp, 8194);
 	}
 	*index = go_home(*index);
 	tputs(tgetstr("cr", NULL), 1, ft_pchar);
@@ -219,7 +226,7 @@ int		down_arrow(int *index, char *buff, char *buff_tmp, t_hist **curr)
 	return (*index);
 }
 
-void	ft_exit(struct termios save, t_hist **begin, int fd)
+void	ft_exit(struct termios save, t_hist **begin)
 {
 	t_hist *curr;
 
@@ -232,7 +239,6 @@ void	ft_exit(struct termios save, t_hist **begin, int fd)
 			free(*begin);
 			(*begin) = curr;
 		}
-	close(fd);
 	exit(0);
 }
 
@@ -249,7 +255,7 @@ int		ft_cancel(int index, int i, char *buff_tmp, t_hist **curr)
 	while ((index = index + nb_col) < i)
 		ft_putchar('\n');
 	*curr = (*curr)->begin;
-	ft_bzero(buff_tmp, i);
+	ft_bzero(buff_tmp, 8194);
 	while ((*curr)->next)
 	{
 		if ((*curr)->tmp)
@@ -463,6 +469,7 @@ void	deal_commande(int index, char *buff, char *buff_tmp, t_hist **curr)
 			tmp = *curr;
 			*curr = ft_memalloc(sizeof(t_hist));
 			(*curr)->content = ft_strdup(buff);
+			(*curr)->c_size = ft_strlen(buff);
 			(*curr)->next = tmp->begin;
 			tmp->begin->prev = *curr;
 			(*curr)->begin = *curr;
@@ -486,14 +493,15 @@ void	deal_commande(int index, char *buff, char *buff_tmp, t_hist **curr)
 		ft_putendl_fd(buff, fd);
 		*curr = ft_memalloc(sizeof(t_hist));
 		(*curr)->content = ft_strdup(buff);
+		(*curr)->c_size = ft_strlen(buff);
 		(*curr)->begin = *curr;
 	}
 	ft_putendl(buff);
-	ft_bzero(buff_tmp, 8193);
+	ft_bzero(buff_tmp, 8194);
 	close(fd);
 }
 
-void	create_hist(t_hist **begin, t_hist **end)
+void	create_hist(t_hist **begin)
 {
 	int		continu;
 	t_hist	*curr;
@@ -504,14 +512,14 @@ void	create_hist(t_hist **begin, t_hist **end)
 	while (continu)
 	{
 		curr = ft_memalloc(sizeof(t_hist));
-		if (!*end)
-			*end = curr;
-		else
+		if (*begin)
 		{
 			curr->next = *begin;
 			(*begin)->prev = curr;
+			curr->begin = *begin;
 		}
 		continu = get_next_line(fd, &(curr->content));
+		curr->c_size = ft_strlen(curr->content);
 		if (!continu)
 		{
 			free(curr);
@@ -538,31 +546,21 @@ int		main(void)
 	int		i;
 	char	buff[8193];
 	int		index;
-	char	*term;
-	int		ret;
-	int		cp;
-	int		j;
-	int		fd;
-	int		nb_col;
-	t_hist	*begin;
-	t_hist	*end;
 	t_hist	*curr;
-	char	buff_tmp[8193];
+	char	*term;
+	char	buff_tmp[8194];
 
-	fd = open(".21sh_history", O_RDWR | O_APPEND | O_CREAT, 0644);
-	begin = NULL;
-	end = NULL;
-	create_hist(&begin, &end);
-	curr = begin;
 	term = getenv("TERM");
-	ret = tgetent(NULL, term);
+	tgetent(NULL, term);
+	curr = NULL;
+	create_hist(&curr);
+	curr = curr->begin;
 	ft_define_new_term_cap(&save);
 	nb_read = 0;
 	signal(SIGINT, &sig_hdlr);
 	signal(SIGQUIT, &sig_hdlr);
 	tputs(tgetstr("cl", NULL), 1, ft_pchar);
-	ft_bzero(buff, 8193);
-	ft_bzero(buff_tmp, 8193);
+	ft_bzero(buff_tmp, 8194);
 	while (1)
 	{
 		ft_putstr("$> ");
@@ -575,12 +573,10 @@ int		main(void)
 			//	j = -1;
 			//	while (++j < nb_read)
 			//		ft_putnbend(tmp[j], "  ");
-			ret = tgetent(NULL, term);
-			nb_col = tgetnum("co");
 			if (i + (nb_read = read(0, tmp, 10)) < 8192) /* Type and cmd+V */
 				i = get_typing(&index, buff, tmp, nb_read);
 			if (nb_read == 1 && tmp[0] == 4 && !buff[0]) /* ctrl+D*/
-				ft_exit(save, &begin, fd);
+				ft_exit(save, &(curr->begin));
 			else if (nb_read == 1 && tmp[0] == 3) /* ctrl+C */
 				tmp[0] = ft_cancel(index, i, buff_tmp, &curr);
 			else if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 65) /* up arrow */
@@ -638,6 +634,5 @@ int		main(void)
 		  break;*/
 	}
 	ft_term_restore(save);
-	close(fd);
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: rfontain <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/10/08 17:27:00 by rfontain         ###   ########.fr        #
+#    Updated: 2018/10/18 23:53:14 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ GREEN = "\x1b[1;32;40m"
 
 LIB_PATH = libft
 LIB = $(LIB_PATH)/libft.a
-LIB_LINK = -L $(LIB_PATH) -lft
+LIB_LINK = -L $(LIB_PATH) -lft -lncurses
 
 INC_DIR = include
 INCS = -I $(LIB_PATH)/ -I $(INC_DIR)
@@ -34,6 +34,7 @@ SRCS =	src/minishell.c			\
 		src/setenv_builtin.c	\
 		src/cd_builtin.c		\
 		src/exec.c				\
+		src/termcaps.c			\
 
 OK =      $(GREEN)[OK]$(RESET)		
 

@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/04 22:53:02 by rfontain          #+#    #+#             */
-/*   Updated: 2018/04/04 22:53:33 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/18 18:02:10 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ size_t		ft_strlen(const char *str)
 {
 	size_t i;
 
+	if (!str)
+		return (0);
 	i = 0;
 	while (str[i])
 		i++;
