@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/04 23:07:03 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/08 10:29:11 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/20 18:05:00 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,8 @@ int					ft_copyuntil(char **dst, char *src, char c);
 char				*ft_strjoinfree(char *s1, char *s2, int i);
 
 int					ft_for(int i, int delimiter, int inc);
-void				ft_strup(char *str, size_t size);
-void				ft_strlow(char *str, size_t size);
+char				*ft_strup(char *str, size_t size);
+char				*ft_strlow(char *str, size_t size);
 
 char				*ft_itoa_base(int nb, int base);
 char				*ft_convert_base(int nb, int base, int i);
@@ -133,4 +133,7 @@ void				ft_putendl_cl(char *str, char *color);
 void				ft_putend_cl(char *str1, char *color1, char *str2,
 		char *color2);
 
+int					ft_strlen_ch(char *str, char c);
+char				*strdup_until(char *old, char c);
+void				*ft_free(void *targ, void *ret);
 #endif

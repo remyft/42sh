@@ -4,10 +4,8 @@
 typedef struct	t_tree
 {
 	int				value;
-	struct t_tree	*prev;
 	struct t_tree	*next;
 	struct t_tree	*tern_next;
-	struct t_tree	*tern_prev;
 }
 				s_tree;
 
@@ -18,6 +16,7 @@ void	feed_tree(char *str, s_tree **tern)
 	s_tree		*tmp;
 	s_tree		*begin;
 
+	begin = NULL;
 	if ((*tern)->value >= 0)
 	{
 		begin = *tern;
@@ -31,18 +30,15 @@ void	feed_tree(char *str, s_tree **tern)
 		{
 			*tern = ft_memalloc(sizeof(s_tree));
 			prev->next = *tern;
-			(*tern)->prev = prev;
 			(*tern)->value = *str;
 		}
 		else if (*str < (*tern)->value)
 		{
 			tmp = ft_memalloc(sizeof(s_tree));
-			if ((*tern)->prev)
+			if (prev)
 			{
-				(*tern)->prev->next = tmp;
-				tmp->prev = (*tern)->prev;
+				prev->next = tmp;
 			}
-			(*tern)->prev = tmp;
 			tmp->next = (*tern);
 			tmp->value = *str;
 			*tern = tmp;
@@ -54,14 +50,11 @@ void	feed_tree(char *str, s_tree **tern)
 	{
 		(*tern)->tern_next = ft_memalloc(sizeof(s_tree));
 		(*tern)->tern_next->value = -1;
-		(*tern)->tern_next->tern_prev = *tern;
 	}
 	if (*str)
 		feed_tree(str + 1, &((*tern)->tern_next));
-//	if (prev)
-//		*tern = begin;
-	while ((*tern)->prev)
-		(*tern) = (*tern)->prev;
+	if (prev && begin)
+		*tern = begin;
 }
 
 void	ft_put(s_tree *tern, char *bru, int lvl)
@@ -101,18 +94,13 @@ int		main(int ac, char **av)
 	ternary = ft_memalloc(sizeof(s_tree));
 	ternary->value = -1;
 	begin = ternary;
-	while ((indir = readdir(dir)))
+	while /*(i < (sizeof(tab) / sizeof(tab[0])))*/((indir = readdir(dir)))
 	{
-		ternary = begin;
-		while (ternary->prev)
-			ternary = ternary->prev;
 		feed_tree(indir->d_name, &ternary);
+		//feed_tree(tab[i], &ternary);
 		i++;
 	}
-	while (begin->prev)
-		begin = begin->prev;
-	ternary = begin;
-//	reset_tern(&ternary);
+	begin = ternary;
 	lvl = 0;
 	if (ac == 2)
 	{
@@ -134,18 +122,5 @@ int		main(int ac, char **av)
 	}
 	else
 		ft_put(begin, bru, 0);
-	/*while (begin)
-	{
-		ft_putchar(begin->value);
-		ft_putchar('\n');
-		begin = begin->next;
-	}*/
-	/*ft_putchar(begin->value);
-	ft_putchar(begin->tern_next->value);
-	if (begin->tern_next->tern_next->prev)
-		begin->tern_next->tern_next = begin->tern_next->tern_next->prev;
-	ft_putchar(begin->tern_next->tern_next->value);
-
-	ft_putchar(begin->tern_next->tern_next->next->value);*/
 	return (0);
 }

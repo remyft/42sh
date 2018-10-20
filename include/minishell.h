@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/20 03:00:28 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/20 19:07:45 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <sys/stat.h>
 # include <termios.h>
 # include <term.h>
+# include <dirent.h>
 
 typedef struct			s_history
 {
@@ -28,6 +29,15 @@ typedef struct			s_history
 	struct s_history	*prev;
 	struct s_history	*next;
 }						t_hist;
+
+typedef struct		s_tree
+{
+	int				value;
+	int				max_len;
+	struct s_tree	*left;
+	struct s_tree	*right;
+	struct s_tree	*tern_next;
+}					t_tree;
 
 char	**parsing(char *cmd);
 
@@ -70,5 +80,9 @@ void	prev_word(int *index, int len, char *buff);
 int		get_typing(int *index, char *buff, char *tmp, int nb_read);
 void	deal_commande(int index, char *buff, char *buff_tmp, t_hist **curr);
 void	create_hist(t_hist **begin);
+
+t_tree	*create_file_tree(void);
+void	put_complet(char *str, t_tree *tern);
+t_tree	*create_tree(char **env);
 
 #endif

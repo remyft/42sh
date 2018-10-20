@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/20 03:33:28 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/20 19:24:50 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,9 @@ int		main(__unused int ac, __unused char **av, char **ep)
 	t_hist	*curr;
 	char	*term;
 	char	buff_tmp[8194];
-	int		j;
+//	int		j;
+	t_tree	*bin;
+	t_tree	*files;
 
 	i = 0;
 	env = collect_env(ep);
@@ -128,9 +130,10 @@ int		main(__unused int ac, __unused char **av, char **ep)
 	signal(SIGQUIT, &sig_hdlr);
 	tputs(tgetstr("cl", NULL), 1, ft_pchar);
 	ft_bzero(buff_tmp, 8194);
+	bin = create_tree(env);
 	while (1)
 	{
-			tputs(tgetstr("GM", NULL), 1, ft_pchar);
+		files = create_file_tree();
 		ft_putstr(RESET);
 		ft_putend_cl(ft_strrchr(getcwd(prompt, 4097), '/') + 1, RED,  " $> ", BLUE);
 		ft_putstr(WHITE);
@@ -140,9 +143,9 @@ int		main(__unused int ac, __unused char **av, char **ep)
 		tmp[0] = '\0';
 		while (tmp[0] != 10 && tmp[0] != -1)
 		{
-				j = -1;
-				while (++j < nb_read)
-					ft_putnbend(tmp[j], "  ");
+		//		j = -1;
+		//		while (++j < nb_read)
+		//			ft_putnbend(tmp[j], "  ");
 			if (i + (nb_read = read(0, tmp, 10)) < 8192) /* Type and cmd+V */
 				i = get_typing(&index, buff, tmp, nb_read);
 			if (nb_read == 1 && tmp[0] == 4 && !buff[0]) /* ctrl+D*/
@@ -171,6 +174,29 @@ int		main(__unused int ac, __unused char **av, char **ep)
 				next_word(&index, i, buff);
 			else if (nb_read == 1 && tmp[0] == 2) /* ctrl+B */
 				prev_word(&index, i, buff);
+			else if (nb_read == 1 && tmp[0] == 9)
+			{
+				if (!ft_occuc(buff, ' '))
+				{
+
+				tputs(tgetstr("sc", NULL), 1, ft_pchar);
+					tputs(tgetstr("do", NULL), 1, ft_pchar);
+				tputs(tgetstr("cr", NULL), 1, ft_pchar);
+				tputs(tgetstr("cd", NULL), 1, ft_pchar);
+				put_complet(buff, bin);
+				tputs(tgetstr("rc", NULL), 1, ft_pchar);
+				}
+				else
+				{
+				tputs(tgetstr("sc", NULL), 1, ft_pchar);
+					tputs(tgetstr("do", NULL), 1, ft_pchar);
+				tputs(tgetstr("cr", NULL), 1, ft_pchar);
+				tputs(tgetstr("cd", NULL), 1, ft_pchar);
+				put_complet(NULL, files);
+				tputs(tgetstr("rc", NULL), 1, ft_pchar);
+				}
+
+			}
 		}
 		ft_putchar('\n');
 		if (buff[0] && tmp[0] != -1)

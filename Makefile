@@ -6,7 +6,7 @@
 #    By: rfontain <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/10/18 23:53:14 by rfontain         ###   ########.fr        #
+#    Updated: 2018/10/20 19:05:34 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRCS =	src/minishell.c			\
 		src/cd_builtin.c		\
 		src/exec.c				\
 		src/termcaps.c			\
+		src/ternary.c			\
 
 OK =      $(GREEN)[OK]$(RESET)		
 

@@ -1,26 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlow.c                                        :+:      :+:    :+:   */
+/*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/19 06:42:01 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/20 18:04:35 by rfontain         ###   ########.fr       */
+/*   Created: 2018/10/20 11:18:27 by rfontain          #+#    #+#             */
+/*   Updated: 2018/10/20 11:19:06 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strlow(char *str, size_t size)
+void		*ft_free(void *targ, void *ret)
 {
-	size_t i;
-
-	i = 0;
-	while (i < size)
-	{
-		str[i] = ft_tolower(str[i]);
-		i++;
-	}
-	return (str);
+	free(targ);
+	return (ret);
 }

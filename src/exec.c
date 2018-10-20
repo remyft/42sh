@@ -6,27 +6,16 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/06 16:15:36 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/20 01:41:54 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/20 11:22:45 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static int	ft_strlen_ch(char *str, char c)
-{
-	int i;
-
-	i = 0;
-	while (str[i] && str[i] != c)
-		i++;
-	return (i);
-}
-
 static char	*get_path(char **env, char *cmd)
 {
 	char		*toget;
 	char		*path;
-	int			i;
 	int			j;
 	struct stat	stat;
 
@@ -34,28 +23,14 @@ static char	*get_path(char **env, char *cmd)
 	toget = get_env(env, "PATH");
 	while (1)
 	{
-		i = 0;
-		if (!(path = malloc(sizeof(char) * (ft_strlen_ch(&toget[j], ':') + 1))))
-			return (NULL);
-		while (toget[i + j] && toget[i + j] != ':')
-		{
-			path[i] = toget[i + j];
-			i++;
-		}
-		path[i] = '\0';
+		path = strdup_until(&toget[j], ':');
 		path = ft_strjoinfree(path, "/", 1);
 		path = ft_strjoinfree(path, cmd, 1);
 		if (lstat(path, &stat) != -1)
-		{
-			free(toget);
-			return (path);
-		}
+			return (ft_free(toget, path));
 		free(path);
 		if (!ft_occuc(&toget[j], ':'))
-		{
-			free(toget);
-			return (NULL);
-		}
+			return (ft_free(toget, NULL));
 		j += !(toget[j + ft_strlen_ch(toget, ':')])
 			? ft_strlen_ch(&toget[j], ':') : ft_strlen_ch(&toget[j], ':') + 1;
 	}

@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlow.c                                        :+:      :+:    :+:   */
+/*   strdup_until.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/19 06:42:01 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/20 18:04:35 by rfontain         ###   ########.fr       */
+/*   Created: 2018/10/20 11:19:47 by rfontain          #+#    #+#             */
+/*   Updated: 2018/10/20 11:20:05 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strlow(char *str, size_t size)
+char		*strdup_until(char *old, char c)
 {
-	size_t i;
+	char	*str;
+	int		i;
 
+	if (!(str = malloc(sizeof(char) * (ft_strlen_ch(old, c) + 1))))
+		return (NULL);
 	i = 0;
-	while (i < size)
+	while (old[i] && old[i] != c)
 	{
-		str[i] = ft_tolower(str[i]);
+		str[i] = old[i];
 		i++;
 	}
+	str[i] = '\0';
 	return (str);
 }

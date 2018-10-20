@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/18 23:38:49 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/20 03:04:27 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/20 19:23:29 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,6 +250,7 @@ int		ft_cancel(int index, int i, char *buff_tmp, t_hist **curr)
 	i = i % nb_col < nb_col ? i + (nb_col - i % nb_col) : i;
 	while ((index = index + nb_col) < i)
 		ft_putchar('\n');
+	tputs(tgetstr("cd", NULL), 1, ft_pchar);
 	*curr = (*curr)->begin;
 	ft_bzero(buff_tmp, 8194);
 	while ((*curr)->next)
@@ -426,7 +427,7 @@ int		get_typing(int *index, char *buff, char *tmp, int nb_read)
 
 	cp = 0;
 	len = ft_strlen(buff);
-	while (cp < nb_read && ft_isprint(tmp[cp]))
+	while (cp < nb_read && (ft_isprint(tmp[cp]) || (tmp[0] == 9 && !buff[0])))
 	{
 		tchar = buff[*index + 1];
 		if (*index != len)

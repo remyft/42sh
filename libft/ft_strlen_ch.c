@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlow.c                                        :+:      :+:    :+:   */
+/*   ft_strlen_ch.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/19 06:42:01 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/20 18:04:35 by rfontain         ###   ########.fr       */
+/*   Created: 2018/10/20 11:19:14 by rfontain          #+#    #+#             */
+/*   Updated: 2018/10/20 11:19:37 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strlow(char *str, size_t size)
+int			ft_strlen_ch(char *str, char c)
 {
-	size_t i;
+	int i;
 
 	i = 0;
-	while (i < size)
-	{
-		str[i] = ft_tolower(str[i]);
+	while (str[i] && str[i] != c)
 		i++;
-	}
-	return (str);
+	return (i);
 }

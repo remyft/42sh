@@ -6,13 +6,13 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 06:42:12 by rfontain          #+#    #+#             */
-/*   Updated: 2018/09/19 06:42:14 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/20 18:04:02 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_strup(char *str, size_t size)
+char	*ft_strup(char *str, size_t size)
 {
 	size_t i;
 
@@ -22,4 +22,5 @@ void	ft_strup(char *str, size_t size)
 		str[i] = ft_toupper(str[i]);
 		i++;
 	}
+	return (str);
 }
