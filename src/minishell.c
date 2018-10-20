@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/18 23:48:23 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/20 03:33:28 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int		main(__unused int ac, __unused char **av, char **ep)
 	t_hist	*curr;
 	char	*term;
 	char	buff_tmp[8194];
+	int		j;
 
 	i = 0;
 	env = collect_env(ep);
@@ -121,7 +122,7 @@ int		main(__unused int ac, __unused char **av, char **ep)
 	curr = NULL;
 	create_hist(&curr);
 	curr = curr->begin;
-	ft_define_new_term_cap(&save);
+	define_new_term(&save);
 	nb_read = 0;
 	signal(SIGINT, &sig_hdlr);
 	signal(SIGQUIT, &sig_hdlr);
@@ -129,6 +130,7 @@ int		main(__unused int ac, __unused char **av, char **ep)
 	ft_bzero(buff_tmp, 8194);
 	while (1)
 	{
+			tputs(tgetstr("GM", NULL), 1, ft_pchar);
 		ft_putstr(RESET);
 		ft_putend_cl(ft_strrchr(getcwd(prompt, 4097), '/') + 1, RED,  " $> ", BLUE);
 		ft_putstr(WHITE);
@@ -138,9 +140,9 @@ int		main(__unused int ac, __unused char **av, char **ep)
 		tmp[0] = '\0';
 		while (tmp[0] != 10 && tmp[0] != -1)
 		{
-			//	j = -1;
-			//	while (++j < nb_read)
-			//		ft_putnbend(tmp[j], "  ");
+				j = -1;
+				while (++j < nb_read)
+					ft_putnbend(tmp[j], "  ");
 			if (i + (nb_read = read(0, tmp, 10)) < 8192) /* Type and cmd+V */
 				i = get_typing(&index, buff, tmp, nb_read);
 			if (nb_read == 1 && tmp[0] == 4 && !buff[0]) /* ctrl+D*/
@@ -160,7 +162,7 @@ int		main(__unused int ac, __unused char **av, char **ep)
 			else if (nb_read == 4 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 51 && tmp[3] == 126) /* delete right */
 				del_right(index, &i, buff);
 			else if (nb_read == 1 && tmp[0] == 12) /* ctrl+L */
-				ft_clear(buff);
+				ft_clear(buff, prompt);
 			else if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 72) /* home */
 				index = go_home(index);
 			else if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 70) /* end */
@@ -174,7 +176,6 @@ int		main(__unused int ac, __unused char **av, char **ep)
 		if (buff[0] && tmp[0] != -1)
 		{
 			deal_commande(index, buff, buff_tmp, &curr);
-		//line = get_line(0);
 		parse = NULL;
 		parse = ft_strsplit(buff, ';');
 		i = -1;
@@ -183,7 +184,7 @@ int		main(__unused int ac, __unused char **av, char **ep)
 			cmd = ft_strsplit_ws(parse[i]);
 			if (!(get_var(env, cmd)))
 				continue ;
-			deal_cmd(cmd, &env);
+			deal_cmd(cmd, &env, &save);
 			free_tab(&cmd);
 		}
 		if (parse)

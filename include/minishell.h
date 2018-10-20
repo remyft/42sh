@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/18 23:53:37 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/20 03:00:28 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct			s_history
 
 char	**parsing(char *cmd);
 
-void	deal_cmd(char **cmd, char ***env);
+void	deal_cmd(char **cmd, char ***env, struct termios *save);
 
 char	*get_line(int fd);
 char	*replace_str(char *path, char *src, char *replace);
@@ -46,14 +46,13 @@ char	**collect_env(char **ep);
 
 void	ft_cd(char ***env, char **cmd);
 
-int		ft_exec(char **env, char **cmd);
+int		ft_exec(char **env, char **cmd, struct termios *save);
 
 /* termcaps */
 
-char	*ft_tgetstr(char *t);
 int		ft_pchar(int nb);
-void	ft_term_restore(struct termios save);
-void	ft_define_new_term_cap(struct termios *save);
+void	term_restore(struct termios save);
+void	define_new_term(struct termios *save);
 int		go_home(int index);
 int		go_end(int index, int len);
 void	left_arrow(int *index);
@@ -65,7 +64,7 @@ int		ft_cancel(int index, int i, char *buff_tmp, t_hist **curr);
 void	del_lines(int index, int len, int nb_col);
 int		del_left(int *index, char *buff, char *buff_tmp, t_hist *curr);
 void	del_right(int index, int *i, char *buff);
-void	ft_clear(char *buff);
+void	ft_clear(char *buff, char *prompt);
 void	next_word(int *index, int len, char *buff);
 void	prev_word(int *index, int len, char *buff);
 int		get_typing(int *index, char *buff, char *tmp, int nb_read);

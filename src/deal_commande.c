@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/02 19:17:15 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/08 18:56:47 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/20 01:44:27 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	ft_echo(char **cmd, int len)
 	}
 }
 
-static void	ft_exit(char **env, char *ex, int len)
+static void	ft_exit(char **env, char *ex, int len, struct termios save)
 {
 	int i;
 	int	val;
@@ -58,13 +58,14 @@ static void	ft_exit(char **env, char *ex, int len)
 		i = 0;
 		free_tab(&env);
 		ft_putendl("exit");
+		term_restore(save);
 		exit(val % 256);
 	}
 	else
 		ft_putendl("exit : Expression Syntax");
 }
 
-void		deal_cmd(char **cmd, char ***env)
+void		deal_cmd(char **cmd, char ***env, struct termios *save)
 {
 	int i;
 
@@ -72,7 +73,7 @@ void		deal_cmd(char **cmd, char ***env)
 	while (cmd[i])
 		i++;
 	if (ft_strcmp(cmd[0], "exit") == 0)
-		ft_exit(*env, cmd[1], i);
+		ft_exit(*env, cmd[1], i, *save);
 	else if ((ft_strcmp(cmd[0], "env") == 0 ||
 				(ft_strcmp(cmd[0], "setenv") == 0 && !cmd[1])) && (i = 1) > -1)
 		while ((*env)[i])
@@ -85,6 +86,6 @@ void		deal_cmd(char **cmd, char ***env)
 		ft_cd(env, cmd);
 	else if (ft_strcmp(cmd[0], "unsetenv") == 0)
 		ft_unsetenv(env, cmd);
-	else if (!ft_exec(*env, cmd))
+	else if (!ft_exec(*env, cmd, save))
 		ft_putend(cmd[0], " : command not found.\n");
 }

@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/06 16:15:36 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/10 00:15:25 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/20 01:41:54 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static char	*get_path(char **env, char *cmd)
 	return (NULL);
 }
 
-int			ft_exec(char **env, char **cmd)
+int			ft_exec(char **env, char **cmd, struct termios *save)
 {
 	pid_t	pid;
 	char	*path;
@@ -78,6 +78,7 @@ int			ft_exec(char **env, char **cmd)
 		cmd[0] = ft_strdup(path);
 		free(path);
 	}
+	term_restore(*save);
 	pid = fork();
 	if (pid < 0)
 	{
@@ -93,5 +94,6 @@ int			ft_exec(char **env, char **cmd)
 	}
 	else if (pid > 0)
 		waitpid(pid, &status, 0);
+	define_new_term(save);
 	return (1);
 }
