@@ -6,10 +6,16 @@ typedef struct		s_tree
 {
 	int				value;
 	int				max_len;
+	int				tput;
 	struct s_tree	*left;
 	struct s_tree	*right;
 	struct s_tree	*tern_next;
 }					t_tree;
+
+int			ft_pchar(int nb)
+{
+	return (write(STDOUT_FILENO, &nb, 1));
+}
 
 void	feed_branch(t_tree **tern, char *str, int lvl)
 {
@@ -73,18 +79,38 @@ void	ft_putchars(char c, int nb)
 		ft_putchar(c);
 }
 
-void	ft_put_tree(t_tree *tern, char *bru, int lvl, int *car_ret, int nb_col, int len_max)
+char		*ft_tgetstr(char *t)
+{
+	char            *tmp;
+
+	if ((tmp = tgetstr(t, NULL)) == NULL)
+	{
+		ft_putstr_fd(t, 2);
+		ft_putendl_fd(" not available", 2);
+	}
+	return (tmp);
+}
+
+void	ft_put_tree(t_tree *tern, char *bru, int lvl, int *car_ret, int nb_col, int len_max, int *put)
 {
 	if (tern->left)
-		ft_put_tree(tern->left, bru, lvl, car_ret, nb_col, len_max);
+		ft_put_tree(tern->left, bru, lvl, car_ret, nb_col, len_max, put);
 	if (tern->tern_next)
 	{
 		bru[lvl] = tern->value;
-		ft_put_tree(tern->tern_next, bru, lvl + 1, car_ret, nb_col, len_max);
+		ft_put_tree(tern->tern_next, bru, lvl + 1, car_ret, nb_col, len_max, put);
 	}
 	if (tern && !tern->tern_next)
 	{
 		bru[lvl] = '\0';
+		if (!tern->tput && *put)
+		{
+			tputs(ft_tgetstr("mr"), 1, ft_pchar);
+			tern->tput = 1;
+			*put = 0;
+		}
+		else
+			tputs(tgetstr("me", NULL), 1, ft_pchar);
 		ft_putstr(bru);
 		ft_putchar(tern->value);
 		if (*car_ret < nb_col - 1)
@@ -99,7 +125,7 @@ void	ft_put_tree(t_tree *tern, char *bru, int lvl, int *car_ret, int nb_col, int
 		}
 	}
 	if (tern->right)
-		ft_put_tree(tern->right, bru, lvl, car_ret, nb_col, len_max);
+		ft_put_tree(tern->right, bru, lvl, car_ret, nb_col, len_max, put);
 }
 
 void	get_max_len(t_tree *curr, int *lenm)
@@ -181,7 +207,7 @@ int		select_branch(t_tree **begin, t_tree **end, char *src)
 	return (lenm);
 }
 
-void	put_branch(t_tree *tern, char *src, int lenm, int *car_ret)
+void	put_branch(t_tree *tern, char *src, int lenm, int *car_ret, int *put)
 {
 	char	bru[257];
 	char	*term;
@@ -198,7 +224,7 @@ void	put_branch(t_tree *tern, char *src, int lenm, int *car_ret)
 		lvl = ft_strlen(src);
 		if (src)
 			ft_strcpy(bru, src);
-		ft_put_tree(tern, bru, lvl, car_ret, nb_col, lenm);
+		ft_put_tree(tern, bru, lvl, car_ret, nb_col, lenm, put);
 	}
 }
 
@@ -217,19 +243,21 @@ void	put_complet(char *str, t_tree *tern)
 	int		lenm;
 	int		car_ret;
 	t_tree	*begin;
+	int		put;
 
 	begin = tern;
 	car_ret = 0;
+	put = 1;
 	if (str && *str)
 	{
 		lenm = select_branch(&begin, &tern, str);
-		put_branch(begin, ft_strup(str, ft_strlen(str)), lenm, &car_ret);
-		put_branch(tern, ft_strlow(str, ft_strlen(str)), lenm, &car_ret);
+		put_branch(begin, ft_strup(str, ft_strlen(str)), lenm, &car_ret, &put);
+		put_branch(tern, ft_strlow(str, ft_strlen(str)), lenm, &car_ret, &put);
 	}
 	else
 	{
 		get_max_len(tern, &lenm);
-		put_branch(tern, NULL, lenm, &car_ret);
+		put_branch(tern, NULL, lenm, &car_ret, &put);
 	}
 }
 
@@ -251,20 +279,28 @@ t_tree	*create_file_tree(void)
 
 int		main(int ac, char **av, char **env)
 {
-	t_tree	*ternary;
-	t_tree	*begin;
+	t_tree	*bin;
+	t_tree	*files;
+	t_tree	*save;
 	int		lenm;
 	int		car_ret;
+	char	*term;
 
-
-	ternary = create_tree(env);
-	begin = create_file_tree();
+	term = getenv("TERM");
+	tgetent(NULL, term);
+	tputs(tgetstr("cl", NULL), 1, ft_pchar);
+	bin = create_tree(env);
+	files = create_file_tree();
+	save = bin;
 	if (av[1] && !av[2])
-		put_complet(av[1], ternary);
+	{
+		put_complet(av[1], bin);
+		put_complet(av[1], save);
+	}
 	else if (av[1] && av[2])
-		put_complet(av[2], begin);
+		put_complet(av[2], files);
 	else
-		put_complet(av[1], ternary);
+		put_complet(av[1], bin);
 	ft_putchar('\n');
 	return (0);
 }

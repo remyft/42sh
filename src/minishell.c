@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/20 19:24:50 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/24 20:39:08 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,24 +178,22 @@ int		main(__unused int ac, __unused char **av, char **ep)
 			{
 				if (!ft_occuc(buff, ' '))
 				{
-
-				tputs(tgetstr("sc", NULL), 1, ft_pchar);
+					tputs(tgetstr("sc", NULL), 1, ft_pchar);
 					tputs(tgetstr("do", NULL), 1, ft_pchar);
-				tputs(tgetstr("cr", NULL), 1, ft_pchar);
-				tputs(tgetstr("cd", NULL), 1, ft_pchar);
-				put_complet(buff, bin);
-				tputs(tgetstr("rc", NULL), 1, ft_pchar);
+					tputs(tgetstr("cr", NULL), 1, ft_pchar);
+					tputs(tgetstr("cd", NULL), 1, ft_pchar);
+					put_complet(buff, bin);
+					tputs(tgetstr("rc", NULL), 1, ft_pchar);
 				}
 				else
 				{
-				tputs(tgetstr("sc", NULL), 1, ft_pchar);
+					tputs(tgetstr("sc", NULL), 1, ft_pchar);
 					tputs(tgetstr("do", NULL), 1, ft_pchar);
-				tputs(tgetstr("cr", NULL), 1, ft_pchar);
-				tputs(tgetstr("cd", NULL), 1, ft_pchar);
-				put_complet(NULL, files);
-				tputs(tgetstr("rc", NULL), 1, ft_pchar);
+					tputs(tgetstr("cr", NULL), 1, ft_pchar);
+					tputs(tgetstr("cd", NULL), 1, ft_pchar);
+					put_complet(NULL, files);
+					tputs(tgetstr("rc", NULL), 1, ft_pchar);
 				}
-
 			}
 		}
 		ft_putchar('\n');

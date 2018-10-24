@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 19:07:11 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/20 19:15:21 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/24 20:38:45 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,39 @@ void	ft_putchars(char c, int nb)
 		ft_putchar(c);
 }
 
-void	ft_put_tree(t_tree *tern, char *bru, int lvl, int *car_ret, int nb_col, int len_max)
+void	get_put(t_tree *tern, int *ret)
 {
 	if (tern->left)
-		ft_put_tree(tern->left, bru, lvl, car_ret, nb_col, len_max);
+		get_put(tern->left, ret);
+	if (tern->right)
+		get_put(tern->right, ret);
+	if (tern->tern_next)
+		get_put(tern->tern_next, ret);
+	if (tern && !tern->tern_next)
+		if (tern->tput == 0)
+			*ret = 1;
+}
+
+void	ft_put_tree(t_tree *tern, char *bru, int lvl, int *car_ret, int nb_col, int len_max, int *put)
+{
+	if (tern->left)
+		ft_put_tree(tern->left, bru, lvl, car_ret, nb_col, len_max, put);
 	if (tern->tern_next)
 	{
 		bru[lvl] = tern->value;
-		ft_put_tree(tern->tern_next, bru, lvl + 1, car_ret, nb_col, len_max);
+		ft_put_tree(tern->tern_next, bru, lvl + 1, car_ret, nb_col, len_max, put);
 	}
 	if (tern && !tern->tern_next)
 	{
 		bru[lvl] = '\0';
+		if (!tern->tput && *put)
+		{
+			tputs(tgetstr("mr", NULL), 1, ft_pchar);
+			tern->tput = 1;
+			*put = 0;
+		}
+		else
+			tputs(tgetstr("me", NULL), 1, ft_pchar);
 		ft_putstr(bru);
 		ft_putchar(tern->value);
 		if (*car_ret < nb_col - 1)
@@ -98,7 +119,7 @@ void	ft_put_tree(t_tree *tern, char *bru, int lvl, int *car_ret, int nb_col, int
 		}
 	}
 	if (tern->right)
-		ft_put_tree(tern->right, bru, lvl, car_ret, nb_col, len_max);
+		ft_put_tree(tern->right, bru, lvl, car_ret, nb_col, len_max, put);
 }
 
 void	get_max_len(t_tree *curr, int *lenm)
@@ -180,7 +201,7 @@ int		select_branch(t_tree **begin, t_tree **end, char *src)
 	return (lenm);
 }
 
-void	put_branch(t_tree *tern, char *src, int lenm, int *car_ret)
+void	put_branch(t_tree *tern, char *src, int lenm, int *car_ret, int *put)
 {
 	char	bru[257];
 	char	*term;
@@ -197,7 +218,7 @@ void	put_branch(t_tree *tern, char *src, int lenm, int *car_ret)
 		lvl = ft_strlen(src);
 		if (src)
 			ft_strcpy(bru, src);
-		ft_put_tree(tern, bru, lvl, car_ret, nb_col, lenm);
+		ft_put_tree(tern, bru, lvl, car_ret, nb_col, lenm, put);
 	}
 }
 
@@ -211,24 +232,52 @@ t_tree	*create_tree(char **env)
 	return (ternary);
 }
 
+void	reset_put(t_tree *tern)
+{
+	if (tern->left)
+		reset_put(tern->left);
+	if (tern->right)
+		reset_put(tern->right);
+	if (tern->tern_next)
+		reset_put(tern->tern_next);
+	if (tern && !tern->tern_next)
+		tern->tput = 0;
+}
+
+
 void	put_complet(char *str, t_tree *tern)
 {
 	int		lenm;
 	int		car_ret;
 	t_tree	*begin;
+	int		put;
+	int		tres;
 
 	begin = tern;
 	car_ret = 0;
+	put = 1;
+	tres = 0;
 	if (str && *str)
 	{
 		lenm = select_branch(&begin, &tern, str);
-		put_branch(begin, ft_strup(str, ft_strlen(str)), lenm, &car_ret);
-		put_branch(tern, ft_strlow(str, ft_strlen(str)), lenm, &car_ret);
+		get_put(begin, &tres);
+		get_put(tern, &tres);
+		if (!tres)
+		{
+			reset_put(begin);
+			reset_put(tern);
+		}
+		put_branch(begin, ft_strup(str, ft_strlen(str)), lenm, &car_ret, &put);
+		begin = tern;
+		put_branch(begin, ft_strlow(str, ft_strlen(str)), lenm, &car_ret, &put);
 	}
 	else
 	{
-		get_max_len(tern, &lenm);
-		put_branch(tern, NULL, lenm, &car_ret);
+		get_put(begin, &tres);
+		if (!tres)
+			reset_put(begin);
+		get_max_len(begin, &lenm);
+		put_branch(begin, NULL, lenm, &car_ret, &put);
 	}
 }
 

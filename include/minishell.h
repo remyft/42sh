@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/20 19:07:45 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/24 19:36:50 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct		s_tree
 {
 	int				value;
 	int				max_len;
+	int				tput;
 	struct s_tree	*left;
 	struct s_tree	*right;
 	struct s_tree	*tern_next;
