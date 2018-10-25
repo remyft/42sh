@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/24 20:39:08 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/25 19:07:29 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int		main(__unused int ac, __unused char **av, char **ep)
 	t_hist	*curr;
 	char	*term;
 	char	buff_tmp[8194];
-//	int		j;
+	int		j;
 	t_tree	*bin;
 	t_tree	*files;
 
@@ -182,8 +182,23 @@ int		main(__unused int ac, __unused char **av, char **ep)
 					tputs(tgetstr("do", NULL), 1, ft_pchar);
 					tputs(tgetstr("cr", NULL), 1, ft_pchar);
 					tputs(tgetstr("cd", NULL), 1, ft_pchar);
-					put_complet(buff, bin);
+					if (!buff_tmp[8193])
+					{
+						ft_strcpy(buff_tmp, buff);
+						buff_tmp[8193] = 1;
+					}
+					if (!buff_tmp[8193])
+						put_complet(buff, bin, buff);
+					else
+						put_complet(buff_tmp, bin, buff);
 					tputs(tgetstr("rc", NULL), 1, ft_pchar);
+					tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3), 1, ft_pchar);
+					j = -1;
+					while (++j < i)
+						tputs(tgetstr("dc", NULL), 1, ft_pchar);
+					ft_putstr(buff);
+					index = ft_strlen(buff);
+					i = index;
 				}
 				else
 				{
@@ -191,7 +206,15 @@ int		main(__unused int ac, __unused char **av, char **ep)
 					tputs(tgetstr("do", NULL), 1, ft_pchar);
 					tputs(tgetstr("cr", NULL), 1, ft_pchar);
 					tputs(tgetstr("cd", NULL), 1, ft_pchar);
-					put_complet(NULL, files);
+					if (!buff_tmp[8193])
+					{
+						ft_strcpy(buff_tmp, buff);
+						buff_tmp[8193] = 1;
+					}
+					if (!buff_tmp[8193])
+						put_complet(NULL, files, buff);
+					else
+						put_complet(NULL, files, buff);
 					tputs(tgetstr("rc", NULL), 1, ft_pchar);
 				}
 			}

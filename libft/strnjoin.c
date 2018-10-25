@@ -1,36 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoinch.c                                     :+:      :+:    :+:   */
+/*   strnjoin.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/28 20:51:44 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/25 16:35:20 by rfontain         ###   ########.fr       */
+/*   Created: 2018/10/25 16:35:53 by rfontain          #+#    #+#             */
+/*   Updated: 2018/10/25 16:43:04 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoinch(char *s1, char c)
+char	*strnjoin(char *str1, char *str2, int n)
 {
-	char		*str;
-	size_t		i;
-	size_t		s1_len;
+	char	*dst;
+	int		i;
+	int		j;
 
-	if (!s1 || !c)
-	{
-		if (s1)
-			free(s1);
+	if (!str1 || !str2)
 		return (NULL);
-	}
-	s1_len = ft_strlen(s1);
-	if (!(str = ft_strnew(s1_len + 1)))
+	if (!(dst = (char*)malloc(sizeof(char) * (ft_strlen(str1) + n + 1))))
 		return (NULL);
 	i = -1;
-	while (++i < s1_len)
-		*(str + i) = *(s1 + i);
-	*(str + i) = c;
-	free(s1);
-	return (str);
+	while (str1[++i])
+		dst[i] = str1[i];
+	j = 0;
+	while (str2[j] && j < n)
+	{
+		dst[i + j] = str2[j];
+		j++;
+	}
+	dst[i + j] = '\0';
+	return (dst);
 }

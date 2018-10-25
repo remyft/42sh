@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/24 19:36:50 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/25 16:53:10 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	deal_commande(int index, char *buff, char *buff_tmp, t_hist **curr);
 void	create_hist(t_hist **begin);
 
 t_tree	*create_file_tree(void);
-void	put_complet(char *str, t_tree *tern);
+void	put_complet(char *str, t_tree *tern, char *tget);
 t_tree	*create_tree(char **env);
 
 #endif

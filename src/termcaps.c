@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/18 23:38:49 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/20 19:23:29 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/25 14:46:37 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ int		up_arrow(int *index, char *buff, char *buff_tmp, t_hist **curr)
 			free((*curr)->tmp);
 		(*curr)->tmp = ft_strdup(buff);
 		(*curr) = (*curr)->next;
-		while ((*curr)->next && (ft_strstr((*curr)->content, buff_tmp) != (*curr)->content || (*curr)->c_size <= len))
+		while ((*curr)->next && (ft_strstr((*curr)->content, buff_tmp) != (*curr)->content || (*curr)->c_size <= len || ft_strcmp((*curr)->content, buff) == 0))
 			(*curr) = (*curr)->next;
 		while ((*curr)->prev && (ft_strstr((*curr)->content, buff_tmp) != (*curr)->content || (*curr)->c_size <= len))
 			(*curr) = (*curr)->prev;
@@ -189,7 +189,7 @@ int		down_arrow(int *index, char *buff, char *buff_tmp, t_hist **curr)
 			free((*curr)->tmp);
 		(*curr)->tmp = ft_strdup(buff);
 		*curr = (*curr)->prev;
-		while ((*curr)->prev && (ft_strstr((*curr)->content, buff_tmp) != (*curr)->content || (*curr)->c_size <= len))
+		while ((*curr)->prev && (ft_strstr((*curr)->content, buff_tmp) != (*curr)->content || (*curr)->c_size <= len || ft_strcmp((*curr)->content, buff) == 0))
 			*curr = (*curr)->prev;
 		if (ft_strstr((*curr)->content, buff_tmp) == (*curr)->content && (*curr)->c_size > len)
 		{
@@ -317,7 +317,7 @@ int		del_left(int *index, char *buff, char *buff_tmp, t_hist *curr)
 		tputs(tgoto(tgetstr("ch", NULL), 0, (*index + len) % nb_col), 1, ft_pchar);
 		tputs(tgetstr("dc", NULL), 1, ft_pchar);
 	}
-	if ((*index + len) % nb_col == 0)
+	if ((*index + len) % nb_col == nb_col - 1)
 	{
 		tputs(tgetstr("sc", NULL), 1, ft_pchar);
 		ft_putchar(' ');

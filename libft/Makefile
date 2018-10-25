@@ -6,7 +6,7 @@
 #    By: rfontain <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/27 19:43:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/10/20 11:20:43 by rfontain         ###   ########.fr        #
+#    Updated: 2018/10/25 16:42:31 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRCS =	ft_memalloc.c		ft_putendl.c		ft_strcpy.c			\
 		ft_strsplit_ws.c	ft_find.c			ft_putstr_cl.c		\
 		ft_putnbr_cl.c		ft_putendl_cl.c		ft_putend_cl.c		\
 		ft_strlen_ch.c		ft_free.c			strdup_until.c		\
+		strnjoin.c
 
 
 INC = / 
