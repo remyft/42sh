@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/18 23:38:49 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/25 14:46:37 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/26 00:11:54 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -417,7 +417,7 @@ void	prev_word(int *index, int len, char *buff)
 	tputs(tgoto(tgetstr("ch", NULL), 0, (*index + lenp) % nb_col), 1, ft_pchar);
 }
 
-int		get_typing(int *index, char *buff, char *tmp, int nb_read)
+int		get_typing(int *index, char *buff, char *tmp, int nb_read, char *buff_tmp)
 {
 	int		len;
 	int		cp;
@@ -427,6 +427,8 @@ int		get_typing(int *index, char *buff, char *tmp, int nb_read)
 
 	cp = 0;
 	len = ft_strlen(buff);
+	if (tmp[0] == ' ')
+		ft_bzero(buff_tmp, 8194);
 	while (cp < nb_read && (ft_isprint(tmp[cp]) || (tmp[0] == 9 && !buff[0])))
 	{
 		tchar = buff[*index + 1];
@@ -469,6 +471,7 @@ void	deal_commande(int index, char *buff, char *buff_tmp, t_hist **curr)
 	j = ft_strlen(buff) / nb_col;
 	while (++index < j)
 		tputs(tgetstr("do", NULL), 1, ft_pchar);
+	tputs(tgetstr("cd", NULL), 2, ft_pchar);
 	if (*curr)
 	{
 		if (ft_strcmp(buff, (*curr)->begin->content) != 0)

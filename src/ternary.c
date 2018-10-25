@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 19:07:11 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/25 18:51:28 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/25 23:47:03 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,19 +96,26 @@ void	ft_put_tree(t_tree *tern, char *bru, int lvl, int *car_ret, int nb_col, int
 	}
 	if (tern && !tern->tern_next)
 	{
-	//	ft_putendl("YO");
 		bru[lvl] = '\0';
 		if (!tern->tput && *put)
 		{
 			tputs(tgetstr("mr", NULL), 1, ft_pchar);
 			tern->tput = 1;
 			*put = 0;
-			ft_bzero(tget, ft_strlen(tget));
-		//	int i = -1;
-		//	while (bru[++i])
-		//		tget[i] = bru[i];
-			ft_strcpy(tget, bru);
-			ft_strncat(tget, (char *)&(tern->value), 1);
+			if (tget)
+			{
+				if (ft_occuc(tget, ' '))
+				{
+					ft_strcat(tget, bru);
+					ft_strncat(tget, (char*)&(tern->value), 1);
+				}
+				else
+				{
+					ft_bzero(tget, ft_strlen(tget));
+					ft_strcpy(tget, bru);
+					ft_strncat(tget, (char *)&(tern->value), 1);
+				}
+			}
 		}
 		else
 			tputs(tgetstr("me", NULL), 1, ft_pchar);
@@ -252,20 +259,21 @@ void	reset_put(t_tree *tern)
 }
 
 
-void	put_complet(char *str, t_tree *tern, char *tget)
+void	put_complet(char *str, t_tree *tern, char *tget, int *put)
 {
 	int		lenm;
 	int		car_ret;
 	t_tree	*begin;
-	int		put;
 	int		tres;
 	char	tmp[8193];
 
 	begin = tern;
 	car_ret = 0;
-	put = 1;
 	tres = 0;
-	ft_strcpy(tmp, str);
+	if (!str)
+		ft_bzero(tmp, 8192);
+	else
+		ft_strcpy(tmp, str);
 	if (str && *str)
 	{
 		lenm = select_branch(&begin, &tern, str);
@@ -276,9 +284,9 @@ void	put_complet(char *str, t_tree *tern, char *tget)
 			reset_put(begin);
 			reset_put(tern);
 		}
-		put_branch(begin, ft_strup(tmp, ft_strlen(tmp)), lenm, &car_ret, &put, tget);
+		put_branch(begin, ft_strup(tmp, ft_strlen(tmp)), lenm, &car_ret, put, tget);
 		begin = tern;
-		put_branch(begin, ft_strlow(tmp, ft_strlen(tmp)), lenm, &car_ret, &put, tget);
+		put_branch(begin, ft_strlow(tmp, ft_strlen(tmp)), lenm, &car_ret, put, tget);
 	}
 	else
 	{
@@ -286,7 +294,7 @@ void	put_complet(char *str, t_tree *tern, char *tget)
 		if (!tres)
 			reset_put(begin);
 		get_max_len(begin, &lenm);
-		put_branch(begin, NULL, lenm, &car_ret, &put, tget);
+		put_branch(begin, NULL, lenm, &car_ret, put, tget);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/25 19:07:29 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/26 00:02:49 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ int		main(__unused int ac, __unused char **av, char **ep)
 	int		j;
 	t_tree	*bin;
 	t_tree	*files;
+	int		put;
 
 	i = 0;
 	env = collect_env(ep);
@@ -143,11 +144,15 @@ int		main(__unused int ac, __unused char **av, char **ep)
 		tmp[0] = '\0';
 		while (tmp[0] != 10 && tmp[0] != -1)
 		{
+			put = 0;
 		//		j = -1;
 		//		while (++j < nb_read)
 		//			ft_putnbend(tmp[j], "  ");
 			if (i + (nb_read = read(0, tmp, 10)) < 8192) /* Type and cmd+V */
-				i = get_typing(&index, buff, tmp, nb_read);
+		//	{
+				i = get_typing(&index, buff, tmp, nb_read, buff_tmp);
+				//ft_bzero(buff_tmp, 8194);
+		//	}
 			if (nb_read == 1 && tmp[0] == 4 && !buff[0]) /* ctrl+D*/
 				ft_exit2(save, &(curr->begin));
 			else if (nb_read == 1 && tmp[0] == 3) /* ctrl+C */
@@ -187,10 +192,12 @@ int		main(__unused int ac, __unused char **av, char **ep)
 						ft_strcpy(buff_tmp, buff);
 						buff_tmp[8193] = 1;
 					}
-					if (!buff_tmp[8193])
-						put_complet(buff, bin, buff);
 					else
-						put_complet(buff_tmp, bin, buff);
+						put = 1;
+					if (!buff_tmp[8193])
+						put_complet(buff, bin, buff, &put);
+					else
+						put_complet(buff_tmp, bin, buff, &put);
 					tputs(tgetstr("rc", NULL), 1, ft_pchar);
 					tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3), 1, ft_pchar);
 					j = -1;
@@ -211,11 +218,21 @@ int		main(__unused int ac, __unused char **av, char **ep)
 						ft_strcpy(buff_tmp, buff);
 						buff_tmp[8193] = 1;
 					}
-					if (!buff_tmp[8193])
-						put_complet(NULL, files, buff);
 					else
-						put_complet(NULL, files, buff);
+						put = 1;
+				//	if (!buff_tmp[8193])
+						put_complet(NULL, files, buff, &put);
+				//	else
+				//		put_complet(NULL, files, buff_tmp, &put);
 					tputs(tgetstr("rc", NULL), 1, ft_pchar);
+					tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3), 1, ft_pchar);
+					j = -1;
+					while (++j < i)
+						tputs(tgetstr("dc", NULL), 1, ft_pchar);
+					ft_putstr(buff);
+					index = ft_strlen(buff);
+					i = index;
+
 				}
 			}
 		}
