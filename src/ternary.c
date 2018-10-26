@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 19:07:11 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/27 00:37:12 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/27 00:49:45 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,17 @@ void	ft_put_tree(t_tree *tern, char *bru, int lvl, int *car_ret, int nb_col, int
 			{
 				if (ft_occuc(tget, ' '))
 				{
-					stercat(old, bru, tget);
+					if (!*(ft_strrchr(tget, ' ') + 1))
+						stercat(old, bru, tget);
+					else
+					{
+						char	*chr = ft_strrchr(tget, ' ') + 1;
+						int		i = 0;
+						while (&tget[i] != chr)
+							i++;
+						ft_strcpy(&tget[i], bru);
+					//	tget = replace_str(tget, ft_strrchr(tget, ' ') + 1, bru);
+					}
 					ft_strncat(tget, (char*)&(tern->value), 1);
 				}
 				else
@@ -321,10 +331,10 @@ void	put_complet(char *str, t_tree *tern, char *tget, int *put)
 		}
 		//get_max_len(begin, &lenm);
 		if (begin)
-			put_branch(begin, chr, lenm, &car_ret, put, tget, str);
+			put_branch(begin, ft_strup(chr, ft_strlen(chr)), lenm, &car_ret, put, tget, str);
 		begin = tern;
 		if (*chr && begin)
-			put_branch(begin, ft_strrchr(tmp, ' ') + 1, lenm, &car_ret, put, tget, str);
+			put_branch(begin, ft_strlow(chr, ft_strlen(chr)), lenm, &car_ret, put, tget, str);
 	}
 	free(tmp);
 }
