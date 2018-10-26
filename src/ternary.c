@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 19:07:11 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/26 18:04:15 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/27 00:37:12 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,7 @@ int		select_branch(t_tree **begin, t_tree **end, char *src)
 	int		i;
 
 	i = -1;
+	lenm = 0;
 	while (src[++i] && *begin)
 	{
 		while (*begin && (*begin)->value != ft_toupper(src[i]))
@@ -268,15 +269,19 @@ void	put_complet(char *str, t_tree *tern, char *tget, int *put)
 	int		car_ret;
 	t_tree	*begin;
 	int		tres;
-	char	tmp[8193];
+	char	*tmp;
+	char	*chr;
 
 	begin = tern;
 	car_ret = 0;
 	tres = 0;
+	lenm = 0;
 	if (!str)
-		ft_bzero(tmp, 8192);
+		tmp = ft_strnew(1);
+		//ft_bzero(tmp, 8192);
 	else
-		ft_strcpy(tmp, str);
+		tmp = ft_strdup(str);
+		//ft_strcpy(tmp, str);
 	if (str && !ft_occuc(str, ' '))
 	{
 		lenm = select_branch(&begin, &tern, str);
@@ -299,12 +304,29 @@ void	put_complet(char *str, t_tree *tern, char *tget, int *put)
 	}
 	else
 	{
-		get_put(begin, &tres);
+		if (*(chr = (ft_strrchr(tmp, ' ') + 1)))
+			lenm = select_branch(&begin, &tern, ft_strrchr(str, ' ') + 1);
+		else
+			get_max_len(begin, &lenm);
+		if (begin)
+			get_put(begin, &tres);
+		if (tern)
+			get_put(tern, &tres);
 		if (!tres)
-			reset_put(begin);
-		get_max_len(begin, &lenm);
-		put_branch(begin, NULL, lenm, &car_ret, put, tget, str);
+		{
+			if (begin)
+				reset_put(begin);
+			if (tern)
+				reset_put(tern);
+		}
+		//get_max_len(begin, &lenm);
+		if (begin)
+			put_branch(begin, chr, lenm, &car_ret, put, tget, str);
+		begin = tern;
+		if (*chr && begin)
+			put_branch(begin, ft_strrchr(tmp, ' ') + 1, lenm, &car_ret, put, tget, str);
 	}
+	free(tmp);
 }
 
 t_tree	*create_file_tree(void)

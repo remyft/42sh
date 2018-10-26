@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/04 22:58:50 by rfontain          #+#    #+#             */
-/*   Updated: 2018/04/13 17:30:58 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/27 00:37:16 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	*ft_strrchr(const char *str, int c)
 
 	i = 0;
 	cp = (char*)str;
+	if (!str)
+		return (NULL);
 	find = NULL;
 	while (cp[i])
 	{

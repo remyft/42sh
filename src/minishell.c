@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/26 17:59:12 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/26 23:35:15 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,9 +204,6 @@ int		main(__unused int ac, __unused char **av, char **ep)
 					}
 					else
 						put = 1;
-					if (!buff_tmp[8193])
-						put_complet(buff, bin, buff, &put);
-					else
 						put_complet(buff_tmp, bin, buff, &put);
 					tputs(tgetstr("rc", NULL), 1, ft_pchar);
 					tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3), 1, ft_pchar);
@@ -230,9 +227,6 @@ int		main(__unused int ac, __unused char **av, char **ep)
 					}
 					else
 						put = 1;
-					if (!buff_tmp[8193])
-						put_complet(buff, files, buff, &put);
-					else
 						put_complet(buff_tmp, files, buff, &put);
 					tputs(tgetstr("rc", NULL), 1, ft_pchar);
 					tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3), 1, ft_pchar);
@@ -242,7 +236,6 @@ int		main(__unused int ac, __unused char **av, char **ep)
 					ft_putstr(buff);
 					index = ft_strlen(buff);
 					i = index;
-
 				}
 			}
 		}
