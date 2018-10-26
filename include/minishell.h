@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/26 00:01:28 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/26 17:36:06 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,6 @@ void	create_hist(t_hist **begin);
 t_tree	*create_file_tree(void);
 void	put_complet(char *str, t_tree *tern, char *tget, int *put);
 t_tree	*create_tree(char **env);
+void	free_tree(t_tree *tern);
 
 #endif

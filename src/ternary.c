@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 19:07:11 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/25 23:47:03 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/26 18:04:15 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,14 @@ void	get_put(t_tree *tern, int *ret)
 			*ret = 1;
 }
 
-void	ft_put_tree(t_tree *tern, char *bru, int lvl, int *car_ret, int nb_col, int len_max, int *put, char *tget)
+void	ft_put_tree(t_tree *tern, char *bru, int lvl, int *car_ret, int nb_col, int len_max, int *put, char *tget, char *old)
 {
 	if (tern->left)
-		ft_put_tree(tern->left, bru, lvl, car_ret, nb_col, len_max, put, tget);
+		ft_put_tree(tern->left, bru, lvl, car_ret, nb_col, len_max, put, tget, old);
 	if (tern->tern_next)
 	{
 		bru[lvl] = tern->value;
-		ft_put_tree(tern->tern_next, bru, lvl + 1, car_ret, nb_col, len_max, put, tget);
+		ft_put_tree(tern->tern_next, bru, lvl + 1, car_ret, nb_col, len_max, put, tget, old);
 	}
 	if (tern && !tern->tern_next)
 	{
@@ -106,7 +106,7 @@ void	ft_put_tree(t_tree *tern, char *bru, int lvl, int *car_ret, int nb_col, int
 			{
 				if (ft_occuc(tget, ' '))
 				{
-					ft_strcat(tget, bru);
+					stercat(old, bru, tget);
 					ft_strncat(tget, (char*)&(tern->value), 1);
 				}
 				else
@@ -128,12 +128,13 @@ void	ft_put_tree(t_tree *tern, char *bru, int lvl, int *car_ret, int nb_col, int
 		}
 		else
 		{
+			ft_putchars(' ', len_max - ft_strlen(bru) + 1);
 			ft_putchar('\n');
 			*car_ret = 0;
 		}
 	}
 	if (tern->right)
-		ft_put_tree(tern->right, bru, lvl, car_ret, nb_col, len_max, put, tget);
+		ft_put_tree(tern->right, bru, lvl, car_ret, nb_col, len_max, put, tget, old);
 }
 
 void	get_max_len(t_tree *curr, int *lenm)
@@ -169,7 +170,9 @@ void	fill_tree_bin(char **env, t_tree **ternary)
 			break ;
 		i += !(toget[i + ft_strlen_ch(toget, ':')])
 			? ft_strlen_ch(&toget[i], ':') : ft_strlen_ch(&toget[i], ':') + 1;
+		closedir(dir);
 	}
+	free(toget);
 }
 
 void	fill_tree_env(char **env, t_tree **ternary)
@@ -215,7 +218,7 @@ int		select_branch(t_tree **begin, t_tree **end, char *src)
 	return (lenm);
 }
 
-void	put_branch(t_tree *tern, char *src, int lenm, int *car_ret, int *put, char *tget)
+void	put_branch(t_tree *tern, char *src, int lenm, int *car_ret, int *put, char *tget, char *old)
 {
 	char	bru[257];
 	char	*term;
@@ -232,7 +235,7 @@ void	put_branch(t_tree *tern, char *src, int lenm, int *car_ret, int *put, char 
 		lvl = ft_strlen(src);
 		if (src)
 			ft_strcpy(bru, src);
-		ft_put_tree(tern, bru, lvl, car_ret, nb_col, lenm, put, tget);
+		ft_put_tree(tern, bru, lvl, car_ret, nb_col, lenm, put, tget, old);
 	}
 }
 
@@ -274,19 +277,25 @@ void	put_complet(char *str, t_tree *tern, char *tget, int *put)
 		ft_bzero(tmp, 8192);
 	else
 		ft_strcpy(tmp, str);
-	if (str && *str)
+	if (str && !ft_occuc(str, ' '))
 	{
 		lenm = select_branch(&begin, &tern, str);
-		get_put(begin, &tres);
-		get_put(tern, &tres);
+		if (begin)
+			get_put(begin, &tres);
+		if (tern)
+			get_put(tern, &tres);
 		if (!tres)
 		{
-			reset_put(begin);
-			reset_put(tern);
+			if (begin)
+				reset_put(begin);
+			if (tern)
+				reset_put(tern);
 		}
-		put_branch(begin, ft_strup(tmp, ft_strlen(tmp)), lenm, &car_ret, put, tget);
+		if (begin)
+			put_branch(begin, ft_strup(tmp, ft_strlen(tmp)), lenm, &car_ret, put, tget, str);
 		begin = tern;
-		put_branch(begin, ft_strlow(tmp, ft_strlen(tmp)), lenm, &car_ret, put, tget);
+		if (begin)
+			put_branch(begin, ft_strlow(tmp, ft_strlen(tmp)), lenm, &car_ret, put, tget, str);
 	}
 	else
 	{
@@ -294,7 +303,7 @@ void	put_complet(char *str, t_tree *tern, char *tget, int *put)
 		if (!tres)
 			reset_put(begin);
 		get_max_len(begin, &lenm);
-		put_branch(begin, NULL, lenm, &car_ret, put, tget);
+		put_branch(begin, NULL, lenm, &car_ret, put, tget, str);
 	}
 }
 
@@ -311,5 +320,18 @@ t_tree	*create_file_tree(void)
 	while ((indir = readdir(dir)))
 		if (indir->d_name[0] != '.')
 			feed_tree(indir->d_name, &tern, 0);
+	closedir(dir);
 	return (tern);
+}
+
+void	free_tree(t_tree *tern)
+{
+	if (tern->left)
+		free_tree(tern->left);
+	if (tern->right)
+		free_tree(tern->right);
+	if (tern->tern_next)
+		free_tree(tern->tern_next);
+	if (tern && !tern->tern_next)
+		free(tern);
 }

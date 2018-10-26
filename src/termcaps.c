@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/18 23:38:49 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/26 00:11:54 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/26 18:00:37 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -427,7 +427,7 @@ int		get_typing(int *index, char *buff, char *tmp, int nb_read, char *buff_tmp)
 
 	cp = 0;
 	len = ft_strlen(buff);
-	if (tmp[0] == ' ')
+	if (ft_isprint(tmp[0]))
 		ft_bzero(buff_tmp, 8194);
 	while (cp < nb_read && (ft_isprint(tmp[cp]) || (tmp[0] == 9 && !buff[0])))
 	{

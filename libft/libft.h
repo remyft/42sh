@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/04 23:07:03 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/25 16:42:21 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/26 15:24:29 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,4 +137,6 @@ int					ft_strlen_ch(char *str, char c);
 char				*strdup_until(char *old, char c);
 void				*ft_free(void *targ, void *ret);
 char				*strnjoin(char *str1, char *str2, int n);
+char				*stercat(char *src1, char *src2, char *dest);
+
 #endif

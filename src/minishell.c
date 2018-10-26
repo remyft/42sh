@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/26 00:02:49 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/26 17:59:12 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,12 @@ int		main(__unused int ac, __unused char **av, char **ep)
 	t_tree	*bin;
 	t_tree	*files;
 	int		put;
+	char	*path;
+	char	*save_path;
 
 	i = 0;
 	env = collect_env(ep);
+	save_path = get_env(env, "PATH");
 	line = NULL;
 	term = getenv("TERM");
 	tgetent(NULL, term);
@@ -132,13 +135,20 @@ int		main(__unused int ac, __unused char **av, char **ep)
 	tputs(tgetstr("cl", NULL), 1, ft_pchar);
 	ft_bzero(buff_tmp, 8194);
 	bin = create_tree(env);
+	files = create_file_tree();
 	while (1)
 	{
-		files = create_file_tree();
 		ft_putstr(RESET);
 		ft_putend_cl(ft_strrchr(getcwd(prompt, 4097), '/') + 1, RED,  " $> ", BLUE);
 		ft_putstr(WHITE);
 		ft_bzero(buff, 8193);
+		if (ft_strcmp((path = get_env(env, "PATH")), save_path) != 0)
+		{
+			free_tree(bin);
+			bin = create_tree(env);
+		}
+		if (path)
+			free(path);
 		i = 0;
 		index = 0;
 		tmp[0] = '\0';
@@ -220,10 +230,10 @@ int		main(__unused int ac, __unused char **av, char **ep)
 					}
 					else
 						put = 1;
-				//	if (!buff_tmp[8193])
-						put_complet(NULL, files, buff, &put);
-				//	else
-				//		put_complet(NULL, files, buff_tmp, &put);
+					if (!buff_tmp[8193])
+						put_complet(buff, files, buff, &put);
+					else
+						put_complet(buff_tmp, files, buff, &put);
 					tputs(tgetstr("rc", NULL), 1, ft_pchar);
 					tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3), 1, ft_pchar);
 					j = -1;
@@ -246,6 +256,11 @@ int		main(__unused int ac, __unused char **av, char **ep)
 		while (parse && parse[++i])
 		{
 			cmd = ft_strsplit_ws(parse[i]);
+			if (ft_strcmp(cmd[0], "cd") == 0)
+			{
+				free_tree(files);
+				files = create_file_tree();
+			}
 			if (!(get_var(env, cmd)))
 				continue ;
 			deal_cmd(cmd, &env, &save);
