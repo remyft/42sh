@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/26 17:36:06 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/27 14:44:42 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ typedef struct		s_tree
 	struct s_tree	*right;
 	struct s_tree	*tern_next;
 }					t_tree;
+
+typedef enum		e_state
+{
+	COMPLETION = 1 << 0,
+}					t_st;
 
 char	**parsing(char *cmd);
 
@@ -82,7 +87,7 @@ int		get_typing(int *index, char *buff, char *tmp, int nb_read, char *buff_tmp);
 void	deal_commande(int index, char *buff, char *buff_tmp, t_hist **curr);
 void	create_hist(t_hist **begin);
 
-t_tree	*create_file_tree(void);
+t_tree	*create_file_tree(char *path);
 void	put_complet(char *str, t_tree *tern, char *tget, int *put);
 t_tree	*create_tree(char **env);
 void	free_tree(t_tree *tern);

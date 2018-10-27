@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 19:07:11 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/27 00:49:45 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/27 15:21:16 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,9 @@ void	get_put(t_tree *tern, int *ret)
 
 void	ft_put_tree(t_tree *tern, char *bru, int lvl, int *car_ret, int nb_col, int len_max, int *put, char *tget, char *old)
 {
+	char	*chr;
+	int		i;
+
 	if (tern->left)
 		ft_put_tree(tern->left, bru, lvl, car_ret, nb_col, len_max, put, tget, old);
 	if (tern->tern_next)
@@ -108,14 +111,22 @@ void	ft_put_tree(t_tree *tern, char *bru, int lvl, int *car_ret, int nb_col, int
 				{
 					if (!*(ft_strrchr(tget, ' ') + 1))
 						stercat(old, bru, tget);
-					else
+					else if (!ft_occuc(ft_strrchr(tget, ' '), '/'))
 					{
-						char	*chr = ft_strrchr(tget, ' ') + 1;
-						int		i = 0;
+						chr = ft_strrchr(tget, ' ') + 1;
+						i = 0;
 						while (&tget[i] != chr)
 							i++;
 						ft_strcpy(&tget[i], bru);
 					//	tget = replace_str(tget, ft_strrchr(tget, ' ') + 1, bru);
+					}
+					else
+					{
+						chr = ft_strrchr(tget, '/') + 1;
+						i = 0;
+						while (&tget[i] != chr)
+							i++;
+						ft_strcpy(&tget[i], bru);
 					}
 					ft_strncat(tget, (char*)&(tern->value), 1);
 				}
@@ -312,7 +323,7 @@ void	put_complet(char *str, t_tree *tern, char *tget, int *put)
 		if (begin)
 			put_branch(begin, ft_strlow(tmp, ft_strlen(tmp)), lenm, &car_ret, put, tget, str);
 	}
-	else
+	else if (!ft_occuc(ft_strrchr(tmp, ' ') + 1, '/'))
 	{
 		if (*(chr = (ft_strrchr(tmp, ' ') + 1)))
 			lenm = select_branch(&begin, &tern, ft_strrchr(str, ' ') + 1);
@@ -336,17 +347,41 @@ void	put_complet(char *str, t_tree *tern, char *tget, int *put)
 		if (*chr && begin)
 			put_branch(begin, ft_strlow(chr, ft_strlen(chr)), lenm, &car_ret, put, tget, str);
 	}
+	else
+	{
+		if (*(chr = (ft_strrchr(tmp, '/') + 1)))
+			lenm = select_branch(&begin, &tern, ft_strrchr(str, '/') + 1);
+		else
+			get_max_len(begin, &lenm);
+		if (begin)
+			get_put(begin, &tres);
+		if (tern)
+			get_put(tern, &tres);
+		if (!tres)
+		{
+			if (begin)
+				reset_put(begin);
+			if (tern)
+				reset_put(tern);
+		}
+		//get_max_len(begin, &lenm);
+		if (begin)
+			put_branch(begin, ft_strup(chr, ft_strlen(chr)), lenm, &car_ret, put, tget, str);
+		begin = tern;
+		if (*chr && begin)
+			put_branch(begin, ft_strlow(chr, ft_strlen(chr)), lenm, &car_ret, put, tget, str);
+
+	}
 	free(tmp);
 }
 
-t_tree	*create_file_tree(void)
+t_tree	*create_file_tree(char *path)
 {
 	struct dirent	*indir;
 	DIR				*dir;
-	char			prompt[4097];
 	t_tree			*tern;
 
-	dir = opendir(getcwd(prompt, 4097));
+	dir = opendir(path);
 	tern = ft_memalloc(sizeof(t_tree));
 	tern->value = -1;
 	while ((indir = readdir(dir)))
