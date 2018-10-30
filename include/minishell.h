@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/27 14:44:42 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/30 03:37:17 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct		s_tree
 	int				value;
 	int				max_len;
 	int				tput;
+	int				npsb;
 	struct s_tree	*left;
 	struct s_tree	*right;
 	struct s_tree	*tern_next;
@@ -80,7 +81,7 @@ int		ft_cancel(int index, int i, char *buff_tmp, t_hist **curr);
 void	del_lines(int index, int len, int nb_col);
 int		del_left(int *index, char *buff, char *buff_tmp, t_hist *curr);
 void	del_right(int index, int *i, char *buff);
-void	ft_clear(char *buff, char *prompt);
+void	ft_clear(char *buff);
 void	next_word(int *index, int len, char *buff);
 void	prev_word(int *index, int len, char *buff);
 int		get_typing(int *index, char *buff, char *tmp, int nb_read, char *buff_tmp);
@@ -88,8 +89,9 @@ void	deal_commande(int index, char *buff, char *buff_tmp, t_hist **curr);
 void	create_hist(t_hist **begin);
 
 t_tree	*create_file_tree(char *path);
-void	put_complet(char *str, t_tree *tern, char *tget, int *put);
+int		put_complet(char *str, t_tree *tern, char *tget, int *put);
 t_tree	*create_tree(char **env);
 void	free_tree(t_tree *tern);
+void	reset_put(t_tree *tern);
 
 #endif

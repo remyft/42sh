@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/18 23:38:49 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/27 15:36:18 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/29 18:01:10 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,6 +232,10 @@ void	ft_exit2(struct termios save, t_hist **begin)
 		while (*begin)
 		{
 			curr = (*begin)->next;
+			if ((*begin)->content)
+				free((*begin)->content);
+			if ((*begin)->tmp)
+				free((*begin)->tmp);
 			free(*begin);
 			(*begin) = curr;
 		}
@@ -356,8 +360,10 @@ void	del_right(int index, int *i, char *buff)
 	*i = *i > index ? *i - 1 : index;
 }
 
-void	ft_clear(char *buff, char *prompt)
+void	ft_clear(char *buff)
 {
+	char	prompt[4097];
+
 	tputs(tgetstr("cl", NULL), 1, ft_pchar);
 	ft_putstr(RESET);
 	ft_putend_cl(ft_strrchr(getcwd(prompt, 4097), '/') + 1, RED,  " $> ", BLUE);

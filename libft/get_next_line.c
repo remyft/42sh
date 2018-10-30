@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 13:56:40 by rfontain          #+#    #+#             */
-/*   Updated: 2018/09/27 16:32:13 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/29 18:04:50 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int					get_next_line(const int fd, char **line)
 		return (-1);
 	if (!(len = (int)ft_strlen(current->content)))
 		return (0);
-	*line = ft_strnew(1);
+	*line = NULL;
 	n = ft_copyuntil(line, current->content, CHAR_SEP);
 	if (n < len)
 	{

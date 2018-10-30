@@ -7,6 +7,7 @@ typedef struct		s_tree
 	int				value;
 	int				max_len;
 	int				tput;
+	int				npsb;
 	struct s_tree	*left;
 	struct s_tree	*right;
 	struct s_tree	*tern_next;
@@ -183,12 +184,21 @@ int		select_branch(t_tree **begin, t_tree **end, char *src)
 {
 	int		lenm;
 	int		i;
+	t_tree	*save;
 
 	i = -1;
 	while (src[++i] && *begin)
 	{
+		save = *begin;
 		while (*begin && (*begin)->value != ft_toupper(src[i]))
 			*begin = ft_toupper(src[i]) < (*begin)->value ? (*begin)->left : (*begin)->right;
+		if (!*begin)
+		{
+			while (save && save->value != ft_tolower(src[i]))
+				save = ft_tolower(src[i]) < save->value ? save->left : save->right;
+			if (save)
+				*begin = save;
+		}
 		if (*begin && !src[i + 1])
 			lenm = (*begin)->max_len;
 		if (*begin)
@@ -268,13 +278,52 @@ t_tree	*create_file_tree(void)
 	char			prompt[4097];
 	t_tree			*tern;
 
-	dir = opendir(getcwd(prompt, 4097));
+	dir = opendir("/Users/rfontain");
 	tern = ft_memalloc(sizeof(t_tree));
 	tern->value = -1;
 	while ((indir = readdir(dir)))
-		if (indir->d_name[0] != '.')
+	//	if (indir->d_name[0] != '.')
 			feed_tree(indir->d_name, &tern, 0);
 	return (tern);
+}
+
+void	get_psblty(t_tree *tern, int *nb)
+{
+	if (tern->right)
+		get_psblty(tern->right, nb);
+	if (tern->left)
+		get_psblty(tern->left, nb);
+	if (tern->tern_next)
+		get_psblty(tern->tern_next, nb);
+	if (!tern->tern_next)
+		*nb += 1;
+}
+
+void	set_psblty(t_tree *tern)
+{
+	if (tern->right)
+		set_psblty(tern->right);
+	if (tern->left)
+		set_psblty(tern->left);
+	if (tern->tern_next)
+	{
+		set_psblty(tern->tern_next);
+		get_psblty(tern->tern_next, &(tern->npsb));
+	}
+	//	get_psblty(tern, &(tern->npsb));
+}
+
+void	put_psb(t_tree *tern)
+{
+	if (tern->right)
+		put_psb(tern->right);
+	if (tern->left)
+		put_psb(tern->left);
+	if (tern->tern_next)
+		put_psb(tern->tern_next);
+	ft_putchar(tern->value);
+	ft_putstr(" : ");
+	ft_putnbend(tern->npsb, "\n");
 }
 
 int		main(int ac, char **av, char **env)
@@ -291,7 +340,16 @@ int		main(int ac, char **av, char **env)
 	tputs(tgetstr("cl", NULL), 1, ft_pchar);
 	bin = create_tree(env);
 	files = create_file_tree();
-	save = bin;
+	set_psblty(files);
+	save = files;
+	select_branch(&files, &save, av[1]);
+	if (!files && !save)
+	ft_putendl("YO");
+	if (files)
+	put_psb(files);
+	if (save)
+		put_psb(save);
+	/*save = bin;
 	if (av[1] && !av[2])
 	{
 		put_complet(av[1], bin);
@@ -301,6 +359,6 @@ int		main(int ac, char **av, char **env)
 		put_complet(av[2], files);
 	else
 		put_complet(av[1], bin);
-	ft_putchar('\n');
+	ft_putchar('\n');*/
 	return (0);
 }
