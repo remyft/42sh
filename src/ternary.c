@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 19:07:11 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/30 03:27:59 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/30 04:11:40 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,6 +299,8 @@ t_tree	*create_tree(char **env)
 {
 	t_tree	*ternary;
 
+	if (!env)
+		return (NULL);
 	ternary = NULL;
 	fill_tree_bin(env, &ternary);
 	fill_tree_env(env, &ternary);

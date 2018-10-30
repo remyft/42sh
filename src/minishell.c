@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/30 03:50:30 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/30 04:18:39 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int		get_var(char **env, char **cmd)
 	char	*rep;
 
 	i = -1;
+	if (!env)
+		return (0);
 	while (cmd[++i])
 		if (ft_occuc(cmd[i], '$'))
 		{
@@ -148,11 +150,12 @@ int		main(__unused int ac, __unused char **av, char **ep)
 	env = collect_env(ep);
 	save_path = get_env(env, "PATH");
 	line = NULL;
-	term = getenv("TERM");
+	term = get_env(env, "TERM");
 	tgetent(NULL, term);
 	curr = NULL;
-	create_hist(&curr);
-	curr = curr->begin;
+	create_hist(&curr, env);
+	if (curr)
+		curr = curr->begin;
 	define_new_term(&save);
 	nb_read = 0;
 	signal(SIGINT, &sig_hdlr);
@@ -197,8 +200,10 @@ int		main(__unused int ac, __unused char **av, char **ep)
 			}
 			else if (nb_read == 1 && tmp[0] != 9)
 			{
-				reset_put(files);
-				reset_put(bin);
+				if (files)
+					reset_put(files);
+				if (bin)
+					reset_put(bin);
 			}
 			if (nb_read == 1 && tmp[0] == 4 && !buff[0]) /* ctrl+D*/
 			{
@@ -393,7 +398,7 @@ int		main(__unused int ac, __unused char **av, char **ep)
 		ft_putchar('\n');
 		if (buff[0] && tmp[0] != -1)
 		{
-			deal_commande(index, buff, buff_tmp, &curr);
+			deal_commande(index, buff, buff_tmp, &curr, env);
 		parse = NULL;
 		parse = ft_strsplit(buff, ';');
 		i = -1;
@@ -405,7 +410,8 @@ int		main(__unused int ac, __unused char **av, char **ep)
 			deal_cmd(cmd, &env, &save);
 			if (ft_strcmp(cmd[0], "cd") == 0)
 			{
-				free_tree(files);
+				if (files)
+					free_tree(files);
 				files = create_file_tree(getcwd(prompt, 4097));
 			}
 			if (tmp_files)

@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/30 03:37:17 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/30 03:59:23 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ void	ft_clear(char *buff);
 void	next_word(int *index, int len, char *buff);
 void	prev_word(int *index, int len, char *buff);
 int		get_typing(int *index, char *buff, char *tmp, int nb_read, char *buff_tmp);
-void	deal_commande(int index, char *buff, char *buff_tmp, t_hist **curr);
-void	create_hist(t_hist **begin);
+void	deal_commande(int index, char *buff, char *buff_tmp, t_hist **curr, char **env);
+void	create_hist(t_hist **begin, char **env);
 
 t_tree	*create_file_tree(char *path);
 int		put_complet(char *str, t_tree *tern, char *tget, int *put);

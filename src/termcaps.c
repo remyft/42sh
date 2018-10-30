@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/18 23:38:49 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/29 18:01:10 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/30 04:09:53 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -461,15 +461,24 @@ int		get_typing(int *index, char *buff, char *tmp, int nb_read, char *buff_tmp)
 	return (len);
 }
 
-void	deal_commande(int index, char *buff, char *buff_tmp, t_hist **curr)
+void	deal_commande(int index, char *buff, char *buff_tmp, t_hist **curr, char **env)
 {
 	int		j;
 	char	*term;
 	int		fd;
 	int		nb_col;
 	t_hist	*tmp;
+	char	*path;
 
-	fd = open(".21sh_history", O_RDWR | O_APPEND | O_CREAT, 0644);
+	if (!(path = get_env(env, "HOME")))
+		fd = open("/tmp/.21sh_history", O_RDWR | O_APPEND | O_CREAT, 0644);
+	else
+	{
+		path = ft_strjoinfree(path, "/", 1);
+		path = ft_strjoinfree(path, ".21sh_history", 1);
+		fd = open(path, O_RDWR | O_APPEND | O_CREAT, 0644);
+		free(path);
+	}
 	term = getenv("TERM");
 	tgetent(NULL, term);
 	nb_col = tgetnum("co");
@@ -517,14 +526,23 @@ void	deal_commande(int index, char *buff, char *buff_tmp, t_hist **curr)
 	close(fd);
 }
 
-void	create_hist(t_hist **begin)
+void	create_hist(t_hist **begin, char **env)
 {
 	int		continu;
 	t_hist	*curr;
 	int		fd;
+	char	*path;
 
 	continu = 1;
-	fd = open(".21sh_history", O_RDWR | O_APPEND | O_CREAT, 0644);
+	if (!(path = get_env(env, "HOME")))
+		fd = open("/tmp/.21sh_history", O_RDWR | O_APPEND | O_CREAT, 0644);
+	else
+	{
+		path = ft_strjoinfree(path, "/", 1);
+		path = ft_strjoinfree(path, ".21sh_history", 1);
+		fd = open(path, O_RDWR | O_APPEND | O_CREAT, 0644);
+		free(path);
+	}
 	while (continu)
 	{
 		curr = ft_memalloc(sizeof(t_hist));
@@ -539,6 +557,7 @@ void	create_hist(t_hist **begin)
 		if (!continu)
 		{
 			free(curr);
+			curr = NULL;
 			if (*begin)
 				(*begin)->prev = NULL;
 		}

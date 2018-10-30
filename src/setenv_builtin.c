@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/06 07:43:19 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/11 05:39:09 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/30 04:05:02 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,11 @@ char		**collect_env(char **ep)
 	int		i;
 
 	i = -1;
-	if (!ep || !(env = (char**)malloc(sizeof(char*) * (get_tab_len(ep) + 2))))
+	if (!ep || !ep[0] || !(env = (char**)malloc(sizeof(char*) * (get_tab_len(ep) + 2))))
 	{
-		ft_putendl("Failed to collect the environment.");
-		exit(2);
+		return (NULL);
+		//ft_putendl("Failed to collect the environment.");
+	//	exit(2);
 	}
 	while (ep[++i])
 	{
@@ -69,10 +70,10 @@ char		*get_env(char **env, char *to_get)
 	char	*tmp;
 
 	i = 0;
-	while (env[i] && !cmp_env(env[i], to_get))
+	while (env && env[i] && !cmp_env(env[i], to_get))
 		i++;
 	tmp = NULL;
-	if (env[i])
+	if (env && env[i])
 	{
 		j = 0;
 		while (env[i][j] != '=')
