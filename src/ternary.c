@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 19:07:11 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/30 04:11:40 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/31 21:05:31 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,7 +227,7 @@ void	fill_tree_env(char **env, t_tree **ternary)
 	}
 }
 
-int		select_branch(t_tree **begin, t_tree **end, char *src, char *dst)
+int		select_branch(t_tree **begin, t_tree **end, char *src, char *dst, char *strsave)
 {
 	int		lenm;
 	int		i;
@@ -248,13 +248,18 @@ int		select_branch(t_tree **begin, t_tree **end, char *src, char *dst)
 			{
 				*begin = save;
 				dst[i] = ft_tolower(dst[i]);
-				src[i] = dst[i];
+				strsave[i] = dst[i];
 			}
 		}
 		else if (!save)
 		{
-			dst[i] = ft_toupper(dst[i]);
-			src[i] = dst[i];
+			src[i] = ft_toupper(src[i]);
+			strsave[i] = src[i];
+		}
+		else
+		{
+			src[i] = ft_toupper(src[i]);
+			dst[i] = ft_tolower(dst[i]);
 		}
 		if (*begin && !src[i + 1])
 			lenm = (*begin)->max_len;
@@ -289,6 +294,7 @@ void	put_branch(t_tree *tern, char *src, int lenm, int *car_ret, int *put, char 
 	if (tern)
 	{
 		lvl = ft_strlen(src);
+	//	ft_putendl(src);
 		if (src)
 			ft_strcpy(bru, src);
 		ft_put_tree(tern, bru, lvl, car_ret, nb_col, lenm, put, tget, old);
@@ -354,6 +360,7 @@ int		put_complet(char *str, t_tree *tern, char *tget, int *put)
 	int		tres;
 	char	*tmp;
 	char	*chr;
+	char	*chr2;
 
 	begin = tern;
 	car_ret = 0;
@@ -367,7 +374,7 @@ int		put_complet(char *str, t_tree *tern, char *tget, int *put)
 		//ft_strcpy(tmp, str);
 	if (str && !ft_occuc(str, ' '))
 	{
-		lenm = select_branch(&begin, &tern, tmp, tget);
+		lenm = select_branch(&begin, &tern, tmp, tget, tget);
 		if (begin)
 		{
 			if (!tern && begin->npsb == 1)
@@ -394,8 +401,11 @@ int		put_complet(char *str, t_tree *tern, char *tget, int *put)
 	}
 	else if (!ft_occuc(ft_strrchr(tmp, ' ') + 1, '/'))
 	{
-		if (*(chr = (ft_strrchr(tmp, ' ') + 1)))
-			lenm = select_branch(&begin, &tern, chr, ft_strrchr(tget, ' ') + 1);
+		if (*(chr = ft_strdup((ft_strrchr(tmp, ' ') + 1))))
+		{
+			chr2 = ft_strdup(ft_strrchr(tmp, ' ') + 1);
+			lenm = select_branch(&begin, &tern, chr, chr2, ft_strrchr(tget, ' ') + 1);
+		}
 		else
 			get_max_len(begin, &lenm);
 		if (begin)
@@ -420,13 +430,13 @@ int		put_complet(char *str, t_tree *tern, char *tget, int *put)
 		//get_max_len(begin, &lenm);
 		if (begin)
 			put_branch(begin, chr, lenm, &car_ret, put, tget, str);
-	//	if (*chr && tern && tern != begin)
-	//		put_branch(tern, ft_strlow(chr, ft_strlen(chr)), lenm, &car_ret, put, tget, str);
+		if (*chr && tern && tern != begin)
+			put_branch(tern, chr2, lenm, &car_ret, put, tget, str);
 	}
 	else
 	{
 		if (*(chr = (ft_strrchr(tmp, '/') + 1)))
-			lenm = select_branch(&begin, &tern, chr, ft_strrchr(tget, '/') + 1);
+			lenm = select_branch(&begin, &tern, chr, ft_strrchr(tget, '/') + 1, ft_strrchr(tget, '/') + 1);
 		else
 			get_max_len(begin, &lenm);
 		if (begin)
@@ -450,9 +460,9 @@ int		put_complet(char *str, t_tree *tern, char *tget, int *put)
 		}
 		//get_max_len(begin, &lenm);
 		if (begin)
-			put_branch(begin, chr, lenm, &car_ret, put, tget, str);
-	//	if (*chr && tern && tern != begin)
-	//		put_branch(tern, ft_strlow(chr, ft_strlen(chr)), lenm, &car_ret, put, tget, str);
+			put_branch(begin, ft_strup(chr, ft_strlen(chr)), lenm, &car_ret, put, tget, str);
+		if (*chr && tern && tern != begin)
+			put_branch(tern, ft_strlow(chr, ft_strlen(chr)), lenm, &car_ret, put, tget, str);
 
 	}
 	free(tmp);

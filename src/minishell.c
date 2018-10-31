@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/30 04:18:39 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/10/30 22:02:52 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,14 +184,14 @@ int		main(__unused int ac, __unused char **av, char **ep)
 		while ((tmp[0] != 10 && tmp[0] != -1) || *e_cmpl & COMPLETION)
 		{
 			put = 0;
-	//			j = -1;
-	//			while (++j < nb_read)
-	//				ft_putnbend(tmp[j], "  ");
+			//			j = -1;
+			//			while (++j < nb_read)
+			//				ft_putnbend(tmp[j], "  ");
 			if (i + (nb_read = read(0, tmp, 10)) < 8192) /* Type and cmd+V */
-		//	{
+				//	{
 				i = get_typing(&index, buff, tmp, nb_read, buff_tmp);
-				//ft_bzero(buff_tmp, 8194);
-		//	}
+			//ft_bzero(buff_tmp, 8194);
+			//	}
 			if (tmp[0] == '/')
 			{
 				if (tmp_files)
@@ -219,6 +219,7 @@ int		main(__unused int ac, __unused char **av, char **ep)
 					put_prompt();
 					ft_bzero(buff, i);
 					ft_strcpy(buff, buff_tmp);
+					ft_bzero(buff_tmp, 8194);
 					ft_putstr(buff);
 					index = ft_strlen(buff);
 					i = index;
@@ -280,7 +281,7 @@ int		main(__unused int ac, __unused char **av, char **ep)
 			else if (inprint(buff) && nb_read == 1 && tmp[0] == 9)
 			{
 				*e_cmpl |= COMPLETION;
-				if (!ft_occuc(buff, ' '))
+				if (!ft_strchr(buff, ' '))
 				{
 					tputs(tgetstr("sc", NULL), 1, ft_pchar);
 					tputs(tgetstr("do", NULL), 1, ft_pchar);
@@ -304,7 +305,7 @@ int		main(__unused int ac, __unused char **av, char **ep)
 					index = ft_strlen(buff);
 					i = index;
 				}
-				else if (!ft_occuc(ft_strrchr(buff, ' '), '/'))
+				else if (!ft_strchr(ft_strrchr(buff, ' '), '/'))
 				{
 					tputs(tgetstr("sc", NULL), 1, ft_pchar);
 					tputs(tgetstr("do", NULL), 1, ft_pchar);
@@ -339,27 +340,27 @@ int		main(__unused int ac, __unused char **av, char **ep)
 					}
 					if (tmp_files)
 					{
-					tputs(tgetstr("sc", NULL), 1, ft_pchar);
-					tputs(tgetstr("do", NULL), 1, ft_pchar);
-					tputs(tgetstr("cr", NULL), 1, ft_pchar);
-					tputs(tgetstr("cd", NULL), 1, ft_pchar);
-					if (!buff_tmp[8193])
-					{
-						ft_strcpy(buff_tmp, buff);
-						buff_tmp[8193] = 1;
-					}
-					else
-						put = 1;
-					if (put_complet(buff_tmp, tmp_files, buff, &put))
-						tmp[0] = 10;
-					tputs(tgetstr("rc", NULL), 1, ft_pchar);
-					tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3), 1, ft_pchar);
-					j = -1;
-					while (++j < i)
-						tputs(tgetstr("dc", NULL), 1, ft_pchar);
-					ft_putstr(buff);
-					index = ft_strlen(buff);
-					i = index;
+						tputs(tgetstr("sc", NULL), 1, ft_pchar);
+						tputs(tgetstr("do", NULL), 1, ft_pchar);
+						tputs(tgetstr("cr", NULL), 1, ft_pchar);
+						tputs(tgetstr("cd", NULL), 1, ft_pchar);
+						if (!buff_tmp[8193])
+						{
+							ft_strcpy(buff_tmp, buff);
+							buff_tmp[8193] = 1;
+						}
+						else
+							put = 1;
+						if (put_complet(buff_tmp, tmp_files, buff, &put))
+							tmp[0] = 10;
+						tputs(tgetstr("rc", NULL), 1, ft_pchar);
+						tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3), 1, ft_pchar);
+						j = -1;
+						while (++j < i)
+							tputs(tgetstr("dc", NULL), 1, ft_pchar);
+						ft_putstr(buff);
+						index = ft_strlen(buff);
+						i = index;
 					}
 				}
 			}
@@ -392,37 +393,33 @@ int		main(__unused int ac, __unused char **av, char **ep)
 				if (dir)
 					closedir(dir);
 				ft_bzero(buff_tmp, 8194);
-				//ft_strcpy(buff_tmp, buff);
 			}
 		}
 		ft_putchar('\n');
 		if (buff[0] && tmp[0] != -1)
 		{
 			deal_commande(index, buff, buff_tmp, &curr, env);
-		parse = NULL;
-		parse = ft_strsplit(buff, ';');
-		i = -1;
-		while (parse && parse[++i])
-		{
-			cmd = ft_strsplit_ws(parse[i]);
-			if (!(get_var(env, cmd)))
-				continue ;
-			deal_cmd(cmd, &env, &save);
-			if (ft_strcmp(cmd[0], "cd") == 0)
+			parse = NULL;
+			parse = ft_strsplit(buff, ';');
+			i = -1;
+			while (parse && parse[++i])
 			{
-				if (files)
-					free_tree(files);
-				files = create_file_tree(getcwd(prompt, 4097));
+				cmd = ft_strsplit_ws(parse[i]);
+				if (!(get_var(env, cmd)))
+					continue ;
+				deal_cmd(cmd, &env, &save);
+					if (files)
+						free_tree(files);
+					files = create_file_tree(getcwd(prompt, 4097));
+				if (tmp_files)
+				{
+					free_tree(tmp_files);
+					tmp_files = NULL;
+				}
+				free_tab(&cmd);
 			}
-			if (tmp_files)
-			{
-				free_tree(tmp_files);
-				tmp_files = NULL;
-			}
-			free_tab(&cmd);
-		}
-		if (parse)
-			free_tab(&parse);
+			if (parse)
+				free_tab(&parse);
 		}
 	}
 	return (0);
