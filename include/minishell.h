@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/30 03:59:23 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/06 08:09:14 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,12 @@ typedef enum		e_state
 {
 	COMPLETION = 1 << 0,
 }					t_st;
+
+typedef struct		s_istr
+{
+	char			*str;
+	int				*ul;
+}					t_str;
 
 char	**parsing(char *cmd);
 
