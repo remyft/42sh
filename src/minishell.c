@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/07 13:01:51 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/07 18:26:43 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,7 +294,7 @@ int		main(__unused int ac, __unused char **av, char **ep)
 					}
 					else
 						put = 1;
-					if (put_complet(buff_tmp, bin, buff, &put))
+					if (put_complet2(buff_tmp, bin, buff, &put))
 						tmp[0] = 10;
 					tputs(tgetstr("rc", NULL), 1, ft_pchar);
 					tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3), 1, ft_pchar);
@@ -318,7 +318,7 @@ int		main(__unused int ac, __unused char **av, char **ep)
 					}
 					else
 						put = 1;
-					if (put_complet(buff_tmp, files, buff, &put))
+					if (put_complet2(buff_tmp, files, buff, &put))
 						tmp[0] = 10;
 					tputs(tgetstr("rc", NULL), 1, ft_pchar);
 					tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3), 1, ft_pchar);
@@ -351,7 +351,7 @@ int		main(__unused int ac, __unused char **av, char **ep)
 						}
 						else
 							put = 1;
-						if (put_complet(buff_tmp, tmp_files, buff, &put))
+						if (put_complet2(buff_tmp, tmp_files, buff, &put))
 							tmp[0] = 10;
 						tputs(tgetstr("rc", NULL), 1, ft_pchar);
 						tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3), 1, ft_pchar);

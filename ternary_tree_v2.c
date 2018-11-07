@@ -302,12 +302,14 @@ t_tree	*create_tree(char **env)
 	return (ternary);
 }
 
-void	put_branch2(t_slct *select, int len, char *bru, int lvl, int lenm, int *car_ret, int nb_col, int *put)
+void	put_branch2(t_slct *select, t_tree *tern, int len, char *bru, int lvl, int lenm, int *car_ret, int nb_col, int *put)
 {
+	if (tern)
+		return (ft_put_tree(tern, len, bru, lvl, lenm, car_ret, nb_col, lenm, put));
 	if (select && len > lvl + 1)
 	{
 		bru[lvl] = select->mln->value;
-		put_branch2(select->down, len, bru, lvl + 1, lenm, car_ret, nb_col, put);
+		put_branch2(select->down, tern,  len, bru, lvl + 1, lenm, car_ret, nb_col, put);
 	}
 	else if (select)
 	{
@@ -316,7 +318,7 @@ void	put_branch2(t_slct *select, int len, char *bru, int lvl, int lenm, int *car
 		ft_put_tree(select->mln->tern_next, bru, lvl + 1, car_ret, nb_col, lenm, put);
 	}
 	if (select && select->next)
-		put_branch2(select->next, len, bru, lvl, lenm, car_ret, nb_col, put);
+		put_branch2(select->next, tern, len, bru, lvl, lenm, car_ret, nb_col, put);
 }
 
 void	put_complet2(char *str, t_tree *tern)
@@ -336,11 +338,21 @@ void	put_complet2(char *str, t_tree *tern)
 	lenm = 0;
 	put = 1;
 	car_ret = 0;
-	if (str && *str)
+	if (str && !ft_strchr(src, ' '))
 	{
 		select = select_branch2(tern, str, &lenm);
 		nb_col = width / (lenm + 1);
-		put_branch2(select, ft_strlen(str), bru, 0, lenm, &car_ret, nb_col, &put);
+		put_branch2(select, NULL, ft_strlen(str), bru, 0, lenm, &car_ret, nb_col, &put);
+	}
+	else
+	{
+		chr = !ft_strchr(ft_strrchr(str, ' '), '/') ? ft_strdup(ft_strrchr(str, ' ') + 1) : ft_strdup(ft_strrchr(str, '/') + 1);
+		if (!(select = select_branch2(tern, str, &lenm)))
+			get_max_len(tern, &lenm);
+		if (select)
+			put_branch2(select, NULL, ft_strlen(chr), bru, 0, lenm, &car_ret, nb_col, &put);
+		else
+			put_branch2(NULL, tern, ft_strlen(chr), bru, 0, lenm, &car_ret, nb_col, &put);
 	}
 }
 
@@ -453,11 +465,11 @@ int		main(int ac, char **av, char **env)
 	bin = create_tree(env);
 	files = create_file_tree();
 //	set_psblty(files);
-	select = select_branch2(bin, av[1], &lenm);
+	select = select_branch2(files, av[1], &lenm);
 	if (select)
 		put_select(select, 1);
 	save = files;
-	put_complet2(av[1], bin);
+	put_complet2(av[1], files);
 //	select_branch(&files, &save, av[1]);
 /*	if (!files && !save)
 	if (files)

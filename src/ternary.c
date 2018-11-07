@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 19:07:11 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/07 13:01:48 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/07 20:59:27 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -339,6 +339,52 @@ void	get_put(t_tree *tern, int *ret, char c)
 			*ret = 1;
 }
 
+t_slct		*select_branch2(t_tree *upper, char *src, int *lenm)
+{
+	t_slct	*select;
+	t_tree	*lower;
+
+	select = NULL;
+	lower = upper;
+	if (*src)
+	{
+		while (upper && upper->value != ft_toupper(*src))
+			upper = ft_toupper(*src) < upper->value ? upper->left : upper->right;
+		if (upper && !(src[1]))
+			*lenm = upper->max_len > *lenm ? upper->max_len : *lenm;
+		if (upper)
+		{
+			select = ft_memalloc(sizeof(t_slct));
+			select->mln = upper;
+			select->down = select_branch2(upper->tern_next, src + 1, lenm);
+		}
+	}
+	if (*src && ft_toupper(*src) != ft_tolower(*src))
+	{
+		while (lower && lower->value != ft_tolower(*src))
+			lower = ft_tolower(*src) < lower->value ? lower->left : lower->right;
+		if (lower && !(src[1]))
+			*lenm = lower->max_len > *lenm ? lower->max_len : *lenm;
+		if (lower)
+		{
+			if (select)
+			{
+				select->next = ft_memalloc(sizeof(t_slct));
+				select->next->mln = lower;
+				select->next->down = select_branch2(lower->tern_next, src + 1, lenm);
+			}
+			else
+			{
+				select = ft_memalloc(sizeof(t_slct));
+				select->mln = lower;
+				if (*(src + 1) && !(select->down) && !(select->down = select_branch2(lower->tern_next, src + 1, lenm)))
+					return (NULL);
+			}
+		}
+	}
+	return (select);
+}
+
 int		get_tstr(t_tree *tern, char *str)
 {
 	int i;
@@ -350,6 +396,149 @@ int		get_tstr(t_tree *tern, char *str)
 		tern = tern->tern_next;
 	}
 	return (1);
+}
+
+void	put_branch2(t_slct *select, t_tree *tern, int len, char *bru, int lvl, int lenm, int *car_ret, int nb_col, int *put, char *tget, char *old)
+{
+	if (tern)
+		return (ft_put_tree(tern, bru, lvl, car_ret, nb_col, lenm, put, tget, old));
+	if (select && len > lvl + 1)
+	{
+		bru[lvl] = select->mln->value;
+		put_branch2(select->down, tern,  len, bru, lvl + 1, lenm, car_ret, nb_col, put, tget, old);
+	}
+	else if (select)
+	{
+		bru[lvl] = select->mln->value;
+		bru[lvl + 1] = '\0';
+		ft_put_tree(select->mln->tern_next, bru, lvl + 1, car_ret, nb_col, lenm, put, tget, old);
+	}
+	if (select && select->next)
+		put_branch2(select->next, tern, len, bru, lvl, lenm, car_ret, nb_col, put, tget, old);
+}
+
+void	get_isput(t_slct *select, int len, int lvl, int *tres)
+{
+	if (select->next)
+		get_isput(select->next, len, lvl, tres);
+	if (select->down)
+		get_isput(select->down, len, lvl + 1, tres);
+	else if (lvl == len)
+		get_put(select->mln->tern_next, tres, select->mln->value);
+}
+
+void	reset_isput(t_slct *select, int len, int lvl)
+{
+	if (select->next)
+		reset_isput(select->next, len, lvl);
+	if (select->down)
+		reset_isput(select->down, len, lvl + 1);
+	else if (lvl == len)
+		reset_put(select->mln->tern_next);
+}
+
+void	get_psb(t_slct *select, int len, int lvl, int *psb)
+{
+	if (select->next)
+		get_psb(select->next, len, lvl, psb);
+	if (select->down)
+		get_psb(select->down, len, lvl + 1, psb);
+	else if (lvl + 1 == len)
+		if (select->mln->npsb)
+			*psb += select->mln->npsb;
+}
+
+int		ret_psb(t_slct *select, int len, int lvl, char *bru)
+{
+	if (select->next)
+		if (ret_psb(select->next, len, lvl, bru))
+			return (1);
+	if (select->down)
+	{
+		bru[lvl] = select->mln->value;
+		if (ret_psb(select->down, len, lvl + 1, bru))
+			return (1);
+	}
+	else if (lvl + 1 == len)
+		if (select->mln->npsb)
+		{
+			bru[lvl] = '\0';
+			get_tstr(select->mln, bru);
+			return (1);
+		}
+	return (0);
+}
+
+void	put_select(t_slct *select, int lvl)
+{
+	ft_putchar(select->mln->value);
+	ft_putnbr(lvl);
+	ft_putendl("");
+	if (select->next)
+		put_select(select->next, lvl);
+	if (select->down)
+		put_select(select->down, lvl + 1);
+}
+
+int		put_complet2(char *str, t_tree *tern, char *tget, int *put)
+{
+	t_slct	*select;
+	int		lenm;
+	char	bru[257];
+	char	*term;
+	int		width;
+	int		nb_col;
+	int		car_ret;
+	char	*chr;
+	int		psb;
+	int		tres;
+
+	term = getenv("TERM");
+	tgetent(NULL, term);
+	width = tgetnum("co");
+	lenm = 0;
+	car_ret = 0;
+	select = NULL;
+	psb = 0;
+	tres = 0;
+	if (str && !ft_strchr(str, ' '))
+	{
+		select = select_branch2(tern, str, &lenm);
+		nb_col = width / (lenm + 1);
+		put_branch2(select, NULL, ft_strlen(str), bru, 0, lenm, &car_ret, nb_col, put, tget, str);
+	}
+	else
+	{
+		if (*(chr = !ft_strchr(ft_strrchr(str, ' '), '/') ? ft_strdup(ft_strrchr(str, ' ') + 1) : ft_strdup(ft_strrchr(str, '/') + 1)))
+			select = select_branch2(tern, chr, &lenm);
+		else
+			get_max_len(tern, &lenm);
+		if (select)
+		{
+			get_psb(select, ft_strlen(chr), 0, &psb);
+			ft_putnbend(psb, " : \n");
+			if (psb == 1)
+			{
+				ret_psb(select, ft_strlen(chr), 0, !ft_strchr(ft_strrchr(tget, ' '), '/') ? ft_strrchr(tget, ' ') + 1 : ft_strrchr(tget, '/') + 1);
+				return (1);
+			}
+			get_isput(select, ft_strlen(chr), 1, &tres);
+			if (!tres)
+				reset_isput(select, ft_strlen(chr), 1);
+		}
+		else
+		{
+			get_put(tern, &tres, *chr);
+			if (!tres)
+				reset_put(tern);
+		}
+		nb_col = width / (lenm + 1);
+		if (select)
+			put_branch2(select, NULL, ft_strlen(chr), bru, 0, lenm, &car_ret, nb_col, put, tget, str);
+		else
+			put_branch2(NULL, tern, ft_strlen(chr), bru, 0, lenm, &car_ret, nb_col, put, tget, str);
+	}
+	return (0);
 }
 
 int		put_complet(char *str, t_tree *tern, char *tget, int *put)
