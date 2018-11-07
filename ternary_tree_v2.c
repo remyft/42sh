@@ -13,6 +13,13 @@ typedef struct		s_tree
 	struct s_tree	*tern_next;
 }					t_tree;
 
+typedef struct		s_select
+{
+	t_tree				*mln;
+	struct s_select		*next;
+	struct s_select		*down;
+}					t_slct;
+
 int			ft_pchar(int nb)
 {
 	return (write(STDOUT_FILENO, &nb, 1));
@@ -180,6 +187,53 @@ void	fill_tree_env(char **env, t_tree **ternary)
 	}
 }
 
+t_slct		*select_branch2(t_tree *upper, char *src, int *lenm)
+{
+	t_slct	*select;
+	t_tree	*lower;
+
+	select = NULL;
+	lower = upper;
+	if (*src)
+	{
+		while (upper && upper->value != ft_toupper(*src))
+			upper = ft_toupper(*src) < upper->value ? upper->left : upper->right;
+		if (upper && !(src[1]))
+			*lenm = upper->max_len > *lenm ? upper->max_len : *lenm;
+		if (upper)
+		{
+			select = ft_memalloc(sizeof(t_slct));
+			select->mln = upper;
+			select->down = select_branch2(upper->tern_next, src + 1, lenm);
+		}
+	}
+	if (*src && ft_toupper(*src) != ft_tolower(*src))
+	{
+		while (lower && lower->value != ft_tolower(*src))
+			lower = ft_tolower(*src) < lower->value ? lower->left : lower->right;
+		if (lower && !(src[1]))
+			*lenm = lower->max_len > *lenm ? lower->max_len : *lenm;
+		if (lower)
+		{
+			if (select)
+			{
+				select->next = ft_memalloc(sizeof(t_slct));
+				select->next->mln = lower;
+				select->next->down = select_branch2(lower->tern_next, src + 1, lenm);
+			}
+			else
+			{
+				select = ft_memalloc(sizeof(t_slct));
+				select->mln = lower;
+				if (*(src + 1) && !(select->down) && !(select->down = select_branch2(lower->tern_next, src + 1, lenm)))
+					return (NULL);
+			}
+		}
+	}
+	return (select);
+}
+
+
 int		select_branch(t_tree **begin, t_tree **end, char *src)
 {
 	int		lenm;
@@ -248,6 +302,48 @@ t_tree	*create_tree(char **env)
 	return (ternary);
 }
 
+void	put_branch2(t_slct *select, int len, char *bru, int lvl, int lenm, int *car_ret, int nb_col, int *put)
+{
+	if (select && len > lvl + 1)
+	{
+		bru[lvl] = select->mln->value;
+		put_branch2(select->down, len, bru, lvl + 1, lenm, car_ret, nb_col, put);
+	}
+	else if (select)
+	{
+		bru[lvl] = select->mln->value;
+		bru[lvl + 1] = '\0';
+		ft_put_tree(select->mln->tern_next, bru, lvl + 1, car_ret, nb_col, lenm, put);
+	}
+	if (select && select->next)
+		put_branch2(select->next, len, bru, lvl, lenm, car_ret, nb_col, put);
+}
+
+void	put_complet2(char *str, t_tree *tern)
+{
+	t_slct	*select;
+	int		lenm;
+	char	bru[257];
+	char	*term;
+	int		width;
+	int		nb_col;
+	int		car_ret;
+	int		put;
+
+	term = getenv("TERM");
+	tgetent(NULL, term);
+	width = tgetnum("co");
+	lenm = 0;
+	put = 1;
+	car_ret = 0;
+	if (str && *str)
+	{
+		select = select_branch2(tern, str, &lenm);
+		nb_col = width / (lenm + 1);
+		put_branch2(select, ft_strlen(str), bru, 0, lenm, &car_ret, nb_col, &put);
+	}
+}
+
 void	put_complet(char *str, t_tree *tern)
 {
 	int		lenm;
@@ -258,6 +354,7 @@ void	put_complet(char *str, t_tree *tern)
 	begin = tern;
 	car_ret = 0;
 	put = 1;
+	lenm = 0;
 	if (str && *str)
 	{
 		lenm = select_branch(&begin, &tern, str);
@@ -278,7 +375,7 @@ t_tree	*create_file_tree(void)
 	char			prompt[4097];
 	t_tree			*tern;
 
-	dir = opendir("/Users/rfontain");
+	dir = opendir(getcwd(prompt, 4097));
 	tern = ft_memalloc(sizeof(t_tree));
 	tern->value = -1;
 	while ((indir = readdir(dir)))
@@ -326,11 +423,26 @@ void	put_psb(t_tree *tern)
 	ft_putnbend(tern->npsb, "\n");
 }
 
+void	put_select(t_slct *select, int lvl)
+{
+	ft_putchar(select->mln->value);
+	ft_putnbr(lvl);
+	ft_putendl("");
+	if (select->next)
+		put_select(select->next, lvl);
+	if (select->down)
+	{
+		ft_putchar(select->mln->value);
+		put_select(select->down, lvl + 1);
+	}
+}
+
 int		main(int ac, char **av, char **env)
 {
 	t_tree	*bin;
 	t_tree	*files;
 	t_tree	*save;
+	t_slct	*select;
 	int		lenm;
 	int		car_ret;
 	char	*term;
@@ -340,16 +452,19 @@ int		main(int ac, char **av, char **env)
 	tputs(tgetstr("cl", NULL), 1, ft_pchar);
 	bin = create_tree(env);
 	files = create_file_tree();
-	set_psblty(files);
+//	set_psblty(files);
+	select = select_branch2(bin, av[1], &lenm);
+	if (select)
+		put_select(select, 1);
 	save = files;
-	select_branch(&files, &save, av[1]);
-	if (!files && !save)
-	ft_putendl("YO");
+	put_complet2(av[1], bin);
+//	select_branch(&files, &save, av[1]);
+/*	if (!files && !save)
 	if (files)
 	put_psb(files);
 	if (save)
-		put_psb(save);
-	/*save = bin;
+		put_psb(save);*/
+/*	save = bin;
 	if (av[1] && !av[2])
 	{
 		put_complet(av[1], bin);
