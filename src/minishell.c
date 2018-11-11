@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/07 18:26:43 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/11 13:06:22 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -318,8 +318,13 @@ int		main(__unused int ac, __unused char **av, char **ep)
 					}
 					else
 						put = 1;
-					if (put_complet2(buff_tmp, files, buff, &put))
+					if ((put = put_complet2(buff_tmp, files, buff, &put)) == 1)
 						tmp[0] = 10;
+					else if (put == -1)
+					{
+						*e_cmpl &= ~COMPLETION;
+						tmp[0] = 0;
+					}
 					tputs(tgetstr("rc", NULL), 1, ft_pchar);
 					tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3), 1, ft_pchar);
 					j = -1;
@@ -351,8 +356,13 @@ int		main(__unused int ac, __unused char **av, char **ep)
 						}
 						else
 							put = 1;
-						if (put_complet2(buff_tmp, tmp_files, buff, &put))
+						if ((put = put_complet(buff_tmp, tmp_files, buff, &put)) == 1)
 							tmp[0] = 10;
+						else if (put == -1)
+						{
+							*e_cmpl &= ~COMPLETION;
+							tmp[0] = 0;
+						}
 						tputs(tgetstr("rc", NULL), 1, ft_pchar);
 						tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3), 1, ft_pchar);
 						j = -1;

@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 19:07:11 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/07 20:59:27 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/11 13:28:27 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -445,7 +445,12 @@ void	get_psb(t_slct *select, int len, int lvl, int *psb)
 		get_psb(select->down, len, lvl + 1, psb);
 	else if (lvl + 1 == len)
 		if (select->mln->npsb)
-			*psb += select->mln->npsb;
+		{
+		*psb += select->mln->tern_next->npsb;
+		ft_putchar(select->mln->value);
+		ft_putstr("   ");
+		ft_putnbend(select->mln->npsb, "\n");
+		}
 }
 
 int		ret_psb(t_slct *select, int len, int lvl, char *bru)
@@ -535,8 +540,10 @@ int		put_complet2(char *str, t_tree *tern, char *tget, int *put)
 		nb_col = width / (lenm + 1);
 		if (select)
 			put_branch2(select, NULL, ft_strlen(chr), bru, 0, lenm, &car_ret, nb_col, put, tget, str);
-		else
+		else if (lenm)
 			put_branch2(NULL, tern, ft_strlen(chr), bru, 0, lenm, &car_ret, nb_col, put, tget, str);
+		else
+			return (-1);
 	}
 	return (0);
 }
