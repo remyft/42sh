@@ -28,14 +28,15 @@ LIB_LINK = -L $(LIB_PATH) -lft -lncurses
 INC_DIR = include
 INCS = -I $(LIB_PATH)/ -I $(INC_DIR)
 
-SRCS =	src/minishell.c			\
-		src/deal_commande.c		\
-		src/tools.c				\
-		src/setenv_builtin.c	\
-		src/cd_builtin.c		\
-		src/exec.c				\
-		src/termcaps.c			\
-		src/ternary.c			\
+SRCS_DIR = src/
+SRCS =	minishell.c			\
+		deal_commande.c		\
+		tools.c				\
+		setenv_builtin.c	\
+		cd_builtin.c		\
+		exec.c				\
+		termcaps.c			\
+		ternary.c			\
 
 OK =      $(GREEN)[OK]$(RESET)		
 
@@ -43,14 +44,20 @@ NEWLINE = $(shell echo "")
 
 CFLAGS +=  -Wall -Wextra -Werror
 
-OBJS = $(SRCS:.c=.o)
+OBJS_DIR = objs/
+OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
+
+all: $(OBJS_DIR) $(NAME)
+
+$(OBJS_DIR):
+	@mkdir -p $@
 
 $(NAME): $(NEWLINE) $(OBJS) $(LIB)
 	@$(CC) $(INCS) $^ -o $@ $(LIB_LINK)
 	@echo ""
 	@echo $(GREY)" Compilling" $(RESET) [ $(NAME) ] $(OK)
 
-%.o: %.c
+$(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
 	$(CC) $(CFLAGS) $(INC) -o $@ -c $< 
 
@@ -59,10 +66,8 @@ $(LIB):
 	@echo " " | tr -d '\n'
 	@make -C $(LIB_PATH)
 
-all: $(NAME)
-
 clean:
-	@$(RM) $(OBJS)
+	@$(RM) $(OBJS_DIR)
 	@make -C $(LIB_PATH) clean
 	@echo $(GREY)" Cleaning :" $(RESET) [ $(NAME) ] $(OK)
 

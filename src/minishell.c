@@ -418,9 +418,9 @@ int		main(__unused int ac, __unused char **av, char **ep)
 				if (!(get_var(env, cmd)))
 					continue ;
 				deal_cmd(cmd, &env, &save);
-					if (files)
-						free_tree(files);
-					files = create_file_tree(getcwd(prompt, 4097));
+				if (files)
+					free_tree(files);
+				files = create_file_tree(getcwd(prompt, 4097));
 				if (tmp_files)
 				{
 					free_tree(tmp_files);
