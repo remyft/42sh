@@ -6,11 +6,11 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 19:07:11 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/11 13:28:27 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/16 21:41:36 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 void	get_psblty(t_tree *tern, int *nb)
 {
@@ -35,7 +35,7 @@ void	set_psblty(t_tree *tern)
 		set_psblty(tern->tern_next);
 		//get_psblty(tern->tern_next, &(tern->npsb));
 	}
-		get_psblty(tern, &(tern->npsb));
+	get_psblty(tern, &(tern->npsb));
 }
 
 void	feed_branch(t_tree **tern, char *str, int lvl)
@@ -105,7 +105,7 @@ void	ft_put_tree(t_tree *tern, char *bru, int lvl, int *car_ret, int nb_col, int
 
 	if (tern->left)
 		ft_put_tree(tern->left, bru, lvl, car_ret, nb_col, len_max, put, tget, old);
-	if (tern->tern_next && (tern->value != '.' || bru[0]))
+	if (tern->tern_next && (tern->value != '.' || bru[0] == '.' || lvl >= 1))
 	{
 		bru[lvl] = tern->value;
 		ft_put_tree(tern->tern_next, bru, lvl + 1, car_ret, nb_col, len_max, put, tget, old);
@@ -131,7 +131,6 @@ void	ft_put_tree(t_tree *tern, char *bru, int lvl, int *car_ret, int nb_col, int
 						while (&tget[i] != chr)
 							i++;
 						ft_strcpy(&tget[i], bru);
-					//	tget = replace_str(tget, ft_strrchr(tget, ' ') + 1, bru);
 					}
 					else
 					{
@@ -227,80 +226,6 @@ void	fill_tree_env(char **env, t_tree **ternary)
 	}
 }
 
-int		select_branch(t_tree **begin, t_tree **end, char *src)//, char *dst, char *strsave)
-{
-	int		lenm;
-	int		i;
-//	t_tree	*save;
-
-	i = -1;
-	lenm = 0;
-	while (src[++i] && *begin)
-	{
-	//	save = *begin;
-		while (*begin && (*begin)->value != ft_toupper(src[i]))
-			*begin = ft_toupper(src[i]) < (*begin)->value ? (*begin)->left : (*begin)->right;
-	/*	while (save && save->value != ft_tolower(src[i]))
-			save = ft_tolower(src[i]) < save->value ? save->left : save->right;
-		if (!*begin)
-		{
-			if (save)
-			{
-				*begin = save;
-				dst[i] = ft_tolower(dst[i]);
-				strsave[i] = dst[i];
-			}
-		}
-		else if (!save)
-		{
-			src[i] = ft_toupper(src[i]);
-			strsave[i] = src[i];
-		}
-		else
-		{
-			src[i] = ft_toupper(src[i]);
-			dst[i] = ft_tolower(dst[i]);
-		}*/
-		if (*begin && !src[i + 1])
-			lenm = (*begin)->max_len;
-		if (*begin)
-			(*begin) = (*begin)->tern_next;
-	}
-	i = -1;
-	while (src[++i] && *end)
-	{
-		while (*end && (*end)->value != ft_tolower(src[i]))
-			*end = ft_tolower(src[i]) < (*end)->value ? (*end)->left : (*end)->right;
-		if (*end && !src[i + 1])
-			lenm = (*end)->max_len > lenm ? (*end)->max_len : lenm;
-		if ((*end))
-			*end = (*end)->tern_next;
-	}
-	return (lenm);
-}
-
-void	put_branch(t_tree *tern, char *src, int lenm, int *car_ret, int *put, char *tget, char *old)
-{
-	char	bru[257];
-	char	*term;
-	int		width;
-	int		nb_col;
-	int		lvl;
-
-	term = getenv("TERM");
-	tgetent(NULL, term);
-	width = tgetnum("co");
-	nb_col = width / (lenm + 1);
-	if (tern)
-	{
-		lvl = ft_strlen(src);
-	//	ft_putendl(src);
-		if (src)
-			ft_strcpy(bru, src);
-		ft_put_tree(tern, bru, lvl, car_ret, nb_col, lenm, put, tget, old);
-	}
-}
-
 t_tree	*create_tree(char **env)
 {
 	t_tree	*ternary;
@@ -339,7 +264,7 @@ void	get_put(t_tree *tern, int *ret, char c)
 			*ret = 1;
 }
 
-t_slct		*select_branch2(t_tree *upper, char *src, int *lenm)
+t_slct		*select_branch(t_tree *upper, char *src, int *lenm)
 {
 	t_slct	*select;
 	t_tree	*lower;
@@ -356,7 +281,7 @@ t_slct		*select_branch2(t_tree *upper, char *src, int *lenm)
 		{
 			select = ft_memalloc(sizeof(t_slct));
 			select->mln = upper;
-			select->down = select_branch2(upper->tern_next, src + 1, lenm);
+			select->down = select_branch(upper->tern_next, src + 1, lenm);
 		}
 	}
 	if (*src && ft_toupper(*src) != ft_tolower(*src))
@@ -371,13 +296,13 @@ t_slct		*select_branch2(t_tree *upper, char *src, int *lenm)
 			{
 				select->next = ft_memalloc(sizeof(t_slct));
 				select->next->mln = lower;
-				select->next->down = select_branch2(lower->tern_next, src + 1, lenm);
+				select->next->down = select_branch(lower->tern_next, src + 1, lenm);
 			}
 			else
 			{
 				select = ft_memalloc(sizeof(t_slct));
 				select->mln = lower;
-				if (*(src + 1) && !(select->down) && !(select->down = select_branch2(lower->tern_next, src + 1, lenm)))
+				if (*(src + 1) && !(select->down) && !(select->down = select_branch(lower->tern_next, src + 1, lenm)))
 					return (NULL);
 			}
 		}
@@ -398,14 +323,14 @@ int		get_tstr(t_tree *tern, char *str)
 	return (1);
 }
 
-void	put_branch2(t_slct *select, t_tree *tern, int len, char *bru, int lvl, int lenm, int *car_ret, int nb_col, int *put, char *tget, char *old)
+void	put_branch(t_slct *select, t_tree *tern, int len, char *bru, int lvl, int lenm, int *car_ret, int nb_col, int *put, char *tget, char *old)
 {
 	if (tern)
 		return (ft_put_tree(tern, bru, lvl, car_ret, nb_col, lenm, put, tget, old));
 	if (select && len > lvl + 1)
 	{
 		bru[lvl] = select->mln->value;
-		put_branch2(select->down, tern,  len, bru, lvl + 1, lenm, car_ret, nb_col, put, tget, old);
+		put_branch(select->down, tern,  len, bru, lvl + 1, lenm, car_ret, nb_col, put, tget, old);
 	}
 	else if (select)
 	{
@@ -414,7 +339,7 @@ void	put_branch2(t_slct *select, t_tree *tern, int len, char *bru, int lvl, int 
 		ft_put_tree(select->mln->tern_next, bru, lvl + 1, car_ret, nb_col, lenm, put, tget, old);
 	}
 	if (select && select->next)
-		put_branch2(select->next, tern, len, bru, lvl, lenm, car_ret, nb_col, put, tget, old);
+		put_branch(select->next, tern, len, bru, lvl, lenm, car_ret, nb_col, put, tget, old);
 }
 
 void	get_isput(t_slct *select, int len, int lvl, int *tres)
@@ -445,12 +370,7 @@ void	get_psb(t_slct *select, int len, int lvl, int *psb)
 		get_psb(select->down, len, lvl + 1, psb);
 	else if (lvl + 1 == len)
 		if (select->mln->npsb)
-		{
-		*psb += select->mln->tern_next->npsb;
-		ft_putchar(select->mln->value);
-		ft_putstr("   ");
-		ft_putnbend(select->mln->npsb, "\n");
-		}
+			*psb += select->mln->tern_next->npsb;
 }
 
 int		ret_psb(t_slct *select, int len, int lvl, char *bru)
@@ -476,16 +396,13 @@ int		ret_psb(t_slct *select, int len, int lvl, char *bru)
 
 void	put_select(t_slct *select, int lvl)
 {
-	ft_putchar(select->mln->value);
-	ft_putnbr(lvl);
-	ft_putendl("");
 	if (select->next)
 		put_select(select->next, lvl);
 	if (select->down)
 		put_select(select->down, lvl + 1);
 }
 
-int		put_complet2(char *str, t_tree *tern, char *tget, int *put)
+int		put_complet(char *str, t_tree *tern, char *tget, int *put)
 {
 	t_slct	*select;
 	int		lenm;
@@ -503,165 +420,51 @@ int		put_complet2(char *str, t_tree *tern, char *tget, int *put)
 	width = tgetnum("co");
 	lenm = 0;
 	car_ret = 0;
+	chr = NULL;
 	select = NULL;
 	psb = 0;
 	tres = 0;
-	if (str && !ft_strchr(str, ' '))
-	{
-		select = select_branch2(tern, str, &lenm);
-		nb_col = width / (lenm + 1);
-		put_branch2(select, NULL, ft_strlen(str), bru, 0, lenm, &car_ret, nb_col, put, tget, str);
-	}
+	if (!ft_strchr(str, ' '))
+		select = select_branch(tern, (chr = ft_strdup(str)), &lenm);
+	else if (*(chr = !ft_strchr(ft_strrchr(str, ' '), '/') ? ft_strdup(ft_strrchr(str, ' ') + 1) : ft_strdup(ft_strrchr(str, '/') + 1)))
+		select = select_branch(tern, chr, &lenm);
 	else
+		get_max_len(tern, &lenm);
+	if (select)
 	{
-		if (*(chr = !ft_strchr(ft_strrchr(str, ' '), '/') ? ft_strdup(ft_strrchr(str, ' ') + 1) : ft_strdup(ft_strrchr(str, '/') + 1)))
-			select = select_branch2(tern, chr, &lenm);
-		else
-			get_max_len(tern, &lenm);
-		if (select)
+		get_psb(select, ft_strlen(chr), 0, &psb);
+		if (psb == 1)
 		{
-			get_psb(select, ft_strlen(chr), 0, &psb);
-			ft_putnbend(psb, " : \n");
-			if (psb == 1)
-			{
+			if (!ft_strcmp(chr, str))
+				ret_psb(select, ft_strlen(chr), 0, tget);
+			else
 				ret_psb(select, ft_strlen(chr), 0, !ft_strchr(ft_strrchr(tget, ' '), '/') ? ft_strrchr(tget, ' ') + 1 : ft_strrchr(tget, '/') + 1);
-				return (1);
-			}
-			get_isput(select, ft_strlen(chr), 1, &tres);
-			if (!tres)
-				reset_isput(select, ft_strlen(chr), 1);
+			free(chr);
+			return (1);
 		}
-		else
-		{
-			get_put(tern, &tres, *chr);
-			if (!tres)
-				reset_put(tern);
-		}
-		nb_col = width / (lenm + 1);
-		if (select)
-			put_branch2(select, NULL, ft_strlen(chr), bru, 0, lenm, &car_ret, nb_col, put, tget, str);
-		else if (lenm)
-			put_branch2(NULL, tern, ft_strlen(chr), bru, 0, lenm, &car_ret, nb_col, put, tget, str);
-		else
-			return (-1);
-	}
-	return (0);
-}
-
-int		put_complet(char *str, t_tree *tern, char *tget, int *put)
-{
-	int		lenm;
-	int		car_ret;
-	t_tree	*begin;
-	int		tres;
-	char	*tmp;
-	char	*chr;
-//	char	*chr2;
-
-	begin = tern;
-	car_ret = 0;
-	tres = 0;
-	lenm = 0;
-	if (!str)
-		tmp = ft_strnew(1);
-		//ft_bzero(tmp, 8192);
-	else
-		tmp = ft_strdup(str);
-		//ft_strcpy(tmp, str);
-	if (str && !ft_occuc(str, ' '))
-	{
-		lenm = select_branch(&begin, &tern, tmp);//, tget, tget);
-		if (begin)
-		{
-			if (!tern && begin->npsb == 1)
-				return (get_tstr(begin, tget));
-			get_put(begin, &tres, *str);
-		}
-		if (tern && tern != begin)
-		{
-			if (!begin && tern->npsb == 1)
-				return (get_tstr(tern, tget));
-			get_put(tern, &tres, *str);
-		}
+		get_isput(select, ft_strlen(chr), 1, &tres);
 		if (!tres)
-		{
-			if (begin)
-				reset_put(begin);
-			if (tern && tern != begin)
-				reset_put(tern);
-		}
-		if (begin)
-			put_branch(begin, ft_strup(tmp, ft_strlen(tmp)), lenm, &car_ret, put, tget, str);
-		if (tern && tern != begin)
-			put_branch(tern, ft_strlow(tmp, ft_strlen(tmp)), lenm, &car_ret, put, tget, str);
-	}
-	else if (!ft_occuc(ft_strrchr(tmp, ' ') + 1, '/'))
-	{
-		if (*(chr = ft_strdup((ft_strrchr(tmp, ' ') + 1))))
-	//	{
-	//		chr2 = ft_strdup(ft_strrchr(tmp, ' ') + 1);
-			lenm = select_branch(&begin, &tern, chr);//, chr2, ft_strrchr(tget, ' ') + 1);
-	//	}
-		else
-			get_max_len(begin, &lenm);
-		if (begin)
-		{
-			if ((!tern || begin == tern) && begin->npsb == 1)
-				return (get_tstr(begin, tget));
-			get_put(begin, &tres, *chr);
-		}
-		if (tern && tern != begin)
-		{
-			if (!begin && tern->npsb == 1)
-				return (get_tstr(tern, tget));
-			get_put(tern, &tres, *chr);
-		}
-		if (!tres)
-		{
-			if (begin)
-				reset_put(begin);
-			if (tern && tern != begin)
-				reset_put(tern);
-		}
-		//get_max_len(begin, &lenm);
-		if (begin)
-			put_branch(begin, ft_strup(chr, ft_strlen(chr)), lenm, &car_ret, put, tget, str);
-		if (*chr && tern && tern != begin)
-			put_branch(tern, ft_strlow(chr, ft_strlen(chr)), lenm, &car_ret, put, tget, str);
+			reset_isput(select, ft_strlen(chr), 1);
 	}
 	else
 	{
-		if (*(chr = (ft_strrchr(tmp, '/') + 1)))
-			lenm = select_branch(&begin, &tern, chr);//, ft_strrchr(tget, '/') + 1, ft_strrchr(tget, '/') + 1);
-		else
-			get_max_len(begin, &lenm);
-		if (begin)
-		{
-			if ((!tern || begin == tern) && begin->npsb == 1)
-				return (get_tstr(begin, tget));
-			get_put(begin, &tres, *chr);
-		}
-		if (tern && tern != begin)
-		{
-			if (!begin && tern->npsb == 1)
-				return (get_tstr(tern, tget));
-			get_put(tern, &tres, *chr);
-		}
+		get_put(tern, &tres, *chr);
 		if (!tres)
-		{
-			if (begin)
-				reset_put(begin);
-			if (tern && tern != begin)
-				reset_put(tern);
-		}
-		//get_max_len(begin, &lenm);
-		if (begin)
-			put_branch(begin, ft_strup(chr, ft_strlen(chr)), lenm, &car_ret, put, tget, str);
-		if (*chr && tern && tern != begin)
-			put_branch(tern, ft_strlow(chr, ft_strlen(chr)), lenm, &car_ret, put, tget, str);
-
+			reset_put(tern);
 	}
-	free(tmp);
+	nb_col = width / (lenm + 1);
+	if (select)
+		put_branch(select, NULL, ft_strlen(chr), bru, 0, lenm, &car_ret, nb_col, put, tget, str);
+	else if (lenm)
+		put_branch(NULL, tern, ft_strlen(chr), bru, 0, lenm, &car_ret, nb_col, put, tget, str);
+	else
+	{
+		if (chr)
+			free(chr);
+		return (-1);
+	}
+	if (chr)
+		free(chr);
 	return (0);
 }
 
@@ -697,4 +500,72 @@ void	free_tree(t_tree *tern)
 		free(tern);
 		tern = NULL;
 	}
+}
+
+int		deal_complet(t_tree *file, char *buff, char *buff_tmp, char *tmp, int *i, t_st *e_cmpl)
+{
+	int		put;
+	int		j;
+	char	prompt[4097];
+
+	*e_cmpl |= COMPLETION;
+	tputs(tgetstr("sc", NULL), 1, ft_pchar);
+	tputs(tgetstr("do", NULL), 1, ft_pchar);
+	tputs(tgetstr("cr", NULL), 1, ft_pchar);
+	tputs(tgetstr("cd", NULL), 1, ft_pchar);
+	if (!buff_tmp[8193])
+	{
+		ft_strcpy(buff_tmp, buff);
+		buff_tmp[8193] = 1;
+	}
+	else
+		put = 1;
+	if ((put = put_complet(buff_tmp, file, buff, &put)) == 1)
+		tmp[0] = 10;
+	else if (put == -1)
+	{
+		*e_cmpl &= ~COMPLETION;
+		tmp[0] = 0;
+	}
+	tputs(tgetstr("rc", NULL), 1, ft_pchar);
+	tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3), 1, ft_pchar);
+	j = -1;
+	while (++j < *i)
+		tputs(tgetstr("dc", NULL), 1, ft_pchar);
+	ft_putstr(buff);
+	*i = ft_strlen(buff);
+	return (*i);
+}
+
+int		set_complet(t_tree **file, t_st *e_cmpl, char *tmp, char *buff, int *i, char *buff_tmp)
+{
+	DIR		*dir;
+
+	dir = NULL;
+	tputs(tgetstr("sc", NULL), 1, ft_pchar);
+	tputs(tgetstr("do", NULL), 1, ft_pchar);
+	tputs(tgetstr("cr", NULL), 1, ft_pchar);
+	tputs(tgetstr("cd", NULL), 1, ft_pchar);
+	tputs(tgetstr("rc", NULL), 1, ft_pchar);
+	*e_cmpl &= ~COMPLETION;
+	tmp[0] = 0;
+	if (ft_strrchr(buff, ' ') && (dir = opendir(ft_strrchr(buff, ' ') + 1)))
+	{
+		if (*file)
+			free_tree(*file);
+		*file = NULL;
+		buff[(*i)] = '/';
+		buff[++(*i)] = '\0';
+		ft_putchar('/');
+	}
+	else
+	{
+		buff[(*i)++] = ' ';
+		buff[++(*i)] = '\0';
+		ft_putchar(' ');
+	}
+	if (dir)
+		closedir(dir);
+	ft_bzero(buff_tmp, 8194);
+	return (*i);
 }

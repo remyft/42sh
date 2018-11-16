@@ -6,11 +6,11 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/11 13:06:22 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/16 21:49:01 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 int		cmp_strpart(char *src, char *str, int *beg)
 {
@@ -118,6 +118,27 @@ int		inprint(char *str)
 	return (0);
 }
 
+t_tree	*set_tmp(char *buff)
+{
+	t_tree	*file;
+	char	*stmp;
+
+	stmp = ft_strrchr(buff, ' ') + 1;
+	stmp = ft_strndup(stmp, ft_strrchr(stmp, '/') - stmp);
+	file = create_file_tree(stmp);
+	free(stmp);
+	return (file);
+}
+
+void	delete_down(void)
+{
+	tputs(tgetstr("sc", NULL), 1, ft_pchar);
+	tputs(tgetstr("do", NULL), 1, ft_pchar);
+	tputs(tgetstr("cr", NULL), 1, ft_pchar);
+	tputs(tgetstr("cd", NULL), 1, ft_pchar);
+	tputs(tgetstr("rc", NULL), 1, ft_pchar);
+}
+
 int		main(__unused int ac, __unused char **av, char **ep)
 {
 	char	*line;
@@ -134,7 +155,7 @@ int		main(__unused int ac, __unused char **av, char **ep)
 	t_hist	*curr;
 	char	*term;
 	char	buff_tmp[8194];
-	int		j;
+//	int		j;
 	t_tree	*bin;
 	t_tree	*files;
 	t_tree	*tmp_files;
@@ -143,7 +164,6 @@ int		main(__unused int ac, __unused char **av, char **ep)
 	char	*save_path;
 	t_st	*e_cmpl;
 	DIR		*dir;
-	char	*stmp;
 
 	i = 0;
 	e_cmpl = ft_memalloc(sizeof(t_st));
@@ -166,15 +186,18 @@ int		main(__unused int ac, __unused char **av, char **ep)
 	files = create_file_tree(".");
 	tmp_files = NULL;
 	dir = NULL;
+	path = NULL;
 	while (1)
 	{
 		put_prompt();
 		ft_bzero(buff, 8193);
 		path = get_env(env, "PATH");
-		if (path && ft_strcmp((path = get_env(env, "PATH")), save_path) != 0)
+		if (path && ft_strcmp(path, save_path) != 0)
 		{
 			free_tree(bin);
 			bin = create_tree(env);
+			free(save_path);
+			save_path = ft_strdup(path);
 		}
 		if (path)
 			free(path);
@@ -188,17 +211,15 @@ int		main(__unused int ac, __unused char **av, char **ep)
 			//			while (++j < nb_read)
 			//				ft_putnbend(tmp[j], "  ");
 			if (i + (nb_read = read(0, tmp, 10)) < 8192) /* Type and cmd+V */
-				//	{
 				i = get_typing(&index, buff, tmp, nb_read, buff_tmp);
-			//ft_bzero(buff_tmp, 8194);
-			//	}
+			tmp[nb_read] = '\0';
 			if (tmp[0] == '/')
 			{
 				if (tmp_files)
 					free_tree(tmp_files);
 				tmp_files = NULL;
 			}
-			else if (nb_read == 1 && tmp[0] != 9)
+			else if (tmp[0] != 9)
 			{
 				if (files)
 					reset_put(files);
@@ -208,7 +229,7 @@ int		main(__unused int ac, __unused char **av, char **ep)
 			if (nb_read == 1 && tmp[0] == 4 && !buff[0]) /* ctrl+D*/
 			{
 				free_tree(files);
-				ft_exit2(save, &curr);//&(curr->begin));
+				ft_exit2(save, &curr);
 			}
 			else if (nb_read == 1 && tmp[0] == 3) /* ctrl+C */
 			{
@@ -225,6 +246,8 @@ int		main(__unused int ac, __unused char **av, char **ep)
 					i = index;
 					reset_put(files);
 					reset_put(bin);
+					if (tmp_files)
+						reset_put(tmp_files);
 				}
 				else
 				{
@@ -235,7 +258,8 @@ int		main(__unused int ac, __unused char **av, char **ep)
 				}
 				*e_cmpl &= ~COMPLETION;
 			}
-			else if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 65) /* up arrow */
+		//	ft_strcmp(tmp, (char []){27, 91, 65, 0 }); --> implement to all comparaison
+			if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 65) /* up arrow */
 				i = up_arrow(&index, buff, buff_tmp, &curr);
 			else if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 66) /* down key */
 				i = down_arrow(&index, buff, buff_tmp, &curr);
@@ -247,11 +271,7 @@ int		main(__unused int ac, __unused char **av, char **ep)
 			{
 				if (*e_cmpl & COMPLETION)
 				{
-					tputs(tgetstr("sc", NULL), 1, ft_pchar);
-					tputs(tgetstr("do", NULL), 1, ft_pchar);
-					tputs(tgetstr("cr", NULL), 1, ft_pchar);
-					tputs(tgetstr("cd", NULL), 1, ft_pchar);
-					tputs(tgetstr("rc", NULL), 1, ft_pchar);
+					delete_down();
 					*e_cmpl &= ~COMPLETION;
 					ft_bzero(buff_tmp, 8194);
 				}
@@ -261,10 +281,7 @@ int		main(__unused int ac, __unused char **av, char **ep)
 			else if (nb_read == 4 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 51 && tmp[3] == 126) /* delete right */
 			{
 				if (*e_cmpl & COMPLETION)
-				{
 					tmp[0] = 10;
-					nb_read = 1;
-				}
 				else
 					del_right(index, &i, buff);
 			}
@@ -280,130 +297,17 @@ int		main(__unused int ac, __unused char **av, char **ep)
 				prev_word(&index, i, buff);
 			else if (inprint(buff) && nb_read == 1 && tmp[0] == 9)
 			{
-				*e_cmpl |= COMPLETION;
-				if (!ft_strchr(buff, ' '))
-				{
-					tputs(tgetstr("sc", NULL), 1, ft_pchar);
-					tputs(tgetstr("do", NULL), 1, ft_pchar);
-					tputs(tgetstr("cr", NULL), 1, ft_pchar);
-					tputs(tgetstr("cd", NULL), 1, ft_pchar);
-					if (!buff_tmp[8193])
-					{
-						ft_strcpy(buff_tmp, buff);
-						buff_tmp[8193] = 1;
-					}
-					else
-						put = 1;
-					if (put_complet2(buff_tmp, bin, buff, &put))
-						tmp[0] = 10;
-					tputs(tgetstr("rc", NULL), 1, ft_pchar);
-					tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3), 1, ft_pchar);
-					j = -1;
-					while (++j < i)
-						tputs(tgetstr("dc", NULL), 1, ft_pchar);
-					ft_putstr(buff);
-					index = ft_strlen(buff);
-					i = index;
-				}
-				else if (!ft_strchr(ft_strrchr(buff, ' '), '/'))
-				{
-					tputs(tgetstr("sc", NULL), 1, ft_pchar);
-					tputs(tgetstr("do", NULL), 1, ft_pchar);
-					tputs(tgetstr("cr", NULL), 1, ft_pchar);
-					tputs(tgetstr("cd", NULL), 1, ft_pchar);
-					if (!buff_tmp[8193])
-					{
-						ft_strcpy(buff_tmp, buff);
-						buff_tmp[8193] = 1;
-					}
-					else
-						put = 1;
-					if ((put = put_complet2(buff_tmp, files, buff, &put)) == 1)
-						tmp[0] = 10;
-					else if (put == -1)
-					{
-						*e_cmpl &= ~COMPLETION;
-						tmp[0] = 0;
-					}
-					tputs(tgetstr("rc", NULL), 1, ft_pchar);
-					tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3), 1, ft_pchar);
-					j = -1;
-					while (++j < i)
-						tputs(tgetstr("dc", NULL), 1, ft_pchar);
-					ft_putstr(buff);
-					index = ft_strlen(buff);
-					i = index;
-				}
+				if (!ft_strchr(buff, ' ')
+						|| !ft_strchr(ft_strrchr(buff, ' '), '/'))
+					index = deal_complet(!ft_strchr(buff, ' ') ? bin
+							: files, buff, buff_tmp, tmp, &i, e_cmpl);
 				else
-				{
-					if (!tmp_files)
-					{
-						stmp = ft_strrchr(buff, ' ') + 1;
-						stmp = ft_strndup(stmp, ft_strrchr(stmp, '/') - stmp);
-						tmp_files = create_file_tree(stmp);
-						free(stmp);
-					}
-					if (tmp_files)
-					{
-						tputs(tgetstr("sc", NULL), 1, ft_pchar);
-						tputs(tgetstr("do", NULL), 1, ft_pchar);
-						tputs(tgetstr("cr", NULL), 1, ft_pchar);
-						tputs(tgetstr("cd", NULL), 1, ft_pchar);
-						if (!buff_tmp[8193])
-						{
-							ft_strcpy(buff_tmp, buff);
-							buff_tmp[8193] = 1;
-						}
-						else
-							put = 1;
-						if ((put = put_complet(buff_tmp, tmp_files, buff, &put)) == 1)
-							tmp[0] = 10;
-						else if (put == -1)
-						{
-							*e_cmpl &= ~COMPLETION;
-							tmp[0] = 0;
-						}
-						tputs(tgetstr("rc", NULL), 1, ft_pchar);
-						tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3), 1, ft_pchar);
-						j = -1;
-						while (++j < i)
-							tputs(tgetstr("dc", NULL), 1, ft_pchar);
-						ft_putstr(buff);
-						index = ft_strlen(buff);
-						i = index;
-					}
-				}
+					if (tmp_files || (tmp_files = set_tmp(buff)))
+						index = deal_complet(tmp_files, buff, buff_tmp,
+								tmp, &i, e_cmpl);
 			}
-			if (*e_cmpl & COMPLETION && nb_read == 1 && tmp[0] == 10)
-			{
-				tputs(tgetstr("sc", NULL), 1, ft_pchar);
-				tputs(tgetstr("do", NULL), 1, ft_pchar);
-				tputs(tgetstr("cr", NULL), 1, ft_pchar);
-				tputs(tgetstr("cd", NULL), 1, ft_pchar);
-				tputs(tgetstr("rc", NULL), 1, ft_pchar);
-				*e_cmpl &= ~COMPLETION;
-				tmp[0] = 0;
-				if (ft_strrchr(buff, ' ') && (dir = opendir(ft_strrchr(buff, ' ') + 1)))
-				{
-					if (tmp_files)
-						free_tree(tmp_files);
-					tmp_files = NULL;
-					buff[i++] = '/';
-					buff[i] = '\0';
-					index = i;
-					ft_putchar('/');
-				}
-				else
-				{
-					buff[i++] = ' ';
-					buff[i] = '\0';
-					index = i;
-					ft_putchar(' ');
-				}
-				if (dir)
-					closedir(dir);
-				ft_bzero(buff_tmp, 8194);
-			}
+			if (*e_cmpl & COMPLETION && tmp[0] == 10)
+				index = set_complet(&tmp_files, e_cmpl, tmp, buff, &i, buff_tmp);
 		}
 		ft_putchar('\n');
 		if (buff[0] && tmp[0] != -1)
@@ -418,9 +322,9 @@ int		main(__unused int ac, __unused char **av, char **ep)
 				if (!(get_var(env, cmd)))
 					continue ;
 				deal_cmd(cmd, &env, &save);
-				if (files)
-					free_tree(files);
-				files = create_file_tree(getcwd(prompt, 4097));
+					if (files)
+						free_tree(files);
+					files = create_file_tree(getcwd(prompt, 4097));
 				if (tmp_files)
 				{
 					free_tree(tmp_files);

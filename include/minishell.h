@@ -6,14 +6,14 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/07 18:21:44 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/16 20:23:24 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../libft/libft.h"
+# include "libft.h"
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <termios.h>
@@ -97,9 +97,10 @@ void	create_hist(t_hist **begin, char **env);
 
 t_tree	*create_file_tree(char *path);
 int		put_complet(char *str, t_tree *tern, char *tget, int *put);
-int		put_complet2(char *str, t_tree *tern, char *tget, int *put);
 t_tree	*create_tree(char **env);
 void	free_tree(t_tree *tern);
 void	reset_put(t_tree *tern);
+int		deal_complet(t_tree *file, char *buff, char *buff_tmp, char *tmp, int *i, t_st *e_cmpl);
+int		set_complet(t_tree **file, t_st *e_cmpl, char *tmp, char *buff, int *i, char *buff_tmp);
 
 #endif
