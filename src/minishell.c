@@ -3,14 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/11 13:06:22 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/18 03:04:44 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+# include <stdio.h>
+
+#include "minishell.h"
+#include "token.h"
+#include "command.h"
 
 int		cmp_strpart(char *src, char *str, int *beg)
 {
@@ -123,8 +127,8 @@ int		main(__unused int ac, __unused char **av, char **ep)
 	char	*line;
 	char	**env;
 	int		i;
-	char	**parse;
-	char	**cmd;
+	// char	**parse;
+	// char	**cmd;
 	char	prompt[4097];
 	char	tmp[10];
 	struct termios	save;
@@ -409,27 +413,33 @@ int		main(__unused int ac, __unused char **av, char **ep)
 		if (buff[0] && tmp[0] != -1)
 		{
 			deal_commande(index, buff, buff_tmp, &curr, env);
-			parse = NULL;
-			parse = ft_strsplit(buff, ';');
-			i = -1;
-			while (parse && parse[++i])
-			{
-				cmd = ft_strsplit_ws(parse[i]);
-				if (!(get_var(env, cmd)))
-					continue ;
-				deal_cmd(cmd, &env, &save);
-				if (files)
-					free_tree(files);
-				files = create_file_tree(getcwd(prompt, 4097));
-				if (tmp_files)
-				{
-					free_tree(tmp_files);
-					tmp_files = NULL;
-				}
-				free_tab(&cmd);
-			}
-			if (parse)
-				free_tab(&parse);
+			t_token	*tokens = get_tokens(buff);
+			for(t_token*ptr=tokens;ptr;ptr=ptr->next)
+				printf("-------------------------------------------\n"
+				"rights: %d\n"
+				"command: %s\n", ptr->rights, ptr->command);
+			parse_commands(tokens);
+			// parse = NULL;
+			// parse = ft_strsplit(buff, ';');
+			// i = -1;
+			// while (parse && parse[++i])
+			// {
+			// 	cmd = ft_strsplit_ws(parse[i]);
+			// 	if (!(get_var(env, cmd)))
+			// 		continue ;
+			// 	deal_cmd(cmd, &env, &save);
+			// 	if (files)
+			// 		free_tree(files);
+			// 	files = create_file_tree(getcwd(prompt, 4097));
+			// 	if (tmp_files)
+			// 	{
+			// 		free_tree(tmp_files);
+			// 		tmp_files = NULL;
+			// 	}
+			// 	free_tab(&cmd);
+			// }
+			// if (parse)
+			// 	free_tab(&parse);
 		}
 	}
 	return (0);
