@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/18 03:19:49 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/18 19:21:44 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft.h"
 #include "token.h"
 
-static t_token	*new_token(char rights, char *command)
+static t_token	*new_token(char rights, char *line)
 {
 	t_token		*ret;
 
@@ -22,7 +22,8 @@ static t_token	*new_token(char rights, char *command)
 	if (ret == NULL)
 		return (NULL);
 	ret->rights = rights;
-	ret->command = command;
+	ret->line = line;
+	ret->head = (t_cmd *)0;
 	ret->next = (t_token *)0;
 	return (ret);
 }
@@ -60,7 +61,7 @@ static t_token	*check_tokens(const char *buff, t_var *var, t_token *ptr)
 	return (ptr);
 }
 
-t_token			*get_tokens(const char *buff)
+t_token			*get_tokens(char *buff)
 {
 	t_var		var;
     t_token		*ret;
@@ -70,17 +71,19 @@ t_token			*get_tokens(const char *buff)
 	var.rights = EXECUTE;
 	ret = (t_token *)0;
 	ptr = ret;
-	while (buff[var.i])
+	while (buff[var.i] && buff[var.i] != '#')
 	{
 		if (buff[var.i] != '\\')
 		{
 			ptr = check_tokens(buff, &var, ptr);
 			if (!ret)
 				ret = ptr;
+			var.i++;
 		}
 		else if (var.quoted != '\'')
-			var.i++;
-		var.i++;
+			var.i += 2;
+		else if (buff[var.i + 1] == '\n')
+			ft_strcpy(buff + var.i, buff + var.i + 2);
 	}
 	ptr = fill_token(ptr, buff, &var, EXECUTE, 0);
     return ((ret) ? ret : ptr);
