@@ -6,13 +6,27 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/18 02:03:46 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/18 02:47:25 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/18 20:13:35 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "command.h"
+#include "token.h"
 
-void		parse_commands(t_token *tokens)
+static t_cmd	*parse_line(const char *line)
 {
-	(void)tokens;
+	t_cmd		*cmd;
+
+	cmd = (t_cmd *)0;
+	if (!line || !*line)
+		return (t_cmd *)(0);
+	return (cmd);
+}
+
+void		get_commands(t_token *tokens)
+{
+	while (tokens)
+	{
+		tokens->head = parse_line(tokens->line);
+		tokens = tokens->next;
+	}
 }
