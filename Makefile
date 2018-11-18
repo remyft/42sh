@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rfontain <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/10/27 13:38:24 by rfontain         ###   ########.fr        #
+#    Updated: 2018/11/18 02:49:03 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ LIB = $(LIB_PATH)/libft.a
 LIB_LINK = -L $(LIB_PATH) -lft -lncurses
 
 INC_DIR = include
-INCS = -I $(LIB_PATH)/ -I $(INC_DIR)
+INCS = -I $(LIB_PATH) -I $(INC_DIR)
 
 SRCS_DIR = src/
 SRCS =	minishell.c			\
@@ -37,6 +37,8 @@ SRCS =	minishell.c			\
 		exec.c				\
 		termcaps.c			\
 		ternary.c			\
+		get_tokens.c		\
+		parse_commands.c
 
 OK =      $(GREEN)[OK]$(RESET)		
 
@@ -47,19 +49,31 @@ CFLAGS +=  -Wall -Wextra -Werror
 OBJS_DIR = objs/
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 
-all: $(OBJS_DIR) $(NAME)
+DEPS_DIR = .deps/
+DEPS = $(addprefix $(DEPS_DIR), $(SRCS:.c=.d))
+
+all: $(OBJS_DIR) $(DEPS_DIR) $(NAME)
 
 $(OBJS_DIR):
 	@mkdir -p $@
 
+$(DEPS_DIR):
+	@mkdir -p $@
+
 $(NAME): $(NEWLINE) $(OBJS) $(LIB)
-	@$(CC) $(INCS) $^ -o $@ $(LIB_LINK)
+	@$(CC) $^ -o $@ $(LIB_LINK)
 	@echo ""
 	@echo $(GREY)" Compilling" $(RESET) [ $(NAME) ] $(OK)
 
-$(OBJS_DIR)%.o: $(SRCS_DIR)%.c
+$(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) $(CFLAGS) $(INC) -o $@ -c $< 
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(FLAGS) -o $@ -c $< $(INCS)
+	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
+
+$(DEPS_DIR)%.d: ;
+.PRECIOUS: $@
+
+-include $(DEPS)
 
 $(LIB):
 	@echo ""
@@ -68,6 +82,7 @@ $(LIB):
 
 clean:
 	@$(RM) $(OBJS_DIR)
+	@$(RM) $(DEPS_DIR)
 	@make -C $(LIB_PATH) clean
 	@echo $(GREY)" Cleaning :" $(RESET) [ $(NAME) ] $(OK)
 
