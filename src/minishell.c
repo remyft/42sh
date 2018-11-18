@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/18 03:04:44 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/18 20:26:45 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 #include "minishell.h"
 #include "token.h"
-#include "command.h"
 
 int		cmp_strpart(char *src, char *str, int *beg)
 {
@@ -127,8 +126,6 @@ int		main(__unused int ac, __unused char **av, char **ep)
 	char	*line;
 	char	**env;
 	int		i;
-	// char	**parse;
-	// char	**cmd;
 	char	prompt[4097];
 	char	tmp[10];
 	struct termios	save;
@@ -164,7 +161,7 @@ int		main(__unused int ac, __unused char **av, char **ep)
 	nb_read = 0;
 	signal(SIGINT, &sig_hdlr);
 	signal(SIGQUIT, &sig_hdlr);
-	tputs(tgetstr("cl", NULL), 1, ft_pchar);
+	tputs(tgetstr("cl", NULL), 1, &ft_pchar);
 	ft_bzero(buff_tmp, 8194);
 	bin = create_tree(env);
 	files = create_file_tree(".");
@@ -218,8 +215,8 @@ int		main(__unused int ac, __unused char **av, char **ep)
 			{
 				if (*e_cmpl & COMPLETION)
 				{
-					tputs(tgetstr("cr", NULL), 1, ft_pchar);
-					tputs(tgetstr("cd", NULL), 1, ft_pchar);
+					tputs(tgetstr("cr", NULL), 1, &ft_pchar);
+					tputs(tgetstr("cd", NULL), 1, &ft_pchar);
 					put_prompt();
 					ft_bzero(buff, i);
 					ft_strcpy(buff, buff_tmp);
@@ -251,11 +248,11 @@ int		main(__unused int ac, __unused char **av, char **ep)
 			{
 				if (*e_cmpl & COMPLETION)
 				{
-					tputs(tgetstr("sc", NULL), 1, ft_pchar);
-					tputs(tgetstr("do", NULL), 1, ft_pchar);
-					tputs(tgetstr("cr", NULL), 1, ft_pchar);
-					tputs(tgetstr("cd", NULL), 1, ft_pchar);
-					tputs(tgetstr("rc", NULL), 1, ft_pchar);
+					tputs(tgetstr("sc", NULL), 1, &ft_pchar);
+					tputs(tgetstr("do", NULL), 1, &ft_pchar);
+					tputs(tgetstr("cr", NULL), 1, &ft_pchar);
+					tputs(tgetstr("cd", NULL), 1, &ft_pchar);
+					tputs(tgetstr("rc", NULL), 1, &ft_pchar);
 					*e_cmpl &= ~COMPLETION;
 					ft_bzero(buff_tmp, 8194);
 				}
@@ -287,10 +284,10 @@ int		main(__unused int ac, __unused char **av, char **ep)
 				*e_cmpl |= COMPLETION;
 				if (!ft_strchr(buff, ' '))
 				{
-					tputs(tgetstr("sc", NULL), 1, ft_pchar);
-					tputs(tgetstr("do", NULL), 1, ft_pchar);
-					tputs(tgetstr("cr", NULL), 1, ft_pchar);
-					tputs(tgetstr("cd", NULL), 1, ft_pchar);
+					tputs(tgetstr("sc", NULL), 1, &ft_pchar);
+					tputs(tgetstr("do", NULL), 1, &ft_pchar);
+					tputs(tgetstr("cr", NULL), 1, &ft_pchar);
+					tputs(tgetstr("cd", NULL), 1, &ft_pchar);
 					if (!buff_tmp[8193])
 					{
 						ft_strcpy(buff_tmp, buff);
@@ -300,21 +297,21 @@ int		main(__unused int ac, __unused char **av, char **ep)
 						put = 1;
 					if (put_complet2(buff_tmp, bin, buff, &put))
 						tmp[0] = 10;
-					tputs(tgetstr("rc", NULL), 1, ft_pchar);
-					tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3), 1, ft_pchar);
+					tputs(tgetstr("rc", NULL), 1, &ft_pchar);
+					tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3), 1, &ft_pchar);
 					j = -1;
 					while (++j < i)
-						tputs(tgetstr("dc", NULL), 1, ft_pchar);
+						tputs(tgetstr("dc", NULL), 1, &ft_pchar);
 					ft_putstr(buff);
 					index = ft_strlen(buff);
 					i = index;
 				}
 				else if (!ft_strchr(ft_strrchr(buff, ' '), '/'))
 				{
-					tputs(tgetstr("sc", NULL), 1, ft_pchar);
-					tputs(tgetstr("do", NULL), 1, ft_pchar);
-					tputs(tgetstr("cr", NULL), 1, ft_pchar);
-					tputs(tgetstr("cd", NULL), 1, ft_pchar);
+					tputs(tgetstr("sc", NULL), 1, &ft_pchar);
+					tputs(tgetstr("do", NULL), 1, &ft_pchar);
+					tputs(tgetstr("cr", NULL), 1, &ft_pchar);
+					tputs(tgetstr("cd", NULL), 1, &ft_pchar);
 					if (!buff_tmp[8193])
 					{
 						ft_strcpy(buff_tmp, buff);
@@ -329,11 +326,11 @@ int		main(__unused int ac, __unused char **av, char **ep)
 						*e_cmpl &= ~COMPLETION;
 						tmp[0] = 0;
 					}
-					tputs(tgetstr("rc", NULL), 1, ft_pchar);
-					tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3), 1, ft_pchar);
+					tputs(tgetstr("rc", NULL), 1, &ft_pchar);
+					tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3), 1, &ft_pchar);
 					j = -1;
 					while (++j < i)
-						tputs(tgetstr("dc", NULL), 1, ft_pchar);
+						tputs(tgetstr("dc", NULL), 1, &ft_pchar);
 					ft_putstr(buff);
 					index = ft_strlen(buff);
 					i = index;
@@ -349,10 +346,10 @@ int		main(__unused int ac, __unused char **av, char **ep)
 					}
 					if (tmp_files)
 					{
-						tputs(tgetstr("sc", NULL), 1, ft_pchar);
-						tputs(tgetstr("do", NULL), 1, ft_pchar);
-						tputs(tgetstr("cr", NULL), 1, ft_pchar);
-						tputs(tgetstr("cd", NULL), 1, ft_pchar);
+						tputs(tgetstr("sc", NULL), 1, &ft_pchar);
+						tputs(tgetstr("do", NULL), 1, &ft_pchar);
+						tputs(tgetstr("cr", NULL), 1, &ft_pchar);
+						tputs(tgetstr("cd", NULL), 1, &ft_pchar);
 						if (!buff_tmp[8193])
 						{
 							ft_strcpy(buff_tmp, buff);
@@ -367,11 +364,11 @@ int		main(__unused int ac, __unused char **av, char **ep)
 							*e_cmpl &= ~COMPLETION;
 							tmp[0] = 0;
 						}
-						tputs(tgetstr("rc", NULL), 1, ft_pchar);
-						tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3), 1, ft_pchar);
+						tputs(tgetstr("rc", NULL), 1, &ft_pchar);
+						tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3), 1, &ft_pchar);
 						j = -1;
 						while (++j < i)
-							tputs(tgetstr("dc", NULL), 1, ft_pchar);
+							tputs(tgetstr("dc", NULL), 1, &ft_pchar);
 						ft_putstr(buff);
 						index = ft_strlen(buff);
 						i = index;
@@ -380,11 +377,11 @@ int		main(__unused int ac, __unused char **av, char **ep)
 			}
 			if (*e_cmpl & COMPLETION && nb_read == 1 && tmp[0] == 10)
 			{
-				tputs(tgetstr("sc", NULL), 1, ft_pchar);
-				tputs(tgetstr("do", NULL), 1, ft_pchar);
-				tputs(tgetstr("cr", NULL), 1, ft_pchar);
-				tputs(tgetstr("cd", NULL), 1, ft_pchar);
-				tputs(tgetstr("rc", NULL), 1, ft_pchar);
+				tputs(tgetstr("sc", NULL), 1, &ft_pchar);
+				tputs(tgetstr("do", NULL), 1, &ft_pchar);
+				tputs(tgetstr("cr", NULL), 1, &ft_pchar);
+				tputs(tgetstr("cd", NULL), 1, &ft_pchar);
+				tputs(tgetstr("rc", NULL), 1, &ft_pchar);
 				*e_cmpl &= ~COMPLETION;
 				tmp[0] = 0;
 				if (ft_strrchr(buff, ' ') && (dir = opendir(ft_strrchr(buff, ' ') + 1)))
@@ -417,8 +414,8 @@ int		main(__unused int ac, __unused char **av, char **ep)
 			for(t_token*ptr=tokens;ptr;ptr=ptr->next)
 				printf("-------------------------------------------\n"
 				"rights: %d\n"
-				"command: %s\n", ptr->rights, ptr->command);
-			parse_commands(tokens);
+				"command: %s\n", ptr->rights, ptr->line);
+			get_commands(tokens);
 			// parse = NULL;
 			// parse = ft_strsplit(buff, ';');
 			// i = -1;

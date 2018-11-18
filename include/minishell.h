@@ -6,19 +6,19 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/17 19:23:28 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/18 20:25:24 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "libft.h"
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <termios.h>
 # include <term.h>
 # include <dirent.h>
+# include "libft.h"
 
 typedef struct			s_history
 {
