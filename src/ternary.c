@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 19:07:11 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/16 21:41:36 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/18 03:21:52 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,6 +251,16 @@ void	reset_put(t_tree *tern)
 		tern->tput = 0;
 }
 
+void	deal_reset(t_tree *tree1, t_tree *tree2, t_tree *tree3)
+{
+	if (tree1)
+		reset_put(tree1);
+	if (tree2)
+		reset_put(tree2);
+	if (tree3)
+		reset_put(tree3);
+}
+
 void	get_put(t_tree *tern, int *ret, char c)
 {
 	if (tern->left)
@@ -487,22 +497,22 @@ t_tree	*create_file_tree(char *path)
 	return (tern);
 }
 
-void	free_tree(t_tree *tern)
+void	*free_tree(t_tree *tern)
 {
-	if (tern->left)
-		free_tree(tern->left);
-	if (tern->right)
-		free_tree(tern->right);
-	if (tern->tern_next)
-		free_tree(tern->tern_next);
 	if (tern)
 	{
+		if (tern->left)
+			free_tree(tern->left);
+		if (tern->right)
+			free_tree(tern->right);
+		if (tern->tern_next)
+			free_tree(tern->tern_next);
 		free(tern);
-		tern = NULL;
 	}
+	return (NULL);
 }
 
-int		deal_complet(t_tree *file, char *buff, char *buff_tmp, char *tmp, int *i, t_st *e_cmpl)
+static int		deal_complet(t_tree *file, char *buff, char *buff_tmp, char *tmp, int *i, t_st *e_cmpl)
 {
 	int		put;
 	int		j;
@@ -568,4 +578,38 @@ int		set_complet(t_tree **file, t_st *e_cmpl, char *tmp, char *buff, int *i, cha
 		closedir(dir);
 	ft_bzero(buff_tmp, 8194);
 	return (*i);
+}
+
+t_tree	*set_tmp(char *buff)
+{
+	t_tree	*file;
+	char	*stmp;
+
+	stmp = ft_strrchr(buff, ' ') + 1;
+	stmp = ft_strndup(stmp, ft_strrchr(stmp, '/') - stmp);
+	file = create_file_tree(stmp);
+	free(stmp);
+	return (file);
+}
+
+int		inprint(char *str)
+{
+	int i;
+
+	i = -1;
+	while (str[++i])
+		if (ft_isprint(str[i]))
+			return(1);
+	return (0);
+}
+
+void	get_complet(t_line *line)
+{
+	if (!inprint(line->buff))
+		return ;
+	if (!ft_strchr(line->buff, ' ') || !ft_strchr(ft_strrchr(line->buff, ' '), '/'))
+		line->index = deal_complet(!ft_strchr(line->buff, ' ') ? line->tree[0] : line->tree[1], line->buff, line->buff_tmp, line->tmp, &(line->len), line->e_cmpl);
+	else
+		if (line->tree[2] || (line->tree[2] = set_tmp(line->buff)))
+			line->index = deal_complet(line->tree[2], line->buff, line->buff_tmp, line->tmp, &(line->len), line->e_cmpl);
 }

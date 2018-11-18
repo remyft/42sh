@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/16 20:23:24 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/18 03:02:16 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,25 @@ typedef enum		e_state
 	COMPLETION = 1 << 0,
 }					t_st;
 
+typedef struct		s_line
+{
+	char			buff[8193];
+	char			buff_tmp[8194];
+	char			tmp[10];
+	int				index;
+	int				len;
+	t_hist			*curr;
+	t_st			*e_cmpl;
+	t_tree			*tree[3];
+	struct termios	save;
+}					t_line;
+
+typedef struct		s_fctn
+{
+	char			*key;
+	void			(*f)(t_line*);
+}					t_fctn;
+
 typedef struct		s_select
 {
 	t_tree				*mln;
@@ -72,35 +91,39 @@ void	ft_cd(char ***env, char **cmd);
 
 int		ft_exec(char **env, char **cmd, struct termios *save);
 
+void	put_prompt(void);
+
 /* termcaps */
 
 int		ft_pchar(int nb);
 void	term_restore(struct termios save);
 void	define_new_term(struct termios *save);
-int		go_home(int index);
-int		go_end(int index, int len);
-void	left_arrow(int *index);
-void	right_arrow(int *index, int i);
-int		up_arrow(int *index, char *buff, char *buff_tmp, t_hist **curr);
-int		down_arrow(int *index, char *buff, char *buff_tmp, t_hist **curr);
-void	ft_exit2(struct termios save, t_hist **begin);
-int		ft_cancel(int index, int i, char *buff_tmp, t_hist **curr);
-void	del_lines(int index, int len, int nb_col);
-int		del_left(int *index, char *buff, char *buff_tmp, t_hist *curr);
-void	del_right(int index, int *i, char *buff);
-void	ft_clear(char *buff);
-void	next_word(int *index, int len, char *buff);
-void	prev_word(int *index, int len, char *buff);
+void	go_home(t_line *line);
+void	go_end(t_line *line);
+void	left_arrow(t_line *line);
+void	right_arrow(t_line *line);
+void	up_arrow(t_line *line);
+void	down_arrow(t_line *line);
+void	ft_exit2(t_line *line);
+void	deal_cancel(t_line *line);
+void	del_lines(t_line *line);
+void	deal_dleft(t_line *line);
+void	del_right(t_line *line);
+void	ft_clear(t_line *line);
+void	next_word(t_line *line);
+void	prev_word(t_line *line);
 int		get_typing(int *index, char *buff, char *tmp, int nb_read, char *buff_tmp);
 void	deal_commande(int index, char *buff, char *buff_tmp, t_hist **curr, char **env);
 void	create_hist(t_hist **begin, char **env);
+void	delete_down(void);
 
 t_tree	*create_file_tree(char *path);
 int		put_complet(char *str, t_tree *tern, char *tget, int *put);
 t_tree	*create_tree(char **env);
-void	free_tree(t_tree *tern);
+void	*free_tree(t_tree *tern);
 void	reset_put(t_tree *tern);
-int		deal_complet(t_tree *file, char *buff, char *buff_tmp, char *tmp, int *i, t_st *e_cmpl);
+void	deal_reset(t_tree *tree1, t_tree *tree2, t_tree *tree3);
+void	get_complet(t_line *line);
 int		set_complet(t_tree **file, t_st *e_cmpl, char *tmp, char *buff, int *i, char *buff_tmp);
 
 #endif
