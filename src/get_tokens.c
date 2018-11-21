@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/21 23:42:17 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/21 23:54:19 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,14 @@ static size_t	tokenize(t_token **tail, const char *buff, size_t i, char *q)
 	else if ((*buff == '\'' || *buff == '"'))
 	{
 		*q = *buff;
-		start_of_token(*tail, WORD, i);
+		start_of_token(*tail, WORD, i + 1);
 	}
 	else if (!ft_isspace(*buff) || *buff == '\n')
 	{
+		if ((*tail)->type & END_OF_INPUT && ft_strchr(OPERATORS, *buff))
+			start_of_token(*tail, OPERATOR, i);
 		if ((*tail)->type & END_OF_INPUT)
-			start_of_token(*tail,
-			(ft_strchr(OPERATORS, *buff)) ? OPERATOR : WORD, i);
+			start_of_token(*tail, (*buff == '\n') ? NEWLINE : WORD, i);
 		if (ft_strchr(OPERATORS, *buff) ||
 			(*buff == '-' && (*tail)->type & OPERATOR))
 		{
@@ -86,7 +87,7 @@ t_token			*get_tokens(const char *buff, size_t i, char quoted)
 		else if (quoted && buff[i] == quoted)
 		{
 			quoted = 0;
-			tail = end_of_token(tail, END_OF_INPUT, i + 1);
+			tail = end_of_token(tail, END_OF_INPUT, i);
 		}
 		i++;
 	}
