@@ -6,85 +6,91 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/18 19:21:44 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/21 23:42:17 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <stdio.h>
 #include "libft.h"
 #include "token.h"
 
-static t_token	*new_token(char rights, char *line)
+static t_token	*new_token(size_t type, size_t pos)
 {
-	t_token		*ret;
+	t_token		*new;
 
-	ret = (t_token *)malloc(sizeof(*ret));
-	if (ret == NULL)
-		return (NULL);
-	ret->rights = rights;
-	ret->line = line;
-	ret->head = (t_cmd *)0;
-	ret->next = (t_token *)0;
-	return (ret);
+	new = malloc(sizeof(*new));
+	if (new == (t_token *)0)
+		return ((t_token *)0);
+	new->type = type;
+	new->head = pos;
+	new->tail = pos;
+	new->next = (t_token *)0;
+	return (new);
 }
 
-static t_token	*fill_token(t_token *ptr, const char *buff, t_var *var, \
-							char rights, unsigned int len)
+static void		start_of_token(t_token *token, size_t type, size_t pos)
 {
-	if (ptr == (t_token *)0)
-		ptr = new_token(var->rights, ft_strsub(buff, var->j, var->i - var->j));
-	else
+	token->type = type;
+	token->head = pos;
+	token->tail = pos;
+}
+
+static t_token	*end_of_token(t_token *token, size_t type, size_t pos)
+{
+	token->tail = pos;
+	token->next = new_token(type, pos);
+	return (token->next);
+}
+
+static size_t	tokenize(t_token **tail, const char *buff, size_t i, char *q)
+{
+	if (*buff == '\\')
+		return (i + 1);
+	else if ((*buff == '\'' || *buff == '"'))
 	{
-		ptr->next = new_token(var->rights, ft_strsub(buff, var->j, var->i - var->j));
-		ptr = ptr->next;
+		*q = *buff;
+		start_of_token(*tail, WORD, i);
 	}
-	var->i += len;
-	var->j = var->i + 1;
-	var->rights = rights;
-	return (ptr);
-}
-
-static t_token	*check_tokens(const char *buff, t_var *var, t_token *ptr)
-{
-	if (!var->quoted && (buff[var->i] == '"' || buff[var->i] == '\''))
-		var->quoted = buff[var->i];
-	else if (var->quoted == buff[var->i])
-		var->quoted = 0;
-	if (var->quoted)
-		return (ptr);
-	if (buff[var->i] == ';')
-		ptr = fill_token(ptr, buff, var, EXECUTE, 0);
-	else if (ft_strncmp(buff + var->i, "&&", 2) == 0)
-		ptr = fill_token(ptr, buff, var, EXECUTE_IF_OK, 1);
-	else if (ft_strncmp(buff + var->i, "||", 2) == 0)
-		ptr = fill_token(ptr, buff, var, EXECUTE_IF_NOT, 1);
-	return (ptr);
-}
-
-t_token			*get_tokens(char *buff)
-{
-	t_var		var;
-    t_token		*ret;
-	t_token		*ptr;
-
-	ft_memset(&var, 0, sizeof(var));
-	var.rights = EXECUTE;
-	ret = (t_token *)0;
-	ptr = ret;
-	while (buff[var.i] && buff[var.i] != '#')
+	else if (!ft_isspace(*buff) || *buff == '\n')
 	{
-		if (buff[var.i] != '\\')
+		if ((*tail)->type & END_OF_INPUT)
+			start_of_token(*tail,
+			(ft_strchr(OPERATORS, *buff)) ? OPERATOR : WORD, i);
+		if (ft_strchr(OPERATORS, *buff) ||
+			(*buff == '-' && (*tail)->type & OPERATOR))
 		{
-			ptr = check_tokens(buff, &var, ptr);
-			if (!ret)
-				ret = ptr;
-			var.i++;
+			if ((*tail)->type & WORD)
+				*tail = end_of_token(*tail, OPERATOR, i);
 		}
-		else if (var.quoted != '\'')
-			var.i += 2;
-		else if (buff[var.i + 1] == '\n')
-			ft_strcpy(buff + var.i, buff + var.i + 2);
+		else if ((*tail)->type & OPERATOR)
+			*tail = end_of_token(*tail, WORD, i);
 	}
-	ptr = fill_token(ptr, buff, &var, EXECUTE, 0);
-    return ((ret) ? ret : ptr);
+	else if (!((*tail)->type & END_OF_INPUT))
+		*tail = end_of_token(*tail, END_OF_INPUT, i);
+	return (i);
+}
+
+t_token			*get_tokens(const char *buff, size_t i, char quoted)
+{
+	t_token		*head;
+	t_token		*tail;
+
+	if ((head = new_token(END_OF_INPUT, 0)) == (t_token *)0)
+		return ((t_token *)0);
+	tail = head;
+	while (tail && buff[i] && buff[i] != '#')
+	{
+		if (!quoted)
+			i = tokenize(&tail, buff + i, i, &quoted);
+		else if (quoted && buff[i] == quoted)
+		{
+			quoted = 0;
+			tail = end_of_token(tail, END_OF_INPUT, i + 1);
+		}
+		i++;
+	}
+	if (tail)
+		tail->tail = i;
+	return (head);
 }

@@ -6,27 +6,72 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/18 02:03:46 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/18 20:32:22 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/20 23:52:46 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include "libft.h"
 #include "token.h"
 
-static t_cmd	*parse_line(const char *line)
-{
-	t_cmd		*cmd;
+// static int		ft_isspace(char c)
+// {
+// 	return ((c >= 9 && c <= 13) || c == ' ');
+// }
 
-	cmd = (t_cmd *)0;
-	if (!line || !*line)
-		return (t_cmd *)(0);
-	return (cmd);
-}
+// static t_cmd	*new_command(void)
+// {
+// 	t_cmd		*ret;
+
+// 	ret = (t_cmd *)malloc(sizeof(*ret));
+// 	if (!ret)
+// 		return (t_cmd *)(0);
+// 	ft_memset(ret, 0, sizeof(*ret));
+// 	return (ret);
+// }
+
+// static t_cmd	*parse_line(const char *line, unsigned int i, unsigned int j)
+// {
+// 	t_cmd		*cmd;
+
+// 	cmd = (t_cmd *)new_command();
+// 	// if (!line || !*line)
+// 	// 	return (t_cmd *)(0);
+// 	while (line[i])
+// 	{
+// 		while (ft_isspace(line[i]))
+// 			i++;
+// 		j = i;
+// 		if (line[i] == '\'')
+// 		{
+// 			cmd->type |= QUOTED;
+// 			j = ++i;
+// 			while (line[i] != '\'')
+// 				i++;
+// 			cmd->cmd = ft_strsub(line, j, i - j);
+// 			//
+// 		}
+// 		else if (line[i] == '"')
+// 		{
+// 			cmd->type |= DQUOTED;
+// 			j = ++i;
+// 			while (line[i] != '"')
+// 				i++;
+// 			cmd->cmd = ft_strsub(line, j, i - j);
+// 			//
+// 		}
+// 		else if (ft_isdigit(line[i]))
+// 			;
+// 		i++;
+// 	}
+// 	return (cmd);
+// }
 
 void		get_commands(t_token *tokens)
 {
 	while (tokens)
 	{
-		tokens->head = parse_line(tokens->line);
+		// tokens->head = parse_line(tokens->line, 0, 0);
 		tokens = tokens->next;
 	}
 }

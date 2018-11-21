@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/18 20:26:45 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/21 22:24:26 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -410,11 +410,15 @@ int		main(__unused int ac, __unused char **av, char **ep)
 		if (buff[0] && tmp[0] != -1)
 		{
 			deal_commande(index, buff, buff_tmp, &curr, env);
-			t_token	*tokens = get_tokens(buff);
-			for(t_token*ptr=tokens;ptr;ptr=ptr->next)
+			buff[ft_strlen(buff)] = '\n';
+			t_token	*tokens = get_tokens(buff, 0, 0);
+			for(t_token*ptr=tokens;ptr;ptr=ptr->next) {
 				printf("-------------------------------------------\n"
-				"rights: %d\n"
-				"command: %s\n", ptr->rights, ptr->line);
+				"type: %ld head: %ld tail: %ld\n", ptr->type, ptr->head, ptr->tail);
+				write(1, "command: ", 10);
+				write(1, buff + ptr->head, ptr->tail - ptr->head);
+				write(1, "\n", 1);
+			}
 			get_commands(tokens);
 			// parse = NULL;
 			// parse = ft_strsplit(buff, ';');

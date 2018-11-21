@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/11/18 20:24:18 by gbourgeo         ###   ########.fr        #
+#    Updated: 2018/11/21 22:21:47 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ LIB = $(LIB_PATH)/libft.a
 LIB_LINK = -L$(LIB_PATH) -lft -lncurses
 
 INC_DIR = include
-INCS = -I$(LIB_PATH) -I$(INC_DIR)
+INCS = -I$(LIB_PATH)/$(INC_DIR) -I$(INC_DIR)
 
 SRCS_DIR = src/
 SRCS =	minishell.c			\
@@ -38,7 +38,7 @@ SRCS =	minishell.c			\
 		termcaps.c			\
 		ternary.c			\
 		get_tokens.c		\
-		parse_commands.c
+		get_commands.c
 
 OK =      $(GREEN)[OK]$(RESET)		
 
