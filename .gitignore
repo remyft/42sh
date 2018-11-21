@@ -1,1 +1,5 @@
 .vscode/
+.deps/
+21sh
+*/*.a
+**/objs/
