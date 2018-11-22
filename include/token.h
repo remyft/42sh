@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/22 05:23:33 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/22 06:10:36 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define FT_TOKEN_H
 
 #include <stdlib.h>
+#include <stdio.h>
 
 # define NEW_INPUT			(1 << 0)
 # define TOKEN				(1 << 1)
