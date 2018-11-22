@@ -6,11 +6,11 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 22:11:13 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/21 22:11:46 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/22 04:52:09 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int			ft_isspace(char c)
+int			ft_isspace(int c)
 {
 	return ((c >= 9 && c <= 13) || c == ' ');
 }

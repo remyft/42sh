@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/21 22:24:26 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/22 05:28:03 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,10 +189,10 @@ int		main(__unused int ac, __unused char **av, char **ep)
 			//			while (++j < nb_read)
 			//				ft_putnbend(tmp[j], "  ");
 			if (i + (nb_read = read(0, tmp, 10)) < 8192) /* Type and cmd+V */
-				//	{
+			{
 				i = get_typing(&index, buff, tmp, nb_read, buff_tmp);
 			//ft_bzero(buff_tmp, 8194);
-			//	}
+			}
 			if (tmp[0] == '/')
 			{
 				if (tmp_files)
@@ -411,13 +411,13 @@ int		main(__unused int ac, __unused char **av, char **ep)
 		{
 			deal_commande(index, buff, buff_tmp, &curr, env);
 			buff[ft_strlen(buff)] = '\n';
-			t_token	*tokens = get_tokens(buff, 0, 0);
+			t_token	*tokens = get_tokens(buff, 0);
 			for(t_token*ptr=tokens;ptr;ptr=ptr->next) {
 				printf("-------------------------------------------\n"
-				"type: %ld head: %ld tail: %ld\n", ptr->type, ptr->head, ptr->tail);
-				write(1, "command: ", 10);
+				"type: %ld head: %ld tail: %ld quoted:%c\n", ptr->type, ptr->head, ptr->tail, ptr->quoted);
+				write(1, "command: '", 10);
 				write(1, buff + ptr->head, ptr->tail - ptr->head);
-				write(1, "\n", 1);
+				write(1, "'\n", 2);
 			}
 			get_commands(tokens);
 			// parse = NULL;

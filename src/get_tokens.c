@@ -6,89 +6,125 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/21 23:54:19 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/22 05:27:26 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include <stdio.h>
 #include "libft.h"
 #include "token.h"
 
-static t_token	*new_token(size_t type, size_t pos)
+static size_t	define_token(const char c)
+{
+	if (ft_strchr(OPERATORS, c))
+		return (OPERATOR);
+	else if (c == '\n')
+		return (NEWLINE);
+	else if (ft_isspace(c))
+		return (NEW_INPUT);
+	return (TOKEN);
+}
+
+static t_token	*new_token(const char c, size_t pos)
 {
 	t_token		*new;
 
 	new = malloc(sizeof(*new));
 	if (new == (t_token *)0)
 		return ((t_token *)0);
-	new->type = type;
+	new->quoted = 0;
+	new->type = define_token(c);
 	new->head = pos;
 	new->tail = pos;
 	new->next = (t_token *)0;
 	return (new);
 }
 
-static void		start_of_token(t_token *token, size_t type, size_t pos)
+static t_token	*end_of_token(t_token *token, const char c, size_t pos)
 {
-	token->type = type;
-	token->head = pos;
 	token->tail = pos;
+	if (!(token->type & NEW_INPUT))
+	{
+		token->next = new_token(c, pos);
+		return (token->next);
+	}
+	token->type = define_token(c);
+	return (token);
 }
 
-static t_token	*end_of_token(t_token *token, size_t type, size_t pos)
+static t_token	*identify_token(t_token *token, const char *buff, size_t pos)
 {
+	size_t		i;
+
+	if (ft_strchr(OPERATORS, buff[pos]))
+	{
+		i = token->head;
+		printf("OK\n");
+		while (i < token->tail && (ft_isspace(buff[i]) || ft_isdigit(buff[i])))
+			i++;
+		if (i == token->tail)
+			token->type = IO_NUMBER;
+	}
 	token->tail = pos;
-	token->next = new_token(type, pos);
+	token->next = new_token(buff[pos], pos);
 	return (token->next);
 }
 
-static size_t	tokenize(t_token **tail, const char *buff, size_t i, char *q)
+static t_token	*identify_operator(t_token *token, const char *buff, size_t i)
 {
-	if (*buff == '\\')
+	// static t_ope	ope[] = {
+	// 	{ }
+	// };
+
+	token->tail = i;
+	token->next = new_token(buff[i], i);
+	return (token->next);
+}
+
+static size_t	tokenize(t_token **tail, const char *buff, size_t i)
+{
+	if (buff[i] == '\\')
 		return (i + 1);
-	else if ((*buff == '\'' || *buff == '"'))
+	else if ((buff[i] == '\'' || buff[i] == '"'))
 	{
-		*q = *buff;
-		start_of_token(*tail, WORD, i + 1);
+		(*tail)->quoted = buff[i];
+		(*tail)->type = TOKEN;
+		(*tail)->head = i + 1;
 	}
-	else if (!ft_isspace(*buff) || *buff == '\n')
+	else if (!ft_isspace(buff[i]) || buff[i] == '\n')
 	{
-		if ((*tail)->type & END_OF_INPUT && ft_strchr(OPERATORS, *buff))
-			start_of_token(*tail, OPERATOR, i);
-		if ((*tail)->type & END_OF_INPUT)
-			start_of_token(*tail, (*buff == '\n') ? NEWLINE : WORD, i);
-		if (ft_strchr(OPERATORS, *buff) ||
-			(*buff == '-' && (*tail)->type & OPERATOR))
+		if ((*tail)->type & NEW_INPUT)
+			(*tail)->type = define_token(buff[i]);
+		if (buff[i] == '\n')
+			*tail = end_of_token(*tail, buff[i], i);
+		else if (ft_strchr(OPERATORS, buff[i]))
 		{
-			if ((*tail)->type & WORD)
-				*tail = end_of_token(*tail, OPERATOR, i);
+			if (!((*tail)->type & OPERATOR))
+				*tail = end_of_token(*tail, buff[i], i);
 		}
 		else if ((*tail)->type & OPERATOR)
-			*tail = end_of_token(*tail, WORD, i);
+			*tail = identify_operator(*tail, buff, i);
 	}
-	else if (!((*tail)->type & END_OF_INPUT))
-		*tail = end_of_token(*tail, END_OF_INPUT, i);
+	else if (!((*tail)->type & NEW_INPUT))
+		*tail = identify_token(*tail, buff, i);
 	return (i);
 }
 
-t_token			*get_tokens(const char *buff, size_t i, char quoted)
+t_token			*get_tokens(const char *buff, size_t i)
 {
 	t_token		*head;
 	t_token		*tail;
 
-	if ((head = new_token(END_OF_INPUT, 0)) == (t_token *)0)
+	if ((head = new_token(buff[0], 0)) == (t_token *)0)
 		return ((t_token *)0);
 	tail = head;
 	while (tail && buff[i] && buff[i] != '#')
 	{
-		if (!quoted)
-			i = tokenize(&tail, buff + i, i, &quoted);
-		else if (quoted && buff[i] == quoted)
-		{
-			quoted = 0;
-			tail = end_of_token(tail, END_OF_INPUT, i);
-		}
+		if (!tail->quoted)
+			i = tokenize(&tail, buff, i);
+		else if (tail->quoted && buff[i] == tail->quoted)
+			if ((tail = end_of_token(tail, buff[i + 1], i)))
+				tail->head++;
 		i++;
 	}
 	if (tail)

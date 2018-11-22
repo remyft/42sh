@@ -6,13 +6,13 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/11/21 22:21:47 by gbourgeo         ###   ########.fr        #
+#    Updated: 2018/11/22 05:29:33 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 21sh
 
-CC = gcc -g3
+CC = gcc
 
 RM = rm -rf
 
@@ -44,7 +44,9 @@ OK =      $(GREEN)[OK]$(RESET)
 
 NEWLINE = $(shell echo "")
 
-CFLAGS +=  -Wall -Wextra -Werror
+CFLAGS =  -Wall -Wextra -Werror -std=c99
+
+DEBUG = -g3 -fsanitize=address
 
 OBJS_DIR = objs/
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
@@ -65,13 +67,13 @@ $(LIB):
 
 $(NAME): $(OBJS)
 	$(NEWLINE)
-	@$(CC) $^ -o $@ $(LIB_LINK)
+	@$(CC) $^ -o $@ $(LIB_LINK) $(DEBUG)
 	@echo ""
 	@echo $(GREY)" Compilling" $(RESET) [ $(NAME) ] $(OK)
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(FLAGS) -o $@ -c $< $(INCS)
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(DEPS_DIR)%.d: ;
@@ -87,12 +89,12 @@ clean:
 
 fclean: clean
 	@$(RM) $(NAME)
-	@make -C $(LIB_PATH) fclean
+#	@make -C $(LIB_PATH) fclean
 	@echo $(GREY)" Deleting.." $(RESET) [ $(NAME) ] $(OK)
 
 reclean: clean
 	@$(RM) $(NAME)
-	@make -C $(LIB_PATH) fclean
+#	@make -C $(LIB_PATH) fclean
 	@echo $(GREY)" Deleting.." $(RESET) [ $(NAME) ] $(OK)
 	@echo ""
 
