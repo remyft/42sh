@@ -1,38 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_copyuntil.c                                     :+:      :+:    :+:   */
+/*   term_tools.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/17 22:23:17 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/22 02:32:28 by rfontain         ###   ########.fr       */
+/*   Created: 2018/11/22 04:24:51 by rfontain          #+#    #+#             */
+/*   Updated: 2018/11/22 04:43:06 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <unistd.h>
+#include <term.h>
 
-int		ft_copyuntil(char **dst, char *src, char c)
+int			ft_pchar(int nb)
 {
-	int		i;
-	int		count;
-	int		pos;
+	return (write(STDOUT_FILENO, &nb, 1));
+}
 
-	i = 0;
-	count = 0;
-	while (src[i])
-	{
-		if (src[i] == c)
-			break ;
-		i++;
-	}
-	pos = i;
-	if (!(*dst = ft_strnew(i)))
-		return (0);
-	while (src[count] && count < i)
-	{
-		(*dst)[count] = src[count];
-		count++;
-	}
-	return (pos);
+void	delete_down(void)
+{
+	tputs(tgetstr("sc", NULL), 1, ft_pchar);
+	tputs(tgetstr("do", NULL), 1, ft_pchar);
+	tputs(tgetstr("cr", NULL), 1, ft_pchar);
+	tputs(tgetstr("cd", NULL), 1, ft_pchar);
+	tputs(tgetstr("rc", NULL), 1, ft_pchar);
 }

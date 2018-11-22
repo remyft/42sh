@@ -6,7 +6,11 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/04 23:07:03 by rfontain          #+#    #+#             */
+<<<<<<< HEAD:libft/include/libft.h
 /*   Updated: 2018/11/22 04:51:56 by gbourgeo         ###   ########.fr       */
+=======
+/*   Updated: 2018/11/22 03:12:25 by rfontain         ###   ########.fr       */
+>>>>>>> master:libft/libft.h
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,5 +145,6 @@ char				*strnjoin(char *str1, char *str2, int n);
 char				*stercat(char *src1, char *src2, char *dest);
 char				*ft_strnchr(const char *str, char c, int n);
 char				*ft_strndup(char *str, int nb);
+void				ft_putchars(char c, int nb);
 
 #endif

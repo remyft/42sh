@@ -6,7 +6,11 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/27 19:43:45 by rfontain          #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2018/11/21 22:17:04 by gbourgeo         ###   ########.fr        #
+=======
+#    Updated: 2018/11/22 02:55:56 by rfontain         ###   ########.fr        #
+>>>>>>> master
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +50,11 @@ SRCS =	ft_memalloc.c		ft_putendl.c		ft_strcpy.c			\
 		ft_putnbr_cl.c		ft_putendl_cl.c		ft_putend_cl.c		\
 		ft_strlen_ch.c		ft_free.c			strdup_until.c		\
 		strnjoin.c			stercat.c			ft_strnchr.c		\
+<<<<<<< HEAD
 		ft_strndup.c		ft_isspace.c
+=======
+		ft_strndup.c		ft_putchars.c
+>>>>>>> master
 
 INC = include/ 
 
