@@ -1,38 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_copyuntil.c                                     :+:      :+:    :+:   */
+/*   ft_putchars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/17 22:23:17 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/22 02:32:28 by rfontain         ###   ########.fr       */
+/*   Created: 2018/11/22 02:56:07 by rfontain          #+#    #+#             */
+/*   Updated: 2018/11/22 02:57:02 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <unistd.h>
 
-int		ft_copyuntil(char **dst, char *src, char c)
+void	ft_putchars(char c, int nb)
 {
-	int		i;
-	int		count;
-	int		pos;
-
-	i = 0;
-	count = 0;
-	while (src[i])
-	{
-		if (src[i] == c)
-			break ;
-		i++;
-	}
-	pos = i;
-	if (!(*dst = ft_strnew(i)))
-		return (0);
-	while (src[count] && count < i)
-	{
-		(*dst)[count] = src[count];
-		count++;
-	}
-	return (pos);
+	while (nb--)
+		write(1, &c, 1);
 }

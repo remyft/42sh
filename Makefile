@@ -6,13 +6,13 @@
 #    By: rfontain <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/11/16 18:21:34 by rfontain         ###   ########.fr        #
+#    Updated: 2018/11/22 05:31:44 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 21sh
 
-CC = gcc -g3
+CC = gcc
 
 RM = rm -rf
 
@@ -29,20 +29,49 @@ INC_DIR = include
 INCS = -I $(LIB_PATH)/ -I $(INC_DIR)
 
 SRCS_DIR = src/
+
+CMPL_DIR = $(SRCS_DIR)completion/
+
+TERM_DIR = $(SRCS_DIR)termcaps/
+
+BUIL_DIR = $(SRCS_DIR)builtin/
+
+OTHR_DIR = $(SRCS_DIR)other/
+
 SRCS =	minishell.c			\
 		deal_commande.c		\
 		tools.c				\
 		setenv_builtin.c	\
 		cd_builtin.c		\
 		exec.c				\
-		termcaps.c			\
-		ternary.c			\
+
+#COMPLETION
+SRCS +=	create_tree.c		\
+		deal_completion.c	\
+		put_completion.c	\
+		put_select_tools.c	\
+		put_tree_tools.c	\
+		tree_tools.c		\
+		reset_tree.c		\
+
+#TERMCAPS
+SRCS += term_properties.c	\
+		move_cursor.c		\
+		term_tools.c		\
+		history.c			\
+		move_history.c		\
+		control.c			\
+		delete.c			\
+		move_word.c			\
+		typing.c			\
 
 OK =      $(GREEN)[OK]$(RESET)		
 
 NEWLINE = $(shell echo "")
 
 CFLAGS +=  -Wall -Wextra -Werror
+
+DEBUG += -fsanitize=address
 
 OBJS_DIR = objs/
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
@@ -53,11 +82,27 @@ $(OBJS_DIR):
 	@mkdir -p $@
 
 $(NAME): $(NEWLINE) $(OBJS) $(LIB)
-	@$(CC) $^ -o $@ $(LIB_LINK)
+	@$(CC) $^ -o $@ $(LIB_LINK) $(DEBUG)
 	@echo ""
 	@echo $(GREY)" Compilling" $(RESET) [ $(NAME) ] $(OK)
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
+	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
+	$(CC) $(CFLAGS) $(INCS) -o $@ -c $< 
+
+$(OBJS_DIR)%.o: $(CMPL_DIR)%.c
+	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
+	$(CC) $(CFLAGS) $(INCS) -o $@ -c $< 
+
+$(OBJS_DIR)%.o: $(BUIL_DIR)%.c
+	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
+	$(CC) $(CFLAGS) $(INCS) -o $@ -c $< 
+
+$(OBJS_DIR)%.o: $(TERM_DIR)%.c
+	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
+	$(CC) $(CFLAGS) $(INCS) -o $@ -c $< 
+
+$(OBJS_DIR)%.o: $(OTHR_DIR)%.c
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
 	$(CC) $(CFLAGS) $(INCS) -o $@ -c $< 
 

@@ -1,38 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_copyuntil.c                                     :+:      :+:    :+:   */
+/*   reset_tree.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/17 22:23:17 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/22 02:32:28 by rfontain         ###   ########.fr       */
+/*   Created: 2018/11/22 03:06:40 by rfontain          #+#    #+#             */
+/*   Updated: 2018/11/22 03:15:52 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "struct.h"
 
-int		ft_copyuntil(char **dst, char *src, char c)
+void	reset_put(t_tree *tern)
 {
-	int		i;
-	int		count;
-	int		pos;
+	if (tern->left)
+		reset_put(tern->left);
+	if (tern->right)
+		reset_put(tern->right);
+	if (tern->tern_next)
+		reset_put(tern->tern_next);
+	if (tern && !tern->tern_next)
+		tern->tput = 0;
+}
 
-	i = 0;
-	count = 0;
-	while (src[i])
-	{
-		if (src[i] == c)
-			break ;
-		i++;
-	}
-	pos = i;
-	if (!(*dst = ft_strnew(i)))
-		return (0);
-	while (src[count] && count < i)
-	{
-		(*dst)[count] = src[count];
-		count++;
-	}
-	return (pos);
+void	deal_reset(t_tree *tree1, t_tree *tree2, t_tree *tree3)
+{
+	if (tree1)
+		reset_put(tree1);
+	if (tree2)
+		reset_put(tree2);
+	if (tree3)
+		reset_put(tree3);
 }

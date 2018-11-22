@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/18 03:22:56 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/22 05:18:04 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,15 +98,6 @@ static void sig_hdlr(int sig)
 	(void)sig;
 }
 
-void	put_prompt(void)
-{
-	char	prompt[4097];
-
-	ft_putstr(RESET);
-	ft_putend_cl(ft_strrchr(getcwd(prompt, 4097), '/') + 1, RED,  " $> ", BLUE);
-	ft_putstr(WHITE);
-}
-
 int		main(__unused int ac, __unused char **av, char **ep)
 {
 	t_line	*line;
@@ -124,7 +115,7 @@ int		main(__unused int ac, __unused char **av, char **ep)
 	static t_fctn	fctn[] = {
 		{ "\x2" , &prev_word },
 		{ "\x3" , &deal_cancel },
-		{ "\x4" , &ft_exit2 }, 
+		{ "\x4" , &deal_exit }, 
 		{ "\x9" , &get_complet },
 		{ "\xC" , &ft_clear },
 		{ "\x17" , &next_word },
@@ -154,20 +145,22 @@ int		main(__unused int ac, __unused char **av, char **ep)
 	signal(SIGQUIT, &sig_hdlr);
 	tputs(tgetstr("cl", NULL), 1, ft_pchar);
 	ft_bzero(line->buff_tmp, 8194);
-	line->tree[0] = create_tree(env);
+	line->tree[0] = create_bin_tree(env);
 	line->tree[1] = create_file_tree(".");
 	line->tree[2] = NULL;
 	dir = NULL;
 	path = NULL;
+	line->prompt = ft_strdup(ft_strrchr(getcwd(prompt, 4097), '/') + 1);
+	line->nb_col = tgetnum("co");
 	while (1)
 	{
-		put_prompt();
+		put_prompt(line->prompt);
 		ft_bzero(line->buff, 8193);
 		path = get_env(env, "PATH");
 		if (path && ft_strcmp(path, save_path) != 0)
 		{
 			free_tree(line->tree[0]);
-			line->tree[0] = create_tree(env);
+			line->tree[0] = create_bin_tree(env);
 			free(save_path);
 			save_path = ft_strdup(path);
 		}
@@ -194,13 +187,12 @@ int		main(__unused int ac, __unused char **av, char **ep)
 					break ;
 				}
 			if (*(line->e_cmpl) & COMPLETION && line->tmp[0] == 10)
-				line->index = set_complet(&(line->tree[2]), line->e_cmpl, line->tmp, line->buff, &(line->len), line->buff_tmp);
+				set_complet(line);
 		}
-		ft_putchar('\n');
 		if (line->buff[0] && line->tmp[0] != -1)
 		{
 			*(line->e_cmpl) &= ~COMPLETION;
-			deal_commande(line->index, line->buff, line->buff_tmp, &(line->curr), env);
+			save_history(line->index, line->buff, line->buff_tmp, &(line->curr), env);
 			parse = NULL;
 			parse = ft_strsplit(line->buff, ';');
 			i = -1;

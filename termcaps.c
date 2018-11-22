@@ -409,6 +409,11 @@ void	prev_word(int *index, int len, char *buff)
 	tputs(tgoto(tgetstr("ch", NULL), 0, (*index + 3) % nb_col), 1, ft_pchar);
 }
 
+int		ft_isspace(int c)
+{
+	return ((c >= 9 && c <= 13) || c == 32);
+}
+
 int		get_typing(int *index, char *buff, char *tmp, int nb_read)
 {
 	int		len;
@@ -419,7 +424,7 @@ int		get_typing(int *index, char *buff, char *tmp, int nb_read)
 
 	cp = 0;
 	len = ft_strlen(buff);
-	while (cp < nb_read && ft_isprint(tmp[cp]))
+	while (cp < nb_read && (ft_isprint(tmp[cp]) || ft_isspace(tmp[cp])))
 	{
 		tchar = buff[*index + 1];
 		if (*index != len)

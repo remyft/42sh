@@ -1,38 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_copyuntil.c                                     :+:      :+:    :+:   */
+/*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/17 22:23:17 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/22 02:32:28 by rfontain         ###   ########.fr       */
+/*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
+/*   Updated: 2018/11/22 03:15:33 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef STRUCT_H
+# define STRUCT_H
 
-int		ft_copyuntil(char **dst, char *src, char c)
+typedef struct		s_tree
 {
-	int		i;
-	int		count;
-	int		pos;
+	int				value;
+	int				max_len;
+	int				tput;
+	int				npsb;
+	struct s_tree	*left;
+	struct s_tree	*right;
+	struct s_tree	*tern_next;
+}					t_tree;
 
-	i = 0;
-	count = 0;
-	while (src[i])
-	{
-		if (src[i] == c)
-			break ;
-		i++;
-	}
-	pos = i;
-	if (!(*dst = ft_strnew(i)))
-		return (0);
-	while (src[count] && count < i)
-	{
-		(*dst)[count] = src[count];
-		count++;
-	}
-	return (pos);
-}
+typedef struct		s_select
+{
+	t_tree				*mln;
+	struct s_select		*next;
+	struct s_select		*down;
+}					t_slct;
+
+#endif
