@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/11/23 07:21:28 by rfontain         ###   ########.fr        #
+#    Updated: 2018/11/23 08:56:06 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRCS =	minishell.c			\
 		exec.c				\
 		main_tools.c		\
 		signal.c			\
+		singleton.c
 
 #COMPLETION
 CMPL_DIR = $(SRCS_DIR)completion/

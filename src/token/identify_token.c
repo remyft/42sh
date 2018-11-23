@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 22:30:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/23 08:15:07 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/23 08:37:15 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ static size_t	reserved_type(const char *buff, size_t start, size_t end)
 			return (RESERVED_WORD);
 		j++;
 	}
-	write(1, buff + start, end - start);
-	write(1, ": WORD\n", 7);
 	return (WORD);
 }
 

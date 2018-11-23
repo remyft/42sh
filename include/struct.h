@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 06:09:14 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/23 10:17:42 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct		s_line
 	char			buff[8193];
 	char			buff_tmp[8194];
 	char			tmp[10];
+	char			*copy;
 	char			*prompt;
 	char			*path;
 	char			*term;
@@ -67,6 +68,9 @@ typedef struct		s_line
 	t_st			*e_cmpl;
 	t_tree			*tree[3];
 	struct termios	save;
+	char			**env;
 }					t_line;
+
+t_line	*get_struct(void);
 
 #endif

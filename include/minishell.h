@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 06:31:32 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/23 12:17:30 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,9 @@ void	define_new_term(struct termios *save);
 
 void	select_left(t_line *line);
 void	select_right(t_line *line);
+void	ft_copy(t_line *line);
+void	ft_paste(t_line *line);
+void	ft_cut(t_line *line);
 
 /* Completion */
 
@@ -98,5 +101,7 @@ void	*free_tree(t_tree *tern);
 
 void	reset_put(t_tree *tern);
 void	deal_reset(t_tree *tree1, t_tree *tree2, t_tree *tree3);
+
+t_line	*get_struct(void);
 
 #endif

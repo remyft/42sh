@@ -6,19 +6,17 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 07:12:18 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/23 13:07:12 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "main_tools.h"
 
-t_line	*init_line(char **env)
+void	init_line(char **env, t_line *line)
 {
-	t_line	*line;
 	char	prompt[4097];
 
-	line = ft_memalloc(sizeof(t_line));
 	line->e_cmpl = ft_memalloc(sizeof(t_st));
 	line->path = get_env(env, "PATH");
 	line->term = get_env(env, "TERM");
@@ -41,19 +39,17 @@ t_line	*init_line(char **env)
 	line->nb_col = tgetnum("co");
 	line->slct_beg = -1;
 	line->slct_end = -1;
-	return (line);
+	line->env = env;
 }
 
 void	deal_key(t_line *line)
 {
 	int				i;
 	static t_fctn	fctn[] = {
-		{ "\x2" , &prev_word },
 		{ "\x3" , &deal_cancel },
 		{ "\x4" , &deal_exit },
 		{ "\x9" , &get_complet },
 		{ "\xC" , &ft_clear },
-		{ "\x17" , &next_word },
 		{ "\x7F" , &deal_dleft },
 		{ "\x1B\x5B\x41" , &up_arrow },
 		{ "\x1B\x5B\x42" , &down_arrow },
@@ -63,12 +59,14 @@ void	deal_key(t_line *line)
 		{ "\x1B\x5B\x48" , &go_home },
 		{ "\x1B\x5B\x33\x7E" , &del_right },
 		{ "\x1B\x5B\x31\x3B\x32\x44", &select_left},
-		{ "\x1B\x5B\x31\x3B\x32\x43", &select_right} };
+		{ "\x1B\x5B\x31\x3B\x32\x43", &select_right},
+		{ "\x1B\x5B\x31\x3B\x35\x43" , &next_word },
+		{ "\x1B\x5B\x31\x3B\x35\x44" , &prev_word },
+		{ "\xC3\xA7" , &ft_copy },
+		{ "\xE2\x88\x9A" , &ft_paste },
+		{ "\xE2\x89\x88" , &ft_cut } };
 
-	/*i = -1;
-	while (line->tmp[++i])
-		ft_putnbend(line->tmp[i], "  \n");
-*/	i = -1;
+	i = -1;
 	while (++i < (int)(sizeof(fctn) / sizeof(*fctn)))
 		if (ft_strcmp(line->tmp, fctn[i].key) == 0)
 		{
@@ -95,6 +93,7 @@ void	check_path(t_line *line, char **env)
 void	deal_typing(t_line *line)
 {
 	int		nb_read;
+	int		i;
 
 	nb_read = 0;
 	line->len = 0;
@@ -105,6 +104,25 @@ void	deal_typing(t_line *line)
 		ft_bzero(line->tmp, 10);
 		if (line->len + (nb_read = read(0, line->tmp, 10)) < 8192) /* Type and cmd+V */
 			line->len = get_typing(&(line->index), line->buff, line->tmp, nb_read, line->buff_tmp);
+		if (ft_strncmp(line->tmp, "\x1B\x5B\x31\x3B\x32", 5) != 0)
+		{
+			if (line->slct_beg > -1)
+			{
+				i = line->index / line->nb_col + 1;
+				while (i--)
+					tputs(tgetstr("up", NULL), 1, ft_pchar);
+				tputs(tgetstr("cr", NULL), 1, ft_pchar);
+				tputs(tgetstr("cd", NULL), 1, ft_pchar);
+				put_prompt(line->prompt);
+				ft_putstr(line->buff);
+				tputs(tgoto(tgetstr("ch", NULL), 0, (line->index + line->lprompt) % line->nb_col), 1, ft_pchar);
+			}
+			if (ft_strcmp(line->tmp, "\xE2\x89\x88") != 0 &&  ft_strcmp(line->tmp, "\xC3\xA7") != 0)
+			{
+			line->slct_beg = -1;
+			line->slct_end = -1;
+			}
+		}
 		if (is_change)
 			deal_winch(line);
 		line->tmp[nb_read] = '\0';

@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 02:50:11 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/23 10:03:03 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,7 @@ void	deal_exit(t_line *line)
 	t_hist *curr;
 
 	if (line->buff[0])
-	{
-		ft_putendl("GNE");
 		return ;
-	}
 	term_restore(line->save);
 	if (line->tree[0])
 		free_tree(line->tree[0]);
@@ -44,10 +41,9 @@ void	deal_exit(t_line *line)
 
 static int		ft_cancel(t_line *line)
 {
-	line->len = line->len % line->nb_col < line->nb_col ? line->len
-		+ (line->nb_col - line->len % line->nb_col) : line->len;
 	while ((line->index = line->index + line->nb_col) < line->len)
-		ft_putchar('\n');
+		tputs(tgetstr("do", NULL), 1, ft_pchar);
+	tputs(tgoto(tgetstr("ch", NULL), 0, (line->len + line->lprompt) % line->nb_col), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
 	ft_bzero(line->buff_tmp, 8194);
 	if (!line->curr)

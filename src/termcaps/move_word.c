@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:54:35 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 04:13:48 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/23 09:49:57 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	prev_word(t_line *line)
 	lenp = line->lprompt;
 	if (line->index == line->len && line->len != 0)
 		line->index = line->index - 1;
-	if (ft_isprint(line->buff[line->index]) && line->buff[line->index] != ' ' && line->index > 0)
+	else if (ft_isprint(line->buff[line->index]) && line->buff[line->index] != ' ' && line->index > 0)
 		line->index = line->index - 1;
 	while (line->buff[line->index] == ' ')
 		line->index = line->index - 1;

@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/06 05:48:08 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 01:24:54 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/23 09:27:38 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	put_prompt(char *prompt)
 {
 	ft_putstr(RESET);
 	ft_putend_cl(prompt, RED,  " $> ", BLUE);
-	ft_putstr(WHITE);
+	ft_putstr(RESET);
 }
 
 char	*get_line(int fd)
