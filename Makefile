@@ -6,7 +6,7 @@
 #    By: rfontain <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/11/22 05:31:44 by rfontain         ###   ########.fr        #
+#    Updated: 2018/11/22 21:22:36 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,7 +82,7 @@ $(OBJS_DIR):
 	@mkdir -p $@
 
 $(NAME): $(NEWLINE) $(OBJS) $(LIB)
-	@$(CC) $^ -o $@ $(LIB_LINK) $(DEBUG)
+	@$(CC) $^ -o $@ $(LIB_LINK) #$(DEBUG)
 	@echo ""
 	@echo $(GREY)" Compilling" $(RESET) [ $(NAME) ] $(OK)
 

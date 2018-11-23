@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:43:32 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/22 05:01:36 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/22 23:00:22 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	create_hist(t_hist **begin, char **env)
 			curr->begin = *begin;
 		}
 		continu = get_next_line(fd, &(curr->content));
-		curr->c_size = ft_strlen(curr->content);
+		if (curr->content)
+			curr->c_size = ft_strlen(curr->content);
 		if (!continu)
 		{
 			free(curr);

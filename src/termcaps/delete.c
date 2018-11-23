@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:51:36 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/22 04:53:20 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/22 18:22:21 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,11 @@ void	del_lines(t_line *line)
 {
 	int		i;
 	int		j;
-	char	prompt[4097];
 	int		lenp;
-	char	*term;
-	int		nb_col;
 
-	term = getenv("TERM");
-	tgetent(NULL, term);
-	nb_col = tgetnum("co");
-	lenp = ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3;
-	i = (line->index + lenp) / nb_col - 1;
-	j = (line->len + lenp) / nb_col;
+	lenp = ft_strlen(line->prompt) + 4;
+	i = (line->index + lenp) / line->nb_col - 1;
+	j = (line->len + lenp) / line->nb_col;
 	tputs(tgetstr("sc", NULL), 1, ft_pchar);
 	while (++i < j)
 	{
@@ -40,18 +34,12 @@ void	del_lines(t_line *line)
 static void	del_left(t_line *line)
 {
 	int		j;
-	char	*term;
 	int		len;
-	int		nb_col;
-	char	prompt[4097];
 
-	term = getenv("TERM");
-	tgetent(NULL, term);
-	nb_col = tgetnum("co");
 	j = 0;
-	len = ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3;
+	len = ft_strlen(line->prompt) + 4;
 	line->len = ft_strlen(line->buff);
-	if (line->index && (line->index + len) % nb_col == 0)
+	if (line->index && (line->index + len) % line->nb_col == 0)
 		tputs(tgetstr("up", NULL), 1, ft_pchar);
 	if (line->index != 0)
 	{
@@ -63,16 +51,16 @@ static void	del_left(t_line *line)
 		}
 		line->buff[line->len] = '\0';
 		line->len = line->len > 0 ? line->len - 1 : 0;
-		tputs(tgoto(tgetstr("ch", NULL), 0, (line->index + len) % nb_col), 1, ft_pchar);
+		tputs(tgoto(tgetstr("ch", NULL), 0, (line->index + len) % line->nb_col), 1, ft_pchar);
 		tputs(tgetstr("dc", NULL), 1, ft_pchar);
 	}
-	if ((line->index + len) % nb_col == nb_col - 1)
+	if ((line->index + len) % line->nb_col == line->nb_col - 1)
 	{
 		tputs(tgetstr("sc", NULL), 1, ft_pchar);
 		ft_putchar(' ');
 		tputs(tgetstr("rc", NULL), 1, ft_pchar);
 	}
-	if (line->len + len > nb_col - 1)
+	if (line->len + len > line->nb_col - 1)
 	{
 		del_lines(line);
 		tputs(tgetstr("sc", NULL), 1, ft_pchar);
@@ -98,16 +86,11 @@ void	deal_dleft(t_line *line)
 void	del_right(t_line *line)
 {
 	int		j;
-	char	*term;
-	int		nb_col;
 
 	if (*(line->e_cmpl) & COMPLETION)
 		line->tmp[0] = 10;
 	else
 	{
-		term = getenv("TERM");
-		tgetent(NULL, term);
-		nb_col = tgetnum("co");
 		j = -1;
 		while (line->index + ++j < line->len)
 			line->buff[line->index + j] = line->buff[line->index + j + 1];
