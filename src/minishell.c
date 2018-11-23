@@ -6,11 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 06:32:27 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/23 06:37:10 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "main_tools.h"
 #include "token.h"
 
 int		cmp_strpart(char *src, char *str, int *beg)
@@ -98,29 +99,6 @@ int		main(__unused int ac, __unused char **av, char **ep)
 {
 	t_line	*line;
 	char	**env;
-	int		i;
-	char	prompt[4097];
-	int		nb_read;
-	char	*term;
-	int		put;
-	char	*path;
-	char	*save_path;
-	DIR		*dir;
-	static t_fctn	fctn[] = {
-		{ "\x2" , &prev_word },
-		{ "\x3" , &deal_cancel },
-		{ "\x4" , &deal_exit }, 
-		{ "\x9" , &get_complet },
-		{ "\xC" , &ft_clear },
-		{ "\x17" , &next_word },
-		{ "\x7F" , &deal_dleft },
-		{ "\x1B\x5B\x41" , &up_arrow },
-		{ "\x1B\x5B\x42" , &down_arrow },
-		{ "\x1B\x5B\x43" , &right_arrow },
-		{ "\x1B\x5B\x44" , &left_arrow },
-		{ "\x1B\x5B\x46" , &go_end },
-		{ "\x1B\x5B\x48" , &go_home },
-		{ "\x1B\x5B\x33\x7E" , &del_right } };
 
 	env = collect_env(ep);
 	line = init_line(env);
