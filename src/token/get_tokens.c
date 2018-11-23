@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/23 03:24:13 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/23 08:12:45 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,17 @@
 #include "libft.h"
 #include "token.h"
 
-static t_token	*end_of_token(t_token *token, const char c, size_t pos)
+static t_token	*end_of_token(t_token *token, const char *buff, size_t pos)
 {
 	token->tail = pos;
 	if (token->type & NEW_INPUT)
 	{
-		token->type = define_token(c);
+		token->type = (buff[pos] == '\n') ?
+			define_token(buff[pos]) : define_token(buff[pos + 1]);
 		return (token);
 	}
-	token->next = new_token(c, pos);
+	token->next = (buff[pos] == '\n') ?
+		identify_token(token, buff, pos) : new_token(buff[pos + 1], pos);
 	return (token->next);
 }
 
@@ -70,7 +72,7 @@ static size_t	tokenize(t_token **tail, const char *buff, size_t i)
 			*tail = identify_operator(*tail, buff, i);
 	}
 	else if (buff[i] == '\n' && (!((*tail)->type & NEWLINE)))
-		*tail = end_of_token(*tail, buff[i], i);
+		*tail = end_of_token(*tail, buff, i);
 	else if (!((*tail)->type & NEW_INPUT))
 		*tail = identify_token(*tail, buff, i);
 	return (i);
@@ -90,7 +92,7 @@ t_token			*get_tokens(const char *buff, size_t i)
 		if (!tail->quoted)
 			i = tokenize(&tail, buff, i);
 		else if (tail->quoted && buff[i] == tail->quoted)
-			if ((tail = end_of_token(tail, buff[i + 1], i)))
+			if ((tail = end_of_token(tail, buff, i)))
 				tail->head++;
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 22:30:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/23 03:13:03 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/23 08:15:07 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,25 @@ static size_t	reserved_type(const char *buff, size_t start, size_t end)
 	j = 0;
 	while (j < sizeof(reserved) / sizeof(reserved[0]))
 	{
-		printf("%s -> %s\n", reserved[j].name, buff + i);
 		if (!ft_strncmp(reserved[j].name, buff + i, end - i))
 			return (RESERVED_WORD);
 		j++;
 	}
+	write(1, buff + start, end - start);
+	write(1, ": WORD\n", 7);
 	return (WORD);
 }
 
 t_token			*identify_token(t_token *token, const char *buff, size_t pos)
 {
 	token->tail = pos;
-	if (buff[pos] == '<' || buff[pos] == '>')
-		token->type = ionumber_type(buff, token->head, token->tail);
-	else
-		token->type = reserved_type(buff, token->head, token->tail);
+	if (token->type & TOKEN)
+	{
+		if (buff[pos] == '<' || buff[pos] == '>')
+			token->type = ionumber_type(buff, token->head, token->tail);
+		else
+			token->type = reserved_type(buff, token->head, token->tail);
+	}
 	token->next = new_token(buff[pos], pos);
 	return (token->next);
 }
