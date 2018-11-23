@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rfontain <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/27 19:43:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/11/22 02:55:56 by rfontain         ###   ########.fr        #
+#    Updated: 2018/11/22 05:58:43 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ CFLAGS = -Wall -Werror -Wextra
 
 NAME = libft.a
 
+SRCS_D = src/
 SRCS =	ft_memalloc.c		ft_putendl.c		ft_strcpy.c			\
 		ft_strmapi.c		ft_strsub.c			ft_memccpy.c		\
 		ft_putendl_fd.c		ft_strdel.c			ft_strncat.c		\
@@ -45,27 +46,30 @@ SRCS =	ft_memalloc.c		ft_putendl.c		ft_strcpy.c			\
 		ft_putnbr_cl.c		ft_putendl_cl.c		ft_putend_cl.c		\
 		ft_strlen_ch.c		ft_free.c			strdup_until.c		\
 		strnjoin.c			stercat.c			ft_strnchr.c		\
-		ft_strndup.c		ft_putchars.c
+		ft_strndup.c		ft_putchars.c		ft_isspace.c
 
-INC = / 
+INC = include/ 
 
 OK = "ᚕ"
 
+OBJS_D = objs/
+OBJS = $(addprefix $(OBJS_D), $(SRCS:.c=.o))
 
-OBJ = $(SRCS:.c=.o)
+all: $(OBJS_D) $(NAME)
 
-all: $(NAME)
+$(OBJS_D):
+	@mkdir -p $@
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJS)
 	@echo ""
-	@ar rsc $(NAME) $(OBJ)
+	@ar rsc $(NAME) $(OBJS)
 
-%.o: %.c
+$(OBJS_D)%.o: $(SRCS_D)%.c
 	@echo $(OK) | tr -d '\n'
 	@$(CC) $(CFLAGS) -I $(INC) -o $@ -c $?
 
 clean:
-	@rm -f $(OBJ)
+	@rm -rf $(OBJS_D)
 
 fclean: clean
 	@rm -f $(NAME)

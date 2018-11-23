@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 06:25:37 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/23 07:12:18 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ t_line	*init_line(char **env)
 	line->prompt = ft_strdup(ft_strrchr(getcwd(prompt, 4097), '/') + 1);
 	line->lprompt = ft_strlen(line->prompt) + 4;
 	line->nb_col = tgetnum("co");
+	line->slct_beg = -1;
+	line->slct_end = -1;
 	return (line);
 }
 
@@ -59,9 +61,9 @@ void	deal_key(t_line *line)
 		{ "\x1B\x5B\x44" , &left_arrow },
 		{ "\x1B\x5B\x46" , &go_end },
 		{ "\x1B\x5B\x48" , &go_home },
-		{ "\x1B\x5B\x33\x7E" , &del_right } };
-	//	{ "\x1B\x5B\x31\x3B\x32\x44", &select_left},
-	//	{ "\x1B\x5B\x31\x3B\x32\x43", &select_right} };
+		{ "\x1B\x5B\x33\x7E" , &del_right },
+		{ "\x1B\x5B\x31\x3B\x32\x44", &select_left},
+		{ "\x1B\x5B\x31\x3B\x32\x43", &select_right} };
 
 	/*i = -1;
 	while (line->tmp[++i])
