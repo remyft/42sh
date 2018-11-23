@@ -6,7 +6,7 @@
 #    By: rfontain <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/11/22 21:22:36 by rfontain         ###   ########.fr        #
+#    Updated: 2018/11/23 06:24:51 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,8 @@ SRCS =	minishell.c			\
 		setenv_builtin.c	\
 		cd_builtin.c		\
 		exec.c				\
+		main_tools.c		\
+		signal.c			\
 
 #COMPLETION
 SRCS +=	create_tree.c		\
@@ -64,6 +66,7 @@ SRCS += term_properties.c	\
 		delete.c			\
 		move_word.c			\
 		typing.c			\
+#		select.c			\
 
 OK =      $(GREEN)[OK]$(RESET)		
 

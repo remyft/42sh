@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 05:00:51 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 00:57:43 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/23 04:14:50 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	up_arrow(t_line *line)
 		while (line->curr->prev && (ft_strstr(line->curr->content, line->buff_tmp) != line->curr->content || line->curr->c_size <= len))
 			line->curr = line->curr->prev;
 	}
-	else if (line->curr->next)
+	else if (line->curr && !line->buff_tmp[8193])
 	{
 		len = ft_strlen(line->buff);
 		while (line->curr->next && (ft_strstr(line->curr->content, line->buff) != line->curr->content || line->curr->c_size <= len))

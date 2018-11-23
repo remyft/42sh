@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/22 05:11:43 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/23 05:44:19 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,38 +18,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <termios.h>
-# include <term.h>
 # include <dirent.h>
-
-typedef struct			s_history
-{
-	char				*content;
-	char				*tmp;
-	size_t				c_size;
-	struct s_history	*begin;
-	struct s_history	*prev;
-	struct s_history	*next;
-}						t_hist;
-
-typedef enum		e_state
-{
-	COMPLETION = 1 << 0,
-}					t_st;
-
-typedef struct		s_line
-{
-	char			buff[8193];
-	char			buff_tmp[8194];
-	char			tmp[10];
-	char			*prompt;
-	int				index;
-	int				len;
-	int				nb_col;
-	t_hist			*curr;
-	t_st			*e_cmpl;
-	t_tree			*tree[3];
-	struct termios	save;
-}					t_line;
 
 typedef struct		s_fctn
 {
@@ -110,6 +79,9 @@ int		get_typing(int *index, char *buff, char *tmp, int nb_read, char *buff_tmp);
 
 void	term_restore(struct termios save);
 void	define_new_term(struct termios *save);
+
+void	select_left(t_line *line);
+void	select_right(t_line *line);
 
 /* Completion */
 

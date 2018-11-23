@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:57:17 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/22 23:00:47 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/23 02:40:17 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	ft_isspace(int c)
 {
-	return ((c >= 9 && c <= 13) || c == 32);
+	return ((c >= 9 && c <= 13 && c != 12) || c == 32);
 }
 
 static int	ft_strspace(char *str)
@@ -42,7 +42,7 @@ int			get_typing(int *index, char *buff, char *tmp, int nb_read, char *buff_tmp)
 	len = ft_strlen(buff);
 	if (ft_isprint(tmp[0]))
 		ft_bzero(buff_tmp, 8194);
-	while (cp < nb_read && (ft_isprint(tmp[cp]) || ft_isspace(tmp[cp])) && (tmp[0] != 9 || ft_strspace(buff)))
+	while (cp < nb_read && (ft_isprint(tmp[cp]) || ft_isspace(tmp[cp])) && (tmp[0] != 9 || ft_strspace(buff)) && tmp[cp] != 10)
 	{
 		tchar = buff[*index + 1];
 		if (*index != len)

@@ -6,11 +6,12 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 00:58:11 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/23 04:52:01 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "main_tools.h"
 
 int		cmp_strpart(char *src, char *str, int *beg)
 {
@@ -93,130 +94,25 @@ int		get_var(char **env, char **cmd)
 	return (1);
 }
 
-static void sig_hdlr(int sig)
-{
-	(void)sig;
-}
-
 int		main(__unused int ac, __unused char **av, char **ep)
 {
 	t_line	*line;
 	char	**env;
-	int		i;
-	char	**parse;
-	char	**cmd;
-	char	prompt[4097];
-	int		nb_read;
-	char	*term;
-	int		put;
-	char	*path;
-	char	*save_path;
-	DIR		*dir;
-	static t_fctn	fctn[] = {
-		{ "\x2" , &prev_word },
-		{ "\x3" , &deal_cancel },
-		{ "\x4" , &deal_exit }, 
-		{ "\x9" , &get_complet },
-		{ "\xC" , &ft_clear },
-		{ "\x17" , &next_word },
-		{ "\x7F" , &deal_dleft },
-		{ "\x1B\x5B\x41" , &up_arrow },
-		{ "\x1B\x5B\x42" , &down_arrow },
-		{ "\x1B\x5B\x43" , &right_arrow },
-		{ "\x1B\x5B\x44" , &left_arrow },
-		{ "\x1B\x5B\x46" , &go_end },
-		{ "\x1B\x5B\x48" , &go_home },
-		{ "\x1B\x5B\x33\x7E" , &del_right } };
 
-	i = 0;
-	line = ft_memalloc(sizeof(t_line));
-	line->e_cmpl = ft_memalloc(sizeof(t_st));
 	env = collect_env(ep);
-	save_path = get_env(env, "PATH");
-	term = get_env(env, "TERM");
-	tgetent(NULL, term);
-	line->curr = NULL;
-	create_hist(&(line->curr), env);
-	if (line->curr)
-		line->curr = line->curr->begin;
-	define_new_term(&(line->save));
-	nb_read = 0;
-	signal(SIGINT, &sig_hdlr);
-	signal(SIGQUIT, &sig_hdlr);
-	tputs(tgetstr("cl", NULL), 1, ft_pchar);
-	ft_bzero(line->buff_tmp, 8194);
-	line->tree[0] = create_bin_tree(env);
-	line->tree[1] = create_file_tree(".");
-	line->tree[2] = NULL;
-	dir = NULL;
-	path = NULL;
-	line->prompt = ft_strdup(ft_strrchr(getcwd(prompt, 4097), '/') + 1);
-	line->nb_col = tgetnum("co");
+	line = init_line(env);
 	while (1)
 	{
 		put_prompt(line->prompt);
 		ft_bzero(line->buff, 8193);
-		//ft_bzero(line->buff_tmp, 8194);
-		path = get_env(env, "PATH");
-		if (path && ft_strcmp(path, save_path) != 0)
-		{
-			free_tree(line->tree[0]);
-			line->tree[0] = create_bin_tree(env);
-			free(save_path);
-			save_path = ft_strdup(path);
-		}
-		if (path)
-			free(path);
-		line->len = 0;
-		line->index = 0;
-		line->tmp[0] = '\0';
-		while ((line->tmp[0] != 10 && line->tmp[0] != -1) || *(line->e_cmpl) & COMPLETION)
-		{
-			put = 0;
-			if (line->len + (nb_read = read(0, line->tmp, 10)) < 8192) /* Type and cmd+V */
-				line->len = get_typing(&(line->index), line->buff, line->tmp, nb_read, line->buff_tmp);
-			line->tmp[nb_read] = '\0';
-			if (line->tmp[0] == '/')
-				line->tree[2] = free_tree(line->tree[2]);
-			else if (line->tmp[0] != 9)
-				deal_reset(line->tree[0], line->tree[1], NULL);
-			i = -1;
-			while (++i < (int)(sizeof(fctn) / sizeof(*fctn)))
-				if (ft_strcmp(line->tmp, fctn[i].key) == 0)
-				{
-					fctn[i].f(line);
-					break ;
-				}
-			if (*(line->e_cmpl) & COMPLETION && line->tmp[0] == 10)
-				set_complet(line);
-		}
-		line->buff[line->len - 1] = '\0';
+		check_path(line, env);
+		deal_typing(line);
+		ft_putendl("");
 		if (line->buff[0] && line->tmp[0] != -1 && line->buff[0] != 10)
 		{
 			*(line->e_cmpl) &= ~COMPLETION;
 			save_history(line->index, line->buff, line->buff_tmp, &(line->curr), env);
-			parse = NULL;
-			parse = ft_strsplit(line->buff, ';');
-			i = -1;
-			while (parse && parse[++i])
-			{
-				if (!(cmd = ft_strsplit_ws(parse[i])))
-					break ;
-				if (!(get_var(env, cmd)))
-					continue ;
-				deal_cmd(cmd, &env, &(line->save));
-				if (line->tree[1])
-					free_tree(line->tree[1]);
-				line->tree[1] = create_file_tree(getcwd(prompt, 4097));
-				if (line->tree[2])
-				{
-					free_tree(line->tree[2]);
-					line->tree[2] = NULL;
-				}
-				free_tab(&cmd);
-			}
-			if (parse)
-				free_tab(&parse);
+			ft_putendl(line->buff);
 		}
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:51:36 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/22 18:22:21 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/23 04:19:19 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,9 @@ void	del_lines(t_line *line)
 {
 	int		i;
 	int		j;
-	int		lenp;
 
-	lenp = ft_strlen(line->prompt) + 4;
-	i = (line->index + lenp) / line->nb_col - 1;
-	j = (line->len + lenp) / line->nb_col;
+	i = (line->index + line->lprompt) / line->nb_col - 1;
+	j = (line->len + line->lprompt) / line->nb_col;
 	tputs(tgetstr("sc", NULL), 1, ft_pchar);
 	while (++i < j)
 	{
@@ -34,12 +32,10 @@ void	del_lines(t_line *line)
 static void	del_left(t_line *line)
 {
 	int		j;
-	int		len;
 
 	j = 0;
-	len = ft_strlen(line->prompt) + 4;
 	line->len = ft_strlen(line->buff);
-	if (line->index && (line->index + len) % line->nb_col == 0)
+	if (line->index && (line->index + line->lprompt) % line->nb_col == 0)
 		tputs(tgetstr("up", NULL), 1, ft_pchar);
 	if (line->index != 0)
 	{
@@ -51,16 +47,16 @@ static void	del_left(t_line *line)
 		}
 		line->buff[line->len] = '\0';
 		line->len = line->len > 0 ? line->len - 1 : 0;
-		tputs(tgoto(tgetstr("ch", NULL), 0, (line->index + len) % line->nb_col), 1, ft_pchar);
+		tputs(tgoto(tgetstr("ch", NULL), 0, (line->index + line->lprompt) % line->nb_col), 1, ft_pchar);
 		tputs(tgetstr("dc", NULL), 1, ft_pchar);
 	}
-	if ((line->index + len) % line->nb_col == line->nb_col - 1)
+	if ((line->index + line->lprompt) % line->nb_col == line->nb_col - 1)
 	{
 		tputs(tgetstr("sc", NULL), 1, ft_pchar);
 		ft_putchar(' ');
 		tputs(tgetstr("rc", NULL), 1, ft_pchar);
 	}
-	if (line->len + len > line->nb_col - 1)
+	if (line->len + line->lprompt > line->nb_col - 1)
 	{
 		del_lines(line);
 		tputs(tgetstr("sc", NULL), 1, ft_pchar);
@@ -102,4 +98,3 @@ void	del_right(t_line *line)
 		line->len = line->len > line->index ? line->len - 1 : line->index;
 	}
 }
-
