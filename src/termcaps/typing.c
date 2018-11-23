@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:57:17 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/22 05:57:07 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/23 01:22:14 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int			get_typing(int *index, char *buff, char *tmp, int nb_read, char *buff_tmp)
 	char	tchar;
 
 	cp = 0;
+	j = -1;
+	tmp[nb_read] = '\0';
 	len = ft_strlen(buff);
 	if (ft_isprint(tmp[0]))
 		ft_bzero(buff_tmp, 8194);

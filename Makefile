@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/11/22 23:11:05 by gbourgeo         ###   ########.fr        #
+#    Updated: 2018/11/23 01:23:07 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,7 +96,7 @@ $(LIB):
 	make -C $(LIB_PATH)
 
 $(NAME): $(NEWLINE) $(OBJS) $(LIB)
-	@$(CC) $^ -o $@ $(LIB_LINK) $(DEBUG)
+	@$(CC) $^ -o $@ $(LIB_LINK) #$(DEBUG)
 	@echo ""
 	@echo $(GREY)" Compilling" $(RESET) [ $(NAME) ] $(OK)
 

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/22 20:14:06 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/23 01:22:37 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ int		main(__unused int ac, __unused char **av, char **ep)
 	{
 		put_prompt(line->prompt);
 		ft_bzero(line->buff, 8193);
+		//ft_bzero(line->buff_tmp, 8194);
 		path = get_env(env, "PATH");
 		if (path && ft_strcmp(path, save_path) != 0)
 		{
@@ -179,7 +180,7 @@ int		main(__unused int ac, __unused char **av, char **ep)
 			else if (line->tmp[0] != 9)
 				deal_reset(line->tree[0], line->tree[1], NULL);
 			i = -1;
-			while (++i < (int)sizeof(*fctn) - 1)
+			while (++i < (int)(sizeof(fctn) / sizeof(*fctn)))
 				if (ft_strcmp(line->tmp, fctn[i].key) == 0)
 				{
 					fctn[i].f(line);
@@ -188,7 +189,8 @@ int		main(__unused int ac, __unused char **av, char **ep)
 			if (*(line->e_cmpl) & COMPLETION && line->tmp[0] == 10)
 				set_complet(line);
 		}
-		if (line->buff[0] && line->tmp[0] != -1)
+		line->buff[line->len - 1] = '\0';
+		if (line->buff[0] && line->tmp[0] != -1 && line->buff[0] != 10)
 		{
 			*(line->e_cmpl) &= ~COMPLETION;
 			save_history(line->index, line->buff, line->buff_tmp, &(line->curr), env);
