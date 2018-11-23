@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/23 08:12:45 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/23 09:14:31 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ t_token			*get_tokens(const char *buff, size_t i)
 	if ((head = new_token(buff[0], 0)) == (t_token *)0)
 		return ((t_token *)0);
 	tail = head;
-	ft_putstr(buff);
 	while (tail && buff[i] && buff[i] != '#')
 	{
 		if (!tail->quoted)
