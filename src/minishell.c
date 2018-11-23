@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 01:22:37 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/23 03:24:53 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,7 @@ int		main(__unused int ac, __unused char **av, char **ep)
 		{
 			*(line->e_cmpl) &= ~COMPLETION;
 			save_history(line->index, line->buff, line->buff_tmp, &(line->curr), env);
+			line->buff[line->len - 1] = '\n';
 			// parse = NULL;
 			// parse = ft_strsplit(line->buff, ';');
 			// i = -1;
@@ -223,27 +224,6 @@ int		main(__unused int ac, __unused char **av, char **ep)
 				write(1, "\"\n", 2);
 			}
 			get_commands(tokens);
-			// parse = NULL;
-			// parse = ft_strsplit(buff, ';');
-			// i = -1;
-			// while (parse && parse[++i])
-			// {
-			// 	cmd = ft_strsplit_ws(parse[i]);
-			// 	if (!(get_var(env, cmd)))
-			// 		continue ;
-			// 	deal_cmd(cmd, &env, &save);
-			// 	if (files)
-			// 		free_tree(files);
-			// 	files = create_file_tree(getcwd(prompt, 4097));
-			// 	if (tmp_files)
-			// 	{
-			// 		free_tree(tmp_files);
-			// 		tmp_files = NULL;
-			// 	}
-			// 	free_tab(&cmd);
-			// }
-			// if (parse)
-			// 	free_tab(&parse);
 		}
 	}
 	return (0);

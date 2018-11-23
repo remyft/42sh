@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 22:30:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/23 01:04:46 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/23 03:13:03 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static size_t	reserved_type(const char *buff, size_t start, size_t end)
 	j = 0;
 	while (j < sizeof(reserved) / sizeof(reserved[0]))
 	{
+		printf("%s -> %s\n", reserved[j].name, buff + i);
 		if (!ft_strncmp(reserved[j].name, buff + i, end - i))
 			return (RESERVED_WORD);
 		j++;
