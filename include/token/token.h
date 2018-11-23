@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/22 06:10:36 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/22 23:10:27 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,19 @@
 # define NAME				(1 << 5)
 # define NEWLINE			(1 << 6)
 # define IO_NUMBER			(1 << 7)
-# define RESERVERD_WORD		(1 << 8)
+# define RESERVED_WORD		(1 << 8)
 
-# define AND_IF				(1 << 9)
-# define OR_IF				(1 << 10)
-# define SEMI				(1 << 11)
-# define DSEMI				(1 << 12)
-# define DLESS				(1 << 13)
-# define DGREAT				(1 << 14)
-# define LESSAND			(1 << 15)
-# define GREATAND			(1 << 16)
-# define LESSGREAT			(1 << 17)
-# define DLESSDASH			(1 << 18)
-# define CLOBBER			(1 << 19)
+# define AND_IF				(1 << 3)
+# define OR_IF				(1 << 4)
+# define SEMI				(1 << 5)
+# define DSEMI				(1 << 6)
+# define DLESS				(1 << 7)
+# define DGREAT				(1 << 8)
+# define LESSAND			(1 << 9)
+# define GREATAND			(1 << 10)
+# define LESSGREAT			(1 << 11)
+# define DLESSDASH			(1 << 12)
+# define CLOBBER			(1 << 13)
 
 # define OPERATORS			"&|;<>"
 
@@ -57,6 +57,9 @@ typedef struct		s_token
 }					t_token;
 
 t_token				*get_tokens(const char *buff, size_t i);
+t_token				*new_token(const char c, size_t pos);
+size_t				define_token(const char c);
+t_token				*identify_token(t_token *token, const char *buff, size_t pos);
 void				get_commands(t_token *tokens);
 
 #endif

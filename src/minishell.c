@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/22 06:18:34 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/22 20:14:06 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,9 +191,7 @@ int		main(__unused int ac, __unused char **av, char **ep)
 		if (line->buff[0] && line->tmp[0] != -1)
 		{
 			*(line->e_cmpl) &= ~COMPLETION;
-			ft_putstr(line->buff);
 			save_history(line->index, line->buff, line->buff_tmp, &(line->curr), env);
-			ft_putstr(line->buff);
 			// parse = NULL;
 			// parse = ft_strsplit(line->buff, ';');
 			// i = -1;

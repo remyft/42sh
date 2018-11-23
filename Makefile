@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/11/22 05:58:00 by gbourgeo         ###   ########.fr        #
+#    Updated: 2018/11/22 23:11:05 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,8 +63,11 @@ SRCS += term_properties.c	\
 		typing.c			\
 
 #TOKENS
-TOKEN_DIR = $(SRCS_DIR)token/
+TOKEN_DIR = token/
 SRCS += get_tokens.c		\
+		new_token.c			\
+		define_token.c		\
+		identify_token.c	\
 		get_commands.c		\
 
 OK =      $(GREEN)[OK]$(RESET)		
@@ -99,7 +102,7 @@ $(NAME): $(NEWLINE) $(OBJS) $(LIB)
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) $(CFLAGS) $(INCS) -o $@ -c $< 
+	$(CC) $(CFLAGS) $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -o $@ -c $< 
 
 $(OBJS_DIR)%.o: $(CMPL_DIR)%.c
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
@@ -113,9 +116,9 @@ $(OBJS_DIR)%.o: $(TERM_DIR)%.c
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
 	$(CC) $(CFLAGS) $(INCS) -o $@ -c $< 
 
-$(OBJS_DIR)%.o: $(TOKEN_DIR)%.c
+$(OBJS_DIR)%.o: $(SRCS_DIR)$(TOKEN_DIR)%.c
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) $(CFLAGS) $(INCS) -o $@ -c $< 
+	$(CC) $(CFLAGS) $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -o $@ -c $< 
 
 $(OBJS_DIR)%.o: $(OTHR_DIR)%.c
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
