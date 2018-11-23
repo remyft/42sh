@@ -3,10 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rfontain <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2018/11/23 06:24:51 by rfontain         ###   ########.fr        #
+=======
+#    Updated: 2018/11/23 01:23:07 by gbourgeo         ###   ########.fr        #
+>>>>>>> tokens
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,21 +27,16 @@ GREEN = "\x1b[1;32;40m"
 
 LIB_PATH = libft
 LIB = $(LIB_PATH)/libft.a
-LIB_LINK = -L $(LIB_PATH) -lft -lncurses
+LIB_LINK = -L$(LIB_PATH) -lft -lncurses
 
 INC_DIR = include
-INCS = -I $(LIB_PATH)/ -I $(INC_DIR)
-
-SRCS_DIR = src/
-
-CMPL_DIR = $(SRCS_DIR)completion/
-
-TERM_DIR = $(SRCS_DIR)termcaps/
+INCS = -I$(LIB_PATH)/$(INC_DIR) -I$(INC_DIR)
 
 BUIL_DIR = $(SRCS_DIR)builtin/
 
 OTHR_DIR = $(SRCS_DIR)other/
 
+SRCS_DIR = src/
 SRCS =	minishell.c			\
 		deal_commande.c		\
 		tools.c				\
@@ -48,6 +47,7 @@ SRCS =	minishell.c			\
 		signal.c			\
 
 #COMPLETION
+CMPL_DIR = $(SRCS_DIR)completion/
 SRCS +=	create_tree.c		\
 		deal_completion.c	\
 		put_completion.c	\
@@ -57,6 +57,7 @@ SRCS +=	create_tree.c		\
 		reset_tree.c		\
 
 #TERMCAPS
+TERM_DIR = $(SRCS_DIR)termcaps/
 SRCS += term_properties.c	\
 		move_cursor.c		\
 		term_tools.c		\
@@ -68,30 +69,47 @@ SRCS += term_properties.c	\
 		typing.c			\
 #		select.c			\
 
+#TOKENS
+TOKEN_DIR = token/
+SRCS += get_tokens.c		\
+		new_token.c			\
+		define_token.c		\
+		identify_token.c	\
+		get_commands.c		\
+
 OK =      $(GREEN)[OK]$(RESET)		
 
 NEWLINE = $(shell echo "")
 
-CFLAGS +=  -Wall -Wextra -Werror
+CFLAGS =  -Wall -Wextra -Werror -std=c99
 
-DEBUG += -fsanitize=address
+DEBUG = -g3 -fsanitize=address
 
 OBJS_DIR = objs/
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 
-all: $(OBJS_DIR) $(NAME)
+DEPS_DIR = .deps/
+DEPS = $(addprefix $(DEPS_DIR), $(SRCS:.c=.d))
+
+all: $(OBJS_DIR) $(DEPS_DIR) $(LIB) $(NAME)
 
 $(OBJS_DIR):
-	@mkdir -p $@
+	mkdir -p $@
+
+$(DEPS_DIR):
+	mkdir -p $@
+
+$(LIB):
+	make -C $(LIB_PATH)
 
 $(NAME): $(NEWLINE) $(OBJS) $(LIB)
 	@$(CC) $^ -o $@ $(LIB_LINK) #$(DEBUG)
 	@echo ""
 	@echo $(GREY)" Compilling" $(RESET) [ $(NAME) ] $(OK)
 
-$(OBJS_DIR)%.o: $(SRCS_DIR)%.c
+$(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) $(CFLAGS) $(INCS) -o $@ -c $< 
+	$(CC) $(CFLAGS) $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -o $@ -c $< 
 
 $(OBJS_DIR)%.o: $(CMPL_DIR)%.c
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
@@ -105,32 +123,31 @@ $(OBJS_DIR)%.o: $(TERM_DIR)%.c
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
 	$(CC) $(CFLAGS) $(INCS) -o $@ -c $< 
 
+$(OBJS_DIR)%.o: $(SRCS_DIR)$(TOKEN_DIR)%.c
+	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
+	$(CC) $(CFLAGS) $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -o $@ -c $< 
+
 $(OBJS_DIR)%.o: $(OTHR_DIR)%.c
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
 	$(CC) $(CFLAGS) $(INCS) -o $@ -c $< 
 
-$(LIB):
-	@echo ""
-	@echo " " | tr -d '\n'
-	@make -C $(LIB_PATH)
+$(DEPS_DIR)%.d: ;
+.PRECIOUS: $@
+
+-include $(DEPS)
 
 clean:
 	@$(RM) $(OBJS_DIR)
-	@make -C $(LIB_PATH) clean
+	@$(RM) $(DEPS_DIR)
+#	@make -C $(LIB_PATH) clean
 	@echo $(GREY)" Cleaning :" $(RESET) [ $(NAME) ] $(OK)
 
 fclean: clean
 	@$(RM) $(NAME)
-	@make -C $(LIB_PATH) fclean
+#	@make -C $(LIB_PATH) fclean
 	@echo $(GREY)" Deleting.." $(RESET) [ $(NAME) ] $(OK)
 
-reclean: clean
-	@$(RM) $(NAME)
-	@make -C $(LIB_PATH) fclean
-	@echo $(GREY)" Deleting.." $(RESET) [ $(NAME) ] $(OK)
-	@echo ""
-
-re: reclean all
+re: fclean all
 
 nn:
 	norminette $(SRCS)

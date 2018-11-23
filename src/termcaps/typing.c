@@ -3,19 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   typing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:57:17 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 02:40:17 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/23 06:31:29 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	ft_isspace(int c)
-{
-	return ((c >= 9 && c <= 13 && c != 12) || c == 32);
-}
 
 static int	ft_strspace(char *str)
 {
