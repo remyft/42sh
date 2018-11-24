@@ -16,10 +16,10 @@ CC = gcc
 
 RM = rm -rf
 
-RED = "\x1b[0;31;40m"
-RESET = "\x1b[1;37;40m"
-GREY = "\x1b[1;30;40m"
-GREEN = "\x1b[1;32;40m"
+RED = "\e[0;31;40m"
+RESET = "\e[1;37;40m"
+GREY = "\e[1;30;40m"
+GREEN = "\e[1;32;40m"
 
 LIB_PATH = libft
 LIB = $(LIB_PATH)/libft.a
@@ -77,7 +77,7 @@ OK =      $(GREEN)[OK]$(RESET)
 
 NEWLINE = $(shell echo "")
 
-CFLAGS =  -Wall -Wextra -Werror -std=c99
+CFLAGS =  -Wall -Wextra -Werror -std=gnu99
 
 DEBUG = -g3 -fsanitize=address
 

@@ -51,7 +51,9 @@ static t_token	*identify_operator(t_token *token, const char *buff, size_t i)
 
 static size_t	tokenize(t_token **tail, const char *buff, size_t i)
 {
-	if (buff[i] == '\\')
+	if (buff[i] == '\n' && (!((*tail)->type & NEWLINE)))
+		*tail = end_of_token(*tail, buff, i);
+	else if (buff[i] == '\\')
 		return (i + 1);
 	else if ((buff[i] == '\'' || buff[i] == '"'))
 	{
@@ -71,8 +73,6 @@ static size_t	tokenize(t_token **tail, const char *buff, size_t i)
 		else if ((*tail)->type & OPERATOR)
 			*tail = identify_operator(*tail, buff, i);
 	}
-	else if (buff[i] == '\n' && (!((*tail)->type & NEWLINE)))
-		*tail = end_of_token(*tail, buff, i);
 	else if (!((*tail)->type & NEW_INPUT))
 		*tail = identify_token(*tail, buff, i);
 	return (i);
@@ -83,11 +83,12 @@ t_token			*get_tokens(const char *buff, size_t i)
 	t_token		*head;
 	t_token		*tail;
 
-	if ((head = new_token(buff[0], 0)) == (t_token *)0)
-		return ((t_token *)0);
+	head = new_token(buff[0], 0);
 	tail = head;
-	while (tail && buff[i] && buff[i] != '#')
+	while (buff[i] && buff[i] != '#')
 	{
+		if (!tail)
+			return (head);
 		if (!tail->quoted)
 			i = tokenize(&tail, buff, i);
 		else if (tail->quoted && buff[i] == tail->quoted)
@@ -95,7 +96,6 @@ t_token			*get_tokens(const char *buff, size_t i)
 				tail->head++;
 		i++;
 	}
-	if (tail)
-		tail->tail = i;
+	tail->tail = i;
 	return (head);
 }
