@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_tools.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 07:12:18 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/23 11:32:16 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_line	*init_line(char **env)
 	line->prompt = ft_strdup(ft_strrchr(getcwd(prompt, 4097), '/') + 1);
 	line->lprompt = ft_strlen(line->prompt) + 4;
 	line->nb_col = tgetnum("co");
+	line->nb_line = tgetnum("li");
 	line->slct_beg = -1;
 	line->slct_end = -1;
 	return (line);

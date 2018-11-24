@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 07:26:11 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/23 11:33:02 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int		main(__unused int ac, __unused char **av, char **ep)
 
 	env = collect_env(ep);
 	line = init_line(env);
+	welcome(line);
 	while (1)
 	{
 		put_prompt(line->prompt);
