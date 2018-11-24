@@ -95,7 +95,7 @@ int		get_var(char **env, char **cmd)
 	return (1);
 }
 
-int		main(__unused int ac, __unused char **av, char **ep)
+int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **ep)
 {
 	t_line	*line;
 	char	**env;

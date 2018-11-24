@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include <sys/wait.h>
+#include "minishell.h"
 
 static char	*get_path(char **env, char *cmd)
 {
@@ -42,9 +43,7 @@ int			ft_exec(char **env, char **cmd, struct termios *save)
 	pid_t	pid;
 	char	*path;
 	int		status;
-	int i;
 
-	i = -1;
 	if (cmd[0][0] != '/')
 	{
 		if (!(path = get_path(env, cmd[0])))
