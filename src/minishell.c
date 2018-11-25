@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 11:33:02 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/25 20:06:15 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int		get_var(char **env, char **cmd)
 int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **ep)
 {
 	t_line	*line;
+	t_token	*tokens;
 	char	**env;
 
 	env = collect_env(ep);
@@ -109,14 +110,13 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 		ft_bzero(line->buff, 8193);
 		check_path(line, env);
 		deal_typing(line);
-		ft_putendl("");
+		write(1, "\n", 1);
 		if (line->buff[0] && line->tmp[0] != -1 && line->buff[0] != 10)
 		{
 			*(line->e_cmpl) &= ~COMPLETION;
 			save_history(line->index, line->buff, line->buff_tmp, &(line->curr), env);
-			line->buff[line->len] = '\n';
-			line->buff[line->len + 1] = 0;
-			t_token *tokens = get_tokens(line->buff, 0);
+			ft_strcpy(line->buff + line->len, "\n");
+			tokens = get_tokens(line->buff);
 			for (t_token *ptr = tokens; ptr; ptr = ptr->next) {
 				printf("------------------------------\n"
 						"type:%ld head:%ld tail:%ld quoted:%c\n",

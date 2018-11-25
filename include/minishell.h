@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 06:31:32 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/24 19:23:09 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	ft_cd(char ***env, char **cmd);
 int		ft_exec(char **env, char **cmd, struct termios *save);
 
 void	put_prompt(char *prompt);
+
+void	welcome(t_line *line);
 
 /* Termcaps */
 

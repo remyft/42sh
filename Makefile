@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/11/23 11:36:16 by gbourgeo         ###   ########.fr        #
+#    Updated: 2018/11/26 00:43:40 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,10 +16,10 @@ CC = gcc
 
 RM = rm -rf
 
-RED = "\e[0;31;40m"
-RESET = "\e[1;37;40m"
-GREY = "\e[1;30;40m"
-GREEN = "\e[1;32;40m"
+RED = "\x1b[0;31;40m"
+RESET = "\x1b[1;37;40m"
+GREY = "\x1b[1;30;40m"
+GREEN = "\x1b[1;32;40m"
 
 LIB_PATH = libft
 LIB = $(LIB_PATH)/libft.a
@@ -71,10 +71,14 @@ TOKEN_DIR = token/
 SRCS += get_tokens.c		\
 		new_token.c			\
 		define_token.c		\
+		quote_token.c		\
+		operator_handler.c	\
+		identify_operator.c	\
+		word_handler.c		\
 		identify_token.c	\
 		get_commands.c		\
 
-OK =      $(GREEN)[OK]$(RESET)		
+OK =	$(GREEN)[OK]$(RESET)
 
 NEWLINE = $(shell echo "")
 

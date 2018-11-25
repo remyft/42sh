@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new_token.c                                        :+:      :+:    :+:   */
+/*   operator_handler.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/22 23:05:54 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/26 00:23:12 by gbourgeo         ###   ########.fr       */
+/*   Created: 2018/11/25 20:34:30 by gbourgeo          #+#    #+#             */
+/*   Updated: 2018/11/26 00:54:06 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "token.h"
 
-t_token			*new_token(const char c, size_t pos)
+t_token			*operator_handler(t_token *token, const char *buff, size_t pos)
 {
-	t_token		*new;
-
-	new = malloc(sizeof(*new));
-	if (new == (t_token *)0)
-		return ((t_token *)0);
-	new->quoted = 0;
-	new->type = define_token(c);
-	new->head = pos;
-	new->tail = pos;
-	new->next = (t_token *)0;
-	return (new);
+	token->tail = pos;
+	if (ft_isspace(buff[token->head]))
+		token->head = pos;
+	if (token->type & NEW_INPUT)
+		token->type = OPERATOR;
+	if (!(token->type & OPERATOR))
+		return (identify_token(token, buff, pos));
+	return (token);
 }
