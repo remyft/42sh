@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/23 08:12:45 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/27 21:34:09 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,89 +14,67 @@
 #include "libft.h"
 #include "token.h"
 
-static t_token	*end_of_token(t_token *token, const char *buff, size_t pos)
+static t_token	*end_of_input(t_token *token, const char *buff, size_t *pos)
 {
-	token->tail = pos;
-	if (token->type & NEW_INPUT)
-	{
-		token->type = (buff[pos] == '\n') ?
-			define_token(buff[pos]) : define_token(buff[pos + 1]);
-		return (token);
-	}
-	token->next = (buff[pos] == '\n') ?
-		identify_token(token, buff, pos) : new_token(buff[pos + 1], pos);
-	return (token->next);
+	if (token->type & TOKEN)
+		return (end_of_input(identify_token(token, buff, pos), buff, pos));
+	if (token->type & OPERATOR)
+		return (end_of_input(identify_operator(token, buff, pos), buff, pos));
+	token->tail = *pos + 1;
+	token->spec = NEWLINE;
+	return (token);
 }
 
-static t_token	*identify_operator(t_token *token, const char *buff, size_t i)
+static t_token	*tokenize(t_token *tail, const char *buff, size_t *pos)
 {
-	// static t_ope	ope[] = {
-	// 	{ "&&", AND_IF },
-	// 	{ "||", OR_IF },
-	// 	{ ";", SEMI },
-	// 	{ ";;", DSEMI },
-	// 	{ "<<", DLESS },
-	// 	{ ">>", DGREAT },
-	// 	{ "<&", LESSAND },
-	// 	{ ">&", GREATAND },
-	// 	{ "<>", LESSGREAT },
-	// 	{ "<<-", DLESSDASH },
-	// 	{ ">|", CLOBBER }
-	// };
+	static t_func	tokens[] = {
+		CHAR_QUOTE, CHAR_NEWLINE, CHAR_OPERATOR, CHAR_WORD,
+	};
+	static t_id		id[] = {
+		ID_TOKEN, ID_OPERATOR,
+	};
+	size_t			i;
 
-	token->tail = i;
-	token->next = new_token(buff[i], i);
-	return (token->next);
-}
-
-static size_t	tokenize(t_token **tail, const char *buff, size_t i)
-{
-	if (buff[i] == '\\')
-		return (i + 1);
-	else if ((buff[i] == '\'' || buff[i] == '"'))
+	i = 0;
+	if (tail->type & UNDEFINED)
+		tail->head = *pos;
+	while (i < sizeof(tokens) / sizeof(tokens[0]))
 	{
-		(*tail)->quoted = buff[i];
-		(*tail)->type = TOKEN;
-		(*tail)->head = i + 1;
-	}
-	else if (!ft_isspace(buff[i]))
-	{
-		if ((*tail)->type & NEW_INPUT)
-			(*tail)->type = define_token(buff[i]);
-		if (ft_strchr(OPERATORS, buff[i]))
-		{
-			if (!((*tail)->type & OPERATOR))
-				*tail = identify_token(*tail, buff, i);
-		}
-		else if ((*tail)->type & OPERATOR)
-			*tail = identify_operator(*tail, buff, i);
-	}
-	else if (buff[i] == '\n' && (!((*tail)->type & NEWLINE)))
-		*tail = end_of_token(*tail, buff, i);
-	else if (!((*tail)->type & NEW_INPUT))
-		*tail = identify_token(*tail, buff, i);
-	return (i);
-}
-
-t_token			*get_tokens(const char *buff, size_t i)
-{
-	t_token		*head;
-	t_token		*tail;
-
-	if ((head = new_token(buff[0], 0)) == (t_token *)0)
-		return ((t_token *)0);
-	tail = head;
-	ft_putstr(buff);
-	while (tail && buff[i] && buff[i] != '#')
-	{
-		if (!tail->quoted)
-			i = tokenize(&tail, buff, i);
-		else if (tail->quoted && buff[i] == tail->quoted)
-			if ((tail = end_of_token(tail, buff, i)))
-				tail->head++;
+		if (tokens[i].is(buff[*pos]))
+			return (tokens[i].exec(tail, buff, pos));
 		i++;
 	}
-	if (tail)
-		tail->tail = i;
+	i = 0;
+	while (i < sizeof(id) / sizeof(id[0]))
+	{
+		if (tail->type & id[i].type)
+			return (id[i].exec(tail, buff, pos));
+		i++;
+	}
+	return (tail);
+}
+
+t_token			*get_tokens(const char *buff)
+{
+	t_token			*head;
+	t_token			*tail;
+	size_t			i;
+
+	head = new_token(buff[0], 0);
+	tail = head;
+	i = 0;
+	while (tail && buff[i])
+	{
+		if (!tail->quoted || tail->quoted == buff[i])
+		{
+			if (buff[i] == '#')
+			{
+				tail = end_of_input(tail, buff, &i);
+				break ;
+			}
+			tail = tokenize(tail, buff, &i);
+		}
+		i++;
+	}
 	return (head);
 }

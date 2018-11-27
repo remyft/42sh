@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 22:30:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/23 08:37:15 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/28 00:00:35 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,16 @@ static size_t	reserved_type(const char *buff, size_t start, size_t end)
 	return (WORD);
 }
 
-t_token			*identify_token(t_token *token, const char *buff, size_t pos)
+t_token			*identify_token(t_token *token, const char *buff, size_t *pos)
 {
-	token->tail = pos;
+	token->tail = *pos;
 	if (token->type & TOKEN)
 	{
-		if (buff[pos] == '<' || buff[pos] == '>')
-			token->type = ionumber_type(buff, token->head, token->tail);
+		if (buff[*pos] == '<' || buff[*pos] == '>')
+			token->spec = ionumber_type(buff, token->head, token->tail);
 		else
-			token->type = reserved_type(buff, token->head, token->tail);
+			token->spec = reserved_type(buff, token->head, token->tail);
 	}
-	token->next = new_token(buff[pos], pos);
+	token->next = new_token(buff[*pos], *pos);
 	return (token->next);
 }

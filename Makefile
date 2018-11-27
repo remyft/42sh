@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/11/23 08:56:06 by rfontain         ###   ########.fr        #
+#    Updated: 2018/11/28 00:07:00 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,8 @@ SRCS =	minishell.c			\
 		exec.c				\
 		main_tools.c		\
 		signal.c			\
-		singleton.c
+		singleton.c			\
+		welcome.c			\
 
 #COMPLETION
 CMPL_DIR = $(SRCS_DIR)completion/
@@ -68,17 +69,22 @@ SRCS += term_properties.c	\
 
 #TOKENS
 TOKEN_DIR = token/
-SRCS += get_tokens.c		\
-		new_token.c			\
-		define_token.c		\
-		identify_token.c	\
+SRCS += define_token.c		\
 		get_commands.c		\
+		get_tokens.c		\
+		identify_operator.c	\
+		identify_token.c	\
+		is_token.c			\
+		new_token.c			\
+		operator_handler.c	\
+		quote_handler.c		\
+		word_handler.c		\
 
-OK =      $(GREEN)[OK]$(RESET)		
+OK =	$(GREEN)[OK]$(RESET)
 
 NEWLINE = $(shell echo "")
 
-CFLAGS =  -Wall -Wextra -Werror -std=c99
+CFLAGS =  -Wall -Wextra -Werror -std=gnu99
 
 DEBUG = -g3 -fsanitize=address
 

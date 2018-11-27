@@ -31,9 +31,6 @@ void	next_word(t_line *line)
 
 void	prev_word(t_line *line)
 {
-	int		lenp;
-
-	lenp = line->lprompt;
 	if (line->index == line->len && line->len != 0)
 		line->index = line->index - 1;
 	else if (ft_isprint(line->buff[line->index]) && line->buff[line->index] != ' ' && line->index > 0)

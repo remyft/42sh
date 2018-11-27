@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main_tools.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 13:07:12 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/28 00:01:00 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <signal.h>
 #include "minishell.h"
 #include "main_tools.h"
 
@@ -37,6 +38,7 @@ void	init_line(char **env, t_line *line)
 	line->prompt = ft_strdup(ft_strrchr(getcwd(prompt, 4097), '/') + 1);
 	line->lprompt = ft_strlen(line->prompt) + 4;
 	line->nb_col = tgetnum("co");
+	line->nb_line = tgetnum("li");
 	line->slct_beg = -1;
 	line->slct_end = -1;
 	line->env = env;

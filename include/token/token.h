@@ -6,60 +6,126 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/22 23:10:27 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/27 22:06:22 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_TOKEN_H
 # define FT_TOKEN_H
 
-#include <stdlib.h>
-#include <stdio.h>
+# include <stdlib.h>
+# include <stdio.h>
 
-# define NEW_INPUT			(1 << 0)
+/*
+** Token Types
+*/
+# define UNDEFINED			(1 << 0)
 # define TOKEN				(1 << 1)
 # define OPERATOR			(1 << 2)
 
-# define WORD				(1 << 3)
-# define ASSIGNMENT_WORD	(1 << 4)
-# define NAME				(1 << 5)
-# define NEWLINE			(1 << 6)
-# define IO_NUMBER			(1 << 7)
-# define RESERVED_WORD		(1 << 8)
+/*
+** Token Specs for type TOKEN
+*/
+# define WORD				(1 << 0)
+# define ASSIGNMENT_WORD	(1 << 1)
+# define NAME				(1 << 2)
+# define NEWLINE			(1 << 3)
+# define IO_NUMBER			(1 << 4)
+# define RESERVED_WORD		(1 << 5)
 
-# define AND_IF				(1 << 3)
-# define OR_IF				(1 << 4)
-# define SEMI				(1 << 5)
-# define DSEMI				(1 << 6)
-# define DLESS				(1 << 7)
-# define DGREAT				(1 << 8)
-# define LESSAND			(1 << 9)
-# define GREATAND			(1 << 10)
-# define LESSGREAT			(1 << 11)
-# define DLESSDASH			(1 << 12)
-# define CLOBBER			(1 << 13)
+/*
+** Token Specs for type OPERATOR
+*/
+# define OR_IF				{ "||",  (1 << 0) }
+# define PIPE				{ "|",   (1 << 1) }
+# define PIPE_AND			{ "|&",  (1 << 2) }
+# define NOT				{ "!",   (1 << 3) }
+# define AND_IF				{ "&&",  (1 << 4) }
+# define BACKGRND			{ "&",   (1 << 5) }
+# define SEMI				{ ";",   (1 << 6) }
+# define DSEMI				{ ";;",  (1 << 7) }
+# define PAREN_LEFT			{ "(",   (1 << 8) }
+# define PAREN_RIGHT		{ ")",   (1 << 9) }
+# define LESS				{ "<",   (1 << 10) }
+# define LESSAND			{ "<&",  (1 << 11) }
+# define LESS_GREAT			{ "<>",  (1 << 12) }
+# define GREAT				{ ">",   (1 << 13) }
+# define GREAT_PIPE			{ ">|",  (1 << 14) }
+# define AND_GREAT			{ "&>",  (1 << 15) }
+# define GREAT_AND			{ ">&",  (1 << 16) }
+# define DGREAT				{ ">>",  (1 << 17) }
+# define AND_DGREAT			{ "&>>", (1 << 18) }
+# define DGREAT_AND			{ ">>&", (1 << 19) }
+# define DLESS				{ "<<",  (1 << 20) }
+# define TLESS				{ "<<<", (1 << 21) }
 
-# define OPERATORS			"&|;<>"
+/*
+** Token structure
+*/
+typedef struct	s_token
+{
+	char			quoted;
+	char			type;
+	size_t			spec;
+	size_t			head;
+	size_t			tail;
+	char			*exp;
+	struct s_token	*next;
+}				t_token;
 
-typedef struct		s_operator
+/*
+** Typedefs for tokenisation
+*/
+# define CHAR_QUOTE			{ ft_isquote,    quote_handler }
+# define CHAR_NEWLINE		{ ft_isnewline,  end_of_input }
+# define CHAR_OPERATOR		{ ft_isoperator, operator_handler }
+# define CHAR_WORD			{ ft_isword,     word_handler }
+# define CHAR_SPEC			{ ft_isspec,     spec_handler }
+
+typedef struct	s_func
+{
+	int			(*is)(int);
+	t_token		*(*exec)(t_token *, const char *, size_t *);
+}				t_func;
+
+# define ID_TOKEN			{ TOKEN,    identify_token }
+# define ID_OPERATOR		{ OPERATOR, identify_operator }
+
+typedef struct	s_id
+{
+	char		type;
+	t_token		*(*exec)(t_token *, const char *, size_t *);
+}				t_id;
+
+/*
+** Typedef for operators
+*/
+typedef struct	s_ope
 {
 	char			*name;
 	size_t			value;
-}					t_ope;
+}				t_ope;
 
-typedef struct		s_token
-{
-	char			quoted;
-	size_t			type;
-	size_t			head;
-	size_t			tail;
-	struct s_token	*next;
-}					t_token;
+t_token			*get_tokens(const char *buff);
+t_token			*new_token(const char c, size_t pos);
+size_t			define_token(const char c);
 
-t_token				*get_tokens(const char *buff, size_t i);
-t_token				*new_token(const char c, size_t pos);
-size_t				define_token(const char c);
-t_token				*identify_token(t_token *token, const char *buff, size_t pos);
-void				get_commands(t_token *tokens);
+int				is_token(int type);
+int				is_operator(int type);
+
+int				ft_isnewline(int c);
+int				ft_isoperator(int c);
+int				ft_isword(int c);
+int				ft_isquote(int c);
+int				ft_isspec(int c);
+
+t_token			*operator_handler(t_token *tok, const char *buff, size_t *pos);
+t_token			*word_handler(t_token *token, const char *buff, size_t *pos);
+t_token			*quote_handler(t_token *token, const char *buff, size_t *pos);
+
+t_token			*identify_operator(t_token *tok, const char *buff, size_t *pos);
+t_token			*identify_token(t_token *token, const char *buff, size_t *pos);
+
+void			get_commands(t_token *tokens);
 
 #endif
