@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/11/26 22:55:07 by gbourgeo         ###   ########.fr        #
+#    Updated: 2018/11/27 22:08:38 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,6 +73,7 @@ SRCS += define_token.c		\
 		get_tokens.c		\
 		identify_operator.c	\
 		identify_token.c	\
+		is_token.c			\
 		new_token.c			\
 		operator_handler.c	\
 		quote_handler.c		\
