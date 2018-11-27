@@ -6,21 +6,17 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/25 20:34:30 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/26 00:54:06 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/27 03:14:38 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "token.h"
 
-t_token			*operator_handler(t_token *token, const char *buff, size_t pos)
+t_token			*operator_handler(t_token *tok, const char *buff, size_t *pos)
 {
-	token->tail = pos;
-	if (ft_isspace(buff[token->head]))
-		token->head = pos;
-	if (token->type & NEW_INPUT)
-		token->type = OPERATOR;
-	if (!(token->type & OPERATOR))
-		return (identify_token(token, buff, pos));
-	return (token);
+	if (tok->type & TOKEN)
+		return (identify_token(tok, buff, pos));
+	tok->type = OPERATOR;
+	return (identify_operator(tok, buff, pos));
 }

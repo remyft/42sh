@@ -6,14 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 00:38:00 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/26 00:54:51 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/27 03:14:28 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "token.h"
 
-t_token		*identify_operator(t_token *token, const char *buff, size_t pos)
+static size_t	check_operator(t_token *token, const char *buff, size_t len)
 {
 	static t_ope	ope[] = {
 		OR_IF, PIPE, PIPE_AND, NOT, AND_IF, BACKGRND, SEMI, DSEMI, PAREN_LEFT,
@@ -25,20 +25,22 @@ t_token		*identify_operator(t_token *token, const char *buff, size_t pos)
 	i = 0;
 	while (i < sizeof(ope) / sizeof(ope[0]))
 	{
-		if (!ft_strncmp(buff + token->head, ope[i].name, pos - token->head + 1))
-			return (token);
+		if (!ft_strncmp(buff + token->head, ope[i].name, len))
+			return (ope[i].value);
 		i++;
 	}
-	token->tail = pos;
-	while (i < sizeof(ope) / sizeof(ope[0]))
-	{
-		if (!ft_strncmp(buff + token->head, ope[i].name, token->tail - token->head))
-		{
-			token->type = ope[i].value;
-			break ;
-		}
-		i++;
-	}
-	token->next = new_token(buff[pos], pos);
-	return (token->next);
+	return (0);
+}
+
+t_token			*identify_operator(t_token *tok, const char *buff, size_t *pos)
+{
+	size_t	ret;
+
+	tok->tail = *pos;
+	if (check_operator(tok, buff, *pos - tok->head + 1))
+		return (tok);
+	if ((ret = check_operator(tok, buff, tok->tail - tok->head)))
+		tok->spec = ret;
+	tok->next = new_token(buff[*pos], *pos);
+	return (tok->next);
 }

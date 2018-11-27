@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/25 20:06:15 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/26 23:49:58 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,8 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 			tokens = get_tokens(line->buff);
 			for (t_token *ptr = tokens; ptr; ptr = ptr->next) {
 				printf("------------------------------\n"
-						"type:%ld head:%ld tail:%ld quoted:%c\n",
-						ptr->type, ptr->head, ptr->tail, ptr->quoted);
+						"type:%d spec:%ld head:%ld tail:%ld quoted:%c\n",
+						ptr->type, ptr->spec, ptr->head, ptr->tail, ptr->quoted);
 				write(1, "command: \"", 10);
 				write(1, line->buff + ptr->head, ptr->tail - ptr->head);
 				write(1, "\"\n", 2);
