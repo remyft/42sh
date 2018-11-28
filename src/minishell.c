@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/28 00:04:31 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/28 08:37:27 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,28 @@ int		get_var(char **env, char **cmd)
 	return (1);
 }
 
+void		deal_prompt(t_line *line)
+{
+	free(line->prompt);
+	if (*(line->e_cmpl) & QUOTE)
+		line->prompt = ft_strdup("quote> ");
+	else if (*(line->e_cmpl) & BQUOTE)
+		line->prompt = *(line->e_cmpl) & DQUOTE ? ft_strdup("dquote bquote> ") : ft_strdup("bquote> ");
+	else if (*(line->e_cmpl) & DQUOTE && !(*(line->e_cmpl) & BQUOTE))
+		line->prompt = ft_strdup("dquote> ");
+	else
+		line->prompt = ft_strdup("$> ");
+	line->lprompt = ft_strlen(line->prompt);
+}
+
+void	reset_line(t_line *line)
+{
+	ft_bzero(line->buff, 8193);
+	ft_bzero(line->buff_tmp, 8194);
+	line->len = 0;
+	line->index = 0;
+}
+
 int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **ep)
 {
 	t_line	*line;
@@ -108,12 +130,16 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 	while (1)
 	{
 		put_prompt(line->prompt);
-		ft_bzero(line->buff, 8193);
 		check_path(line, env);
 		deal_typing(line);
 		write(1, "\n", 1);
+		deal_prompt(line);
+		if (*(line->e_cmpl) & QUOTE || *(line->e_cmpl) & DQUOTE || *(line->e_cmpl) & BQUOTE)
+			continue ;
 		if (line->buff[0] && line->tmp[0] != -1 && line->buff[0] != 10)
 		{
+			ft_putstr("line : ");
+			ft_putendl(line->buff);
 			*(line->e_cmpl) &= ~COMPLETION;
 			save_history(line->index, line->buff, line->buff_tmp, &(line->curr), env);
 			ft_strcpy(line->buff + line->len, "\n");
@@ -127,6 +153,7 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 				write(1, "\"\n", 2);
 			}
 			get_commands(tokens);
+			reset_line(line);
 		}
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/28 00:01:00 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/28 08:37:25 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 
 void	init_line(char **env, t_line *line)
 {
-	char	prompt[4097];
-
 	line->e_cmpl = ft_memalloc(sizeof(t_st));
 	line->path = get_env(env, "PATH");
 	line->term = get_env(env, "TERM");
@@ -32,11 +30,12 @@ void	init_line(char **env, t_line *line)
 	signal(SIGWINCH, &sig_winch);
 	tputs(tgetstr("cl", NULL), 1, ft_pchar);
 	ft_bzero(line->buff_tmp, 8194);
+	ft_bzero(line->buff, 8193);
 	line->tree[0] = create_bin_tree(env);
 	line->tree[1] = create_file_tree(".");
 	line->tree[2] = NULL;
-	line->prompt = ft_strdup(ft_strrchr(getcwd(prompt, 4097), '/') + 1);
-	line->lprompt = ft_strlen(line->prompt) + 4;
+	line->prompt = ft_strdup("$> ");//ft_strdup(ft_strrchr(getcwd(prompt, 4096), '/') + 1);
+	line->lprompt = ft_strlen(line->prompt);
 	line->nb_col = tgetnum("co");
 	line->nb_line = tgetnum("li");
 	line->slct_beg = -1;
@@ -98,14 +97,12 @@ void	deal_typing(t_line *line)
 	int		i;
 
 	nb_read = 0;
-	line->len = 0;
-	line->index = 0;
 	ft_bzero(line->tmp, 10);
 	while ((line->tmp[0] != 10 && line->tmp[0] != -1) || *(line->e_cmpl) & COMPLETION)
 	{
 		ft_bzero(line->tmp, 10);
 		if (line->len + (nb_read = read(0, line->tmp, 10)) < 8192) /* Type and cmd+V */
-			line->len = get_typing(&(line->index), line->buff, line->tmp, nb_read, line->buff_tmp);
+			get_typing(line, nb_read);
 		if (ft_strncmp(line->tmp, "\x1B\x5B\x31\x3B\x32", 5) != 0)
 		{
 			if (line->slct_beg > -1)
@@ -121,8 +118,8 @@ void	deal_typing(t_line *line)
 			}
 			if (ft_strcmp(line->tmp, "\xE2\x89\x88") != 0 &&  ft_strcmp(line->tmp, "\xC3\xA7") != 0)
 			{
-			line->slct_beg = -1;
-			line->slct_end = -1;
+				line->slct_beg = -1;
+				line->slct_end = -1;
 			}
 		}
 		if (is_change)

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:57:17 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 08:59:54 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/28 08:37:28 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,42 +23,71 @@ static int	ft_strspace(char *str)
 	return (1);
 }
 
-int			get_typing(int *index, char *buff, char *tmp, int nb_read, char *buff_tmp)
+int		change_state(t_line *line, int state)
 {
-	int		len;
+	if (*(line->e_cmpl) & state)
+		*(line->e_cmpl) &= ~state;
+	else
+		*(line->e_cmpl) |= state;
+	return (1);
+}
+
+
+int			deal_state(t_line *line, char c)
+{
+	if (c == '\'')
+	{
+		if (!(*(line->e_cmpl) & DQUOTE) && !(*(line->e_cmpl) & BQUOTE))
+			return (change_state(line, QUOTE));
+	}
+	else if (c == '"')
+	{
+		if (!(*(line->e_cmpl) & QUOTE) && !(*(line->e_cmpl) & BQUOTE))
+			return (change_state(line, DQUOTE));
+	}
+	else if (c == '`')
+	{
+		if (!(*(line->e_cmpl) & QUOTE))
+			return (change_state(line, BQUOTE));
+	}
+	return (0);
+}
+
+void		get_typing(t_line *line, int nb_read)
+{
 	int		cp;
 	int		j;
 	char	cbis;
 	char	tchar;
+	int		is_change;
 
 	cp = 0;
 	j = -1;
-	tmp[nb_read] = '\0';
-	len = ft_strlen(buff);
-	if (ft_isprint(tmp[0]))
-		ft_bzero(buff_tmp, 8194);
-	while (cp < nb_read && tmp[0] != 12 && (ft_isprint(tmp[cp]) || ft_isspace(tmp[cp])) && (tmp[0] != 9 || ft_strspace(buff)) && tmp[cp] != 10)
+	line->tmp[nb_read] = '\0';
+	if (ft_isprint(line->tmp[0]))
+		ft_bzero(line->buff_tmp, 8194);
+	while (cp < nb_read && line->tmp[0] != 12 && (ft_isprint(line->tmp[cp]) || ft_isspace(line->tmp[cp])) && (line->tmp[0] != 9 || ft_strspace(line->buff)) && line->tmp[cp] != 10)
 	{
-		tchar = buff[*index + 1];
-		if (*index != len)
-			buff[*index + 1] = buff[*index];
-		buff[(*index)++] = tmp[cp];
-		len++;
+		is_change = deal_state(line, line->tmp[cp]);
+		tchar = line->buff[line->index + 1];
+		if (line->index != line->len)
+			line->buff[line->index + 1] = line->buff[line->index];
+		line->buff[line->index++] = line->tmp[cp];
+		line->len++;
 		j = 1;
-		ft_putchar(tmp[cp++]);
-		if (*index != len)
+		ft_putchar(line->tmp[cp++]);
+		if (line->index != line->len)
 		{
-			while (*index + j < len)
+			while (line->index + j < line->len)
 			{
-				cbis = buff[*index + j];
-				buff[*index + j] = tchar;
+				cbis = line->buff[line->index + j];
+				line->buff[line->index + j] = tchar;
 				tchar = cbis;
 				j++;
 			}
 			tputs(tgetstr("sc", NULL), 1, ft_pchar);
-			ft_putstr(&buff[*index]);
+			ft_putstr(&(line->buff[line->index]));
 			tputs(tgetstr("rc", NULL), 1, ft_pchar);
 		}
 	}
-	return (len);
 }

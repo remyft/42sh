@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/28 00:05:16 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/28 01:50:10 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	del_lines(t_line *line);
 void	deal_dleft(t_line *line);
 void	del_right(t_line *line);
 
-int		get_typing(int *index, char *buff, char *tmp, int nb_read, char *buff_tmp);
+void	get_typing(t_line *line, int nb_read);
 
 void	term_restore(struct termios save);
 void	define_new_term(struct termios *save);

@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 10:03:03 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/28 08:28:01 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,12 @@ static int		ft_cancel(t_line *line)
 		free(line->curr->tmp);
 	line->curr->tmp = NULL;
 	line->curr = line->curr->begin;
+	*(line->e_cmpl) &= ~QUOTE;
+	*(line->e_cmpl) &= ~BQUOTE;
+	*(line->e_cmpl) &= ~DQUOTE;
+	ft_bzero(line->buff, 8193);
+	line->len = 0;
+	line->index = 0;
 	return (-1);
 }
 

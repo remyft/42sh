@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/28 00:05:01 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/28 08:24:21 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 typedef enum		e_state
 {
 	COMPLETION = 1 << 0,
+	QUOTE = 1 << 1,
+	DQUOTE = 1 << 2,
+	BQUOTE = 1 << 3
 }					t_st;
 
 typedef struct		s_tree
@@ -48,6 +51,14 @@ typedef struct			s_history
 	struct s_history	*prev;
 	struct s_history	*next;
 }						t_hist;
+
+typedef struct		s_buff
+{
+	char			buff[8193];
+	char			buff_tmp[8193];
+	struct s_buff	*next;
+	struct s_buff	*prev;
+}					t_buff;
 
 typedef struct		s_line
 {
