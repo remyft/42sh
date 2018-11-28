@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 19:30:34 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/27 23:33:00 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/28 01:45:36 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int		ft_isquote(int c)
 	return ((c == '\\') || (c == '\'') || (c == '"'));
 }
 
-int		ft_isspec(int c)
+int		ft_isexpansion(int c)
 {
 	return ((c == '$') || (c == '`'));
 }

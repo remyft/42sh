@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/27 21:34:09 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/28 06:42:53 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static t_token	*end_of_input(t_token *token, const char *buff, size_t *pos)
 static t_token	*tokenize(t_token *tail, const char *buff, size_t *pos)
 {
 	static t_func	tokens[] = {
-		CHAR_QUOTE, CHAR_NEWLINE, CHAR_OPERATOR, CHAR_WORD,
+		CHAR_QUOTE, CHAR_NEWLINE, CHAR_OPERATOR, CHAR_EXPANSION, CHAR_WORD,
 	};
 	static t_id		id[] = {
 		ID_TOKEN, ID_OPERATOR,

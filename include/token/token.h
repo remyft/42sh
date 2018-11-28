@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/27 22:06:22 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/28 06:43:36 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ typedef struct	s_token
 # define CHAR_QUOTE			{ ft_isquote,    quote_handler }
 # define CHAR_NEWLINE		{ ft_isnewline,  end_of_input }
 # define CHAR_OPERATOR		{ ft_isoperator, operator_handler }
+# define CHAR_EXPANSION		{ ft_isexpansion,  expansion_handler }
 # define CHAR_WORD			{ ft_isword,     word_handler }
-# define CHAR_SPEC			{ ft_isspec,     spec_handler }
 
 typedef struct	s_func
 {
@@ -118,6 +118,7 @@ int				ft_isoperator(int c);
 int				ft_isword(int c);
 int				ft_isquote(int c);
 int				ft_isspec(int c);
+int				ft_isexpansion(int c);
 
 t_token			*operator_handler(t_token *tok, const char *buff, size_t *pos);
 t_token			*word_handler(t_token *token, const char *buff, size_t *pos);
