@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/30 23:47:24 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/01 00:49:08 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ enum {
 ** Token Specs for quotes
 */
 enum {
-	BACKSLASH		= (1 << 0),
-	SINGLE_QUOTE	= (1 << 1),
-	DOUBLE_QUOTE	= (1 << 2),
+	BACKSLASH = (1 << 0),
+	SINGLE_QUOTE = (1 << 1),
+	DOUBLE_QUOTE = (1 << 2),
 };
 
 /*
@@ -119,7 +119,6 @@ typedef struct	s_call
 # define CHAR_QUOTE			{ ft_isquote,     handle_quote }
 # define CHAR_NEWLINE		{ ft_isnewline,   handle_newline }
 # define CHAR_OPERATOR		{ ft_isoperator,  handle_operator }
-//# define CHAR_EXPANSION		{ ft_isexpansion, handle_expansion }
 # define CHAR_WORD			{ ft_isword,      handle_word }
 # define CHAR_NULL			{ ft_isnull,      handle_end_of_input }
 
@@ -130,7 +129,7 @@ typedef struct	s_func
 }				t_func;
 
 /*
-** Typedef for operators
+** Typedef for OPERATOR
 */
 typedef struct	s_ope
 {
@@ -151,7 +150,6 @@ int				ft_isword(int c);
 int				ft_isquote(int c);
 int				ft_isnull(int c);
 int				ft_isspec(int c);
-//int				ft_isexpansion(int c);
 int				ft_isname(int c);
 
 t_token			*handle_quote(t_param *param, t_call *token);
@@ -163,7 +161,6 @@ t_token			*handle_expansion(t_param *param, t_call *token);
 
 t_token			*identify_operator(t_param *param);
 t_token			*identify_word(t_param *param);
-//t_token			*identify_expansion(t_param *param);
 t_token			*identify_quote(t_param *param);
 
 void			get_commands(t_token *tokens);

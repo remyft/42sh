@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/29 07:55:06 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/30 23:38:52 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/01 00:45:16 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,3 @@ t_token			*handle_newline(t_param *param, t_call *token)
 	param->token->spec = NEWLINE;
 	return (param->token);
 }
-

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/01 00:03:33 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/01 00:50:12 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,9 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 	t_token	*tokens;
 	char	**env;
 
-	printf("OK\n");
 	env = collect_env(ep);
-	printf("OK\n");
 	line = init_line(env);
-	printf("OK\n");
 	welcome(line);
-	printf("OK\n");
 	while (1)
 	{
 		put_prompt(line->prompt);
@@ -119,7 +115,6 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 		{
 			*(line->e_cmpl) &= ~COMPLETION;
 			save_history(line->index, line->buff, line->buff_tmp, &(line->curr), env);
-			// ft_strcpy(line->buff + line->len, "\n");
 			tokens = get_tokens(line->buff);
 			for (t_token *ptr = tokens; ptr; ptr = ptr->next) {
 				printf("------------------------------\n"
