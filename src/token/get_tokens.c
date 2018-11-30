@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/28 06:42:53 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/01 00:40:27 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,67 +14,48 @@
 #include "libft.h"
 #include "token.h"
 
-static t_token	*end_of_input(t_token *token, const char *buff, size_t *pos)
+static t_token	*tokenize(t_param *param)
 {
-	if (token->type & TOKEN)
-		return (end_of_input(identify_token(token, buff, pos), buff, pos));
-	if (token->type & OPERATOR)
-		return (end_of_input(identify_operator(token, buff, pos), buff, pos));
-	token->tail = *pos + 1;
-	token->spec = NEWLINE;
-	return (token);
-}
-
-static t_token	*tokenize(t_token *tail, const char *buff, size_t *pos)
-{
-	static t_func	tokens[] = {
-		CHAR_QUOTE, CHAR_NEWLINE, CHAR_OPERATOR, CHAR_EXPANSION, CHAR_WORD,
+	static t_func	character[] = {
+		CHAR_NULL, CHAR_QUOTE, CHAR_NEWLINE, CHAR_OPERATOR, CHAR_WORD,
 	};
-	static t_id		id[] = {
-		ID_TOKEN, ID_OPERATOR,
+	static t_call	token[] = {
+		ID_OPERATOR, ID_TOKEN,
 	};
 	size_t			i;
+	size_t			size;
 
 	i = 0;
-	if (tail->type & UNDEFINED)
-		tail->head = *pos;
-	while (i < sizeof(tokens) / sizeof(tokens[0]))
+	size = (param->token->quote) ? 2 : sizeof(character) / sizeof(*character);
+	if (param->token->type == UNDEFINED)
+		param->token->head = param->i;
+	while (i < size)
 	{
-		if (tokens[i].is(buff[*pos]))
-			return (tokens[i].exec(tail, buff, pos));
+		if (character[i].is(param->buff[param->i]))
+			return (character[i].handler(param, token));
 		i++;
 	}
-	i = 0;
-	while (i < sizeof(id) / sizeof(id[0]))
-	{
-		if (tail->type & id[i].type)
-			return (id[i].exec(tail, buff, pos));
-		i++;
-	}
-	return (tail);
+	if (!param->token->quote && !(param->token->type == UNDEFINED))
+		return (token[param->token->type].identifier(param));
+	return (param->token);
 }
 
 t_token			*get_tokens(const char *buff)
 {
 	t_token			*head;
-	t_token			*tail;
-	size_t			i;
+	t_param			param;
 
 	head = new_token(buff[0], 0);
-	tail = head;
-	i = 0;
-	while (tail && buff[i])
+	param.token = head;
+	param.buff = buff;
+	param.i = 0;
+	while (param.token)
 	{
-		if (!tail->quoted || tail->quoted == buff[i])
-		{
-			if (buff[i] == '#')
-			{
-				tail = end_of_input(tail, buff, &i);
-				break ;
-			}
-			tail = tokenize(tail, buff, &i);
-		}
-		i++;
+		if (param.token->quote & BACKSLASH)
+			param.token->quote &= ~BACKSLASH;
+		else
+			param.token = tokenize(&param);
+		param.i++;
 	}
 	return (head);
 }

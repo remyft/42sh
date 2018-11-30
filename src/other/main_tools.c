@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 11:32:16 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/28 16:14:27 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ t_line	*init_line(char **env)
 	signal(SIGWINCH, &sig_winch);
 	tputs(tgetstr("cl", NULL), 1, ft_pchar);
 	ft_bzero(line->buff_tmp, 8194);
-	line->tree[0] = create_bin_tree(env);
-	line->tree[1] = create_file_tree(".");
+	line->tree[0] = NULL;//create_bin_tree(env);
+	line->tree[1] = NULL;//create_file_tree(".");
 	line->tree[2] = NULL;
 	line->prompt = ft_strdup(ft_strrchr(getcwd(prompt, 4097), '/') + 1);
 	line->lprompt = ft_strlen(line->prompt) + 4;
@@ -53,7 +53,7 @@ void	deal_key(t_line *line)
 		{ "\x2" , &prev_word },
 		{ "\x3" , &deal_cancel },
 		{ "\x4" , &deal_exit },
-		{ "\x9" , &get_complet },
+		{ "\x9" , &ft_clear },//get_complet },
 		{ "\xC" , &ft_clear },
 		{ "\x17" , &next_word },
 		{ "\x7F" , &deal_dleft },

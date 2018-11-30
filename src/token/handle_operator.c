@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   word_handler.c                                     :+:      :+:    :+:   */
+/*   handle_operator.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/25 21:54:53 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/28 03:07:31 by gbourgeo         ###   ########.fr       */
+/*   Created: 2018/11/25 20:34:30 by gbourgeo          #+#    #+#             */
+/*   Updated: 2018/11/29 09:21:45 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "token.h"
 
-t_token			*word_handler(t_token *token, const char *buff, size_t *pos)
+t_token			*handle_operator(t_param *param, t_call *token)
 {
-	if (token->type & OPERATOR)
-		return (identify_operator(token, buff, pos));
-	token->tail = *pos;
-	token->type = TOKEN;
-	return (token);
+	if (param->token->type == UNDEFINED)
+		param->token->type = OPERATOR;
+	else if (param->token->type != OPERATOR)
+		return (token[param->token->type].identifier(param));
+	return (param->token);
 }

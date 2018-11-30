@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/11/27 22:08:38 by gbourgeo         ###   ########.fr        #
+#    Updated: 2018/11/30 23:47:50 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,16 +68,17 @@ SRCS += term_properties.c	\
 
 #TOKENS
 TOKEN_DIR = token/
-SRCS += define_token.c		\
-		get_commands.c		\
-		get_tokens.c		\
-		identify_operator.c	\
-		identify_token.c	\
-		is_token.c			\
-		new_token.c			\
-		operator_handler.c	\
-		quote_handler.c		\
-		word_handler.c		\
+SRCS += get_tokens.c			\
+		handle_end_of_input.c	\
+		handle_newline.c		\
+		handle_operator.c		\
+		handle_quote.c			\
+		handle_word.c			\
+		identify_operator.c		\
+		identify_word.c			\
+		is_token.c				\
+		is_token2.c				\
+		new_token.c				\
 
 OK =	$(GREEN)[OK]$(RESET)
 

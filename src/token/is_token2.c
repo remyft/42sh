@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   operator_handler.c                                 :+:      :+:    :+:   */
+/*   is_token2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/25 20:34:30 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/27 18:33:14 by gbourgeo         ###   ########.fr       */
+/*   Created: 2018/11/29 10:22:43 by gbourgeo          #+#    #+#             */
+/*   Updated: 2018/11/30 23:41:29 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "token.h"
 
-t_token			*operator_handler(t_token *tok, const char *buff, size_t *pos)
+int			ft_isnull(int c)
 {
-	if (tok->type & TOKEN)
-		return (identify_token(tok, buff, pos));
-	tok->type = OPERATOR;
-	return (identify_operator(tok, buff, pos));
+	return ((c == 0));
+}
+
+int			ft_isname(int c)
+{
+	return ((c == '_') || ft_isalnum(c));
 }

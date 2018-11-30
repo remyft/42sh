@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 19:30:34 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/28 01:45:36 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/30 23:49:19 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		ft_isoperator(int c)
 
 int		ft_isword(int c)
 {
-	return (!ft_isspace(c));
+	return ((c == 0x07) || ((c >= 0x21) && (c <= 0x7E)));
 }
 
 int		ft_isquote(int c)

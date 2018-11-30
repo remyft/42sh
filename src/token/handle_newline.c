@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   define_token.c                                     :+:      :+:    :+:   */
+/*   handle_newline.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/22 23:09:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/27 19:30:42 by gbourgeo         ###   ########.fr       */
+/*   Created: 2018/11/29 07:55:06 by gbourgeo          #+#    #+#             */
+/*   Updated: 2018/11/30 23:38:52 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token.h"
-#include "libft.h"
 
-size_t	define_token(const char c)
+t_token			*handle_newline(t_param *param, t_call *token)
 {
-	if (ft_isspace(c))
-		return (UNDEFINED);
-	if (ft_isoperator(c))
-		return (OPERATOR);
-	return (TOKEN);
+	if (param->token->type != UNDEFINED)
+		param->token = token[param->token->type].identifier(param);
+	param->token->type = TOKEN;
+	param->token->spec = NEWLINE;
+	return (param->token);
 }
+

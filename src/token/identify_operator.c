@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 00:38:00 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/28 00:50:21 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/11/29 09:25:25 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,17 @@ static size_t	check_operator(t_token *token, const char *buff, size_t len)
 	return (0);
 }
 
-t_token			*identify_operator(t_token *tok, const char *buff, size_t *pos)
+t_token			*identify_operator(t_param *param)
 {
 	size_t	ret;
 
-	tok->tail = *pos;
-	if (check_operator(tok, buff, *pos - tok->head + 1))
-		return (tok);
-	if ((ret = check_operator(tok, buff, tok->tail - tok->head)))
-		tok->spec = ret;
-	tok->next = new_token(buff[*pos], *pos);
-	return (tok->next);
+	param->token->tail = param->i;
+	ret = param->i - param->token->head + 1;
+	if (check_operator(param->token, param->buff, ret))
+		return (param->token);
+	ret = param->token->tail - param->token->head;
+	if ((ret = check_operator(param->token, param->buff, ret)))
+		param->token->spec = ret;
+	param->token->next = new_token(param->buff[param->i], param->i);
+	return (param->token->next);
 }
