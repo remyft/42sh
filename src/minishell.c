@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/01 00:50:12 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/01 01:42:04 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,15 +115,8 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 		{
 			*(line->e_cmpl) &= ~COMPLETION;
 			save_history(line->index, line->buff, line->buff_tmp, &(line->curr), env);
+			remove_line_continuation(line->buff);
 			tokens = get_tokens(line->buff);
-			for (t_token *ptr = tokens; ptr; ptr = ptr->next) {
-				printf("------------------------------\n"
-						"type:%d spec:%d head:%ld tail:%ld quoted:%c\n",
-						ptr->type, ptr->spec, ptr->head, ptr->tail, ptr->quote);
-				write(1, "command: \"", 10);
-				write(1, line->buff + ptr->head, ptr->tail - ptr->head);
-				write(1, "\"\n", 2);
-			}
 		}
 	}
 	return (0);

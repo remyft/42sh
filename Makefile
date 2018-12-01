@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/11/30 23:47:50 by gbourgeo         ###   ########.fr        #
+#    Updated: 2018/12/01 01:46:20 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ SRCS =	minishell.c			\
 		main_tools.c		\
 		signal.c			\
 		welcome.c			\
+		remove_line_continuation.c	\
 
 #COMPLETION
 CMPL_DIR = $(SRCS_DIR)completion/
