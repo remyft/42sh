@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/01 02:34:37 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/02 23:04:17 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,25 @@ enum {
 };
 
 /*
-** Enumeration for Substitutions
-*/
-enum {
-	PARAMETER,
-	COMMAND,
-	ARITHMETIC,
-};
-
-/*
 ** Enumeration for Quotes
 */
 enum {
 	BACKSLASH = (1 << 0),
 	SINGLE_QUOTE = (1 << 1),
 	DOUBLE_QUOTE = (1 << 2),
+};
+
+/*
+** Enumeration for Substitutions
+*/
+enum {
+	DPAREN_L,
+	DPAREN_R,
+	BRACKET_L,
+	BRACKET_R,
+	PAREN_L,
+	PAREN_R,
+	BACKQUOTE,
 };
 
 /*
@@ -100,6 +104,7 @@ typedef struct	s_token
 	int				spec;
 	size_t			head;
 	size_t			tail;
+	char			sub;
 	struct s_token	*subs;
 	struct s_token	*next;
 }				t_token;
@@ -148,18 +153,6 @@ typedef struct	s_func
 t_token			*get_tokens(const char *buff);
 t_token			*new_token(int c, size_t pos);
 
-// int				is_token(int type);
-// int				is_operator(int type);
-// int				is_expansion(int type);
-
-int				ft_isnull(int c);
-int				ft_isquote(int c);
-int				ft_issubs(int c);
-int				ft_isnewline(int c);
-int				ft_isoperator(int c);
-int				ft_isword(int c);
-int				ft_isname(int c);
-
 t_token			*handle_end_of_input(t_param *param, t_call *token);
 t_token			*handle_quote(t_param *param, t_call *token);
 t_token			*handle_subs(t_param *param, t_call *token);
@@ -169,5 +162,13 @@ t_token			*handle_word(t_param *param, t_call *token);
 
 t_token			*identify_operator(t_param *param);
 t_token			*identify_word(t_param *param);
+
+int				ft_isnull(int c);
+int				ft_isquote(int c);
+int				ft_issubs(int c);
+int				ft_isnewline(int c);
+int				ft_isoperator(int c);
+int				ft_isword(int c);
+int				ft_isname(int c);
 
 #endif

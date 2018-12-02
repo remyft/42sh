@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 02:35:00 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/01 03:11:01 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/02 23:03:19 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,18 @@ static t_token	*parameter_expansion(t_param *param)
 static t_token	*handle_dollar_sign(t_param *param)
 {
 	if (!ft_strncmp(param->buff + param->i + 1, "((", 2))
-		arithmetic_expansion(param);
+		param->token->subs = arithmetic_expansion(param);
 	else if (param->buff[param->i + 1] == '{'
 			|| param->buff[param->i + 1] == '('
 			|| !ft_isnull(param->buff[param->i + 1])
 			|| !ft_isquote(param->buff[param->i + 1])
 			|| param->buff[param->i + 1] != '`'
 			|| !ft_isoperator(param->buff[param->i + 1]))
-		parameter_expansion(param);
+		param->token->subs = parameter_expansion(param);
+	else if (!ft_strncmp(param->buff + param->i, "))", 2)
+			|| param->buff[param->i] == '}'
+			|| param->buff[param->i] == ')')
+			return (param->token);
 	return (param->token);
 }
 

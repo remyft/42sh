@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 23:05:54 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/01 02:26:18 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/02 22:53:15 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,11 @@ t_token			*new_token(int c, size_t pos)
 {
 	t_token		*new;
 
-	new = malloc(sizeof(*new));
-	if (new == (t_token *)0)
-		return ((t_token *)0);
-	new->quote = 0;
+	new = ft_memalloc(sizeof(*new));
+	if (!new)
+		return (new);
 	new->type = define_token(c);
-	new->spec = 0;
 	new->head = pos;
 	new->tail = pos;
-	new->subs = (t_token *)0;
-	new->next = (t_token *)0;
 	return (new);
 }
