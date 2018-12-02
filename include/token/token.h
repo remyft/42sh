@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/01 00:49:08 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/01 02:34:37 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ enum {
 };
 
 /*
-** Token Specs for type TOKEN
+** Specificities for token TOKEN
 */
 enum {
 	WORD,
@@ -38,7 +38,25 @@ enum {
 };
 
 /*
-** Token Specs for type OPERATOR
+** Enumeration for Substitutions
+*/
+enum {
+	PARAMETER,
+	COMMAND,
+	ARITHMETIC,
+};
+
+/*
+** Enumeration for Quotes
+*/
+enum {
+	BACKSLASH = (1 << 0),
+	SINGLE_QUOTE = (1 << 1),
+	DOUBLE_QUOTE = (1 << 2),
+};
+
+/*
+** Specificities for token OPERATOR
 */
 # define OR_IF				{ "||",  0 }
 # define PIPE				{ "|",   1 }
@@ -64,22 +82,13 @@ enum {
 # define TLESS				{ "<<<", 21 }
 
 /*
-** Token Specs for type EXPANSION
+** Typedef for OPERATORs, see above
 */
-enum {
-	PARAMETER,
-	COMMAND,
-	ARITHMETIC,
-};
-
-/*
-** Token Specs for quotes
-*/
-enum {
-	BACKSLASH = (1 << 0),
-	SINGLE_QUOTE = (1 << 1),
-	DOUBLE_QUOTE = (1 << 2),
-};
+typedef struct	s_ope
+{
+	char		*name;
+	size_t		value;
+}				t_ope;
 
 /*
 ** Token structure
@@ -91,12 +100,13 @@ typedef struct	s_token
 	int				spec;
 	size_t			head;
 	size_t			tail;
-	char			*exp;
+	struct s_token	*subs;
 	struct s_token	*next;
 }				t_token;
 
 /*
-** Handlers parameters structure
+** Structure of parameters
+** to pass to functions handling characters.
 */
 typedef struct	s_param
 {
@@ -106,7 +116,7 @@ typedef struct	s_param
 }				t_param;
 
 /*
-** Typedefs for tokenisation
+** Token identification
 */
 # define ID_OPERATOR		{ identify_operator }
 # define ID_TOKEN			{ identify_word }
@@ -116,11 +126,15 @@ typedef struct	s_call
 	t_token		*(*identifier)(t_param *);
 }				t_call;
 
+/*
+** Characters Handler
+*/
+# define CHAR_NULL			{ ft_isnull,      handle_end_of_input }
 # define CHAR_QUOTE			{ ft_isquote,     handle_quote }
+# define CHAR_SUBS			{ ft_issubs,      handle_subs }
 # define CHAR_NEWLINE		{ ft_isnewline,   handle_newline }
 # define CHAR_OPERATOR		{ ft_isoperator,  handle_operator }
 # define CHAR_WORD			{ ft_isword,      handle_word }
-# define CHAR_NULL			{ ft_isnull,      handle_end_of_input }
 
 typedef struct	s_func
 {
@@ -129,40 +143,31 @@ typedef struct	s_func
 }				t_func;
 
 /*
-** Typedef for OPERATOR
+** Functions
 */
-typedef struct	s_ope
-{
-	char		*name;
-	size_t		value;
-}				t_ope;
-
 t_token			*get_tokens(const char *buff);
 t_token			*new_token(int c, size_t pos);
 
-int				is_token(int type);
-int				is_operator(int type);
-int				is_expansion(int type);
+// int				is_token(int type);
+// int				is_operator(int type);
+// int				is_expansion(int type);
 
+int				ft_isnull(int c);
+int				ft_isquote(int c);
+int				ft_issubs(int c);
 int				ft_isnewline(int c);
 int				ft_isoperator(int c);
 int				ft_isword(int c);
-int				ft_isquote(int c);
-int				ft_isnull(int c);
-int				ft_isspec(int c);
 int				ft_isname(int c);
 
+t_token			*handle_end_of_input(t_param *param, t_call *token);
 t_token			*handle_quote(t_param *param, t_call *token);
+t_token			*handle_subs(t_param *param, t_call *token);
 t_token			*handle_newline(t_param *param, t_call *token);
 t_token			*handle_operator(t_param *param, t_call *token);
 t_token			*handle_word(t_param *param, t_call *token);
-t_token			*handle_end_of_input(t_param *param, t_call *token);
-t_token			*handle_expansion(t_param *param, t_call *token);
 
 t_token			*identify_operator(t_param *param);
 t_token			*identify_word(t_param *param);
-t_token			*identify_quote(t_param *param);
-
-void			get_commands(t_token *tokens);
 
 #endif

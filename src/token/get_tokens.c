@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/01 00:40:27 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/01 02:29:26 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 static t_token	*tokenize(t_param *param)
 {
 	static t_func	character[] = {
-		CHAR_NULL, CHAR_QUOTE, CHAR_NEWLINE, CHAR_OPERATOR, CHAR_WORD,
+		CHAR_NULL, CHAR_QUOTE, CHAR_SUBS, CHAR_NEWLINE, CHAR_OPERATOR, CHAR_WORD
 	};
 	static t_call	token[] = {
 		ID_OPERATOR, ID_TOKEN,
@@ -51,11 +51,16 @@ t_token			*get_tokens(const char *buff)
 	param.i = 0;
 	while (param.token)
 	{
-		if (param.token->quote & BACKSLASH)
-			param.token->quote &= ~BACKSLASH;
-		else
-			param.token = tokenize(&param);
+		param.token = tokenize(&param);
 		param.i++;
+	}
+	for (t_token *ptr = head; ptr; ptr = ptr->next) {
+	printf("------------------------------\n"
+			"type:%d spec:%d head:%ld tail:%ld quoted:%c\n",
+			ptr->type, ptr->spec, ptr->head, ptr->tail, ptr->quote);
+	write(1, "command: \"", 10);
+	write(1, buff + ptr->head, ptr->tail - ptr->head);
+	write(1, "\"\n", 2);
 	}
 	return (head);
 }

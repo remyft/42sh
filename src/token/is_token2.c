@@ -6,15 +6,15 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/29 10:22:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/01 00:45:51 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/01 02:32:40 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int			ft_isnull(int c)
+int			ft_isword(int c)
 {
-	return ((c == 0));
+	return ((c == 0x07) || ((c >= 0x21) && (c <= 0x7E)));
 }
 
 int			ft_isname(int c)

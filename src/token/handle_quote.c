@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/29 11:36:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/01 00:45:42 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/01 02:10:12 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,8 @@
 
 static void		handle_backslash(t_param *param)
 {
-	char		*ptr;
-
-	ptr = (char *)param->buff + param->i;
-	if (*(ptr + 1) == '\n')
-	{
-		ft_strcpy(ptr, ptr + 2);
-		param->i--;
-	}
-	else
-		param->token->quote |= BACKSLASH;
+	if (!(param->token->quote & SINGLE_QUOTE))
+		param->i++;
 }
 
 static void		handle_squote(t_param *param)

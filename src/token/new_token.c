@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 23:05:54 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/29 19:58:33 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/01 02:26:18 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_token			*new_token(int c, size_t pos)
 	new->spec = 0;
 	new->head = pos;
 	new->tail = pos;
-	new->exp = (char *)0;
+	new->subs = (t_token *)0;
 	new->next = (t_token *)0;
 	return (new);
 }
