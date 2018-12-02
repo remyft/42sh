@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:38:48 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 01:02:07 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/29 11:36:03 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	deal_complet(t_tree *file, t_line *line)
 		line->tmp[0] = 0;
 	}
 	tputs(tgetstr("rc", NULL), 1, ft_pchar);
-	tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(line->prompt) + 4), 1, ft_pchar);
+	tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(line->prompt)), 1, ft_pchar);
 	j = -1;
 	while (++j < line->len)
 		tputs(tgetstr("dc", NULL), 1, ft_pchar);

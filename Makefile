@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/11/28 00:07:00 by rfontain         ###   ########.fr        #
+#    Updated: 2018/11/28 16:06:17 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,7 +86,7 @@ NEWLINE = $(shell echo "")
 
 CFLAGS =  -Wall -Wextra -Werror -std=gnu99
 
-DEBUG = -g3 -fsanitize=address
+DEBUG = -g3# -fsanitize=address
 
 OBJS_DIR = objs/
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
@@ -106,7 +106,7 @@ $(LIB):
 	make -C $(LIB_PATH)
 
 $(NAME): $(NEWLINE) $(OBJS) $(LIB)
-	@$(CC) $^ -o $@ $(LIB_LINK) #$(DEBUG)
+	@$(CC) $^ -o $@ $(LIB_LINK) $(DEBUG)
 	@echo ""
 	@echo $(GREY)" Compilling" $(RESET) [ $(NAME) ] $(OK)
 

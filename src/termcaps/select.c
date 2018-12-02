@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 05:18:39 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 13:10:53 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/29 11:42:45 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_putselect(t_line *line)
 {
 	int i;
 
-	i = line->index / line->nb_col + 1;
+	i = line->index / line->nb_col;
 	while (i--)
 		tputs(tgetstr("up", NULL), 1, ft_pchar);
 	tputs(tgetstr("cr", NULL), 1, ft_pchar);
@@ -150,7 +150,7 @@ void	ft_paste(t_line *line)
 		line->index++;
 	}
 	line->len = ft_strlen(line->buff);
-	i = line->index / line->nb_col + 1;
+	i = line->index / line->nb_col;
 	while (i--)
 		tputs(tgetstr("up", NULL), 1, ft_pchar);
 	tputs(tgoto(tgetstr("ch", NULL), 0, line->lprompt), 1, ft_pchar);

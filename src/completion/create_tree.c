@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 21:15:52 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/22 01:37:59 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/28 16:09:50 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ static void	fill_tree_bin(char **env, t_tree **ternary)
 	char			*path;
 
 	toget = get_env(env, "PATH");
-	*ternary = ft_memalloc(sizeof(t_tree));
+	if (!(*ternary = ft_memalloc(sizeof(t_tree))))
+		exit(0);
 	(*ternary)->value = -1;
 	i = 0;
 	while (1)
