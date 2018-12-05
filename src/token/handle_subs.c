@@ -6,55 +6,57 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 02:35:00 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/02 23:03:19 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/05 22:34:11 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "token.h"
 
-static t_token	*arithmetic_expansion(t_param *param)
+/*
+** Problem here if param->token->subs in not NULL.
+*/
+
+static t_token	*get_subs(t_param *param, int (*ft_end)(const char *), size_t i)
 {
+	t_token		*ptr;
+
+	param->token->subs = get_tokens(param->buff, param->i + i, ft_end);
+	ptr = param->token->subs;
+	while (ptr && ptr->next)
+		ptr = ptr->next;
+	if (ptr)
+	{
+		param->token->tail = ptr->tail;
+		param->i = ptr->tail;
+	}
 	return (param->token);
 }
 
-static t_token	*parameter_expansion(t_param *param)
+static t_token	*identify_subs(t_param *param)
 {
-	return (param->token);
-}
-
-static t_token	*handle_dollar_sign(t_param *param)
-{
-	if (!ft_strncmp(param->buff + param->i + 1, "((", 2))
-		param->token->subs = arithmetic_expansion(param);
-	else if (param->buff[param->i + 1] == '{'
-			|| param->buff[param->i + 1] == '('
-			|| !ft_isnull(param->buff[param->i + 1])
-			|| !ft_isquote(param->buff[param->i + 1])
-			|| param->buff[param->i + 1] != '`'
-			|| !ft_isoperator(param->buff[param->i + 1]))
-		param->token->subs = parameter_expansion(param);
-	else if (!ft_strncmp(param->buff + param->i, "))", 2)
-			|| param->buff[param->i] == '}'
-			|| param->buff[param->i] == ')')
-			return (param->token);
-	return (param->token);
-}
-
-static t_token	*handle_backquote(t_param *param)
-{
+	param->i++;
+	if (param->buff[param->i] == '{')
+		param->token = get_subs(param, ft_isbracket, 1);
+	else if (!ft_strncmp(param->buff + param->i, "((", 2))
+		param->token = get_subs(param, ft_isdparen, 2);
+	else if (param->buff[param->i] == '(')
+		param->token = get_subs(param, ft_isparen, 1);
+	else if (ft_isname(param->buff[param->i]))
+		param->token = get_subs(param, ft_isnotname, 1);
 	return (param->token);
 }
 
 t_token			*handle_subs(t_param *param, t_call *token)
 {
+	param->token->tail = param->i;
 	if (param->token->type == UNDEFINED)
 		param->token->type = TOKEN;
 	else if (param->token->type == OPERATOR)
 		param->token = token[OPERATOR].identifier(param);
 	if (param->buff[param->i] == '$')
-		handle_dollar_sign(param);
+		param->token = identify_subs(param);
 	else if (param->buff[param->i] == '`')
-		handle_backquote(param);
+		param->token = get_subs(param, ft_isbackquote, 1);
 	return (param->token);
 }

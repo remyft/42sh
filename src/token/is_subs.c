@@ -1,24 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_end_of_input.c                              :+:      :+:    :+:   */
+/*   is_subs.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/30 23:42:06 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/05 22:25:45 by gbourgeo         ###   ########.fr       */
+/*   Created: 2018/12/05 21:57:02 by gbourgeo          #+#    #+#             */
+/*   Updated: 2018/12/05 22:10:20 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "token.h"
 
-t_token			*handle_end_of_input(t_param *param, t_call *token)
+int		ft_isbracket(const char *s)
 {
-	param->token->tail = param->i;
-	if (param->token->type != UNDEFINED
-		&& param->token->head < param->token->tail)
-		param->token = token[param->token->type].identifier(param);
-	param->token->type = TOKEN;
-	param->token->spec = NEWLINE;
-	return (param->token->next);
+	return ((*s == '}'));
+}
+
+int		ft_isdparen(const char *s)
+{
+	return (!ft_strncmp(s, "))", 2));
+}
+
+int		ft_isparen(const char *s)
+{
+	return ((*s == ')'));
+}
+
+int		ft_isnotname(const char *s)
+{
+	return (!ft_isname(*s));
+}
+
+int		ft_isbackquote(const char *s)
+{
+	return ((*s == '`'));
 }

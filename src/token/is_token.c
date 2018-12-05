@@ -6,15 +6,15 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 19:30:34 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/01 02:32:25 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/05 21:55:48 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int			ft_isnull(int c)
+int			ft_isnull(const char *s)
 {
-	return ((c == 0));
+	return ((*s == 0));
 }
 
 int			ft_isquote(int c)
@@ -32,7 +32,7 @@ int			ft_isnewline(int c)
 	return ((c == '\n') || (c == '\r'));
 }
 
-int		ft_isoperator(int c)
+int			ft_isoperator(int c)
 {
 	return ((c == '&')
 			|| (c == '|')

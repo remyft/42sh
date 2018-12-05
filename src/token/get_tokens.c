@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/01 02:29:26 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/05 22:33:12 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,16 @@
 #include "libft.h"
 #include "token.h"
 
-static t_token	*tokenize(t_param *param)
+static t_token	*tokenize(t_param *param, t_call *token)
 {
 	static t_func	character[] = {
-		CHAR_NULL, CHAR_QUOTE, CHAR_SUBS, CHAR_NEWLINE, CHAR_OPERATOR, CHAR_WORD
-	};
-	static t_call	token[] = {
-		ID_OPERATOR, ID_TOKEN,
+		CHAR_QUOTE, CHAR_SUBS, CHAR_NEWLINE, CHAR_OPERATOR, CHAR_WORD
 	};
 	size_t			i;
 	size_t			size;
 
 	i = 0;
-	size = (param->token->quote) ? 2 : sizeof(character) / sizeof(*character);
+	size = (param->token->quote) ? 1 : sizeof(character) / sizeof(*character);
 	if (param->token->type == UNDEFINED)
 		param->token->head = param->i;
 	while (i < size)
@@ -40,27 +37,26 @@ static t_token	*tokenize(t_param *param)
 	return (param->token);
 }
 
-t_token			*get_tokens(const char *buff)
+t_token			*get_tokens(const char *buff, size_t i,
+							int (*ft_end)(const char *))
 {
+	static t_call	token[] = {
+		ID_OPERATOR, ID_TOKEN,
+	};
 	t_token			*head;
 	t_param			param;
 
-	head = new_token(buff[0], 0);
+	head = new_token(buff[i], i);
 	param.token = head;
 	param.buff = buff;
-	param.i = 0;
+	param.i = i;
 	while (param.token)
 	{
-		param.token = tokenize(&param);
+		if (ft_end(param.buff + param.i))
+			param.token = handle_end_of_input(&param, token);
+		else
+			param.token = tokenize(&param, token);
 		param.i++;
-	}
-	for (t_token *ptr = head; ptr; ptr = ptr->next) {
-	printf("------------------------------\n"
-			"type:%d spec:%d head:%ld tail:%ld quoted:%c\n",
-			ptr->type, ptr->spec, ptr->head, ptr->tail, ptr->quote);
-	write(1, "command: \"", 10);
-	write(1, buff + ptr->head, ptr->tail - ptr->head);
-	write(1, "\"\n", 2);
 	}
 	return (head);
 }

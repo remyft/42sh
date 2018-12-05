@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/12/01 02:37:45 by gbourgeo         ###   ########.fr        #
+#    Updated: 2018/12/05 21:58:52 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,6 +78,7 @@ SRCS += get_tokens.c			\
 		handle_word.c			\
 		identify_operator.c		\
 		identify_word.c			\
+		is_subs.c				\
 		is_token.c				\
 		is_token2.c				\
 		new_token.c				\

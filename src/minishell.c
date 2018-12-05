@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/02 23:07:58 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/05 21:51:22 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,23 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 			*(line->e_cmpl) &= ~COMPLETION;
 			save_history(line->index, line->buff, line->buff_tmp, &(line->curr), env);
 			remove_line_continuation(line->buff);
-			tokens = get_tokens(line->buff);
+			tokens = get_tokens(line->buff, 0, ft_isnull);
+			for (t_token *ptr = tokens; ptr; ptr = ptr->next) {
+			printf("------------------------------\n"
+					"type:%d spec:%d head:%ld tail:%ld quoted:%c\n",
+					ptr->type, ptr->spec, ptr->head, ptr->tail, ptr->quote);
+			write(1, "command: \"", 10);
+			write(1, line->buff + ptr->head, ptr->tail - ptr->head);
+			write(1, "\"\n", 2);
+			for (t_token *ptr2 = ptr->subs; ptr2; ptr2 = ptr2->next) {
+				printf("------------------------------\n"
+						"\ttype:%d spec:%d head:%ld tail:%ld quoted:%c\n",
+						ptr2->type, ptr2->spec, ptr2->head, ptr2->tail, ptr2->quote);
+				write(1, "\tcommand: \"", 11);
+				write(1, line->buff + ptr2->head, ptr2->tail - ptr2->head);
+				write(1, "\"\n", 2);
+				}
+			}
 		}
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/02 23:04:17 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/05 22:23:11 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,6 @@ enum {
 	BACKSLASH = (1 << 0),
 	SINGLE_QUOTE = (1 << 1),
 	DOUBLE_QUOTE = (1 << 2),
-};
-
-/*
-** Enumeration for Substitutions
-*/
-enum {
-	DPAREN_L,
-	DPAREN_R,
-	BRACKET_L,
-	BRACKET_R,
-	PAREN_L,
-	PAREN_R,
-	BACKQUOTE,
 };
 
 /*
@@ -134,7 +121,6 @@ typedef struct	s_call
 /*
 ** Characters Handler
 */
-# define CHAR_NULL			{ ft_isnull,      handle_end_of_input }
 # define CHAR_QUOTE			{ ft_isquote,     handle_quote }
 # define CHAR_SUBS			{ ft_issubs,      handle_subs }
 # define CHAR_NEWLINE		{ ft_isnewline,   handle_newline }
@@ -150,7 +136,8 @@ typedef struct	s_func
 /*
 ** Functions
 */
-t_token			*get_tokens(const char *buff);
+t_token			*get_tokens(const char *buff, size_t i, \
+							int (*ft_end)(const char *));
 t_token			*new_token(int c, size_t pos);
 
 t_token			*handle_end_of_input(t_param *param, t_call *token);
@@ -163,12 +150,18 @@ t_token			*handle_word(t_param *param, t_call *token);
 t_token			*identify_operator(t_param *param);
 t_token			*identify_word(t_param *param);
 
-int				ft_isnull(int c);
+int				ft_isnull(const char *s);
 int				ft_isquote(int c);
 int				ft_issubs(int c);
 int				ft_isnewline(int c);
 int				ft_isoperator(int c);
 int				ft_isword(int c);
 int				ft_isname(int c);
+
+int				ft_isbracket(const char *s);
+int				ft_isdparen(const char *s);
+int				ft_isparen(const char *s);
+int				ft_isnotname(const char *s);
+int				ft_isbackquote(const char *s);
 
 #endif
