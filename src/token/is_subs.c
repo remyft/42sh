@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 21:57:02 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/05 22:10:20 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/06 19:58:56 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ int		ft_isparen(const char *s)
 
 int		ft_isnotname(const char *s)
 {
-	return (!ft_isname(*s));
+	return (ft_isword(*s)
+		&& !ft_isquote(*s)
+		&& !ft_issubs(*s)
+		&& !ft_isoperator(*s));
 }
 
 int		ft_isbackquote(const char *s)

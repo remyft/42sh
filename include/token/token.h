@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/06 02:19:16 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/06 21:28:10 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ enum {
 	IO_NUMBER,
 	RESERVED_WORD,
 	COMMENT,
+	SUBS,
 };
 
 /*
