@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_token2.c                                        :+:      :+:    :+:   */
+/*   get_subs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/29 10:22:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/06 02:29:21 by gbourgeo         ###   ########.fr       */
+/*   Created: 2018/12/06 01:05:28 by gbourgeo          #+#    #+#             */
+/*   Updated: 2018/12/06 01:06:44 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "token.h"
 
-int			ft_isword(int c)
-{
-	return ((c == 0x07) || ((c >= 0x21) && (c <= 0x7E)));
-}
+/*
+** Problem here if param->token->subs in not NULL.
+*/
 
-int			ft_isname(int c)
+t_token			*get_subs(t_param *param, int (*ft_end)(const char *), size_t i)
 {
-	return ((c == '_') || ft_isalnum(c));
-}
+	t_token		*ptr;
 
-int			ft_iscomment(int c)
-{
-	return ((c == '#'));
+	param->token->subs = get_tokens(param->buff, param->i + i, ft_end);
+	ptr = param->token->subs;
+	while (ptr && ptr->next)
+		ptr = ptr->next;
+	if (ptr)
+	{
+		param->token->tail = ptr->tail;
+		param->i = ptr->tail;
+	}
+	return (param->token);
 }

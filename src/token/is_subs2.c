@@ -1,28 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_token2.c                                        :+:      :+:    :+:   */
+/*   is_subs2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/29 10:22:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/06 02:29:21 by gbourgeo         ###   ########.fr       */
+/*   Created: 2018/12/06 01:43:20 by gbourgeo          #+#    #+#             */
+/*   Updated: 2018/12/06 02:29:13 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-int			ft_isword(int c)
+int			ft_isendl(const char *s)
 {
-	return ((c == 0x07) || ((c >= 0x21) && (c <= 0x7E)));
-}
-
-int			ft_isname(int c)
-{
-	return ((c == '_') || ft_isalnum(c));
-}
-
-int			ft_iscomment(int c)
-{
-	return ((c == '#'));
+	return ((*s == '\n') || (*s == '\0'));
 }

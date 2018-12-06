@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/12/05 21:58:52 by gbourgeo         ###   ########.fr        #
+#    Updated: 2018/12/06 01:44:59 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,8 @@ SRCS += term_properties.c	\
 #TOKENS
 TOKEN_DIR = token/
 SRCS += get_tokens.c			\
+		get_subs.c				\
+		handle_comment.c		\
 		handle_end_of_input.c	\
 		handle_newline.c		\
 		handle_operator.c		\
@@ -79,6 +81,7 @@ SRCS += get_tokens.c			\
 		identify_operator.c		\
 		identify_word.c			\
 		is_subs.c				\
+		is_subs2.c				\
 		is_token.c				\
 		is_token2.c				\
 		new_token.c				\

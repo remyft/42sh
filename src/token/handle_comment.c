@@ -1,28 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_token2.c                                        :+:      :+:    :+:   */
+/*   handle_comment.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/29 10:22:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/06 02:29:21 by gbourgeo         ###   ########.fr       */
+/*   Created: 2018/12/06 00:22:05 by gbourgeo          #+#    #+#             */
+/*   Updated: 2018/12/06 02:29:05 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "token.h"
 
-int			ft_isword(int c)
+t_token			*handle_comment(t_param *param, t_call *tokens)
 {
-	return ((c == 0x07) || ((c >= 0x21) && (c <= 0x7E)));
-}
-
-int			ft_isname(int c)
-{
-	return ((c == '_') || ft_isalnum(c));
-}
-
-int			ft_iscomment(int c)
-{
-	return ((c == '#'));
+	(void)tokens;
+	param->token->tail = param->i;
+	param->token->type = TOKEN;
+	param->token->spec = COMMENT;
+	return (param->token);
 }

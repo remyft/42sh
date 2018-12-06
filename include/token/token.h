@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/05 22:23:11 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/06 02:19:16 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ enum {
 	NEWLINE,
 	IO_NUMBER,
 	RESERVED_WORD,
+	COMMENT,
 };
 
 /*
@@ -124,6 +125,7 @@ typedef struct	s_call
 # define CHAR_QUOTE			{ ft_isquote,     handle_quote }
 # define CHAR_SUBS			{ ft_issubs,      handle_subs }
 # define CHAR_NEWLINE		{ ft_isnewline,   handle_newline }
+# define CHAR_COMMENT		{ ft_iscomment,   handle_comment }
 # define CHAR_OPERATOR		{ ft_isoperator,  handle_operator }
 # define CHAR_WORD			{ ft_isword,      handle_word }
 
@@ -140,24 +142,29 @@ t_token			*get_tokens(const char *buff, size_t i, \
 							int (*ft_end)(const char *));
 t_token			*new_token(int c, size_t pos);
 
+t_token			*get_subs(t_param *param, int (*ft_end)(const char*), size_t i);
+
 t_token			*handle_end_of_input(t_param *param, t_call *token);
 t_token			*handle_quote(t_param *param, t_call *token);
 t_token			*handle_subs(t_param *param, t_call *token);
 t_token			*handle_newline(t_param *param, t_call *token);
+t_token			*handle_comment(t_param *param, t_call *tokens);
 t_token			*handle_operator(t_param *param, t_call *token);
 t_token			*handle_word(t_param *param, t_call *token);
 
 t_token			*identify_operator(t_param *param);
 t_token			*identify_word(t_param *param);
 
-int				ft_isnull(const char *s);
 int				ft_isquote(int c);
 int				ft_issubs(int c);
 int				ft_isnewline(int c);
 int				ft_isoperator(int c);
 int				ft_isword(int c);
 int				ft_isname(int c);
+int				ft_iscomment(int c);
 
+int				ft_isnull(const char *s);
+int				ft_isendl(const char *s);
 int				ft_isbracket(const char *s);
 int				ft_isdparen(const char *s);
 int				ft_isparen(const char *s);

@@ -6,32 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 02:35:00 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/05 22:34:11 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/06 02:23:28 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "token.h"
-
-/*
-** Problem here if param->token->subs in not NULL.
-*/
-
-static t_token	*get_subs(t_param *param, int (*ft_end)(const char *), size_t i)
-{
-	t_token		*ptr;
-
-	param->token->subs = get_tokens(param->buff, param->i + i, ft_end);
-	ptr = param->token->subs;
-	while (ptr && ptr->next)
-		ptr = ptr->next;
-	if (ptr)
-	{
-		param->token->tail = ptr->tail;
-		param->i = ptr->tail;
-	}
-	return (param->token);
-}
 
 static t_token	*identify_subs(t_param *param)
 {
@@ -42,8 +22,8 @@ static t_token	*identify_subs(t_param *param)
 		param->token = get_subs(param, ft_isdparen, 2);
 	else if (param->buff[param->i] == '(')
 		param->token = get_subs(param, ft_isparen, 1);
-	else if (ft_isname(param->buff[param->i]))
-		param->token = get_subs(param, ft_isnotname, 1);
+	else
+		param->token = get_subs(param, ft_isnotname, 0);
 	return (param->token);
 }
 

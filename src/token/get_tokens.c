@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/05 22:33:12 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/06 02:28:13 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 static t_token	*tokenize(t_param *param, t_call *token)
 {
 	static t_func	character[] = {
-		CHAR_QUOTE, CHAR_SUBS, CHAR_NEWLINE, CHAR_OPERATOR, CHAR_WORD
+		CHAR_QUOTE, CHAR_COMMENT, CHAR_SUBS, CHAR_NEWLINE, CHAR_OPERATOR,
+		CHAR_WORD
 	};
 	size_t			i;
 	size_t			size;
@@ -54,6 +55,11 @@ t_token			*get_tokens(const char *buff, size_t i,
 	{
 		if (ft_end(param.buff + param.i))
 			param.token = handle_end_of_input(&param, token);
+		else if (param.token->spec == COMMENT)
+		{
+			if (ft_isendl(param.buff + param.i))
+				param.token = token[param.token->type].identifier(&param);
+		}
 		else
 			param.token = tokenize(&param, token);
 		param.i++;

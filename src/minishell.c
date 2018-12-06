@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/05 21:51:22 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/06 02:35:08 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,14 +124,14 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 			write(1, "command: \"", 10);
 			write(1, line->buff + ptr->head, ptr->tail - ptr->head);
 			write(1, "\"\n", 2);
-			for (t_token *ptr2 = ptr->subs; ptr2; ptr2 = ptr2->next) {
-				printf("------------------------------\n"
-						"\ttype:%d spec:%d head:%ld tail:%ld quoted:%c\n",
-						ptr2->type, ptr2->spec, ptr2->head, ptr2->tail, ptr2->quote);
-				write(1, "\tcommand: \"", 11);
-				write(1, line->buff + ptr2->head, ptr2->tail - ptr2->head);
-				write(1, "\"\n", 2);
-				}
+			// for (t_token *ptr2 = ptr->subs; ptr2; ptr2 = ptr2->next) {
+			// 	printf("------------------------------\n"
+			// 			"\ttype:%d spec:%d head:%ld tail:%ld quoted:%c\n",
+			// 			ptr2->type, ptr2->spec, ptr2->head, ptr2->tail, ptr2->quote);
+			// 	write(1, "\tcommand: \"", 11);
+			// 	write(1, line->buff + ptr2->head, ptr2->tail - ptr2->head);
+			// 	write(1, "\"\n", 2);
+			// 	}
 			}
 		}
 	}
