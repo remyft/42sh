@@ -1,43 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_token.c                                         :+:      :+:    :+:   */
+/*   remove_line_continuation.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/27 19:30:34 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/06 01:42:07 by gbourgeo         ###   ########.fr       */
+/*   Created: 2018/12/01 01:42:26 by gbourgeo          #+#    #+#             */
+/*   Updated: 2018/12/01 01:56:18 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int			ft_isnull(const char *s)
+char			*remove_line_continuation(char *line)
 {
-	return ((*s == 0));
-}
+	size_t		i;
+	char		quote;
 
-int			ft_isquote(int c)
-{
-	return ((c == '\\') || (c == '\'') || (c == '"'));
-}
-
-int			ft_issubs(int c)
-{
-	return ((c == '$') || (c == '`'));
-}
-
-int			ft_isnewline(int c)
-{
-	return ((c == '\n') || (c == '\r'));
-}
-
-int			ft_isoperator(int c)
-{
-	return ((c == '&')
-			|| (c == '|')
-			|| (c == ';')
-			|| (c == '<')
-			|| (c == '>')
-			|| (c == '!'));
+	i = 0;
+	quote = 0;
+	if (!line)
+		return (line);
+	while (line[i])
+	{
+		if (line[i] == '\'')
+			quote = !quote;
+		if (!quote && line[i] == '\\' && line[i + 1] == '\n')
+			ft_strcpy(line + i, line + i + 2);
+		i++;
+	}
+	return (line);
 }

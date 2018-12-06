@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_commands.c                                     :+:      :+:    :+:   */
+/*   handle_comment.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/18 02:03:46 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/26 00:52:18 by gbourgeo         ###   ########.fr       */
+/*   Created: 2018/12/06 00:22:05 by gbourgeo          #+#    #+#             */
+/*   Updated: 2018/12/06 19:12:47 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token.h"
 
-void		get_commands(t_token *tokens)
+t_token			*handle_comment(t_param *param, t_call *tokens)
 {
-	while (tokens)
-	{
-		tokens = tokens->next;
-	}
+	(void)tokens;
+	param->token->tail = param->i;
+	param->token->type = TOKEN;
+	if (!param->token->spec)
+		param->token->spec = COMMENT;
+	return (param->token);
 }

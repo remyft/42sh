@@ -1,36 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new_token.c                                        :+:      :+:    :+:   */
+/*   get_subs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/22 23:05:54 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/02 22:53:15 by gbourgeo         ###   ########.fr       */
+/*   Created: 2018/12/06 01:05:28 by gbourgeo          #+#    #+#             */
+/*   Updated: 2018/12/06 01:06:44 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "token.h"
 
-static int		define_token(int c)
-{
-	if (ft_isspace(c))
-		return (UNDEFINED);
-	if (ft_isoperator(c))
-		return (OPERATOR);
-	return (TOKEN);
-}
+/*
+** Problem here if param->token->subs in not NULL.
+*/
 
-t_token			*new_token(int c, size_t pos)
+t_token			*get_subs(t_param *param, int (*ft_end)(const char *), size_t i)
 {
-	t_token		*new;
+	t_token		*ptr;
 
-	new = ft_memalloc(sizeof(*new));
-	if (!new)
-		return (new);
-	new->type = define_token(c);
-	new->head = pos;
-	new->tail = pos;
-	return (new);
+	param->token->subs = get_tokens(param->buff, param->i + i, ft_end);
+	ptr = param->token->subs;
+	while (ptr && ptr->next)
+		ptr = ptr->next;
+	if (ptr)
+	{
+		param->token->tail = ptr->tail;
+		param->i = ptr->tail;
+	}
+	return (param->token);
 }

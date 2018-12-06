@@ -6,7 +6,11 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2018/11/28 01:50:10 by rfontain         ###   ########.fr       */
+=======
+/*   Updated: 2018/12/01 01:59:16 by gbourgeo         ###   ########.fr       */
+>>>>>>> master
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,89 +24,104 @@
 # include <termios.h>
 # include <dirent.h>
 
-typedef struct		s_fctn
+typedef struct	s_fctn
 {
-	char			*key;
-	void			(*f)(t_line*);
-}					t_fctn;
+	char		*key;
+	void		(*f)(t_line*);
+}				t_fctn;
 
-char	**parsing(char *cmd);
+char			**parsing(char *cmd);
 
-void	deal_cmd(char **cmd, char ***env, struct termios *save);
+void			deal_cmd(char **cmd, char ***env, struct termios *save);
 
-char	*get_line(int fd);
-char	*replace_str(char *path, char *src, char *replace);
-void	free_tab(char ***tabl);
-int		get_tab_len(char **tabl);
-char	**ft_ralloc(char ***env, int len);
+char			*get_line(int fd);
+char			*replace_str(char *path, char *src, char *replace);
+void			free_tab(char ***tabl);
+int				get_tab_len(char **tabl);
+char			**ft_ralloc(char ***env, int len);
 
-void	ft_setenv(char ***env, char *new, int len);
-char	*get_env(char **env, char *to_get);
-void	ft_unsetenv(char ***env, char **unset);
-char	**collect_env(char **ep);
+void			ft_setenv(char ***env, char *new, int len);
+char			*get_env(char **env, char *to_get);
+void			ft_unsetenv(char ***env, char **unset);
+char			**collect_env(char **ep);
 
-void	ft_cd(char ***env, char **cmd);
+void			ft_cd(char ***env, char **cmd);
 
-int		ft_exec(char **env, char **cmd, struct termios *save);
+int				ft_exec(char **env, char **cmd, struct termios *save);
 
-void	put_prompt(char *prompt);
+void			put_prompt(char *prompt);
 
-void	welcome(t_line *line);
+char			*remove_line_continuation(char *line);
 
-/* Termcaps */
+void			welcome(t_line *line);
 
-void	go_home(t_line *line);
-void	go_end(t_line *line);
-void	left_arrow(t_line *line);
-void	right_arrow(t_line *line);
+/*
+** Termcaps
+*/
+void			go_home(t_line *line);
+void			go_end(t_line *line);
+void			left_arrow(t_line *line);
+void			right_arrow(t_line *line);
 
-void	next_word(t_line *line);
-void	prev_word(t_line *line);
+void			next_word(t_line *line);
+void			prev_word(t_line *line);
 
-int		ft_pchar(int nb);
-void	delete_down(void);
-void	put_prompt(char *prompt);
+int				ft_pchar(int nb);
+void			delete_down(void);
+void			put_prompt(char *prompt);
 
-void	up_arrow(t_line *line);
-void	down_arrow(t_line *line);
+void			up_arrow(t_line *line);
+void			down_arrow(t_line *line);
 
-void	create_hist(t_hist **begin, char **env);
-void	save_history(int index, char *buff, char *buff_tmp, t_hist **curr, char **env);
+void			create_hist(t_hist **begin, char **env);
+void			save_history(int index, char *buff, char *buff_tmp, \
+							t_hist **curr, char **env);
 
-void	deal_exit(t_line *line);
-void	deal_cancel(t_line *line);
-void	ft_clear(t_line *line);
+void			deal_exit(t_line *line);
+void			deal_cancel(t_line *line);
+void			ft_clear(t_line *line);
 
-void	del_lines(t_line *line);
-void	deal_dleft(t_line *line);
-void	del_right(t_line *line);
+void			del_lines(t_line *line);
+void			deal_dleft(t_line *line);
+void			del_right(t_line *line);
 
+<<<<<<< HEAD
 void	get_typing(t_line *line, int nb_read);
+=======
+int				get_typing(int *index, char *buff, char *tmp, int nb_read, \
+							char *buff_tmp);
+>>>>>>> master
 
-void	term_restore(struct termios save);
-void	define_new_term(struct termios *save);
+void			term_restore(struct termios save);
+void			define_new_term(struct termios *save);
 
+<<<<<<< HEAD
 void	select_left(t_line *line);
 void	select_right(t_line *line);
 void	ft_copy(t_line *line);
 void	ft_paste(t_line *line);
 void	ft_cut(t_line *line);
+=======
+void			select_left(t_line *line);
+void			select_right(t_line *line);
+>>>>>>> master
 
-/* Completion */
+/*
+** Completion
+*/
+int				put_complet(char *str, t_tree *tern, char *tget, int *put);
+void			get_complet(t_line *line);
+void			set_complet(t_line *line);
 
-int		put_complet(char *str, t_tree *tern, char *tget, int *put);
-void	get_complet(t_line *line);
-void	set_complet(t_line *line);
+void			feed_tree(char *str, t_tree **tern, int lvl);
+t_tree			*create_bin_tree(char **env);
+t_tree			*create_file_tree(char *path);
 
-void	feed_tree(char *str, t_tree **tern, int lvl);
-t_tree	*create_bin_tree(char **env);
-t_tree	*create_file_tree(char *path);
+void			set_psblty(t_tree *tern);
+void			*free_tree(t_tree *tern);
 
-void	set_psblty(t_tree *tern);
-void	*free_tree(t_tree *tern);
-
-void	reset_put(t_tree *tern);
-void	deal_reset(t_tree *tree1, t_tree *tree2, t_tree *tree3);
+void			reset_put(t_tree *tern);
+void			deal_reset(t_tree *tree1, t_tree *tree2, t_tree *tree3);
 
 t_line	*get_struct(void);
 

@@ -1,43 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_token.c                                         :+:      :+:    :+:   */
+/*   handle_operator.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/27 19:30:34 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/06 01:42:07 by gbourgeo         ###   ########.fr       */
+/*   Created: 2018/11/25 20:34:30 by gbourgeo          #+#    #+#             */
+/*   Updated: 2018/11/29 09:21:45 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "token.h"
 
-int			ft_isnull(const char *s)
+t_token			*handle_operator(t_param *param, t_call *token)
 {
-	return ((*s == 0));
-}
-
-int			ft_isquote(int c)
-{
-	return ((c == '\\') || (c == '\'') || (c == '"'));
-}
-
-int			ft_issubs(int c)
-{
-	return ((c == '$') || (c == '`'));
-}
-
-int			ft_isnewline(int c)
-{
-	return ((c == '\n') || (c == '\r'));
-}
-
-int			ft_isoperator(int c)
-{
-	return ((c == '&')
-			|| (c == '|')
-			|| (c == ';')
-			|| (c == '<')
-			|| (c == '>')
-			|| (c == '!'));
+	if (param->token->type == UNDEFINED)
+		param->token->type = OPERATOR;
+	else if (param->token->type != OPERATOR)
+		return (token[param->token->type].identifier(param));
+	return (param->token);
 }

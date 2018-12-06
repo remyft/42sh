@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/06 21:47:50 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/06 22:14:23 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	deal_key(t_line *line)
 	static t_fctn	fctn[] = {
 		{ "\x3" , &deal_cancel },
 		{ "\x4" , &deal_exit },
-		{ "\x9" , &get_complet },
+		{ "\x9" , &ft_clear },//get_complet },
 		{ "\xC" , &ft_clear },
 		{ "\x7F" , &deal_dleft },
 		{ "\x1B\x5B\x41" , &up_arrow },

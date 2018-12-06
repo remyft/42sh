@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/06 22:05:58 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/06 22:15:16 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,19 +148,25 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 			ft_putstr("line : ");
 			ft_putendl(line->curr->buff);
 			*(line->e_cmpl) &= ~COMPLETION;
-			save_history(line->index, line->curr->buff, line->curr->buff_tmp, &(line->hist), env);
-			ft_strcpy(line->curr->buff + line->len, "\n");
-			tokens = get_tokens(line->curr->buff);
+			save_history(line->index, line->buff, line->buff_tmp, &(line->curr), env);
+			remove_line_continuation(line->buff);
+			tokens = get_tokens(line->buff, 0, ft_isnull);
 			for (t_token *ptr = tokens; ptr; ptr = ptr->next) {
-				printf("------------------------------\n"
-						"type:%d spec:%ld head:%ld tail:%ld quoted:%c\n",
-						ptr->type, ptr->spec, ptr->head, ptr->tail, ptr->quoted);
-				write(1, "command: \"", 10);
-				write(1, line->curr->buff + ptr->head, ptr->tail - ptr->head);
-				write(1, "\"\n", 2);
+			printf("------------------------------\n"
+					"type:%d spec:%d head:%ld tail:%ld quoted:%c\n",
+					ptr->type, ptr->spec, ptr->head, ptr->tail, ptr->quote);
+			write(1, "command: \"", 10);
+			write(1, line->buff + ptr->head, ptr->tail - ptr->head);
+			write(1, "\"\n", 2);
+			// for (t_token *ptr2 = ptr->subs; ptr2; ptr2 = ptr2->next) {
+			// 	printf("------------------------------\n"
+			// 			"\ttype:%d spec:%d head:%ld tail:%ld quoted:%c\n",
+			// 			ptr2->type, ptr2->spec, ptr2->head, ptr2->tail, ptr2->quote);
+			// 	write(1, "\tcommand: \"", 11);
+			// 	write(1, line->buff + ptr2->head, ptr2->tail - ptr2->head);
+			// 	write(1, "\"\n", 2);
+			// 	}
 			}
-			get_commands(tokens);
-			reset_line(line);
 		}
 	}
 	return (0);

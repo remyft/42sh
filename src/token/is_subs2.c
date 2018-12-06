@@ -1,36 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new_token.c                                        :+:      :+:    :+:   */
+/*   is_subs2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/22 23:05:54 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/02 22:53:15 by gbourgeo         ###   ########.fr       */
+/*   Created: 2018/12/06 01:43:20 by gbourgeo          #+#    #+#             */
+/*   Updated: 2018/12/06 02:29:13 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "token.h"
-
-static int		define_token(int c)
+int			ft_isendl(const char *s)
 {
-	if (ft_isspace(c))
-		return (UNDEFINED);
-	if (ft_isoperator(c))
-		return (OPERATOR);
-	return (TOKEN);
-}
-
-t_token			*new_token(int c, size_t pos)
-{
-	t_token		*new;
-
-	new = ft_memalloc(sizeof(*new));
-	if (!new)
-		return (new);
-	new->type = define_token(c);
-	new->head = pos;
-	new->tail = pos;
-	return (new);
+	return ((*s == '\n') || (*s == '\0'));
 }

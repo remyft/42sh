@@ -1,22 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   operator_handler.c                                 :+:      :+:    :+:   */
+/*   is_subs.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/25 20:34:30 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/27 18:33:14 by gbourgeo         ###   ########.fr       */
+/*   Created: 2018/12/05 21:57:02 by gbourgeo          #+#    #+#             */
+/*   Updated: 2018/12/06 19:58:56 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "token.h"
 
-t_token			*operator_handler(t_token *tok, const char *buff, size_t *pos)
+int		ft_isbracket(const char *s)
 {
-	if (tok->type & TOKEN)
-		return (identify_token(tok, buff, pos));
-	tok->type = OPERATOR;
-	return (identify_operator(tok, buff, pos));
+	return ((*s == '}'));
+}
+
+int		ft_isdparen(const char *s)
+{
+	return (!ft_strncmp(s, "))", 2));
+}
+
+int		ft_isparen(const char *s)
+{
+	return ((*s == ')'));
+}
+
+int		ft_isnotname(const char *s)
+{
+	return (ft_isword(*s)
+		&& !ft_isquote(*s)
+		&& !ft_issubs(*s)
+		&& !ft_isoperator(*s));
+}
+
+int		ft_isbackquote(const char *s)
+{
+	return ((*s == '`'));
 }
