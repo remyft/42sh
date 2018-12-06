@@ -24,13 +24,13 @@ void	ft_putselect(t_line *line)
 	put_prompt(line->prompt);
 	i = -1;
 	while (++i < line->slct_beg)
-		ft_putchar(line->buff[i]);
+		ft_putchar(line->curr->buff[i]);
 	tputs(tgetstr("mr", NULL), 1, ft_pchar);
 	while (i < line->slct_end)
-		ft_putchar(line->buff[i++]);
+		ft_putchar(line->curr->buff[i++]);
 	tputs(tgetstr("me", NULL), 1, ft_pchar);
 	while (i < line->len)
-		ft_putchar(line->buff[i++]);
+		ft_putchar(line->curr->buff[i++]);
 	i = ((line->len + (line->len % line->nb_col)) - line->index) / line->nb_col;
 	while (i--)
 		tputs(tgetstr("up", NULL), 1, ft_pchar);
@@ -91,7 +91,7 @@ void	ft_copy(t_line *line)
 		return ;
 	if (line->copy)
 		free(line->copy);
-	line->copy = ft_strndup(&(line->buff[line->slct_beg]), line->slct_end - line->slct_beg);
+	line->copy = ft_strndup(&(line->curr->buff[line->slct_beg]), line->slct_end - line->slct_beg);
 }
 
 void	ft_cut(t_line *line)
@@ -104,18 +104,18 @@ void	ft_cut(t_line *line)
 	ft_copy(line);
 	beg = line->slct_beg;
 	end = line->slct_end;
-	while (line->buff[beg])
+	while (line->curr->buff[beg])
 	{
-		if (line->buff[end])
-			line->buff[beg] = line->buff[end++];
+		if (line->curr->buff[end])
+			line->curr->buff[beg] = line->curr->buff[end++];
 		else
-			line->buff[beg] = '\0';
+			line->curr->buff[beg] = '\0';
 		beg++;
 	}
-	line->len = ft_strlen(line->buff);
+	line->len = ft_strlen(line->curr->buff);
 	tputs(tgoto(tgetstr("ch", NULL), 0, line->lprompt), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
-	ft_putstr(line->buff);
+	ft_putstr(line->curr->buff);
 	tputs(tgoto(tgetstr("ch", NULL), 0, (line->lprompt + line->index) % line->nb_col), 1, ft_pchar);
 
 }
@@ -135,26 +135,26 @@ void	ft_paste(t_line *line)
 	{
 		if (line->index > 8192)
 			break ;
-		d = line->buff[line->index + 1];
-		line->buff[line->index + 1] = line->buff[line->index];
-		line->buff[line->index] = line->copy[j];
+		d = line->curr->buff[line->index + 1];
+		line->curr->buff[line->index + 1] = line->curr->buff[line->index];
+		line->curr->buff[line->index] = line->copy[j];
 		i = line->index + 1;
-		while (line->buff[i])
+		while (line->curr->buff[i])
 		{
-			c = line->buff[i + 1];
-			line->buff[i + 1] = d;
+			c = line->curr->buff[i + 1];
+			line->curr->buff[i + 1] = d;
 			d = c;
 			i++;
 		}
 		j++;
 		line->index++;
 	}
-	line->len = ft_strlen(line->buff);
+	line->len = ft_strlen(line->curr->buff);
 	i = line->index / line->nb_col;
 	while (i--)
 		tputs(tgetstr("up", NULL), 1, ft_pchar);
 	tputs(tgoto(tgetstr("ch", NULL), 0, line->lprompt), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
-	ft_putstr(line->buff);
+	ft_putstr(line->curr->buff);
 	tputs(tgoto(tgetstr("ch", NULL), 0, (line->lprompt + line->index) % line->nb_col), 1, ft_pchar);
 }

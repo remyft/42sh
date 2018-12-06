@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/28 08:24:21 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/06 21:53:54 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,14 @@ typedef struct			s_history
 typedef struct		s_buff
 {
 	char			buff[8193];
-	char			buff_tmp[8193];
+	char			buff_tmp[8194];
 	struct s_buff	*next;
 	struct s_buff	*prev;
 }					t_buff;
 
 typedef struct		s_line
 {
-	char			buff[8193];
-	char			buff_tmp[8194];
+	t_buff			*curr;
 	char			tmp[10];
 	char			*copy;
 	char			*prompt;
@@ -76,7 +75,7 @@ typedef struct		s_line
 	int				len;
 	int				nb_col;
 	int				nb_line;
-	t_hist			*curr;
+	t_hist			*hist;
 	t_st			*e_cmpl;
 	t_tree			*tree[3];
 	struct termios	save;

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/29 11:09:14 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/06 21:47:50 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,20 @@
 void	init_line(char **env, t_line *line)
 {
 	line->e_cmpl = ft_memalloc(sizeof(t_st));
+	line->curr = ft_memalloc(sizeof(t_buff));
 	line->path = get_env(env, "PATH");
 	line->term = get_env(env, "TERM");
 	tgetent(NULL, line->term);
-	line->curr = NULL;
-	create_hist(&(line->curr), env);
-	if (line->curr)
-		line->curr = line->curr->begin;
+	create_hist(&(line->hist), env);
+	if (line->hist)
+		line->hist = line->hist->begin;
 	define_new_term(&(line->save));
 	signal(SIGINT, &sig_hdlr);
 	signal(SIGQUIT, &sig_hdlr);
 	signal(SIGWINCH, &sig_winch);
 	tputs(tgetstr("cl", NULL), 1, ft_pchar);
-	ft_bzero(line->buff_tmp, 8194);
-	ft_bzero(line->buff, 8193);
+	ft_bzero(line->curr->buff_tmp, 8194);
+	ft_bzero(line->curr->buff, 8193);
 	line->tree[0] = create_bin_tree(env);
 	line->tree[1] = create_file_tree(".");
 	line->tree[2] = NULL;
@@ -113,7 +113,7 @@ void	deal_typing(t_line *line)
 				tputs(tgetstr("cr", NULL), 1, ft_pchar);
 				tputs(tgetstr("cd", NULL), 1, ft_pchar);
 				put_prompt(line->prompt);
-				ft_putstr(line->buff);
+				ft_putstr(line->curr->buff);
 				tputs(tgoto(tgetstr("ch", NULL), 0, (line->index + line->lprompt) % line->nb_col), 1, ft_pchar);
 			}
 			if (ft_strcmp(line->tmp, "\xE2\x89\x88") != 0 &&  ft_strcmp(line->tmp, "\xC3\xA7") != 0)

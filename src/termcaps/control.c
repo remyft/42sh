@@ -16,7 +16,7 @@ void	deal_exit(t_line *line)
 {
 	t_hist *curr;
 
-	if (line->buff[0])
+	if (line->curr->buff[0])
 		return ;
 	term_restore(line->save);
 	if (line->tree[0])
@@ -26,15 +26,15 @@ void	deal_exit(t_line *line)
 	if (line->tree[2])
 		free_tree(line->tree[2]);
 	ft_putchar('\n');
-	while (line->curr)
+	while (line->hist)
 	{
-		curr = line->curr->next;
-		if (line->curr->content)
-			free(line->curr->content);
-		if (line->curr->tmp)
-			free(line->curr->tmp);
-		free(line->curr);
-		line->curr = curr;
+		curr = line->hist->next;
+		if (line->hist->content)
+			free(line->hist->content);
+		if (line->hist->tmp)
+			free(line->hist->tmp);
+		free(line->hist);
+		line->hist = curr;
 	}
 	exit(0);
 }
@@ -45,25 +45,25 @@ static int		ft_cancel(t_line *line)
 		tputs(tgetstr("do", NULL), 1, ft_pchar);
 	tputs(tgoto(tgetstr("ch", NULL), 0, (line->len + line->lprompt) % line->nb_col), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
-	ft_bzero(line->buff_tmp, 8194);
-	if (!line->curr)
+	ft_bzero(line->curr->buff_tmp, 8194);
+	if (!line->hist)
 		return (-1);
-	line->curr = line->curr->begin;
-	while (line->curr->next)
+	line->hist = line->hist->begin;
+	while (line->hist->next)
 	{
-		if (line->curr->tmp)
-			free(line->curr->tmp);
-		line->curr->tmp = NULL;
-		line->curr = line->curr->next;
+		if (line->hist->tmp)
+			free(line->hist->tmp);
+		line->hist->tmp = NULL;
+		line->hist = line->hist->next;
 	}
-	if (line->curr->tmp)
-		free(line->curr->tmp);
-	line->curr->tmp = NULL;
-	line->curr = line->curr->begin;
+	if (line->hist->tmp)
+		free(line->hist->tmp);
+	line->hist->tmp = NULL;
+	line->hist = line->hist->begin;
 	*(line->e_cmpl) &= ~QUOTE;
 	*(line->e_cmpl) &= ~BQUOTE;
 	*(line->e_cmpl) &= ~DQUOTE;
-	ft_bzero(line->buff, 8193);
+	ft_bzero(line->curr->buff, 8193);
 	line->len = 0;
 	line->index = 0;
 	return (-1);
@@ -76,11 +76,11 @@ void	deal_cancel(t_line *line)
 		tputs(tgetstr("cr", NULL), 1, ft_pchar);
 		tputs(tgetstr("cd", NULL), 1, ft_pchar);
 		put_prompt(line->prompt);
-		ft_bzero(line->buff, line->len);
-		ft_strcpy(line->buff, line->buff_tmp);
-		ft_bzero(line->buff_tmp, 8194);
-		ft_putstr(line->buff);
-		line->index = ft_strlen(line->buff);
+		ft_bzero(line->curr->buff, line->len);
+		ft_strcpy(line->curr->buff, line->curr->buff_tmp);
+		ft_bzero(line->curr->buff_tmp, 8194);
+		ft_putstr(line->curr->buff);
+		line->index = ft_strlen(line->curr->buff);
 		line->len = line->index;
 		reset_put(line->tree[0]);
 		reset_put(line->tree[1]);
@@ -102,5 +102,5 @@ void	ft_clear(t_line *line)
 {
 	tputs(tgetstr("cl", NULL), 1, ft_pchar);
 	put_prompt(line->prompt);
-	ft_putstr(line->buff);
+	ft_putstr(line->curr->buff);
 }

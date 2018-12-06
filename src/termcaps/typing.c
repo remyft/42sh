@@ -65,14 +65,14 @@ void		get_typing(t_line *line, int nb_read)
 	j = -1;
 	line->tmp[nb_read] = '\0';
 	if (ft_isprint(line->tmp[0]))
-		ft_bzero(line->buff_tmp, 8194);
-	while (cp < nb_read && line->tmp[0] != 12 && (ft_isprint(line->tmp[cp]) || ft_isspace(line->tmp[cp])) && (line->tmp[0] != 9 || ft_strspace(line->buff)) && line->tmp[cp] != 10)
+		ft_bzero(line->curr->buff_tmp, 8194);
+	while (cp < nb_read && line->tmp[0] != 12 && (ft_isprint(line->tmp[cp]) || ft_isspace(line->tmp[cp])) && (line->tmp[0] != 9 || ft_strspace(line->curr->buff)) && line->tmp[cp] != 10)
 	{
 		is_change = deal_state(line, line->tmp[cp]);
-		tchar = line->buff[line->index + 1];
+		tchar = line->curr->buff[line->index + 1];
 		if (line->index != line->len)
-			line->buff[line->index + 1] = line->buff[line->index];
-		line->buff[line->index++] = line->tmp[cp];
+			line->curr->buff[line->index + 1] = line->curr->buff[line->index];
+		line->curr->buff[line->index++] = line->tmp[cp];
 		line->len++;
 		j = 1;
 		ft_putchar(line->tmp[cp++]);
@@ -80,13 +80,13 @@ void		get_typing(t_line *line, int nb_read)
 		{
 			while (line->index + j < line->len)
 			{
-				cbis = line->buff[line->index + j];
-				line->buff[line->index + j] = tchar;
+				cbis = line->curr->buff[line->index + j];
+				line->curr->buff[line->index + j] = tchar;
 				tchar = cbis;
 				j++;
 			}
 			tputs(tgetstr("sc", NULL), 1, ft_pchar);
-			ft_putstr(&(line->buff[line->index]));
+			ft_putstr(&(line->curr->buff[line->index]));
 			tputs(tgetstr("rc", NULL), 1, ft_pchar);
 		}
 	}
