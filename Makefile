@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/12/06 01:44:59 by gbourgeo         ###   ########.fr        #
+#    Updated: 2018/12/07 16:34:32 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,8 +92,6 @@ NEWLINE = $(shell echo "")
 
 CFLAGS =  -Wall -Wextra -Werror -std=gnu99
 
-DEBUG = -g3 -fsanitize=address
-
 OBJS_DIR = objs/
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 
@@ -112,33 +110,48 @@ $(LIB):
 	make -C $(LIB_PATH)
 
 $(NAME): $(NEWLINE) $(OBJS) $(LIB)
-	@$(CC) $^ -o $@ $(LIB_LINK) #$(DEBUG)
+	@$(CC) $(DEBUG) $^ -o $@ $(LIB_LINK)
 	@echo ""
 	@echo $(GREY)" Compilling" $(RESET) [ $(NAME) ] $(OK)
 
+
+$(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) $(CFLAGS) $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -o $@ -c $< 
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
+	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
+
+$(OBJS_DIR)minishell.o: INCS += -I$(INC_DIR)/$(TOKEN_DIR)
 
 $(OBJS_DIR)%.o: $(CMPL_DIR)%.c
+$(OBJS_DIR)%.o: $(CMPL_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) $(CFLAGS) $(INCS) -o $@ -c $< 
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
+	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(BUIL_DIR)%.c
+$(OBJS_DIR)%.o: $(BUIL_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) $(CFLAGS) $(INCS) -o $@ -c $< 
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
+	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(TERM_DIR)%.c
+$(OBJS_DIR)%.o: $(TERM_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) $(CFLAGS) $(INCS) -o $@ -c $< 
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
+	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(TOKEN_DIR)%.c
+$(OBJS_DIR)%.o: $(SRCS_DIR)$(TOKEN_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) $(CFLAGS) $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -o $@ -c $< 
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR)
+	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(OTHR_DIR)%.c
+$(OBJS_DIR)%.o: $(OTHR_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) $(CFLAGS) $(INCS) -o $@ -c $< 
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
+	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(DEPS_DIR)%.d: ;
 .PRECIOUS: $@
@@ -157,6 +170,9 @@ fclean: clean
 	@echo $(GREY)" Deleting.." $(RESET) [ $(NAME) ] $(OK)
 
 re: fclean all
+
+debug: DEBUG = -g3 -fsanitize=address -DDEBUG -g
+debug: re
 
 nn:
 	norminette $(SRCS)

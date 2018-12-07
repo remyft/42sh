@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/06 22:24:23 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/07 16:19:26 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,23 @@ t_token			*get_tokens(const char *buff, size_t i,
 			param.token = tokenize(&param, token);
 		param.i++;
 	}
+#ifdef DEBUG
+			for (t_token *ptr = head; ptr; ptr = ptr->next) {
+			printf("------------------------------\n"
+					"type:%d spec:%d head:%ld tail:%ld quoted:%c\n",
+					ptr->type, ptr->spec, ptr->head, ptr->tail, ptr->quote);
+			write(1, "command: \"", 10);
+			write(1, buff + ptr->head, ptr->tail - ptr->head);
+			write(1, "\"\n", 2);
+			// for (t_token *ptr2 = ptr->subs; ptr2; ptr2 = ptr2->next) {
+			// 	printf("------------------------------\n"
+			// 			"\ttype:%d spec:%d head:%ld tail:%ld quoted:%c\n",
+			// 			ptr2->type, ptr2->spec, ptr2->head, ptr2->tail, ptr2->quote);
+			// 	write(1, "\tcommand: \"", 11);
+			// 	write(1, line->buff + ptr2->head, ptr2->tail - ptr2->head);
+			// 	write(1, "\"\n", 2);
+			// 	}
+			}
+#endif
 	return (head);
 }
