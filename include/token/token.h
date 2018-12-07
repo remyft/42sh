@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/06 22:22:58 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/07 16:55:44 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,8 @@ typedef struct	s_func
 /*
 ** Functions
 */
-t_token			*get_tokens(const char *buff, size_t i, \
-							int (*ft_end)(const char *));
+t_token			*tokenise(const char *buff, size_t i, \
+						int (*ft_end)(const char *));
 t_token			*new_token(int c, size_t pos);
 
 t_token			*get_subs(t_param *param, int (*ft_end)(const char*), size_t i);

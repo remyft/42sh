@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/07 16:19:26 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/07 16:56:08 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft.h"
 #include "token.h"
 
-static t_token	*tokenize(t_param *param, t_call *token)
+static t_token	*get_tokens(t_param *param, t_call *token)
 {
 	static t_func	character[] = {
 		CHAR_QUOTE, CHAR_COMMENT, CHAR_SUBS, CHAR_NEWLINE, CHAR_OPERATOR,
@@ -38,7 +38,7 @@ static t_token	*tokenize(t_param *param, t_call *token)
 	return (param->token);
 }
 
-t_token			*get_tokens(const char *buff, size_t i,
+t_token			*tokenise(const char *buff, size_t i,
 							int (*ft_end)(const char *))
 {
 	static t_call	token[] = {
@@ -61,7 +61,7 @@ t_token			*get_tokens(const char *buff, size_t i,
 				param.token = token[param.token->type].identifier(&param);
 		}
 		else
-			param.token = tokenize(&param, token);
+			param.token = get_tokens(&param, token);
 		param.i++;
 	}
 #ifdef DEBUG
