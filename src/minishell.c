@@ -6,13 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/07 16:55:21 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/07 17:01:22 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "main_tools.h"
 #include "token.h"
+#include "parser.h"
 
 int		cmp_strpart(char *src, char *str, int *beg)
 {
@@ -117,6 +118,7 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 			save_history(line->index, line->buff, line->buff_tmp, &(line->curr), env);
 			remove_line_continuation(line->buff);
 			tokens = tokenise(line->buff, 0, ft_isnull);
+			parse(tokens);
 		}
 	}
 	return (0);
