@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/06 22:14:23 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/06 22:36:09 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 void	init_line(char **env, t_line *line)
 {
 	line->e_cmpl = ft_memalloc(sizeof(t_st));
-	line->curr = ft_memalloc(sizeof(t_buff));
 	line->path = get_env(env, "PATH");
 	line->term = get_env(env, "TERM");
 	tgetent(NULL, line->term);
@@ -29,8 +28,8 @@ void	init_line(char **env, t_line *line)
 	signal(SIGQUIT, &sig_hdlr);
 	signal(SIGWINCH, &sig_winch);
 	tputs(tgetstr("cl", NULL), 1, ft_pchar);
-	ft_bzero(line->curr->buff_tmp, 8194);
-	ft_bzero(line->curr->buff, 8193);
+//	ft_bzero(line->curr->buff_tmp, 8194);
+//	ft_bzero(line->curr->buff, 8193);
 	line->tree[0] = create_bin_tree(env);
 	line->tree[1] = create_file_tree(".");
 	line->tree[2] = NULL;

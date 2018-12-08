@@ -6,11 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2018/11/28 01:50:10 by rfontain         ###   ########.fr       */
-=======
-/*   Updated: 2018/12/01 01:59:16 by gbourgeo         ###   ########.fr       */
->>>>>>> master
+/*   Updated: 2018/12/06 22:16:41 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,26 +81,15 @@ void			del_lines(t_line *line);
 void			deal_dleft(t_line *line);
 void			del_right(t_line *line);
 
-<<<<<<< HEAD
-void	get_typing(t_line *line, int nb_read);
-=======
-int				get_typing(int *index, char *buff, char *tmp, int nb_read, \
-							char *buff_tmp);
->>>>>>> master
-
+void			get_typing(t_line *line, int nb_read);
 void			term_restore(struct termios save);
 void			define_new_term(struct termios *save);
 
-<<<<<<< HEAD
-void	select_left(t_line *line);
-void	select_right(t_line *line);
-void	ft_copy(t_line *line);
-void	ft_paste(t_line *line);
-void	ft_cut(t_line *line);
-=======
 void			select_left(t_line *line);
 void			select_right(t_line *line);
->>>>>>> master
+void			ft_copy(t_line *line);
+void			ft_paste(t_line *line);
+void			ft_cut(t_line *line);
 
 /*
 ** Completion

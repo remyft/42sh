@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/06 22:15:16 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/08 02:08:05 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,16 +117,60 @@ void	reset_line(t_line *line)
 	line->index = 0;
 }
 
+void	free_buff(t_line *line)
+{
+	while (line->curr && line->curr->next)
+	{
+		if (line->curr->prev)
+			free(line->curr->prev);
+		line->curr = line->curr->next;
+	}
+	if (line->curr)
+		free(line->curr);
+	line->curr = ft_memalloc(sizeof(t_buff));
+}
+
+char	*listnjoin(t_line *line)
+{
+	char	*str;
+	t_buff	*begin;
+
+	begin = line->curr;
+	while (line->curr->prev)
+	{
+		printf("bef : [%s]\n", line->curr->buff);
+		line->curr = line->curr->prev;
+	}
+		printf("af : [%s]\n", line->curr->buff);
+	str = ft_strdup(line->curr->buff);
+	str = ft_strjoinfree(str, "\n", 1);
+	line->curr = line->curr->next;
+	while (line->curr && line->curr->next)
+	{
+		str = ft_strjoinfree(str, line->curr->buff, 1);
+		str = ft_strjoinfree(str, "\n", 1);
+		line->curr = line->curr->next;
+	}
+	if (line->curr)
+	{
+		str = ft_strjoinfree(str, line->curr->buff, 1);
+		str = ft_strjoinfree(str, "\n", 1);
+	}
+	return (str);
+}
+
 int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **ep)
 {
 	t_line	*line;
 	t_token	*tokens;
 	char	**env;
+	char	*ret;
 
 	env = collect_env(ep);
 	line = get_struct();
 	init_line(env, line);
 	welcome(line);
+	line->curr = ft_memalloc(sizeof(t_buff));
 	while (1)
 	{
 		put_prompt(line->prompt);
@@ -145,25 +189,29 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 		}
 		if (line->curr->buff[0] && line->tmp[0] != -1 && line->curr->buff[0] != 10)
 		{
-			ft_putstr("line : ");
-			ft_putendl(line->curr->buff);
+			ret = listnjoin(line);
+			printf("line : [%s]\n", ret);
 			*(line->e_cmpl) &= ~COMPLETION;
-			save_history(line->index, line->buff, line->buff_tmp, &(line->curr), env);
-			remove_line_continuation(line->buff);
-			tokens = get_tokens(line->buff, 0, ft_isnull);
+			save_history(line->index, ret, line->curr->buff_tmp, &(line->hist), env);
+			remove_line_continuation(ret);
+			tokens = get_tokens(ret, 0, ft_isnull);
 			for (t_token *ptr = tokens; ptr; ptr = ptr->next) {
 			printf("------------------------------\n"
 					"type:%d spec:%d head:%ld tail:%ld quoted:%c\n",
 					ptr->type, ptr->spec, ptr->head, ptr->tail, ptr->quote);
 			write(1, "command: \"", 10);
-			write(1, line->buff + ptr->head, ptr->tail - ptr->head);
+			write(1, ret + ptr->head, ptr->tail - ptr->head);
 			write(1, "\"\n", 2);
+			free_buff(line);
+			*(line->e_cmpl) &= ~QUOTE;
+			*(line->e_cmpl) &= ~DQUOTE;
+			*(line->e_cmpl) &= ~BQUOTE;
 			// for (t_token *ptr2 = ptr->subs; ptr2; ptr2 = ptr2->next) {
 			// 	printf("------------------------------\n"
 			// 			"\ttype:%d spec:%d head:%ld tail:%ld quoted:%c\n",
 			// 			ptr2->type, ptr2->spec, ptr2->head, ptr2->tail, ptr2->quote);
 			// 	write(1, "\tcommand: \"", 11);
-			// 	write(1, line->buff + ptr2->head, ptr2->tail - ptr2->head);
+			// 	write(1, line->curr->buff + ptr2->head, ptr2->tail - ptr2->head);
 			// 	write(1, "\"\n", 2);
 			// 	}
 			}
