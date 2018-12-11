@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/11 14:50:37 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/11 14:55:41 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,9 +226,9 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 			ret = listnjoin(line);
 			printf("line : [%s]\n", ret);
 			*(line->e_cmpl) &= ~COMPLETION;
-			save_history(line->index, line->buff, line->buff_tmp, &(line->curr), env);
-			remove_line_continuation(line->buff);
-			tokens = tokenise(line->buff, 0, ft_isnull);
+			save_history(line->index, line->curr->buff, line->buff_tmp, &(line->hist), env);
+			remove_line_continuation(line->curr->buff);
+			tokens = tokenise(line->curr->buff, 0, ft_isnull);
 			parse(tokens);
 			free_buff(line);
 			del_all_state(line);
