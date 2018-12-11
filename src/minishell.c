@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/11 14:56:58 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/11 15:05:33 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ char	*listnjoin(t_line *line)
 		line->curr = line->curr->prev;
 	begin = line->curr;
 	str = ft_strdup(line->curr->buff);
-	str = ft_strjoinfree(str, "\n", 1);
+//	str = ft_strjoinfree(str, "\n", 1);
 	line->curr = line->curr->next;
 	while (line->curr && line->curr->next)
 	{
@@ -156,8 +156,8 @@ char	*listnjoin(t_line *line)
 	}
 	if (line->curr)
 	{
-		str = ft_strjoinfree(str, line->curr->buff, 1);
 		str = ft_strjoinfree(str, "\n", 1);
+		str = ft_strjoinfree(str, line->curr->buff, 1);
 	}
 	line->curr = begin;
 	return (str);
