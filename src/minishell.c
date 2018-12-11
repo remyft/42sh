@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/07 17:01:22 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/11 14:18:56 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 {
 	t_line	*line;
 	t_token	*tokens;
+	t_command	*command;
 	char	**env;
 
 	env = collect_env(ep);
@@ -117,8 +118,30 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 			*(line->e_cmpl) &= ~COMPLETION;
 			save_history(line->index, line->buff, line->buff_tmp, &(line->curr), env);
 			remove_line_continuation(line->buff);
-			tokens = tokenise(line->buff, 0, ft_isnull);
-			parse(tokens);
+			tokens = tokenise(line->buff, 0, ft_isnull, 0);
+#ifdef DEBUG
+			for (t_token *ptr = tokens; ptr; ptr = ptr->next) {
+			printf("------------------------------\n"
+					"type:%d spec:%d head:%ld tail:%ld\n",
+					ptr->type, ptr->spec, ptr->head, ptr->tail);
+			write(1, "buff: \"", 7);
+			write(1, line->buff + ptr->head, ptr->tail - ptr->head);
+			write(1, "\" command: \"", 12);
+			if (ptr->command)
+				write(1, ptr->command, ft_strlen(ptr->command));
+			write(1, "\"\n", 2);
+			for (t_token *ptr2 = ptr->subs; ptr2; ptr2 = ptr2->next) {
+				printf("------------------------------\n"
+						"\ttype:%d spec:%d head:%ld tail:%ld\n",
+						ptr2->type, ptr2->spec, ptr2->head, ptr2->tail);
+				write(1, "\tsub: \"", 7);
+				write(1, line->buff + ptr2->head, ptr2->tail - ptr2->head);
+				write(1, "\"\n", 2);
+				}
+			}
+#endif
+			// command = parse(line->buff, tokens);
+			(void)command;
 		}
 	}
 	return (0);

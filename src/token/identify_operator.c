@@ -6,12 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 00:38:00 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/05 19:05:32 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/11 07:18:42 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "token.h"
+#include "operator.h"
 
 static size_t	check_operator(t_token *token, const char *buff, size_t len)
 {
@@ -44,5 +45,6 @@ t_token			*identify_operator(t_param *param)
 	if ((ret = check_operator(param->token, param->buff, ret)))
 		param->token->spec = ret;
 	param->token->next = new_token(param->buff[param->i], param->i);
+	param->token->next->prev = param->token;
 	return (param->token->next);
 }

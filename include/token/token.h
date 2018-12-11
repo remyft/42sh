@@ -6,23 +6,25 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/07 16:55:44 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/11 14:21:20 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_TOKEN_H
-# define FT_TOKEN_H
+#ifndef TOKEN_H
+# define TOKEN_H
 
 # include <stdlib.h>
 # include <stdio.h>
+
+# define NULLTOKEN	(t_token *)0
 
 /*
 ** Token Types
 */
 enum {
 	UNDEFINED = -1,
-	OPERATOR,
 	TOKEN,
+	OPERATOR,
 };
 
 /*
@@ -40,62 +42,30 @@ enum {
 };
 
 /*
-** Enumeration for Quotes
+** Enumeration for '\', ''', '"'.
 */
 enum {
 	BACKSLASH = (1 << 0),
 	SINGLE_QUOTE = (1 << 1),
 	DOUBLE_QUOTE = (1 << 2),
+	BRACKET = (1 << 3),
+	PARENTHESE = (1 << 4),
 };
-
-/*
-** Specificities for token OPERATOR
-*/
-# define OR_IF				{ "||",  0 }
-# define PIPE				{ "|",   1 }
-# define PIPE_AND			{ "|&",  2 }
-# define NOT				{ "!",   3 }
-# define AND_IF				{ "&&",  4 }
-# define BACKGRND			{ "&",   5 }
-# define SEMI				{ ";",   6 }
-# define DSEMI				{ ";;",  7 }
-# define PAREN_LEFT			{ "(",   8 }
-# define PAREN_RIGHT		{ ")",   9 }
-# define LESS				{ "<",   10 }
-# define LESSAND			{ "<&",  11 }
-# define LESS_GREAT			{ "<>",  12 }
-# define GREAT				{ ">",   13 }
-# define GREAT_PIPE			{ ">|",  14 }
-# define AND_GREAT			{ "&>",  15 }
-# define GREAT_AND			{ ">&",  16 }
-# define DGREAT				{ ">>",  17 }
-# define AND_DGREAT			{ "&>>", 18 }
-# define DGREAT_AND			{ ">>&", 19 }
-# define DLESS				{ "<<",  20 }
-# define TLESS				{ "<<<", 21 }
-
-/*
-** Typedef for OPERATORs, see above
-*/
-typedef struct	s_ope
-{
-	char		*name;
-	size_t		value;
-}				t_ope;
 
 /*
 ** Token structure
 */
 typedef struct	s_token
 {
-	char			quote;
+	int				quote;
 	int				type;
 	int				spec;
 	size_t			head;
 	size_t			tail;
-	char			sub;
 	struct s_token	*subs;
+	char			*command;
 	struct s_token	*next;
+	struct s_token	*prev;
 }				t_token;
 
 /*
@@ -107,7 +77,27 @@ typedef struct	s_param
 	t_token		*token;
 	const char	*buff;
 	size_t		i;
+	size_t		depth;
 }				t_param;
+
+/*
+** Typedef for QUOTES
+*/
+
+typedef struct	s_quote
+{
+	char		value;
+	t_token		*(*handler)(t_param *);
+}				t_quote;
+
+/*
+** Typedef for OPERATORs, see above
+*/
+typedef struct	s_ope
+{
+	char		*name;
+	size_t		value;
+}				t_ope;
 
 /*
 ** Token identification
@@ -123,12 +113,12 @@ typedef struct	s_call
 /*
 ** Characters Handler
 */
-# define CHAR_QUOTE			{ ft_isquote,     handle_quote }
-# define CHAR_SUBS			{ ft_issubs,      handle_subs }
-# define CHAR_NEWLINE		{ ft_isnewline,   handle_newline }
-# define CHAR_COMMENT		{ ft_iscomment,   handle_comment }
-# define CHAR_OPERATOR		{ ft_isoperator,  handle_operator }
-# define CHAR_WORD			{ ft_isword,      handle_word }
+# define CHAR_QUOTE			{ ft_isquote,    handle_quote }
+# define CHAR_SUBS			{ ft_issubs,     handle_subs }
+# define CHAR_NEWLINE		{ ft_isnewline,  handle_newline }
+# define CHAR_COMMENT		{ ft_iscomment,  handle_comment }
+# define CHAR_OPERATOR		{ ft_isoperator, handle_operator }
+# define CHAR_WORD			{ ft_isword,     handle_word }
 
 typedef struct	s_func
 {
@@ -140,7 +130,7 @@ typedef struct	s_func
 ** Functions
 */
 t_token			*tokenise(const char *buff, size_t i, \
-						int (*ft_end)(const char *));
+						int (*ft_end)(const char *), size_t depth);
 t_token			*new_token(int c, size_t pos);
 
 t_token			*get_subs(t_param *param, int (*ft_end)(const char*), size_t i);
@@ -156,6 +146,8 @@ t_token			*handle_word(t_param *param, t_call *token);
 t_token			*identify_operator(t_param *param);
 t_token			*identify_word(t_param *param);
 
+char			*expand_word(const char *buff, t_token *token);
+
 int				ft_isquote(int c);
 int				ft_issubs(int c);
 int				ft_isnewline(int c);
@@ -169,7 +161,10 @@ int				ft_isendl(const char *s);
 int				ft_isbracket(const char *s);
 int				ft_isdparen(const char *s);
 int				ft_isparen(const char *s);
-int				ft_isnotname(const char *s);
+int				ft_isnameend(const char *s);
 int				ft_isbackquote(const char *s);
+int				ft_isbracketend(const char *s);
+int				ft_isdparenend(const char *s);
+int				ft_isparenend(const char *s);
 
 #endif
