@@ -17,44 +17,44 @@ void	up_arrow(t_line *line)
 	int			i;
 	size_t		len;
 
-	len = ft_strlen(line->buff_tmp);
-	i = ft_strlen(line->buff);
-	if (line->curr && line->curr->next && ((ft_strcmp(line->curr->content, line->buff) == 0 && line->buff_tmp[8193]) || line->curr != line->curr->begin))
+	len = ft_strlen(line->curr->buff_tmp);
+	i = ft_strlen(line->curr->buff);
+	if (line->hist && line->hist->next && ((ft_strcmp(line->hist->content, line->curr->buff) == 0 && line->curr->buff_tmp[8193]) || line->hist != line->hist->begin))
 	{
-		if (line->curr->tmp)
-			free(line->curr->tmp);
-		line->curr->tmp = ft_strdup(line->buff);
-		line->curr = line->curr->next;
-		while (line->curr->next && (ft_strstr(line->curr->content, line->buff_tmp) != line->curr->content || line->curr->c_size <= len || ft_strcmp(line->curr->content, line->buff) == 0))
-			line->curr = line->curr->next;
-		while (line->curr->prev && (ft_strstr(line->curr->content, line->buff_tmp) != line->curr->content || line->curr->c_size <= len))
-			line->curr = line->curr->prev;
+		if (line->hist->tmp)
+			free(line->hist->tmp);
+		line->hist->tmp = ft_strdup(line->curr->buff);
+		line->hist = line->hist->next;
+		while (line->hist->next && (ft_strstr(line->hist->content, line->curr->buff_tmp) != line->hist->content || line->hist->c_size <= len || ft_strcmp(line->hist->content, line->curr->buff) == 0))
+			line->hist = line->hist->next;
+		while (line->hist->prev && (ft_strstr(line->hist->content, line->curr->buff_tmp) != line->hist->content || line->hist->c_size <= len))
+			line->hist = line->hist->prev;
 	}
-	else if (line->curr && !line->buff_tmp[8193])
+	else if (line->hist && !line->curr->buff_tmp[8193])
 	{
-		len = ft_strlen(line->buff);
-		while (line->curr->next && (ft_strstr(line->curr->content, line->buff) != line->curr->content || line->curr->c_size <= len))
-			line->curr = line->curr->next;
-		if (line->curr != line->curr->begin && (ft_strstr(line->curr->content, line->buff) != line->curr->content || line->curr->c_size <= len))
-			while (line->curr->prev)
-				line->curr = line->curr->prev;
-		ft_strcpy(line->buff_tmp, line->buff);
-		line->buff_tmp[8193] = 1;
+		len = ft_strlen(line->curr->buff);
+		while (line->hist->next && (ft_strstr(line->hist->content, line->curr->buff) != line->hist->content || line->hist->c_size <= len))
+			line->hist = line->hist->next;
+		if (line->hist != line->hist->begin && (ft_strstr(line->hist->content, line->curr->buff) != line->hist->content || line->hist->c_size <= len))
+			while (line->hist->prev)
+				line->hist = line->hist->prev;
+		ft_strcpy(line->curr->buff_tmp, line->curr->buff);
+		line->curr->buff_tmp[8193] = 1;
 	}
-	if (line->curr && ft_strstr(line->curr->content, line->buff_tmp) == line->curr->content && line->curr->c_size > len)
+	if (line->hist && ft_strstr(line->hist->content, line->curr->buff_tmp) == line->hist->content && line->hist->c_size > len)
 	{
-		ft_bzero(line->buff, i);
-		if (line->curr->tmp)
-			ft_strcpy(line->buff, line->curr->tmp);
+		ft_bzero(line->curr->buff, i);
+		if (line->hist->tmp)
+			ft_strcpy(line->curr->buff, line->hist->tmp);
 		else
-			ft_strcpy(line->buff, line->curr->content);
+			ft_strcpy(line->curr->buff, line->hist->content);
 	}
 	go_home(line);
 	tputs(tgetstr("cr", NULL), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
 	put_prompt(line->prompt);
-	ft_putstr(line->buff);
-	line->index = ft_strlen(line->buff);
+	ft_putstr(line->curr->buff);
+	line->index = ft_strlen(line->curr->buff);
 	line->len = line->index;
 }
 
@@ -63,41 +63,41 @@ void	down_arrow(t_line *line)
 	int		i;
 	size_t	len;
 
-	len = ft_strlen(line->buff_tmp);
-	i = ft_strlen(line->buff);
-	if (line->curr && line->curr->prev)
+	len = ft_strlen(line->curr->buff_tmp);
+	i = ft_strlen(line->curr->buff);
+	if (line->hist && line->hist->prev)
 	{
-		if (line->curr->tmp)
-			free(line->curr->tmp);
-		line->curr->tmp = ft_strdup(line->buff);
-		line->curr = line->curr->prev;
-		while (line->curr->prev && (ft_strstr(line->curr->content, line->buff_tmp) != line->curr->content || line->curr->c_size <= len || ft_strcmp(line->curr->content, line->buff) == 0))
-			line->curr = line->curr->prev;
-		if (ft_strstr(line->curr->content, line->buff_tmp) == line->curr->content && line->curr->c_size > len)
+		if (line->hist->tmp)
+			free(line->hist->tmp);
+		line->hist->tmp = ft_strdup(line->curr->buff);
+		line->hist = line->hist->prev;
+		while (line->hist->prev && (ft_strstr(line->hist->content, line->curr->buff_tmp) != line->hist->content || line->hist->c_size <= len || ft_strcmp(line->hist->content, line->curr->buff) == 0))
+			line->hist = line->hist->prev;
+		if (ft_strstr(line->hist->content, line->curr->buff_tmp) == line->hist->content && line->hist->c_size > len)
 		{
-			ft_bzero(line->buff, i);
-			if (line->curr->tmp)
-				ft_strcpy(line->buff, line->curr->tmp);
+			ft_bzero(line->curr->buff, i);
+			if (line->hist->tmp)
+				ft_strcpy(line->curr->buff, line->hist->tmp);
 			else
-				ft_strcpy(line->buff, line->curr->content);
+				ft_strcpy(line->curr->buff, line->hist->content);
 		}
 		else
 		{
-			ft_bzero(line->buff, i);
-			ft_strcpy(line->buff, line->buff_tmp);
+			ft_bzero(line->curr->buff, i);
+			ft_strcpy(line->curr->buff, line->curr->buff_tmp);
 		}
 	}
-	else if (line->curr && line->buff_tmp[8193])
+	else if (line->hist && line->curr->buff_tmp[8193])
 	{
-		ft_bzero(line->buff, i);
-		ft_strcpy(line->buff, line->buff_tmp);
-		ft_bzero(line->buff_tmp, 8194);
+		ft_bzero(line->curr->buff, i);
+		ft_strcpy(line->curr->buff, line->curr->buff_tmp);
+		ft_bzero(line->curr->buff_tmp, 8194);
 	}
 	go_home(line);
 	tputs(tgetstr("cr", NULL), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
 	put_prompt(line->prompt);
-	ft_putstr(line->buff);
-	line->index = ft_strlen(line->buff);
+	ft_putstr(line->curr->buff);
+	line->index = ft_strlen(line->curr->buff);
 	line->len = line->index;
 }

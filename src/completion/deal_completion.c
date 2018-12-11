@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:38:48 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 01:02:07 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/06 18:31:23 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ static void	deal_complet(t_tree *file, t_line *line)
 	tputs(tgetstr("do", NULL), 1, ft_pchar);
 	tputs(tgetstr("cr", NULL), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
-	if (!line->buff_tmp[8193])
+	if (!line->curr->buff_tmp[8193])
 	{
-		ft_strcpy(line->buff_tmp, line->buff);
-		line->buff_tmp[8193] = 1;
+		ft_strcpy(line->curr->buff_tmp, line->curr->buff);
+		line->curr->buff_tmp[8193] = 1;
 	}
 	else
 		put = 1;
-	if ((put = put_complet(line->buff_tmp, file, line->buff, &put)) == 1)
+	if ((put = put_complet(line->curr->buff_tmp, file, line->curr->buff, &put)) == 1)
 		line->tmp[0] = 10;
 	else if (put == -1)
 	{
@@ -37,12 +37,12 @@ static void	deal_complet(t_tree *file, t_line *line)
 		line->tmp[0] = 0;
 	}
 	tputs(tgetstr("rc", NULL), 1, ft_pchar);
-	tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(line->prompt) + 4), 1, ft_pchar);
+	tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(line->prompt)), 1, ft_pchar);
 	j = -1;
 	while (++j < line->len)
 		tputs(tgetstr("dc", NULL), 1, ft_pchar);
-	ft_putstr(line->buff);
-	line->len = ft_strlen(line->buff);
+	ft_putstr(line->curr->buff);
+	line->len = ft_strlen(line->curr->buff);
 	line->index = line->len;
 }
 
@@ -54,24 +54,24 @@ void		set_complet(t_line *line)
 	delete_down();
 	*(line->e_cmpl) &= ~COMPLETION;
 	line->tmp[0] = 0;
-	if (ft_strrchr(line->buff, ' ') && (dir = opendir(ft_strrchr(line->buff, ' ') + 1)))
+	if (ft_strrchr(line->curr->buff, ' ') && (dir = opendir(ft_strrchr(line->curr->buff, ' ') + 1)))
 	{
 		if (line->tree[2])
 			free_tree(line->tree[2]);
 		line->tree[2] = NULL;
-		line->buff[line->len] = '/';
-		line->buff[++(line->len)] = '\0';
+		line->curr->buff[line->len] = '/';
+		line->curr->buff[++(line->len)] = '\0';
 		ft_putchar('/');
 	}
 	else
 	{
-		line->buff[(line->len)] = ' ';
-		line->buff[++(line->len)] = '\0';
+		line->curr->buff[(line->len)] = ' ';
+		line->curr->buff[++(line->len)] = '\0';
 		ft_putchar(' ');
 	}
 	if (dir)
 		closedir(dir);
-	ft_bzero(line->buff_tmp, 8194);
+	ft_bzero(line->curr->buff_tmp, 8194);
 	line->index = line->len;
 }
 
@@ -100,11 +100,11 @@ static t_tree	*set_tmp(char *buff)
 
 void		get_complet(t_line *line)
 {
-	if (!inprint(line->buff))
+	if (!inprint(line->curr->buff))
 		return ;
-	if (!ft_strchr(line->buff, ' ') || !ft_strchr(ft_strrchr(line->buff, ' '), '/'))
-		deal_complet(!ft_strchr(line->buff, ' ') ? line->tree[0] : line->tree[1], line);
+	if (!ft_strchr(line->curr->buff, ' ') || !ft_strchr(ft_strrchr(line->curr->buff, ' '), '/'))
+		deal_complet(!ft_strchr(line->curr->buff, ' ') ? line->tree[0] : line->tree[1], line);
 	else
-		if (line->tree[2] || (line->tree[2] = set_tmp(line->buff)))
+		if (line->tree[2] || (line->tree[2] = set_tmp(line->curr->buff)))
 			deal_complet(line->tree[2], line);
 }

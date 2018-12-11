@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/28 20:53:59 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/07 17:01:22 by gbourgeo         ###   ########.fr       */
+/*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
+/*   Updated: 2018/12/11 14:50:37 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,29 +96,142 @@ int		get_var(char **env, char **cmd)
 	return (1);
 }
 
+void		deal_prompt(t_line *line)
+{
+	free(line->prompt);
+	if (*(line->e_cmpl) & QUOTE)
+		line->prompt = ft_strdup("quote> ");
+	else if (*(line->e_cmpl) & BQUOTE)
+		line->prompt = *(line->e_cmpl) & DQUOTE ? ft_strdup("dquote bquote> ") : ft_strdup("bquote> ");
+	else if (*(line->e_cmpl) & DQUOTE && *(line->e_cmpl) & ~BQUOTE)
+		line->prompt = ft_strdup("dquote> ");
+	else if (*(line->e_cmpl) & HDOC)
+		line->prompt = ft_strdup("heredoc> ");
+	else
+		line->prompt = ft_strdup("$> ");
+	line->lprompt = ft_strlen(line->prompt);
+}
+
+void	reset_line(t_line *line)
+{
+	ft_bzero(line->curr->buff, 8193);
+	ft_bzero(line->curr->buff_tmp, 8194);
+	line->len = 0;
+	line->index = 0;
+}
+
+void	free_buff(t_line *line)
+{
+	while (line->curr->prev)
+		line->curr = line->curr->prev;
+	while (line->curr && line->curr->next)
+	{
+		if (line->curr->prev)
+			free(line->curr->prev);
+		line->curr = line->curr->next;
+	}
+	if (line->curr)
+		free(line->curr);
+	line->curr = ft_memalloc(sizeof(t_buff));
+	line->index = 0;
+	line->len = 0;
+}
+
+char	*listnjoin(t_line *line)
+{
+	char	*str;
+	t_buff	*begin;
+
+	while (line->curr->prev)
+		line->curr = line->curr->prev;
+	begin = line->curr;
+	str = ft_strdup(line->curr->buff);
+	str = ft_strjoinfree(str, "\n", 1);
+	line->curr = line->curr->next;
+	while (line->curr && line->curr->next)
+	{
+		str = ft_strjoinfree(str, line->curr->buff, 1);
+		str = ft_strjoinfree(str, "\n", 1);
+		line->curr = line->curr->next;
+	}
+	if (line->curr)
+	{
+		str = ft_strjoinfree(str, line->curr->buff, 1);
+		str = ft_strjoinfree(str, "\n", 1);
+	}
+	line->curr = begin;
+	return (str);
+}
+
+static void	deal_hdoc(t_line *line)
+{
+	while (line->hdoc && line->hdoc->prev)
+		line->hdoc = line->hdoc->prev;
+	if (line->hdoc && ft_strcmp(line->curr->buff, line->hdoc->val) == 0)
+	{
+		if (line->hdoc->next)
+		{
+			line->hdoc = line->hdoc->next;
+			free(line->hdoc->prev);
+			line->hdoc->prev = NULL;
+		}
+		else
+		{
+			free(line->hdoc);
+			line->hdoc = NULL;
+			*(line->e_cmpl) &= ~HDOC;
+		}
+	}
+}
+
+int		deal_continue(t_line *line)
+{
+	if (*(line->e_cmpl) & QUOTE || *(line->e_cmpl) & DQUOTE
+			|| *(line->e_cmpl) & BQUOTE || *(line->e_cmpl) & HDOC)
+	{
+		line->curr->next = ft_memalloc(sizeof(t_buff));
+		line->curr->next->prev = line->curr;
+		line->curr = line->curr->next;
+		line->index = 0;
+		line->len = 0;
+		return (1);
+	}
+	return (0);
+}
+
 int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **ep)
 {
 	t_line	*line;
 	t_token	*tokens;
 	char	**env;
+	char	*ret;
 
 	env = collect_env(ep);
-	line = init_line(env);
+	line = get_struct();
+	init_line(env, line);
 	welcome(line);
+	line->curr = ft_memalloc(sizeof(t_buff));
 	while (1)
 	{
 		put_prompt(line->prompt);
-		ft_bzero(line->buff, 8193);
 		check_path(line, env);
 		deal_typing(line);
 		write(1, "\n", 1);
-		if (line->buff[0] && line->tmp[0] != -1 && line->buff[0] != 10)
+		deal_hdoc(line);
+		deal_prompt(line);
+		if (deal_continue(line))
+			continue ;
+		if (line->curr->buff[0] && line->tmp[0] != -1 && line->curr->buff[0] != 10)
 		{
+			ret = listnjoin(line);
+			printf("line : [%s]\n", ret);
 			*(line->e_cmpl) &= ~COMPLETION;
 			save_history(line->index, line->buff, line->buff_tmp, &(line->curr), env);
 			remove_line_continuation(line->buff);
 			tokens = tokenise(line->buff, 0, ft_isnull);
 			parse(tokens);
+			free_buff(line);
+			del_all_state(line);
 		}
 	}
 	return (0);

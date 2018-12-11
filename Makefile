@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/12/07 17:04:13 by gbourgeo         ###   ########.fr        #
+#    Updated: 2018/12/11 14:51:33 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRCS =	minishell.c			\
 		exec.c				\
 		main_tools.c		\
 		signal.c			\
+		singleton.c			\
 		welcome.c			\
 		remove_line_continuation.c	\
 

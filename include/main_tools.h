@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:45:53 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 04:56:47 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/11/23 08:55:34 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 int		is_change;
 
-t_line	*init_line(char **env);
+void	init_line(char **env, t_line *line);
 void	deal_key(t_line *line);
 void	check_path(t_line *line, char **env);
 void	deal_typing(t_line *line);
