@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 11:31:46 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/11 13:35:07 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,13 @@
 typedef enum		e_state
 {
 	COMPLETION = 1 << 0,
+	QUOTE = 1 << 1,
+	DQUOTE = 1 << 2,
+	BQUOTE = 1 << 3,
+	WT_SPACE = 1 << 4,
+	WT_HDOC = 1 << 5,
+	HDOC = 1 << 6,
+	NSTATE = 1 << 7
 }					t_st;
 
 typedef struct		s_tree
@@ -49,11 +56,26 @@ typedef struct			s_history
 	struct s_history	*next;
 }						t_hist;
 
-typedef struct		s_line
+typedef struct		s_buff
 {
 	char			buff[8193];
 	char			buff_tmp[8194];
+	struct s_buff	*next;
+	struct s_buff	*prev;
+}					t_buff;
+
+typedef struct		s_hdlist
+{
+	char			*val;
+	struct s_hdlist	*next;
+	struct s_hdlist	*prev;
+}					t_hdlist;
+
+typedef struct		s_line
+{
+	t_buff			*curr;
 	char			tmp[10];
+	char			*copy;
 	char			*prompt;
 	char			*path;
 	char			*term;
@@ -64,10 +86,14 @@ typedef struct		s_line
 	int				len;
 	int				nb_col;
 	int				nb_line;
-	t_hist			*curr;
+	t_hdlist		*hdoc;
+	t_hist			*hist;
 	t_st			*e_cmpl;
 	t_tree			*tree[3];
 	struct termios	save;
+	char			**env;
 }					t_line;
+
+t_line	*get_struct(void);
 
 #endif
