@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/06 22:36:09 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/11 01:00:06 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ void	init_line(char **env, t_line *line)
 	signal(SIGQUIT, &sig_hdlr);
 	signal(SIGWINCH, &sig_winch);
 	tputs(tgetstr("cl", NULL), 1, ft_pchar);
-//	ft_bzero(line->curr->buff_tmp, 8194);
-//	ft_bzero(line->curr->buff, 8193);
 	line->tree[0] = create_bin_tree(env);
 	line->tree[1] = create_file_tree(".");
 	line->tree[2] = NULL;
@@ -113,9 +111,11 @@ void	deal_typing(t_line *line)
 				tputs(tgetstr("cd", NULL), 1, ft_pchar);
 				put_prompt(line->prompt);
 				ft_putstr(line->curr->buff);
-				tputs(tgoto(tgetstr("ch", NULL), 0, (line->index + line->lprompt) % line->nb_col), 1, ft_pchar);
+				tputs(tgoto(tgetstr("ch", NULL), 0, (line->index
+								+ line->lprompt) % line->nb_col), 1, ft_pchar);
 			}
-			if (ft_strcmp(line->tmp, "\xE2\x89\x88") != 0 &&  ft_strcmp(line->tmp, "\xC3\xA7") != 0)
+			if (ft_strcmp(line->tmp, "\xE2\x89\x88") != 0
+					&& ft_strcmp(line->tmp, "\xC3\xA7") != 0)
 			{
 				line->slct_beg = -1;
 				line->slct_end = -1;

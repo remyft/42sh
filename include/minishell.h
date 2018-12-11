@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/06 22:16:41 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/11 13:45:04 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void			up_arrow(t_line *line);
 void			down_arrow(t_line *line);
 
 void			create_hist(t_hist **begin, char **env);
-void			save_history(int index, char *buff, char *buff_tmp, \
+void			save_history(int index, char *buff, 
 							t_hist **curr, char **env);
 
 void			deal_exit(t_line *line);
@@ -108,6 +108,7 @@ void			*free_tree(t_tree *tern);
 void			reset_put(t_tree *tern);
 void			deal_reset(t_tree *tree1, t_tree *tree2, t_tree *tree3);
 
-t_line	*get_struct(void);
+t_line			*get_struct(void);
+void			del_all_state(t_line *line);
 
 #endif

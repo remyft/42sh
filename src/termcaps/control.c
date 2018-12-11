@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/28 08:28:01 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/11 13:44:08 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,18 @@ void	deal_exit(t_line *line)
 	exit(0);
 }
 
+void		del_all_state(t_line *line)
+{
+	int i;
+
+	i = 0;
+	while (i < 7)
+	{
+		*(line->e_cmpl) &= ~(1 << i);
+		i++;
+	}
+}
+
 static int		ft_cancel(t_line *line)
 {
 	while ((line->index = line->index + line->nb_col) < line->len)
@@ -60,10 +72,16 @@ static int		ft_cancel(t_line *line)
 		free(line->hist->tmp);
 	line->hist->tmp = NULL;
 	line->hist = line->hist->begin;
-	*(line->e_cmpl) &= ~QUOTE;
-	*(line->e_cmpl) &= ~BQUOTE;
-	*(line->e_cmpl) &= ~DQUOTE;
-	ft_bzero(line->curr->buff, 8193);
+	del_all_state(line);
+	while (line->curr->prev)
+	{
+		if (line->curr->next)
+			free(line->curr->next);
+		line->curr = line->curr->prev;
+	}
+	free(line->curr);
+	line->curr = ft_memalloc(sizeof(t_buff));
+//	ft_bzero(line->curr->buff, 8193);
 	line->len = 0;
 	line->index = 0;
 	return (-1);

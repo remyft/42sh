@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:43:32 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 03:15:31 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/11 00:33:26 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	create_hist(t_hist **begin, char **env)
 	close(fd);
 }
 
-void	save_history(int index, char *buff, char *buff_tmp, t_hist **curr, char **env)
+void	save_history(int index, char *buff, t_hist **curr, char **env)
 {
 	int		j;
 	char	*term;
@@ -121,6 +121,5 @@ void	save_history(int index, char *buff, char *buff_tmp, t_hist **curr, char **e
 		(*curr)->c_size = ft_strlen(buff);
 		(*curr)->begin = *curr;
 	}
-	ft_bzero(buff_tmp, 8194);
 	close(fd);
 }

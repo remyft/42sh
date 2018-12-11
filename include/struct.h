@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/06 21:53:54 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/11 13:35:07 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ typedef enum		e_state
 	COMPLETION = 1 << 0,
 	QUOTE = 1 << 1,
 	DQUOTE = 1 << 2,
-	BQUOTE = 1 << 3
+	BQUOTE = 1 << 3,
+	WT_SPACE = 1 << 4,
+	WT_HDOC = 1 << 5,
+	HDOC = 1 << 6,
+	NSTATE = 1 << 7
 }					t_st;
 
 typedef struct		s_tree
@@ -60,6 +64,13 @@ typedef struct		s_buff
 	struct s_buff	*prev;
 }					t_buff;
 
+typedef struct		s_hdlist
+{
+	char			*val;
+	struct s_hdlist	*next;
+	struct s_hdlist	*prev;
+}					t_hdlist;
+
 typedef struct		s_line
 {
 	t_buff			*curr;
@@ -75,6 +86,7 @@ typedef struct		s_line
 	int				len;
 	int				nb_col;
 	int				nb_line;
+	t_hdlist		*hdoc;
 	t_hist			*hist;
 	t_st			*e_cmpl;
 	t_tree			*tree[3];
