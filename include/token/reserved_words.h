@@ -6,13 +6,16 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 22:43:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/11/23 01:45:07 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/07 17:25:33 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RESERVED_WORDS_H
 # define RESERVED_WORDS_H
 
+/*
+** Specifities for token RESERVED_WORD
+*/
 # define IF		{ "if",    (1 << 0) }
 # define THEN	{ "then",  (1 << 1) }
 # define ELSE	{ "else",  (1 << 2) }

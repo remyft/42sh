@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 22:30:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/05 19:05:27 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/11 07:18:54 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static int		ionumber_type(t_param *param)
 	size_t		i;
 
 	i = param->token->tail - 1;
-	while (i > param->token->head && ft_isdigit(param->buff[i]))
+	while (i && ft_isdigit(param->buff[i]))
 		i--;
-	if (i != param->token->tail - 1)
+	if ((!i && ft_isdigit(param->buff[i])) || i < param->token->head)
 		return (IO_NUMBER);
 	return (WORD);
 }
@@ -68,12 +68,18 @@ static int		name(t_param *param)
 t_token			*identify_word(t_param *param)
 {
 	param->token->tail = param->i;
-	if (param->buff[param->i] == '<' || param->buff[param->i] == '>')
-		param->token->spec = ionumber_type(param);
-	else
-		param->token->spec = reserved_type(param);
-	if (param->token->spec == WORD)
-		param->token->spec = name(param);
+	if (ft_isquote(param->buff[param->token->head]))
+		param->token->spec = WORD;
+	else if ((param->token->spec = reserved_type(param)) == WORD)
+	{
+		if (param->buff[param->i] == '<' || param->buff[param->i] == '>')
+			param->token->spec = ionumber_type(param);
+		else
+			param->token->spec = name(param);
+	}
+	if (param->token->spec == WORD || param->token->spec == NAME)
+		param->token->command = expand_word(param->buff, param->token);
 	param->token->next = new_token(param->buff[param->i], param->i);
+	param->token->next->prev = param->token;
 	return (param->token->next);
 }

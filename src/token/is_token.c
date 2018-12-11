@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 19:30:34 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/06 01:42:07 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/11 14:32:02 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,12 @@ int			ft_isnull(const char *s)
 
 int			ft_isquote(int c)
 {
-	return ((c == '\\') || (c == '\'') || (c == '"'));
+	return ((c == '\\')
+		|| (c == '\'')
+		|| (c == '"')
+		|| (c == '{')
+		|| (c == '(')
+		|| (c == '`'));
 }
 
 int			ft_issubs(int c)
