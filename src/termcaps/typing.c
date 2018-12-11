@@ -6,13 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:57:17 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/11 14:43:32 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/11 17:44:10 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ft_strspace(char *str)
+/*static int	ft_strspace(char *str)
 {
 	int i;
 
@@ -21,7 +21,7 @@ static int	ft_strspace(char *str)
 		if (!ft_isspace(str[i]))
 			return (0);
 	return (1);
-}
+}*/
 
 void		change_state(t_line *line, int state)
 {
@@ -37,12 +37,14 @@ void		deal_state(t_line *line, char c)
 {
 	if (c == '\'')
 	{
-		if (!(*(line->e_cmpl) & DQUOTE) && !(*(line->e_cmpl) & BQUOTE) && !(*(line->e_cmpl) & NSTATE))
+		if (!(*(line->e_cmpl) & DQUOTE) && !(*(line->e_cmpl) & BQUOTE)
+				&& !(*(line->e_cmpl) & NSTATE))
 			return (change_state(line, QUOTE));
 	}
 	else if (c == '"')
 	{
-		if (!(*(line->e_cmpl) & QUOTE) && !(*(line->e_cmpl) & BQUOTE) && !(*(line->e_cmpl) & NSTATE))
+		if (!(*(line->e_cmpl) & QUOTE) && !(*(line->e_cmpl) & BQUOTE)
+				&& !(*(line->e_cmpl) & NSTATE))
 			return (change_state(line, DQUOTE));
 	}
 	else if (c == '`')
@@ -55,7 +57,9 @@ void		deal_state(t_line *line, char c)
 	{
 		if (line->len - 2 >= 0 && line->curr->buff[line->len - 2] == '<')
 		{
-			if (line->len >= 3 && line->curr->buff[line->len - 3] == '<' && !(*(line->e_cmpl) & QUOTE || *(line->e_cmpl) & DQUOTE || *(line->e_cmpl) & BQUOTE))
+			if (line->len >= 3 && line->curr->buff[line->len - 3] == '<'
+					&& !(*(line->e_cmpl) & QUOTE || *(line->e_cmpl) & DQUOTE
+						|| *(line->e_cmpl) & BQUOTE))
 				*(line->e_cmpl) |= NSTATE;
 			else
 				*(line->e_cmpl) &= ~WT_SPACE;
@@ -63,7 +67,10 @@ void		deal_state(t_line *line, char c)
 		}
 		if (!(*(line->e_cmpl) & QUOTE) && !(*(line->e_cmpl) & DQUOTE)
 				&& !(*(line->e_cmpl) & BQUOTE) && !(*(line->e_cmpl) & NSTATE))
+		{
+			*(line->e_cmpl) &= ~WT_HDOC;
 			*(line->e_cmpl) |= WT_SPACE;
+		}
 	}
 }
 
@@ -75,7 +82,11 @@ static void	deal_hdoc(t_line *line, char c)
 	if (!line->curr->prev && *(line->e_cmpl) & WT_SPACE)
 	{
 		if (c == '<')
+		{
+			if (line->hdoc && line->hdoc->val && line->hdoc->val[(i = ft_strlen(line->hdoc->val)) - 1] == ' ')
+			line->hdoc->val[i - 1] = 0;
 			return (del_all_state(line));
+		}
 		if (c != ' ' && c != 10 && !(*(line->e_cmpl) & WT_HDOC))
 		{
 			if (!line->hdoc)
@@ -94,14 +105,6 @@ static void	deal_hdoc(t_line *line, char c)
 		}
 		if (*(line->e_cmpl) & WT_HDOC)
 		{
-			if (c == ' ' || c == 10)
-			{
-				*(line->e_cmpl) &= ~WT_SPACE;
-				*(line->e_cmpl) &= ~WT_HDOC;
-				*(line->e_cmpl) |= HDOC;
-			}
-			else
-			{
 				if ((i = ft_strlen(line->hdoc->val)) > 0 && i % 10 != 0)
 					line->hdoc->val[i] = c;
 				else
@@ -113,7 +116,6 @@ static void	deal_hdoc(t_line *line, char c)
 					line->hdoc->val[i] = c;
 					free(tmp);
 				}
-			}
 		}
 	}
 }
@@ -137,8 +139,7 @@ void		get_typing(t_line *line, int nb_read)
 			return ;
 		}
 	while (cp < nb_read && line->tmp[0] != 12 && (ft_isprint(line->tmp[cp])
-				|| ft_isspace(line->tmp[cp])) && (line->tmp[0] != 9
-					|| ft_strspace(line->curr->buff)) && line->tmp[cp] != 10)
+				|| ft_isspace(line->tmp[cp])) && line->tmp[0] != 9 && line->tmp[cp] != 10)
 	{
 		deal_hdoc(line, line->tmp[cp]);
 		deal_state(line, line->tmp[cp]);
