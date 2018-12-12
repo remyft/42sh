@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:57:17 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/12 12:43:21 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/12 12:51:29 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
   return (1);
   }*/
 
-void		change_state(t_line *line, int state)
+/*void		change_state(t_line *line, int state)
 {
 	if (*(line->e_cmpl) & state)
 		*(line->e_cmpl) &= ~state;
@@ -31,9 +31,9 @@ void		change_state(t_line *line, int state)
 		*(line->e_cmpl) |= state;
 	return ;
 }
+*/
 
-
-void		deal_state(t_line *line, char c)
+/*void		deal_state(t_line *line, char c)
 {
 	if (c == '\'')
 	{
@@ -52,7 +52,7 @@ void		deal_state(t_line *line, char c)
 		if (!(*(line->e_cmpl) & QUOTE) && !(*(line->e_cmpl) & NSTATE))
 			return (change_state(line, BQUOTE));
 	}
-}
+}*/
 
 void		get_typing(t_line *line, int nb_read)
 {
@@ -69,7 +69,7 @@ void		get_typing(t_line *line, int nb_read)
 	while (cp < nb_read && line->tmp[0] != 12 && (ft_isprint(line->tmp[cp])
 				|| ft_isspace(line->tmp[cp])) && line->tmp[0] != 9 && line->tmp[cp] != 10)
 	{
-		deal_state(line, line->tmp[cp]);
+	//	deal_state(line, line->tmp[cp]);
 		tchar = line->curr->buff[line->index + 1];
 		if (line->index != line->len)
 			line->curr->buff[line->index + 1] = line->curr->buff[line->index];

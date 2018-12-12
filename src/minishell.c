@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/12 12:46:46 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/12 20:45:01 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,27 +169,34 @@ int			ft_strhtcmp(char *str1, char *str2, int head, int tail)
 	return (ft_strncmp(str1, &str2[head], tail - head));
 }
 
-static void	deal_hdoc(t_line *line)
+static int	deal_hdoc(t_line *line)
 {
 	if (!line->curr->prev)
-		return ;
+		return (0);
 	while (line->hdoc && line->hdoc->prev)
 		line->hdoc = line->hdoc->prev;
-	if (line->hdoc && ft_strhtcmp(line->curr->buff, line->beg_buff->buff, line->hdoc->head, line->hdoc->tail) == 0)
+//	printf("buff : %s cmd : %s\n", line->curr->buff, line->hdoc->cmd);
+	if (line->hdoc && line->hdoc->cmd && ft_strcmp(line->curr->buff, line->hdoc->cmd) == 0)
 	{
 		if (line->hdoc->next)
 		{
 			line->hdoc = line->hdoc->next;
+			free(line->hdoc->prev->cmd);
 			free(line->hdoc->prev);
 			line->hdoc->prev = NULL;
+			return (0);
 		}
 		else
 		{
+			free(line->hdoc->cmd);
 			free(line->hdoc);
 			line->hdoc = NULL;
 			*(line->e_cmpl) &= ~HDOC;
+			deal_prompt(line);
+			return (1);
 		}
 	}
+	return (0);
 }
 
 int		deal_continue(t_line *line)
@@ -207,52 +214,110 @@ int		deal_continue(t_line *line)
 	return (0);
 }
 
+void		change_state(t_line *line, int state)
+{
+	if (*(line->e_cmpl) & state)
+		*(line->e_cmpl) &= ~state;
+	else
+		*(line->e_cmpl) |= state;
+	return ;
+}
+
+void		deal_state(t_line *line, char c)
+{
+	if (c == '\'')
+	{
+		if (!(*(line->e_cmpl) & DQUOTE) && !(*(line->e_cmpl) & BQUOTE)
+				&& !(*(line->e_cmpl) & NSTATE))
+			return (change_state(line, QUOTE));
+	}
+	else if (c == '"')
+	{
+		if (!(*(line->e_cmpl) & QUOTE) && !(*(line->e_cmpl) & BQUOTE)
+				&& !(*(line->e_cmpl) & NSTATE))
+			return (change_state(line, DQUOTE));
+	}
+	else if (c == '`')
+	{
+		if (!(*(line->e_cmpl) & QUOTE) && !(*(line->e_cmpl) & NSTATE))
+			return (change_state(line, BQUOTE));
+	}
+}
+
 int		check_hdoc(t_line *line)
 {
 	int		i;
 	int		state;
+	t_buff	*buff;
 
 	i = 0;
 	state = 0;
+	buff = line->curr;
 	while (line->curr->buff[i])
 	{
-		if (i > 0 && line->curr->buff[i] == '<' && line->curr->buff[i - 1] == '<')
+		if (!(state & NSTATE))
+			deal_state(line, line->curr->buff[i]);
+		if (!line->curr->prev)
 		{
-			state |= WT_SPACE;
-			if (i > 1 && line->curr->buff[i - 2] == '<')
-				state &= ~WT_SPACE;
-		}
-		else if (line->curr->buff[i] != ' ' && state & WT_SPACE)
-		{
-			if (!line->hdoc)
-				line->hdoc = ft_memalloc(sizeof(t_hdlist));
-			else
+			if (line->curr->buff[i] == '\\' && !(state & NSTATE))
+				state |= NSTATE;
+			else if (state & NSTATE)
+				state &= ~NSTATE;
+			else if (line->curr->buff[i] == '<' && !(state & WT_NHDOC) && !(state & NSTATE))
+				state |= WT_NHDOC;
+			else if (line->curr->buff[i] == '<' && state & WT_NHDOC)
 			{
-				line->hdoc->next = ft_memalloc(sizeof(t_hdlist));
-				line->hdoc->next->prev = line->hdoc;
-				line->hdoc = line->hdoc->next;
+				if (state & WT_SPACE)
+					state &= ~WT_SPACE;
+				else
+					state |= WT_SPACE;
 			}
-			state |= WT_HDOC;
-			state &= ~WT_SPACE;
-			line->hdoc->head = i;
-			line->hdoc->tail = i + 1;
-		}
-		else if (line->curr->buff[i] != ' ' && state & WT_HDOC)
-			line->hdoc->tail++;
-		else if (line->curr->buff[i] == ' ' &&  state & WT_HDOC)
-		{
-			state &= ~WT_HDOC;
-			*(line->e_cmpl) |= HDOC;
+			else if (line->curr->buff[i] != ' ' && state & WT_SPACE)
+			{
+				if (!line->hdoc)
+					line->hdoc = ft_memalloc(sizeof(*line->hdoc));
+				else
+				{
+					line->hdoc->next = ft_memalloc(sizeof(*line->hdoc));
+					line->hdoc->next->prev = line->hdoc;
+					line->hdoc = line->hdoc->next;
+				}
+				state |= WT_HDOC;
+				state &= ~WT_SPACE;
+				line->hdoc->head = i;
+				line->hdoc->tail = i + 1;
+			}
+			else if (line->curr->buff[i] != ' ' && state & WT_HDOC)
+				line->hdoc->tail++;
+			else if (line->curr->buff[i] == ' ' &&  state & WT_HDOC)
+			{
+				state &= ~WT_HDOC;
+				*(line->e_cmpl) |= HDOC;
+			}
 		}
 		i++;
 	}
-	if (state & WT_HDOC || *(line->e_cmpl) & HDOC)
+	if (state & WT_HDOC || *(line->e_cmpl) > 0)
 	{
-		*(line->e_cmpl) |= HDOC;
+		if (state & WT_HDOC)
+			*(line->e_cmpl) |= HDOC;
 		deal_prompt(line);
 		deal_continue(line);
+		while (line->hdoc && line->hdoc->next)
+			line->hdoc = line->hdoc->next;
+		while (buff->prev)
+			buff = buff->prev;
+		while (line->hdoc && line->hdoc->prev)
+		{
+			line->hdoc->cmd = expand_word(buff->buff, (t_token*)line->hdoc);
+			line->hdoc = line->hdoc->prev;
+		}
+		if (line->hdoc)
+			line->hdoc->cmd = expand_word(buff->buff, (t_token*)line->hdoc);
 		return (1);
 	}
+	printf("%d\n", *line->e_cmpl);
+	deal_prompt(line);
 	return (0);
 }
 
@@ -276,14 +341,12 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 		check_path(line, env);
 		deal_typing(line);
 		write(1, "\n", 1);
-		deal_hdoc(line);
-		deal_prompt(line);
-		if (deal_continue(line))
-			continue ;
+		if (!deal_hdoc(line) && check_hdoc(line))
+			continue;
+		if (!deal_hdoc(line))
+			ft_putendl("YO");
 		if (line->curr->buff[0] && line->tmp[0] != -1 && line->curr->buff[0] != 10)
 		{
-			if (!line->curr->prev && check_hdoc(line))
-				continue;
 			ret = listnjoin(line);
 			printf("line : [%s]\n", ret);
 			*(line->e_cmpl) &= ~COMPLETION;
@@ -292,22 +355,22 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 			tokens = tokenise(line->curr->buff, 0, ft_isnull, 0);
 #ifdef DEBUG
 			for (t_token *ptr = tokens; ptr; ptr = ptr->next) {
-			printf("------------------------------\n"
-					"type:%d spec:%d head:%ld tail:%ld\n",
-					ptr->type, ptr->spec, ptr->head, ptr->tail);
-			write(1, "buff: \"", 7);
-			write(1, line->curr->buff + ptr->head, ptr->tail - ptr->head);
-			write(1, "\" command: \"", 12);
-			if (ptr->command)
-				write(1, ptr->command, ft_strlen(ptr->command));
-			write(1, "\"\n", 2);
-			for (t_token *ptr2 = ptr->subs; ptr2; ptr2 = ptr2->next) {
 				printf("------------------------------\n"
-						"\ttype:%d spec:%d head:%ld tail:%ld\n",
-						ptr2->type, ptr2->spec, ptr2->head, ptr2->tail);
-				write(1, "\tsub: \"", 7);
-				write(1, line->curr->buff + ptr2->head, ptr2->tail - ptr2->head);
+						"type:%d spec:%d head:%ld tail:%ld\n",
+						ptr->type, ptr->spec, ptr->head, ptr->tail);
+				write(1, "buff: \"", 7);
+				write(1, line->curr->buff + ptr->head, ptr->tail - ptr->head);
+				write(1, "\" command: \"", 12);
+				if (ptr->command)
+					write(1, ptr->command, ft_strlen(ptr->command));
 				write(1, "\"\n", 2);
+				for (t_token *ptr2 = ptr->subs; ptr2; ptr2 = ptr2->next) {
+					printf("------------------------------\n"
+							"\ttype:%d spec:%d head:%ld tail:%ld\n",
+							ptr2->type, ptr2->spec, ptr2->head, ptr2->tail);
+					write(1, "\tsub: \"", 7);
+					write(1, line->curr->buff + ptr2->head, ptr2->tail - ptr2->head);
+					write(1, "\"\n", 2);
 				}
 			}
 #endif

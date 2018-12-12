@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:51:36 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/12 10:44:43 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/12 17:30:08 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,32 +41,6 @@ static void	del_left(t_line *line)
 		tputs(tgetstr("up", NULL), 1, ft_pchar);
 	if (line->index != 0)
 	{
-		if (line->hdoc && !line->curr->prev)
-		{
-			while (line->hdoc->prev && (line->index < line->hdoc->head || line->index > line->hdoc->tail))
-				line->hdoc = line->hdoc->prev;
-			if (line->index > line->hdoc->head && line->index <= line->hdoc->tail)
-				line->hdoc->tail -= 1;
-			if (line->index - 1 == line->hdoc->tail)
-			{
-				*(line->e_cmpl) |= WT_SPACE;
-				*(line->e_cmpl) |= WT_HDOC;
-				*(line->e_cmpl) &= ~HDOC;
-			}
-			else 
-				printf("index : %d, tail : %d\n", line->index, line->hdoc->tail);
-			while (line->hdoc->prev)
-				line->hdoc = line->hdoc->prev;
-			while (line->hdoc->next)
-			{
-				if (line->index < line->hdoc->head)
-				{
-					line->hdoc->head--;
-					line->hdoc->tail--;
-				}
-				line->hdoc = line->hdoc->next;
-			}
-		}
 		line->index = line->index > 0 ? line->index - 1 : 0;
 		while (line->index + j < line->len)
 		{

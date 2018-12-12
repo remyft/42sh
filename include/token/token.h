@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/11 14:21:20 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/12 17:09:41 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,14 @@ enum {
 typedef struct	s_token
 {
 	int				quote;
-	int				type;
-	int				spec;
 	size_t			head;
 	size_t			tail;
+	struct s_token	*next;
+
+	int				type;
+	int				spec;
 	struct s_token	*subs;
 	char			*command;
-	struct s_token	*next;
 	struct s_token	*prev;
 }				t_token;
 

@@ -1,35 +1,23 @@
-#include <termios.h>
-#include <term.h>
-#include "../libft/libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   termcaps.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/10/18 23:38:49 by rfontain          #+#    #+#             */
+/*   Updated: 2018/11/18 20:19:31 by gbourgeo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-typedef struct			s_history
-{
-	char				*content;
-	char				*tmp;
-	size_t				c_size;
-	struct s_history	*begin;
-	struct s_history	*prev;
-	struct s_history	*next;
-}						t_hist;
-
-char		*ft_tgetstr(char *t)
-{
-	char            *tmp;
-
-	if ((tmp = tgetstr(t, NULL)) == NULL)
-	{
-		ft_putstr_fd(t, 2);
-		ft_putendl_fd(" not available", 2);
-	}
-	return (tmp);
-}
+#include "minishell.h"
 
 int			ft_pchar(int nb)
 {
 	return (write(STDOUT_FILENO, &nb, 1));
 }
 
-void		ft_term_restore(struct termios save)
+void		term_restore(struct termios save)
 {
 	if (tcsetattr(0, TCSANOW, &save) == -1)
 	{
@@ -38,7 +26,7 @@ void		ft_term_restore(struct termios save)
 	}
 }
 
-void		ft_define_new_term_cap(struct termios *save)
+void		define_new_term(struct termios *save)
 {
 	struct termios	termios;
 
@@ -62,27 +50,23 @@ void		ft_define_new_term_cap(struct termios *save)
 	}
 }
 
-static void sig_hdlr(int sig)
-{
-	ft_putstr("Sig : ");
-	ft_putnbr(sig);
-	ft_putchar('\n');
-}
-
 int		go_home(int index)
 {
 	int		i;
 	char	*term;
 	int		ret;
 	int		nb_col;
+	char	prompt[4097];
+	int		len;
 
+	len = ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3;
 	term = getenv("TERM");
 	ret = tgetent(NULL, term);
 	nb_col = tgetnum("co");
-	i = index / nb_col;
+	i = (len + index) / nb_col;
 	while (i--)
 		tputs(tgetstr("up", NULL), 1, ft_pchar);
-	tputs(tgoto(tgetstr("ch", NULL), 0, 3), 1, ft_pchar);
+	tputs(tgoto(tgetstr("ch", NULL), 0, len), 1, ft_pchar);
 	index = 0;
 	return (index);
 }
@@ -90,56 +74,63 @@ int		go_home(int index)
 int		go_end(int index, int len)
 {
 	char	*term;
-	int		ret;
 	int		nb_col;
 	int		i;
 	int		j;
+	char	prompt[4097];
+	int		lenp;
 
+	lenp = ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3;
 	term = getenv("TERM");
-	ret = tgetent(NULL, term);
+	tgetent(NULL, term);
 	nb_col = tgetnum("co");
-	i = index / nb_col - 1;
-	j = len / nb_col;
+	i = (index + lenp) / nb_col - 1;
+	j = (len + lenp) / nb_col;
 	while (++i < j)
 		tputs(tgetstr("do", NULL), 1, ft_pchar);
-	tputs(tgoto(tgetstr("ch", NULL), 0, (len + 3) % nb_col), 1, ft_pchar);
+	tputs(tgoto(tgetstr("ch", NULL), 0, (len + lenp) % nb_col), 1, ft_pchar);
 	return (len);
 }
 
-void	left_arrow(int *index, int i)
+void	left_arrow(int *index)
 {
 	char	*term;
-	int		ret;
 	int		nb_col;
+	char	prompt[4097];
+	int		len;
 
+	len = ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3;
 	term = getenv("TERM");
-	ret = tgetent(NULL, term);
+	tgetent(NULL, term);
 	nb_col = tgetnum("co");
 	*index = *index > 0 ? *index - 1 : 0;
-	if (*index && (*index + 3) % nb_col == nb_col - 1)
+	if (*index && (*index + len) % nb_col == nb_col - 1)
 		tputs(tgetstr("up", NULL), 1, ft_pchar);
-	tputs(tgoto(tgetstr("ch", NULL), 0, (*index + 3) % nb_col), 1, ft_pchar);
+	tputs(tgoto(tgetstr("ch", NULL), 0, (*index + len) % nb_col), 1, ft_pchar);
 }
 
 void	right_arrow(int *index, int i)
 {
 	char	*term;
-	int		ret;
 	int		nb_col;
+	char	prompt[4097];
+	int		len;
 
+	len = ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3;
 	term = getenv("TERM");
-	ret = tgetent(NULL, term);
+	tgetent(NULL, term);
 	nb_col = tgetnum("co");
 	*index = *index < i ? *index + 1 : i;
-	if (*index && (*index + 3) % nb_col == 0)
+	if (*index && (*index + len) % nb_col == 0)
 		tputs(tgetstr("do", NULL), 1, ft_pchar);
-	tputs(tgoto(tgetstr("ch", NULL), 0, (*index + 3) % nb_col), 1, ft_pchar);
+	tputs(tgoto(tgetstr("ch", NULL), 0, (*index + len) % nb_col), 1, ft_pchar);
 }
 
 int		up_arrow(int *index, char *buff, char *buff_tmp, t_hist **curr)
 {
-	int		i;
-	int		len;
+	int			i;
+	size_t		len;
+	char		prompt[4097];
 
 	len = ft_strlen(buff_tmp);
 	i = ft_strlen(buff);
@@ -149,7 +140,7 @@ int		up_arrow(int *index, char *buff, char *buff_tmp, t_hist **curr)
 			free((*curr)->tmp);
 		(*curr)->tmp = ft_strdup(buff);
 		(*curr) = (*curr)->next;
-		while ((*curr)->next && (ft_strstr((*curr)->content, buff_tmp) != (*curr)->content || (*curr)->c_size <= len))
+		while ((*curr)->next && (ft_strstr((*curr)->content, buff_tmp) != (*curr)->content || (*curr)->c_size <= len || ft_strcmp((*curr)->content, buff) == 0))
 			(*curr) = (*curr)->next;
 		while ((*curr)->prev && (ft_strstr((*curr)->content, buff_tmp) != (*curr)->content || (*curr)->c_size <= len))
 			(*curr) = (*curr)->prev;
@@ -176,7 +167,9 @@ int		up_arrow(int *index, char *buff, char *buff_tmp, t_hist **curr)
 	*index = go_home(*index);
 	tputs(tgetstr("cr", NULL), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
-	ft_putstr("$> ");
+	ft_putstr(RESET);
+	ft_putend_cl(ft_strrchr(getcwd(prompt, 4097), '/') + 1, RED,  " $> ", BLUE);
+	ft_putstr(WHITE);
 	ft_putstr(buff);
 	*index = ft_strlen(buff);
 	return (*index);
@@ -185,7 +178,8 @@ int		up_arrow(int *index, char *buff, char *buff_tmp, t_hist **curr)
 int		down_arrow(int *index, char *buff, char *buff_tmp, t_hist **curr)
 {
 	int		i;
-	int		len;
+	size_t	len;
+	char	prompt[4097];
 
 	len = ft_strlen(buff_tmp);
 	i = ft_strlen(buff);
@@ -195,7 +189,7 @@ int		down_arrow(int *index, char *buff, char *buff_tmp, t_hist **curr)
 			free((*curr)->tmp);
 		(*curr)->tmp = ft_strdup(buff);
 		*curr = (*curr)->prev;
-		while ((*curr)->prev && (ft_strstr((*curr)->content, buff_tmp) != (*curr)->content || (*curr)->c_size <= len))
+		while ((*curr)->prev && (ft_strstr((*curr)->content, buff_tmp) != (*curr)->content || (*curr)->c_size <= len || ft_strcmp((*curr)->content, buff) == 0))
 			*curr = (*curr)->prev;
 		if (ft_strstr((*curr)->content, buff_tmp) == (*curr)->content && (*curr)->c_size > len)
 		{
@@ -220,22 +214,28 @@ int		down_arrow(int *index, char *buff, char *buff_tmp, t_hist **curr)
 	*index = go_home(*index);
 	tputs(tgetstr("cr", NULL), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
-	ft_putstr("$> ");
+	ft_putstr(RESET);
+	ft_putend_cl(ft_strrchr(getcwd(prompt, 4097), '/') + 1, RED,  " $> ", BLUE);
+	ft_putstr(WHITE);
 	ft_putstr(buff);
 	*index = ft_strlen(buff);
 	return (*index);
 }
 
-void	ft_exit(struct termios save, t_hist **begin)
+void	ft_exit2(struct termios save, t_hist **begin)
 {
 	t_hist *curr;
 
-	ft_term_restore(save);
+	term_restore(save);
 	ft_putchar('\n');
 	if (*begin)
 		while (*begin)
 		{
 			curr = (*begin)->next;
+			if ((*begin)->content)
+				free((*begin)->content);
+			if ((*begin)->tmp)
+				free((*begin)->tmp);
 			free(*begin);
 			(*begin) = curr;
 		}
@@ -254,6 +254,7 @@ int		ft_cancel(int index, int i, char *buff_tmp, t_hist **curr)
 	i = i % nb_col < nb_col ? i + (nb_col - i % nb_col) : i;
 	while ((index = index + nb_col) < i)
 		ft_putchar('\n');
+	tputs(tgetstr("cd", NULL), 1, ft_pchar);
 	*curr = (*curr)->begin;
 	ft_bzero(buff_tmp, 8194);
 	while ((*curr)->next)
@@ -274,9 +275,12 @@ void	del_lines(int index, int len, int nb_col)
 {
 	int		i;
 	int		j;
+	char	prompt[4097];
+	int		lenp;
 
-	i = index / nb_col - 1;
-	j = len / nb_col;
+	lenp = ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3;
+	i = (index + lenp) / nb_col - 1;
+	j = (len + lenp) / nb_col;
 	tputs(tgetstr("sc", NULL), 1, ft_pchar);
 	while (++i < j)
 	{
@@ -291,16 +295,18 @@ int		del_left(int *index, char *buff, char *buff_tmp, t_hist *curr)
 {
 	int		j;
 	char	*term;
-	int		ret;
+	int		len;
 	int		nb_col;
 	int		i;
+	char	prompt[4097];
 
 	term = getenv("TERM");
-	ret = tgetent(NULL, term);
+	tgetent(NULL, term);
 	nb_col = tgetnum("co");
 	j = 0;
+	len = ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3;
 	i = ft_strlen(buff);
-	if (*index && (*index + 2) % nb_col == nb_col - 1)
+	if (*index && (*index + len) % nb_col == 0)
 		tputs(tgetstr("up", NULL), 1, ft_pchar);
 	if (*index != 0)
 	{
@@ -312,16 +318,16 @@ int		del_left(int *index, char *buff, char *buff_tmp, t_hist *curr)
 		}
 		buff[i] = '\0';
 		i = i > 0 ? i - 1 : 0;
-		tputs(tgoto(tgetstr("ch", NULL), 0, (*index + 3) % nb_col), 1, ft_pchar);
+		tputs(tgoto(tgetstr("ch", NULL), 0, (*index + len) % nb_col), 1, ft_pchar);
 		tputs(tgetstr("dc", NULL), 1, ft_pchar);
 	}
-	if ((*index + 3) % nb_col == nb_col - 1)
+	if ((*index + len) % nb_col == nb_col - 1)
 	{
 		tputs(tgetstr("sc", NULL), 1, ft_pchar);
 		ft_putchar(' ');
 		tputs(tgetstr("rc", NULL), 1, ft_pchar);
 	}
-	if (i + 3 > nb_col - 1)
+	if (i + len > nb_col - 1)
 	{
 		del_lines(*index, i, nb_col);
 		tputs(tgetstr("sc", NULL), 1, ft_pchar);
@@ -356,41 +362,49 @@ void	del_right(int index, int *i, char *buff)
 
 void	ft_clear(char *buff)
 {
+	char	prompt[4097];
+
 	tputs(tgetstr("cl", NULL), 1, ft_pchar);
-	ft_putstr("$> ");
+	ft_putstr(RESET);
+	ft_putend_cl(ft_strrchr(getcwd(prompt, 4097), '/') + 1, RED,  " $> ", BLUE);
+	ft_putstr(WHITE);
 	ft_putstr(buff);
 }
 
 void	next_word(int *index, int len, char *buff)
 {
 	char	*term;
-	int		ret;
 	int		nb_col;
+	char	prompt[4097];
+	int		lenp;
 
+	lenp = ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3;
 	term = getenv("TERM");
-	ret = tgetent(NULL, term);
+	tgetent(NULL, term);
 	nb_col = tgetnum("co");
 	while (buff[*index] != ' ' && *index < len)
 	{
 		if (len > nb_col)
-			if ((*index + 3) % nb_col == 0 && *index < len)
+			if ((*index + lenp) % nb_col == 0 && *index < len)
 				tputs(tgetstr("do", NULL), 1, ft_pchar);
 		*index = *index + 1;
 	}
 	while (*index < len && buff[*index] == ' ')
 		*index = *index + 1;
-	tputs(tgoto(tgetstr("ch", NULL), 0, (*index + 3) % nb_col), 1, ft_pchar);
+	tputs(tgoto(tgetstr("ch", NULL), 0, (*index + lenp) % nb_col), 1, ft_pchar);
 }
 
 void	prev_word(int *index, int len, char *buff)
 {
 	char	*term;
-	int		ret;
 	int		nb_col;
+	char	prompt[4097];
+	int		lenp;
 
 	term = getenv("TERM");
-	ret = tgetent(NULL, term);
+	tgetent(NULL, term);
 	nb_col = tgetnum("co");
+	lenp = ft_strlen(ft_strrchr(getcwd(prompt, 4097), '/')) + 3;
 	if (*index == len && len != 0)
 		*index = *index - 1;
 	if (ft_isprint(buff[*index]) && buff[*index] != ' ' && *index > 0)
@@ -400,21 +414,16 @@ void	prev_word(int *index, int len, char *buff)
 	while (buff[*index] != ' ' && *index > 0)
 	{
 		if (len > nb_col)
-			if ((*index + 3) % nb_col == 0 && *index > 0)
+			if ((*index + lenp) % nb_col == 0 && *index > 0)
 				tputs(tgetstr("up", NULL), 1, ft_pchar);
 		*index = *index - 1;
 	}
 	while (*index > 0 && buff[*index] == ' ')
 		*index = *index + 1;
-	tputs(tgoto(tgetstr("ch", NULL), 0, (*index + 3) % nb_col), 1, ft_pchar);
+	tputs(tgoto(tgetstr("ch", NULL), 0, (*index + lenp) % nb_col), 1, ft_pchar);
 }
 
-int		ft_isspace(int c)
-{
-	return ((c >= 9 && c <= 13) || c == 32);
-}
-
-int		get_typing(int *index, char *buff, char *tmp, int nb_read)
+int		get_typing(int *index, char *buff, char *tmp, int nb_read, char *buff_tmp)
 {
 	int		len;
 	int		cp;
@@ -424,7 +433,9 @@ int		get_typing(int *index, char *buff, char *tmp, int nb_read)
 
 	cp = 0;
 	len = ft_strlen(buff);
-	while (cp < nb_read && (ft_isprint(tmp[cp]) || ft_isspace(tmp[cp])))
+	if (ft_isprint(tmp[0]))
+		ft_bzero(buff_tmp, 8194);
+	while (cp < nb_read && (ft_isprint(tmp[cp]) || (tmp[0] == 9 && !buff[0])))
 	{
 		tchar = buff[*index + 1];
 		if (*index != len)
@@ -450,15 +461,24 @@ int		get_typing(int *index, char *buff, char *tmp, int nb_read)
 	return (len);
 }
 
-void	deal_commande(int index, char *buff, char *buff_tmp, t_hist **curr)
+void	deal_commande(int index, char *buff, char *buff_tmp, t_hist **curr, char **env)
 {
 	int		j;
 	char	*term;
 	int		fd;
 	int		nb_col;
 	t_hist	*tmp;
+	char	*path;
 
-	fd = open(".21sh_history", O_RDWR | O_APPEND | O_CREAT, 0644);
+	if (!(path = get_env(env, "HOME")))
+		fd = open("/tmp/.21sh_history", O_RDWR | O_APPEND | O_CREAT, 0644);
+	else
+	{
+		path = ft_strjoinfree(path, "/", 1);
+		path = ft_strjoinfree(path, ".21sh_history", 1);
+		fd = open(path, O_RDWR | O_APPEND | O_CREAT, 0644);
+		free(path);
+	}
 	term = getenv("TERM");
 	tgetent(NULL, term);
 	nb_col = tgetnum("co");
@@ -466,6 +486,7 @@ void	deal_commande(int index, char *buff, char *buff_tmp, t_hist **curr)
 	j = ft_strlen(buff) / nb_col;
 	while (++index < j)
 		tputs(tgetstr("do", NULL), 1, ft_pchar);
+	tputs(tgetstr("cd", NULL), 2, ft_pchar);
 	if (*curr)
 	{
 		if (ft_strcmp(buff, (*curr)->begin->content) != 0)
@@ -501,19 +522,27 @@ void	deal_commande(int index, char *buff, char *buff_tmp, t_hist **curr)
 		(*curr)->c_size = ft_strlen(buff);
 		(*curr)->begin = *curr;
 	}
-	ft_putendl(buff);
 	ft_bzero(buff_tmp, 8194);
 	close(fd);
 }
 
-void	create_hist(t_hist **begin)
+void	create_hist(t_hist **begin, char **env)
 {
 	int		continu;
 	t_hist	*curr;
 	int		fd;
+	char	*path;
 
 	continu = 1;
-	fd = open(".21sh_history", O_RDWR | O_APPEND | O_CREAT, 0644);
+	if (!(path = get_env(env, "HOME")))
+		fd = open("/tmp/.21sh_history", O_RDWR | O_APPEND | O_CREAT, 0644);
+	else
+	{
+		path = ft_strjoinfree(path, "/", 1);
+		path = ft_strjoinfree(path, ".21sh_history", 1);
+		fd = open(path, O_RDWR | O_APPEND | O_CREAT, 0644);
+		free(path);
+	}
 	while (continu)
 	{
 		curr = ft_memalloc(sizeof(t_hist));
@@ -528,6 +557,7 @@ void	create_hist(t_hist **begin)
 		if (!continu)
 		{
 			free(curr);
+			curr = NULL;
 			if (*begin)
 				(*begin)->prev = NULL;
 		}
@@ -541,103 +571,4 @@ void	create_hist(t_hist **begin)
 		curr = curr->next;
 	}
 	close(fd);
-}
-
-int		main(void)
-{
-	char	tmp[10];
-	struct termios	save;
-	int		nb_read;
-	int		i;
-	char	buff[8193];
-	int		index;
-	t_hist	*curr;
-	char	*term;
-	char	buff_tmp[8194];
-
-	term = getenv("TERM");
-	tgetent(NULL, term);
-	curr = NULL;
-	create_hist(&curr);
-	curr = curr->begin;
-	ft_define_new_term_cap(&save);
-	nb_read = 0;
-	signal(SIGINT, &sig_hdlr);
-	signal(SIGQUIT, &sig_hdlr);
-	tputs(tgetstr("cl", NULL), 1, ft_pchar);
-	ft_bzero(buff_tmp, 8194);
-	while (1)
-	{
-		ft_putstr("$> ");
-		ft_bzero(buff, 8193);
-		i = 0;
-		index = 0;
-		tmp[0] = '\0';
-		while (tmp[0] != 10 && tmp[0] != -1)
-		{
-			//	j = -1;
-			//	while (++j < nb_read)
-			//		ft_putnbend(tmp[j], "  ");
-			if (i + (nb_read = read(0, tmp, 10)) < 8192) /* Type and cmd+V */
-				i = get_typing(&index, buff, tmp, nb_read);
-			if (nb_read == 1 && tmp[0] == 4 && !buff[0]) /* ctrl+D*/
-				ft_exit(save, &(curr->begin));
-			else if (nb_read == 1 && tmp[0] == 3) /* ctrl+C */
-				tmp[0] = ft_cancel(index, i, buff_tmp, &curr);
-			else if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 65) /* up arrow */
-				i = up_arrow(&index, buff, buff_tmp, &curr);
-			else if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 66) /* down key */
-				i = down_arrow(&index, buff, buff_tmp, &curr);
-			else if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 67) /* right key*/
-				right_arrow(&index, i);
-			else if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 68) /* left key */
-				left_arrow(&index, i);
-			else if (nb_read == 1 && tmp[0] == 127) /* delete left */
-				i = del_left(&index, buff, buff_tmp, curr);
-			else if (nb_read == 4 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 51 && tmp[3] == 126) /* delete right */
-				del_right(index, &i, buff);
-			else if (nb_read == 1 && tmp[0] == 12) /* ctrl+L */
-				ft_clear(buff);
-			else if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 72) /* home */
-				index = go_home(index);
-			else if (nb_read == 3 && tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 70) /* end */
-				index = go_end(index, i);
-			else if (nb_read == 1 && tmp[0] == 23) /* ctrl+W */
-				next_word(&index, i, buff);
-			else if (nb_read == 1 && tmp[0] == 2) /* ctrl+B */
-				prev_word(&index, i, buff);
-		}
-		ft_putchar('\n');
-		if (buff[0] && tmp[0] != -1)
-			deal_commande(index, buff, buff_tmp, &curr);
-		/*nb_read = read(0, tmp, 10);
-		  i = -1;
-		  while (++i < nb_read)
-		  {
-		  ft_putnbr(tmp[i]);
-		  ft_putchar('\n');
-		  }
-		  if (tmp[0] == 'c') {
-		  ft_term_restore(save);
-		  pid_t  pid = fork();
-		  if (pid == 0)
-		  {
-		  char *cmd[] = { "/sbin/ping", "google.fr", NULL };
-		  execve(cmd[0], cmd, NULL);
-		  exit(1);
-		  } else if (pid > 0) {
-		  int status;
-		  ft_putendl("waiting...");
-		  waitpid(pid, &status, 0);
-		  ft_putstr("ret=");
-		  ft_putnbr(status);
-		  ft_putchar('\n');
-		  }
-		  ft_define_new_term_cap(&save);
-		  }
-		  if (tmp[0] == 'q')
-		  break;*/
-	}
-	ft_term_restore(save);
-	return (0);
 }

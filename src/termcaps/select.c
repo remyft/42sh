@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 05:18:39 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/29 11:42:45 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/12 17:03:14 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_putselect(t_line *line)
 {
-	int i;
+	size_t	i;
 
 	i = line->index / line->nb_col;
 	while (i--)
@@ -23,10 +23,10 @@ void	ft_putselect(t_line *line)
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
 	put_prompt(line->prompt);
 	i = -1;
-	while (++i < line->slct_beg)
+	while (++i < (size_t)line->slct_beg)
 		ft_putchar(line->curr->buff[i]);
 	tputs(tgetstr("mr", NULL), 1, ft_pchar);
-	while (i < line->slct_end)
+	while (i < (size_t)line->slct_end)
 		ft_putchar(line->curr->buff[i++]);
 	tputs(tgetstr("me", NULL), 1, ft_pchar);
 	while (i < line->len)
@@ -41,16 +41,16 @@ void	select_left(t_line *line)
 {
 	if (line->slct_beg < 0)
 	{
-		line->slct_end = line->index;
+		line->slct_end = (int)line->index;
 		line->slct_beg = line->slct_end > 0 ? line->slct_end - 1 : 0;
-		line->index = line->slct_beg;
+		line->index = (size_t)line->slct_beg;
 	}
 	else
 	{
-		if (line->slct_beg == line->index)
+		if (line->slct_beg == (int)line->index)
 		{
 			line->slct_beg = line->slct_beg > 0 ? line->slct_beg - 1 : 0;
-			line->index = line->slct_beg;
+			line->index = (size_t)line->slct_beg;
 		}
 		else
 		{
@@ -65,16 +65,16 @@ void	select_right(t_line *line)
 {
 	if (line->slct_beg < 0)
 	{
-		line->slct_beg = line->index;
-		line->slct_end = line->slct_beg < line->len ? line->slct_beg + 1 : line->len;
-		line->index = line->slct_end;
+		line->slct_beg = (int)line->index;
+		line->slct_end = line->slct_beg < (int)line->len ? line->slct_beg + 1 : line->len;
+		line->index = (size_t)line->slct_end;
 	}
 	else
 	{
-		if (line->slct_end == line->index)
+		if (line->slct_end == (int)line->index)
 		{
-			line->slct_end = line->slct_end < line->len ? line->slct_end + 1 : line->len;
-			line->index = line->slct_end;
+			line->slct_end = line->slct_end < (int)line->len ? line->slct_end + 1 : line->len;
+			line->index = (size_t)line->slct_end;
 		}
 		else
 		{
@@ -124,7 +124,7 @@ void	ft_paste(t_line *line)
 {
 	char	c;
 	char	d;
-	int		i;
+	size_t	i;
 	int		j;
 
 	if (!line->copy)
