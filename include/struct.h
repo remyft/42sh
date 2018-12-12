@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/11 13:35:07 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/12 09:58:26 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ typedef struct		s_buff
 
 typedef struct		s_hdlist
 {
-	char			*val;
+	int				head;
+	int				tail;
 	struct s_hdlist	*next;
 	struct s_hdlist	*prev;
 }					t_hdlist;
@@ -74,6 +75,7 @@ typedef struct		s_hdlist
 typedef struct		s_line
 {
 	t_buff			*curr;
+	t_buff			*beg_buff;
 	char			tmp[10];
 	char			*copy;
 	char			*prompt;
