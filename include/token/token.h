@@ -6,11 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2018/12/12 18:43:02 by gbourgeo         ###   ########.fr       */
-=======
-/*   Updated: 2018/12/12 17:09:41 by rfontain         ###   ########.fr       */
->>>>>>> 4137f821b52167f44df66f9e33c3d98e0baeea9d
+/*   Updated: 2018/12/13 19:17:33 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,4 +170,6 @@ int				ft_isdparenend(t_param *param);
 int				ft_isparenend(t_param *param);
 int				ft_iscommand(int c);
 
+
+void			debug_tokens(const char *buff, t_token *tokens, char *stab);
 #endif
