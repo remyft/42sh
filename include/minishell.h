@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/11 14:56:22 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/11 17:45:37 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ void			ft_cut(t_line *line);
 /*
 ** Completion
 */
-int				put_complet(char *str, t_tree *tern, char *tget, int *put);
+int				put_complet(char *str, t_tree *tern, char *tget, int *put,
+		t_line *line);
 void			get_complet(t_line *line);
 void			set_complet(t_line *line);
 

@@ -6,29 +6,29 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:42:34 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/22 02:40:03 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/13 18:34:30 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "put.h"
 
-void	ft_put_tree(t_tree *tern, char *bru, int lvl, int *car_ret, int nb_col, int len_max, int *put, char *tget, char *old)
+void	ft_put_tree(t_tree *tern, char *bru, int lvl, int *car_ret, int nb_col, int len_max, int *put, char *tget, char *old, t_line *line)
 {
 	char	*chr;
 	int		i;
 
 	if (tern->left)
-		ft_put_tree(tern->left, bru, lvl, car_ret, nb_col, len_max, put, tget, old);
+		ft_put_tree(tern->left, bru, lvl, car_ret, nb_col, len_max, put, tget, old, line);
 	if (tern->tern_next && (tern->value != '.' || bru[0] == '.' || lvl >= 1))
 	{
 		bru[lvl] = tern->value;
-		ft_put_tree(tern->tern_next, bru, lvl + 1, car_ret, nb_col, len_max, put, tget, old);
+		ft_put_tree(tern->tern_next, bru, lvl + 1, car_ret, nb_col, len_max, put, tget, old, line);
 	}
 	if (tern && !tern->tern_next)
 	{
 		bru[lvl] = '\0';
-		if (!tern->tput && *put)
+		if (!tern->tput && *put && *(line->e_cmpl) & COMPLETION)
 		{
 			tputs(tgetstr("mr", NULL), 1, ft_pchar);
 			tern->tput = 1;
@@ -82,7 +82,7 @@ void	ft_put_tree(t_tree *tern, char *bru, int lvl, int *car_ret, int nb_col, int
 		}
 	}
 	if (tern->right)
-		ft_put_tree(tern->right, bru, lvl, car_ret, nb_col, len_max, put, tget, old);
+		ft_put_tree(tern->right, bru, lvl, car_ret, nb_col, len_max, put, tget, old, line);
 }
 
 t_slct		*select_branch(t_tree *upper, char *src, int *lenm)
@@ -131,27 +131,27 @@ t_slct		*select_branch(t_tree *upper, char *src, int *lenm)
 	return (select);
 }
 
-void	put_branch(t_slct *select, t_tree *tern, int len, char *bru, int lvl, int lenm, int *car_ret, int nb_col, int *put, char *tget, char *old)
+void	put_branch(t_slct *select, t_tree *tern, int len, char *bru, int lvl, int lenm, int *car_ret, int nb_col, int *put, char *tget, char *old, t_line *line)
 {
 	if (tern)
-		return (ft_put_tree(tern, bru, lvl, car_ret, nb_col, lenm, put, tget, old));
+		return (ft_put_tree(tern, bru, lvl, car_ret, nb_col, lenm, put, tget, old, line));
 	if (select && len > lvl + 1)
 	{
 		bru[lvl] = select->mln->value;
-		put_branch(select->down, tern,  len, bru, lvl + 1, lenm, car_ret, nb_col, put, tget, old);
+		put_branch(select->down, tern,  len, bru, lvl + 1, lenm, car_ret, nb_col, put, tget, old, line);
 	}
 	else if (select)
 	{
 		bru[lvl] = select->mln->value;
 		bru[lvl + 1] = '\0';
-		ft_put_tree(select->mln->tern_next, bru, lvl + 1, car_ret, nb_col, lenm, put, tget, old);
+		ft_put_tree(select->mln->tern_next, bru, lvl + 1, car_ret, nb_col, lenm, put, tget, old, line);
 	}
 	if (select && select->next)
-		put_branch(select->next, tern, len, bru, lvl, lenm, car_ret, nb_col, put, tget, old);
+		put_branch(select->next, tern, len, bru, lvl, lenm, car_ret, nb_col, put, tget, old, line);
 }
 
 
-int		put_complet(char *str, t_tree *tern, char *tget, int *put)
+int		put_complet(char *str, t_tree *tern, char *tget, int *put, t_line *line)
 {
 	t_slct	*select;
 	int		lenm;
@@ -175,7 +175,9 @@ int		put_complet(char *str, t_tree *tern, char *tget, int *put)
 	tres = 0;
 	if (!ft_strchr(str, ' '))
 		select = select_branch(tern, (chr = ft_strdup(str)), &lenm);
-	else if (*(chr = !ft_strchr(ft_strrchr(str, ' '), '/') ? ft_strdup(ft_strrchr(str, ' ') + 1) : ft_strdup(ft_strrchr(str, '/') + 1)))
+	else if (*(chr = !ft_strchr(ft_strrchr(str, ' '), '/')
+				? ft_strdup(ft_strrchr(str, ' ') + 1)
+					: ft_strdup(ft_strrchr(str, '/') + 1)))
 		select = select_branch(tern, chr, &lenm);
 	else
 		get_max_len(tern, &lenm);
@@ -187,7 +189,10 @@ int		put_complet(char *str, t_tree *tern, char *tget, int *put)
 			if (!ft_strcmp(chr, str))
 				ret_psb(select, ft_strlen(chr), 0, tget);
 			else
-				ret_psb(select, ft_strlen(chr), 0, !ft_strchr(ft_strrchr(tget, ' '), '/') ? ft_strrchr(tget, ' ') + 1 : ft_strrchr(tget, '/') + 1);
+				ret_psb(select, ft_strlen(chr), 0,
+						!ft_strchr(ft_strrchr(tget, ' '), '/')
+							? ft_strrchr(tget, ' ') + 1
+								: ft_strrchr(tget, '/') + 1);
 			free(chr);
 			return (1);
 		}
@@ -203,15 +208,18 @@ int		put_complet(char *str, t_tree *tern, char *tget, int *put)
 	}
 	nb_col = width / (lenm + 1);
 	if (select)
-		put_branch(select, NULL, ft_strlen(chr), bru, 0, lenm, &car_ret, nb_col, put, tget, str);
+		put_branch(select, NULL, ft_strlen(chr), bru, 0,
+				lenm, &car_ret, nb_col, put, tget, str, line);
 	else if (lenm)
-		put_branch(NULL, tern, ft_strlen(chr), bru, 0, lenm, &car_ret, nb_col, put, tget, str);
+		put_branch(NULL, tern, ft_strlen(chr), bru, 0,
+				lenm, &car_ret, nb_col, put, tget, str, line);
 	else
 	{
 		if (chr)
 			free(chr);
 		return (-1);
 	}
+	*(line->e_cmpl) |= COMPLETION;
 	if (chr)
 		free(chr);
 	return (0);

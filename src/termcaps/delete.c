@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:51:36 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 04:19:19 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/12 17:30:08 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	del_lines(t_line *line)
 	}
 	tputs(tgetstr("rc", NULL), 1, ft_pchar);
 }
+
+#include <stdio.h>
 
 static void	del_left(t_line *line)
 {

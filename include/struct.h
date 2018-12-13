@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/11 13:35:07 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/13 10:14:52 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@ typedef enum		e_state
 	QUOTE = 1 << 1,
 	DQUOTE = 1 << 2,
 	BQUOTE = 1 << 3,
-	WT_SPACE = 1 << 4,
-	WT_HDOC = 1 << 5,
-	HDOC = 1 << 6,
-	NSTATE = 1 << 7
+	WT_NHDOC = 1 << 4,
+	WT_SPACE = 1 << 5,
+	WT_HDOC = 1 << 6,
+	HDOC = 1 << 7,
+	NSTATE = 1 << 8
 }					t_st;
 
 typedef struct		s_tree
@@ -64,29 +65,34 @@ typedef struct		s_buff
 	struct s_buff	*prev;
 }					t_buff;
 
-typedef struct		s_hdlist
+typedef struct		s_state
 {
-	char			*val;
-	struct s_hdlist	*next;
-	struct s_hdlist	*prev;
-}					t_hdlist;
+	int				state;
+	size_t			head;
+	size_t			tail;
+	struct s_state	*next;
+
+	char			*cmd;
+	struct s_state	*prev;
+}					t_state;
 
 typedef struct		s_line
 {
 	t_buff			*curr;
+	t_buff			*beg_buff;
 	char			tmp[10];
 	char			*copy;
 	char			*prompt;
 	char			*path;
 	char			*term;
-	int				lprompt;
-	int				index;
+	size_t			lprompt;
 	int				slct_beg;
 	int				slct_end;
-	int				len;
-	int				nb_col;
-	int				nb_line;
-	t_hdlist		*hdoc;
+	size_t			index;
+	size_t			len;
+	size_t			nb_col;
+	size_t			nb_line;
+	t_state		*hdoc;
 	t_hist			*hist;
 	t_st			*e_cmpl;
 	t_tree			*tree[3];
