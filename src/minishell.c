@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/13 16:31:02 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/13 18:37:26 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,11 +180,8 @@ static int	deal_hdoc(t_line *line)
 	tmp = ft_memalloc(sizeof(t_state));
 	tmp->head = 0;
 	tmp->tail = ft_strlen(line->curr->buff);
-	if ((tmp->cmd = expand_word(line->curr->buff, (t_token*)tmp)))
-		printf("tmp : %s cmd : %s\n", tmp->cmd, line->hdoc->cmd);
 	if (tmp->cmd && line->hdoc && line->hdoc->cmd && ft_strcmp(tmp->cmd, line->hdoc->cmd) == 0)
 	{
-		printf("buff : %s, cmd : %s\n", line->curr->buff, line->hdoc->cmd);
 		if (line->hdoc->next)
 		{
 			line->hdoc = line->hdoc->next;
@@ -331,10 +328,8 @@ int		check_hdoc(t_line *line)
 		}
 		if (line->hdoc)
 			line->hdoc->cmd = expand_word(buff->buff, (t_token*)line->hdoc);
-		printf("buff : %s, head : %zu, tail : %zu\n", line->hdoc->cmd, line->hdoc->head, line->hdoc->tail);
 		return (1);
 	}
-	printf("%d\n", *line->e_cmpl);
 	deal_prompt(line);
 	return (0);
 }

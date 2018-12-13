@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:38:48 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/12 16:56:42 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/13 18:34:31 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	deal_complet(t_tree *file, t_line *line)
 	int		put;
 	size_t	j;
 
+	*(line->e_cmpl) |= COMPLETION;
 	tputs(tgetstr("sc", NULL), 1, ft_pchar);
 	tputs(tgetstr("do", NULL), 1, ft_pchar);
 	tputs(tgetstr("cr", NULL), 1, ft_pchar);
