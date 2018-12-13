@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/12 20:45:01 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/13 16:31:02 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,20 +171,29 @@ int			ft_strhtcmp(char *str1, char *str2, int head, int tail)
 
 static int	deal_hdoc(t_line *line)
 {
+	t_state *tmp;
+
 	if (!line->curr->prev)
 		return (0);
 	while (line->hdoc && line->hdoc->prev)
 		line->hdoc = line->hdoc->prev;
-//	printf("buff : %s cmd : %s\n", line->curr->buff, line->hdoc->cmd);
-	if (line->hdoc && line->hdoc->cmd && ft_strcmp(line->curr->buff, line->hdoc->cmd) == 0)
+	tmp = ft_memalloc(sizeof(t_state));
+	tmp->head = 0;
+	tmp->tail = ft_strlen(line->curr->buff);
+	if ((tmp->cmd = expand_word(line->curr->buff, (t_token*)tmp)))
+		printf("tmp : %s cmd : %s\n", tmp->cmd, line->hdoc->cmd);
+	if (tmp->cmd && line->hdoc && line->hdoc->cmd && ft_strcmp(tmp->cmd, line->hdoc->cmd) == 0)
 	{
+		printf("buff : %s, cmd : %s\n", line->curr->buff, line->hdoc->cmd);
 		if (line->hdoc->next)
 		{
 			line->hdoc = line->hdoc->next;
 			free(line->hdoc->prev->cmd);
 			free(line->hdoc->prev);
 			line->hdoc->prev = NULL;
-			return (0);
+			free(tmp->cmd);
+			free(tmp);
+			return (1);
 		}
 		else
 		{
@@ -193,9 +202,13 @@ static int	deal_hdoc(t_line *line)
 			line->hdoc = NULL;
 			*(line->e_cmpl) &= ~HDOC;
 			deal_prompt(line);
+			free(tmp->cmd);
+			free(tmp);
 			return (1);
 		}
 	}
+	free(tmp->cmd);
+	free(tmp);
 	return (0);
 }
 
@@ -262,8 +275,12 @@ int		check_hdoc(t_line *line)
 			if (line->curr->buff[i] == '\\' && !(state & NSTATE))
 				state |= NSTATE;
 			else if (state & NSTATE)
+			{
 				state &= ~NSTATE;
-			else if (line->curr->buff[i] == '<' && !(state & WT_NHDOC) && !(state & NSTATE))
+				i++;
+				continue ;
+			}
+			if (line->curr->buff[i] == '<' && !(state & WT_NHDOC) && !(state & NSTATE))
 				state |= WT_NHDOC;
 			else if (line->curr->buff[i] == '<' && state & WT_NHDOC)
 			{
@@ -314,6 +331,7 @@ int		check_hdoc(t_line *line)
 		}
 		if (line->hdoc)
 			line->hdoc->cmd = expand_word(buff->buff, (t_token*)line->hdoc);
+		printf("buff : %s, head : %zu, tail : %zu\n", line->hdoc->cmd, line->hdoc->head, line->hdoc->tail);
 		return (1);
 	}
 	printf("%d\n", *line->e_cmpl);
@@ -341,10 +359,13 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 		check_path(line, env);
 		deal_typing(line);
 		write(1, "\n", 1);
-		if (!deal_hdoc(line) && check_hdoc(line))
-			continue;
 		if (!deal_hdoc(line))
-			ft_putendl("YO");
+		{
+		if (check_hdoc(line))
+			continue;
+		}
+//		if (!deal_hdoc(line))
+//			ft_putendl("YO");
 		if (line->curr->buff[0] && line->tmp[0] != -1 && line->curr->buff[0] != 10)
 		{
 			ret = listnjoin(line);
