@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/13 10:14:52 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/13 19:38:41 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ typedef enum		e_state
 	WT_NHDOC = 1 << 4,
 	WT_SPACE = 1 << 5,
 	WT_HDOC = 1 << 6,
-	HDOC = 1 << 7,
-	NSTATE = 1 << 8
+	UN_HDOC = 1 << 7,
+	HDOC = 1 << 8,
+	NSTATE = 1 << 9
 }					t_st;
 
 typedef struct		s_tree

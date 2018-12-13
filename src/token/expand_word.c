@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 04:02:23 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/13 16:56:06 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/13 18:53:11 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ char			*expand_word(const char *buff, t_token *token)
 		if (buff[i] == '\''
 				&& (!token->quote || token->quote & SINGLE_QUOTE))
 		{
-			if (!my_strnchr(buff + i + 1, '\'', token->tail - i) && !(token->quote & SINGLE_QUOTE))
+			if (!my_strnchr(buff + i + 1, '\'', token->tail - i)
+					&& !(token->quote & SINGLE_QUOTE))
 			{
 				i++;
 				continue ;
@@ -87,7 +88,8 @@ char			*expand_word(const char *buff, t_token *token)
 		else if (buff[i] == '"'
 				&& (!token->quote || token->quote & DOUBLE_QUOTE))
 		{
-			if (!my_strnchr(buff + i + 1, '"', token->tail - i) && !(token->quote & DOUBLE_QUOTE))
+			if (!my_strnchr(buff + i + 1, '"', token->tail - i)
+					&& !(token->quote & DOUBLE_QUOTE))
 			{
 				i++;
 				continue ;
