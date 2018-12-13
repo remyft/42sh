@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/11 14:21:20 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/12 18:43:02 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,11 @@ enum {
 */
 enum {
 	BACKSLASH = (1 << 0),
-	SINGLE_QUOTE = (1 << 1),
-	DOUBLE_QUOTE = (1 << 2),
-	BRACKET = (1 << 3),
-	PARENTHESE = (1 << 4),
+	DOUBLE_QUOTE = (1 << 1),
+	SINGLE_QUOTE = (1 << 2),
+	PARENTHESE = (1 << 3),
+	BRACKET = (1 << 4),
+	BACKQUOTE = (1 << 5),
 };
 
 /*
@@ -58,13 +59,15 @@ enum {
 typedef struct	s_token
 {
 	int				quote;
-	int				type;
-	int				spec;
 	size_t			head;
 	size_t			tail;
+	struct s_token	*next;
+
+	size_t			depth;
+	int				type;
+	int				spec;
 	struct s_token	*subs;
 	char			*command;
-	struct s_token	*next;
 	struct s_token	*prev;
 }				t_token;
 
@@ -77,7 +80,6 @@ typedef struct	s_param
 	t_token		*token;
 	const char	*buff;
 	size_t		i;
-	size_t		depth;
 }				t_param;
 
 /*
@@ -114,6 +116,7 @@ typedef struct	s_call
 ** Characters Handler
 */
 # define CHAR_QUOTE			{ ft_isquote,    handle_quote }
+# define CHAR_CMD			{ ft_iscommand,  handle_command }
 # define CHAR_SUBS			{ ft_issubs,     handle_subs }
 # define CHAR_NEWLINE		{ ft_isnewline,  handle_newline }
 # define CHAR_COMMENT		{ ft_iscomment,  handle_comment }
@@ -129,14 +132,13 @@ typedef struct	s_func
 /*
 ** Functions
 */
-t_token			*tokenise(const char *buff, size_t i, \
-						int (*ft_end)(const char *), size_t depth);
+t_token			*tokenise(const char *buff);
+t_token			*token_loop(t_param *param, int (*ft_end)(t_param *));
 t_token			*new_token(int c, size_t pos);
-
-t_token			*get_subs(t_param *param, int (*ft_end)(const char*), size_t i);
 
 t_token			*handle_end_of_input(t_param *param, t_call *token);
 t_token			*handle_quote(t_param *param, t_call *token);
+t_token			*handle_command(t_param *param, t_call *token);
 t_token			*handle_subs(t_param *param, t_call *token);
 t_token			*handle_newline(t_param *param, t_call *token);
 t_token			*handle_comment(t_param *param, t_call *tokens);
@@ -156,15 +158,16 @@ int				ft_isword(int c);
 int				ft_isname(int c);
 int				ft_iscomment(int c);
 
-int				ft_isnull(const char *s);
-int				ft_isendl(const char *s);
-int				ft_isbracket(const char *s);
-int				ft_isdparen(const char *s);
-int				ft_isparen(const char *s);
-int				ft_isnameend(const char *s);
-int				ft_isbackquote(const char *s);
-int				ft_isbracketend(const char *s);
-int				ft_isdparenend(const char *s);
-int				ft_isparenend(const char *s);
+int				ft_isnull(t_param *param);
+int				ft_isendl(t_param *param);
+int				ft_isbracket(t_param *param);
+int				ft_isdparen(t_param *param);
+int				ft_isparen(t_param *param);
+int				ft_isnameend(t_param *param);
+int				ft_isbackquote(t_param *param);
+int				ft_isbracketend(t_param *param);
+int				ft_isdparenend(t_param *param);
+int				ft_isparenend(t_param *param);
+int				ft_iscommand(int c);
 
 #endif

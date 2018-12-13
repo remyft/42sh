@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 04:02:23 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/11 07:25:02 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/13 15:16:08 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,20 @@ static char		*my_strnjoin(char *dst, const char *src, size_t n)
 	return (ret);
 }
 
+static char		*my_strnchr(const char *s, int c, size_t len)
+{
+	size_t		i;
+
+	i = 0;
+	while (i < len)
+	{
+		if (s[i] == c)
+			return (char *)((s + i));
+		i++;
+	}
+	return (NULL);
+}
+
 char			*expand_word(const char *buff, t_token *token)
 {
 	size_t		i;
@@ -69,6 +83,8 @@ char			*expand_word(const char *buff, t_token *token)
 		else if (buff[i] == '"'
 			&& (!token->quote || token->quote & DOUBLE_QUOTE))
 		{
+			if (!my_strnchr(buff + i, '"', token->tail - i))
+				continue ;
 			ret = my_strnjoin(ret, buff + start, i - start);
 			start = i + 1;
 			if (!token->quote)
@@ -83,7 +99,7 @@ char			*expand_word(const char *buff, t_token *token)
 			start = i + 1;
 			i++;
 		}
-		else if (buff[i] == '$' && token->quote & ~SINGLE_QUOTE)
+		else if (buff[i] == '$' && !(token->quote & SINGLE_QUOTE))
 		{
 			ret = my_strnjoin(ret, buff + start, i - start);
 			if (sub)

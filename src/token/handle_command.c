@@ -1,53 +1,60 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_quote.c                                     :+:      :+:    :+:   */
+/*   handle_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/29 11:36:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/13 14:33:17 by gbourgeo         ###   ########.fr       */
+/*   Created: 2018/12/12 10:42:52 by gbourgeo          #+#    #+#             */
+/*   Updated: 2018/12/13 14:40:31 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "token.h"
 
-static t_token	*backslash(t_param *param)
+static t_token	*bracket(t_param *param)
 {
-	if (!(param->token->quote & SINGLE_QUOTE))
-		param->i++;
-	return (param->token);
-}
-
-static t_token	*singlequote(t_param *param)
-{
-	if (param->token->quote & DOUBLE_QUOTE)
+	if (param->token->quote && param->token->quote != BRACKET)
 		return (param->token);
-	if (!(param->token->quote & SINGLE_QUOTE))
-		param->token->quote |= SINGLE_QUOTE;
-	else
-		param->token->quote &= ~SINGLE_QUOTE;
+	param->token->quote |= BRACKET;
+	param->token->depth++;
 	return (param->token);
 }
 
-static t_token	*doublequote(t_param *param)
+static t_token	*bracketend(t_param *param)
 {
-	if (param->token->quote & SINGLE_QUOTE)
+	if (!param->token->quote || param->token->quote & ~BRACKET)
 		return (param->token);
-	if (!(param->token->quote & DOUBLE_QUOTE))
-		param->token->quote |= DOUBLE_QUOTE;
-	else
-		param->token->quote &= ~DOUBLE_QUOTE;
+	if (--param->token->depth == 0)
+		param->token->quote &= ~BRACKET;
 	return (param->token);
 }
 
-t_token			*handle_quote(t_param *param, t_call *token)
+static t_token	*parent(t_param *param)
+{
+	if (param->token->quote && param->token->quote != PARENTHESE)
+		return (param->token);
+	param->token->quote |= PARENTHESE;
+	param->token->depth++;
+	return (param->token);
+}
+
+static t_token	*parentend(t_param *param)
+{
+	if (!param->token->quote || param->token->quote & ~PARENTHESE)
+		return (param->token);
+	if (--param->token->depth == 0)
+		param->token->quote &= ~PARENTHESE;
+	return (param->token);
+}
+
+t_token			*handle_command(t_param *param, t_call *token)
 {
 	static t_quote	quote[] = {
-		{ '\\', backslash },
-		{ '\'', singlequote },
-		{ '"', doublequote },
+		{ '{', bracket },
+		{ '}', bracketend },
+		{ '(', parent },
+		{ ')', parentend },
 	};
 	size_t			i;
 

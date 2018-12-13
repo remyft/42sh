@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/29 10:22:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/06 19:08:14 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/12 11:18:44 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,10 @@ int			ft_isname(int c)
 int			ft_iscomment(int c)
 {
 	return ((c == '#'));
+}
+
+int			ft_iscommand(int c)
+{
+	return ((c == '{') || (c == '(')
+		|| (c == '}') || (c == ')'));
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/11 15:15:18 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/12 20:36:01 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,11 +199,11 @@ int		deal_continue(t_line *line)
 
 int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **ep)
 {
-	t_line	*line;
-	t_token	*tokens;
+	t_line		*line;
+	t_token		*tokens;
 	t_command	*command;
-	char	**env;
-	char	*ret;
+	char		**env;
+	char		*ret;
 
 	env = collect_env(ep);
 	line = get_struct();
@@ -227,25 +227,47 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 			*(line->e_cmpl) &= ~COMPLETION;
 			save_history(line->index, line->curr->buff, &(line->hist), env);
 			remove_line_continuation(line->curr->buff);
-			tokens = tokenise(line->curr->buff, 0, ft_isnull, 0);
+			// int i = 0;
+			// int val[] = { BACKSLASH, DOUBLE_QUOTE, SINGLE_QUOTE, PARENTHESE, BRACKET, BACKQUOTE, };
+			// for (size_t j=0;j<sizeof(val)/sizeof(*val);j++)
+			// {
+			// 	i |= val[j];
+			// 	printf("i=%d\n"
+			// 			"%-2d %-2d %-2d %-2d\n"
+			// 			"%-2d %-2d %-2d %-2d\n"
+			// 			"%-2d %-2d %-2d %-2d\n"
+			// 			"%-2d %-2d %-2d %-2d\n"
+			// 			"%-2d %-2d %-2d %-2d\n"
+			// 			"%-2d %-2d %-2d %-2d\n",
+			// 			i,
+			// 			i & val[0], ~(i | ~val[0]), !(i & val[0]), i & ~val[0],
+			// 			i & val[1], ~(i | ~val[1]), !(i & val[1]), i & ~val[1],
+			// 			i & val[2], ~(i | ~val[2]), !(i & val[2]), i & ~val[2],
+			// 			i & val[3], ~(i | ~val[3]), !(i & val[3]), i & ~val[3],
+			// 			i & val[4], ~(i | ~val[4]), !(i & val[4]), i & ~val[4],
+			// 			i & val[5], ~(i | ~val[5]), !(i & val[5]), i & ~val[5]
+			// 			);
+			// 	// i &= ~val[j];
+			// }
+			tokens = tokenise(line->curr->buff);
 #ifdef DEBUG
 			for (t_token *ptr = tokens; ptr; ptr = ptr->next) {
-			printf("------------------------------\n"
-					"type:%d spec:%d head:%ld tail:%ld\n",
-					ptr->type, ptr->spec, ptr->head, ptr->tail);
-			write(1, "buff: \"", 7);
-			write(1, line->curr->buff + ptr->head, ptr->tail - ptr->head);
-			write(1, "\" command: \"", 12);
-			if (ptr->command)
-				write(1, ptr->command, ft_strlen(ptr->command));
-			write(1, "\"\n", 2);
-			for (t_token *ptr2 = ptr->subs; ptr2; ptr2 = ptr2->next) {
 				printf("------------------------------\n"
-						"\ttype:%d spec:%d head:%ld tail:%ld\n",
-						ptr2->type, ptr2->spec, ptr2->head, ptr2->tail);
-				write(1, "\tsub: \"", 7);
-				write(1, line->curr->buff + ptr2->head, ptr2->tail - ptr2->head);
+						"type:%d spec:%d head:%ld tail:%ld\n",
+						ptr->type, ptr->spec, ptr->head, ptr->tail);
+				write(1, "buff: \"", 7);
+				write(1, line->curr->buff + ptr->head, ptr->tail - ptr->head);
+				write(1, "\" command: \"", 12);
+				if (ptr->command)
+					write(1, ptr->command, ft_strlen(ptr->command));
 				write(1, "\"\n", 2);
+				for (t_token *ptr2 = ptr->subs; ptr2; ptr2 = ptr2->next) {
+					printf("------------------------------\n"
+							"\ttype:%d spec:%d head:%ld tail:%ld\n",
+							ptr2->type, ptr2->spec, ptr2->head, ptr2->tail);
+					write(1, "\tsub: \"", 7);
+					write(1, line->curr->buff + ptr2->head, ptr2->tail - ptr2->head);
+					write(1, "\"\n", 2);
 				}
 			}
 #endif
