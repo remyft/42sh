@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/12/12 15:18:03 by gbourgeo         ###   ########.fr        #
+#    Updated: 2018/12/13 19:18:29 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,8 @@ SRCS += term_properties.c	\
 
 #TOKENS
 TOKEN_DIR = token/
-SRCS += expand_word.c			\
+SRCS += debug.c					\
+		expand_word.c			\
 		get_tokens.c			\
 		handle_command.c		\
 		handle_comment.c		\

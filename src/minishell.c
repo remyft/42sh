@@ -6,11 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2018/12/12 20:36:01 by gbourgeo         ###   ########.fr       */
-=======
-/*   Updated: 2018/12/13 18:37:26 by rfontain         ###   ########.fr       */
->>>>>>> 4137f821b52167f44df66f9e33c3d98e0baeea9d
+/*   Updated: 2018/12/13 19:18:02 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -396,25 +392,7 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 			// }
 			tokens = tokenise(line->curr->buff);
 #ifdef DEBUG
-			for (t_token *ptr = tokens; ptr; ptr = ptr->next) {
-				printf("------------------------------\n"
-						"type:%d spec:%d head:%ld tail:%ld\n",
-						ptr->type, ptr->spec, ptr->head, ptr->tail);
-				write(1, "buff: \"", 7);
-				write(1, line->curr->buff + ptr->head, ptr->tail - ptr->head);
-				write(1, "\" command: \"", 12);
-				if (ptr->command)
-					write(1, ptr->command, ft_strlen(ptr->command));
-				write(1, "\"\n", 2);
-				for (t_token *ptr2 = ptr->subs; ptr2; ptr2 = ptr2->next) {
-					printf("------------------------------\n"
-							"\ttype:%d spec:%d head:%ld tail:%ld\n",
-							ptr2->type, ptr2->spec, ptr2->head, ptr2->tail);
-					write(1, "\tsub: \"", 7);
-					write(1, line->curr->buff + ptr2->head, ptr2->tail - ptr2->head);
-					write(1, "\"\n", 2);
-				}
-			}
+			debug_tokens(line->curr->buff, tokens, ft_strdup(""));
 #endif
 			(void)command;
 			free_buff(line);

@@ -6,46 +6,44 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 02:35:00 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/13 17:43:50 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/13 19:33:23 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "token.h"
 
-static t_token	*identify_subs(t_param *param)
+static t_token	*token_end(t_token *token)
+{
+	while (token && token->next)
+		token = token->next;
+	return (token);
+}
+
+static t_token	*do_subs(t_param *param, int (*ft_end)(t_param *))
 {
 	t_token		*save;
 
+	save = param->token;
+	param->i++;
+	param->token = new_token(param->buff[param->i], param->i);
+	save->subs = token_loop(param, ft_end);
+	param->token = save;
+	save = token_end(save->subs);
+	param->token->tail = save->tail;
+	param->i = save->tail + 1;
+	return (param->token);
+}
+
+static t_token	*identify_subs(t_param *param)
+{
 	param->i++;
 	if (ft_isbracket(param))
-	{
-		save = param->token;
-		param->i++;
-		param->token = new_token(param->buff[param->i], param->i);
-		save->subs = token_loop(param, ft_isbracketend);
-		save->subs->quote &= ~BRACKET;
-		save->tail = save->subs->tail;
-		param->token = save;
-		param->i = save->tail + 1;
-	}
+		param->token = do_subs(param, ft_isbracketend);
 	else if (ft_isparen(param))
-	{
-		save = param->token;
-		param->i++;
-		param->token = new_token(param->buff[param->i], param->i);
-		save->subs = token_loop(param, ft_isparenend);
-		save->subs->quote &= ~PARENTHESE;
-		save->tail = save->subs->tail;
-		param->token = save;
-		param->i = save->tail + 1;
-	}
+		param->token = do_subs(param, ft_isparenend);
 	else
 		param->i--;
-	// else
-	// {
-	// 	param->token = token_loop(param, ft_isnameend);
-	// }
 	return (param->token);
 }
 
@@ -59,13 +57,6 @@ t_token			*handle_subs(t_param *param, t_call *token)
 	if (param->buff[param->i] == '$')
 		param->token = identify_subs(param);
 	else if (param->buff[param->i] == '`')
-	{
-		if (param->token->quote & BACKQUOTE)
-			param->token->quote |= BACKSLASH;
-		else
-			param->token->quote &= ~BACKSLASH;
-		if (param->token->quote & BACKSLASH)
-			token_loop(param, ft_isbackquote);
-	}
+		param->token = do_subs(param, ft_isbackquote);
 	return (param->token);
 }
