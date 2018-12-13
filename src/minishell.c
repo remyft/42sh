@@ -6,11 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2018/12/12 20:36:01 by gbourgeo         ###   ########.fr       */
-=======
-/*   Updated: 2018/12/13 18:37:26 by rfontain         ###   ########.fr       */
->>>>>>> 4137f821b52167f44df66f9e33c3d98e0baeea9d
+/*   Updated: 2018/12/13 19:42:46 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +180,7 @@ static int	deal_hdoc(t_line *line)
 	tmp = ft_memalloc(sizeof(t_state));
 	tmp->head = 0;
 	tmp->tail = ft_strlen(line->curr->buff);
+	tmp->cmd = expand_word(line->curr->buff, (t_token*)tmp);
 	if (tmp->cmd && line->hdoc && line->hdoc->cmd && ft_strcmp(tmp->cmd, line->hdoc->cmd) == 0)
 	{
 		if (line->hdoc->next)
@@ -271,22 +268,22 @@ int		check_hdoc(t_line *line)
 	{
 		if (!(state & NSTATE))
 			deal_state(line, line->curr->buff[i]);
-		if (!line->curr->prev)
+		if (!line->curr->prev && !(state & UN_HDOC))
 		{
 			if (line->curr->buff[i] == '\\' && !(state & NSTATE))
 				state |= NSTATE;
 			else if (state & NSTATE)
 			{
 				state &= ~NSTATE;
-				i++;
-				continue ;
+				if (line->curr->buff[i] == '<')
+					i++;
 			}
 			if (line->curr->buff[i] == '<' && !(state & WT_NHDOC) && !(state & NSTATE))
 				state |= WT_NHDOC;
 			else if (line->curr->buff[i] == '<' && state & WT_NHDOC)
 			{
 				if (state & WT_SPACE)
-					state &= ~WT_SPACE;
+					state |= UN_HDOC;
 				else
 					state |= WT_SPACE;
 			}
@@ -360,7 +357,7 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 		write(1, "\n", 1);
 		if (!deal_hdoc(line))
 		{
-		if (check_hdoc(line))
+				if (check_hdoc(line))
 			continue;
 		}
 //		if (!deal_hdoc(line))
