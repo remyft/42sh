@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/13 19:44:55 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/14 14:58:33 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -368,7 +368,7 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 			printf("line : [%s]\n", ret);
 			*(line->e_cmpl) &= ~COMPLETION;
 			save_history(line->index, line->curr->buff, &(line->hist), env);
-			remove_line_continuation(line->curr->buff);
+			remove_line_continuation(ret);
 			// int i = 0;
 			// int val[] = { BACKSLASH, DOUBLE_QUOTE, SINGLE_QUOTE, PARENTHESE, BRACKET, BACKQUOTE, };
 			// for (size_t j=0;j<sizeof(val)/sizeof(*val);j++)
@@ -391,9 +391,9 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 			// 			);
 			// 	// i &= ~val[j];
 			// }
-			tokens = tokenise(line->curr->buff);
+			tokens = tokenise(ret);
 #ifdef DEBUG
-			debug_tokens(line->curr->buff, tokens, ft_strdup(""));
+			debug_tokens(ret, tokens, ft_strdup(""));
 #endif
 			(void)command;
 			free_buff(line);
