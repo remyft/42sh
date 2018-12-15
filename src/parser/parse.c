@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 17:00:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/10 06:18:23 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/15 18:35:27 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,82 +14,78 @@
 #include "operator.h"
 #include "parser.h"
 
-static t_node	*new_node(t_node *left, t_token *token, t_node *right)
+static t_node	*new_node(t_token *token)
 {
 	t_node		*new;
 
-	new = ft_memalloc(sizeof(*new));
-	if (!new)
+	if (!(new = ft_memalloc(sizeof(*new))))
 		return (new);
-	new->left = left;
 	new->token = token;
-	new->right = right;
 	return (new);
 }
 
-static t_node	*parse_word(t_command *tail, t_token *token)
+static t_node	*parse_word(t_token *token, t_node *ntail, t_ao_list **aolist)
 {
-	if (tail->node == NULLNODE)
-	{
-		tail->node = new_node(NULLNODE, token, NULLNODE);
-		return (tail->node);
-	}
-	tail->node->left = new_node(NULLNODE, token, NULLNODE);
-	return (tail->node->left);
+	if ((*aolist)->node == NULLNODE)
+		return (((*aolist)->node = new_node(token)));
+	return ((ntail->left = new_node(token)));
 }
 
-static t_node	*parse_operator(t_command *tail, t_token *token)
+static t_node	*parse_operator(t_token *token, t_node **nhead, t_ao_list **aolist)
 {
-	if (tail->node == NULLNODE)
-	{
-		tail->node = new_node(NULLNODE, token, NULLNODE);
-		return (tail->node);
-	}
-	if (tail->node->token->type == OPERATOR)
-	{
-		tail->node->right = new_node(NULLNODE, token, NULLNODE);
-		return (tail->node->right);
-	}
-	return (tail->node);
+	(void)token;
+	(void)nhead;
+	(void)aolist;
+	return (NULLNODE);
 }
 
-static t_command	*new_tree(t_command **tail)
+static t_m_list		*new_m_list(t_m_list **list)
 {
-	t_command		*new;
-
-	new = ft_memalloc(sizeof(*new));
-	if (!new)
-		return (new);
-	if (*tail)
-		(*tail)->next = new;
-	else
-		*tail = new;
-	return (new);
+	if ((*list = ft_memalloc(sizeof(**list))) == NULLLIST)
+		return (NULLLIST);
+	(*list)->mode = UNDEFINED;
+	(*list)->aolist = ft_memalloc(sizeof(*(*list)->aolist));
+	return (*list);
 }
 
-t_command			*parse(const char *buff, t_token *token)
+static t_ao_list	*new_ao_list(t_ao_list *aolist)
 {
-	t_command		*head;
-	t_command		*tail;
-	t_node		*node;
+	return ((aolist->next = ft_memalloc(sizeof(*aolist))));
+}
 
-	head = NULLTREE;
-	tail = head;
-	node = tail->node;
-	while (tail && token)
+t_m_list		*parse(const char *buff, t_token *token)
+{
+	t_m_list	*lhead;
+	t_m_list	*ltail;
+	t_ao_list	*aolist;
+	t_node		*nhead;
+	t_node		*ntail;
+
+	if ((ltail = new_m_list(&lhead)) != NULLLIST)
+		aolist = ltail->aolist;
+	while (ltail && aolist && token)
 	{
-		if (token->type == NEWLINE
-			|| (token->type == OPERATOR
-				&& (token->spec == 0
-					|| token->spec == 4
-					|| token->spec == 6)))
-			tail = new_tree(&tail);
+		if (token->type == OPERATOR && IS_LIST(token->spec))
+		{
+			if (token->spec == BACKGRND && aolist->node == NULLNODE)
+				return (parse_error(buff, token, lhead));
+			ltail->mode = token->spec;
+			if ((ltail = new_m_list(&ltail->next)) != NULLLIST)
+				aolist = ltail->aolist;
+		}
+		else if (token->type == OPERATOR && IS_AOLIST(token->spec))
+		{
+			aolist->mode = token->spec;
+			aolist = new_ao_list(aolist);
+		}
 		else if (token->type == OPERATOR)
-			node = parse_operator(tail, token);
+			ntail = parse_operator(token, &nhead, &aolist);
 		else
-			node = parse_word(tail, token);
+			ntail = parse_word(token, ntail, &aolist);
 		token = token->next;
 	}
-	(void)buff;
-	return (head);
+#ifdef DEBUG
+	debug_parser(buff, lhead);
+#endif
+	return (lhead);
 }

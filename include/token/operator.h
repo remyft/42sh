@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 17:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/12 10:16:16 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/14 17:27:54 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,49 @@
 ** Specificities for token OPERATOR
 */
 
-# define OR_IF				{ "||",  0 }
-# define PIPE				{ "|",   1 }
-# define PIPE_AND			{ "|&",  2 }
-# define NOT				{ "!",   3 }
-# define AND_IF				{ "&&",  4 }
-# define BACKGRND			{ "&",   5 }
-# define SEMI				{ ";",   6 }
-# define DSEMI				{ ";;",  7 }
-# define LESS				{ "<",   8 }
-# define LESSAND			{ "<&",  9 }
-# define LESS_GREAT			{ "<>",  10 }
-# define GREAT				{ ">",   11 }
-# define GREAT_PIPE			{ ">|",  12 }
-# define AND_GREAT			{ "&>",  13 }
-# define GREAT_AND			{ ">&",  14 }
-# define DGREAT				{ ">>",  15 }
-# define AND_DGREAT			{ "&>>", 16 }
-# define DGREAT_AND			{ ">>&", 17 }
-# define DLESS				{ "<<",  18 }
-# define TLESS				{ "<<<", 19 }
+enum
+{
+	OR_IF,
+	PIPE,
+	PIPE_AND,
+	NOT,
+	AND_IF,
+	BACKGRND,
+	SEMI,
+	DSEMI,
+	LESS,
+	LESSAND,
+	LESS_GREAT,
+	GREAT,
+	GREAT_PIPE,
+	AND_GREAT,
+	GREAT_AND,
+	DGREAT,
+	AND_DGREAT,
+	DGREAT_AND,
+	DLESS,
+	TLESS,
+};
+
+# define OP_OR_IF				{ "||",  OR_IF }
+# define OP_PIPE				{ "|",   PIPE }
+# define OP_PIPE_AND			{ "|&",  PIPE_AND }
+# define OP_NOT					{ "!",   NOT }
+# define OP_AND_IF				{ "&&",  AND_IF }
+# define OP_BACKGRND			{ "&",   BACKGRND }
+# define OP_SEMI				{ ";",   SEMI }
+# define OP_DSEMI				{ ";;",  DSEMI }
+# define OP_LESS				{ "<",   LESS }
+# define OP_LESSAND				{ "<&",  LESSAND }
+# define OP_LESS_GREAT			{ "<>",  LESS_GREAT }
+# define OP_GREAT				{ ">",   GREAT }
+# define OP_GREAT_PIPE			{ ">|",  GREAT_PIPE }
+# define OP_AND_GREAT			{ "&>",  AND_GREAT }
+# define OP_GREAT_AND			{ ">&",  GREAT_AND }
+# define OP_DGREAT				{ ">>",  DGREAT }
+# define OP_AND_DGREAT			{ "&>>", AND_DGREAT }
+# define OP_DGREAT_AND			{ ">>&", DGREAT_AND }
+# define OP_DLESS				{ "<<",  DLESS }
+# define OP_TLESS				{ "<<<", TLESS }
 
 #endif

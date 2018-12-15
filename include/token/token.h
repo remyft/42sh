@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/13 19:17:33 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/15 18:26:13 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ enum {
 };
 
 /*
-** Token structure
+** Token main structure
 */
 typedef struct	s_token
 {
@@ -66,7 +66,6 @@ typedef struct	s_token
 	size_t			depth;
 	int				type;
 	int				spec;
-	struct s_token	*subs;
 	char			*command;
 	struct s_token	*prev;
 }				t_token;
@@ -168,8 +167,11 @@ int				ft_isbackquote(t_param *param);
 int				ft_isbracketend(t_param *param);
 int				ft_isdparenend(t_param *param);
 int				ft_isparenend(t_param *param);
+int				ft_isspecial(t_param *param);
+int				ft_isspecialend(t_param *param);
 int				ft_iscommand(int c);
 
+void			free_token(t_token **token);
 
-void			debug_tokens(const char *buff, t_token *tokens, char *stab);
+void			debug_tokens(const char *buff, t_token *tokens);
 #endif

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/13 19:44:55 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/15 18:28:19 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -339,7 +339,7 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 {
 	t_line		*line;
 	t_token		*tokens;
-	t_command	*command;
+	t_m_list	*tree;
 	char		**env;
 	char		*ret;
 
@@ -357,45 +357,19 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 		write(1, "\n", 1);
 		if (!deal_hdoc(line))
 		{
-				if (check_hdoc(line))
-			continue;
+			if (check_hdoc(line))
+				continue;
 		}
-//		if (!deal_hdoc(line))
-//			ft_putendl("YO");
 		if (line->curr->buff[0] && line->tmp[0] != -1 && line->curr->buff[0] != 10)
 		{
 			ret = listnjoin(line);
-			printf("line : [%s]\n", ret);
 			*(line->e_cmpl) &= ~COMPLETION;
-			save_history(line->index, line->curr->buff, &(line->hist), env);
-			remove_line_continuation(line->curr->buff);
-			// int i = 0;
-			// int val[] = { BACKSLASH, DOUBLE_QUOTE, SINGLE_QUOTE, PARENTHESE, BRACKET, BACKQUOTE, };
-			// for (size_t j=0;j<sizeof(val)/sizeof(*val);j++)
-			// {
-			// 	i |= val[j];
-			// 	printf("i=%d\n"
-			// 			"%-2d %-2d %-2d %-2d\n"
-			// 			"%-2d %-2d %-2d %-2d\n"
-			// 			"%-2d %-2d %-2d %-2d\n"
-			// 			"%-2d %-2d %-2d %-2d\n"
-			// 			"%-2d %-2d %-2d %-2d\n"
-			// 			"%-2d %-2d %-2d %-2d\n",
-			// 			i,
-			// 			i & val[0], ~(i | ~val[0]), !(i & val[0]), i & ~val[0],
-			// 			i & val[1], ~(i | ~val[1]), !(i & val[1]), i & ~val[1],
-			// 			i & val[2], ~(i | ~val[2]), !(i & val[2]), i & ~val[2],
-			// 			i & val[3], ~(i | ~val[3]), !(i & val[3]), i & ~val[3],
-			// 			i & val[4], ~(i | ~val[4]), !(i & val[4]), i & ~val[4],
-			// 			i & val[5], ~(i | ~val[5]), !(i & val[5]), i & ~val[5]
-			// 			);
-			// 	// i &= ~val[j];
-			// }
-			tokens = tokenise(line->curr->buff);
-#ifdef DEBUG
-			debug_tokens(line->curr->buff, tokens, ft_strdup(""));
-#endif
-			(void)command;
+			save_history(line->index, ret, &(line->hist), env);
+			remove_line_continuation(ret);
+			tokens = tokenise(ret);
+			tree = parse(ret, tokens);
+			free_m_list(&tree);
+			free_token(&tokens);
 			free_buff(line);
 			del_all_state(line);
 		}

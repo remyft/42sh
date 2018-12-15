@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 22:30:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/11 07:18:54 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/14 15:27:41 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,6 @@ t_token			*identify_word(t_param *param)
 		else
 			param->token->spec = name(param);
 	}
-	if (param->token->spec == WORD || param->token->spec == NAME)
-		param->token->command = expand_word(param->buff, param->token);
 	param->token->next = new_token(param->buff[param->i], param->i);
 	param->token->next->prev = param->token;
 	return (param->token->next);
