@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/14 14:58:33 by rfontain         ###   ########.fr       */
+/*   Updated: 2018/12/18 16:33:01 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,6 +309,8 @@ int		check_hdoc(t_line *line)
 				state &= ~WT_HDOC;
 				*(line->e_cmpl) |= HDOC;
 			}
+			else if (state & WT_NHDOC)
+				state &= ~WT_NHDOC;
 		}
 		i++;
 	}
