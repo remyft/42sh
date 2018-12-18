@@ -3,3 +3,4 @@
 21sh
 */*.a
 **/objs/
+21sh.dSYM/

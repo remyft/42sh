@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:59:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/15 18:25:33 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/18 00:45:44 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,51 @@
 # include "token.h"
 
 /*
-** Structure for AND_OR list elements
+** Structure for arguments
 */
-# define NULLNODE	(t_node *)0
-typedef struct	s_node
+# define NULLARG		(t_argument *)0
+typedef struct	s_argument
 {
-	t_token			*token;
-	struct s_node	*left;
-	struct s_node	*right;
-}				t_node;
+	t_token				*token;
+	struct s_argument	*next;
+}				t_argument;
+
+/*
+** Structure for redirections
+*/
+# define NULLREDIR		(t_redirection *)0
+typedef struct s_redirection
+{
+	t_token					*token;
+	t_token					*ionumber;
+	t_token					*arg;
+	struct s_redirection	*next;
+}				t_redirection;
+/*
+** Structure for commands
+** type can be TOKEN for the command and its arguments
+** or type can be OPERATOR for the redirections <, >, <&, <<, etc..
+*/
+enum
+{
+	IS_COMMAND,
+	IS_PIPE,
+};
+# define NULLCOMMAND	(t_command *)0
+typedef struct	s_command
+{
+	int				type;
+	t_argument		*args;
+	t_redirection	*redir;
+}				t_command;
+
+# define NULLPIPE		(t_pipeline *)0
+typedef struct	s_pipeline
+{
+	int				type;
+	void			*left;
+	void			*right;
+}				t_pipeline;
 
 /*
 ** Structure for AND-OR list ( '&&' and '||' )
@@ -34,7 +70,7 @@ typedef struct	s_node
 typedef struct	s_and_or_list
 {
 	int						mode;
-	t_node					*node;
+	void					*cmd;
 	struct s_and_or_list	*next;
 }				t_ao_list;
 
@@ -42,7 +78,7 @@ typedef struct	s_and_or_list
 ** Structure for list ( ';' and '&' )
 */
 # define IS_LIST(x)	((x == SEMI) || (x == BACKGRND))
-# define NULLLIST	(t_m_list *)0
+# define NULLLIST		(t_m_list *)0
 typedef struct	s_main_list
 {
 	int					mode;

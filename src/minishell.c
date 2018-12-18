@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/15 18:28:19 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/18 04:41:36 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -304,7 +304,7 @@ int		check_hdoc(t_line *line)
 			}
 			else if (line->curr->buff[i] != ' ' && state & WT_HDOC)
 				line->hdoc->tail++;
-			else if (line->curr->buff[i] == ' ' &&  state & WT_HDOC)
+			else if (line->curr->buff[i] == ' ' && state & WT_HDOC)
 			{
 				state &= ~WT_HDOC;
 				*(line->e_cmpl) |= HDOC;
@@ -334,6 +334,27 @@ int		check_hdoc(t_line *line)
 	deal_prompt(line);
 	return (0);
 }
+
+// void get_line(t_env *e, int ret)
+// {
+// 	char buff[8192];
+// 	int i;
+
+// 	read(0, buff, 8192)
+// 	{
+// 		if ('\n')
+// 		{
+// 			strcpy(e->line, "\n");
+// 			strjoin(e->line, buff);
+// 			if (ret)
+// 				return ;
+// 		}
+// 	}
+// 	history();
+// 	tokenise();
+// 	parse();
+// 	exec();
+// }
 
 int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **ep)
 {
@@ -366,6 +387,7 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 			*(line->e_cmpl) &= ~COMPLETION;
 			save_history(line->index, ret, &(line->hist), env);
 			remove_line_continuation(ret);
+			ret = ft_strjoinfree(ret, "\n", 1);
 			tokens = tokenise(ret);
 			tree = parse(ret, tokens);
 			free_m_list(&tree);
