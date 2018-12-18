@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/12/15 18:28:12 by gbourgeo         ###   ########.fr        #
+#    Updated: 2018/12/18 18:07:55 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,7 +71,6 @@ SRCS += term_properties.c	\
 #TOKENS
 TOKEN_DIR = token/
 SRCS += expand_word.c			\
-		debug.c					\
 		free_token.c			\
 		get_tokens.c			\
 		handle_command.c		\
@@ -89,12 +88,14 @@ SRCS += expand_word.c			\
 		is_token.c				\
 		is_token2.c				\
 		new_token.c				\
+		debug.c					\
 
 #PARSER
 PARSER_DIR = parser/
 SRCS += parse.c				\
 		parse_error.c		\
 		pdebug.c			\
+		free_parser.c		\
 
 OK =	$(GREEN)[OK]$(RESET)
 

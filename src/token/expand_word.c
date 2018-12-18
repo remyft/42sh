@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 04:02:23 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/14 15:21:58 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/18 18:10:16 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static char		*my_strnchr(const char *s, int c, size_t len)
 	}
 	return (NULL);
 }
+
 char			*expand_word(const char *buff, t_token *token)
 {
 	size_t		i;

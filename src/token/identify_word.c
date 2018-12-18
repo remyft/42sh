@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 22:30:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/18 04:40:47 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/18 17:13:47 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static int		reserved_type(t_param *param)
 		IF, THEN, ELSE, ELIF, FI, DO, DONE, CASE, ESAC, WHILE, UNTIL, FOR };
 	size_t			i;
 	size_t			j;
+	size_t			len;
 
 	i = param->token->tail - 1;
 	while (i > param->token->head && !ft_isspace(param->buff[i]))
@@ -41,8 +42,9 @@ static int		reserved_type(t_param *param)
 	j = 0;
 	while (j < sizeof(reserved) / sizeof(reserved[0]))
 	{
-		if (!ft_strncmp(reserved[j].name, param->buff + i,
-						param->token->tail - i))
+		if ((len = ft_strlen(reserved[j].name)) < param->token->tail - i)
+			len = param->token->tail - i;
+		if (!ft_strncmp(reserved[j].name, param->buff + i, len))
 			return (RESERVED_WORD);
 		j++;
 	}
@@ -70,7 +72,7 @@ t_token			*identify_word(t_param *param)
 	param->token->tail = param->i;
 	if (ft_isquote(param->buff[param->token->head]))
 		param->token->spec = WORD;
-	else if (!param->token->spec
+	else if (param->token->spec != IO_NUMBER
 			&& (param->token->spec = reserved_type(param)) == WORD)
 	{
 		if (param->buff[param->i] == '<' || param->buff[param->i] == '>')

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/18 02:11:08 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/18 18:19:37 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_token			*token_loop(t_param *param, int (*ft_end)(t_param *))
 	static t_call	token[] = {
 		ID_TOKEN, ID_OPERATOR,
 	};
-	t_token		*head;
+	t_token			*head;
 
 	head = param->token;
 	while (param->token)
@@ -69,9 +69,7 @@ t_token			*token_loop(t_param *param, int (*ft_end)(t_param *))
 			param->token = get_tokens(param, token);
 		param->i++;
 	}
-#ifdef DEBUG
 	debug_tokens(param->buff, head);
-#endif
 	return (check_head(head));
 }
 

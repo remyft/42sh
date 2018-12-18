@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 17:00:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/18 04:43:10 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/18 21:41:13 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "operator.h"
 #include "parser.h"
 
-static t_m_list		*new_m_list(t_token *token, t_m_list **list)
+static t_m_list			*new_m_list(t_token *token, t_m_list **list)
 {
 	if (!token || token->type == UNDEFINED)
 		return (NULLLIST);
@@ -27,7 +27,7 @@ static t_m_list		*new_m_list(t_token *token, t_m_list **list)
 	return (*list);
 }
 
-static t_ao_list	*new_ao_list(t_token *token, t_ao_list **aolist)
+static t_ao_list		*new_ao_list(t_token *token, t_ao_list **aolist)
 {
 	if ((*aolist = ft_memalloc(sizeof(**aolist))) == NULLAOLIST)
 		return (NULLAOLIST);
@@ -36,7 +36,7 @@ static t_ao_list	*new_ao_list(t_token *token, t_ao_list **aolist)
 	return (*aolist);
 }
 
-static void			*new_command(void **cmd)
+static void				*new_command(void **cmd)
 {
 	if ((*cmd = ft_memalloc(sizeof(t_command))) == NULL)
 		return (NULLCOMMAND);
@@ -44,31 +44,18 @@ static void			*new_command(void **cmd)
 	return (cmd);
 }
 
-static void			**new_pipe(void **cmd)
+static void				**new_pipe(void **cmd)
 {
-	t_pipeline		*pipe;
+	t_pipeline			*ptr;
 
-	if (*cmd == NULL)
+	ptr = (t_pipeline *)*cmd;
+	if (ptr == NULL || ptr->left == NULL)
 		return (NULL);
-	if ((pipe = ft_memalloc(sizeof(*pipe))) == NULLPIPE)
+	if ((*cmd = ft_memalloc(sizeof(*ptr))) == NULL)
 		return (NULL);
-	pipe->type = IS_PIPE;
-	if (((t_command *)(*cmd))->type == PIPE)
-	{
-		pipe->left = *cmd;
-		*cmd = pipe;
-	}
-	else
-		pipe->left = *cmd;
-	return (&pipe->right);
-}
-
-static t_argument	**new_argument(t_token *token, t_argument **arg)
-{
-	if ((*arg = ft_memalloc(sizeof(**arg))) == NULLARG)
-		return (NULL);
-	(*arg)->token = token;
-	return (&(*arg)->next);
+	((t_pipeline *)(*cmd))->type = IS_PIPE;
+	((t_pipeline *)(*cmd))->left = ptr;
+	return (new_command(&((t_pipeline *)(*cmd))->right));
 }
 
 static t_redirection	**new_redirection(t_token **token, t_redirection **red)
@@ -94,14 +81,22 @@ static t_redirection	**new_ionumber(t_token *token, t_redirection **red)
 	return (&(*red)->next);
 }
 
-t_m_list			*parse(const char *buff, t_token *token)
+static t_argument		**new_argument(t_token *token, t_argument **arg)
 {
-	t_m_list		*lhead;
-	t_m_list		*ltail;
-	t_ao_list		*aolist;
-	void			**cmd;
-	t_argument		**arg;
-	t_redirection	**redir;
+	if ((*arg = ft_memalloc(sizeof(**arg))) == NULLARG)
+		return (NULL);
+	(*arg)->token = token;
+	return (&(*arg)->next);
+}
+
+t_m_list				*parse(const char *buff, t_token *token)
+{
+	t_m_list			*lhead;
+	t_m_list			*ltail;
+	t_ao_list			*aolist;
+	void				**cmd;
+	t_argument			**arg;
+	t_redirection		**redir;
 
 	if ((ltail = new_m_list(token, &lhead)) == NULLLIST)
 		return (parse_error(buff, token, lhead));
@@ -165,10 +160,6 @@ t_m_list			*parse(const char *buff, t_token *token)
 		}
 		token = token->next;
 	}
-#ifdef DEBUG
-	printf("\nPARSER--------------------------\n");
 	debug_parser(buff, lhead);
-	printf("-------------------------------END\n");
-#endif
 	return (lhead);
 }
