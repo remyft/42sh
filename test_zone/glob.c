@@ -9,6 +9,7 @@ typedef struct		s_tree
 	int				tput;
 	int				npsb;
 	int				len;
+	int				state;
 	unsigned char	type;
 	struct s_tree	*left;
 	struct s_tree	*right;
@@ -27,9 +28,13 @@ typedef struct		s_str_list
 {
 	char				*str;
 	t_tree				*mln;
+	int					state;
 	struct s_str_list	*next;
 	struct s_str_list	*prev;
 }					t_slist;
+
+# define IS_SLASH 1 << 0
+# define IS_REC 1 << 1
 
 int			ft_pchar(int nb)
 {
@@ -487,12 +492,21 @@ t_slist	*glob_slct(void)
 	return (glob);
 }
 
+int		*singletint(void)
+{
+	static int	*state = NULL;
+
+	if (!state)
+		state = ft_memalloc(sizeof(int));
+	return (state);
+}
+
 void	get_glob(t_tree *tree, char *tget, char *prev, t_slist **glob);
 
 void	get_new_mln(t_tree *tree, char *str, char *prev, t_slist **glob)
 {
 	t_tree	*tmp;
-	int		len;
+	int		*sglt;
 	int		tlen;
 	char	*bru;
 	DIR		*dir;
@@ -516,8 +530,11 @@ void	get_new_mln(t_tree *tree, char *str, char *prev, t_slist **glob)
 	}
 	ft_putnbr(i);
 	ft_putendl("");*/
+	sglt = singletint();
 	if (*str == '/' && !(tree->type & DT_DIR) && !*(str + 1))
 		return ;
+	if (*str == '/')
+		*sglt |= IS_SLASH;
 /*	tmp = tree;
 	while (tmp)
 	{
@@ -548,9 +565,9 @@ void	get_new_mln(t_tree *tree, char *str, char *prev, t_slist **glob)
 //		printf("prev : %s, i : %d\n", prev, i);
 		tlen = ft_strlen(prev) + 1;
 	}
-	len = (*glob)->mln->len + tlen;
+	tlen = (*glob)->mln->len + tlen;
 //	ft_putstr("GET MALLOC : ");
-	(*glob)->str = malloc(sizeof(char) * (len + 1));
+	(*glob)->str = malloc(sizeof(char) * (tlen + 1));
 	if (prev)
 	{
 //		printf("prev strcat  : %s, i : %d\n", prev, i);
@@ -558,20 +575,24 @@ void	get_new_mln(t_tree *tree, char *str, char *prev, t_slist **glob)
 		ft_strcat((*glob)->str, "/");
 	}
 	tmp = (*glob)->mln;
-	(*glob)->str[len + 1] = 0;
+	(*glob)->str[tlen + 1] = 0;
 	while (tmp)
 	{
-		(*glob)->str[len] = tmp->value;
+		(*glob)->str[tlen] = tmp->value;
 		tmp = tmp->prev;
-		len--;
+		tlen--;
 	}
 	bru = ft_strdup((*glob)->str);
-	if ((dir = opendir((*glob)->str)) && *str == '/' && *(str + 1))
+	if ((dir = opendir((*glob)->str)) && ((*str == '/' && *(str + 1)) || *sglt & IS_REC))
 	{
 		if (!(tmp = create_file_tree((*glob)->str)))
 			return ;
+		*sglt |= IS_SLASH;
 	//	printf("str : %s, prev : %s\n", glob->str, prev);
-		get_glob(tmp, str + 1, bru, glob);
+		if (*sglt & IS_REC)
+			get_glob(tmp, "**", bru, glob);
+		else
+			get_glob(tmp, str + 1, bru, glob);
 	}
 	if (dir)
 		closedir(dir);
@@ -579,18 +600,25 @@ void	get_new_mln(t_tree *tree, char *str, char *prev, t_slist **glob)
 
 void	get_glob(t_tree *tree, char *tget, char *prev, t_slist **glob)
 {
-	t_tree	*tmp;
-	int		len;
+	int	*sglt;
 
+	sglt = singletint();
 	if (tree)
 	{
 		get_glob(tree->left, tget, prev, glob);
 		get_glob(tree->right, tget, prev, glob);
 		if (!(tree->value) && *tget == '*')
+		{
+			if (*(tget + 1) == '*')
+				if (*sglt & IS_SLASH)
+					*sglt |= IS_REC;
 			while (*tget == '*')
 				tget++;
+		}
 		if ((!(*tget) || *tget == '/') && !(tree->value))
 		{
+			if (*tget == '/')
+				*sglt |= IS_SLASH;
 			while (*(tget + 1) == '/')
 				tget++;
 			get_new_mln(tree, tget, prev, glob);
@@ -598,6 +626,9 @@ void	get_glob(t_tree *tree, char *tget, char *prev, t_slist **glob)
 		else if (*tget == '*')
 		{
 			get_glob(tree->tern_next, tget, prev, glob);
+			if (*(tget + 1) == '*')
+				if (*sglt & IS_SLASH)
+					*sglt |= IS_REC;
 			while (*(tget + 1) == '*')
 				tget++;
 			if (*(tget+1) == tree->value)
@@ -639,6 +670,8 @@ int		ft_nslash(char *str)
 			nb++;
 			while (str[i] == '/')
 				i++;
+			if (!str[i])
+				nb--;
 		}
 		else
 			i++;
@@ -695,7 +728,7 @@ int		main(int ac, char **av, char **env)
 		ft_nstrstr(av[1], "**", &star);
 		nb = ft_nslash(av[1]);
 		star = nb - star;
-		printf("star : %d, nb : %d\n", star, nb);
+//		printf("star : %d, nb : %d\n", star, nb);
 //	}
 	while (glob && glob->prev)
 		glob = glob->prev;
