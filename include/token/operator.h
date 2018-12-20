@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 17:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/18 21:21:15 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/20 01:46:41 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ enum
 	SEMI,
 	DSEMI,
 	LESS,
-	LESSAND,
+	LESSAND = 10,
 	LESS_GREAT,
 	GREAT,
 	GREAT_PIPE,
@@ -38,7 +38,7 @@ enum
 	AND_DGREAT,
 	DGREAT_AND,
 	DLESS,
-	TLESS,
+	TLESS = 20,
 };
 
 # define OP_OR_IF			{ "||",  OR_IF }

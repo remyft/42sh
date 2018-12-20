@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/18 04:41:36 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/20 05:14:11 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -389,7 +389,7 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 			remove_line_continuation(ret);
 			ret = ft_strjoinfree(ret, "\n", 1);
 			tokens = tokenise(ret);
-			tree = parse(ret, tokens);
+			tree = parse2(ret, tokens);
 			free_m_list(&tree);
 			free_token(&tokens);
 			free_buff(line);

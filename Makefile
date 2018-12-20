@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/12/18 18:07:55 by gbourgeo         ###   ########.fr        #
+#    Updated: 2018/12/20 03:28:04 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,13 +95,14 @@ PARSER_DIR = parser/
 SRCS += parse.c				\
 		parse_error.c		\
 		pdebug.c			\
+		new_functions.c		\
 		free_parser.c		\
 
 OK =	$(GREEN)[OK]$(RESET)
 
 NEWLINE = $(shell echo "")
 
-CFLAGS =  -Wall -Wextra -Werror -std=gnu99
+CFLAGS =  -Wall -Wextra -Werror #-std=gnu99
 
 OBJS_DIR = objs/
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))

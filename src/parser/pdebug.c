@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 14:52:10 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/18 19:07:26 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/20 04:32:30 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void			debug_parser(const char *buff, t_m_list *list)
 
 # define PC(b, p) print_command(b, p)
 # define PP(b, p) print_pipe(b, p)
-# define TYPE(b, p) (p && *(int *)p == IS_COMMAND) ? PC(b, p) : PP(b, p)
+# define TYPE(b, p) (p && *(int *)p == IS_A_COMMAND) ? PC(b, p) : PP(b, p)
 
 static void		print_r(const char *buff, t_command *cmd)
 {

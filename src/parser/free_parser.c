@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 18:06:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/18 21:19:33 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/20 04:35:28 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ static void		free_command(void **node)
 	pipe = (t_pipeline *)*node;
 	if (*node == NULL)
 		return ;
-	if (cmd->type == IS_COMMAND)
+	if (cmd->type == IS_A_COMMAND)
 	{
 		free_args(&cmd->args);
 		free_redir(&cmd->redir);
 	}
-	if (pipe->type == IS_PIPE)
+	if (pipe->type == IS_A_PIPE)
 	{
 		free_command(&pipe->left);
 		free_command(&pipe->right);

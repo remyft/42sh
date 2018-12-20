@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:59:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/18 21:23:04 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/20 05:16:55 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,10 @@ typedef struct	s_redirection
 */
 enum
 {
-	IS_COMMAND,
-	IS_PIPE,
+	IS_A_COMMAND,
+	IS_A_PIPE,
 };
+
 # define NULLCOMMAND	(t_command *)0
 
 typedef struct	s_command
@@ -57,6 +58,7 @@ typedef struct	s_command
 	t_argument		*args;
 	t_redirection	*redir;
 }				t_command;
+
 # define NULLPIPE		(t_pipeline *)0
 
 typedef struct	s_pipeline
@@ -92,8 +94,39 @@ typedef struct	s_main_list
 	struct s_main_list	*next;
 }				t_m_list;
 
-t_m_list		*parse(const char *buff, t_token *token);
+/*
+** Structure grouping pointers needed for parsing
+*/
+typedef struct	s_parser_param
+{
+	t_m_list		**list;
+	t_ao_list		**aolist;
+	void			**cmd;
+	t_argument		**arg;
+	t_redirection	**redir;
+}				t_p_param;
+
+/*
+** Structure grouping functions pointers and their return value
+*/
+typedef struct	s_param_call
+{
+	int			(*handler)(t_token *, t_p_param *);
+}				t_p_call;
+
+typedef struct	s_t_p_call
+{
+	t_p_call	*type;
+}				t_t_p_call;
+
+t_m_list		*parse2(const char *buff, t_token *token);
 t_m_list		*parse_error(const char *buff, t_token *token, t_m_list *list);
+
+t_m_list		**new_m_list(t_token *token, t_m_list **list);
+t_ao_list		**new_ao_list(t_token *token, t_ao_list **list);
+void			**new_command(void **cmd);
+int				new_tree(t_token *token, t_p_param *param, t_m_list **list);
+
 void			free_m_list(t_m_list **list);
 
 void			debug_parser(const char *buff, t_m_list *list);
