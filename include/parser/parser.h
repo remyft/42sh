@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:59:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/20 05:16:55 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/20 20:45:00 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,13 +119,20 @@ typedef struct	s_t_p_call
 	t_p_call	*type;
 }				t_t_p_call;
 
-t_m_list		*parse2(const char *buff, t_token *token);
+t_m_list		*parse(const char *buff, t_token *token);
 t_m_list		*parse_error(const char *buff, t_token *token, t_m_list *list);
 
 t_m_list		**new_m_list(t_token *token, t_m_list **list);
 t_ao_list		**new_ao_list(t_token *token, t_ao_list **list);
 void			**new_command(void **cmd);
 int				new_tree(t_token *token, t_p_param *param, t_m_list **list);
+
+int				parse_list(t_token *token, t_p_param *param);
+int				parse_operator(t_token *token, t_p_param *param);
+int				parse_pipe(t_token *token, t_p_param *param);
+int				parse_ao_list(t_token *token, t_p_param *param);
+int				parse_io_number(t_token *token, t_p_param *param);
+int				parse_argument(t_token *token, t_p_param *param);
 
 void			free_m_list(t_m_list **list);
 

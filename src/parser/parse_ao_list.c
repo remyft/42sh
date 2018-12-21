@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handler.h                                          :+:      :+:    :+:   */
+/*   parse_ao_list.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/20 01:53:57 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/20 20:36:46 by gbourgeo         ###   ########.fr       */
+/*   Created: 2018/12/20 20:43:39 by gbourgeo          #+#    #+#             */
+/*   Updated: 2018/12/20 20:43:50 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HANDLER_H
-# define HANDLER_H
+#include "parser.h"
 
-# define H_ARGUMENT		{ parse_argument }
-# define H_IO_NUMBER	{ parse_io_number }
-
-# define H_AO_LIST		{ parse_ao_list }
-# define H_PIPE			{ parse_pipe }
-# define H_OPERATOR		{ parse_operator }
-# define H_LIST			{ parse_list }
-# define H_OPERATOR		{ parse_operator }
-
-#endif
+int				parse_ao_list(t_token *token, t_p_param *param)
+{
+	if ((*param->aolist)->cmd == NULLCOMMAND)
+		return (1);
+	if (!(param->aolist = new_ao_list(token, &(*param->aolist)->next)))
+		return (1);
+	if (!(param->cmd = new_command(&(*param->aolist)->cmd)))
+		return (1);
+	param->arg = &((t_command *)*param->cmd)->args;
+	param->redir = &((t_command *)*param->cmd)->redir;
+	return (0);
+}

@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/12/20 03:28:04 by gbourgeo         ###   ########.fr        #
+#    Updated: 2018/12/20 20:47:36 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,11 +92,17 @@ SRCS += expand_word.c			\
 
 #PARSER
 PARSER_DIR = parser/
-SRCS += parse.c				\
-		parse_error.c		\
-		pdebug.c			\
+SRCS += free_parser.c		\
 		new_functions.c		\
-		free_parser.c		\
+		parse_ao_list.c		\
+		parse_argument.c	\
+		parse_error.c		\
+		parse_io_number.c	\
+		parse_list.c		\
+		parse_operator.c	\
+		parse_pipe.c		\
+		parse.c				\
+		pdebug.c			\
 
 OK =	$(GREEN)[OK]$(RESET)
 

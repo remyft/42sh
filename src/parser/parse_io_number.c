@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handler.h                                          :+:      :+:    :+:   */
+/*   parse_io_number.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/20 01:53:57 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/20 20:36:46 by gbourgeo         ###   ########.fr       */
+/*   Created: 2018/12/20 20:44:12 by gbourgeo          #+#    #+#             */
+/*   Updated: 2018/12/20 20:48:40 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HANDLER_H
-# define HANDLER_H
+#include "libft.h"
+#include "parser.h"
 
-# define H_ARGUMENT		{ parse_argument }
-# define H_IO_NUMBER	{ parse_io_number }
-
-# define H_AO_LIST		{ parse_ao_list }
-# define H_PIPE			{ parse_pipe }
-# define H_OPERATOR		{ parse_operator }
-# define H_LIST			{ parse_list }
-# define H_OPERATOR		{ parse_operator }
-
-#endif
+int				parse_io_number(t_token *token, t_p_param *param)
+{
+	if ((*param->redir = ft_memalloc(sizeof(t_redirection))) == NULLREDIR)
+		return (1);
+	(*param->redir)->ionumber = token;
+	param->redir = &(*param->redir)->next;
+	return (0);
+}
