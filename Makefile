@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/12/20 20:47:36 by gbourgeo         ###   ########.fr        #
+#    Updated: 2018/12/21 02:21:44 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,7 +88,7 @@ SRCS += expand_word.c			\
 		is_token.c				\
 		is_token2.c				\
 		new_token.c				\
-		debug.c					\
+		tdebug.c				\
 
 #PARSER
 PARSER_DIR = parser/
