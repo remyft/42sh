@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:59:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/20 20:45:00 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/21 02:35:04 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct	s_pipeline
 /*
 ** Structure for AND-OR list ( '&&' and '||' )
 */
-# define IS_AOLIST(x)	((x == OR_IF) || (x == AND_IF))
+
 # define NULLAOLIST		(t_ao_list *)0
 
 typedef struct	s_and_or_list
@@ -84,7 +84,7 @@ typedef struct	s_and_or_list
 /*
 ** Structure for list ( ';' and '&' )
 */
-# define IS_LIST(x)		((x == SEMI) || (x == BACKGRND))
+
 # define NULLLIST		(t_m_list *)0
 
 typedef struct	s_main_list
@@ -122,10 +122,10 @@ typedef struct	s_t_p_call
 t_m_list		*parse(const char *buff, t_token *token);
 t_m_list		*parse_error(const char *buff, t_token *token, t_m_list *list);
 
+int				new_tree(t_token *token, t_p_param *param, t_m_list **list);
 t_m_list		**new_m_list(t_token *token, t_m_list **list);
 t_ao_list		**new_ao_list(t_token *token, t_ao_list **list);
 void			**new_command(void **cmd);
-int				new_tree(t_token *token, t_p_param *param, t_m_list **list);
 
 int				parse_list(t_token *token, t_p_param *param);
 int				parse_operator(t_token *token, t_p_param *param);

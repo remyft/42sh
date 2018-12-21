@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/20 20:44:47 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/20 20:48:34 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/21 02:32:50 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,5 @@ int				parse_argument(t_token *token, t_p_param *param)
 		return (0);
 	(*param->arg)->token = token;
 	param->arg = &(*param->arg)->next;
-	return (0);
+	return (1);
 }

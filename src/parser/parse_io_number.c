@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/20 20:44:12 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/20 20:48:40 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/21 02:33:04 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 int				parse_io_number(t_token *token, t_p_param *param)
 {
 	if ((*param->redir = ft_memalloc(sizeof(t_redirection))) == NULLREDIR)
-		return (1);
+		return (0);
 	(*param->redir)->ionumber = token;
 	param->redir = &(*param->redir)->next;
-	return (0);
+	return (1);
 }

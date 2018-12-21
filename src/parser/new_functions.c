@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/19 18:24:09 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/20 04:34:51 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/21 02:32:14 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ void			**new_command(void **cmd)
 int				new_tree(t_token *token, t_p_param *param, t_m_list **list)
 {
 	if (!(param->list = new_m_list(token, list)))
-		return (1);
+		return (0);
 	if (!(param->aolist = new_ao_list(token, &(*list)->aolist)))
-		return (1);
+		return (0);
 	if (!(param->cmd = new_command(&(*list)->aolist->cmd)))
-		return (1);
+		return (0);
 	param->arg = &((t_command *)*param->cmd)->args;
 	param->redir = &((t_command *)*param->cmd)->redir;
-	return (0);
+	return (1);
 }

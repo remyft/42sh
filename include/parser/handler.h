@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/20 01:53:57 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/20 20:36:46 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/21 02:37:11 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,7 @@
 # define H_OPERATOR		{ parse_operator }
 # define H_LIST			{ parse_list }
 # define H_OPERATOR		{ parse_operator }
+
+# define H_ERROR		{ parse_not_handled_yet }
 
 #endif
