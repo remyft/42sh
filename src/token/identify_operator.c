@@ -6,13 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 00:38:00 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/15 18:00:12 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/22 20:25:07 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "token.h"
-#include "operator.h"
+#include "operator_types.h"
 
 static size_t	check_operator(t_token *token, const char *buff, size_t len)
 {

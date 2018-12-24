@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/15 18:26:13 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/23 19:15:26 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct	s_token
 	size_t			depth;
 	int				type;
 	int				spec;
-	char			*command;
+	char			*command; // ? used
 	struct s_token	*prev;
 }				t_token;
 

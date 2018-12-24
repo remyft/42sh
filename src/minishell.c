@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/21 02:26:39 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/24 02:48:13 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "main_tools.h"
 #include "token.h"
 #include "parser.h"
+#include "expand.h"
+#include "shell_env.h"
 
 int		cmp_strpart(char *src, char *str, int *beg)
 {
@@ -356,15 +358,17 @@ int		check_hdoc(t_line *line)
 // 	exec();
 // }
 
-int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **ep)
+int		main(int ac, char **av, char **ep)
 {
 	t_line		*line;
 	t_token		*tokens;
 	t_m_list	*tree;
+	t_s_env		e;
 	char		**env;
 	char		*ret;
 
 	env = collect_env(ep);
+	init_shell_env(&e, ac, av, env);
 	line = get_struct();
 	init_line(env, line);
 	welcome(line);
@@ -388,13 +392,21 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 			save_history(line->index, ret, &(line->hist), env);
 			remove_line_continuation(ret);
 			ret = ft_strjoinfree(ret, "\n", 1);
-			tokens = tokenise(ret);
-			tree = parse(ret, tokens);
-			free_m_list(&tree);
-			free_token(&tokens);
+			if ((tokens = tokenise(ret)) != NULLTOKEN)
+			{
+				if ((tree = parse(ret, tokens)) != NULLLIST)
+				{
+					if (expand(ret, tree, &e) != ERR_NONE)
+						;
+						// exec();
+					free_m_list(&tree);
+				}
+				free_token(&tokens);
+			}
 			free_buff(line);
 			del_all_state(line);
 		}
 	}
+	free_shell_env(&e);
 	return (0);
 }

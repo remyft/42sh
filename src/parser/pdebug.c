@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 14:52:10 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/20 04:32:30 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/21 22:27:07 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void		print_r(const char *buff, t_command *cmd)
 		if ((token = red->ionumber))
 			printf("\t\t\tIONUMBER %.*s\n", (int)(token->tail - token->head),
 										buff + token->head);
-		if ((token = red->arg))
+		if (red->arg && (token = red->arg->token))
 			printf("\t\t\tREDIR ARG %.*s\n", (int)(token->tail - token->head),
 										buff + token->head);
 		red = red->next;

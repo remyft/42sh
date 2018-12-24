@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   operator.h                                         :+:      :+:    :+:   */
+/*   operator_types.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 17:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/20 01:46:41 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/22 20:24:44 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef OPERATOR_H
-# define OPERATOR_H
+#ifndef OPERATOR_TYPES_H
+# define OPERATOR_TYPES_H
 
 /*
 ** Specificities for token OPERATOR

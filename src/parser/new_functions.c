@@ -6,12 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/19 18:24:09 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/21 02:32:14 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/22 22:43:52 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "operator.h"
+#include "operator_types.h"
 #include "parser.h"
 
 t_m_list		**new_m_list(t_token *token, t_m_list **list)

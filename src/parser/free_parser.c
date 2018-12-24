@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 18:06:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/20 04:35:28 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/24 02:31:38 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static void		free_args(t_argument **arg)
 	if (!*arg)
 		return ;
 	free_args(&(*arg)->next);
+	if ((*arg)->result)
+		free((*arg)->result);
 	free(*arg);
 	*arg = NULLARG;
 }
