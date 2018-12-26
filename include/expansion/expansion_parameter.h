@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_error.c                                     :+:      :+:    :+:   */
+/*   expansion_parameter.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/24 02:33:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/26 10:05:31 by gbourgeo         ###   ########.fr       */
+/*   Created: 2018/12/26 06:23:10 by gbourgeo          #+#    #+#             */
+/*   Updated: 2018/12/26 10:14:26 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "expansion.h"
+#ifndef EXPANSION_PARAMETER_H
+# define EXPANSION_PARAMETER_H
 
-int				expand_error(int error, const char *progname)
+typedef struct	s_expansion_param
 {
-	static char	*err[] = {
-		"", "malloc error", "bad substitution",
-	};
+	int			special;
+	int			brace;
+	int			hash;
+}				t_exp_p;
 
-	ft_putstr_fd(progname, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putendl_fd(err[error], STDERR_FILENO);
-	return (1);
-}
+#endif

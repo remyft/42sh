@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_error.c                                     :+:      :+:    :+:   */
+/*   param_addstr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/24 02:33:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/26 10:05:31 by gbourgeo         ###   ########.fr       */
+/*   Created: 2018/12/26 04:03:44 by gbourgeo          #+#    #+#             */
+/*   Updated: 2018/12/26 04:07:21 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "expansion.h"
 
-int				expand_error(int error, const char *progname)
+int				param_addstr(char *str, t_ret *ret)
 {
-	static char	*err[] = {
-		"", "malloc error", "bad substitution",
-	};
-
-	ft_putstr_fd(progname, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putendl_fd(err[error], STDERR_FILENO);
-	return (1);
+	if (!str)
+		return (ERR_NONE);
+	while (*str)
+	{
+		if (param_addchar(*str, ret))
+			return (ERR_MALLOC);
+		str++;
+	}
+	return (ERR_NONE);
 }

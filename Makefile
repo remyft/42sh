@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/12/24 02:39:37 by gbourgeo         ###   ########.fr        #
+#    Updated: 2018/12/26 10:09:47 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -107,8 +107,20 @@ SRCS += free_parser.c		\
 
 #EXPANSIONS
 EXPANSION_DIR = expansion/
-SRCS += expand.c			\
+SRCS += expand_backslash.c	\
+		expand_backtick.c	\
+		expand_brace.c		\
+		expand_dollar.c		\
+		expand_dquote.c		\
 		expand_error.c		\
+		expand_glob.c		\
+		expand_parameter.c	\
+		expand_squote.c		\
+		expand_substitution.c	\
+		expand_tilde.c		\
+		expand.c			\
+		param_addchar.c		\
+		param_addstr.c		\
 
 OK =	$(GREEN)[OK]$(RESET)
 
