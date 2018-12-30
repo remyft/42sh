@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 20:20:47 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/30 16:44:08 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/30 19:44:04 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,6 @@ enum
 	ERR_MALLOC,
 	ERR_GIVEN,
 };
-
-/*
-** Structure for expansions error message
-*/
-typedef struct	s_err
-{
-	char		*word;
-	size_t		w_len;
-	size_t		w_max;
-}				t_err;
 
 /*
 ** Structure for expansions values

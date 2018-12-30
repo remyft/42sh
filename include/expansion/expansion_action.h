@@ -6,14 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 05:45:30 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/29 11:26:50 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/30 19:46:29 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPANSION_ACTION_H
 # define EXPANSION_ACTION_H
-
-# define ACTIONS_VALUES		"-=?+"
 
 /*
 ** Actions to be performed on ${} expansion with the characters:
@@ -29,6 +27,7 @@
 ** REMOVE_SMALLEST_PREFIX_PATTERN	#
 ** REMOVE_LARGEST_PREFIX_PATTERN	##
 */
+# define ACTIONS_VALUES		"-=?+"
 
 enum
 {

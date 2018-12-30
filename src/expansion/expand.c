@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 20:18:46 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/30 19:32:44 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/30 19:45:48 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ static int		expand_loop(t_ret *ret, t_exp *param, int (*end_loop)(t_exp *))
 		error = expand_tilde(param, ret);
 	while (param->i < param->buff_len && end_loop(param))
 	{
-		if (param->buff[param->i] == '\'')
+		if (param->buff[param->i] == '\\')
+			error = expand_backslash(param, ret);
+		else if (param->buff[param->i] == '\'')
 			error = expand_squote(param, ret);
 		else if (param->buff[param->i] == '"')
 			error = expand_dquote(param, ret);
-		else if (param->buff[param->i] == '\\')
-			error = expand_backslash(param, ret);
 		else if (param->buff[param->i] == '$')
 			error = expand_dollar(param, ret);
 		else if (param->buff[param->i] == '`'
