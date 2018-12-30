@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 20:18:46 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/30 10:44:40 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/30 19:32:44 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ static int		expand_argument(const char *buff, t_argument *arg, t_s_env *e)
 	param.buff_len = arg->token->tail - arg->token->head;
 	if ((error = expand_mword(&ret, &param, token_end)) != ERR_NONE)
 		return (expand_error(error, e->progname, ret.word));
+	ft_putendl(ret.word);
 	return (expand_argument(buff, arg->next, e));
 }
 

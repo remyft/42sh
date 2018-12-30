@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 09:45:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/30 18:42:20 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/30 19:33:18 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ param->tabval++;
 		if ((error = expand_mword(&word, param, is_word_end)) != ERR_NONE)
 			return (error);
 param->tabval--;
-debug_expansion("word", &word, param);
+//debug_expansion("word", &word, param);
 	if (parameter->action & REMOVE_SMALLEST_SUFFIX_PATTERN
 		|| parameter->action & REMOVE_LARGEST_SUFFIX_PATTERN
 		|| parameter->action & REMOVE_SMALLEST_PREFIX_PATTERN
@@ -160,7 +160,5 @@ debug_expansion("word", &word, param);
 			parameter->substitute = word.word;
 		}
 	}
-//	expand_free_t_ret(parameter);
-//	ft_memcpy(parameter, &word, sizeof(word));
 	return (error);
 }
