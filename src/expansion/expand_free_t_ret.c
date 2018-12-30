@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_env.h                                        :+:      :+:    :+:   */
+/*   expand_free_t_ret.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/30 14:47:19 by gbourgeo         ###   ########.fr       */
+/*   Created: 2018/12/27 18:56:31 by gbourgeo          #+#    #+#             */
+/*   Updated: 2018/12/30 13:34:36 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHELL_ENV_H
-# define SHELL_ENV_H
+#include "expansion.h"
 
-typedef struct	s_shell_env
+void			expand_free_t_ret(t_ret *ret)
 {
-	int			ac;
-	char		**av;
-	char		*progpath;
-	char		*progname;
-	char		**public_env;
-	char		**private_env;
-	int			ret;
-	int			pid;
-}				t_s_env;
-
-void			init_shell_env(t_s_env *e, int ac, char **av, char **env);
-void 			free_shell_env(t_s_env *e);
-
-#endif
+	if (ret->word)
+		free(ret->word);
+	ret->word = NULL;
+	if (ret->substitute && ret->freeable)
+		free(ret->substitute);
+	ret->substitute = NULL;
+}

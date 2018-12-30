@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 20:18:46 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/26 10:45:10 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/30 10:44:40 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int		expand_loop(t_ret *ret, t_exp *param, int (*end_loop)(t_exp *))
 	error = ERR_NONE;
 	if (param->buff[param->i] == '~')
 		error = expand_tilde(param, ret);
-	while (error == ERR_NONE && end_loop(param))
+	while (param->i < param->buff_len && end_loop(param))
 	{
 		if (param->buff[param->i] == '\'')
 			error = expand_squote(param, ret);
@@ -39,20 +39,23 @@ static int		expand_loop(t_ret *ret, t_exp *param, int (*end_loop)(t_exp *))
 		// 	error = expand_glob(param, ret);
 		else
 			error = param_addchar(param->buff[param->i], ret);
+		if (error)
+			break ;
 		param->i++;
 	}
-	return ((error) ? expand_error(error, param->e->progname) : 0);
+	return (error);
 }
 
 int				expand_mword(t_ret *ret, t_exp *param, int (*end)(t_exp *))
 {
-	if (expand_loop(ret, param, end))
-		return (1);
+	int			error;
+
+	if ((error = expand_loop(ret, param, end)) != ERR_NONE)
+		return (error);
 	// fieldsplit(&ret);
 	// expand_pathname();
 	// remove_quote(&ret);
-	ft_putendl(ret->word);
-	return (0);
+	return (ERR_NONE);
 }
 
 static int		token_end(t_exp *param)
@@ -64,17 +67,18 @@ static int		expand_argument(const char *buff, t_argument *arg, t_s_env *e)
 {
 	t_exp		param;
 	t_ret		ret;
+	int			error;
 
 	if (!arg || !arg->token)
 		return (ERR_NONE);
+	ft_memset(&param, 0, sizeof(param));
+	ft_memset(&ret, 0, sizeof(ret));
 	param.ifs = SEPARATORS;
 	param.e = e;
 	param.buff = buff + arg->token->head;
 	param.buff_len = arg->token->tail - arg->token->head;
-	param.i = 0;
-	ft_memset(&ret, 0, sizeof(ret));
-	if (expand_mword(&ret, &param, token_end))
-		return (1);
+	if ((error = expand_mword(&ret, &param, token_end)) != ERR_NONE)
+		return (expand_error(error, e->progname, ret.word));
 	return (expand_argument(buff, arg->next, e));
 }
 

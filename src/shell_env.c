@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 00:07:32 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/24 02:42:45 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/30 14:51:44 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,14 @@ static char		*get_path(char *prog)
 
 void			init_shell_env(t_s_env *e, int ac, char **av, char **env)
 {
+	ft_memset(e, 0, sizeof(*e));
 	e->ac = ac;
 	e->av = av;
 	e->progpath = get_path(av[0]);
 	ft_putendl(e->progpath);
 	e->progname = (ft_strrchr(av[0], '/')) ? ft_strrchr(av[0], '/') + 1: av[0];
-	e->env = env;
+	e->public_env = env;
+	e->private_env = NULL;
 	e->ret = 0;
 	e->pid = getpid();
 }

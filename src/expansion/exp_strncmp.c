@@ -1,31 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_env.h                                        :+:      :+:    :+:   */
+/*   exp_strncmp.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/30 14:47:19 by gbourgeo         ###   ########.fr       */
+/*   Created: 2018/12/30 16:43:34 by gbourgeo          #+#    #+#             */
+/*   Updated: 2018/12/30 16:43:58 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHELL_ENV_H
-# define SHELL_ENV_H
-
-typedef struct	s_shell_env
+int				exp_strncmp(const char *s1, const char *s2, unsigned int n)
 {
-	int			ac;
-	char		**av;
-	char		*progpath;
-	char		*progname;
-	char		**public_env;
-	char		**private_env;
-	int			ret;
-	int			pid;
-}				t_s_env;
+	char		*p1;
+	char		*p2;
 
-void			init_shell_env(t_s_env *e, int ac, char **av, char **env);
-void 			free_shell_env(t_s_env *e);
-
-#endif
+	p1 = (char *)s1;
+	p2 = (char *)s2;
+	while (*p1 && *p2 && n--)
+		if (*p1++ != *p2++)
+			break ;
+	return (*p1 - *p2);
+}

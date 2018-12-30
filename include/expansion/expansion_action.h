@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 05:45:30 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/26 06:02:15 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/29 11:26:50 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,33 @@
 
 # define ACTIONS_VALUES		"-=?+"
 
+/*
+** Actions to be performed on ${} expansion with the characters:
+**
+** NO_ACTION						None
+** COLON_ACTION						:
+** ACT_NULL_SUBST					-
+** ACT_NULL_ASSIGN					=
+** ACT_NULL_ERROR					?
+** ACT_NONNULL_SUBST				+
+** REMOVE_SMALLEST_SUFFIX_PATTERN	%
+** REMOVE_LARGEST_SUFFIX_PATTERN	%%
+** REMOVE_SMALLEST_PREFIX_PATTERN	#
+** REMOVE_LARGEST_PREFIX_PATTERN	##
+*/
+
 enum
 {
 	NO_ACTION = 0,
 	COLON_ACTION = (1 << 0),
-	SUBSTITUTE_1,
-	REMOVE_SMALLEST_SUFFIX_PATTERN,
-	REMOVE_LARGEST_SUFFIX_PATTERN,
-	REMOVE_SMALLEST_PREFIX_PATTERN,
-	REMOVE_LARGEST_PREFIX_PATTERN,
+	ACT_NULL_SUBST = (1 << 1),
+	ACT_NULL_ASSIGN = (1 << 2),
+	ACT_NULL_ERROR = (1 << 3),
+	ACT_NONNULL_SUBST = (1 << 4),
+	REMOVE_SMALLEST_SUFFIX_PATTERN = (1 << 5),
+	REMOVE_LARGEST_SUFFIX_PATTERN = (1 << 6),
+	REMOVE_SMALLEST_PREFIX_PATTERN = (1 << 7),
+	REMOVE_LARGEST_PREFIX_PATTERN = (1 << 8),
 };
 
 #endif

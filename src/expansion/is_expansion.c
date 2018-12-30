@@ -1,22 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_dquote.c                                    :+:      :+:    :+:   */
+/*   is_expansion.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/26 02:08:50 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/27 02:20:38 by gbourgeo         ###   ########.fr       */
+/*   Created: 2018/12/27 05:37:20 by gbourgeo          #+#    #+#             */
+/*   Updated: 2018/12/28 19:05:47 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "expansion.h"
 
-int				expand_dquote(t_exp *param, t_ret *ret)
+int				is_valid_name(int c)
 {
-	if (param->quoted == param->buff[param->i])
-		param->quoted = 0;
-	else if (param->quoted == 0)
-		param->quoted = param->buff[param->i];
-	return (param_addchar(param->buff[param->i], ret));
+	return ((c == '_') || ft_isalnum(c));
+}
+
+int				is_special(int c)
+{
+	return ((c == '@')
+		|| (c == '*')
+		|| (c == '#')
+		|| (c == '?')
+		|| (c == '-')
+		|| (c == '$')
+		|| (c == '!'));
+}
+
+int				is_word_end(t_exp *param)
+{
+	return (param->buff[param->i] != '}' || param->quoted);
+}
+
+int				is_expand_null(t_ret *ret)
+{
+	return (!ret->word || !ret->word[ret->brace + ret->hash + 1]);
 }

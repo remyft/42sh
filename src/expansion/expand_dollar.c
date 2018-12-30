@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 00:56:12 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/26 11:03:41 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/27 02:39:20 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@
 int				expand_dollar(t_exp *param, t_ret *ret)
 {
 	int			i;
+	int			error;
 
 	i = param->i + 1;
+	error = ERR_NONE;
 	if (param->buff[i] == '(')
 	{
 		if (param->buff[i + 1] == '(')
@@ -36,11 +38,9 @@ int				expand_dollar(t_exp *param, t_ret *ret)
 				++j;
 			}
 			if (param->buff[j] == ')' && param->buff[j + 1] == ')')
-			{
-				// expand_arithmetic();
-				return (ERR_NONE);
-			}
-			// expand_subshell();
+				;// error = expand_arithmetic();
+			else
+				;// error = expand_subshell();
 		}
 	}
 	else if (param->buff[i] == '[')
@@ -49,8 +49,7 @@ int				expand_dollar(t_exp *param, t_ret *ret)
 	}
 	else
 	{
-		param->i = i;
-		expand_dollar_parameter(param, ret);
+		error = expand_dollar_parameter(param, ret);
 	}
-	return (ERR_NONE);
+	return (error);
 }

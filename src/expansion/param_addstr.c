@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 04:03:44 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/26 04:07:21 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/30 10:57:09 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int				param_addstr(char *str, t_ret *ret)
 		return (ERR_NONE);
 	while (*str)
 	{
-		if (param_addchar(*str, ret))
+		if (param_addchar(*str, ret) != ERR_NONE)
 			return (ERR_MALLOC);
 		str++;
 	}

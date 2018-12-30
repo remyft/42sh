@@ -1,30 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_error.c                                     :+:      :+:    :+:   */
+/*   edebug.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/24 02:33:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/30 10:47:13 by gbourgeo         ###   ########.fr       */
+/*   Created: 2018/12/29 18:51:53 by gbourgeo          #+#    #+#             */
+/*   Updated: 2018/12/29 19:00:59 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "expansion.h"
 
-int				expand_error(int error, const char *progname, char *errmsg)
-{
-	static char	*err[] = {
-		"no error, what's up ?", "bad substitution", "unrecognized modifier",
-		"pattern not handled yet", "malloc error",
-	};
+#ifndef DEBUG
 
-	ft_putstr_fd(progname, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	if (error < ERR_GIVEN)
-		ft_putendl_fd(err[error], STDERR_FILENO);
-	else
-		ft_putendl_fd(errmsg, STDERR_FILENO);
-	return (1);
+void			debug_expansion(char *name, t_ret *ret, t_exp *param)
+{
+	(void)ret;
+	(void)param;
 }
+
+#else
+
+void			debug_expansion(char *name, t_ret *ret, t_exp *param)
+{
+	int			i;
+
+	i = 0;
+	while (i++ < param->tabval)
+		write(1, "\t", 1);
+	ft_putstr(name);
+	ft_putstr(" word: ");
+	ft_putendl(ret->word);
+	i = 0;
+	while (i++ < param->tabval)
+		write(1, "\t", 1);
+	ft_putstr(name);
+	ft_putstr(" subs: ");
+	ft_putendl(ret->substitute);
+}
+
+#endif

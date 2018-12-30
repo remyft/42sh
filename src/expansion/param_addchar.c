@@ -6,12 +6,22 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/25 23:59:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/26 10:39:29 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/30 10:56:21 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "expansion.h"
+
+static int	param_error(char *save, t_ret *ret)
+{
+	if (save)
+		free(save);
+	if (ret->substitute)
+		free(ret->substitute);
+	ft_memset(ret, 0, sizeof(*ret));
+	return (ERR_MALLOC);
+}
 
 int			param_addchar(char c, t_ret *ret)
 {
@@ -23,7 +33,7 @@ int			param_addchar(char c, t_ret *ret)
 		save = ret->word;
 		ret->w_max += RET_CHUNK;
 		if ((ret->word = ft_memalloc(ret->w_max)) == NULL)
-			return (ERR_MALLOC);
+			return (param_error(save, ret));
 	}
 	if (ret->word)
 	{

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 06:23:10 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/26 10:14:26 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/27 05:53:30 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 typedef struct	s_expansion_param
 {
-	int			special;
 	int			brace;
 	int			hash;
 }				t_exp_p;

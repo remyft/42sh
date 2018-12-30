@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 02:35:00 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/14 14:22:05 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/27 01:23:21 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static t_token	*identify_subs(t_param *param)
 {
-	param->i++;
+	++param->i;
 	if (ft_isbracket(param))
 	{
 		param->token->quote |= BRACKET;
@@ -28,6 +28,7 @@ static t_token	*identify_subs(t_param *param)
 		param->token->depth++;
 		param->i++;
 	}
+	--param->i;
 	return (param->token);
 }
 
