@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 20:18:46 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/03 20:08:49 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/04 23:20:13 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,10 @@ static int		expand_argument(const char *buff, t_argument *arg, t_s_env *e)
 	param.e = e;
 	param.buff = buff + arg->token->head;
 	param.buff_len = arg->token->tail - arg->token->head;
+	param.expand = 1;
 	if ((error = expand_parameter(&ret, &param, token_end)) != ERR_NONE)
 		return (expand_error(error, e->progname, ret.word));
-	ft_putendl(ret.word);///////////////////////////////////////////////////////
+	ft_putendl(ret.word);
 	return (expand_argument(buff, arg->next, e));
 }
 

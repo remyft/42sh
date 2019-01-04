@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 23:02:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/04 01:10:57 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/04 23:45:35 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@
 int				expand_dollar_special(t_ret *sub, t_ret *para, t_exp *param)
 {
 	static t_special	special[] = {
-		{ '@', special_argv }, { '*', special_argvs }, { '#', special_argc },
-		{ '?', special_return }, { '-', special_option }, { '$', special_pid },
-		{ '!', special_jobs },
+		{ '@', special_argv }, { '*', special_argvs }, { '?', special_return },
+		{ '-', special_option }, { '$', special_pid }, { '!', special_jobs },
 	};
 	size_t				i;
 	char				*word;
@@ -78,22 +77,6 @@ int				special_argvs(t_ret *subs, t_ret *para, t_exp *param)
 	}
 	if (param_addchar('"', subs))
 		return (special_error(ERR_MALLOC, subs->word));
-	para->freeable = 1;
-	para->substitute = subs->word;
-	return (ERR_NONE);
-}
-
-int				special_argc(t_ret *subs, t_ret *para, t_exp *param)
-{
-	char	*nbr;
-	int		error;
-
-	nbr = ft_itoa(param->e->ac - 1);
-	error = param_addstr(nbr, subs);
-	if (nbr)
-		free(nbr);
-	if (error)
-		return (special_error(error, subs->word));
 	para->freeable = 1;
 	para->substitute = subs->word;
 	return (ERR_NONE);

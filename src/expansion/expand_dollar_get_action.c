@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 06:50:11 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/03 22:42:29 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/04 17:56:45 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ static int		action_hash(t_ret *parameter, t_exp *param)
 static int		action_values(t_ret *parameter, t_exp *param)
 {
 	if (param->buff[param->i] == '-')
-		parameter->action = ACT_NULL_SUBST;
+		parameter->action |= ACT_NULL_SUBST;
 	else if (param->buff[param->i] == '=')
-		parameter->action = ACT_NULL_ASSIGN;
+		parameter->action |= ACT_NULL_ASSIGN;
 	else if (param->buff[param->i] == '?')
-		parameter->action = ACT_NULL_ERROR;
+		parameter->action |= ACT_NULL_ERROR;
 	else if (param->buff[param->i] == '+')
-		parameter->action = ACT_NONNULL_SUBST;
+		parameter->action |= ACT_NONNULL_SUBST;
 	++param->i;
 	return (ERR_NONE);
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 04:44:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/04 03:00:25 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/04 23:52:14 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,19 @@ static int		expand_final(char *str, int hash, t_ret *ret)
 	return (error);
 }
 
-static int		dollar_parameter_end(t_exp *param)
+static int		dollar_parameter_end_digit(t_exp *param)
+{
+	return (ft_isdigit(param->buff[param->i]));
+}
+
+static int		dollar_parameter_end_name(t_exp *param)
 {
 	return (is_valid_name(param->buff[param->i]));
 }
 
 static int		expand_dollar_parameter_init(t_ret *parameter, t_exp *param)
 {
+	int			(*end)(t_exp *);
 	int			error;
 
 	error = ERR_NONE;
@@ -48,7 +54,9 @@ static int		expand_dollar_parameter_init(t_ret *parameter, t_exp *param)
 	if ((parameter->hash = param->buff[param->i] == '#')
 		&& param_addchar(param->buff[param->i++], parameter))
 		return (ERR_MALLOC);
-	if ((error = expand_parameter(parameter, param, dollar_parameter_end)))
+	end = ft_isdigit(param->buff[param->i]) ? dollar_parameter_end_digit :
+											dollar_parameter_end_name;
+	if ((error = expand_parameter(parameter, param, end)))
 		return (error);
 	if (is_expand_null(parameter)
 		&& is_special(param->buff[param->i])
@@ -64,24 +72,20 @@ int				expand_dollar_parameter(t_exp *param, t_ret *ret)
 
 	if ((error = expand_dollar_parameter_init(&parameter, param)) != ERR_NONE)
 		return (error);
-	if (parameter.brace || !is_expand_null(&parameter))
+	if (parameter.brace || !is_expand_null(&parameter) || parameter.hash)
 	{
 		if ((error = expand_dollar_parameter_value(&parameter, param)))
 			return (error);
-//		debug_expansion("param", &parameter);
-		if ((error = expand_dollar_get_action(&parameter, param)))
+		if ((error = expand_dollar_get_action(&parameter, param)) != ERR_NONE)
 			return (error);
-		if ((error = expand_dollar_word_value(&parameter, param)))
-			return (error);
-		error = expand_final(parameter.substitute, parameter.hash, ret);
-//		debug_expansion("param", &parameter);
+		if (parameter.brace)
+			error = expand_dollar_word_value(&parameter, param);
+		if (expand_final(parameter.substitute, parameter.hash, ret))
+			return (ERR_MALLOC);
 	}
 	else
-	{
 		error = expand_final(parameter.word, parameter.hash, ret);
-		--param->i;
-	}
 	ret->substitute = parameter.word;
-//	debug_expansion("ret", ret);
+	--param->i;
 	return (error);
 }

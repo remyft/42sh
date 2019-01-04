@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/02 12:00:40 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/04 02:57:22 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/04 23:55:10 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 static int		expand_loop(t_ret *ret, t_exp *param, int (*end_loop)(t_exp *))
 {
 	static t_e_character	character[] = {
-		OP_EXP_BACKSLSH, OP_EXP_SQUOTE, OP_EXP_TILDE, OP_EXP_DOLLAR,
-		OP_EXP_BACKTICK, OP_EXP_DQUOTE, OP_EXP_STAR, OP_EXP_BRACKET,
-		OP_EXP_QUESTION, OP_EXP_END,
+		OP_EXP_NULL, OP_EXP_BACKSLSH, OP_EXP_SQUOTE, OP_EXP_DQUOTE,
+		OP_EXP_TILDE, OP_EXP_DOLLAR, OP_EXP_BACKTICK, OP_EXP_STAR,
+		OP_EXP_BRACKET, OP_EXP_QUESTION,
 	};
 	size_t					i;
 	int						error;
@@ -26,12 +26,12 @@ static int		expand_loop(t_ret *ret, t_exp *param, int (*end_loop)(t_exp *))
 	error = ERR_NONE;
 	while (param->i < param->buff_len && end_loop(param))
 	{
-		i = 0;
-		while (i < sizeof(character) / sizeof(character[0]) - 1)
+		i = (param->expand) ? sizeof(character) / sizeof(character[0]) - 1 : 3;
+		while (i > 0)
 		{
 			if (param->buff[param->i] == character[i].value)
 				break ;
-			i++;
+			i--;
 		}
 		if ((error = (character[i].value) ?
 					character[i].handler(param, ret) :

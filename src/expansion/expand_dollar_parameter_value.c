@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 04:42:31 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/04 02:51:07 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/04 23:53:59 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,19 @@
 #include "expansion_special.h"
 #include "expansion_lib.h"
 
-static int		expand_env(t_ret *subs, t_ret *para, t_exp *param)
+static int		expand_argc(t_ret *subs, t_ret *para, t_exp *param)
 {
-	char		*word;
+	char		*nbr;
+	int			error;
 
-	word = &para->word[para->brace + para->hash + 1];
-	if (!(subs->word = exp_getnenv(word, param->e->public_env)))
-		subs->word = exp_getnenv(word, param->e->private_env);
+	nbr = ft_itoa(param->e->ac - 1);
+	error = param_addstr(nbr, subs);
+	if (nbr)
+		free(nbr);
+	if (error)
+		return (special_error(error, subs->word));
+	para->hash = 0;
+	para->freeable = 1;
 	para->substitute = subs->word;
 	return (ERR_NONE);
 }
@@ -38,11 +44,22 @@ static int		expand_argv(t_ret *subs, t_ret *para, t_exp *param)
 	return (ERR_NONE);
 }
 
+static int		expand_env(t_ret *subs, t_ret *para, t_exp *param)
+{
+	char		*word;
+
+	word = &para->word[para->brace + para->hash + 1];
+	if (!(subs->word = exp_getnenv(word, param->e->public_env)))
+		subs->word = exp_getnenv(word, param->e->private_env);
+	para->substitute = subs->word;
+	return (ERR_NONE);
+}
+
 int				expand_dollar_parameter_value(t_ret *parameter, t_exp *param)
 {
 	static t_dollar	dollar[] = {
-		{ is_valid_name, expand_env }, { ft_isdigit, expand_argv },
 		{ is_special, expand_dollar_special },
+		{ ft_isdigit, expand_argv }, { is_valid_name, expand_env },
 	};
 	size_t			i;
 	t_ret			substitute;
@@ -51,8 +68,10 @@ int				expand_dollar_parameter_value(t_ret *parameter, t_exp *param)
 	i = 0;
 	ft_memset(&substitute, 0, sizeof(substitute));
 	word = &parameter->word[parameter->brace + parameter->hash + 1];
-	if (!*word)
+	if (!*word && !parameter->hash)
 		return (ERR_NONE);
+	if (is_expand_null(parameter))
+		return (expand_argc(&substitute, parameter, param));
 	while (i < sizeof(dollar) / sizeof(dollar[0]))
 	{
 		if (dollar[i].check(word[0]))

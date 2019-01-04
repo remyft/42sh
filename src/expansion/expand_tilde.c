@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 02:35:19 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/04 03:05:08 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/04 23:55:20 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static int		tilde_get_parameter(t_ret *parameter, t_exp *param)
 	parameter->word = ft_strcpy(parameter->word, parameter->word + 1);
 	parameter->w_len--;
 	param->i--;
-//	debug_expansion("tilde", parameter);
 	return (error);
 }
 

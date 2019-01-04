@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 20:20:47 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/04 02:44:44 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/04 20:02:48 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct	s_expansion
 	size_t		buff_len;
 	size_t		i;
 	int			quoted;
+	int			expand;
 }				t_exp;
 
 int				expand(const char *buff, t_m_list *list, t_s_env *e);

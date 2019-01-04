@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 09:45:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/04 02:57:41 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/04 23:37:41 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ int				expand_dollar_word_value(t_ret *parameter, t_exp *param)
 
 	i = 0;
 	ft_memset(&subs, 0, sizeof(subs));
-	if (expand_dollar_do_expansion(parameter))
-		if ((error = expand_parameter(&subs, param, is_word_end)) != ERR_NONE)
-			return (error);
-// 	debug_expansion("word", &word);
+	param->expand = expand_dollar_do_expansion(parameter);
+	if ((error = expand_parameter(&subs, param, is_word_end)) != ERR_NONE)
+		return (error);
+	++param->i;
 	while (i < sizeof(word) / sizeof(word[0]))
 	{
 		if (parameter->action & word[i].action)
