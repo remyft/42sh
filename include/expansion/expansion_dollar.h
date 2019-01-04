@@ -1,40 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   edebug.c                                           :+:      :+:    :+:   */
+/*   expansion_dollar.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/29 18:51:53 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/03 20:17:51 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/01/04 00:18:35 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/01/04 00:44:32 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "expansion.h"
+#ifndef EXPANSION_DOLLAR_H
+# define EXPANSION_DOLLAR_H
 
-#ifndef DEBUG
+# include "expansion.h"
 
-void			debug_expansion(char *name, t_ret *ret)
+typedef struct	s_dollar
 {
-	(void)name;
-	(void)ret;
-}
-
-#else
-
-void			debug_expansion(char *name, t_ret *ret)
-{
-	int			i;
-
-	i = 0;
-	ft_putstr(name);
-	ft_putstr(" word: ");
-	ft_putendl(ret->word);
-	i = 0;
-	ft_putstr(name);
-	ft_putstr(" subs: ");
-	ft_putendl(ret->substitute);
-}
+	int			(*check)(int);
+	int			(*handler)(t_ret *, t_ret *, t_exp *);
+}				t_dollar;
 
 #endif

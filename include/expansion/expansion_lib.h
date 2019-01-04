@@ -1,40 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   edebug.c                                           :+:      :+:    :+:   */
+/*   expansion_lib.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/29 18:51:53 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/03 20:17:51 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/01/04 02:44:15 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/01/04 02:48:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "expansion.h"
+#ifndef EXPANSION_LIB_H
+# define EXPANSION_LIB_H
 
-#ifndef DEBUG
+# include "libft.h"
 
-void			debug_expansion(char *name, t_ret *ret)
-{
-	(void)name;
-	(void)ret;
-}
-
-#else
-
-void			debug_expansion(char *name, t_ret *ret)
-{
-	int			i;
-
-	i = 0;
-	ft_putstr(name);
-	ft_putstr(" word: ");
-	ft_putendl(ret->word);
-	i = 0;
-	ft_putstr(name);
-	ft_putstr(" subs: ");
-	ft_putendl(ret->substitute);
-}
+int				exp_strncmp(const char *s1, const char *s2, unsigned int n);
+char			*exp_getnenv(const char *name, char **env);
+char			**exp_getnenvaddr(const char *name, char **env);
+char			**exp_newenv(char ***env);
 
 #endif

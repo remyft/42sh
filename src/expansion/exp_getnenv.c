@@ -1,40 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   edebug.c                                           :+:      :+:    :+:   */
+/*   exp_getnenv.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/29 18:51:53 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/03 20:17:51 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/01/02 18:44:52 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/01/04 02:48:22 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "expansion.h"
+#include "expansion_lib.h"
 
-#ifndef DEBUG
-
-void			debug_expansion(char *name, t_ret *ret)
+char			*exp_getnenv(const char *name, char **env)
 {
-	(void)name;
-	(void)ret;
-}
-
-#else
-
-void			debug_expansion(char *name, t_ret *ret)
-{
-	int			i;
+	size_t		i;
+	size_t		len;
 
 	i = 0;
-	ft_putstr(name);
-	ft_putstr(" word: ");
-	ft_putendl(ret->word);
-	i = 0;
-	ft_putstr(name);
-	ft_putstr(" subs: ");
-	ft_putendl(ret->substitute);
+	len = (name) ? ft_strlen(name) : 0;
+	if (!env)
+		return (NULL);
+	while (env[i])
+	{
+		if (exp_strncmp(env[i], name, len) == '=')
+			return (&env[i][len + 1]);
+		i++;
+	}
+	return (NULL);
 }
-
-#endif

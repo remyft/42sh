@@ -6,11 +6,20 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 10:27:49 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/28 12:23:07 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/04 01:19:14 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expansion.h"
+#include "expansion_errors.h"
+
+static void		expand_dollar_quoted(char *quote, char c)
+{
+	if (*quote == 0)
+		*quote = c;
+	else if (*quote == c)
+		*quote = 0;
+}
 
 int				expand_dollar_word(t_ret *ret, t_exp *param, char op, char cl)
 {
@@ -24,19 +33,9 @@ int				expand_dollar_word(t_ret *ret, t_exp *param, char op, char cl)
 	while (c != cl || depth || quote)
 	{
 		if (c == '"')
-		{
-			if (quote == 0)
-				quote = '"';
-			else if (quote == '"')
-				quote = 0;
-		}
+			expand_dollar_quoted(&quote, '"');
 		else if (c == '\'')
-		{
-			if (quote == 0)
-				quote = '\'';
-			else if (quote == '\'')
-				quote = 0;
-		}
+			expand_dollar_quoted(&quote, '\'');
 		else if (c == '\\')
 			++param->i;
 		else if (c == op && !quote)

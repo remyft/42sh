@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/25 23:55:02 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/03 17:46:27 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "token.h"
 #include "parser.h"
 #include "expansion.h"
+#include "expansion_errors.h"
 #include "shell_env.h"
 
 int		cmp_strpart(char *src, char *str, int *beg)

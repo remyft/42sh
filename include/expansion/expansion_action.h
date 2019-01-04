@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 05:45:30 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/30 19:46:29 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/03 22:42:07 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 ** REMOVE_SMALLEST_PREFIX_PATTERN	#
 ** REMOVE_LARGEST_PREFIX_PATTERN	##
 */
-# define ACTIONS_VALUES		"-=?+"
 
 enum
 {
@@ -42,5 +41,11 @@ enum
 	REMOVE_SMALLEST_PREFIX_PATTERN = (1 << 7),
 	REMOVE_LARGEST_PREFIX_PATTERN = (1 << 8),
 };
+
+typedef struct	s_action
+{
+	const char	*value;
+	int			(*handler)(t_ret *, t_exp *);
+}				t_action;
 
 #endif

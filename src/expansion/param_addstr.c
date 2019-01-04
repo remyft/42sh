@@ -6,13 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 04:03:44 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/30 10:57:09 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/03 17:48:44 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expansion.h"
+#include "expansion_errors.h"
 
-int				param_addstr(char *str, t_ret *ret)
+int				param_addstr(const char *str, t_ret *ret)
 {
 	if (!str)
 		return (ERR_NONE);

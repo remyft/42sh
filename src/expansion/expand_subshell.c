@@ -1,40 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   edebug.c                                           :+:      :+:    :+:   */
+/*   expand_subshell.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/29 18:51:53 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/03 20:17:51 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/01/03 20:24:31 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/01/04 02:58:00 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "expansion.h"
+#include "expansion_errors.h"
 
-#ifndef DEBUG
-
-void			debug_expansion(char *name, t_ret *ret)
+int				expand_subshell(t_exp *param, t_ret *ret)
 {
-	(void)name;
+	(void)param;
 	(void)ret;
+	return (ERR_NONE);
 }
-
-#else
-
-void			debug_expansion(char *name, t_ret *ret)
-{
-	int			i;
-
-	i = 0;
-	ft_putstr(name);
-	ft_putstr(" word: ");
-	ft_putendl(ret->word);
-	i = 0;
-	ft_putstr(name);
-	ft_putstr(" subs: ");
-	ft_putendl(ret->substitute);
-}
-
-#endif

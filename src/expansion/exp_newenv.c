@@ -1,40 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   edebug.c                                           :+:      :+:    :+:   */
+/*   exp_newenv.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/29 18:51:53 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/03 20:17:51 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/01/04 02:45:49 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/01/04 02:53:49 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "expansion.h"
 
-#ifndef DEBUG
-
-void			debug_expansion(char *name, t_ret *ret)
+char			**exp_newenv(char ***env)
 {
-	(void)name;
-	(void)ret;
+	char		**save;
+	size_t		len;
+
+	save = *env;
+	len = 0;
+	while (save && save[len])
+		len++;
+	if (!(*env = ft_memalloc(sizeof(**env) * (len + 2))))
+	{
+		*env = save;
+		return (NULL);
+	}
+	len = 0;
+	while (save && save[len])
+	{
+		(*env)[len] = save[len];
+		len++;
+	}
+	return (&(*env)[len]);
 }
-
-#else
-
-void			debug_expansion(char *name, t_ret *ret)
-{
-	int			i;
-
-	i = 0;
-	ft_putstr(name);
-	ft_putstr(" word: ");
-	ft_putendl(ret->word);
-	i = 0;
-	ft_putstr(name);
-	ft_putstr(" subs: ");
-	ft_putendl(ret->substitute);
-}
-
-#endif

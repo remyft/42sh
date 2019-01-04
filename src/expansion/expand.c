@@ -6,57 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 20:18:46 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/30 19:45:48 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/03 20:08:49 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "expansion.h"
-
-static int		expand_loop(t_ret *ret, t_exp *param, int (*end_loop)(t_exp *))
-{
-	int			error;
-
-	error = ERR_NONE;
-	if (param->buff[param->i] == '~')
-		error = expand_tilde(param, ret);
-	while (param->i < param->buff_len && end_loop(param))
-	{
-		if (param->buff[param->i] == '\\')
-			error = expand_backslash(param, ret);
-		else if (param->buff[param->i] == '\'')
-			error = expand_squote(param, ret);
-		else if (param->buff[param->i] == '"')
-			error = expand_dquote(param, ret);
-		else if (param->buff[param->i] == '$')
-			error = expand_dollar(param, ret);
-		else if (param->buff[param->i] == '`'
-			|| param->buff[param->i] == '(')
-			error = expand_backtick(param, ret);
-		// else if (param->buff[param->i] == '*'
-		// 	|| param->buff[param->i] == '['
-		// 	|| param->buff[param->i] == '?')
-		// 	error = expand_glob(param, ret);
-		else
-			error = param_addchar(param->buff[param->i], ret);
-		if (error)
-			break ;
-		param->i++;
-	}
-	return (error);
-}
-
-int				expand_mword(t_ret *ret, t_exp *param, int (*end)(t_exp *))
-{
-	int			error;
-
-	if ((error = expand_loop(ret, param, end)) != ERR_NONE)
-		return (error);
-	// fieldsplit(&ret);
-	// expand_pathname();
-	// remove_quote(&ret);
-	return (ERR_NONE);
-}
+#include "expansion_errors.h"
 
 static int		token_end(t_exp *param)
 {
@@ -77,9 +33,9 @@ static int		expand_argument(const char *buff, t_argument *arg, t_s_env *e)
 	param.e = e;
 	param.buff = buff + arg->token->head;
 	param.buff_len = arg->token->tail - arg->token->head;
-	if ((error = expand_mword(&ret, &param, token_end)) != ERR_NONE)
+	if ((error = expand_parameter(&ret, &param, token_end)) != ERR_NONE)
 		return (expand_error(error, e->progname, ret.word));
-	ft_putendl(ret.word);
+	ft_putendl(ret.word);///////////////////////////////////////////////////////
 	return (expand_argument(buff, arg->next, e));
 }
 

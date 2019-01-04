@@ -6,12 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/25 23:59:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/30 10:56:21 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/03 17:48:40 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "expansion.h"
+#include "expansion_errors.h"
 
 static int	param_error(char *save, t_ret *ret)
 {
