@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 14:52:10 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/21 22:27:07 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/06 23:23:08 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static void		print_command(const char *buff, t_command *cmd)
 {
 	t_argument	*arg;
 	t_token		*token;
+	size_t		i;
 
 	if (!cmd)
 		return ;
@@ -62,6 +63,9 @@ static void		print_command(const char *buff, t_command *cmd)
 		token = arg->token;
 		printf("\t\t\tARG %.*s\n", (int)(token->tail - token->head),
 									buff + token->head);
+		i = 0;
+		while (arg->list && arg->list[i])
+			printf("\t\t\t    %s\n", arg->list[i++]);
 		arg = arg->next;
 	}
 	print_r(buff, cmd);

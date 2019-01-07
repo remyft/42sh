@@ -6,10 +6,11 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 04:42:31 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/04 23:53:59 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/07 00:21:20 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "expansion_is.h"
 #include "expansion_dollar.h"
 #include "expansion_errors.h"
 #include "expansion_special.h"

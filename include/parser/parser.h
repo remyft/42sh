@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:59:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/22 02:52:36 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/06 23:25:33 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 typedef struct	s_argument
 {
 	t_token				*token;
-	char				*result;
 	char				**list;
 	struct s_argument	*next;
 }				t_argument;

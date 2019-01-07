@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 23:02:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/04 23:45:35 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/05 19:48:56 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,11 @@ int				special_argv(t_ret *subs, t_ret *para, t_exp *param)
 	j = 1;
 	while (param->e->av[j])
 	{
-		if (param_addchar('"', subs)
-			|| param_addstr(param->e->av[j], subs)
-			|| param_addchar('"', subs)
-			|| (param->e->av[j + 1]
-				&& param_addchar(' ', subs)))
+		if (param_addstr(param->e->av[j], subs))
 			return (special_error(ERR_MALLOC, subs->word));
 		j++;
+		if (param->e->av[j] && param_addchar(' ', subs))
+			return (special_error(ERR_MALLOC, subs->word));
 	}
 	para->freeable = 1;
 	para->substitute = subs->word;
@@ -65,8 +63,6 @@ int				special_argvs(t_ret *subs, t_ret *para, t_exp *param)
 	size_t	j;
 
 	j = 1;
-	if (param_addchar('"', subs))
-		return (special_error(ERR_MALLOC, subs->word));
 	while (param->e->av[j])
 	{
 		if (param_addstr(param->e->av[j], subs)
@@ -75,8 +71,6 @@ int				special_argvs(t_ret *subs, t_ret *para, t_exp *param)
 			return (special_error(ERR_MALLOC, subs->word));
 		j++;
 	}
-	if (param_addchar('"', subs))
-		return (special_error(ERR_MALLOC, subs->word));
 	para->freeable = 1;
 	para->substitute = subs->word;
 	return (ERR_NONE);

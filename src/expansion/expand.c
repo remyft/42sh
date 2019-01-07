@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 20:18:46 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/04 23:20:13 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/07 01:52:11 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,24 @@ static int		token_end(t_exp *param)
 static int		expand_argument(const char *buff, t_argument *arg, t_s_env *e)
 {
 	t_exp		param;
-	t_ret		ret;
+	t_ret		*ret;
 	int			error;
 
 	if (!arg || !arg->token)
-		return (ERR_NONE);
+		return (0);
 	ft_memset(&param, 0, sizeof(param));
-	ft_memset(&ret, 0, sizeof(ret));
-	param.ifs = SEPARATORS;
+	if (!(ret = ft_memalloc(sizeof(*ret))))
+		return (ERR_MALLOC);
 	param.e = e;
 	param.buff = buff + arg->token->head;
 	param.buff_len = arg->token->tail - arg->token->head;
 	param.expand = 1;
-	if ((error = expand_parameter(&ret, &param, token_end)) != ERR_NONE)
-		return (expand_error(error, e->progname, ret.word));
-	ft_putendl(ret.word);
+	if ((error = expand_loop(ret, &param, token_end)) != ERR_NONE)
+		return (expand_error(error, e->progname, ret->word));
+// 	expand_pathname();
+	quote_removal(ret);
+	if (expand_end(ret, arg))
+		return (expand_error(ERR_MALLOC, e->progname, ret->word));
 	return (expand_argument(buff, arg->next, e));
 }
 

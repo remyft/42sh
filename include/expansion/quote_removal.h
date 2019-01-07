@@ -1,33 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_env.h                                        :+:      :+:    :+:   */
+/*   quote_removal.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/05 17:01:50 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/01/07 00:24:31 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/01/07 00:38:07 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHELL_ENV_H
-# define SHELL_ENV_H
+#ifndef QUOTE_REMOVAL_H
+# define QUOTE_REMOVAL_H
 
-# define IFS_SEPARATORS		" \t\n"
-
-typedef struct	s_shell_env
+typedef struct	s_quote_removal
 {
-	int			ac;
-	char		**av;
-	char		*progpath;
-	char		*progname;
-	char		**public_env;
-	char		**private_env;
-	int			ret;
-	int			pid;
-}				t_s_env;
-
-void			init_shell_env(t_s_env *e, int ac, char **av, char **env);
-void 			free_shell_env(t_s_env *e);
+	char		value;
+	void		(*handler)(char *, char *, size_t *);
+}				t_q_removal;
 
 #endif

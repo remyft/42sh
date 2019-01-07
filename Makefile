@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/04 02:47:05 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/01/07 00:22:18 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,114 +33,118 @@ BUIL_DIR = $(SRCS_DIR)builtin/
 OTHR_DIR = $(SRCS_DIR)other/
 
 SRCS_DIR = src/
-SRCS =	minishell.c			\
-		deal_commande.c		\
-		tools.c				\
-		setenv_builtin.c	\
-		cd_builtin.c		\
-		exec.c				\
-		main_tools.c		\
-		remove_line_continuation.c	\
-		signal.c			\
-		singleton.c			\
-		shell_env.c			\
-		welcome.c			\
+SRCS =	minishell.c							\
+		deal_commande.c						\
+		tools.c								\
+		setenv_builtin.c					\
+		cd_builtin.c						\
+		exec.c								\
+		main_tools.c						\
+		remove_line_continuation.c			\
+		signal.c							\
+		singleton.c							\
+		shell_env.c							\
+		welcome.c							\
 
 #COMPLETION
 CMPL_DIR = $(SRCS_DIR)completion/
-SRCS +=	create_tree.c		\
-		deal_completion.c	\
-		put_completion.c	\
-		put_select_tools.c	\
-		put_tree_tools.c	\
-		tree_tools.c		\
-		reset_tree.c		\
+SRCS +=	create_tree.c						\
+		deal_completion.c					\
+		put_completion.c					\
+		put_select_tools.c					\
+		put_tree_tools.c					\
+		tree_tools.c						\
+		reset_tree.c						\
 
 #TERMCAPS
 TERM_DIR = $(SRCS_DIR)termcaps/
-SRCS += term_properties.c	\
-		move_cursor.c		\
-		term_tools.c		\
-		history.c			\
-		move_history.c		\
-		control.c			\
-		delete.c			\
-		move_word.c			\
-		typing.c			\
-		select.c			\
+SRCS += term_properties.c					\
+		move_cursor.c						\
+		term_tools.c						\
+		history.c							\
+		move_history.c						\
+		control.c							\
+		delete.c							\
+		move_word.c							\
+		typing.c							\
+		select.c							\
 
 #TOKENS
 TOKEN_DIR = token/
-SRCS += expand_word.c			\
-		free_token.c			\
-		get_tokens.c			\
-		handle_command.c		\
-		handle_comment.c		\
-		handle_end_of_input.c	\
-		handle_newline.c		\
-		handle_operator.c		\
-		handle_quote.c			\
-		handle_subs.c			\
-		handle_word.c			\
-		identify_operator.c		\
-		identify_word.c			\
-		is_subs.c				\
-		is_subs2.c				\
-		is_token.c				\
-		is_token2.c				\
-		new_token.c				\
-		tdebug.c				\
+SRCS += expand_word.c						\
+		free_token.c						\
+		get_tokens.c						\
+		handle_command.c					\
+		handle_comment.c					\
+		handle_end_of_input.c				\
+		handle_newline.c					\
+		handle_operator.c					\
+		handle_quote.c						\
+		handle_subs.c						\
+		handle_word.c						\
+		identify_operator.c					\
+		identify_word.c						\
+		is_subs.c							\
+		is_subs2.c							\
+		is_token.c							\
+		is_token2.c							\
+		new_token.c							\
+		tdebug.c							\
 
 #PARSER
 PARSER_DIR = parser/
-SRCS += free_parser.c		\
-		new_functions.c		\
-		parse_ao_list.c		\
-		parse_argument.c	\
-		parse_error.c		\
-		parse_io_number.c	\
-		parse_list.c		\
-		parse_operator.c	\
-		parse_pipe.c		\
-		parse.c				\
-		pdebug.c			\
+SRCS += free_parser.c						\
+		new_functions.c						\
+		parse_ao_list.c						\
+		parse_argument.c					\
+		parse_error.c						\
+		parse_io_number.c					\
+		parse_list.c						\
+		parse_operator.c					\
+		parse_pipe.c						\
+		parse.c								\
+		pdebug.c							\
 
 #EXPANSIONS
 EXPANSION_DIR = expansion/
-SRCS += edebug.c			\
-		exp_getnenvaddr.c	\
-		exp_getnenv.c		\
-		exp_newenv.c		\
-		exp_strncmp.c		\
-		expand_arithmetic.c	\
-		expand_backslash.c	\
-		expand_backtick.c	\
-		expand_dollar_do_expansion.c	\
-		expand_dollar_get_action.c		\
-		expand_dollar_parameter_value.c	\
-		expand_dollar_parameter.c		\
-		expand_dollar_special1.c		\
-		expand_dollar_special2.c		\
-		expand_dollar_substitution.c	\
-		expand_dollar_word_value1.c		\
-		expand_dollar_word_value2.c		\
-		expand_dollar_word.c			\
-		expand_dollar.c		\
-		expand_dquote.c		\
-		expand_error.c		\
-		expand_free_t_ret.c	\
-		expand_glob.c		\
-		expand_math.c		\
-		expand_parameter.c	\
-		expand_squote.c		\
-		expand_subshell.c	\
-		expand_tilde_comparaison.c		\
-		expand_tilde_functions.c		\
-		expand_tilde.c		\
-		expand.c			\
-		is_expansion.c		\
-		param_addchar.c		\
-		param_addstr.c		\
+SRCS += edebug.c							\
+		exp_getnenvaddr.c					\
+		exp_getnenv.c						\
+		exp_newenv.c						\
+		exp_strncmp.c						\
+		expand_arithmetic.c					\
+		expand_backslash.c					\
+		expand_backtick.c					\
+		expand_dollar_do_expansion.c		\
+		expand_dollar_get_action.c			\
+		expand_dollar_parameter_value.c		\
+		expand_dollar_parameter.c			\
+		expand_dollar_special1.c			\
+		expand_dollar_special2.c			\
+		expand_dollar_substitution.c		\
+		expand_dollar_word_value1.c			\
+		expand_dollar_word_value2.c			\
+		expand_dollar_word.c				\
+		expand_dollar.c						\
+		expand_dquote.c						\
+		expand_end.c						\
+		expand_error.c						\
+		expand_fieldsplit.c					\
+		expand_free_t_ret.c					\
+		expand_glob.c						\
+		expand_loop.c						\
+		expand_math.c						\
+		expand_squote.c						\
+		expand_subshell.c					\
+		expand_tilde_comparaison.c			\
+		expand_tilde_functions.c			\
+		expand_tilde.c						\
+		expand.c							\
+		free_t_ret.c						\
+		is_expansion.c						\
+		param_addchar.c						\
+		param_addstr.c						\
+		quote_removal.c						\
 
 OK =	$(GREEN)[OK]$(RESET)
 

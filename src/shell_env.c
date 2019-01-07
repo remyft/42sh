@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 00:07:32 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/30 14:51:44 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/05 17:04:03 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static char		*get_path(char *prog)
 	pwd = ft_strjoinfree(getcwd(NULL, 0), "/", 1);
 	pwd = ft_strjoinfree(pwd, prog, 1);
 	ptr = pwd;
-	ft_putendl(pwd);
 	while (ptr && (slsh = ft_strchr(ptr + 1, '/')))
 	{
 		if (!ft_strncmp(ptr + 1, ".", slsh - ptr - 1))
@@ -44,6 +43,16 @@ static char		*get_path(char *prog)
 	return (pwd);
 }
 
+static char		**build_private_env(void)
+{
+	char		**ret;
+
+	if (!(ret = ft_memalloc(sizeof(*ret) * 2)))
+		return (NULL);
+	ret[0] = ft_strjoin("IFS=", IFS_SEPARATORS);
+	return (ret);
+}
+
 void			init_shell_env(t_s_env *e, int ac, char **av, char **env)
 {
 	ft_memset(e, 0, sizeof(*e));
@@ -53,7 +62,7 @@ void			init_shell_env(t_s_env *e, int ac, char **av, char **env)
 	ft_putendl(e->progpath);
 	e->progname = (ft_strrchr(av[0], '/')) ? ft_strrchr(av[0], '/') + 1: av[0];
 	e->public_env = env;
-	e->private_env = NULL;
+	e->private_env = build_private_env();
 	e->ret = 0;
 	e->pid = getpid();
 }

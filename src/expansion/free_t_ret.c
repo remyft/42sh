@@ -1,33 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_env.h                                        :+:      :+:    :+:   */
+/*   free_t_ret.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/05 17:01:50 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/01/06 22:42:16 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/01/06 22:49:08 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHELL_ENV_H
-# define SHELL_ENV_H
+#include "expansion.h"
 
-# define IFS_SEPARATORS		" \t\n"
-
-typedef struct	s_shell_env
+void			free_t_ret(t_ret **ret)
 {
-	int			ac;
-	char		**av;
-	char		*progpath;
-	char		*progname;
-	char		**public_env;
-	char		**private_env;
-	int			ret;
-	int			pid;
-}				t_s_env;
-
-void			init_shell_env(t_s_env *e, int ac, char **av, char **env);
-void 			free_shell_env(t_s_env *e);
-
-#endif
+	if ((*ret)->next)
+		free_t_ret(&(*ret)->next);
+	if ((*ret)->substitute)
+		free((*ret)->substitute);
+	free(*ret);
+}

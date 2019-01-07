@@ -6,12 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 04:44:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/04 23:52:14 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/07 01:44:54 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "expansion.h"
+#include "expansion_is.h"
+#include "expansion_dollar.h"
 #include "expansion_action.h"
 #include "expansion_errors.h"
 
@@ -56,7 +57,7 @@ static int		expand_dollar_parameter_init(t_ret *parameter, t_exp *param)
 		return (ERR_MALLOC);
 	end = ft_isdigit(param->buff[param->i]) ? dollar_parameter_end_digit :
 											dollar_parameter_end_name;
-	if ((error = expand_parameter(parameter, param, end)))
+	if ((error = expand_loop(parameter, param, end)))
 		return (error);
 	if (is_expand_null(parameter)
 		&& is_special(param->buff[param->i])

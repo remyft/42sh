@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 20:20:47 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/04 20:02:48 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/07 00:19:54 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,24 @@
 # include "shell_env.h"
 # include "parser.h"
 
-# define SEPARATORS		" \t\n"
 # define RET_CHUNK		100
 
 /*
 ** Structure for expansions values
 */
+# define NULLRET		(t_ret *)0
+
 typedef struct	s_ret
 {
-	char		*word;
-	size_t		w_len;
-	size_t		w_max;
-	int			brace;
-	int			hash;
-	char		*substitute;
-	int			freeable;
-	int			action;
+	char			*word;
+	size_t			w_len;
+	size_t			w_max;
+	int				brace;
+	int				hash;
+	char			*substitute;
+	int				freeable;
+	int				action;
+	struct s_ret	*next;
 }				t_ret;
 
 /*
@@ -39,7 +41,6 @@ typedef struct	s_ret
 */
 typedef struct	s_expansion
 {
-	char		*ifs;
 	t_s_env		*e;
 	const char	*buff;
 	size_t		buff_len;
@@ -49,27 +50,18 @@ typedef struct	s_expansion
 }				t_exp;
 
 int				expand(const char *buff, t_m_list *list, t_s_env *e);
-int				expand_parameter(t_ret *ret, t_exp *param, int (*end)(t_exp *));
+int				expand_loop(t_ret *ret, t_exp *param, int (*end_loop)(t_exp *));
 int				expand_error(int error, const char *progname, char *errmsg);
+int				expand_end(t_ret *ret, t_argument *arg);
 
-int				expand_dollar_do_expansion(t_ret *parameter);
-int				expand_dollar_get_action(t_ret *parameter, t_exp *param);
-int				expand_dollar_parameter(t_exp *param, t_ret *ret);
-int				expand_dollar_parameter_value(t_ret *parameter, t_exp *param);
-int				expand_dollar_special(t_ret *sub, t_ret *to, t_exp *param);
-int				expand_dollar_subs(t_exp *param, t_ret *ret);
-int				expand_dollar_word_value(t_ret *parameter, t_exp *param);
-int				expand_dollar_word(t_ret *ret, t_exp *param, char op, char cl);
-
-int				is_word_end(t_exp *param);
-int				is_valid_name(int c);
-int				is_special(int c);
-int				is_expand_null(t_ret *ret);
+int				expand_fieldsplit(t_ret **ret, const char *ifs);
+void			quote_removal(t_ret *ret);
 
 int				param_addchar(char c, t_ret *ret);
 int				param_addstr(const char *str, t_ret *ret);
 
 void			expand_free_t_ret(t_ret *ret);
+void			free_t_ret(t_ret **ret);
 
 int				expand_arithmetic(t_exp *param, t_ret *ret);
 int				expand_subshell(t_exp *param, t_ret *ret);

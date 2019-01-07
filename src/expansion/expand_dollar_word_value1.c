@@ -6,11 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 09:45:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/04 23:37:41 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/07 00:21:56 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "expansion_is.h"
+#include "expansion_dollar.h"
 #include "expansion_word.h"
 #include "expansion_action.h"
 #include "expansion_errors.h"
@@ -37,7 +39,7 @@ int				expand_dollar_word_value(t_ret *parameter, t_exp *param)
 	i = 0;
 	ft_memset(&subs, 0, sizeof(subs));
 	param->expand = expand_dollar_do_expansion(parameter);
-	if ((error = expand_parameter(&subs, param, is_word_end)) != ERR_NONE)
+	if ((error = expand_loop(&subs, param, is_word_end)) != ERR_NONE)
 		return (error);
 	++param->i;
 	while (i < sizeof(word) / sizeof(word[0]))
