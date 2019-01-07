@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 14:52:10 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/06 23:23:08 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/07 20:18:35 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static void		print_r(const char *buff, t_command *cmd)
 {
 	t_redirection	*red;
 	t_token			*token;
+	size_t		i;
 
 	red = cmd->redir;
 	while (red)
@@ -44,6 +45,9 @@ static void		print_r(const char *buff, t_command *cmd)
 		if (red->arg && (token = red->arg->token))
 			printf("\t\t\tREDIR ARG %.*s\n", (int)(token->tail - token->head),
 										buff + token->head);
+		i = 0;
+		while (red->arg && red->arg->list && red->arg->list[i])
+			printf("\t\t\t    %s\n", red->arg->list[i++]);
 		red = red->next;
 	}
 }

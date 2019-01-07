@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/07 00:22:18 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/01/07 22:40:28 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,6 +112,7 @@ SRCS += edebug.c							\
 		exp_getnenv.c						\
 		exp_newenv.c						\
 		exp_strncmp.c						\
+		expand_argument.c					\
 		expand_arithmetic.c					\
 		expand_backslash.c					\
 		expand_backtick.c					\

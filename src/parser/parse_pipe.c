@@ -6,17 +6,18 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/20 20:43:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/21 02:33:28 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/07 20:02:21 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parser.h"
 
-int				parse_pipe(t_token *token, t_p_param *param)
+int				parse_pipe(t_token **token, t_p_param *param)
 {
 	t_pipeline			*ptr;
 
+	(void)token;
 	ptr = (t_pipeline *)(*param->cmd);
 	if (ptr == NULL || ptr->left == NULL)
 		return (0);
@@ -29,5 +30,4 @@ int				parse_pipe(t_token *token, t_p_param *param)
 	param->arg = &((t_command *)*param->cmd)->args;
 	param->redir = &((t_command *)*param->cmd)->redir;
 	return (1);
-	(void)token;
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/06 23:16:22 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/07 23:31:31 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -397,9 +397,10 @@ int		main(int ac, char **av, char **ep)
 			{
 				if ((tree = parse(ret, tokens)) != NULLLIST)
 				{
-					if (expand(ret, tree, &e) == ERR_NONE)
+					if (expand(ret, tree, &e) == 0)
 					{
 						debug_parser(ret, tree);
+//						redirections(ret, tree);
 						// exec();
 					}
 					free_m_list(&tree);

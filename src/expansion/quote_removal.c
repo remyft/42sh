@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/07 00:07:12 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/07 01:54:09 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/07 19:54:29 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void			quote_removal(t_ret *ret)
 	while (ret)
 	{
 		i = 0;
-		while (ret && ret->word[i])
+		while (ret && ret->word && ret->word[i])
 		{
 			j = 0;
 			while (j < sizeof(removal) / sizeof(removal[0]))

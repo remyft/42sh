@@ -6,14 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 17:00:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/21 02:37:36 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/07 23:38:26 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "handler.h"
 
-static int		parse_not_handled_yet(t_token *token, t_p_param *param)
+static int		parse_not_handled_yet(t_token **token, t_p_param *param)
 {
 	(void)token;
 	(void)param;
@@ -40,7 +40,7 @@ static t_token	*parse_loop(t_token *token, t_p_param *param)
 	{
 		if (token->type != UNDEFINED
 			&& call[token->type].type[token->spec].handler
-			&& !call[token->type].type[token->spec].handler(token, param))
+			&& !call[token->type].type[token->spec].handler(&token, param))
 			break ;
 		token = token->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:59:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/06 23:25:33 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/07 20:04:13 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ typedef struct	s_parser_param
 */
 typedef struct	s_param_call
 {
-	int			(*handler)(t_token *, t_p_param *);
+	int			(*handler)(t_token **, t_p_param *);
 }				t_p_call;
 
 typedef struct	s_t_p_call
@@ -128,12 +128,12 @@ t_m_list		**new_m_list(t_token *token, t_m_list **list);
 t_ao_list		**new_ao_list(t_token *token, t_ao_list **list);
 void			**new_command(void **cmd);
 
-int				parse_list(t_token *token, t_p_param *param);
-int				parse_operator(t_token *token, t_p_param *param);
-int				parse_pipe(t_token *token, t_p_param *param);
-int				parse_ao_list(t_token *token, t_p_param *param);
-int				parse_io_number(t_token *token, t_p_param *param);
-int				parse_argument(t_token *token, t_p_param *param);
+int				parse_list(t_token **token, t_p_param *param);
+int				parse_operator(t_token **token, t_p_param *param);
+int				parse_pipe(t_token **token, t_p_param *param);
+int				parse_ao_list(t_token **token, t_p_param *param);
+int				parse_io_number(t_token **token, t_p_param *param);
+int				parse_argument(t_token **token, t_p_param *param);
 
 void			free_m_list(t_m_list **list);
 
