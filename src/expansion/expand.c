@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 20:18:46 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/07 22:38:21 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/08 01:18:32 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static int		check_redirect(const char *buff, t_redirection *cmd, t_s_env *e)
 		return (0);
 	if (expand_argument(buff, cmd->arg, e))
 		return (1);
+//	redirection(buff, cmd);
 	return (check_redirect(buff, cmd->next, e));
 }
 
@@ -40,6 +41,7 @@ static int		check_ao_list(const char *buff, t_ao_list *aolist, t_s_env *e)
 		return (0);
 	if (check_command_type(buff, aolist->cmd, e))
 		return (1);
+//	execute_command(buff, aolist->cmd, e);
 	return (check_ao_list(buff, aolist->next, e));
 }
 
