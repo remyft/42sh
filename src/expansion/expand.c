@@ -6,13 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 20:18:46 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/08 01:18:32 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/08 23:40:50 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "expansion.h"
 #include "expansion_errors.h"
+#include "redirection.h"
 
 static int		check_redirect(const char *buff, t_redirection *cmd, t_s_env *e)
 {
@@ -20,7 +21,7 @@ static int		check_redirect(const char *buff, t_redirection *cmd, t_s_env *e)
 		return (0);
 	if (expand_argument(buff, cmd->arg, e))
 		return (1);
-//	redirection(buff, cmd);
+	redirection(buff, cmd, e);
 	return (check_redirect(buff, cmd->next, e));
 }
 

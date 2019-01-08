@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/07 22:40:28 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/01/08 23:42:48 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -147,6 +147,9 @@ SRCS += edebug.c							\
 		param_addstr.c						\
 		quote_removal.c						\
 
+REDIRECTION_DIR = redirection/
+SRCS += redirection.c						\
+
 OK =	$(GREEN)[OK]$(RESET)
 
 NEWLINE = $(shell echo "")
@@ -223,7 +226,15 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)$(EXPANSION_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
 	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) $(DEBUG) -o $@ -c $< \
 	$(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR) \
-	-I$(INC_DIR)/$(EXPANSION_DIR)
+	-I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(REDIRECTION_DIR)
+	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
+
+$(OBJS_DIR)%.o: $(SRCS_DIR)$(REDIRECTION_DIR)%.c
+$(OBJS_DIR)%.o: $(SRCS_DIR)$(REDIRECTION_DIR)%.c $(DEPS_DIR)%.d
+	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) $(DEBUG) -o $@ -c $< \
+	$(INCS) -I $(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(PARSER_DIR) \
+	-I $(INC_DIR)/$(TOKEN_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(OTHR_DIR)%.c
