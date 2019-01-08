@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_tree.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 21:15:52 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/28 16:09:50 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/08 23:44:35 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ static void	fill_tree_bin(char **env, t_tree **ternary)
 		path = strdup_until(&toget[i], ':');
 		dir = opendir(path);
 		free(path);
+		if (!dir)
+			continue ;
 		while ((indir = readdir(dir)))
 			if (ft_strcmp(indir->d_name, ".") && ft_strcmp(indir->d_name, ".."))
 				feed_tree(indir->d_name, ternary, 0);
