@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/04 22:55:51 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/18 16:49:12 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/04/13 21:14:13 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,5 @@ int		ft_strncmp(const char *s1, const char *s2, unsigned int n)
 			break ;
 		i++;
 	}
-	return ((unsigned char));
+	return ((unsigned char)0);
 }
