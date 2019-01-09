@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 01:00:11 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/08 23:44:13 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/09 16:45:28 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,20 @@
 
 # include "shell_env.h"
 # include "parser.h"
+# include "operator_types.h"
 
-# define REDIR_INPUT		{ "<", redirect_input }
-# define REDIR_OUTPUT1		{ ">", redirect_output1 }
-# define REDIR_OUTPUT2		{ ">|", redirect_output2 }
-# define REDIR_OUTPUT_APP	{ ">>", append_redirect_output }
-# define REDIR_HERE_DOC		{ "<<", redirect_here_doc }
-# define DUPLICATE_INPUT	{ "<&", duplicate_input }
-# define DUPLICATE_OUTPUT	{ ">&", duplicate_output }
-# define REDIR_RD_WR		{ "<>", redirect_read_write }
+# define REDIR_LESS			{ LESS,       redirect_less }
+# define REDIR_LESS_AND		{ LESS_AND,   redirect_less_and }
+# define REDIR_LESS_GREAT	{ LESS_GREAT, redirect_less_great }
+# define REDIR_GREAT		{ GREAT,      redirect_great }
+# define REDIR_GREAT_PIPE	{ GREAT_PIPE, redirect_great_pipe }
+# define REDIR_AND_GREAT	{ AND_GREAT,  redirect_and_great }
+# define REDIR_GREAT_AND	{ GREAT_AND,  redirect_great_and }
+# define REDIR_DGREAT		{ DGREAT,     redirect_dgreat }
+# define REDIR_AND_DGREAT	{ AND_DGREAT, redirect_and_dgreat }
+# define REDIR_DGREAT_AND	{ DGREAT_AND, redirect_dgreat_and }
+# define REDIR_DLESS		{ DLESS,      redirect_dless }
+# define REDIR_TLESS		{ TLESS,      redirect_tless }
 
 typedef struct	s_redir
 {

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/19 18:24:09 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/22 22:43:52 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/09 16:31:19 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ t_m_list		**new_m_list(t_token *token, t_m_list **list)
 		return (NULL);
 	if ((*list = ft_memalloc(sizeof(**list))) == NULLLIST)
 		return (NULL);
-	if (token->spec == BACKGRND)
+	if (token->spec == BACKGRND_VALUE)
 		(*list)->mode = token->spec;
 	else
-		(*list)->mode = SEMI;
+		(*list)->mode = SEMI_VALUE;
 	return (list);
 }
 
@@ -31,7 +31,7 @@ t_ao_list		**new_ao_list(t_token *token, t_ao_list **list)
 {
 	if ((*list = ft_memalloc(sizeof(**list))) == NULLAOLIST)
 		return (NULL);
-	if (token->spec == OR_IF || token->spec == AND_IF)
+	if (token->spec == OR_IF_VALUE || token->spec == AND_IF_VALUE)
 		(*list)->mode = token->spec;
 	return (list);
 }

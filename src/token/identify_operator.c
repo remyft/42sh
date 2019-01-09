@@ -6,13 +6,18 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 00:38:00 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/22 20:25:07 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/09 16:23:24 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "token.h"
 #include "operator_types.h"
+
+static size_t	max(size_t a, size_t b)
+{
+	return ((a > b) ? a : b);
+}
 
 static size_t	check_operator(t_token *token, const char *buff, size_t len)
 {
@@ -23,12 +28,13 @@ static size_t	check_operator(t_token *token, const char *buff, size_t len)
 		OP_DLESS, OP_TLESS,
 	};
 	size_t			i;
+	size_t			size;
 
 	i = 0;
 	while (i < sizeof(ope) / sizeof(ope[0]))
 	{
-		if (len == ft_strlen(ope[i].name)
-			&& !ft_strncmp(buff + token->head, ope[i].name, len))
+		size = max(ft_strlen(ope[i].name), len);
+		if (!ft_strncmp(ope[i].name, buff + token->head, size))
 			return (ope[i].value);
 		i++;
 	}
