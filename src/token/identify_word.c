@@ -6,11 +6,11 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 22:30:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/18 17:13:47 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/10 23:40:49 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "token.h"
+#include "grammar_rules.h"
 #include "reserved_words.h"
 #include "libft.h"
 
@@ -29,22 +29,24 @@ static int		ionumber_type(t_param *param)
 static int		reserved_type(t_param *param)
 {
 	static t_ope	reserved[] = {
-		IF, THEN, ELSE, ELIF, FI, DO, DONE, CASE, ESAC, WHILE, UNTIL, FOR };
+		TOKEN_IF, TOKEN_THEN, TOKEN_ELSE, TOKEN_ELIF, TOKEN_FI, TOKEN_DO,
+		TOKEN_DONE, TOKEN_CASE, TOKEN_ESAC, TOKEN_WHILE, TOKEN_UNTIL, TOKEN_FOR,
+	};
 	size_t			i;
 	size_t			j;
 	size_t			len;
 
-	i = param->token->tail - 1;
-	while (i > param->token->head && !ft_isspace(param->buff[i]))
-		i--;
-	if (i == param->token->head && ft_isspace(param->buff[i]))
-		i++;
+	i = param->token->tail - param->token->head;
+	// while (i > param->token->head && !ft_isspace(param->buff[i]))
+	// 	i--;
+	// if (i == param->token->head && ft_isspace(param->buff[i]))
+	// 	i++;
 	j = 0;
 	while (j < sizeof(reserved) / sizeof(reserved[0]))
 	{
-		if ((len = ft_strlen(reserved[j].name)) < param->token->tail - i)
-			len = param->token->tail - i;
-		if (!ft_strncmp(reserved[j].name, param->buff + i, len))
+		if ((len = ft_strlen(reserved[j].name)) < i)
+			len = i;
+		if (!ft_strncmp(reserved[j].name, param->buff + param->token->head, len))
 			return (RESERVED_WORD);
 		j++;
 	}
@@ -71,14 +73,14 @@ t_token			*identify_word(t_param *param)
 {
 	param->token->tail = param->i;
 	if (ft_isquote(param->buff[param->token->head]))
-		param->token->spec = WORD;
-	else if (param->token->spec != IO_NUMBER
-			&& (param->token->spec = reserved_type(param)) == WORD)
+		param->token->id = WORD;
+	else if (param->token->id != IO_NUMBER
+			&& (param->token->id = reserved_type(param)) == WORD)
 	{
 		if (param->buff[param->i] == '<' || param->buff[param->i] == '>')
-			param->token->spec = ionumber_type(param);
+			param->token->id = ionumber_type(param);
 		else
-			param->token->spec = name(param);
+			param->token->id = name(param);
 	}
 	param->token->next = new_token(param->buff[param->i], param->i);
 	param->token->next->prev = param->token;

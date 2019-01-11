@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_argument.c                                   :+:      :+:    :+:   */
+/*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/20 20:44:47 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/10 04:01:49 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/01/11 02:17:56 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/01/11 05:01:08 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "parser.h"
+#ifndef EXECUTION_H
+# define EXECUTION_H
 
-int				parse_argument(t_token **token, t_p_param *param)
-{
-	if ((*param->arg = ft_memalloc(sizeof(**param->arg))) == NULLARG)
-		return (0);
-	(*param->arg)->token = *token;
-	param->arg = &(*param->arg)->next;
-	return (1);
-}
+# include "parser.h"
+# include "shell_env.h"
+
+int				execute(const char *buff, t_m_list *list, t_s_env *e);
+
+void			debug_execution(t_command *cmd);
+
+#endif

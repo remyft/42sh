@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_argument.c                                   :+:      :+:    :+:   */
+/*   grammar_rules.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/20 20:44:47 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/10 04:01:49 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/01/10 23:33:04 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/01/10 23:34:25 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "parser.h"
+#ifndef GRAMMAR_RULES_H
+# define GRAMMAR_RULES_H
 
-int				parse_argument(t_token **token, t_p_param *param)
+# include "token.h"
+
+typedef struct	s_grammar
 {
-	if ((*param->arg = ft_memalloc(sizeof(**param->arg))) == NULLARG)
-		return (0);
-	(*param->arg)->token = *token;
-	param->arg = &(*param->arg)->next;
-	return (1);
-}
+	int			(*rule)(t_param *);
+}				t_grammar;
+
+#endif

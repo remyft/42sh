@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 17:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/09 16:36:06 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/10 23:00:00 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define OPERATOR_TYPES_H
 
 /*
-** Specificities for token OPERATOR
+** Identifiers for token OPERATOR
 */
 
 enum

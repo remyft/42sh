@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/08 00:59:50 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/11 06:40:14 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 #include "main_tools.h"
 #include "token.h"
 #include "parser.h"
-#include "expansion.h"
-#include "expansion_errors.h"
+#include "execution.h"
 #include "shell_env.h"
 
 int		cmp_strpart(char *src, char *str, int *beg)
@@ -397,12 +396,7 @@ int		main(int ac, char **av, char **ep)
 			{
 				if ((tree = parse(ret, tokens)) != NULLLIST)
 				{
-					if (expand(ret, tree, &e) == 0)
-					{
-						debug_parser(ret, tree);
-//						redirection(ret, tree);
-						// exec();
-					}
+					execute(ret, tree, &e);
 					free_m_list(&tree);
 				}
 				free_token(&tokens);

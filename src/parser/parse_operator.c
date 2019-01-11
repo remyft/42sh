@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/20 20:42:12 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/07 20:01:10 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/10 23:48:13 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ int				parse_operator(t_token **token, t_p_param *param)
 	(*param->redir)->arg->token = (*token)->next;
 	*token = (*token)->next;
 	if ((*token)->type != TOKEN
-		|| ((*token)->spec != WORD
-			&& (*token)->spec != NAME))
+		|| ((*token)->id != WORD
+			&& (*token)->id != NAME))
 		return (0);
-	(*token)->spec = 0;
+	(*token)->id = 0;
 	param->redir = &(*param->redir)->next;
 	return (1);
 }

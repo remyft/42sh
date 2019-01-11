@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/02 19:52:02 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/10 22:54:03 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ enum {
 };
 
 /*
-** Specificities for token TOKEN
+** Identifiers for token TOKEN
 */
 enum {
 	WORD,
@@ -65,7 +65,7 @@ typedef struct	s_token
 
 	size_t			depth;
 	int				type;
-	int				spec;
+	int				id;
 	char			*command; // ? used
 	struct s_token	*prev;
 }				t_token;

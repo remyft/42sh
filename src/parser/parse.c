@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 17:00:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/07 23:38:26 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/10 23:48:26 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ static t_token	*parse_loop(t_token *token, t_p_param *param)
 	while (token)
 	{
 		if (token->type != UNDEFINED
-			&& call[token->type].type[token->spec].handler
-			&& !call[token->type].type[token->spec].handler(&token, param))
+			&& call[token->type].type[token->id].handler
+			&& !call[token->type].type[token->id].handler(&token, param))
 			break ;
 		token = token->next;
 	}

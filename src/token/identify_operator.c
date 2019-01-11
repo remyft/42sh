@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 00:38:00 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/09 16:23:24 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/10 23:47:28 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_token			*identify_operator(t_param *param)
 		return (param->token);
 	ret = param->token->tail - param->token->head;
 	if ((ret = check_operator(param->token, param->buff, ret)))
-		param->token->spec = ret;
+		param->token->id = ret;
 	param->token->next = new_token(param->buff[param->i], param->i);
 	param->token->next->prev = param->token;
 	return (param->token->next);

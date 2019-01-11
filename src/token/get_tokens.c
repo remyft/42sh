@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/02 19:51:45 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/10 23:46:45 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_token			*token_loop(t_param *param, int (*ft_end)(t_param *))
 	{
 		if (ft_isnull(param) || ft_end(param))
 			param->token = handle_end_of_input(param, token);
-		else if (ft_end != ft_isnameend && param->token->spec == COMMENT)
+		else if (ft_end != ft_isnameend && param->token->id == COMMENT)
 		{
 			if (ft_isendl(param))
 				param->token = token[param->token->type].identifier(param);

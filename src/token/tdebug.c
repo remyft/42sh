@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 19:13:49 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/21 02:21:33 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/10 23:49:01 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void			debug_tokens(const char *buff, t_token *tokens)
 	while (ptr)
 	{
 		printf("------------------------------\n"
-				"type:%d spec:%d head:%ld tail:%ld\n",
-				ptr->type, ptr->spec, ptr->head, ptr->tail);
+				"type:%d id:%d head:%ld tail:%ld\n",
+				ptr->type, ptr->id, ptr->head, ptr->tail);
 		printf("buff   : [%.*s]\n", (int)(ptr->tail - ptr->head),
 									buff + ptr->head);
 		ptr = ptr->next;

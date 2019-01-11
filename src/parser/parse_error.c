@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 18:11:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/18 18:07:13 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/10 23:48:03 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_m_list		*parse_error(const char *buff, t_token *token, t_m_list *lhead)
 
 	i = token->head;
 	ft_putstr_fd("21sh: parse error near `", 2);
-	if (token->spec == NEWLINE)
+	if (token->id == NEWLINE)
 		ft_putstr_fd("\\n", 2);
 	else
 		write(2, buff + token->head, token->tail - token->head);

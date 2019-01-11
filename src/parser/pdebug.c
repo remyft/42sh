@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 14:52:10 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/07 20:18:35 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/11 05:48:03 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void			debug_parser(const char *buff, t_m_list *list)
 		}
 		ptr = ptr->next;
 	}
-	printf("-------------------------------END\n");
+	printf("------------------------------END\n");
 }
 
 #endif
