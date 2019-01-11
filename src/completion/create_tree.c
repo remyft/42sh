@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 21:15:52 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/08 23:44:35 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/11 07:13:12 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,7 @@ static void	fill_tree_bin(char **env, t_tree **ternary)
 				feed_tree(indir->d_name, ternary, 0);
 		if (!ft_occuc(&toget[i], ':'))
 			break ;
-		i += !(toget[i + ft_strlen_ch(toget, ':')])
-			? ft_strlen_ch(&toget[i], ':') : ft_strlen_ch(&toget[i], ':') + 1;
+		i += ft_strlen_ch(&toget[i], ':') + 1;
 		closedir(dir);
 	}
 	if (dir)
