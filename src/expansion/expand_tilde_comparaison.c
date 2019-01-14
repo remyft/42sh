@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 18:46:57 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/03 19:21:15 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/14 19:32:33 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ int				tilde_alpha(const char *word)
 	if (!ptr)
 		return (1);
 	while (*ptr)
-		if (!ft_isalpha(*ptr++))
+	{
+		if (*ptr != '_' && !ft_isalpha(*ptr))
 			return (0);
+		ptr++;
+	}
 	return (1);
 }
