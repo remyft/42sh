@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/02 12:00:40 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/13 23:18:46 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/14 18:17:46 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int		expand_rules(t_e_character *charact, t_exp *param, t_ret **ret)
 		return (param_addchar(param->buff[param->i], *ret));
 	if ((error = charact->handler(param, *ret)) != ERR_NONE)
 		return (error);
-	if (param->quoted || !(*ret)->word || !*(*ret)->word)
+	if (param->quoted || !(*ret)->word || !*(*ret)->word || !param->fieldsplit)
 		return (error);
 	if ((ifs = exp_getnenv("IFS", param->e->private_env)) != NULL)
 		error = expand_fieldsplit(ret, ifs);
