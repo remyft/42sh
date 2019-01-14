@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 14:52:10 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/11 05:48:03 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/12 02:36:13 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ static void		print_r(const char *buff, t_command *cmd)
 			printf("\t\t\tREDIR ARG %.*s\n", (int)(token->tail - token->head),
 										buff + token->head);
 		i = 0;
-		while (red->arg && red->arg->list && red->arg->list[i])
-			printf("\t\t\t    %s\n", red->arg->list[i++]);
+		while (red->arg && red->arg->cmd && red->arg->cmd[i])
+			printf("\t\t\t    %s\n", red->arg->cmd[i++]);
 		red = red->next;
 	}
 }
@@ -68,8 +68,8 @@ static void		print_command(const char *buff, t_command *cmd)
 		printf("\t\t\tARG %.*s\n", (int)(token->tail - token->head),
 									buff + token->head);
 		i = 0;
-		while (arg->list && arg->list[i])
-			printf("\t\t\t    %s\n", arg->list[i++]);
+		while (arg->cmd && arg->cmd[i])
+			printf("\t\t\t    %s\n", arg->cmd[i++]);
 		arg = arg->next;
 	}
 	print_r(buff, cmd);
