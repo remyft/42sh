@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/05 15:31:37 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/07 02:04:08 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/14 01:33:37 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int		get_word(char *str, const char *ifs, t_ret **ret)
 	while (*str)
 	{
 		while (ft_strchr(ifs, *str))
-			str = ft_strcpy(str, str + 1);
+			str++;
 		while (*str && !ft_strchr(ifs, *str))
 		{
 			if (param_addchar(*str, *ret))
