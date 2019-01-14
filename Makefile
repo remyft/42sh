@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/14 00:23:36 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/01/14 22:11:19 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -140,6 +140,8 @@ SRCS += edebug.c							\
 		expand_dquote.c						\
 		expand_end.c						\
 		expand_error.c						\
+		expand_error_functions1.c			\
+		expand_error_functions2.c			\
 		expand_fieldsplit.c					\
 		expand_free_t_ret.c					\
 		expand_glob.c						\
