@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.c                                        :+:      :+:    :+:   */
+/*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/11 04:59:38 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/14 00:27:45 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,26 @@ static int		check_redirect(const char *buff, t_redirection *cmd, t_s_env *e)
 		return (0);
 	if (expand_argument(buff, cmd->arg, e))
 		return (1);
+	quote_removal(cmd->arg);
 	return (check_redirect(buff, cmd->next, e));
+}
+
+static void		parse_cmd(t_argument **var, t_argument **com, t_argument *args)
+{
+	t_argument	*ptr;
+
+	*var = (args->token->id == ASSIGNMENT_WORD) ? args : NULLARG;
+	ptr = args;
+	while (ptr && ptr->token->id == ASSIGNMENT_WORD)
+		ptr = ptr->next;
+	*com = ptr;
 }
 
 static int		check_command_type(const char *buff, void *cmd, t_s_env *e)
 {
+	t_argument	*variable;
+	t_argument	*command;
+
 	if (!cmd)
 		return (0);
 	if (*(int *)cmd == IS_A_PIPE)
@@ -33,9 +48,10 @@ static int		check_command_type(const char *buff, void *cmd, t_s_env *e)
 	if (expand_argument(buff, ((t_command *)cmd)->args, e)
 		|| check_redirect(buff, ((t_command *)cmd)->redir, e))
 		return (1);
+	quote_removal(((t_command *)cmd)->args);
 	debug_execution(cmd);
-//	fork_command(buff, cmd, e);
-	return (0);
+	parse_cmd(&variable, &command, ((t_command *)cmd)->args);
+	return (exec_command(buff, cmd, e));
 }
 
 static int		check_ao_list(const char *buff, t_ao_list *aolist, t_s_env *e)
@@ -56,5 +72,5 @@ int				execute(const char *buff, t_m_list *list, t_s_env *e)
 		return (0);
 	if (check_ao_list(buff, list->aolist, e))
 		return (1);
-	return (expand(buff, list->next, e));
+	return (execute(buff, list->next, e));
 }
