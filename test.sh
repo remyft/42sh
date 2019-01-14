@@ -37,3 +37,7 @@ ls LS"$TEST2"-LS
 echo
 ls "LS$TEST2-LS"
 echo
+ls > "$@"
+echo
+ls > $@toto
+echo
