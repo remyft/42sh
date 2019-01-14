@@ -6,14 +6,15 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 02:33:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/03 18:05:44 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/13 21:16:07 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "expansion.h"
 #include "expansion_errors.h"
 
-int				expand_error(int error, const char *progname, char *errmsg)
+int				expand_error(int error, const char *progname, t_ret *ret)
 {
 	static char	*err[] = {
 		ERR_NONE_STR, ERR_SYNTAX_STR, ERR_MODIFIER_STR, ERR_UNHANDLED_YET_STR,
@@ -24,8 +25,10 @@ int				expand_error(int error, const char *progname, char *errmsg)
 	ft_putstr_fd(progname, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putstr_fd(err[error], STDERR_FILENO);
-	if (error >= ERR_GIVEN)
-		ft_putstr_fd(errmsg, STDERR_FILENO);
+	if (error >= ERR_GIVEN && ret)
+		ft_putstr_fd(ret->word, STDERR_FILENO);
 	ft_putchar_fd('\n', STDERR_FILENO);
+	if (ret)
+		free_t_ret(&ret);
 	return (1);
 }
