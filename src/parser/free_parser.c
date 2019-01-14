@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 18:06:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/06 23:25:37 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/14 01:42:42 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ static void		free_args(t_argument **arg)
 		return ;
 	free_args(&(*arg)->next);
 	i = 0;
-	while ((*arg)->list && (*arg)->list[i])
-		free((*arg)->list[i++]);
-	if ((*arg)->list)
-		free((*arg)->list);
+	while ((*arg)->cmd && (*arg)->cmd[i])
+		free((*arg)->cmd[i++]);
+	if ((*arg)->cmd)
+		free((*arg)->cmd);
 	free(*arg);
 	*arg = NULLARG;
 }
@@ -33,6 +33,8 @@ static void		free_redir(t_redirection **redir)
 	if (!*redir)
 		return ;
 	free_redir(&(*redir)->next);
+	if ((*redir)->arg)
+		free_args(&(*redir)->arg);
 	free(*redir);
 	*redir = NULLREDIR;
 }
