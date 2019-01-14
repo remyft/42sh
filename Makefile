@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/11 06:19:54 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/01/14 00:23:36 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,6 +77,7 @@ SRCS += expand_word.c						\
 		handle_command.c					\
 		handle_comment.c					\
 		handle_end_of_input.c				\
+		handle_equal.c						\
 		handle_newline.c					\
 		handle_operator.c					\
 		handle_quote.c						\
@@ -88,6 +89,7 @@ SRCS += expand_word.c						\
 		is_subs2.c							\
 		is_token.c							\
 		is_token2.c							\
+		is_token3.c							\
 		new_token.c							\
 		tdebug.c							\
 
@@ -107,8 +109,11 @@ SRCS += free_parser.c						\
 
 #EXECUTION
 EXECUTION_DIR = execution/
-SRCS += execution.c							\
-		exec_debug.c						\
+SRCS += exec_debug.c						\
+		execute.c							\
+		exec_command.c						\
+		quote_removal.c						\
+		variable_assignment.c				\
 
 #EXPANSIONS
 EXPANSION_DIR = expansion/
@@ -145,12 +150,10 @@ SRCS += edebug.c							\
 		expand_tilde_comparaison.c			\
 		expand_tilde_functions.c			\
 		expand_tilde.c						\
-		expand.c							\
 		free_t_ret.c						\
 		is_expansion.c						\
 		param_addchar.c						\
 		param_addstr.c						\
-		quote_removal.c						\
 
 REDIRECTION_DIR = redirection/
 SRCS += redirection.c						\
