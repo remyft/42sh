@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 09:45:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/07 00:21:56 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/14 18:58:11 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int		word_not_handled(t_ret *subs, t_ret *para, t_exp *param)
 	(void)subs;
 	(void)para;
 	(void)param;
-	return (ERR_UNHANDLED_YET);
+	return (ERR_UNHANDLED);
 }
 
 int				expand_dollar_word_value(t_ret *parameter, t_exp *param)
