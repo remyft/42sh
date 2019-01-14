@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 00:59:23 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/09 21:49:25 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/12 02:38:01 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ int				redirect_less(t_redirection *redir, t_s_env *e)
 	int			fd;
 
 	ft_putstr("redirect_less: ");
-	ft_putendl(redir->arg->list[0]);
-	if ((fd = open(redir->arg->list[0], O_RDONLY)) < 0)
-		return (redirect_open_error(redir->arg->list[0], e));
+	ft_putendl(redir->arg->cmd[0]);
+	if ((fd = open(redir->arg->cmd[0], O_RDONLY)) < 0)
+		return (redirect_open_error(redir->arg->cmd[0], e));
 	close(fd);
 	return (0);
 }
