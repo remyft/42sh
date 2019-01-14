@@ -33,8 +33,23 @@ typedef struct		s_str_list
 	struct s_str_list	*prev;
 }					t_slist;
 
+typedef struct		s_stint
+{
+	char			*str;
+	int				nb;
+}					t_stint;
+
+typedef struct		s_strlst
+{
+	char			*str;
+	struct s_strlst	*prev;
+	struct s_strlst	*next;
+}					t_slst;
+
 # define IS_SLASH 1 << 0
-# define IS_REC 1 << 1
+# define IS_STAR 1 << 1
+# define IS_REC 1 << 2
+# define IS_MARK 1 << 3
 
 int			ft_pchar(int nb)
 {
@@ -306,9 +321,11 @@ void	put_branch(t_tree *tern, char *src, int lenm, int *car_ret, int *put)
 	tgetent(NULL, term);
 	width = tgetnum("co");
 	nb_col = width / (lenm + 1);
+	lvl = 0;
 	if (tern)
 	{
-		lvl = ft_strlen(src);
+		if (src)
+			lvl = ft_strlen(src);
 		if (src)
 			ft_strcpy(bru, src);
 		ft_put_tree(tern, bru, lvl, car_ret, nb_col, lenm, put);
@@ -420,7 +437,7 @@ t_tree	*create_file_tree(char *path)
 	}
 	else
 		path = ft_strdup(prompt);
-//	ft_putendl(path);
+	//	ft_putendl(path);
 	dir = opendir(path);
 	tern = ft_memalloc(sizeof(t_tree));
 	tern->value = -1;
@@ -501,76 +518,52 @@ int		*singletint(void)
 	return (state);
 }
 
-void	get_glob(t_tree *tree, char *tget, char *prev, t_slist **glob);
-
-void	get_new_mln(t_tree *tree, char *str, char *prev, t_slist **glob)
+int		ft_is_noalnum(char *str)
 {
-	t_tree	*tmp;
-	int		*sglt;
+	int i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == '*' || str[i] == '/' || str[i] == '?')
+			count++;
+		i++;
+	}
+	if (i == count)
+		return (1);
+	return (0);
+}
+
+void	get_glob(t_tree *tree, char *tget, t_slist **glob, t_stint sti);
+
+int		check_list(t_tree *tree)
+{
+	t_tree *tmp;
+
+	tmp = tree;
+	while (tmp)
+	{
+		if (tmp->value != '.' && tmp->value != 0)
+			return (1);
+		tmp = tmp->prev;
+	}
+	return (0)
+}
+
+void	get_new_str(t_tree *tree, t_slist **glob, char *prev)
+{
 	int		tlen;
-	char	*bru;
-	DIR		*dir;
+	t_tree	*tmp;
 
 	tlen = 0;
-	tmp = tree;
-//	ft_putendl(str);
-	while (1)
-	{
-		if (!tmp)
-			return ;
-		if (tmp->value != '.' && tmp->value != 0)
-			break ;
-		tmp = tmp->prev;
-	}
-/*	tmp = tree;
-	while (tmp)
-	{
-		ft_putchar(tmp->value);
-		tmp = tmp->prev;
-	}
-	ft_putnbr(i);
-	ft_putendl("");*/
-	sglt = singletint();
-	if (*str == '/' && !(tree->type & DT_DIR) && !*(str + 1))
-		return ;
-	if (*str == '/')
-		*sglt |= IS_SLASH;
-/*	tmp = tree;
-	while (tmp)
-	{
-		ft_putchar(tmp->value);
-		tmp = tmp->prev;
-	}
-	ft_putnbr(i);
-	ft_putendl("");*/
-	if (*glob)
-	{
-		while ((*glob)->prev)
-			*glob = (*glob)->prev;
-		while ((*glob)->next && (*glob)->mln != tree)
-			*glob = (*glob)->next;
-		if ((*glob)->mln == tree)
-			return ;
-	//		printf("str : %s, tree : %p, glob : %p, lol : %d\n", glob->str, tree, glob->mln, lol);
-		//printf("i : %d\n", i);
-		(*glob)->next = ft_memalloc(sizeof(t_slist));
-		(*glob)->next->prev = *glob;
-		*glob = (*glob)->next;
-	}
-	else
-		*glob = ft_memalloc(sizeof(t_slist));
-	(*glob)->mln = tree;
 	if (prev)
-	{
-//		printf("prev : %s, i : %d\n", prev, i);
 		tlen = ft_strlen(prev) + 1;
-	}
 	tlen = (*glob)->mln->len + tlen;
-//	ft_putstr("GET MALLOC : ");
 	(*glob)->str = malloc(sizeof(char) * (tlen + 1));
 	if (prev)
 	{
-//		printf("prev strcat  : %s, i : %d\n", prev, i);
 		ft_strcpy((*glob)->str, prev);
 		ft_strcat((*glob)->str, "/");
 	}
@@ -582,73 +575,206 @@ void	get_new_mln(t_tree *tree, char *str, char *prev, t_slist **glob)
 		tmp = tmp->prev;
 		tlen--;
 	}
-	bru = ft_strdup((*glob)->str);
-	if ((dir = opendir((*glob)->str)) && ((*str == '/' && *(str + 1)) || *sglt & IS_REC))
+}
+
+int		get_new_glob(t_tree *tree, t_slist **glob)
+{
+	if (*glob)
 	{
-		if (!(tmp = create_file_tree((*glob)->str)))
-			return ;
-		*sglt |= IS_SLASH;
-	//	printf("str : %s, prev : %s\n", glob->str, prev);
-		if (*sglt & IS_REC)
-			get_glob(tmp, "**", bru, glob);
-		else
-			get_glob(tmp, str + 1, bru, glob);
+		while ((*glob)->prev)
+			*glob = (*glob)->prev;
+		while ((*glob)->next && (*glob)->mln != tree)
+			*glob = (*glob)->next;
+		if ((*glob)->mln == tree)
+		{
+			return (0);
+		}
+		(*glob)->next = ft_memalloc(sizeof(t_slist));
+		(*glob)->next->prev = *glob;
+		*glob = (*glob)->next;
 	}
+	else
+		*glob = ft_memalloc(sizeof(t_slist));
+	(*glob)->mln = tree;
+	return (1);
+}
+
+void	deal_rec(t_tree *tree, char *str, t_slist **glob, t_stint *sti)
+{
+	t_tree *tmp;
+
+	if (!(tmp = create_file_tree((*glob)->str)))
+		return ;
+	if (sti->nb & IS_SLASH)
+		sti->nb |= IS_REC;
+	if (sti->nb & IS_REC)
+		get_glob(tmp, "**", glob, *sti);
+	else
+		get_glob(tmp, str + 1, glob, *sti);
+}
+
+void	get_new_mln(t_tree *tree, char *str, t_slist **glob, t_stint sti)
+{
+	t_tree	*tmp;
+	char	*bru;
+	DIR		*dir;
+	t_stint	si_tmp;
+
+	if (!check_list(tree))
+		return ;
+	if (*str == '/' && !(tree->type & DT_DIR) && !*(str + 1))
+		return ;
+	if (*str == '/' && sti.nb & IS_SLASH)
+		sti.nb |= IS_REC;
+	if (!get_new_glob(tree, glob))
+		return ;
+	get_new_str(tree, glob, sti.str);
+	si_tmp.str = ft_strdup((*glob)->str);
+	si_tmp.nb = sti.nb;
+	if ((dir = opendir((*glob)->str)) && ((*str == '/' && *(str + 1)) || sti.nb & IS_REC))
+		deal_rec(tree, str, glob, &si_tmp);
+	free(si_tmp.str);
 	if (dir)
 		closedir(dir);
 }
 
-void	get_glob(t_tree *tree, char *tget, char *prev, t_slist **glob)
+void	rev_brack(t_tree *tree, char *tget, t_slist **glob, t_stint sti)
 {
-	int	*sglt;
+	int		tmp;
 
-	sglt = singletint();
-	if (tree)
+	while (*tget && *tget != ']')
 	{
-		get_glob(tree->left, tget, prev, glob);
-		get_glob(tree->right, tget, prev, glob);
-		if (!(tree->value) && *tget == '*')
+		if (*tget == tree->value)
+			return ;
+		else if (*(tget + 1) == '-')
 		{
-			if (*(tget + 1) == '*')
-				if (*sglt & IS_SLASH)
-					*sglt |= IS_REC;
-			while (*tget == '*')
-				tget++;
+			tmp = *tget;
+			while (tmp < *(tget + 2))
+			{
+				if (tmp == tree->value)
+					return ;
+				tmp++;
+			}
+			tget += 2;
+			if (*tget == tree->value)
+				return ;
 		}
-		if ((!(*tget) || *tget == '/') && !(tree->value))
-		{
-			if (*tget == '/')
-				*sglt |= IS_SLASH;
-			while (*(tget + 1) == '/')
-				tget++;
-			get_new_mln(tree, tget, prev, glob);
-		}
-		else if (*tget == '*')
-		{
-			get_glob(tree->tern_next, tget, prev, glob);
-			if (*(tget + 1) == '*')
-				if (*sglt & IS_SLASH)
-					*sglt |= IS_REC;
-			while (*(tget + 1) == '*')
-				tget++;
-			if (*(tget+1) == tree->value)
-				get_glob(tree, tget + 1, prev, glob);
-		}
-		else if (*tget == tree->value)
-			get_glob(tree->tern_next, tget + 1, prev, glob);
+		tget += 1;
 	}
+	get_glob(tree->tern_next, tget + 1, glob, sti);
+}
+
+void	norm_brack(t_tree *tree, char *tget, t_slist **glob, t_stint sti)
+{
+	int		tmp;
+
+	while (*tget && *tget != ']')
+	{
+		if (*tget == tree->value)
+		{
+			while (*tget && *tget != ']')
+				tget++;
+			if (*tget != ']')
+				return ;
+			get_glob(tree->tern_next, tget + 1, glob, sti);
+		}
+		else if (*tget == '-')
+			while (++tmp < *(tget + 1))
+				if (tmp == tree->value)
+				{
+					while (*tget && *tget != ']')
+						tget++;
+					if (*tget != ']')
+						return ;
+					get_glob(tree->tern_next, tget + 1, glob, sti);
+				}
+		tget++;
+		tmp = *tget - 1;
+	}
+}
+
+int		glob_brack(t_tree *tree, char *tget, t_slist **glob, t_stint sti)
+{
+	int		tmp;
+
+	if (*(tget + 1) == '!')
+		rev_brack(tree, tget + 2, glob, sti);
+	else
+		norm_brack(tree, tget, glob, sti);
+	return (1);
+}
+
+void	glob_star(t_tree *tree, char **tget, t_slist **glob, t_stint *sti)
+{
+	get_glob(tree->tern_next, *tget, glob, *sti);
+	if (*(*tget + 1) == '*')
+		sti->nb |= IS_SLASH;
+	while (*(*tget + 1) == '*')
+		*tget += 1;
+	if (*(*tget + 1) == '?' || *(*tget + 1) == '[' || *(*tget + 1) == tree->value)
+	{
+		sti->nb &= ~IS_SLASH;
+		get_glob(tree, *tget + 1, glob, *sti);
+	}
+}
+
+void	glob_slash(t_tree *tree, char **tget, t_slist **glob, t_stint *sti)
+{
+	if (**tget == '/' && sti->nb & IS_SLASH)
+		sti->nb |= IS_REC;
+	while (*(*tget + 1) == '/')
+		*tget += 1;
+	get_new_mln(tree, *tget, glob, *sti);
+}
+
+void	get_glob(t_tree *tree, char *tget, t_slist **glob, t_stint sti)
+{
+	if (!tree)
+		return ;
+	get_glob(tree->left, tget, glob, sti);
+	get_glob(tree->right, tget, glob, sti);
+	if (!(tree->value) && *tget == '*')
+	{
+		if (*(tget + 1) == '*')
+			sti.nb |= IS_SLASH;
+		while (*tget == '*')
+			tget++;
+	}
+	if ((!(*tget) || *tget == '/') && !(tree->value))
+		glob_slash(tree, &tget, glob, &sti);
+	else if (*tget == '*')
+		glob_star(tree, &tget, glob, &sti);
+	else if (*tget == tree->value)
+		get_glob(tree->tern_next, tget + 1, glob, sti);
+	else if (*tget == '?' && tree->value)
+		get_glob(tree->tern_next, tget + 1, glob, sti);
+	else if (*tget == '[' && tree->value)
+		if (*(tget + 1) == '-' || !glob_brack(tree, tget, glob, sti))
+			return ;
+	if (*tget == '/' && tree->value)
+		get_glob(tree, tget + 1, glob, sti);
 }
 
 void	ft_nstrstr(char *str, char *to_find, int *nb)
 {
 	char	*ptr;
+	char	*tmp;
 
 	if ((ptr = ft_strstr(str, to_find)))
 	{
+		tmp = ptr;
 		if (ft_strlen(ptr) > ft_strlen(to_find))
 		{
 			if ((ptr = ft_strchr(ptr, '/')))
-				*nb += 1;
+			{
+				while (tmp && *tmp && *tmp != '/')
+					if (ft_isalnum(*tmp))
+						tmp = NULL;
+					else
+						tmp++;
+				if (tmp)
+					*nb += 1;
+			}
 			else
 				return ;
 			ft_nstrstr(ptr, to_find, nb);
@@ -679,87 +805,282 @@ int		ft_nslash(char *str)
 	return (nb);
 }
 
+int		brack_rev(char **src, char **targ)
+{
+	int tmp;
+
+	*src += 2;
+	while (**src && **src != ']')
+	{
+		if (**src == **targ)
+			return (0);
+		else if (*(*src + 1) == '-')
+		{
+			tmp = **src;
+			while (tmp < *(*src + 2))
+			{
+				if (tmp == *(*src + 2))
+					return (0);
+				tmp++;
+			}
+			*src += 2;
+		}
+		*src += 1;
+		tmp = **src;
+	}
+	*targ += 1;
+	*src += 1;
+	return (1);
+}
+
+int		brack_norm(char **src, char **targ)
+{
+	int tmp;
+
+	while (**src && **src != ']' && **src != **targ)
+	{
+		if (**src == '-')
+		{
+			while (tmp < *(*src + 1) && tmp != **targ)
+				tmp++;
+			if (tmp == **targ)
+				*targ += 1;
+			if (tmp < *(*src + 1))
+				break ;
+		}
+		tmp = **src;
+		*src += 1;
+	}
+	**src == **targ ? *targ += 1 : 0;
+	if (!**src || **src == ']')
+		return (0);
+	while (**src && **src != ']')
+		*src += 1;
+	if (!**src)
+		return (0);
+	*src += 1;
+	return (1);
+}
+
+int		deal_bracket(char **src, char **targ)
+{
+	int		tmp;
+
+	if (*(*src + 1) == '!')
+	{
+		if (!brack_rev(src, targ))
+			return (0);
+	}
+	else
+	{
+		if (!brack_norm(src, targ))
+			return (0);
+	}
+	return (1);
+}
+
+int		check_mln(char *src, char *targ);
+
+int		deal_dbstar(char **src, char **targ)
+{
+	int		state;
+
+	if (ft_strchr(*targ, '/'))
+		if (check_mln(*src, ft_strchr(*targ, '/') + 1))
+			return (1);
+	while (**src == '*' || **src == '/')
+	{
+		state = 0;
+		state |= **src == '*' ? IS_STAR : IS_SLASH;
+		*src += 1;
+	}
+	if (state & IS_SLASH && **src == '?')
+		return (2);
+	while (**targ && **targ != **src)
+	{
+		if (**src == '?' || **src == '[')
+			if (check_mln(*src, *targ + 1))
+				return (1);
+		*targ += 1;
+	}
+	if (!**targ && !**src)
+		return (1);
+	else if ((**targ && !**src) || (!**targ && **src))
+		return (0);
+	return (2);
+}
+
+int		deal_star(char **src, char **targ)
+{
+	if (*(*src + 1) == '*')
+		return (deal_dbstar(src, targ));
+	else
+	{
+		while (**targ && **targ != *(*src + 1) && **targ != '/')
+		{
+			if (*(*src + 1) == '?' || *(*src + 1) == '[')
+				if (check_mln(*src + 1, *targ))
+					return (1);
+			*targ += 1;
+		}
+		if (**targ == '/')
+			*src += 1;
+		if (**targ == *(*src + 1))
+		{
+			if (**src == '*')
+				if (check_mln(*src, *targ + 1))
+					return (1);
+			*src += 1;
+		}
+	}
+	return (2);
+}
+
+int		deal_check(char **src, char **targ)
+{
+	if (**src == '*')
+	{
+		return (deal_star(src, targ));
+	}
+	else if (**src == '[')
+	{
+		if (!deal_bracket(src, targ))
+			return (0);
+	}
+	else if (**src == **targ || (**src == '?' && **targ))
+	{
+		*src += 1;
+		*targ += 1;
+	}
+	else
+		return (0);
+	return (2);
+}
+
+int		check_mln(char *src, char *targ)
+{
+	int i;
+	int state;
+	int tmp;
+
+	state = 0;
+	while (*src)
+	{
+		if (!*targ)
+			break ;
+		if ((tmp = deal_check(&src, &targ)) != 2)
+			return (tmp);
+	}
+	while (*src == '*')
+		src++;
+	if (*src == '/')
+		src++;
+	if (!*src && !*targ)
+		return (1);
+	return (0);
+}
+
+t_slst	*expand_slst(t_slst *lst, char *str)
+{
+	if (lst)
+	{
+		lst->next = ft_memalloc(sizeof(t_slst));
+		lst->next->prev = lst;
+		lst = lst->next;
+		lst->str = ft_strdup(str);
+	}
+	else
+	{
+		lst = ft_memalloc(sizeof(t_slst));
+		lst->str = ft_strdup(str);
+	}
+	return (lst);
+}
+
+void	fill_mln(int check_dir, char *str, t_slst **ret)
+{
+	DIR		*dir;
+
+	dir = NULL;
+	if (check_dir == 1)
+	{
+		if ((dir = opendir(str)))
+			*ret = expand_slst(*ret, str);
+		if (dir)
+			closedir(dir);
+	}
+	else
+		*ret = expand_slst(*ret, str);
+}
+
+t_slst	*fill_slst(char *av, t_slist *glob, int star, int nb)
+{
+	int		is_point;
+	DIR		*dir;
+	char	*ptr;
+	int		check_dir;
+	t_slst	*ret;
+
+	dir = NULL;
+	check_dir = 0;
+	is_point = 0;
+	ret = NULL;
+	if (ft_strchr(av, '?') && ft_strchr(av, '?') < ft_strchr(av, '/'))
+		is_point = 1;
+	if ((ptr = ft_strrchr(av, '/')) && !*(ptr + 1))
+		check_dir = 1;
+	while (glob && glob->str)
+	{
+		if (check_mln(av, glob->str))
+			if ((ft_occuc(glob->str, '/') >= star && !is_point)
+					|| (is_point && nb == ft_nslash(glob->str)))
+				fill_mln(check_dir, glob->str, &ret);
+		glob = glob->next;
+	}
+	return (ret);
+}
+
+t_slst	*deal_globing(char **av, t_tree *tree)
+{
+	t_slist		*glob;
+	int			star;
+	int			nb;
+	t_stint		sti;
+
+	glob = NULL;
+	sti.str = NULL;
+	sti.nb = 0;
+	get_glob(tree, av[1], &glob, sti);
+	star = 0;
+	ft_nstrstr(av[1], "**", &star);
+	nb = ft_nslash(av[1]);
+	star = nb - star;
+	while (glob && glob->prev)
+		glob = glob->prev;
+	return (fill_slst(av[1], glob, star, nb));
+}
+
 int		main(int ac, char **av, char **env)
 {
 	t_tree	*bin;
 	t_tree	*files;
-	t_tree	*save;
-	t_slct	*select;
 	t_slist	*glob = NULL;
-	int		len;
-	int		lenm;
-	int		car_ret;
 	char	*term;
-	int		star;
-	int		nb = 0;
+	t_slst	*fin;
 
 	term = getenv("TERM");
 	tgetent(NULL, term);
 	//	tputs(tgetstr("cl", NULL), 1, ft_pchar);
 	bin = create_tree(env);
 	files = create_file_tree(NULL);
-	get_glob(files, av[1], NULL, &glob);
-	/*	while (lst_glob)
-		{
-		if (lst_glob->mln)
-		{
-		if (!ret)
-		ret = ft_memalloc(sizeof(t_slist));
-		else
-		{
-		ret->next = ft_memalloc(sizeof(t_slist));
-		ret->next->prev = ret;
-		ret = ret->next;
-		}
-		len = lst_glob->mln->len;
-		ret->str = ft_memalloc(sizeof(char) * (len + 1));
-		while (lst_glob->mln)
-		{
-		ret->str[len] = lst_glob->mln->value;
-		lst_glob->mln = lst_glob->mln->prev;
-		len--;
-		}
-		}
-		lst_glob = lst_glob->next;
-		}*/
-	star = 0;
-//	if (ft_strstr(av[1], "**"))
-//	{
-		ft_nstrstr(av[1], "**", &star);
-		nb = ft_nslash(av[1]);
-		star = nb - star;
-//		printf("star : %d, nb : %d\n", star, nb);
-//	}
-	while (glob && glob->prev)
-		glob = glob->prev;
-	while (glob && glob->str)
+	//	put_complet("", files);
+	fin = deal_globing(av, files);
+	while (fin->prev)
+		fin = fin->prev;
+	while (fin)
 	{
-		if (ft_occuc(glob->str, '/') >= star)
-			ft_putendl(glob->str);
-		glob = glob->next;
+		ft_putendl(fin->str);
+		fin = fin->next;
 	}
-	//	set_psblty(files);
-	//	select = select_branch2(files, av[1], &lenm);
-	//	if (select)
-	//		put_select(select, 1);
-	//	save = files;
-	//	put_complet2(av[1], files);
-	//	select_branch(&files, &save, av[1]);
-	/*	if (!files && !save)
-		if (files)
-		put_psb(files);
-		if (save)
-		put_psb(save);*/
-	/*	save = bin;
-		if (av[1] && !av[2])
-		{
-		put_complet(av[1], bin);
-		put_complet(av[1], save);
-		}
-		else if (av[1] && av[2])
-		put_complet(av[2], files);
-		else
-		put_complet(av[1], bin);
-		ft_putchar('\n');*/
 	return (0);
 }

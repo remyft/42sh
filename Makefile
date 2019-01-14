@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2018/12/13 19:18:29 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/01/15 00:28:38 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,6 +93,16 @@ SRCS += debug.c					\
 PARSER_DIR = parser/
 SRCS += parse.c				\
 
+#GLOBING
+GLOB_DIR = $(SRCS_DIR)globing/
+SRCS += globing.c		\
+		glob_tools.c	\
+		get_glob.c		\
+		get_tools.c		\
+		fill_glob.c		\
+		check_glob.c	\
+		check_tool.c	\
+
 OK =	$(GREEN)[OK]$(RESET)
 
 NEWLINE = $(shell echo "")
@@ -152,19 +162,23 @@ $(OBJS_DIR)%.o: $(TERM_DIR)%.c $(DEPS_DIR)%.d
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(TOKEN_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(TOKEN_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< \
-	$(INCS) -I$(INC_DIR)/$(TOKEN_DIR)
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(PARSER_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(PARSER_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< \
-	$(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR)
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(OTHR_DIR)%.c
 $(OBJS_DIR)%.o: $(OTHR_DIR)%.c $(DEPS_DIR)%.d
+	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
+	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
+
+$(OBJS_DIR)%.o: $(GLOB_DIR)%.c
+$(OBJS_DIR)%.o: $(GLOB_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
 	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
