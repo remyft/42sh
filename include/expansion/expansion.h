@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 20:20:47 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/14 00:46:09 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/14 17:01:27 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct	s_expansion
 	size_t		i;
 	int			quoted;
 	int			expand;
+	int			fieldsplit;
 }				t_exp;
 
 int				expand_argument(const char *buff, t_argument *arg, t_s_env *e);
