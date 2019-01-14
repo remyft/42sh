@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/10 23:46:45 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/14 00:19:58 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ static t_token	*check_head(t_token *head)
 static t_token	*get_tokens(t_param *param, t_call *token)
 {
 	static t_func	character[] = {
-		CHAR_QUOTE, CHAR_CMD, CHAR_SUBS, CHAR_COMMENT, CHAR_OPERATOR,
-		CHAR_NEWLINE, CHAR_WORD
+		CHAR_QUOTE, CHAR_CMD, CHAR_SUBS, CHAR_COMMENT, CHAR_NEWLINE, CHAR_EQUAL,
+		CHAR_OPERATOR, CHAR_WORD,
 	};
 	size_t			i;
 	size_t			size;
