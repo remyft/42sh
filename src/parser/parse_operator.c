@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/20 20:42:12 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/10 23:48:13 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/14 01:36:40 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 int				parse_operator(t_token **token, t_p_param *param)
 {
-	if (*param->redir == NULLREDIR
-		&& !(*param->redir = ft_memalloc(sizeof(**param->redir))))
-		return (0);
+	if (*param->redir == NULLREDIR)
+		if (!(*param->redir = ft_memalloc(sizeof(**param->redir))))
+			return (0);
 	(*param->redir)->token = *token;
 	if ((*token)->next == NULL)
 		return (0);
