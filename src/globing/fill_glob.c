@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 23:31:38 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/15 00:18:28 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/15 16:52:58 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	get_new_str(t_slist **glob, char *prev)
 		ft_strcat((*glob)->str, "/");
 	}
 	tmp = (*glob)->mln;
-	(*glob)->str[tlen + 1] = 0;
+	(*glob)->str[tlen] = 0;
 	while (tmp)
 	{
 		(*glob)->str[tlen] = tmp->value;

@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 21:19:06 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/14 23:35:25 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/15 16:32:08 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,19 +73,20 @@ static t_slst	*fill_slst(char *av, t_slist *glob, int star, int nb)
 	return (ret);
 }
 
-t_slst			*deal_globing(char **av, t_tree *tree)
+t_slst			*deal_globing(char *av, t_tree *tree)
 {
 	t_slist		*glob;
 	int			star;
 	int			nb;
 
 	glob = NULL;
-	get_glob(tree, av[1], NULL, &glob, 0);
+	ft_putendl(av);
+	get_glob(tree, av, NULL, &glob, 0);
 	star = 0;
-	ft_nstrstr(av[1], "**", &star);
-	nb = ft_nslash(av[1]);
+	ft_nstrstr(av, "**", &star);
+	nb = ft_nslash(av);
 	star = nb - star;
 	while (glob && glob->prev)
 		glob = glob->prev;
-	return (fill_slst(av[1], glob, star, nb));
+	return (fill_slst(av, glob, star, nb));
 }
