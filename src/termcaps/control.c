@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/14 14:19:03 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/15 22:50:13 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static int		ft_cancel(t_line *line)
 	tputs(tgoto(tgetstr("ch", NULL), 0, (line->len + line->lprompt) % line->nb_col), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
 	ft_bzero(line->curr->buff_tmp, 8194);
-	ft_putendl("DELETE");
 	del_all_state(line);
 	if (line->hdoc)
 	{

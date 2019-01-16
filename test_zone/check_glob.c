@@ -6,13 +6,13 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 23:31:08 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/14 23:36:40 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/16 00:26:06 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "globing.h"
 
-static int		deal_check(char **src, char **targ)
+static int		deal_check(char **src, char **targ, int state)
 {
 	if (**src == '*')
 	{
@@ -40,11 +40,13 @@ int				check_mln(char *src, char *targ)
 	int tmp;
 
 	state = 0;
+	if (*src != '.' && *targ == '.')
+		return (0);
 	while (*src)
 	{
 		if (!*targ)
 			break ;
-		if ((tmp = deal_check(&src, &targ)) != 2)
+		if ((tmp = deal_check(&src, &targ, state)) != 2)
 			return (tmp);
 	}
 	while (*src == '*')

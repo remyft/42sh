@@ -6,14 +6,14 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 23:31:38 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/15 16:52:58 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/16 00:47:18 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "globing.h"
 
-int		check_list(t_tree *tree)
+/*int		check_list(t_tree *tree)
 {
 	t_tree *tmp;
 
@@ -25,7 +25,7 @@ int		check_list(t_tree *tree)
 		tmp = tmp->prev;
 	}
 	return (0);
-}
+}*/
 
 void	get_new_str(t_slist **glob, char *prev)
 {
@@ -91,8 +91,10 @@ void	get_new_mln(t_tree *tree, char *str, t_slist **glob, t_stint sti)
 	DIR		*dir;
 	t_stint	si_tmp;
 
-	if (!check_list(tree))
-		return ;
+//	if (tree->prev && tree->prev->value == '.' && !tree->prev->prev)
+//		return ;
+//	if (!check_list(tree))
+//		return ;
 	if (*str == '/' && !(tree->type & DT_DIR) && !*(str + 1))
 		return ;
 	if (*str == '/' && sti.nb & IS_SLASH)

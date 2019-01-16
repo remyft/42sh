@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 21:19:12 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/15 16:44:58 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/16 01:12:58 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ int			glob_brack(t_tree *tree, char *tget, t_slist **glob, t_stint sti)
 
 void		glob_star(t_tree *tree, char **tget, t_slist **glob, t_stint *sti)
 {
+	if (!tree->prev && tree->value == '.')
+		return ;
 	get_glob(tree->tern_next, *tget, glob, *sti);
 	if (*(*tget + 1) == '*')
 		sti->nb |= IS_SLASH;

@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 21:15:52 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/15 00:16:38 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/15 22:50:57 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ static void	fill_tree_bin(char **env, t_tree **ternary)
 			break ;
 		i += !(toget[i + ft_strlen_ch(toget, ':')])
 			? ft_strlen_ch(&toget[i], ':') : ft_strlen_ch(&toget[i], ':') + 1;
-		ft_putendl(toget + i);
 		closedir(dir);
 	}
 	if (dir)

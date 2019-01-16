@@ -6,11 +6,12 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 23:31:08 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/15 00:18:41 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/16 01:14:46 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "globing.h"
+#include "libft.h"
 
 static int		deal_check(char **src, char **targ)
 {
@@ -35,8 +36,8 @@ static int		deal_check(char **src, char **targ)
 
 int				check_mln(char *src, char *targ)
 {
-	int state;
-	int tmp;
+	int		state;
+	int		tmp;
 
 	state = 0;
 	while (*src)
