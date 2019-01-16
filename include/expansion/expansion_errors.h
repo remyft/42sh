@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 17:39:24 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/14 22:08:24 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/16 00:55:42 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,18 @@ enum
 typedef struct	s_error
 {
 	int			error;
-	int			(*handler)(const char *, t_ret *);
+	void		(*handler)(const char *, t_ret *);
 }				t_error;
 
-int				err_none_func(const char *progname, t_ret *ret);
-int				err_syntax_func(const char *progname, t_ret *ret);
-int				err_modifier_func(const char *progname, t_ret *ret);
-int				err_unhandled_func(const char *progname, t_ret *ret);
-int				err_malloc_func(const char *progname, t_ret *ret);
-int				err_no_env_func(const char *progname, t_ret *ret);
-int				err_directory_func(const char *progname, t_ret *ret);
-int				err_given_func(const char *progname, t_ret *ret);
-int				err_no_user_func(const char *progname, t_ret *ret);
-int				err_ambigous_func(const char *progname, t_ret *ret);
+void			err_none_func(const char *progname, t_ret *ret);
+void			err_syntax_func(const char *progname, t_ret *ret);
+void			err_modifier_func(const char *progname, t_ret *ret);
+void			err_unhandled_func(const char *progname, t_ret *ret);
+void			err_malloc_func(const char *progname, t_ret *ret);
+void			err_no_env_func(const char *progname, t_ret *ret);
+void			err_directory_func(const char *progname, t_ret *ret);
+void			err_given_func(const char *progname, t_ret *ret);
+void			err_no_user_func(const char *progname, t_ret *ret);
+void			err_ambigous_func(const char *progname, t_ret *ret);
 
 #endif

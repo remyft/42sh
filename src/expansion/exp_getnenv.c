@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/02 18:44:52 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/04 02:48:22 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/16 20:14:28 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ char			*exp_getnenv(const char *name, char **env)
 	size_t		len;
 
 	i = 0;
-	len = (name) ? ft_strlen(name) : 0;
-	if (!env)
+	if (!env || !name)
 		return (NULL);
+	len = ft_strlen(name);
 	while (env[i])
 	{
 		if (exp_strncmp(env[i], name, len) == '=')

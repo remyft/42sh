@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 04:42:31 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/07 00:21:20 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/16 20:17:29 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static int		expand_argv(t_ret *subs, t_ret *para, t_exp *param)
 	nb = ft_atoi(word);
 	subs->word = (nb < param->e->ac) ? param->e->av[nb] : NULL;
 	para->substitute = subs->word;
+	para->freeable = 0;
 	return (ERR_NONE);
 }
 
@@ -49,10 +50,13 @@ static int		expand_env(t_ret *subs, t_ret *para, t_exp *param)
 {
 	char		*word;
 
+	printf("para: %s\n", para->word);
 	word = &para->word[para->brace + para->hash + 1];
+	printf("word: %s\n", word);
 	if (!(subs->word = exp_getnenv(word, param->e->public_env)))
 		subs->word = exp_getnenv(word, param->e->private_env);
 	para->substitute = subs->word;
+	para->freeable = 0;
 	return (ERR_NONE);
 }
 

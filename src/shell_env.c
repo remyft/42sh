@@ -6,12 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 00:07:32 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/11 06:43:56 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/15 21:22:36 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "libft.h"
+#include "free_env.h"
 #include "shell_env.h"
 
 static char		*get_path(char *prog)
@@ -70,4 +71,5 @@ void 			free_shell_env(t_s_env *e)
 {
 	if (e->progpath)
 		free(e->progpath);
+	free_env(e->private_env);
 }

@@ -6,11 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/04 02:45:49 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/04 02:53:49 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/15 21:37:44 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "free_env.h"
 
 char			**exp_newenv(char ***env)
 {
@@ -32,5 +33,6 @@ char			**exp_newenv(char ***env)
 		(*env)[len] = save[len];
 		len++;
 	}
+	free_env(save);
 	return (&(*env)[len]);
 }

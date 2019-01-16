@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 02:33:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/14 22:10:38 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/16 01:06:33 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ int				expand_error(int error, const char *progname, t_ret *ret)
 	while (i < sizeof(err) / sizeof(err[0]))
 	{
 		if (error == err[i].error)
-			return (err[i].handler(progname, ret));
+			err[i].handler(progname, ret);
 		i++;
 	}
+	expand_free_t_ret(ret, 0);
 	return (1);
 }

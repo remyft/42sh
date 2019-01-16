@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 20:20:47 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/14 17:01:27 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/16 00:58:38 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ int				expand_fieldsplit(t_ret **ret, const char *ifs);
 int				param_addchar(char c, t_ret *ret);
 int				param_addstr(const char *str, t_ret *ret);
 
-void			expand_free_t_ret(t_ret *ret);
-void			free_t_ret(t_ret **ret);
+void			expand_free_t_ret(t_ret *ret, int free_ret);
 
 int				expand_arithmetic(t_exp *param, t_ret *ret);
 int				expand_subshell(t_exp *param, t_ret *ret);

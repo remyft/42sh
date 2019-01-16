@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/14 22:11:19 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/01/16 00:53:20 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRCS =	minishell.c							\
 		signal.c							\
 		singleton.c							\
 		shell_env.c							\
+		free_env.c							\
 		welcome.c							\
 
 #COMPLETION
@@ -128,13 +129,17 @@ SRCS += edebug.c							\
 		expand_backtick.c					\
 		expand_dollar_do_expansion.c		\
 		expand_dollar_get_action.c			\
+		expand_dollar_parameter_init.c		\
 		expand_dollar_parameter_value.c		\
 		expand_dollar_parameter.c			\
 		expand_dollar_special1.c			\
 		expand_dollar_special2.c			\
 		expand_dollar_substitution.c		\
-		expand_dollar_word_value1.c			\
-		expand_dollar_word_value2.c			\
+		expand_dollar_word_value.c			\
+		expand_dollar_word_nonnull_subst.c	\
+		expand_dollar_word_null_assign.c	\
+		expand_dollar_word_null_error.c		\
+		expand_dollar_word_null_subst.c		\
 		expand_dollar_word.c				\
 		expand_dollar.c						\
 		expand_dquote.c						\
@@ -152,7 +157,6 @@ SRCS += edebug.c							\
 		expand_tilde_comparaison.c			\
 		expand_tilde_functions.c			\
 		expand_tilde.c						\
-		free_t_ret.c						\
 		is_expansion.c						\
 		param_addchar.c						\
 		param_addstr.c						\
@@ -221,43 +225,31 @@ $(OBJS_DIR)%.o: $(TERM_DIR)%.c $(DEPS_DIR)%.d
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(TOKEN_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(TOKEN_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) \
-	-I$(INC_DIR)/$(TOKEN_DIR) $(DEBUG)
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) $(DEBUG)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(PARSER_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(PARSER_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) \
-	-I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR) \
-	$(DEBUG)
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR) $(DEBUG)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(EXPANSION_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(EXPANSION_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) \
-	-I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR) \
-	-I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(REDIRECTION_DIR) \
-	$(DEBUG)
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(REDIRECTION_DIR) $(DEBUG)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(EXECUTION_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(EXECUTION_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) \
-	-I $(INC_DIR)/$(EXECUTION_DIR) -I$(INC_DIR)/$(PARSER_DIR) \
-	-I $(INC_DIR)/$(TOKEN_DIR) -I $(INC_DIR)/$(EXPANSION_DIR) \
-	$(DEBUG)
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I $(INC_DIR)/$(EXECUTION_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I $(INC_DIR)/$(TOKEN_DIR) -I $(INC_DIR)/$(EXPANSION_DIR) $(DEBUG)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(REDIRECTION_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(REDIRECTION_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) \
-	-I $(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(PARSER_DIR) \
-	-I $(INC_DIR)/$(TOKEN_DIR) \
-	$(DEBUG)
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I $(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I $(INC_DIR)/$(TOKEN_DIR) $(DEBUG)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(OTHR_DIR)%.c
