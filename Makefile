@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/15 00:28:38 by rfontain         ###   ########.fr        #
+#    Updated: 2019/01/17 03:31:20 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,65 +33,136 @@ BUIL_DIR = $(SRCS_DIR)builtin/
 OTHR_DIR = $(SRCS_DIR)other/
 
 SRCS_DIR = src/
-SRCS =	minishell.c			\
-		deal_commande.c		\
-		tools.c				\
-		setenv_builtin.c	\
-		cd_builtin.c		\
-		exec.c				\
-		main_tools.c		\
-		signal.c			\
-		singleton.c			\
-		welcome.c			\
-		remove_line_continuation.c	\
+SRCS =	minishell.c							\
+		deal_commande.c						\
+		tools.c								\
+		setenv_builtin.c					\
+		cd_builtin.c						\
+		exec.c								\
+		main_tools.c						\
+		remove_line_continuation.c			\
+		signal.c							\
+		singleton.c							\
+		shell_env.c							\
+		free_env.c							\
+		welcome.c							\
 
 #COMPLETION
 CMPL_DIR = $(SRCS_DIR)completion/
-SRCS +=	create_tree.c		\
-		deal_completion.c	\
-		put_completion.c	\
-		put_select_tools.c	\
-		put_tree_tools.c	\
-		tree_tools.c		\
-		reset_tree.c		\
+SRCS +=	create_tree.c						\
+		deal_completion.c					\
+		put_completion.c					\
+		put_select_tools.c					\
+		put_tree_tools.c					\
+		tree_tools.c						\
+		reset_tree.c						\
 
 #TERMCAPS
 TERM_DIR = $(SRCS_DIR)termcaps/
-SRCS += term_properties.c	\
-		move_cursor.c		\
-		term_tools.c		\
-		history.c			\
-		move_history.c		\
-		control.c			\
-		delete.c			\
-		move_word.c			\
-		typing.c			\
-		select.c			\
+SRCS += term_properties.c					\
+		move_cursor.c						\
+		term_tools.c						\
+		history.c							\
+		move_history.c						\
+		control.c							\
+		delete.c							\
+		move_word.c							\
+		typing.c							\
+		select.c							\
 
 #TOKENS
 TOKEN_DIR = token/
-SRCS += debug.c					\
-		expand_word.c			\
-		get_tokens.c			\
-		handle_command.c		\
-		handle_comment.c		\
-		handle_end_of_input.c	\
-		handle_newline.c		\
-		handle_operator.c		\
-		handle_quote.c			\
-		handle_subs.c			\
-		handle_word.c			\
-		identify_operator.c		\
-		identify_word.c			\
-		is_subs.c				\
-		is_subs2.c				\
-		is_token.c				\
-		is_token2.c				\
-		new_token.c				\
+SRCS += expand_word.c						\
+		free_token.c						\
+		get_tokens.c						\
+		handle_command.c					\
+		handle_comment.c					\
+		handle_end_of_input.c				\
+		handle_equal.c						\
+		handle_newline.c					\
+		handle_operator.c					\
+		handle_quote.c						\
+		handle_subs.c						\
+		handle_word.c						\
+		identify_operator.c					\
+		identify_word.c						\
+		is_subs.c							\
+		is_subs2.c							\
+		is_token.c							\
+		is_token2.c							\
+		is_token3.c							\
+		new_token.c							\
+		tdebug.c							\
 
 #PARSER
 PARSER_DIR = parser/
-SRCS += parse.c				\
+SRCS += free_parser.c						\
+		new_functions.c						\
+		parse_ao_list.c						\
+		parse_argument.c					\
+		parse_error.c						\
+		parse_io_number.c					\
+		parse_list.c						\
+		parse_operator.c					\
+		parse_pipe.c						\
+		parse.c								\
+		pdebug.c							\
+
+#EXECUTION
+EXECUTION_DIR = execution/
+SRCS += exec_debug.c						\
+		execute.c							\
+		exec_command.c						\
+		quote_removal.c						\
+		variable_assignment.c				\
+
+#EXPANSIONS
+EXPANSION_DIR = expansion/
+SRCS += edebug.c							\
+		exp_getnenvaddr.c					\
+		exp_getnenv.c						\
+		exp_newenv.c						\
+		exp_strncmp.c						\
+		expand_argument.c					\
+		expand_arithmetic.c					\
+		expand_backslash.c					\
+		expand_backtick.c					\
+		expand_dollar_do_expansion.c		\
+		expand_dollar_get_action.c			\
+		expand_dollar_parameter_init.c		\
+		expand_dollar_parameter_value.c		\
+		expand_dollar_parameter.c			\
+		expand_dollar_special1.c			\
+		expand_dollar_special2.c			\
+		expand_dollar_substitution.c		\
+		expand_dollar_word_value.c			\
+		expand_dollar_word_nonnull_subst.c	\
+		expand_dollar_word_null_assign.c	\
+		expand_dollar_word_null_error.c		\
+		expand_dollar_word_null_subst.c		\
+		expand_dollar_word.c				\
+		expand_dollar.c						\
+		expand_dquote.c						\
+		expand_end.c						\
+		expand_error.c						\
+		expand_error_functions1.c			\
+		expand_error_functions2.c			\
+		expand_fieldsplit.c					\
+		expand_free_t_ret.c					\
+		expand_glob.c						\
+		expand_loop.c						\
+		expand_math.c						\
+		expand_squote.c						\
+		expand_subshell.c					\
+		expand_tilde_comparaison.c			\
+		expand_tilde_functions.c			\
+		expand_tilde.c						\
+		is_expansion.c						\
+		param_addchar.c						\
+		param_addstr.c						\
+
+REDIRECTION_DIR = redirection/
+SRCS += redirection.c						\
 
 #GLOBING
 GLOB_DIR = $(SRCS_DIR)globing/
@@ -107,7 +178,7 @@ OK =	$(GREEN)[OK]$(RESET)
 
 NEWLINE = $(shell echo "")
 
-CFLAGS =  -Wall -Wextra -Werror -std=gnu99
+CFLAGS =  -Wall -Wextra -Werror
 
 OBJS_DIR = objs/
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
@@ -135,11 +206,13 @@ $(NAME): $(NEWLINE) $(OBJS) $(LIB)
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) $(DEBUG) -o $@ -c $< $(INCS)
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)minishell.o: INCS += -I$(INC_DIR)/$(TOKEN_DIR)
 $(OBJS_DIR)minishell.o: INCS += -I$(INC_DIR)/$(PARSER_DIR)
+$(OBJS_DIR)minishell.o: INCS += -I$(INC_DIR)/$(EXPANSION_DIR)
+$(OBJS_DIR)minishell.o: INCS += -I$(INC_DIR)/$(EXECUTION_DIR)
 
 $(OBJS_DIR)%.o: $(CMPL_DIR)%.c
 $(OBJS_DIR)%.o: $(CMPL_DIR)%.c $(DEPS_DIR)%.d
@@ -162,13 +235,31 @@ $(OBJS_DIR)%.o: $(TERM_DIR)%.c $(DEPS_DIR)%.d
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(TOKEN_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(TOKEN_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR)
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) $(DEBUG)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(PARSER_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(PARSER_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR)
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR) $(DEBUG)
+	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
+
+$(OBJS_DIR)%.o: $(SRCS_DIR)$(EXPANSION_DIR)%.c
+$(OBJS_DIR)%.o: $(SRCS_DIR)$(EXPANSION_DIR)%.c $(DEPS_DIR)%.d
+	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(REDIRECTION_DIR) $(DEBUG)
+	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
+
+$(OBJS_DIR)%.o: $(SRCS_DIR)$(EXECUTION_DIR)%.c
+$(OBJS_DIR)%.o: $(SRCS_DIR)$(EXECUTION_DIR)%.c $(DEPS_DIR)%.d
+	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I $(INC_DIR)/$(EXECUTION_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I $(INC_DIR)/$(TOKEN_DIR) -I $(INC_DIR)/$(EXPANSION_DIR) $(DEBUG)
+	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
+
+$(OBJS_DIR)%.o: $(SRCS_DIR)$(REDIRECTION_DIR)%.c
+$(OBJS_DIR)%.o: $(SRCS_DIR)$(REDIRECTION_DIR)%.c $(DEPS_DIR)%.d
+	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I $(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I $(INC_DIR)/$(TOKEN_DIR) $(DEBUG)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(OTHR_DIR)%.c

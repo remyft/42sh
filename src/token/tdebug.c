@@ -1,32 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.c                                            :+:      :+:    :+:   */
+/*   tdebug.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 19:13:49 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/13 19:22:01 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/10 23:49:01 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "token.h"
 
-void			debug_tokens(const char *buff, t_token *tokens, char *stab)
+#ifndef DEBUG
+
+void			debug_tokens(const char *buff, t_token *tokens)
 {
-	for (t_token *ptr = tokens; ptr; ptr = ptr->next) {
-		printf("------------------------------\n"
-				"%stype:%d spec:%d head:%ld tail:%ld\n", stab,
-				ptr->type, ptr->spec, ptr->head, ptr->tail);
-		printf("%sbuff: \"", stab); fflush(stdout);
-		write(1, buff + ptr->head, ptr->tail - ptr->head);
-		write(1, "\" command: \"", 12);
-		if (ptr->command)
-			write(1, ptr->command, ft_strlen(ptr->command));
-		write(1, "\"\n", 2);
-		if (ptr->subs)
-			debug_tokens(buff, ptr->subs, ft_strjoin(stab, "\t"));
-	}
-	free(stab);
+	(void)buff;
+	(void)tokens;
 }
+
+#else
+
+void			debug_tokens(const char *buff, t_token *tokens)
+{
+	t_token		*ptr;
+
+	ptr = tokens;
+	while (ptr)
+	{
+		printf("------------------------------\n"
+				"type:%d id:%d head:%ld tail:%ld\n",
+				ptr->type, ptr->id, ptr->head, ptr->tail);
+		printf("buff   : [%.*s]\n", (int)(ptr->tail - ptr->head),
+									buff + ptr->head);
+		ptr = ptr->next;
+	}
+}
+
+#endif

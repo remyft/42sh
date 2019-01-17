@@ -6,90 +6,56 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 17:00:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/10 06:18:23 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/17 02:05:31 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "operator.h"
 #include "parser.h"
+#include "handler.h"
 
-static t_node	*new_node(t_node *left, t_token *token, t_node *right)
+static int		parse_not_handled_yet(t_token **token, t_p_param *param)
 {
-	t_node		*new;
-
-	new = ft_memalloc(sizeof(*new));
-	if (!new)
-		return (new);
-	new->left = left;
-	new->token = token;
-	new->right = right;
-	return (new);
+	(void)token;
+	(void)param;
+	return (0);
 }
 
-static t_node	*parse_word(t_command *tail, t_token *token)
+static t_token	*parse_loop(t_token *token, t_p_param *param)
 {
-	if (tail->node == NULLNODE)
+	static t_p_call		type_token[] = {
+		H_ARGUMENT, H_ARGUMENT, H_ARGUMENT, { NULL }, H_IO_NUMBER,
+		H_ARGUMENT,
+	};
+	static t_p_call		type_operator[] = {
+		{ NULL }, H_AO_LIST, H_PIPE, H_OPERATOR, { NULL }, H_AO_LIST,
+		H_LIST, H_LIST, H_ERROR, H_OPERATOR, H_OPERATOR, H_OPERATOR,
+		H_OPERATOR, H_OPERATOR, H_OPERATOR, H_OPERATOR, H_OPERATOR,
+		H_OPERATOR, H_OPERATOR, H_OPERATOR, H_OPERATOR,
+	};
+	static t_t_p_call	call[] = {
+		{ type_token }, { type_operator },
+	};
+
+	while (token)
 	{
-		tail->node = new_node(NULLNODE, token, NULLNODE);
-		return (tail->node);
-	}
-	tail->node->left = new_node(NULLNODE, token, NULLNODE);
-	return (tail->node->left);
-}
-
-static t_node	*parse_operator(t_command *tail, t_token *token)
-{
-	if (tail->node == NULLNODE)
-	{
-		tail->node = new_node(NULLNODE, token, NULLNODE);
-		return (tail->node);
-	}
-	if (tail->node->token->type == OPERATOR)
-	{
-		tail->node->right = new_node(NULLNODE, token, NULLNODE);
-		return (tail->node->right);
-	}
-	return (tail->node);
-}
-
-static t_command	*new_tree(t_command **tail)
-{
-	t_command		*new;
-
-	new = ft_memalloc(sizeof(*new));
-	if (!new)
-		return (new);
-	if (*tail)
-		(*tail)->next = new;
-	else
-		*tail = new;
-	return (new);
-}
-
-t_command			*parse(const char *buff, t_token *token)
-{
-	t_command		*head;
-	t_command		*tail;
-	t_node		*node;
-
-	head = NULLTREE;
-	tail = head;
-	node = tail->node;
-	while (tail && token)
-	{
-		if (token->type == NEWLINE
-			|| (token->type == OPERATOR
-				&& (token->spec == 0
-					|| token->spec == 4
-					|| token->spec == 6)))
-			tail = new_tree(&tail);
-		else if (token->type == OPERATOR)
-			node = parse_operator(tail, token);
-		else
-			node = parse_word(tail, token);
+		if (token->type != UNDEFINED
+			&& call[token->type].type[token->id].handler
+			&& !call[token->type].type[token->id].handler(&token, param))
+			break ;
 		token = token->next;
 	}
-	(void)buff;
-	return (head);
+	return (token);
+}
+
+t_m_list		*parse(const char *buff, t_token *token)
+{
+	t_m_list	*list;
+	t_p_param	param;
+
+	if (!new_tree(token, &param, &list))
+		return (parse_error(buff, token->next, list));
+	if ((token = parse_loop(token, &param)))
+		return (parse_error(buff, token->next, list));
+	debug_parser(buff, list);
+	return (list);
 }

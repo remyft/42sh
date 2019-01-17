@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 22:43:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/07 17:25:33 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/10 23:09:00 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,49 @@
 # define RESERVED_WORDS_H
 
 /*
-** Specifities for token RESERVED_WORD
+** Identifiers for token RESERVED_WORD
 */
-# define IF		{ "if",    (1 << 0) }
-# define THEN	{ "then",  (1 << 1) }
-# define ELSE	{ "else",  (1 << 2) }
-# define ELIF	{ "elif",  (1 << 3) }
-# define FI		{ "fi",    (1 << 4) }
-# define DO		{ "do",    (1 << 5) }
-# define DONE	{ "done",  (1 << 6) }
-# define CASE	{ "case",  (1 << 7) }
-# define ESAC	{ "esac",  (1 << 8) }
-# define WHILE	{ "while", (1 << 9) }
-# define UNTIL	{ "until", (1 << 10) }
-# define FOR	{ "for",   (1 << 11) }
+
+enum
+{
+	IF_VALUE = 1,
+	THEN_VALUE,
+	ELSE_VALUE,
+	ELIF_VALUE,
+	FI_VALUE,
+	DO_VALUE,
+	DONE_VALUE,
+	CASE_VALUE,
+	ESAC_VALUE,
+	WHILE_VALUE = 10,
+	UNTIL_VALUE,
+	FOR_VALUE,
+};
+
+# define IF		"if"
+# define THEN	"then"
+# define ELSE	"else"
+# define ELIF	"elif"
+# define FI		"fi"
+# define DO		"do"
+# define DONE	"done"
+# define CASE	"case"
+# define ESAC	"esac"
+# define WHILE	"while"
+# define UNTIL	"until"
+# define FOR	"for"
+
+# define TOKEN_IF		{ IF,    IF_VALUE }
+# define TOKEN_THEN		{ THEN,  THEN_VALUE }
+# define TOKEN_ELSE		{ ELSE,  ELSE_VALUE }
+# define TOKEN_ELIF		{ ELIF,  ELIF_VALUE }
+# define TOKEN_FI		{ FI,    FI_VALUE }
+# define TOKEN_DO		{ DO,    DO_VALUE }
+# define TOKEN_DONE		{ DONE,  DONE_VALUE }
+# define TOKEN_CASE		{ CASE,  CASE_VALUE }
+# define TOKEN_ESAC		{ ESAC,  ESAC_VALUE }
+# define TOKEN_WHILE	{ WHILE, WHILE_VALUE }
+# define TOKEN_UNTIL	{ UNTIL, UNTIL_VALUE }
+# define TOKEN_FOR		{ FOR,   FOR_VALUE }
 
 #endif
