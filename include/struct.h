@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/13 19:38:41 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/15 00:14:40 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,12 @@ typedef struct		s_tree
 	int				max_len;
 	int				tput;
 	int				npsb;
+	int				len;
+	unsigned char	type;
 	struct s_tree	*left;
 	struct s_tree	*right;
 	struct s_tree	*tern_next;
+	struct s_tree	*prev;
 }					t_tree;
 
 typedef struct		s_select
@@ -93,13 +96,42 @@ typedef struct		s_line
 	size_t			len;
 	size_t			nb_col;
 	size_t			nb_line;
-	t_state		*hdoc;
+	t_state			*hdoc;
 	t_hist			*hist;
 	t_st			*e_cmpl;
 	t_tree			*tree[3];
 	struct termios	save;
 	char			**env;
 }					t_line;
+
+typedef struct			s_str_list
+{
+	char				*str;
+	t_tree				*mln;
+	int					state;
+	struct s_str_list	*next;
+	struct s_str_list	*prev;
+}						t_slist;
+
+typedef struct			s_stint
+{
+	char				*str;
+	int					nb;
+}						t_stint;
+
+typedef struct	s_fctn
+{
+	char		*key;
+	void		(*f)(t_line*);
+}				t_fctn;
+
+typedef struct			s_strlst
+{
+	char				*str;
+	struct s_strlst		*prev;
+	struct s_strlst		*next;
+}						t_slst;
+
 
 t_line	*get_struct(void);
 

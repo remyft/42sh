@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/11 17:45:37 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/15 00:15:25 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,6 @@
 # include <sys/stat.h>
 # include <termios.h>
 # include <dirent.h>
-
-typedef struct	s_fctn
-{
-	char		*key;
-	void		(*f)(t_line*);
-}				t_fctn;
 
 char			**parsing(char *cmd);
 
@@ -99,7 +93,8 @@ int				put_complet(char *str, t_tree *tern, char *tget, int *put,
 void			get_complet(t_line *line);
 void			set_complet(t_line *line);
 
-void			feed_tree(char *str, t_tree **tern, int lvl);
+void			feed_tree(char *str, unsigned char type,
+		t_tree **tern, int lvl);
 t_tree			*create_bin_tree(char **env);
 t_tree			*create_file_tree(char *path);
 
@@ -111,5 +106,11 @@ void			deal_reset(t_tree *tree1, t_tree *tree2, t_tree *tree3);
 
 t_line			*get_struct(void);
 void			del_all_state(t_line *line);
+
+/*
+** globing
+*/
+
+t_slst			*deal_globing(char *str, t_tree *tree);
 
 #endif

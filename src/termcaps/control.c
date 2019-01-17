@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/11 13:44:08 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/15 22:50:13 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void		del_all_state(t_line *line)
 	int i;
 
 	i = 0;
-	while (i < 7)
+	while (i < 10)
 	{
 		*(line->e_cmpl) &= ~(1 << i);
 		i++;
@@ -58,6 +58,22 @@ static int		ft_cancel(t_line *line)
 	tputs(tgoto(tgetstr("ch", NULL), 0, (line->len + line->lprompt) % line->nb_col), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
 	ft_bzero(line->curr->buff_tmp, 8194);
+	del_all_state(line);
+	if (line->hdoc)
+	{
+		while (line->hdoc->next)
+		{
+			if (line->hdoc->prev)
+			{
+				free(line->hdoc->prev->cmd);
+				free(line->hdoc->prev);
+			}
+			line->hdoc = line->hdoc->next;
+		}
+		free(line->hdoc->cmd);
+		free(line->hdoc);
+		line->hdoc = NULL;
+	}
 	if (!line->hist)
 		return (-1);
 	line->hist = line->hist->begin;
@@ -72,7 +88,6 @@ static int		ft_cancel(t_line *line)
 		free(line->hist->tmp);
 	line->hist->tmp = NULL;
 	line->hist = line->hist->begin;
-	del_all_state(line);
 	while (line->curr->prev)
 	{
 		if (line->curr->next)

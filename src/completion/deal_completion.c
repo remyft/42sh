@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:38:48 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/13 18:34:31 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/17 01:50:00 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,13 +98,74 @@ static t_tree	*set_tmp(char *buff)
 	return (file);
 }
 
+int			str_chrglob(char *str)
+{
+	int		i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '*' || str[i] == '[' || str[i] == '?')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+#include <stdio.h>
+
 void		get_complet(t_line *line)
 {
+	char	*ptr;
+	t_slst	*tmp;
+	int		i;
+	static int j = 0;
+
+	tmp = NULL;
 	if (!inprint(line->curr->buff))
 		return ;
-	if (!ft_strchr(line->curr->buff, ' ') || !ft_strchr(ft_strrchr(line->curr->buff, ' '), '/'))
+	if ((ptr = ft_strrchr(line->curr->buff, ' ')) && str_chrglob(ptr))
+		tmp = deal_globing(ptr + 1, line->tree[1]);
+	else if (!ft_strchr(line->curr->buff, ' ') || !ft_strchr(ft_strrchr(line->curr->buff, ' '), '/'))
 		deal_complet(!ft_strchr(line->curr->buff, ' ') ? line->tree[0] : line->tree[1], line);
 	else
 		if (line->tree[2] || (line->tree[2] = set_tmp(line->curr->buff)))
 			deal_complet(line->tree[2], line);
+	if (tmp)
+	{
+		while (tmp->prev)
+			tmp = tmp->prev;
+		ptr++;
+		ft_bzero(ptr, ft_strlen(ptr));
+		while (tmp)
+		{
+			i = -1;
+			while (tmp->str[++i])
+			{
+				if (!ft_isalnum(tmp->str[i]) && tmp->str[i] != '/' && tmp->str[i] != '.' && tmp->str[i] != '_' && tmp->str[i] != '-')
+					*ptr++ = '\\';
+				*ptr = tmp->str[i];
+				ptr++;
+			}
+			if (tmp->next)
+			{
+				*ptr = ' ';
+				ptr++;
+			}
+	//		printf("cmpt bis bis : %d\n", j);
+			j++;
+		//	ft_strcat(ptr, tmp->str);
+		//	if (tmp->next)
+		//		ft_strcat(ptr, " ");
+			tmp = tmp->next;
+		}
+		i = line->len / line->nb_col;
+		while (i--)
+			tputs(tgetstr("up", NULL), 1, ft_pchar);
+		tputs(tgoto(tgetstr("ch", NULL), 0, line->lprompt), 1, ft_pchar);
+	//	tputs(tgetstr("rc", NULL), 1, ft_pchar);
+		ft_putstr(line->curr->buff);
+		line->len = ft_strlen(line->curr->buff);
+		line->index = line->len;
+	}
 }

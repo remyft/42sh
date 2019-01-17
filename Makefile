@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/16 00:53:20 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/01/17 03:31:20 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -164,6 +164,16 @@ SRCS += edebug.c							\
 REDIRECTION_DIR = redirection/
 SRCS += redirection.c						\
 
+#GLOBING
+GLOB_DIR = $(SRCS_DIR)globing/
+SRCS += globing.c		\
+		glob_tools.c	\
+		get_glob.c		\
+		get_tools.c		\
+		fill_glob.c		\
+		check_glob.c	\
+		check_tool.c	\
+
 OK =	$(GREEN)[OK]$(RESET)
 
 NEWLINE = $(shell echo "")
@@ -254,6 +264,12 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)$(REDIRECTION_DIR)%.c $(DEPS_DIR)%.d
 
 $(OBJS_DIR)%.o: $(OTHR_DIR)%.c
 $(OBJS_DIR)%.o: $(OTHR_DIR)%.c $(DEPS_DIR)%.d
+	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
+	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
+
+$(OBJS_DIR)%.o: $(GLOB_DIR)%.c
+$(OBJS_DIR)%.o: $(GLOB_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
 	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
