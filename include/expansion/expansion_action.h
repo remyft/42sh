@@ -6,13 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 05:45:30 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/03 22:42:07 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/16 22:49:21 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPANSION_ACTION_H
 # define EXPANSION_ACTION_H
 
+# include "expansion.h"
 /*
 ** Actions to be performed on ${} expansion with the characters:
 **

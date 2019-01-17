@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/14 00:27:45 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/17 00:40:55 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ static int		check_command_type(const char *buff, void *cmd, t_s_env *e)
 		return (1);
 	quote_removal(((t_command *)cmd)->args);
 	debug_execution(cmd);
-	parse_cmd(&variable, &command, ((t_command *)cmd)->args);
+	if (!((t_command *)cmd)->args)
+		parse_cmd(&variable, &command, ((t_command *)cmd)->args);
 	return (exec_command(buff, cmd, e));
 }
 

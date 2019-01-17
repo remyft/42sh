@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/04 02:29:39 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/16 01:06:05 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/16 23:22:07 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 #include "expansion_action.h"
 #include "expansion_lib.h"
 
-static void		word_fill_str(char *dst, char *cpy, t_ret *word)
+static void		word_fill_str(char **dst, char *cpy, t_ret *word)
 {
-	ft_strcpy(dst, cpy);
-	ft_strcat(dst, "=");
+	ft_strcpy(*dst, cpy);
+	ft_strcat(*dst, "=");
 	if (word->substitute)
-		ft_strcat(dst, word->substitute);
+		ft_strcat(*dst, word->substitute);
 	else if (word->word)
-		ft_strcat(dst, word->word);
+		ft_strcat(*dst, word->word);
 }
 
 static int		replace_env_value(t_ret *parameter, t_ret *word, t_exp *param)
@@ -49,7 +49,7 @@ static int		replace_env_value(t_ret *parameter, t_ret *word, t_exp *param)
 		return (ERR_MALLOC);
 	}
 	free(save);
-	word_fill_str(*ret, name, word);
+	word_fill_str(ret, name, word);
 	return (ERR_NONE);
 }
 

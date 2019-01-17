@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 17:00:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/10 23:48:26 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/17 02:05:31 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ t_m_list		*parse(const char *buff, t_token *token)
 	t_p_param	param;
 
 	if (!new_tree(token, &param, &list))
-		return (parse_error(buff, token, list));
+		return (parse_error(buff, token->next, list));
 	if ((token = parse_loop(token, &param)))
-		return (parse_error(buff, token, list));
+		return (parse_error(buff, token->next, list));
 	debug_parser(buff, list);
 	return (list);
 }
