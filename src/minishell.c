@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/15 14:51:40 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/17 03:25:48 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -400,6 +400,7 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 			(void)command;
 			free_buff(line);
 			del_all_state(line);
+			free(ret);
 		}
 	}
 	return (0);
