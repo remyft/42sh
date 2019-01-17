@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 23:31:38 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/16 00:47:18 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/17 00:57:58 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	get_new_str(t_slist **glob, char *prev)
 {
 	int		tlen;
 	t_tree	*tmp;
+	int		i;
 
 	tlen = 0;
 	if (prev)
@@ -39,8 +40,10 @@ void	get_new_str(t_slist **glob, char *prev)
 	(*glob)->str = malloc(sizeof(char) * (tlen + 1));
 	if (prev)
 	{
-		ft_strcpy((*glob)->str, prev);
-		ft_strcat((*glob)->str, "/");
+		i = -1;
+		while (prev[++i])
+			(*glob)->str[i] = prev[i];
+		(*glob)->str[i] = '/';
 	}
 	tmp = (*glob)->mln;
 	(*glob)->str[tlen] = 0;
@@ -56,8 +59,10 @@ int		get_new_glob(t_tree *tree, t_slist **glob)
 {
 	if (*glob)
 	{
-		while ((*glob)->prev)
-			*glob = (*glob)->prev;
+//		while ((*glob)->prev && (*glob)->mln != tree)
+//			*glob = (*glob)->prev;
+//		if ((*glob)->mln == tree)
+//			return (0);
 		while ((*glob)->next && (*glob)->mln != tree)
 			*glob = (*glob)->next;
 		if ((*glob)->mln == tree)
@@ -86,15 +91,20 @@ void	deal_rec(char *str, t_slist **glob, t_stint *sti)
 		get_glob(tmp, str + 1, glob, *sti);
 }
 
+#include <stdio.h>
+
 void	get_new_mln(t_tree *tree, char *str, t_slist **glob, t_stint sti)
 {
 	DIR		*dir;
 	t_stint	si_tmp;
+	static int	i = 0;
 
 //	if (tree->prev && tree->prev->value == '.' && !tree->prev->prev)
 //		return ;
 //	if (!check_list(tree))
 //		return ;
+//	printf("cmpt : %d\n", i);
+	i++;
 	if (*str == '/' && !(tree->type & DT_DIR) && !*(str + 1))
 		return ;
 	if (*str == '/' && sti.nb & IS_SLASH)

@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 23:31:08 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/16 01:14:46 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/17 00:57:27 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,19 @@ static int		deal_check(char **src, char **targ)
 	return (2);
 }
 
+#include <stdio.h>
+
 int				check_mln(char *src, char *targ)
 {
 	int		state;
 	int		tmp;
+	static int i = 0;
 
 	state = 0;
 	while (*src)
 	{
+//		printf("cmp bis : %d\n", i);
+		i++;
 		if (!*targ)
 			break ;
 		if ((tmp = deal_check(&src, &targ)) != 2)

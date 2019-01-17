@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:38:48 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/15 17:05:36 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/17 01:50:00 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,14 @@ int			str_chrglob(char *str)
 	return (0);
 }
 
+#include <stdio.h>
+
 void		get_complet(t_line *line)
 {
 	char	*ptr;
 	t_slst	*tmp;
 	int		i;
+	static int j = 0;
 
 	tmp = NULL;
 	if (!inprint(line->curr->buff))
@@ -136,9 +139,24 @@ void		get_complet(t_line *line)
 		ft_bzero(ptr, ft_strlen(ptr));
 		while (tmp)
 		{
-			ft_strcat(ptr, tmp->str);
+			i = -1;
+			while (tmp->str[++i])
+			{
+				if (!ft_isalnum(tmp->str[i]) && tmp->str[i] != '/' && tmp->str[i] != '.' && tmp->str[i] != '_' && tmp->str[i] != '-')
+					*ptr++ = '\\';
+				*ptr = tmp->str[i];
+				ptr++;
+			}
 			if (tmp->next)
-				ft_strcat(ptr, " ");
+			{
+				*ptr = ' ';
+				ptr++;
+			}
+	//		printf("cmpt bis bis : %d\n", j);
+			j++;
+		//	ft_strcat(ptr, tmp->str);
+		//	if (tmp->next)
+		//		ft_strcat(ptr, " ");
 			tmp = tmp->next;
 		}
 		i = line->len / line->nb_col;
