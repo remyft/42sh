@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/17 03:25:48 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/17 03:34:56 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "main_tools.h"
 #include "token.h"
 #include "parser.h"
+#include "execution.h"
+#include "shell_env.h"
 
 int		cmp_strpart(char *src, char *str, int *beg)
 {
@@ -304,7 +306,7 @@ int		check_hdoc(t_line *line)
 			}
 			else if (line->curr->buff[i] != ' ' && state & WT_HDOC)
 				line->hdoc->tail++;
-			else if (line->curr->buff[i] == ' ' &&  state & WT_HDOC)
+			else if (line->curr->buff[i] == ' ' && state & WT_HDOC)
 			{
 				state &= ~WT_HDOC;
 				*(line->e_cmpl) |= HDOC;
@@ -337,15 +339,38 @@ int		check_hdoc(t_line *line)
 	return (0);
 }
 
-int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **ep)
+// void get_line(t_env *e, int ret)
+// {
+// 	char buff[8192];
+// 	int i;
+
+// 	read(0, buff, 8192)
+// 	{
+// 		if ('\n')
+// 		{
+// 			strcpy(e->line, "\n");
+// 			strjoin(e->line, buff);
+// 			if (ret)
+// 				return ;
+// 		}
+// 	}
+// 	history();
+// 	tokenise();
+// 	parse();
+// 	exec();
+// }
+
+int		main(int ac, char **av, char **ep)
 {
 	t_line		*line;
 	t_token		*tokens;
-	t_command	*command;
+	t_m_list	*tree;
+	t_s_env		e;
 	char		**env;
 	char		*ret;
 
 	env = collect_env(ep);
+	init_shell_env(&e, ac, av, env);
 	line = get_struct();
 	init_line(env, line);
 	welcome(line);
@@ -359,49 +384,30 @@ int		main(__attribute((unused)) int ac, __attribute((unused)) char **av, char **
 		write(1, "\n", 1);
 		if (!deal_hdoc(line))
 		{
-				if (check_hdoc(line))
-					continue;
+			if (check_hdoc(line))
+				continue;
 		}
-//		if (!deal_hdoc(line))
-//			ft_putendl("YO");
 		if (line->curr->buff[0] && line->tmp[0] != -1 && line->curr->buff[0] != 10)
 		{
 			ret = listnjoin(line);
-			printf("line : [%s]\n", ret);
 			*(line->e_cmpl) &= ~COMPLETION;
-			save_history(line->index, line->curr->buff, &(line->hist), env);
+			save_history(line->index, ret, &(line->hist), env);
 			remove_line_continuation(ret);
-			// int i = 0;
-			// int val[] = { BACKSLASH, DOUBLE_QUOTE, SINGLE_QUOTE, PARENTHESE, BRACKET, BACKQUOTE, };
-			// for (size_t j=0;j<sizeof(val)/sizeof(*val);j++)
-			// {
-			// 	i |= val[j];
-			// 	printf("i=%d\n"
-			// 			"%-2d %-2d %-2d %-2d\n"
-			// 			"%-2d %-2d %-2d %-2d\n"
-			// 			"%-2d %-2d %-2d %-2d\n"
-			// 			"%-2d %-2d %-2d %-2d\n"
-			// 			"%-2d %-2d %-2d %-2d\n"
-			// 			"%-2d %-2d %-2d %-2d\n",
-			// 			i,
-			// 			i & val[0], ~(i | ~val[0]), !(i & val[0]), i & ~val[0],
-			// 			i & val[1], ~(i | ~val[1]), !(i & val[1]), i & ~val[1],
-			// 			i & val[2], ~(i | ~val[2]), !(i & val[2]), i & ~val[2],
-			// 			i & val[3], ~(i | ~val[3]), !(i & val[3]), i & ~val[3],
-			// 			i & val[4], ~(i | ~val[4]), !(i & val[4]), i & ~val[4],
-			// 			i & val[5], ~(i | ~val[5]), !(i & val[5]), i & ~val[5]
-			// 			);
-			// 	// i &= ~val[j];
-			// }
-			tokens = tokenise(ret);
-#ifdef DEBUG
-			debug_tokens(ret, tokens, ft_strdup(""));
-#endif
-			(void)command;
+//			ret = ft_strjoinfree(ret, "\n", 1);
+			if ((tokens = tokenise(ret)) != NULLTOKEN)
+			{
+				if ((tree = parse(ret, tokens)) != NULLLIST)
+				{
+					execute(ret, tree, &e);
+					free_m_list(&tree);
+				}
+				free_token(&tokens);
+			}
 			free_buff(line);
 			del_all_state(line);
 			free(ret);
 		}
 	}
+	free_shell_env(&e);
 	return (0);
 }

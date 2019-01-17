@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 04:02:23 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/13 19:44:29 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2018/12/18 18:10:16 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,16 @@ static char		*my_strnchr(const char *s, int c, size_t len)
 	}
 	return (NULL);
 }
+
 char			*expand_word(const char *buff, t_token *token)
 {
 	size_t		i;
 	size_t		start;
 	char		*ret;
-	t_token		*sub;
 
 	i = token->head;
 	start = i;
 	ret = NULL;
-	sub = token->subs;
 	while (i < token->tail)
 	{
 		if (buff[i] == '\''
@@ -108,17 +107,17 @@ char			*expand_word(const char *buff, t_token *token)
 			start = i + 1;
 			i++;
 		}
-		else if (buff[i] == '$' && !(token->quote & SINGLE_QUOTE))
-		{
-			ret = my_strnjoin(ret, buff + start, i - start);
-			if (sub)
-			{
-				ret = my_strnjoin(ret, buff + sub->head, sub->tail - sub->head);
-				start = sub->tail;
-				i = start - 1;
-				sub = sub->next;
-			}
-		}
+		// else if (buff[i] == '$' && !(token->quote & SINGLE_QUOTE))
+		// {
+		// 	ret = my_strnjoin(ret, buff + start, i - start);
+		// 	if (sub)
+		// 	{
+		// 		ret = my_strnjoin(ret, buff + sub->head, sub->tail - sub->head);
+		// 		start = sub->tail;
+		// 		i = start - 1;
+		// 		sub = sub->next;
+		// 	}
+		// }
 		i++;
 	}
 	ret = my_strnjoin(ret, buff + start, i - start);

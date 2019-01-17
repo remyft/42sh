@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2018/12/13 18:34:26 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/15 18:54:33 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,10 @@ void	check_path(t_line *line, char **env)
 		free_tree(line->tree[0]);
 		line->tree[0] = create_bin_tree(env);
 		free(line->path);
-		line->path = ft_strdup(path);
-		free(path);
+		line->path = path;
 	}
+	else
+		free(path);
 }
 
 void	deal_typing(t_line *line)

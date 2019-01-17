@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setenv_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/06 07:43:19 by rfontain          #+#    #+#             */
-/*   Updated: 2018/10/30 04:05:02 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/15 18:52:47 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,20 +67,18 @@ char		*get_env(char **env, char *to_get)
 {
 	int		i;
 	int		j;
-	char	*tmp;
 
 	i = 0;
 	while (env && env[i] && !cmp_env(env[i], to_get))
 		i++;
-	tmp = NULL;
 	if (env && env[i])
 	{
 		j = 0;
 		while (env[i][j] != '=')
 			j++;
-		tmp = ft_strdup(&env[i][j + 1]);
+		return (ft_strdup(&env[i][j + 1]));
 	}
-	return (tmp);
+	return (NULL);
 }
 
 void	ft_setenv(char ***env, char *new, int len)

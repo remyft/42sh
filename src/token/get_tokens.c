@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/12 20:14:00 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/17 03:20:07 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ static t_token	*check_head(t_token *head)
 static t_token	*get_tokens(t_param *param, t_call *token)
 {
 	static t_func	character[] = {
-		CHAR_QUOTE, CHAR_CMD, CHAR_SUBS, CHAR_COMMENT, CHAR_OPERATOR,
-		CHAR_NEWLINE, CHAR_WORD
+		CHAR_QUOTE, CHAR_CMD, CHAR_SUBS, CHAR_COMMENT, CHAR_NEWLINE, CHAR_EQUAL,
+		CHAR_OPERATOR, CHAR_WORD,
 	};
 	size_t			i;
 	size_t			size;
@@ -53,14 +53,14 @@ t_token			*token_loop(t_param *param, int (*ft_end)(t_param *))
 	static t_call	token[] = {
 		ID_TOKEN, ID_OPERATOR,
 	};
-	t_token		*head;
+	t_token			*head;
 
 	head = param->token;
 	while (param->token)
 	{
 		if (ft_isnull(param) || ft_end(param))
 			param->token = handle_end_of_input(param, token);
-		else if (ft_end != ft_isnameend && param->token->spec == COMMENT)
+		else if (ft_end != ft_isnameend && param->token->id == COMMENT)
 		{
 			if (ft_isendl(param))
 				param->token = token[param->token->type].identifier(param);
@@ -69,6 +69,7 @@ t_token			*token_loop(t_param *param, int (*ft_end)(t_param *))
 			param->token = get_tokens(param, token);
 		param->i++;
 	}
+	debug_tokens(param->buff, head);
 	return (check_head(head));
 }
 
