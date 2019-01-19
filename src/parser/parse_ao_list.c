@@ -6,20 +6,34 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/20 20:43:39 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/07 20:03:12 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/19 01:19:06 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "operator_types.h"
 
-int				parse_ao_list(t_token **token, t_p_param *param)
+static int	check_token_next(t_token *token)
 {
-	if ((*param->aolist)->cmd == NULLCOMMAND)
+	if (token == NULLTOKEN)
 		return (0);
+	if (token->type == TOKEN)
+		return (1);
+	if (token->id < LESS_VALUE)
+		return (0);
+	return (1);
+}
+
+int			parse_ao_list(const char *buff, t_token **token, t_p_param *param)
+{
+	if (*param->arg == NULLARG && *param->redir == NULLREDIR)
+		return (parse_error(buff, *token));
+	if (!check_token_next((*token)->next))
+		return (parse_error(buff, (*token)->next));
 	if (!(param->aolist = new_ao_list(*token, &(*param->aolist)->next)))
-		return (0);
+		return (parse_error(buff, *token));
 	if (!(param->cmd = new_command(&(*param->aolist)->cmd)))
-		return (0);
+		return (parse_error(buff, *token));
 	param->arg = &((t_command *)*param->cmd)->args;
 	param->redir = &((t_command *)*param->cmd)->redir;
 	return (1);
