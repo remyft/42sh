@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 22:30:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/12 16:06:58 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/19 23:26:58 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int		ionumber_type(t_param *param)
 
 static int		reserved_type(t_param *param)
 {
-	static t_ope	reserved[] = {
+	static t_ope	reserve[] = {
 		TOKEN_IF, TOKEN_THEN, TOKEN_ELSE, TOKEN_ELIF, TOKEN_FI, TOKEN_DO,
 		TOKEN_DONE, TOKEN_CASE, TOKEN_ESAC, TOKEN_WHILE, TOKEN_UNTIL, TOKEN_FOR,
 	};
@@ -37,16 +37,12 @@ static int		reserved_type(t_param *param)
 	size_t			len;
 
 	i = param->token->tail - param->token->head;
-	// while (i > param->token->head && !ft_isspace(param->buff[i]))
-	// 	i--;
-	// if (i == param->token->head && ft_isspace(param->buff[i]))
-	// 	i++;
 	j = 0;
-	while (j < sizeof(reserved) / sizeof(reserved[0]))
+	while (j < sizeof(reserve) / sizeof(reserve[0]))
 	{
-		if ((len = ft_strlen(reserved[j].name)) < i)
+		if ((len = ft_strlen(reserve[j].name)) < i)
 			len = i;
-		if (!ft_strncmp(reserved[j].name, param->buff + param->token->head, len))
+		if (!ft_strncmp(reserve[j].name, param->buff + param->token->head, len))
 			return (RESERVED_WORD);
 		j++;
 	}
