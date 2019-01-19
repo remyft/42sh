@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 04:42:31 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/16 23:09:22 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/19 22:52:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ static int		expand_env(t_ret *subs, t_ret *para, t_exp *param)
 {
 	char		*word;
 
-	// if (!para->word)
-	// 	return (ERR_NONE);
 	word = &para->word[para->brace + para->hash + 1];
 	if (!(subs->word = exp_getnenv(word, param->e->public_env)))
 		subs->word = exp_getnenv(word, param->e->private_env);
