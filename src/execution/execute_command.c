@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/12 01:26:04 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/20 02:20:43 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/20 19:33:26 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 // 	return (1);
 // }
 
-int				execute_command(const char *buff, void *cmd, t_s_env *e)
+int				execute_command(const char *buff, t_argument *var,
+								t_argument *cmd, t_s_env *e)
 {
 	// pid_t		pid;
 
@@ -34,10 +35,10 @@ int				execute_command(const char *buff, void *cmd, t_s_env *e)
 	// 	exit(1);
 	// }
 	// waitpid(pid, &e->ret, 0);
-	debug_execution(cmd);
 	if (*(int *)cmd == IS_A_PIPE)
 		;
 	(void)buff;
+	(void)var;
 	(void)e;
 	return (0);
 }
