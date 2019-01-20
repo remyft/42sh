@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:17:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/14 00:22:29 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/20 02:01:37 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ typedef struct	s_execute
 	char		**env;
 }				t_execute;
 
-int				execute(const char *buff, t_m_list *list, t_s_env *e);
-int				group_var_and_command(t_argument *arg);
+int				execute_list(const char *buff, t_m_list *list, t_s_env *e);
 void			quote_removal(t_argument *arg);
 void			variable_assignment(t_command *cmd, t_s_env *e);
-int				exec_command(const char *buff, t_command *cmd, t_s_env *e);
+int				parse_command(t_argument *args, t_s_env *e);
+int				execute_command(const char *buff, void *cmd, t_s_env *e);
 
 int				isvalidname(char *str, size_t n);
 
