@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/22 00:13:25 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/22 00:19:18 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -378,6 +378,7 @@ int		main(int ac, char **av, char **ep)
 	line->beg_buff = line->curr;
 	while (1)
 	{
+		env = e.public_env;
 		put_prompt(line->prompt);
 		check_path(line, env);
 		deal_typing(line);
