@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/15 22:50:13 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/17 03:51:12 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	deal_exit(t_line *line)
 {
+	int i;
+
 	t_hist *curr;
 
 	if (line->curr->buff[0])
@@ -36,6 +38,9 @@ void	deal_exit(t_line *line)
 		free(line->hist);
 		line->hist = curr;
 	}
+	i = -1;
+	while (++i < NSIG)
+		signal(i, SIG_DFL);
 	exit(0);
 }
 

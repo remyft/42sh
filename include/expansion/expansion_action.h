@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 05:45:30 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/16 22:49:21 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/19 23:31:45 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define EXPANSION_ACTION_H
 
 # include "expansion.h"
+
 /*
 ** Actions to be performed on ${} expansion with the characters:
 **
