@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 09:45:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/16 01:10:46 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/19 22:52:53 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,5 @@ int				expand_dollar_word_value(t_ret *parameter, t_exp *param)
 			error = word[i].handler(&subs, parameter, param);
 		i++;
 	}
-	return (expand_dollar_word_end(error, &subs));}
+	return (expand_dollar_word_end(error, &subs));
+}

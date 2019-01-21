@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 21:15:52 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/17 03:31:40 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/20 21:33:00 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static void	fill_tree_bin(char **env, t_tree **ternary)
 
 	toget = get_env(env, "PATH");
 	if (!(*ternary = ft_memalloc(sizeof(t_tree))))
-		exit(0);
+		exit(1);
 	(*ternary)->value = -1;
 	i = 0;
 	while (1)
@@ -91,13 +91,14 @@ static void	fill_tree_bin(char **env, t_tree **ternary)
 		path = strdup_until(&toget[i], ':');
 		dir = opendir(path);
 		free(path);
-		while ((indir = readdir(dir)))
+		while (dir && (indir = readdir(dir)))
 			if (ft_strcmp(indir->d_name, ".") && ft_strcmp(indir->d_name, ".."))
 				feed_tree(indir->d_name, indir->d_type, ternary, 0);
 		if (!ft_occuc(&toget[i], ':'))
 			break ;
 		i += ft_strlen_ch(&toget[i], ':') + 1;
-		closedir(dir);
+		if (dir)
+			closedir(dir);
 	}
 	if (dir)
 		closedir(dir);

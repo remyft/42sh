@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/17 03:31:20 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/01/21 20:32:33 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -110,11 +110,17 @@ SRCS += free_parser.c						\
 
 #EXECUTION
 EXECUTION_DIR = execution/
-SRCS += exec_debug.c						\
-		execute.c							\
-		exec_command.c						\
+SRCS += command_access.c					\
+		command_group.c						\
+		command_parse.c						\
+		command_path.c						\
+		environment_duplicate.c				\
+		environment_modify.c				\
+		execute_command.c					\
+		execute_debug.c						\
+		execute_list.c						\
 		quote_removal.c						\
-		variable_assignment.c				\
+#		open_file.c							\#
 
 #EXPANSIONS
 EXPANSION_DIR = expansion/

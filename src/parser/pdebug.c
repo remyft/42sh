@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 14:52:10 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/12 02:36:13 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/19 23:28:10 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void		print_r(const char *buff, t_command *cmd)
 {
 	t_redirection	*red;
 	t_token			*token;
-	size_t		i;
+	size_t			i;
 
 	red = cmd->redir;
 	while (red)

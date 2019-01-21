@@ -1,22 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_token.c                                       :+:      :+:    :+:   */
+/*   environment_duplicate.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/15 18:24:38 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/19 23:31:17 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/01/21 19:14:22 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/01/21 19:34:20 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "token.h"
+#include "libft.h"
 
-void			free_token(t_token **token)
+char			**duplicate_environ(char **table)
 {
-	if (*token == NULLTOKEN)
-		return ;
-	free_token(&(*token)->next);
-	free(*token);
-	*token = NULLTOKEN;
+	char		**ret;
+	size_t		i;
+
+	i = 0;
+	while (table[i])
+		i++;
+	if (!(ret = ft_memalloc(sizeof(*ret) * (i + 1))))
+		return (NULL);
+	i = 0;
+	while (table[i])
+		if (!(ret[i] = ft_strdup(table[i])))
+		{
+			while (i--)
+				free(ret[i]);
+			return (NULL);
+		}
+		else
+			i++;
+	return (ret);
 }

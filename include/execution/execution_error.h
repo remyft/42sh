@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_token.c                                       :+:      :+:    :+:   */
+/*   execution_error.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/15 18:24:38 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/19 23:31:17 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/01/21 18:30:43 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/01/21 19:45:37 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "token.h"
+#ifndef EXECUTION_ERROR_H
+# define EXECUTION_ERROR_H
 
-void			free_token(t_token **token)
+enum
 {
-	if (*token == NULLTOKEN)
-		return ;
-	free_token(&(*token)->next);
-	free(*token);
-	*token = NULLTOKEN;
-}
+	ERR_OK_VAL = 0,
+	ERR_MALLOC_VAL,
+	ERR_NOT_FOUND_VAL,
+	ERR_PERM_VAL,
+};
+
+# define ERR_MALLOC_FUNC		"not enought memory"
+# define ERR_NOT_FOUND_FUNC		"No such file or directory"
+# define ERR_PERM_FUNC			"Permission denied"
+
+#endif

@@ -5,7 +5,7 @@ TEST2="ca, va, bien"
 
 ls LS$@LS
 echo
-ls LS"'$@'"LS
+ls LS'$@'LS
 echo
 ls "LS$@LS"
 echo

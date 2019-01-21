@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_debug.c                                       :+:      :+:    :+:   */
+/*   execute_debug.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 05:00:02 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/13 23:28:49 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/21 19:35:45 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void		print_args(t_argument **arg, int id)
 		i = 0;
 		if ((*arg)->cmd)
 			while ((*arg)->cmd[i])
-				printf("\t%s\n", (*arg)->cmd[i++]);
+				printf("\t[%s]\n", (*arg)->cmd[i++]);
 		(*arg) = (*arg)->next;
 	}
 }

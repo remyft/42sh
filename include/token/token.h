@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/14 00:19:25 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/19 23:31:24 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ typedef struct	s_token
 	size_t			depth;
 	int				type;
 	int				id;
-	char			*command; // ? used
 	struct s_token	*prev;
 }				t_token;
 
@@ -74,6 +73,7 @@ typedef struct	s_token
 ** Structure of parameters
 ** to pass to functions handling characters.
 */
+
 typedef struct	s_param
 {
 	t_token		*token;

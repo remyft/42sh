@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:59:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/14 16:53:03 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/20 22:52:36 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct	s_redirection
 	t_token					*token;
 	t_token					*ionumber;
 	t_argument				*arg;
+	int						fdarg;
 	struct s_redirection	*next;
 }				t_redirection;
 
@@ -116,7 +117,7 @@ typedef struct	s_parser_param
 */
 typedef struct	s_param_call
 {
-	int			(*handler)(t_token **, t_p_param *);
+	int			(*handler)(const char *, t_token **, t_p_param *);
 }				t_p_call;
 
 typedef struct	s_t_p_call
@@ -125,19 +126,19 @@ typedef struct	s_t_p_call
 }				t_t_p_call;
 
 t_m_list		*parse(const char *buff, t_token *token);
-t_m_list		*parse_error(const char *buff, t_token *token, t_m_list *list);
+int				parse_error(const char *buff, t_token *token);
 
 int				new_tree(t_token *token, t_p_param *param, t_m_list **list);
 t_m_list		**new_m_list(t_token *token, t_m_list **list);
 t_ao_list		**new_ao_list(t_token *token, t_ao_list **list);
 void			**new_command(void **cmd);
 
-int				parse_list(t_token **token, t_p_param *param);
-int				parse_operator(t_token **token, t_p_param *param);
-int				parse_pipe(t_token **token, t_p_param *param);
-int				parse_ao_list(t_token **token, t_p_param *param);
-int				parse_io_number(t_token **token, t_p_param *param);
-int				parse_argument(t_token **token, t_p_param *param);
+int				parse_list(const char *buf, t_token **tok, t_p_param *par);
+int				parse_operator(const char *buf, t_token **tok, t_p_param *par);
+int				parse_pipe(const char *buf, t_token **tok, t_p_param *par);
+int				parse_ao_list(const char *buf, t_token **tok, t_p_param *par);
+int				parse_io_number(const char *buf, t_token **tok, t_p_param *par);
+int				parse_argument(const char *buf, t_token **tok, t_p_param *par);
 
 void			free_m_list(t_m_list **list);
 
