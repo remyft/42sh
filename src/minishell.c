@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/20 21:25:16 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/22 04:47:35 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -338,27 +338,6 @@ int		check_hdoc(t_line *line)
 	deal_prompt(line);
 	return (0);
 }
-
-// void get_line(t_env *e, int ret)
-// {
-// 	char buff[8192];
-// 	int i;
-
-// 	read(0, buff, 8192)
-// 	{
-// 		if ('\n')
-// 		{
-// 			strcpy(e->line, "\n");
-// 			strjoin(e->line, buff);
-// 			if (ret)
-// 				return ;
-// 		}
-// 	}
-// 	history();
-// 	tokenise();
-// 	parse();
-// 	exec();
-// }
 
 int		main(int ac, char **av, char **ep)
 {
