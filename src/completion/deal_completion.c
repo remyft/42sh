@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:38:48 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/17 01:50:00 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/22 08:08:43 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,11 @@ static void	deal_complet(t_tree *file, t_line *line)
 {
 	int		put;
 	size_t	j;
+	int		nb_ret;
 
+	put = 0;
+	nb_ret = 0;
 	*(line->e_cmpl) |= COMPLETION;
-	tputs(tgetstr("sc", NULL), 1, ft_pchar);
-	tputs(tgetstr("do", NULL), 1, ft_pchar);
-	tputs(tgetstr("cr", NULL), 1, ft_pchar);
-	tputs(tgetstr("cd", NULL), 1, ft_pchar);
 	if (!line->curr->buff_tmp[8193])
 	{
 		ft_strcpy(line->curr->buff_tmp, line->curr->buff);
@@ -29,14 +28,16 @@ static void	deal_complet(t_tree *file, t_line *line)
 	}
 	else
 		put = 1;
-	if ((put = put_complet(line->curr->buff_tmp, file, line->curr->buff, &put, line)) == 1)
+	if ((put = put_complet(line->curr->buff_tmp, file, line->curr->buff, &put, line, &nb_ret)) == 1)
 		line->tmp[0] = 10;
 	else if (put == -1)
 	{
 		*(line->e_cmpl) &= ~COMPLETION;
 		line->tmp[0] = 0;
+		return ;
 	}
-	tputs(tgetstr("rc", NULL), 1, ft_pchar);
+	while (nb_ret-- + 1)
+		tputs(tgetstr("up", NULL), 1, ft_pchar);
 	tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(line->prompt)), 1, ft_pchar);
 	j = -1;
 	while (++j < line->len)
@@ -112,8 +113,6 @@ int			str_chrglob(char *str)
 	return (0);
 }
 
-#include <stdio.h>
-
 void		get_complet(t_line *line)
 {
 	char	*ptr;
@@ -147,23 +146,14 @@ void		get_complet(t_line *line)
 				*ptr = tmp->str[i];
 				ptr++;
 			}
-			if (tmp->next)
-			{
-				*ptr = ' ';
-				ptr++;
-			}
-	//		printf("cmpt bis bis : %d\n", j);
+			*ptr++ = ' ';
 			j++;
-		//	ft_strcat(ptr, tmp->str);
-		//	if (tmp->next)
-		//		ft_strcat(ptr, " ");
 			tmp = tmp->next;
 		}
 		i = line->len / line->nb_col;
 		while (i--)
 			tputs(tgetstr("up", NULL), 1, ft_pchar);
 		tputs(tgoto(tgetstr("ch", NULL), 0, line->lprompt), 1, ft_pchar);
-	//	tputs(tgetstr("rc", NULL), 1, ft_pchar);
 		ft_putstr(line->curr->buff);
 		line->len = ft_strlen(line->curr->buff);
 		line->index = line->len;
