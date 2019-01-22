@@ -6,24 +6,25 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:42:34 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/12 17:16:41 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/22 07:27:19 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "put.h"
 
-void	ft_put_tree(t_tree *tern, char *bru, int lvl, int *car_ret, int nb_col, int len_max, int *put, char *tget, char *old, t_line *line)
+void	ft_put_tree(t_tree *tern, char *bru, int lvl, int *car_ret, int nb_col,
+		int len_max, int *put, char *tget, char *old, t_line *line, int *nb_ret)
 {
 	char	*chr;
 	int		i;
 
 	if (tern->left)
-		ft_put_tree(tern->left, bru, lvl, car_ret, nb_col, len_max, put, tget, old, line);
+		ft_put_tree(tern->left, bru, lvl, car_ret, nb_col, len_max, put, tget, old, line, nb_ret);
 	if (tern->tern_next && (tern->value != '.' || bru[0] == '.' || lvl >= 1))
 	{
 		bru[lvl] = tern->value;
-		ft_put_tree(tern->tern_next, bru, lvl + 1, car_ret, nb_col, len_max, put, tget, old, line);
+		ft_put_tree(tern->tern_next, bru, lvl + 1, car_ret, nb_col, len_max, put, tget, old, line, nb_ret);
 	}
 	if (tern && !tern->tern_next)
 	{
@@ -68,7 +69,7 @@ void	ft_put_tree(t_tree *tern, char *bru, int lvl, int *car_ret, int nb_col, int
 		else
 			tputs(tgetstr("me", NULL), 1, ft_pchar);
 		ft_putstr(bru);
-		ft_putchar(tern->value);
+//		ft_putchar(tern->value);
 		if (*car_ret < nb_col - 1)
 		{
 			ft_putchars(' ', len_max - ft_strlen(bru) + 1);
@@ -79,10 +80,11 @@ void	ft_put_tree(t_tree *tern, char *bru, int lvl, int *car_ret, int nb_col, int
 			ft_putchars(' ', len_max - ft_strlen(bru) + 1);
 			ft_putchar('\n');
 			*car_ret = 0;
+			*nb_ret += 1;
 		}
 	}
 	if (tern->right)
-		ft_put_tree(tern->right, bru, lvl, car_ret, nb_col, len_max, put, tget, old, line);
+		ft_put_tree(tern->right, bru, lvl, car_ret, nb_col, len_max, put, tget, old, line, nb_ret);
 }
 
 t_slct		*select_branch(t_tree *upper, char *src, int *lenm)
@@ -102,7 +104,11 @@ t_slct		*select_branch(t_tree *upper, char *src, int *lenm)
 		{
 			select = ft_memalloc(sizeof(t_slct));
 			select->mln = upper;
-			select->down = select_branch(upper->tern_next, src + 1, lenm);
+			if (*(src + 1) && !(select->down = select_branch(upper->tern_next, src + 1, lenm)))
+			{
+				free(select);
+				return (NULL);
+			}
 		}
 	}
 	if (*src && ft_toupper(*src) != ft_tolower(*src))
@@ -117,41 +123,48 @@ t_slct		*select_branch(t_tree *upper, char *src, int *lenm)
 			{
 				select->next = ft_memalloc(sizeof(t_slct));
 				select->next->mln = lower;
-				select->next->down = select_branch(lower->tern_next, src + 1, lenm);
+				if (*(src + 1) && !(select->next->down = select_branch(lower->tern_next, src + 1, lenm)))
+				{
+					free(select);
+					return (NULL);
+				}
 			}
 			else
 			{
 				select = ft_memalloc(sizeof(t_slct));
 				select->mln = lower;
 				if (*(src + 1) && !(select->down) && !(select->down = select_branch(lower->tern_next, src + 1, lenm)))
+				{
+					free(select);
 					return (NULL);
+				}
 			}
 		}
 	}
 	return (select);
 }
 
-void	put_branch(t_slct *select, t_tree *tern, int len, char *bru, int lvl, int lenm, int *car_ret, int nb_col, int *put, char *tget, char *old, t_line *line)
+void	put_branch(t_slct *select, t_tree *tern, int len, char *bru, int lvl, int lenm, int *car_ret, int nb_col, int *put, char *tget, char *old, t_line *line, int *nb_ret)
 {
 	if (tern)
-		return (ft_put_tree(tern, bru, lvl, car_ret, nb_col, lenm, put, tget, old, line));
+		return (ft_put_tree(tern, bru, lvl, car_ret, nb_col, lenm, put, tget, old, line, nb_ret));
 	if (select && len > lvl + 1)
 	{
 		bru[lvl] = select->mln->value;
-		put_branch(select->down, tern,  len, bru, lvl + 1, lenm, car_ret, nb_col, put, tget, old, line);
+		put_branch(select->down, tern,  len, bru, lvl + 1, lenm, car_ret, nb_col, put, tget, old, line, nb_ret);
 	}
 	else if (select)
 	{
 		bru[lvl] = select->mln->value;
 		bru[lvl + 1] = '\0';
-		ft_put_tree(select->mln->tern_next, bru, lvl + 1, car_ret, nb_col, lenm, put, tget, old, line);
+		ft_put_tree(select->mln->tern_next, bru, lvl + 1, car_ret, nb_col, lenm, put, tget, old, line, nb_ret);
 	}
 	if (select && select->next)
-		put_branch(select->next, tern, len, bru, lvl, lenm, car_ret, nb_col, put, tget, old, line);
+		put_branch(select->next, tern, len, bru, lvl, lenm, car_ret, nb_col, put, tget, old, line, nb_ret);
 }
 
 
-int		put_complet(char *str, t_tree *tern, char *tget, int *put, t_line *line)
+int		put_complet(char *str, t_tree *tern, char *tget, int *put, t_line *line, int *nb_ret)
 {
 	t_slct	*select;
 	int		lenm;
@@ -174,13 +187,29 @@ int		put_complet(char *str, t_tree *tern, char *tget, int *put, t_line *line)
 	psb = 0;
 	tres = 0;
 	if (!ft_strchr(str, ' '))
+	{
 		select = select_branch(tern, (chr = ft_strdup(str)), &lenm);
+		if (!select)
+		{
+			free(chr);
+			return (-1);
+		}
+	}
 	else if (*(chr = !ft_strchr(ft_strrchr(str, ' '), '/')
 				? ft_strdup(ft_strrchr(str, ' ') + 1)
 					: ft_strdup(ft_strrchr(str, '/') + 1)))
-		select = select_branch(tern, chr, &lenm);
+	{
+		if (!(select = select_branch(tern, chr, &lenm)))
+		{
+			free(chr);
+			return (-1);
+		}
+	}
 	else
 		get_max_len(tern, &lenm);
+	tputs(tgetstr("do", NULL), 1, ft_pchar);
+	tputs(tgetstr("cr", NULL), 1, ft_pchar);
+	tputs(tgetstr("cd", NULL), 1, ft_pchar);
 	if (select)
 	{
 		get_psb(select, ft_strlen(chr), 0, &psb);
@@ -208,11 +237,13 @@ int		put_complet(char *str, t_tree *tern, char *tget, int *put, t_line *line)
 	}
 	nb_col = width / (lenm + 1);
 	if (select)
+	{
 		put_branch(select, NULL, ft_strlen(chr), bru, 0,
-				lenm, &car_ret, nb_col, put, tget, str, line);
+				lenm, &car_ret, nb_col, put, tget, str, line, nb_ret);
+	}
 	else if (lenm)
 		put_branch(NULL, tern, ft_strlen(chr), bru, 0,
-				lenm, &car_ret, nb_col, put, tget, str, line);
+				lenm, &car_ret, nb_col, put, tget, str, line, nb_ret);
 	else
 	{
 		if (chr)
