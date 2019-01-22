@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 00:59:23 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/12 02:38:01 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/22 07:32:50 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,45 +128,14 @@ int				redirect_tless(t_redirection *redir, t_s_env *e)
 	return (0);
 }
 
-
-static int		redir_error(const char *buff, t_redirection *redir, t_s_env *e)
-{
-	size_t		len;
-
-	len = redir->token->tail - redir->token->head;
-	ft_putstr_fd(e->progname, STDERR_FILENO);
-	ft_putstr_fd(": Unknown redirection `", STDERR_FILENO);
-	write(STDERR_FILENO, buff + redir->token->head, len);
-	ft_putendl_fd("'", STDERR_FILENO);
-	return (1);
-}
-
-static size_t	max(size_t a, t_token *token)
-{
-	if (token->tail - token->head > a)
-		return (token->tail - token->head);
-	return (a);
-}
-
 int				redirection(const char *buff, t_redirection *redir, t_s_env *e)
 {
-	static t_redir	redirect[] = {
-		REDIR_LESS, REDIR_LESS_AND, REDIR_LESS_GREAT, REDIR_GREAT,
-		REDIR_GREAT_PIPE, REDIR_AND_GREAT, REDIR_GREAT_AND, REDIR_DGREAT,
-		REDIR_AND_DGREAT, REDIR_DGREAT_AND, REDIR_DLESS, REDIR_TLESS,
+	static int		(*handler[])(t_redirection *, t_s_env *) = {
+		redirect_less, redirect_less_and, redirect_less_great, redirect_great,
+		redirect_great_pipe, redirect_and_great, redirect_great_and,
+		redirect_dgreat, redirect_and_dgreat, redirect_dgreat_and,
+		redirect_dless, redirect_tless,
 	};
-	size_t			i;
-	size_t			size;
 
-	if (!redir)
-		return (0);
-	i = 0;
-	while (i < sizeof(redirect) / sizeof(redirect[0]))
-	{
-		size = max(ft_strlen(redirect[i].value), redir->token);
-		if (!ft_strncmp(redirect[i].value, buff + redir->token->head, size))
-			return (redirect[i].handler(redir, e));
-		i++;
-	}
-	return (redir_error(buff, redir, e));
+	return (handler[redir->token->id - LESS_VALUE](redir, e));
 }
