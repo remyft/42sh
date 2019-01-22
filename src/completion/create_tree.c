@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 21:15:52 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/20 21:33:00 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/22 02:08:56 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,10 @@ static void	fill_tree_bin(char **env, t_tree **ternary)
 
 	toget = get_env(env, "PATH");
 	if (!(*ternary = ft_memalloc(sizeof(t_tree))))
-		exit(1);
+	{
+		*ternary = NULL;
+		return ;
+	}
 	(*ternary)->value = -1;
 	i = 0;
 	while (1)
