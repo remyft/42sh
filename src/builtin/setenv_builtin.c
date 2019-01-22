@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/06 07:43:19 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/15 18:52:47 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/22 07:51:13 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,7 @@ char		**collect_env(char **ep)
 
 	i = -1;
 	if (!ep || !ep[0] || !(env = (char**)malloc(sizeof(char*) * (get_tab_len(ep) + 2))))
-	{
 		return (NULL);
-		//ft_putendl("Failed to collect the environment.");
-	//	exit(2);
-	}
 	while (ep[++i])
 	{
 		if (ft_strstr(ep[i], "HOME") == ep[i] && ep[i][4] == '=')
@@ -115,15 +111,13 @@ void	ft_unsetenv(char ***env, char **unset)
 	int		k;
 	char	*tmp;
 
-	i = 1;
-	j = 1;
 	k = 0;
 	while (unset[++k])
 	{
-		while ((*env)[j])
-			if (cmp_env((*env)[j], unset[k]))
-				j++;
-			else
+		i = 0;
+		j = -1;
+		while ((*env)[++j])
+			if (!cmp_env((*env)[j], unset[k]))
 			{
 				tmp = ft_strdup((*env)[j]);
 				if ((*env)[i])
