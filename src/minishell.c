@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/22 00:19:18 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/22 04:47:58 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,87 +16,6 @@
 #include "parser.h"
 #include "execution.h"
 #include "shell_env.h"
-
-int		cmp_strpart(char *src, char *str, int *beg)
-{
-	int i;
-
-	i = 0;
-	while (src[i] && src[i] == str[*beg] && src[i] != '=')
-	{
-		i++;
-		*beg += 1;
-	}
-	if (src[i] == '=')
-		if (!str[*beg] || !ft_isalnum(str[*beg]))
-			return (i);
-	return (0);
-}
-
-char	*test_var(char **env, char *cmd)
-{
-	int		beg;
-	int		end;
-	int		to_cp;
-	int		i;
-	char	*ret;
-
-	beg = 0;
-	while (cmd[beg] != '$')
-		beg++;
-	beg++;
-	i = 0;
-	while (env[i])
-	{
-		end = beg;
-		if ((to_cp = cmp_strpart(env[i], cmd, &end)))
-		{
-			ret = ft_strnew(to_cp + 2);
-			ret[0] = '$';
-			ft_strncpy(ret + 1, env[i], to_cp);
-			ret[to_cp + 1] = '\0';
-			return (ret);
-		}
-		i++;
-	}
-	return (NULL);
-}
-
-int		get_var(char **env, char **cmd)
-{
-	int		i;
-	char	*tmp;
-	char	*var;
-	char	*rep;
-
-	i = -1;
-	if (!env)
-		return (0);
-	while (cmd[++i])
-		if (ft_occuc(cmd[i], '$'))
-		{
-			if (!(tmp = test_var(env, cmd[i])))
-			{
-				ft_putend(ft_strstr(cmd[i], "$"), " : Undefined variable.\n");
-				return (0);
-			}
-			else
-			{
-				var = ft_strdup(cmd[i]);
-				free(cmd[i]);
-				cmd[i] = replace_str(var, tmp, (rep = get_env(env, &tmp[1])));
-				free(tmp);
-			}
-		}
-		else if (cmd[i][0] == '~')
-		{
-			tmp = get_env(env, "HOME");
-			free(cmd[i]);
-			cmd[i] = ft_strdup(tmp);
-			free(tmp);
-		}
-	return (1);
-}
 
 void		deal_prompt(t_line *line)
 {
@@ -193,7 +112,7 @@ static int	deal_hdoc(t_line *line)
 			line->hdoc->prev = NULL;
 			free(tmp->cmd);
 			free(tmp);
-			return (1);
+			return (0);
 		}
 		else
 		{
@@ -339,27 +258,6 @@ int		check_hdoc(t_line *line)
 	return (0);
 }
 
-// void get_line(t_env *e, int ret)
-// {
-// 	char buff[8192];
-// 	int i;
-
-// 	read(0, buff, 8192)
-// 	{
-// 		if ('\n')
-// 		{
-// 			strcpy(e->line, "\n");
-// 			strjoin(e->line, buff);
-// 			if (ret)
-// 				return ;
-// 		}
-// 	}
-// 	history();
-// 	tokenise();
-// 	parse();
-// 	exec();
-// }
-
 int		main(int ac, char **av, char **ep)
 {
 	t_line		*line;
@@ -384,10 +282,8 @@ int		main(int ac, char **av, char **ep)
 		deal_typing(line);
 		write(1, "\n", 1);
 		if (!deal_hdoc(line))
-		{
 			if (check_hdoc(line))
 				continue;
-		}
 		if (line->curr->buff[0] && line->tmp[0] != -1 && line->curr->buff[0] != 10)
 		{
 			ret = listnjoin(line);
