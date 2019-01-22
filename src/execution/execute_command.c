@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/12 01:26:04 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/21 23:21:39 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/22 07:45:43 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@ static void		execute_error(char *progname, int err, char **cmd)
 	ft_putendl_fd(error[err], STDERR_FILENO);
 }
 
-
-static void		forked_command(const char *buff, t_execute *exec, t_s_env *e)
+static void		execute_command(t_execute *exec, t_s_env *e)
 {
 	char		**envcpy;
 	char		**command;
@@ -77,13 +76,12 @@ static void		forked_command(const char *buff, t_execute *exec, t_s_env *e)
 	else if ((error = access_command(name)) != ERR_OK_VAL)
 		execute_error(e->progname, error, command);
 	else
-		ft_putendl(name);
+		execve(name, command, envcpy);
 	execute_free(envcpy, command, name);
-	exit(1);
-	(void)buff;
+	exit(-1);
 }
 
-int				execute_command(const char *buff, t_execute *exec, t_s_env *e)
+int				fork_command(t_execute *exec, t_s_env *e)
 {
 	pid_t		pid;
 
@@ -100,7 +98,9 @@ int				execute_command(const char *buff, t_execute *exec, t_s_env *e)
 	if (pid < 0)
 		return (fork_error("fork failed.", e));
 	if (pid == 0)
-		forked_command(buff, exec, e);
+	{
+		forked_command(exec, e);
+	}
 	else
 		waitpid(pid, &e->ret, 0);
 	return (0);
