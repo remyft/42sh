@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/17 03:51:12 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/23 02:52:48 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void		del_all_state(t_line *line)
 		*(line->e_cmpl) &= ~(1 << i);
 		i++;
 	}
+	line->is_putb = 0;
 }
 
 static int		ft_cancel(t_line *line)
@@ -134,6 +135,7 @@ void	deal_cancel(t_line *line)
 		line->tmp[0] = ft_cancel(line);
 	}
 	*(line->e_cmpl) &= ~COMPLETION;
+	line->is_putb = 0;
 }
 
 void	ft_clear(t_line *line)
