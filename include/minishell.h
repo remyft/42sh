@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/15 00:15:25 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/23 04:09:20 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,11 @@ void			del_all_state(t_line *line);
 */
 
 t_slst			*deal_globing(char *str, t_tree *tree);
+
+/*
+** Signals
+*/
+
+void			set_signal(void);
 
 #endif
