@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:38:48 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/22 08:08:43 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/23 03:34:59 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	deal_complet(t_tree *file, t_line *line)
 
 	put = 0;
 	nb_ret = 0;
-	*(line->e_cmpl) |= COMPLETION;
+//	*(line->e_cmpl) |= COMPLETION;
 	if (!line->curr->buff_tmp[8193])
 	{
 		ft_strcpy(line->curr->buff_tmp, line->curr->buff);
@@ -33,6 +33,7 @@ static void	deal_complet(t_tree *file, t_line *line)
 	else if (put == -1)
 	{
 		*(line->e_cmpl) &= ~COMPLETION;
+		line->is_putb = 0;
 		line->tmp[0] = 0;
 		return ;
 	}
@@ -54,6 +55,7 @@ void		set_complet(t_line *line)
 	dir = NULL;
 	delete_down();
 	*(line->e_cmpl) &= ~COMPLETION;
+	line->is_putb = 0;
 	line->tmp[0] = 0;
 	if (ft_strrchr(line->curr->buff, ' ') && (dir = opendir(ft_strrchr(line->curr->buff, ' ') + 1)))
 	{
@@ -94,7 +96,7 @@ static t_tree	*set_tmp(char *buff)
 
 	stmp = ft_strrchr(buff, ' ') + 1;
 	stmp = ft_strndup(stmp, ft_strrchr(stmp, '/') - stmp);
-	file = create_file_tree(stmp);
+	file = create_file_tree(stmp, NULL);
 	free(stmp);
 	return (file);
 }
