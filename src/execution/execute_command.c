@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/12 01:26:04 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/22 07:45:43 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/23 07:12:15 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,25 @@
 #include "execution_error.h"
 #include "expansion_lib.h"
 
+void			term_restore(struct termios save);	
+void			define_new_term(struct termios *save);
+void			set_signal(void);
+
+static void		restore_signals_to_default(void)
+{
+	size_t		i;
+
+	i = 0;
+	while (i < NSIG)
+		signal(i++, SIG_DFL);
+}
+
 static int		fork_error(const char *err, t_s_env *e)
 {
 	ft_putstr_fd(e->progname, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd(err, STDERR_FILENO);
-	return (1);
+	ft_putendl_fd(err, STDERR_FILENO);
+	exit(1);
 }
 
 static void		execute_free(char **env, char **cmd, char *name)
@@ -56,7 +69,7 @@ static void		execute_error(char *progname, int err, char **cmd)
 	ft_putendl_fd(error[err], STDERR_FILENO);
 }
 
-static void		execute_command(t_execute *exec, t_s_env *e)
+void			execute_command(t_execute *exec, t_s_env *e)
 {
 	char		**envcpy;
 	char		**command;
@@ -76,9 +89,16 @@ static void		execute_command(t_execute *exec, t_s_env *e)
 	else if ((error = access_command(name)) != ERR_OK_VAL)
 		execute_error(e->progname, error, command);
 	else
+	{
+		restore_signals_to_default();
 		execve(name, command, envcpy);
+	}
 	execute_free(envcpy, command, name);
-	exit(-1);
+}
+
+static int		redirect_command(t_redirection *redirection)
+{
+	return (dup2(redirection->fdarg, redirection->fdio));
 }
 
 int				fork_command(t_execute *exec, t_s_env *e)
@@ -94,14 +114,21 @@ int				fork_command(t_execute *exec, t_s_env *e)
 	// 	}
 	// }
 
+	term_restore(*e->save);
 	pid = fork();
 	if (pid < 0)
-		return (fork_error("fork failed.", e));
-	if (pid == 0)
+		fork_error("fork failed.", e);
+	else if (pid == 0)
 	{
-		forked_command(exec, e);
+		if (exec->redirection && redirect_command(exec->redirection) < 0)
+			fork_error("dup2 failed.", e);
+		else
+			execute_command(exec, e);
+		exit(127);
 	}
 	else
 		waitpid(pid, &e->ret, 0);
+//	set_signal();
+	define_new_term(e->save);
 	return (0);
 }
