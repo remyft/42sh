@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/15 18:54:33 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/23 03:33:46 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	init_line(char **env, t_line *line)
 	signal(SIGWINCH, &sig_winch);
 	tputs(tgetstr("cl", NULL), 1, ft_pchar);
 	line->tree[0] = create_bin_tree(env);
-	line->tree[1] = create_file_tree(".");
+	line->tree[1] = create_file_tree(".", NULL);
 	line->tree[2] = NULL;
 	line->prompt = ft_strdup("$> ");//ft_strdup(ft_strrchr(getcwd(prompt, 4096), '/') + 1);
 	line->lprompt = ft_strlen(line->prompt);
