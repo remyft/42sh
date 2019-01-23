@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/22 04:47:35 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/23 03:10:48 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,9 +180,9 @@ static int	deal_hdoc(t_line *line)
 	while (line->hdoc && line->hdoc->prev)
 		line->hdoc = line->hdoc->prev;
 	tmp = ft_memalloc(sizeof(t_state));
-	tmp->head = 0;
-	tmp->tail = ft_strlen(line->curr->buff);
-	tmp->cmd = expand_word(line->curr->buff, (t_token*)tmp);
+	tmp->head = line->curr->buff;
+	tmp->len = ft_strlen(line->curr->buff);
+	tmp->cmd = expand_word((t_token*)tmp);
 	if (tmp->cmd && line->hdoc && line->hdoc->cmd && ft_strcmp(tmp->cmd, line->hdoc->cmd) == 0)
 	{
 		if (line->hdoc->next)
@@ -301,11 +301,11 @@ int		check_hdoc(t_line *line)
 				}
 				state |= WT_HDOC;
 				state &= ~WT_SPACE;
-				line->hdoc->head = i;
-				line->hdoc->tail = i + 1;
+				line->hdoc->head = line->curr->buff + i;
+				line->hdoc->len = 1;
 			}
 			else if (line->curr->buff[i] != ' ' && state & WT_HDOC)
-				line->hdoc->tail++;
+				line->hdoc->len++;
 			else if (line->curr->buff[i] == ' ' && state & WT_HDOC)
 			{
 				state &= ~WT_HDOC;
@@ -328,11 +328,11 @@ int		check_hdoc(t_line *line)
 			buff = buff->prev;
 		while (line->hdoc && line->hdoc->prev)
 		{
-			line->hdoc->cmd = expand_word(buff->buff, (t_token*)line->hdoc);
+			line->hdoc->cmd = expand_word((t_token*)line->hdoc);
 			line->hdoc = line->hdoc->prev;
 		}
 		if (line->hdoc)
-			line->hdoc->cmd = expand_word(buff->buff, (t_token*)line->hdoc);
+			line->hdoc->cmd = expand_word((t_token*)line->hdoc);
 		return (1);
 	}
 	deal_prompt(line);
@@ -352,6 +352,7 @@ int		main(int ac, char **av, char **ep)
 	init_shell_env(&e, ac, av, env);
 	line = get_struct();
 	init_line(env, line);
+	e.save = &line->save;
 	welcome(line);
 	line->curr = ft_memalloc(sizeof(t_buff));
 	line->beg_buff = line->curr;
@@ -376,9 +377,9 @@ int		main(int ac, char **av, char **ep)
 			remove_line_continuation(ret);
 			if ((tokens = tokenise(ret)) != NULLTOKEN)
 			{
-				if ((tree = parse(ret, tokens)) != NULLLIST)
+				if ((tree = parse(tokens)) != NULLLIST)
 				{
-					execute_list(ret, tree, &e);
+					execute_list(tree, &e);
 					free_m_list(&tree);
 				}
 				free_token(&tokens);
