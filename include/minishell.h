@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/22 07:21:23 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/23 08:39:18 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void			set_complet(t_line *line);
 void			feed_tree(char *str, unsigned char type,
 		t_tree **tern, int lvl);
 t_tree			*create_bin_tree(char **env);
-t_tree			*create_file_tree(char *path);
+t_tree			*create_file_tree(char *path, t_tree *tern);
 
 void			set_psblty(t_tree *tern);
 void			*free_tree(t_tree *tern);
