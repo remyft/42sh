@@ -6,13 +6,20 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/15 18:54:33 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/23 04:08:44 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
 #include "minishell.h"
 #include "main_tools.h"
+
+void	set_signal(void)
+{
+	signal(SIGINT, &sig_hdlr);
+	signal(SIGQUIT, &sig_hdlr);
+	signal(SIGWINCH, &sig_winch);
+}
 
 void	init_line(char **env, t_line *line)
 {
@@ -24,9 +31,7 @@ void	init_line(char **env, t_line *line)
 	if (line->hist)
 		line->hist = line->hist->begin;
 	define_new_term(&(line->save));
-	signal(SIGINT, &sig_hdlr);
-	signal(SIGQUIT, &sig_hdlr);
-	signal(SIGWINCH, &sig_winch);
+	set_signal();
 	tputs(tgetstr("cl", NULL), 1, ft_pchar);
 	line->tree[0] = create_bin_tree(env);
 	line->tree[1] = create_file_tree(".");
