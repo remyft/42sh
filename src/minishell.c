@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/22 04:47:58 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/23 03:34:12 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,6 +303,7 @@ int		main(int ac, char **av, char **ep)
 			free_buff(line);
 			del_all_state(line);
 			free(ret);
+			create_file_tree(".", line->tree[1]);
 		}
 	}
 	free_shell_env(&e);
