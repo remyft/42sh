@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 01:23:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/22 07:46:23 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/23 00:01:02 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ static int		normal_command(t_execute *exec, t_s_env *e)
 	exec->command = ptr;
 	if (exec->variable != exec->command && !exec->command)
 		return (modify_public_environment(exec->variable, e));
-	return (_command(exec, e));
+	return (fork_command(exec, e));
 } 
 
 static int		pipe_command(t_execute *exec, t_s_env *e)
 {
 	exec->piped = 1;
-	return (_command(exec, e));
+	return (fork_command(exec, e));
 }
 int				parse_command(void *cmd, t_s_env *e)
 {
@@ -68,6 +68,7 @@ int				parse_command(void *cmd, t_s_env *e)
 	if (!((t_command *)cmd)->args)
 		return (0);
 	exec.variable = ((t_command *)cmd)->args;
+	exec.redirection = ((t_command *)cmd)->redir;
 	if (*(int *)cmd == IS_A_PIPE)
 		return (pipe_command(&exec, e));
 	return (normal_command(&exec, e));
