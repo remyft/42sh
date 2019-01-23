@@ -6,12 +6,12 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 03:54:40 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/22 04:06:15 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/23 00:12:44 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "term.h"
+#include <term.h>
 
 void		term_restore(struct termios save)
 {
