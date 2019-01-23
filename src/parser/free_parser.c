@@ -6,11 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 18:06:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/14 01:42:42 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/23 06:58:13 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+#include <unistd.h>
 
 static void		free_args(t_argument **arg)
 {
@@ -35,6 +36,8 @@ static void		free_redir(t_redirection **redir)
 	free_redir(&(*redir)->next);
 	if ((*redir)->arg)
 		free_args(&(*redir)->arg);
+	if ((*redir)->fdarg > 2)
+		close((*redir)->fdarg);
 	free(*redir);
 	*redir = NULLREDIR;
 }
