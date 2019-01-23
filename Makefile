@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/22 06:13:29 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/01/23 07:10:59 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,11 +34,9 @@ OTHR_DIR = $(SRCS_DIR)other/
 
 SRCS_DIR = src/
 SRCS =	minishell.c							\
-		deal_commande.c						\
 		tools.c								\
 		setenv_builtin.c					\
 		cd_builtin.c						\
-		exec.c								\
 		main_tools.c						\
 		remove_line_continuation.c			\
 		signal.c							\
@@ -79,6 +77,7 @@ SRCS += expand_word.c						\
 		handle_comment.c					\
 		handle_end_of_input.c				\
 		handle_equal.c						\
+		handle_minus.c						\
 		handle_newline.c					\
 		handle_operator.c					\
 		handle_quote.c						\
@@ -89,6 +88,7 @@ SRCS += expand_word.c						\
 		is_subs_next.c						\
 		is_subs.c							\
 		is_token_next.c						\
+		is_token_validname.c				\
 		is_token.c							\
 		new_token.c							\
 		tdebug.c							\
@@ -182,7 +182,7 @@ OK =	$(GREEN)[OK]$(RESET)
 
 NEWLINE = $(shell echo "")
 
-CFLAGS =  -Wall -Wextra -Werror
+CFLAGS =  -Wall -Wextra -Werror #-Wmissing-prototypes
 
 OBJS_DIR = objs/
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
