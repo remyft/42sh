@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 23:31:38 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/17 00:57:58 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/23 03:35:39 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	deal_rec(char *str, t_slist **glob, t_stint *sti)
 {
 	t_tree *tmp;
 
-	if (!(tmp = create_file_tree((*glob)->str)))
+	if (!(tmp = create_file_tree((*glob)->str, NULL)))
 		return ;
 	if (sti->nb & IS_SLASH)
 		sti->nb |= IS_REC;
