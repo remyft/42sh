@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/17 03:20:07 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/23 06:02:08 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static t_token	*get_tokens(t_param *param, t_call *token)
 {
 	static t_func	character[] = {
 		CHAR_QUOTE, CHAR_CMD, CHAR_SUBS, CHAR_COMMENT, CHAR_NEWLINE, CHAR_EQUAL,
-		CHAR_OPERATOR, CHAR_WORD,
+		CHAR_MINUS, CHAR_OPERATOR, CHAR_WORD,
 	};
 	size_t			i;
 	size_t			size;
@@ -36,7 +36,7 @@ static t_token	*get_tokens(t_param *param, t_call *token)
 	i = 0;
 	size = (param->token->quote) ? 3 : sizeof(character) / sizeof(*character);
 	if (param->token->type == UNDEFINED)
-		param->token->head = param->i;
+		param->token->head = param->buff + param->i;
 	while (i < size)
 	{
 		if (character[i].is(param->buff[param->i]))
@@ -69,7 +69,7 @@ t_token			*token_loop(t_param *param, int (*ft_end)(t_param *))
 			param->token = get_tokens(param, token);
 		param->i++;
 	}
-	debug_tokens(param->buff, head);
+	debug_tokens(head);
 	return (check_head(head));
 }
 
@@ -77,7 +77,7 @@ t_token			*tokenise(const char *buff)
 {
 	t_param		param;
 
-	param.token = new_token(buff[0], 0);
+	param.token = new_token(buff, 0);
 	param.buff = buff;
 	param.i = 0;
 	return (token_loop(&param, ft_isnull));
