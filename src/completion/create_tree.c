@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 21:15:52 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/22 02:08:56 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/23 03:32:29 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ static void	fill_tree_bin(char **env, t_tree **ternary)
 	free(toget);
 }
 
-static void	fill_tree_env(char **env, t_tree **ternary)
+void	fill_tree_env(char **env, t_tree **ternary)
 {
 	int		i;
 	char	*var;
@@ -131,23 +131,25 @@ t_tree		*create_bin_tree(char **env)
 		return (NULL);
 	ternary = NULL;
 	fill_tree_bin(env, &ternary);
-	fill_tree_env(env, &ternary);
+//	fill_tree_env(env, &ternary);
 	set_psblty(ternary);
 	return (ternary);
 }
 
-t_tree		*create_file_tree(char *path)
+t_tree		*create_file_tree(char *path, t_tree *tern)
 {
 	struct dirent	*indir;
 	DIR				*dir;
-	t_tree			*tern;
 
 	if (!path)
 		return (NULL);
 	if (!(dir = opendir(path)))
 		return (NULL);
-	tern = ft_memalloc(sizeof(t_tree));
-	tern->value = -1;
+	if (!tern)
+	{
+		tern = ft_memalloc(sizeof(t_tree));
+		tern->value = -1;
+	}
 	while ((indir = readdir(dir)))
 		feed_tree(indir->d_name, indir->d_type, &tern, 0);
 	set_psblty(tern);
