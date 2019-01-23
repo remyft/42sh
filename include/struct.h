@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/22 05:59:05 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/23 06:12:04 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 
 # include <term.h>
 # include <string.h>
+
+# define LEFT 1 << 0
+# define RIGHT 1 << 1
+# define UP 1 << 2
+# define DOWN 1 << 3
 
 typedef enum		e_state
 {
@@ -48,6 +53,7 @@ typedef struct		s_select
 {
 	t_tree				*mln;
 	struct s_select		*next;
+	struct s_select		*prev;
 	struct s_select		*down;
 }					t_slct;
 
@@ -92,6 +98,8 @@ typedef struct		s_line
 	size_t			lprompt;
 	int				slct_beg;
 	int				slct_end;
+	int				key;
+	int				is_putb;
 	size_t			index;
 	size_t			len;
 	size_t			nb_col;
