@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 17:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/10 23:00:00 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/24 07:05:29 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ enum
 	GREAT_AND_VALUE,
 	DGREAT_VALUE,
 	AND_DGREAT_VALUE,
-	DGREAT_AND_VALUE,
 	DLESS_VALUE,
-	TLESS_VALUE = 20,
 };
 
 # define OR_IF				"||"
@@ -58,9 +56,7 @@ enum
 # define GREAT_AND			">&"
 # define DGREAT				">>"
 # define AND_DGREAT			"&>>"
-# define DGREAT_AND			">>&"
 # define DLESS				"<<"
-# define TLESS				"<<<"
 
 # define OP_OR_IF			{ OR_IF,      OR_IF_VALUE }
 # define OP_PIPE			{ PIPE,       PIPE_VALUE }
@@ -79,8 +75,6 @@ enum
 # define OP_GREAT_AND		{ GREAT_AND,  GREAT_AND_VALUE }
 # define OP_DGREAT			{ DGREAT,     DGREAT_VALUE }
 # define OP_AND_DGREAT		{ AND_DGREAT, AND_DGREAT_VALUE }
-# define OP_DGREAT_AND		{ DGREAT_AND, DGREAT_AND_VALUE }
 # define OP_DLESS			{ DLESS,      DLESS_VALUE }
-# define OP_TLESS			{ TLESS,      TLESS_VALUE }
 
 #endif
