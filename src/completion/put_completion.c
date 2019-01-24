@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:42:34 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/24 02:41:51 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/24 02:48:50 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,6 @@ void	put_branch(t_slct *select, t_tree *tern, int len, char *bru, int lvl, int l
 	if (select && select->next)
 		put_branch(select->next, tern, len, bru, lvl, lenm, car_ret, nb_col, put, tget, old, line, nb_ret);
 }
-#include <stdio.h>
 
 void	count_elem(t_tree *tree, int *cpt)
 {
@@ -228,7 +227,6 @@ void	deal_slct_key_up(t_slct *select, int nb_elem, int nb_col)
 	count_elem(select->mln->tern_next, &cpt);
 	if (select->next)
 		count_elem(select->next->mln->tern_next, &cpt);
-//	printf("cpt bef : %d\n", cpt);
 	if (cpt - nb_col <= 0)
 	{
 		tmp = cpt % nb_col;
@@ -237,9 +235,7 @@ void	deal_slct_key_up(t_slct *select, int nb_elem, int nb_col)
 			cpt--;
 		cpt += nb_col;
 
-	//	cpt = nb_elem + cpt + (nb_col - (nb_elem % nb_col));
 	}
-//	printf("cpt aft : %d\n", cpt);
 	change_elem(select->mln->tern_next, cpt - nb_col, &flg);
 	if (select->next)
 		change_elem(select->next->mln->tern_next, cpt - nb_col, &flg);
@@ -250,35 +246,30 @@ void	deal_slct_key_down(t_slct *select, int nb_elem, int nb_col)
 {
 	int		cpt;
 	int		flg;
-//	int		tmp;
 
 	cpt = 0;
 	flg = 0;
 	count_elem(select->mln->tern_next, &cpt);
 	if (select->next)
 		count_elem(select->next->mln->tern_next, &cpt);
-//	printf("cpt bef : %d\n", cpt);
 	if (cpt + nb_col > nb_elem)
 	{
 		if (cpt % nb_col == 0)
 			cpt = 0;
 		else
-			cpt = cpt % nb_col - nb_col;// + (nb_col - (nb_elem % nb_col));
-	//	cpt -= nb_col;
+			cpt = cpt % nb_col - nb_col;
 	}
-//	printf("cpt aft : %d\n", cpt);
-//	sleep(1);
 	change_elem(select->mln->tern_next, cpt + nb_col, &flg);
 	if (select->next)
 		change_elem(select->next->mln->tern_next, cpt + nb_col, &flg);
 }
 
-void	deal_slct_key(t_slct *select, int nb_col, int *cpt, int key)
+void	deal_slct_key(t_slct *select, int nb_col, int key)
 {
 	int		tmp;
 	
 	if (select->down)
-		deal_slct_key(select->down, nb_col, cpt, key);
+		deal_slct_key(select->down, nb_col, key);
 	else
 	{
 		tmp = select->mln->tern_next->npsb;
@@ -295,7 +286,7 @@ void	deal_slct_key(t_slct *select, int nb_col, int *cpt, int key)
 		return ;
 	}
 	if (select->next)
-		deal_slct_key(select->next, nb_col, cpt, key);
+		deal_slct_key(select->next, nb_col, key);
 }
 
 
@@ -361,22 +352,11 @@ int		put_complet(char *str, t_tree *tern, char *tget, int *put, t_line *line, in
 			free(chr);
 			return (1);
 		}
-		int	cpt = 0;
-	//	line->key = UP;
 		if (line->is_putb && line->key)
-		{
-			deal_slct_key(select, nb_col, &cpt, line->key);
-			line->key = 0;
-			//			tres = 0;
-			//			get_isput(select, ft_strlen(chr), 1, &tres);
-		}
+			deal_slct_key(select, nb_col, line->key);
 		get_isput(select, ft_strlen(chr), 1, &tres);
 		if (!tres)
-		{
-	//		ft_putendl("RESET");
-	//		sleep(1);
 			reset_isput(select, ft_strlen(chr), 1);
-		}
 	}
 	else
 	{
