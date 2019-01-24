@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/23 07:10:59 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/01/24 07:33:39 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -166,7 +166,19 @@ SRCS += edebug.c							\
 		param_addstr.c						\
 
 REDIRECTION_DIR = redirection/
-SRCS += redirection.c						\
+SRCS += redirect_and_dgreat.c				\
+		redirect_and_great.c				\
+		redirect_dgreat.c					\
+		redirect_dless.c					\
+		redirect_error.c					\
+		redirect_great_and.c				\
+		redirect_great_pipe.c				\
+		redirect_great.c					\
+		redirect_less_and.c					\
+		redirect_less_great.c				\
+		redirect_less.c						\
+		redirect_open_error.c				\
+		redirection.c						\
 
 #GLOBING
 GLOB_DIR = $(SRCS_DIR)globing/
