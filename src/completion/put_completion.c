@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:42:34 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/24 03:03:13 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/24 04:03:58 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,6 +264,25 @@ void	deal_slct_key_down(t_slct *select, int nb_elem, int nb_col)
 		change_elem(select->next->mln->tern_next, cpt + nb_col, &flg);
 }
 
+void	deal_slct_winch(t_slct *select)
+{
+	int		cpt;
+	int		flg;
+
+	cpt = 0;
+	flg = 0;
+	count_elem(select->mln->tern_next, &cpt);
+	if (select->next)
+		count_elem(select->next->mln->tern_next, &cpt);
+	reset_put(select->mln->tern_next);
+	if (select->next)
+		reset_put(select->next->mln->tern_next);
+	change_elem(select->mln->tern_next, cpt, &flg);
+	if (select->next)
+		change_elem(select->next->mln->tern_next, cpt, &flg);
+
+}
+
 void	deal_slct_key(t_slct *select, int nb_col, int key)
 {
 	int		tmp;
@@ -283,6 +302,8 @@ void	deal_slct_key(t_slct *select, int nb_col, int key)
 			deal_slct_key_up(select, tmp, nb_col);
 		else if (key == LEFT)
 			deal_slct_key_left(select, tmp);
+		else if (key == WINCH)
+			deal_slct_winch(select);
 		return ;
 	}
 	if (select->next)
@@ -342,9 +363,10 @@ int		put_complet(char *str, t_tree *tern, char *tget, int *put, t_line *line, in
 	}
 	else
 		get_max_len(tern, &lenm);
-	tputs(tgetstr("do", NULL), 1, ft_pchar);
 	tputs(tgetstr("cr", NULL), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
+	put_prompt(line->prompt);
+	tputs(tgetstr("do", NULL), 1, ft_pchar);
 	nb_col = width / (lenm + 1);
 	if (select)
 	{

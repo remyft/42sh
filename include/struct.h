@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/23 06:12:04 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/24 03:22:13 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define RIGHT 1 << 1
 # define UP 1 << 2
 # define DOWN 1 << 3
+# define WINCH 1 << 4
 
 typedef enum		e_state
 {
