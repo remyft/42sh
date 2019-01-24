@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/24 06:20:43 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/24 07:49:40 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,12 @@ static int	prepare_redirect(t_redirection *cmd, t_s_env *e)
 
 static int	prepare_command(void *cmd, t_s_env *e)
 {
-
 	if (!cmd)
 		return (0);
 	if (*(int *)cmd == IS_A_PIPE)
 		return (prepare_command(((t_pipeline *)cmd)->left, e)
-			|| prepare_command(((t_pipeline *)cmd)->right, e));
-	if (expand_argument(((t_command *)cmd)->args, e)
+				|| prepare_command(((t_pipeline *)cmd)->right, e));
+	else if (expand_argument(((t_command *)cmd)->args, e)
 		|| prepare_redirect(((t_command *)cmd)->redir, e))
 		return (1);
 	quote_removal(((t_command *)cmd)->args);

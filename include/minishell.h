@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/24 07:19:31 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/24 07:51:21 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void			up_arrow(t_line *line);
 void			down_arrow(t_line *line);
 
 void			create_hist(t_hist **begin, char **env);
-void			save_history(int index, char *buff, 
+void			save_history(int index, char *buff,
 							t_hist **curr, char **env);
 
 void			deal_exit(t_line *line);

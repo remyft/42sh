@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 19:47:39 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/21 20:43:41 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/24 07:44:38 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,3 @@ int				path_command(char **path, char *cmd, char *paths)
 	*path = check_access(cmd, ptr, paths);
 	return ((path) ? ERR_OK_VAL : ERR_NOT_FOUND_VAL);
 }
-

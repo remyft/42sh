@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 01:23:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/23 00:01:02 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/24 07:46:42 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,11 @@ static int		modify_public_environment(t_argument *var, t_s_env *e)
 		i = 0;
 		while (var->cmd[i])
 		{
-			*(equal = ft_strchr(var->cmd[i], '=')) = '\0';
+			equal = ft_strchr(var->cmd[i], '=');
+			*equal = '\0';
 			if ((ptr = exp_getnenvaddr(var->cmd[i], e->public_env))
 				|| (ptr = exp_getnenvaddr(var->cmd[i], e->private_env)))
-					free(*ptr);
+				free(*ptr);
 			else if (!(ptr = exp_newenv(&e->private_env)))
 				return (1);
 			*equal = '=';
@@ -52,13 +53,14 @@ static int		normal_command(t_execute *exec, t_s_env *e)
 	if (exec->variable != exec->command && !exec->command)
 		return (modify_public_environment(exec->variable, e));
 	return (fork_command(exec, e));
-} 
+}
 
 static int		pipe_command(t_execute *exec, t_s_env *e)
 {
 	exec->piped = 1;
 	return (fork_command(exec, e));
 }
+
 int				parse_command(void *cmd, t_s_env *e)
 {
 	t_execute	exec;
@@ -73,4 +75,3 @@ int				parse_command(void *cmd, t_s_env *e)
 		return (pipe_command(&exec, e));
 	return (normal_command(&exec, e));
 }
-

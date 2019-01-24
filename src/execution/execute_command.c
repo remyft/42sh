@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/12 01:26:04 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/24 06:01:43 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/24 07:49:01 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "execution_error.h"
 #include "expansion_lib.h"
 
-void			term_restore(struct termios save);	
+void			term_restore(struct termios save);
 void			define_new_term(struct termios *save);
 void			set_signal(void);
 
