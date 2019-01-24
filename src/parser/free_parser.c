@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 18:06:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/23 06:58:13 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/24 06:26:12 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@ static void		free_args(t_argument **arg)
 		return ;
 	free_args(&(*arg)->next);
 	i = 0;
-	while ((*arg)->cmd && (*arg)->cmd[i])
-		free((*arg)->cmd[i++]);
 	if ((*arg)->cmd)
+	{
+		while ((*arg)->cmd[i])
+			free((*arg)->cmd[i++]);
 		free((*arg)->cmd);
+	}
 	free(*arg);
 	*arg = NULLARG;
 }
