@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 14:52:10 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/23 03:10:21 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/24 07:42:38 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void		print_r(t_command *cmd)
 		i = 0;
 		while (red->arg && red->arg->cmd && red->arg->cmd[i])
 			printf("\t\t\t    %s\n", red->arg->cmd[i++]);
-		printf("\t\t\t---------------------\n");	
+		printf("\t\t\t---------------------\n");
 		red = red->next;
 	}
 }
