@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/20 20:43:39 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/23 02:56:20 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/24 03:13:41 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ static int	check_token_next(t_token *token)
 
 int			parse_ao_list(t_token **token, t_p_param *param)
 {
-	if (*param->arg == NULLARG && *param->redir == NULLREDIR)
+	if (((t_command *)*param->cmd)->args == NULLARG
+		&& ((t_command *)*param->cmd)->redir == NULLREDIR)
 		return (parse_error(*token));
 	if (!check_token_next((*token)->next))
 		return (parse_error((*token)->next));
