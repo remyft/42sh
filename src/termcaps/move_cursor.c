@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:13:27 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 04:16:53 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/24 01:42:09 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ void	go_end(t_line *line)
 
 void	left_arrow(t_line *line)
 {
+	if (*line->e_cmpl & COMPLETION && line->is_putb)
+	{
+		line->key = LEFT;
+		return (get_complet(line));
+	}
 	line->index = line->index > 0 ? line->index - 1 : 0;
 	if (line->index && (line->index + line->lprompt) % line->nb_col == line->nb_col - 1)
 		tputs(tgetstr("up", NULL), 1, ft_pchar);
@@ -46,6 +51,11 @@ void	left_arrow(t_line *line)
 
 void	right_arrow(t_line *line)
 {
+	if (*line->e_cmpl & COMPLETION && line->is_putb)
+	{
+		line->key = RIGHT;
+		return (get_complet(line));
+	}
 	line->index = line->index < line->len ? line->index + 1 : line->len;
 	if (line->index && (line->index + line->lprompt) % line->nb_col == 0)
 		tputs(tgetstr("do", NULL), 1, ft_pchar);

@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 05:00:51 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/23 04:14:50 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/24 01:45:35 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ void	up_arrow(t_line *line)
 	int			i;
 	size_t		len;
 
+	if (*line->e_cmpl & COMPLETION && line->is_putb)
+	{
+		line->key = UP;
+		return (get_complet(line));
+	}
 	len = ft_strlen(line->curr->buff_tmp);
 	i = ft_strlen(line->curr->buff);
 	if (line->hist && line->hist->next && ((ft_strcmp(line->hist->content, line->curr->buff) == 0 && line->curr->buff_tmp[8193]) || line->hist != line->hist->begin))
@@ -62,7 +67,12 @@ void	down_arrow(t_line *line)
 {
 	int		i;
 	size_t	len;
-
+	
+	if (*line->e_cmpl & COMPLETION && line->is_putb)
+	{
+		line->key = DOWN;
+		return (get_complet(line));
+	}
 	len = ft_strlen(line->curr->buff_tmp);
 	i = ft_strlen(line->curr->buff);
 	if (line->hist && line->hist->prev)
