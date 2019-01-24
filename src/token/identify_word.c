@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 22:30:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/23 02:30:55 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/24 00:10:05 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ t_token			*identify_word(t_param *param)
 	param->token->len = (param->buff + param->i) - param->token->head;
 	if (ft_isquote(*param->token->head))
 		param->token->id = WORD;
+	else if (param->token->id == COMMENT)
+		return (param->token);
 	else if (param->token->id == WORD
 			&& (param->token->id = reserved_type(param)) == WORD)
 	{
