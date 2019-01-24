@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/24 01:20:26 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/24 02:54:25 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,8 +127,10 @@ void	deal_typing(t_line *line)
 		line->tmp[nb_read] = '\0';
 		if (line->tmp[0] == '/')
 			line->tree[2] = free_tree(line->tree[2]);
-//		else if (line->tmp[0] != 9)
-//			deal_reset(line->tree[0], line->tree[1], NULL);
+	//	else if (line->tmp[0] != 9 && !line->key)
+	//		deal_reset(line->tree[0], line->tree[1], NULL);
+		if (line->key)
+			line->key = 0;
 		deal_key(line);
 		if (*(line->e_cmpl) & COMPLETION && line->tmp[0] == 10)
 			set_complet(line);
