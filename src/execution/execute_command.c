@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/12 01:26:04 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/23 07:12:15 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/24 06:01:43 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int		fork_error(const char *err, t_s_env *e)
 	ft_putstr_fd(e->progname, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putendl_fd(err, STDERR_FILENO);
-	exit(1);
+	return (1);
 }
 
 static void		execute_free(char **env, char **cmd, char *name)
@@ -92,43 +92,39 @@ void			execute_command(t_execute *exec, t_s_env *e)
 	{
 		restore_signals_to_default();
 		execve(name, command, envcpy);
+		execute_error(e->progname, 0, command);
 	}
 	execute_free(envcpy, command, name);
 }
 
-static int		redirect_command(t_redirection *redirection)
+static int		redirect_command(t_redirection *redirection, t_s_env *e)
 {
-	return (dup2(redirection->fdarg, redirection->fdio));
+	while (redirection)
+	{
+		// dprintf(0, "[%d %d]\n", redirection->fdio, redirection->fdarg);
+		if (dup2(redirection->fdarg, redirection->fdio) < 0)
+			return (fork_error("dup2 failed.", e));
+		redirection = redirection->next;
+	}
+	return (0);
 }
 
 int				fork_command(t_execute *exec, t_s_env *e)
 {
 	pid_t		pid;
 
-	// if (!piped)
-	// {
-	// 	if (is_builtin())
-	// 	{
-	// 		e->ret = launch_builtin();
-	// 		return (0);
-	// 	}
-	// }
-
 	term_restore(*e->save);
 	pid = fork();
 	if (pid < 0)
-		fork_error("fork failed.", e);
+		fork_error("fork failed", e);
 	else if (pid == 0)
 	{
-		if (exec->redirection && redirect_command(exec->redirection) < 0)
-			fork_error("dup2 failed.", e);
-		else
+		if (!redirect_command(exec->redirection, e))
 			execute_command(exec, e);
-		exit(127);
+		exit(EXIT_FAILURE);
 	}
 	else
 		waitpid(pid, &e->ret, 0);
-//	set_signal();
 	define_new_term(e->save);
 	return (0);
 }
