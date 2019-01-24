@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 23:05:54 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/23 02:31:32 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/23 23:57:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,5 @@ t_token			*new_token(const char *buff, size_t pos)
 		return (new);
 	new->type = define_token(buff[pos]);
 	new->head = buff + pos;
-	new->len = 0;
 	return (new);
 }
