@@ -6,12 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 19:47:39 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/24 07:44:38 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/24 08:43:17 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "execution_error.h"
+#include "execution.h"
 
 static char		*check_access(char *cmd, char *ptr, char *paths)
 {
@@ -21,7 +22,7 @@ static char		*check_access(char *cmd, char *ptr, char *paths)
 		if ((path = ft_strjoinfree(path, "/", 1)))
 			if ((path = ft_strjoinfree(path, cmd, 1)))
 			{
-				if (!access(path, F_OK))
+				if (access_command(path) == ERR_OK_VAL)
 					return (path);
 				free(path);
 			}
