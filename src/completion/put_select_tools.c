@@ -6,11 +6,12 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:00:36 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/22 03:10:23 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/24 09:50:44 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "put.h"
+#include "libft.h"
 
 void	reset_put(t_tree *tern);
 

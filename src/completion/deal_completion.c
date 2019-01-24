@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:38:48 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/23 03:34:59 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/24 06:12:17 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	deal_complet(t_tree *file, t_line *line)
 	}
 	else
 		put = 1;
-	if ((put = put_complet(line->curr->buff_tmp, file, line->curr->buff, &put, line, &nb_ret)) == 1)
+	if ((put = put_complet(file, &put, line, &nb_ret)) == 1)
 		line->tmp[0] = 10;
 	else if (put == -1)
 	{
@@ -143,7 +143,9 @@ void		get_complet(t_line *line)
 			i = -1;
 			while (tmp->str[++i])
 			{
-				if (!ft_isalnum(tmp->str[i]) && tmp->str[i] != '/' && tmp->str[i] != '.' && tmp->str[i] != '_' && tmp->str[i] != '-')
+				if (!ft_isalnum(tmp->str[i]) && tmp->str[i] != '/'
+					&& tmp->str[i] != '.' && tmp->str[i] != '_'
+						&& tmp->str[i] != '-')
 					*ptr++ = '\\';
 				*ptr = tmp->str[i];
 				ptr++;

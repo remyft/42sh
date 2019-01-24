@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/24 02:54:25 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/24 06:22:23 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	init_line(char **env, t_line *line)
 	line->env = env;
 }
 
+#include <stdio.h>
+
 void	deal_key(t_line *line)
 {
 	int				i;
@@ -58,8 +60,10 @@ void	deal_key(t_line *line)
 		{ "\x1B\x5B\x33\x7E" , &del_right },
 		{ "\x1B\x5B\x31\x3B\x32\x44", &select_left},
 		{ "\x1B\x5B\x31\x3B\x32\x43", &select_right},
-		{ "\x1B\x5B\x31\x3B\x35\x43" , &next_word },
-		{ "\x1B\x5B\x31\x3B\x35\x44" , &prev_word },
+//		{ "\x1B\x5B\x31\x3B\x35\x43" , &next_word },
+//		{ "\x1B\x5B\x31\x3B\x35\x44" , &prev_word },
+		{ "\x15" , &next_word },
+		{ "\x2" , &prev_word },
 		{ "\xC3\xA7" , &ft_copy },
 		{ "\xE2\x88\x9A" , &ft_paste },
 		{ "\xE2\x89\x88" , &ft_cut } };
@@ -127,7 +131,7 @@ void	deal_typing(t_line *line)
 		line->tmp[nb_read] = '\0';
 		if (line->tmp[0] == '/')
 			line->tree[2] = free_tree(line->tree[2]);
-	//	else if (line->tmp[0] != 9 && !line->key)
+	//	else if (line->tmp[0] != 9 || line->tmp[2] <= 42 || line->tmp[2] >= 44)
 	//		deal_reset(line->tree[0], line->tree[1], NULL);
 		if (line->key)
 			line->key = 0;
