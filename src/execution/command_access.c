@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 19:49:32 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/22 02:32:42 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/24 08:27:10 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ int				access_command(char *path)
 		return (ERR_NOT_FOUND_VAL);
 	if (access(path, X_OK))
 		return (ERR_PERM_VAL);
-	if (stat(path, &buf) || S_ISDIR(buf.st_mode))
+	if (stat(path, &buf))
 		return (ERR_NOT_FOUND_VAL);
+	if (S_ISDIR(buf.st_mode))
+		return (ERR_IS_DIRECTORY_VAL);
 	return (ERR_OK_VAL);
 }

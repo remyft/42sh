@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/12 01:26:04 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/24 07:49:01 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/24 08:26:50 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ static void		execute_free(char **env, char **cmd, char *name)
 static void		execute_error(char *progname, int err, char **cmd)
 {
 	static char	*error[] = {
-		"", ERR_MALLOC_FUNC, ERR_NOT_FOUND_FUNC, ERR_PERM_FUNC,
+		"", ERR_MALLOC_STR, ERR_NOT_FOUND_STR, ERR_PERM_STR,
+		ERR_IS_DIRECTORY_STR,
 	};
 
 	ft_putstr_fd(progname, STDERR_FILENO);
