@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:42:34 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/24 02:48:50 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/24 03:03:13 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,6 +289,15 @@ void	deal_slct_key(t_slct *select, int nb_col, int key)
 		deal_slct_key(select->next, nb_col, key);
 }
 
+void	free_select(t_slct *select)
+{
+	if (select->next)
+		free_select(select->next);
+	if (select->down)
+		free_select(select->down);
+	if (select)
+		free(select);
+}
 
 int		put_complet(char *str, t_tree *tern, char *tget, int *put, t_line *line, int *nb_ret)
 {
@@ -386,6 +395,8 @@ int		put_complet(char *str, t_tree *tern, char *tget, int *put, t_line *line, in
 	*(line->e_cmpl) |= COMPLETION;
 	if (chr)
 		free(chr);
+	if (select)
+		free_select(select);
 	return (0);
 }
 
