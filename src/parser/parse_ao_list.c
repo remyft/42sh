@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/20 20:43:39 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/19 01:19:06 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/24 03:13:41 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,17 @@ static int	check_token_next(t_token *token)
 	return (1);
 }
 
-int			parse_ao_list(const char *buff, t_token **token, t_p_param *param)
+int			parse_ao_list(t_token **token, t_p_param *param)
 {
-	if (*param->arg == NULLARG && *param->redir == NULLREDIR)
-		return (parse_error(buff, *token));
+	if (((t_command *)*param->cmd)->args == NULLARG
+		&& ((t_command *)*param->cmd)->redir == NULLREDIR)
+		return (parse_error(*token));
 	if (!check_token_next((*token)->next))
-		return (parse_error(buff, (*token)->next));
+		return (parse_error((*token)->next));
 	if (!(param->aolist = new_ao_list(*token, &(*param->aolist)->next)))
-		return (parse_error(buff, *token));
+		return (parse_error(*token));
 	if (!(param->cmd = new_command(&(*param->aolist)->cmd)))
-		return (parse_error(buff, *token));
+		return (parse_error(*token));
 	param->arg = &((t_command *)*param->cmd)->args;
 	param->redir = &((t_command *)*param->cmd)->redir;
 	return (1);

@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_comment.c                                   :+:      :+:    :+:   */
+/*   handle_minus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/06 00:22:05 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/23 22:57:02 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/01/23 05:48:00 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/01/23 06:08:14 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token.h"
 
-t_token			*handle_comment(t_param *param, t_call *tokens)
+t_token				*handle_minus(t_param *param, t_call *token)
 {
-	(void)tokens;
+	(void)token;
 	if (param->token->type == UNDEFINED)
 	{
-		param->token->head = param->buff + param->i;
 		param->token->type = TOKEN;
-		param->token->id = COMMENT;
+		return (param->token);
 	}
-	return (param->token);
+	else if (param->token->type == TOKEN)
+		return (param->token);
+	param->token = token[param->token->type].identifier(param);
+	if (param->token->prev->head[param->token->prev->len - 1] != '&')
+		return (param->token);
+	param->token->next = new_token(param->buff, param->i + 1);
+	param->token->next->prev = param->token;
+	param->token->len++;
+	return (param->token->next);
 }

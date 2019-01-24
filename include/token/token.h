@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/19 23:31:24 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/23 05:59:31 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ enum {
 typedef struct	s_token
 {
 	int				quote;
-	size_t			head;
-	size_t			tail;
+	const char		*head;
+	size_t			len;
 	struct s_token	*next;
 
 	size_t			depth;
@@ -120,6 +120,7 @@ typedef struct	s_call
 # define CHAR_COMMENT		{ ft_iscomment,  handle_comment }
 # define CHAR_NEWLINE		{ ft_isnewline,  handle_newline }
 # define CHAR_EQUAL			{ ft_isequal,    handle_equal }
+# define CHAR_MINUS			{ ft_isminus,    handle_minus }
 # define CHAR_OPERATOR		{ ft_isoperator, handle_operator }
 # define CHAR_WORD			{ ft_isword,     handle_word }
 
@@ -134,7 +135,7 @@ typedef struct	s_func
 */
 t_token			*tokenise(const char *buff);
 t_token			*token_loop(t_param *param, int (*ft_end)(t_param *));
-t_token			*new_token(int c, size_t pos);
+t_token			*new_token(const char *buff, size_t pos);
 
 t_token			*handle_end_of_input(t_param *param, t_call *token);
 t_token			*handle_quote(t_param *param, t_call *token);
@@ -143,13 +144,14 @@ t_token			*handle_subs(t_param *param, t_call *token);
 t_token			*handle_comment(t_param *param, t_call *tokens);
 t_token			*handle_newline(t_param *param, t_call *token);
 t_token			*handle_equal(t_param *param, t_call *token);
+t_token			*handle_minus(t_param *param, t_call *token);
 t_token			*handle_operator(t_param *param, t_call *token);
 t_token			*handle_word(t_param *param, t_call *token);
 
 t_token			*identify_operator(t_param *param);
 t_token			*identify_word(t_param *param);
 
-char			*expand_word(const char *buff, t_token *token);
+char			*expand_word(t_token *token);
 
 int				ft_isquote(int c);
 int				ft_issubs(int c);
@@ -159,6 +161,7 @@ int				ft_isword(int c);
 int				ft_isname(int c);
 int				ft_iscomment(int c);
 int				ft_isequal(int c);
+int				ft_isminus(int c);
 
 int				ft_isnull(t_param *param);
 int				ft_isendl(t_param *param);
@@ -177,5 +180,5 @@ int				ft_isvalidname(t_param *param);
 
 void			free_token(t_token **token);
 
-void			debug_tokens(const char *buff, t_token *tokens);
+void			debug_tokens(t_token *tokens);
 #endif

@@ -21,3 +21,10 @@ http://pubs.opengroup.org/onlinepubs/9699919799/
 Section : 8.3 Other Environment Variables
 
 ###
+
+CHANGE
+- collect_env() de remy (le nul)
+
+FINIR
+- open file des Redirections
+- check if command is a builtin

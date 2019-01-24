@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/07 22:38:14 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/16 01:15:42 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/23 03:12:37 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int		token_end(t_exp *param)
 	return (param->i < param->buff_len);
 }
 
-int				expand_argument(const char *buff, t_argument *arg, t_s_env *e)
+int				expand_argument(t_argument *arg, t_s_env *e)
 {
 	t_exp		param;
 	t_ret		ret;
@@ -41,8 +41,8 @@ int				expand_argument(const char *buff, t_argument *arg, t_s_env *e)
 	ft_memset(&param, 0, sizeof(param));
 	ft_memset(&ret, 0, sizeof(ret));
 	param.e = e;
-	param.buff = buff + arg->token->head;
-	param.buff_len = arg->token->tail - arg->token->head;
+	param.buff = arg->token->head;
+	param.buff_len = arg->token->len;
 	param.expand = 1;
 	param.fieldsplit = (arg->token->id != ASSIGNMENT_WORD);
 	if ((error = expand_loop(&ret, &param, token_end)) != ERR_NONE)
@@ -53,5 +53,5 @@ int				expand_argument(const char *buff, t_argument *arg, t_s_env *e)
 		&& table_len(arg->cmd) > 1)
 		return (expand_error(ERR_AMBIGUOUS, e->progname, &ret));
 	expand_free_t_ret(&ret, 0);
-	return (expand_argument(buff, arg->next, e));
+	return (expand_argument(arg->next, e));
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/24 03:22:13 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/24 07:19:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ typedef struct		s_buff
 typedef struct		s_state
 {
 	int				state;
-	size_t			head;
-	size_t			tail;
+	const char		*head;
+	size_t			len;
 	struct s_state	*next;
 
 	char			*cmd;

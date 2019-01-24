@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 04:02:23 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/18 18:10:16 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/23 02:07:52 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,62 +57,62 @@ static char		*my_strnchr(const char *s, int c, size_t len)
 	return (NULL);
 }
 
-char			*expand_word(const char *buff, t_token *token)
+char			*expand_word(t_token *token)
 {
 	size_t		i;
 	size_t		start;
 	char		*ret;
 
-	i = token->head;
+	i = 0;
 	start = i;
 	ret = NULL;
-	while (i < token->tail)
+	while (i < token->len)
 	{
-		if (buff[i] == '\''
+		if (token->head[i] == '\''
 				&& (!token->quote || token->quote & SINGLE_QUOTE))
 		{
-			if (!my_strnchr(buff + i + 1, '\'', token->tail - i)
+			if (!my_strnchr(token->head + i + 1, '\'', token->len - i)
 					&& !(token->quote & SINGLE_QUOTE))
 			{
 				i++;
 				continue ;
 			}
-			ret = my_strnjoin(ret, buff + start, i - start);
+			ret = my_strnjoin(ret, token->head + start, i - start);
 			start = i + 1;
 			if (!token->quote)
 				token->quote |= SINGLE_QUOTE;
 			else
 				token->quote &= ~SINGLE_QUOTE;
 		}
-		else if (buff[i] == '"'
+		else if (token->head[i] == '"'
 				&& (!token->quote || token->quote & DOUBLE_QUOTE))
 		{
-			if (!my_strnchr(buff + i + 1, '"', token->tail - i)
+			if (!my_strnchr(token->head + i + 1, '"', token->len - i)
 					&& !(token->quote & DOUBLE_QUOTE))
 			{
 				i++;
 				continue ;
 			}
-			ret = my_strnjoin(ret, buff + start, i - start);
+			ret = my_strnjoin(ret, token->head + start, i - start);
 			start = i + 1;
 			if (!token->quote)
 				token->quote |= DOUBLE_QUOTE;
 			else
 				token->quote &= ~DOUBLE_QUOTE;
 		}
-		else if (buff[i] == '\\'
+		else if (token->head[i] == '\\'
 				&& (!token->quote || token->quote & DOUBLE_QUOTE))
 		{
-			ret = my_strnjoin(ret, buff + start, i - start);
+			ret = my_strnjoin(ret, token->head + start, i - start);
 			start = i + 1;
 			i++;
 		}
-		// else if (buff[i] == '$' && !(token->quote & SINGLE_QUOTE))
+		// else if (token->head[i] == '$' && !(token->quote & SINGLE_QUOTE))
 		// {
-		// 	ret = my_strnjoin(ret, buff + start, i - start);
+		// 	ret = my_strnjoin(ret, token->head + start, i - start);
 		// 	if (sub)
 		// 	{
-		// 		ret = my_strnjoin(ret, buff + sub->head, sub->tail - sub->head);
+		// 		ret = my_strnjoin(ret, token->head + sub->head, sub->tail - sub->head);
 		// 		start = sub->tail;
 		// 		i = start - 1;
 		// 		sub = sub->next;
@@ -120,6 +120,6 @@ char			*expand_word(const char *buff, t_token *token)
 		// }
 		i++;
 	}
-	ret = my_strnjoin(ret, buff + start, i - start);
+	ret = my_strnjoin(ret, token->head + start, i - start);
 	return (ret);
 }

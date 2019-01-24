@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/21 20:32:33 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/01/23 07:10:59 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,11 +34,9 @@ OTHR_DIR = $(SRCS_DIR)other/
 
 SRCS_DIR = src/
 SRCS =	minishell.c							\
-		deal_commande.c						\
 		tools.c								\
 		setenv_builtin.c					\
 		cd_builtin.c						\
-		exec.c								\
 		main_tools.c						\
 		remove_line_continuation.c			\
 		signal.c							\
@@ -79,6 +77,7 @@ SRCS += expand_word.c						\
 		handle_comment.c					\
 		handle_end_of_input.c				\
 		handle_equal.c						\
+		handle_minus.c						\
 		handle_newline.c					\
 		handle_operator.c					\
 		handle_quote.c						\
@@ -86,11 +85,11 @@ SRCS += expand_word.c						\
 		handle_word.c						\
 		identify_operator.c					\
 		identify_word.c						\
+		is_subs_next.c						\
 		is_subs.c							\
-		is_subs2.c							\
+		is_token_next.c						\
+		is_token_validname.c				\
 		is_token.c							\
-		is_token2.c							\
-		is_token3.c							\
 		new_token.c							\
 		tdebug.c							\
 
@@ -120,7 +119,6 @@ SRCS += command_access.c					\
 		execute_debug.c						\
 		execute_list.c						\
 		quote_removal.c						\
-#		open_file.c							\#
 
 #EXPANSIONS
 EXPANSION_DIR = expansion/
@@ -138,8 +136,8 @@ SRCS += edebug.c							\
 		expand_dollar_parameter_init.c		\
 		expand_dollar_parameter_value.c		\
 		expand_dollar_parameter.c			\
-		expand_dollar_special1.c			\
-		expand_dollar_special2.c			\
+		expand_dollar_special_next.c		\
+		expand_dollar_special.c				\
 		expand_dollar_substitution.c		\
 		expand_dollar_word_value.c			\
 		expand_dollar_word_nonnull_subst.c	\
@@ -184,7 +182,7 @@ OK =	$(GREEN)[OK]$(RESET)
 
 NEWLINE = $(shell echo "")
 
-CFLAGS =  -Wall -Wextra -Werror
+CFLAGS =  -Wall -Wextra -Werror #-Wmissing-prototypes
 
 OBJS_DIR = objs/
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
@@ -259,13 +257,13 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)$(EXPANSION_DIR)%.c $(DEPS_DIR)%.d
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(EXECUTION_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(EXECUTION_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I $(INC_DIR)/$(EXECUTION_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I $(INC_DIR)/$(TOKEN_DIR) -I $(INC_DIR)/$(EXPANSION_DIR) $(DEBUG)
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(EXECUTION_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(REDIRECTION_DIR) $(DEBUG)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(REDIRECTION_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(REDIRECTION_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I $(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I $(INC_DIR)/$(TOKEN_DIR) $(DEBUG)
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR) $(DEBUG)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(OTHR_DIR)%.c

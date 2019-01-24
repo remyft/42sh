@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 01:23:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/21 23:22:08 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/23 00:01:02 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,34 +41,36 @@ static int		modify_public_environment(t_argument *var, t_s_env *e)
 	return (0);
 }
 
-// static int	pipe_command(const char *buff, void *cmd, t_s_env *e)
-// {
-// 	(void)buff;
-// 	(void)cmd;
-// 	(void)e;
-// 	return (0);
-// }
-
-int				parse_command(const char *buff, void *cmd, t_s_env *e, int var)
+static int		normal_command(t_execute *exec, t_s_env *e)
 {
-	t_execute	exec;
 	t_argument	*ptr;
 
+	ptr = exec->variable;
+	while (ptr && ptr->token->id == ASSIGNMENT_WORD)
+		ptr = ptr->next;
+	exec->command = ptr;
+	if (exec->variable != exec->command && !exec->command)
+		return (modify_public_environment(exec->variable, e));
+	return (fork_command(exec, e));
+} 
+
+static int		pipe_command(t_execute *exec, t_s_env *e)
+{
+	exec->piped = 1;
+	return (fork_command(exec, e));
+}
+int				parse_command(void *cmd, t_s_env *e)
+{
+	t_execute	exec;
+
+	debug_execution(cmd);
 	ft_memset(&exec, 0, sizeof(exec));
 	if (!((t_command *)cmd)->args)
 		return (0);
-	// if (*(int *)cmd == IS_A_PIPE)
-		(void)var;
 	exec.variable = ((t_command *)cmd)->args;
-	ptr = exec.variable;
-	while (ptr && ptr->token->id == ASSIGNMENT_WORD)
-		ptr = ptr->next;
-	exec.command = ptr;
-	debug_execution(cmd);
-	if (!exec.variable && !exec.command)
-		return (0);
-	if (exec.variable != exec.command && !exec.command)
-		return (modify_public_environment(exec.variable, e));
-	return (execute_command(buff, &exec, e));
+	exec.redirection = ((t_command *)cmd)->redir;
+	if (*(int *)cmd == IS_A_PIPE)
+		return (pipe_command(&exec, e));
+	return (normal_command(&exec, e));
 }
 

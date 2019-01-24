@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   term_properties.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 03:54:40 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/23 00:12:44 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/24 07:17:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,7 @@ void		define_new_term(struct termios *save)
 		ft_putendl("Fatal error: unable to get term attributes.");
 		exit(2);
 	}
-	if (tcgetattr(0, &termios) != 0)
-	{
-		ft_putendl("Fatal error: unable to the term attributes.");
-		exit(2);
-	}
+	ft_memcpy(&termios, save, sizeof(termios));
 	termios.c_lflag &= ~(ICANON | ECHO | ISIG);
 	termios.c_cc[VMIN] = 1;
 	termios.c_cc[VTIME] = 0;

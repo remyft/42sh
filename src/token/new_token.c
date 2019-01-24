@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 23:05:54 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/13 14:34:12 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/23 23:57:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,14 @@ static int		define_token(int c)
 	return (TOKEN);
 }
 
-t_token			*new_token(int c, size_t pos)
+t_token			*new_token(const char *buff, size_t pos)
 {
 	t_token		*new;
 
 	new = ft_memalloc(sizeof(*new));
 	if (!new)
 		return (new);
-	new->type = define_token(c);
-	new->head = pos;
-	new->tail = pos;
+	new->type = define_token(buff[pos]);
+	new->head = buff + pos;
 	return (new);
 }
