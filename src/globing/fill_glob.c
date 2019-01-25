@@ -6,11 +6,11 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 23:31:38 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 02:46:39 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/25 13:00:53 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "21sh.h"
 #include "globing.h"
 
 void	get_new_str(t_slist **glob, char *prev)

@@ -6,11 +6,11 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 21:19:12 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/16 01:12:58 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/25 13:01:04 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "21sh.h"
 #include "globing.h"
 
 static void	rev_brack(t_tree *tree, char *tget, t_slist **glob, t_stint sti)

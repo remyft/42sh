@@ -6,11 +6,11 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 21:19:06 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/15 17:03:02 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/25 13:00:31 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "21sh.h"
 #include "globing.h"
 
 static t_slst	*expand_slst(t_slst *lst, char *str)
