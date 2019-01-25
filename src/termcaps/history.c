@@ -6,11 +6,11 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:43:32 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 04:20:57 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/25 12:58:37 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "21sh.h"
 
 static void	get_old_hist(t_hist **begin, int fd, int continu)
 {

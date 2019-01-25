@@ -6,47 +6,11 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 05:59:37 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 08:45:34 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/25 12:58:48 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-void		ft_copy(t_line *line)
-{
-	if (line->slct_beg < 0)
-		return ;
-	if (line->copy)
-		free(line->copy);
-	line->copy = ft_strndup(&(line->curr->buff[line->slct_beg]),
-			line->slct_end - line->slct_beg);
-}
-
-void		ft_cut(t_line *line)
-{
-	int beg;
-	int end;
-
-	if (line->slct_beg < 0)
-		return ;
-	ft_copy(line);
-	beg = line->slct_beg;
-	end = line->slct_end;
-	while (line->curr->buff[beg])
-	{
-		if (line->curr->buff[end])
-			line->curr->buff[beg] = line->curr->buff[end++];
-		else
-			line->curr->buff[beg] = '\0';
-		beg++;
-	}
-	line->len = ft_strlen(line->curr->buff);
-	tputs(tgoto(tgetstr("ch", NULL), 0, line->lprompt), 1, ft_pchar);
-	tputs(tgetstr("cd", NULL), 1, ft_pchar);
-	ft_putstr(line->curr->buff);
-	tputs(tgoto(tgetstr("ch", NULL), 0,
-				(line->lprompt + line->index) % line->nb_col), 1, ft_pchar);
-}
+#include "21sh.h"
 
 static int	get_paste(t_line *line, int *j)
 {

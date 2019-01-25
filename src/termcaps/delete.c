@@ -6,11 +6,11 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:51:36 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 03:49:22 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/25 12:58:05 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "21sh.h"
 
 void		del_lines(t_line *line)
 {
