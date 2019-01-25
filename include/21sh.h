@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   21sh.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/24 07:51:21 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/25 13:26:14 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef H_21SH_H
+# define H_21SH_H
 
 # include "libft.h"
 # include "struct.h"
@@ -20,34 +20,24 @@
 # include <termios.h>
 # include <dirent.h>
 
-char			**parsing(char *cmd);
-
-void			deal_cmd(char **cmd, char ***env, struct termios *save);
-
 char			*get_line(int fd);
-char			*replace_str(char *path, char *src, char *replace);
 void			free_tab(char ***tabl);
 int				get_tab_len(char **tabl);
 char			**ft_ralloc(char ***env, int len);
 
 void			ft_setenv(char ***env, char *new, int len);
 char			*get_env(char **env, char *to_get);
-void			ft_unsetenv(char ***env, char **unset);
 char			**collect_env(char **ep);
-
-void			ft_cd(char ***env, char **cmd);
-
-int				ft_exec(char **env, char **cmd, struct termios *save);
 
 void			put_prompt(char *prompt);
 
 char			*remove_line_continuation(char *line);
 
-void			welcome(t_line *line);
 
 /*
 ** Termcaps
 */
+
 void			go_home(t_line *line);
 void			go_end(t_line *line);
 void			left_arrow(t_line *line);
@@ -79,17 +69,37 @@ void			get_typing(t_line *line, int nb_read);
 void			term_restore(struct termios save);
 void			define_new_term(struct termios *save);
 
+void			deal_prompt(t_line *line);
+void			reset_line(t_line *line);
+void			free_buff(t_line *line);
+char			*listnjoin(t_line *line);
+
+/*
+**	Select, copy, cut and paste
+*/
+
 void			select_left(t_line *line);
 void			select_right(t_line *line);
+
 void			ft_copy(t_line *line);
 void			ft_paste(t_line *line);
 void			ft_cut(t_line *line);
 
 /*
+**	Heredoc
+*/
+
+int				deal_hdoc(t_line *line);
+int				deal_continue(t_line *line);
+void			change_state(t_line *line, int state);
+
+int				check_hdoc(t_line *line);
+
+/*
 ** Completion
 */
-int				put_complet(char *str, t_tree *tern, char *tget, int *put,
-		t_line *line, int *nb_ret);
+
+int				put_complet(t_tree *tern, int *put, t_line *line, int *nb_ret);
 void			get_complet(t_line *line);
 void			set_complet(t_line *line);
 
@@ -100,6 +110,7 @@ t_tree			*create_file_tree(char *path, t_tree *tern);
 
 void			set_psblty(t_tree *tern);
 void			*free_tree(t_tree *tern);
+void			free_all_tree(t_line *line);
 
 void			reset_put(t_tree *tern);
 void			deal_reset(t_tree *tree1, t_tree *tree2, t_tree *tree3);
@@ -108,7 +119,7 @@ t_line			*get_struct(void);
 void			del_all_state(t_line *line);
 
 /*
-** globing
+** Globing
 */
 
 t_slst			*deal_globing(char *str, t_tree *tree);
@@ -118,5 +129,15 @@ t_slst			*deal_globing(char *str, t_tree *tree);
 */
 
 void			set_signal(void);
+
+/*
+**	Reset line
+*/
+
+void	put_new_prompt(t_line *line);
+void	del_all_state(t_line *line);
+void	free_hdoc(t_line *line);
+void	reset_buff(t_line *line);
+void	reset_hist(t_line *line);
 
 #endif

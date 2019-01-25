@@ -6,12 +6,12 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:50:33 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/24 03:55:45 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/25 13:01:48 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main_tools.h"
-#include "minishell.h"
+#include "21sh.h"
 
 void	sig_hdlr(int sig)
 {
@@ -30,10 +30,7 @@ void	sig_winch(int sig)
 	if (*line->e_cmpl & COMPLETION)
 	{
 		if (line->is_putb < 2)
-		{
 			*line->e_cmpl &= ~COMPLETION;
-		//	line->is_putb--;
-		}
 		get_complet(line);
 	}
 }

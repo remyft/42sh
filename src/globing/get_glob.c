@@ -6,13 +6,12 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 21:19:10 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/16 01:13:57 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/25 02:43:04 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "globing.h"
 
-#include "libft.h"
 void	get_glob(t_tree *tree, char *tget, t_slist **glob, t_stint sti)
 {
 	if (!tree)

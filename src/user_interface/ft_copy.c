@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   term_tools.c                                       :+:      :+:    :+:   */
+/*   ft_copy.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/22 04:24:51 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 04:21:26 by rfontain         ###   ########.fr       */
+/*   Created: 2019/01/25 11:36:28 by rfontain          #+#    #+#             */
+/*   Updated: 2019/01/25 11:46:03 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <term.h>
+#include "libft.h"
+#include "struct.h"
 
-int			ft_pchar(int nb)
+void		ft_copy(t_line *line)
 {
-	return (write(STDOUT_FILENO, &nb, 1));
-}
-
-void		delete_down(void)
-{
-	tputs(tgetstr("sc", NULL), 1, ft_pchar);
-	tputs(tgetstr("do", NULL), 1, ft_pchar);
-	tputs(tgetstr("cr", NULL), 1, ft_pchar);
-	tputs(tgetstr("cd", NULL), 1, ft_pchar);
-	tputs(tgetstr("rc", NULL), 1, ft_pchar);
+	if (line->slct_beg < 0)
+		return ;
+	if (line->copy)
+		free(line->copy);
+	line->copy = ft_strndup(&(line->curr->buff[line->slct_beg]),
+			line->slct_end - line->slct_beg);
 }
