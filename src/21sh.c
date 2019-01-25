@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   21sh.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/28 00:01:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 12:52:49 by rfontain         ###   ########.fr       */
+/*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
+/*   Updated: 2019/01/25 16:05:02 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ static void	get_new_cmd(t_line *line, t_s_env *e)
 	remove_line_continuation(ret);
 	if ((tokens = tokenise(ret)) != NULLTOKEN)
 	{
-		if ((tree = parse(ret, tokens)) != NULLLIST)
+		if ((tree = parse(tokens)) != NULLLIST)
 		{
-			execute_list(ret, tree, e);
+			execute_list(tree, e);
 			free_m_list(&tree);
 		}
 		free_token(&tokens);
@@ -54,14 +54,18 @@ static void	init_shell_line(t_line **line, t_s_env e)
 
 static void	shell_loop(t_line *line, t_s_env *e)
 {
-	put_prompt(line->prompt);
-	check_path(line, e->public_env);
-	deal_typing(line);
-	if (!deal_hdoc(line))
-		if (check_hdoc(line))
-			return ;
-	if (line->curr->buff[0] && line->tmp[0] != -1 && line->curr->buff[0] != 10)
-		get_new_cmd(line, e);
+	while (1)
+	{
+		put_prompt(line->prompt);
+		check_path(line, e->public_env);
+		deal_typing(line);
+		if (!deal_hdoc(line))
+			if (check_hdoc(line))
+				continue ;
+		if (line->curr->buff[0] && line->tmp[0] != -1
+				&& line->curr->buff[0] != 10)
+			get_new_cmd(line, e);
+	}
 }
 
 int			main(int ac, char **av, char **ep)
@@ -71,9 +75,9 @@ int			main(int ac, char **av, char **ep)
 
 	line = NULL;
 	init_shell_env(&e, ac, av, collect_env(ep));
+	define_new_term(&e.save);
 	init_shell_line(&line, e);
-	while (1)
-		shell_loop(line, &e);
+	shell_loop(line, &e);
 	free_shell_env(&e);
 	return (0);
 }

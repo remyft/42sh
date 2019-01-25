@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/24 07:49:40 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/25 15:12:21 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "operator_types.h"
 #include "expansion.h"
 #include "redirection.h"
+#include "libft.h"
 
 static int	prepare_redirect(t_redirection *cmd, t_s_env *e)
 {

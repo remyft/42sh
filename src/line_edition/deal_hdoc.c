@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 10:38:58 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 13:02:05 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/25 15:29:32 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ int			deal_hdoc(t_line *line)
 	while (line->hdoc && line->hdoc->prev)
 		line->hdoc = line->hdoc->prev;
 	tmp = ft_memalloc(sizeof(t_state));
-	tmp->head = 0;
-	tmp->tail = ft_strlen(line->curr->buff);
-	tmp->cmd = expand_word(line->curr->buff, (t_token*)tmp);
+	tmp->head = line->curr->buff;
+	tmp->len = ft_strlen(line->curr->buff);
+	tmp->cmd = expand_word((t_token*)tmp);
 	if (tmp->cmd && line->hdoc && line->hdoc->cmd
 			&& ft_strcmp(tmp->cmd, line->hdoc->cmd) == 0)
 		return (del_hdoc(line, tmp));

@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 11:00:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 13:02:59 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/25 13:38:03 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ static int	get_new_hdoc(t_line *line, int state, t_buff *buff)
 			buff = buff->prev;
 		while (line->hdoc && line->hdoc->prev)
 		{
-			line->hdoc->cmd = expand_word(buff->buff, (t_token*)line->hdoc);
+			line->hdoc->cmd = expand_word((t_token*)line->hdoc);
 			line->hdoc = line->hdoc->prev;
 		}
 		if (line->hdoc)
-			line->hdoc->cmd = expand_word(buff->buff, (t_token*)line->hdoc);
+			line->hdoc->cmd = expand_word((t_token*)line->hdoc);
 		return (1);
 	}
 	deal_prompt(line);
@@ -71,8 +71,8 @@ static void	create_new_hdoc(t_line *line, int *state, int i)
 	}
 	*state |= WT_HDOC;
 	*state &= ~WT_SPACE;
-	line->hdoc->head = i;
-	line->hdoc->tail = i + 1;
+	line->hdoc->head = &line->curr->buff[i];
+	line->hdoc->len = 1;
 }
 
 static void	check_curr_hdoc(t_line *line, int *i, int *state)
@@ -85,7 +85,7 @@ static void	check_curr_hdoc(t_line *line, int *i, int *state)
 	else if (line->curr->buff[*i] != ' ' && *state & WT_SPACE)
 		create_new_hdoc(line, state, *i);
 	else if (line->curr->buff[*i] != ' ' && *state & WT_HDOC)
-		line->hdoc->tail++;
+		line->hdoc->len++;
 	else if (line->curr->buff[*i] == ' ' && *state & WT_HDOC)
 	{
 		*state &= ~WT_HDOC;

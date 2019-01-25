@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 13:27:01 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/25 16:05:04 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	init_line(char **env, t_line *line)
 	create_hist(&(line->hist), env);
 	if (line->hist)
 		line->hist = line->hist->begin;
-	define_new_term(&(line->save));
+	tcgetattr(0, &line->save);
 	set_signal();
 	tputs(tgetstr("cl", NULL), 1, ft_pchar);
 	line->tree[0] = create_bin_tree(env);
