@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:13:27 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/24 01:42:09 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/25 11:24:28 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	go_end(t_line *line)
 	j = (line->len + line->lprompt) / line->nb_col;
 	while (++i < j)
 		tputs(tgetstr("do", NULL), 1, ft_pchar);
-	tputs(tgoto(tgetstr("ch", NULL), 0, (line->len + line->lprompt) % line->nb_col), 1, ft_pchar);
+	tputs(tgoto(tgetstr("ch", NULL), 0,
+				(line->len + line->lprompt) % line->nb_col), 1, ft_pchar);
 	line->index = line->len;
 }
 
@@ -43,10 +44,14 @@ void	left_arrow(t_line *line)
 		line->key = LEFT;
 		return (get_complet(line));
 	}
+	if (line->curr->buff_tmp[8193])
+		ft_bzero(line->curr->buff_tmp, 8194);
 	line->index = line->index > 0 ? line->index - 1 : 0;
-	if (line->index && (line->index + line->lprompt) % line->nb_col == line->nb_col - 1)
+	if (line->index
+			&& (line->index + line->lprompt) % line->nb_col == line->nb_col - 1)
 		tputs(tgetstr("up", NULL), 1, ft_pchar);
-	tputs(tgoto(tgetstr("ch", NULL), 0, (line->index + line->lprompt) % line->nb_col), 1, ft_pchar);
+	tputs(tgoto(tgetstr("ch", NULL), 0,
+				(line->index + line->lprompt) % line->nb_col), 1, ft_pchar);
 }
 
 void	right_arrow(t_line *line)
@@ -56,8 +61,11 @@ void	right_arrow(t_line *line)
 		line->key = RIGHT;
 		return (get_complet(line));
 	}
+	if (line->curr->buff_tmp[8193])
+		ft_bzero(line->curr->buff_tmp, 8194);
 	line->index = line->index < line->len ? line->index + 1 : line->len;
 	if (line->index && (line->index + line->lprompt) % line->nb_col == 0)
 		tputs(tgetstr("do", NULL), 1, ft_pchar);
-	tputs(tgoto(tgetstr("ch", NULL), 0, (line->index + line->lprompt) % line->nb_col), 1, ft_pchar);
+	tputs(tgoto(tgetstr("ch", NULL), 0,
+				(line->index + line->lprompt) % line->nb_col), 1, ft_pchar);
 }

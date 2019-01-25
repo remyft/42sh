@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/21 20:32:33 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/01/25 11:03:34 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,28 +34,37 @@ OTHR_DIR = $(SRCS_DIR)other/
 
 SRCS_DIR = src/
 SRCS =	minishell.c							\
-		deal_commande.c						\
 		tools.c								\
-		setenv_builtin.c					\
-		cd_builtin.c						\
-		exec.c								\
 		main_tools.c						\
 		remove_line_continuation.c			\
 		signal.c							\
 		singleton.c							\
 		shell_env.c							\
+		collect_env.c						\
 		free_env.c							\
-		welcome.c							\
+		reset_line.c						\
+		deal_typing.c						\
+		deal_hdoc.c							\
+		create_hdoc.c						\
+		deal_line.c							\
 
 #COMPLETION
 CMPL_DIR = $(SRCS_DIR)completion/
 SRCS +=	create_tree.c						\
 		deal_completion.c					\
+		deal_complet_tools.c				\
 		put_completion.c					\
 		put_select_tools.c					\
 		put_tree_tools.c					\
 		tree_tools.c						\
 		reset_tree.c						\
+		completion_key.c					\
+		cpl_select_key.c					\
+		put_tree.c							\
+		select_branch.c						\
+		deal_select_branch.c				\
+		fill_tree.c							\
+		feed_branch.c						\
 
 #TERMCAPS
 TERM_DIR = $(SRCS_DIR)termcaps/
@@ -69,6 +78,7 @@ SRCS += term_properties.c					\
 		move_word.c							\
 		typing.c							\
 		select.c							\
+		ft_paste.c							\
 
 #TOKENS
 TOKEN_DIR = token/
@@ -219,6 +229,8 @@ $(OBJS_DIR)minishell.o: INCS += -I$(INC_DIR)/$(TOKEN_DIR)
 $(OBJS_DIR)minishell.o: INCS += -I$(INC_DIR)/$(PARSER_DIR)
 $(OBJS_DIR)minishell.o: INCS += -I$(INC_DIR)/$(EXPANSION_DIR)
 $(OBJS_DIR)minishell.o: INCS += -I$(INC_DIR)/$(EXECUTION_DIR)
+$(OBJS_DIR)deal_hdoc.o: INCS += -I$(INC_DIR)/$(TOKEN_DIR)
+$(OBJS_DIR)create_hdoc.o: INCS += -I$(INC_DIR)/$(TOKEN_DIR)
 
 $(OBJS_DIR)%.o: $(CMPL_DIR)%.c
 $(OBJS_DIR)%.o: $(CMPL_DIR)%.c $(DEPS_DIR)%.d

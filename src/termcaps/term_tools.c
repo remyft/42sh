@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:24:51 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/22 04:43:06 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/25 04:21:26 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int			ft_pchar(int nb)
 	return (write(STDOUT_FILENO, &nb, 1));
 }
 
-void	delete_down(void)
+void		delete_down(void)
 {
 	tputs(tgetstr("sc", NULL), 1, ft_pchar);
 	tputs(tgetstr("do", NULL), 1, ft_pchar);
