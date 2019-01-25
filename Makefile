@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/25 11:03:34 by rfontain         ###   ########.fr        #
+#    Updated: 2019/01/25 13:11:54 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,15 +33,20 @@ BUIL_DIR = $(SRCS_DIR)builtin/
 OTHR_DIR = $(SRCS_DIR)other/
 
 SRCS_DIR = src/
-SRCS =	minishell.c							\
-		tools.c								\
+SRCS =	21sh.c								\
+
+#ENVIRONMENT
+ENV_DIR = $(SRCS_DIR)environment/
+SRCS += collect_env.c						\
+		shell_env.c							\
+		free_env.c							\
+
+#LINE EDITION
+LINE_DIR = $(SRCS_DIR)line_edition/
+SRCS += tools.c								\
 		main_tools.c						\
-		remove_line_continuation.c			\
 		signal.c							\
 		singleton.c							\
-		shell_env.c							\
-		collect_env.c						\
-		free_env.c							\
 		reset_line.c						\
 		deal_typing.c						\
 		deal_hdoc.c							\
@@ -77,7 +82,12 @@ SRCS += term_properties.c					\
 		delete.c							\
 		move_word.c							\
 		typing.c							\
-		select.c							\
+
+#USER INTERFACE
+USER_DIR = $(SRCS_DIR)user_interface/
+SRCS += select.c							\
+		ft_copy.c							\
+		ft_cut.c							\
 		ft_paste.c							\
 
 #TOKENS
@@ -102,6 +112,7 @@ SRCS += expand_word.c						\
 		is_token2.c							\
 		is_token3.c							\
 		new_token.c							\
+		remove_line_continuation.c			\
 		tdebug.c							\
 
 #PARSER
@@ -225,15 +236,33 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(DEPS_DIR)%.d
 	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
-$(OBJS_DIR)minishell.o: INCS += -I$(INC_DIR)/$(TOKEN_DIR)
-$(OBJS_DIR)minishell.o: INCS += -I$(INC_DIR)/$(PARSER_DIR)
-$(OBJS_DIR)minishell.o: INCS += -I$(INC_DIR)/$(EXPANSION_DIR)
-$(OBJS_DIR)minishell.o: INCS += -I$(INC_DIR)/$(EXECUTION_DIR)
+$(OBJS_DIR)21sh.o: INCS += -I$(INC_DIR)/$(TOKEN_DIR)
+$(OBJS_DIR)21sh.o: INCS += -I$(INC_DIR)/$(PARSER_DIR)
+$(OBJS_DIR)21sh.o: INCS += -I$(INC_DIR)/$(EXPANSION_DIR)
+$(OBJS_DIR)21sh.o: INCS += -I$(INC_DIR)/$(EXECUTION_DIR)
 $(OBJS_DIR)deal_hdoc.o: INCS += -I$(INC_DIR)/$(TOKEN_DIR)
 $(OBJS_DIR)create_hdoc.o: INCS += -I$(INC_DIR)/$(TOKEN_DIR)
 
+$(OBJS_DIR)%.o: $(ENV_DIR)%.c
+$(OBJS_DIR)%.o: $(ENV_DIR)%.c $(DEPS_DIR)%.d
+	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
+	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
+
+$(OBJS_DIR)%.o: $(LINE_DIR)%.c
+$(OBJS_DIR)%.o: $(LINE_DIR)%.c $(DEPS_DIR)%.d
+	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
+	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
+
 $(OBJS_DIR)%.o: $(CMPL_DIR)%.c
 $(OBJS_DIR)%.o: $(CMPL_DIR)%.c $(DEPS_DIR)%.d
+	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
+	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
+
+$(OBJS_DIR)%.o: $(USER_DIR)%.c
+$(OBJS_DIR)%.o: $(USER_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
 	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
