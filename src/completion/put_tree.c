@@ -6,13 +6,13 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:34:09 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 01:36:56 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/25 12:55:59 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "put.h"
-#include "minishell.h"
+#include "21sh.h"
 
 static void	get_new_file(t_tree *tern, t_cpl_e env, t_line *line)
 {
