@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   21sh.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 11:01:56 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/25 12:55:09 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef H_21SH_H
+# define H_21SH_H
 
 # include "libft.h"
 # include "struct.h"
@@ -69,16 +69,21 @@ void			get_typing(t_line *line, int nb_read);
 void			term_restore(struct termios save);
 void			define_new_term(struct termios *save);
 
-void			select_left(t_line *line);
-void			select_right(t_line *line);
-void			ft_copy(t_line *line);
-void			ft_paste(t_line *line);
-void			ft_cut(t_line *line);
-
 void			deal_prompt(t_line *line);
 void			reset_line(t_line *line);
 void			free_buff(t_line *line);
 char			*listnjoin(t_line *line);
+
+/*
+**	Select, copy, cut and paste
+*/
+
+void			select_left(t_line *line);
+void			select_right(t_line *line);
+
+void			ft_copy(t_line *line);
+void			ft_paste(t_line *line);
+void			ft_cut(t_line *line);
 
 /*
 **	Heredoc
