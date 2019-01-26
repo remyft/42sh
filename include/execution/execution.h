@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:17:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/25 06:07:42 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/26 15:49:05 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,29 @@ typedef struct	s_execute
 	t_argument		*command;
 	t_redirection	*redirection;
 	int				piped;
+	char			**cmd;
+	char			**env;
+	int				builtin;
 }				t_execute;
 
 int				execute_list(t_m_list *list, t_s_env *e);
-void			execute_command(t_execute *exec, t_s_env *e);
-int				parse_command(void *cmd, t_s_env *e);
+void			command_execute(t_execute *exec, t_s_env *e);
+int				command_parse(void *cmd, t_s_env *e);
+int				command_error(char *progname, int err, char **cmd);
+void			command_free(t_execute *exec, char **public, char *name);
 
 void			quote_removal(t_argument *arg);
 void			variable_assignment(t_command *cmd, t_s_env *e);
 
-int				check_command(t_execute *exec, t_s_env *e);
-int				fork_command(t_execute *exec, t_s_env *e);
+int				command_check(t_execute *exec, t_s_env *e);
+int				command_fork(t_execute *exec, t_s_env *e);
+int				command_access(char *path);
+int				command_redirect(t_redirection *redirection, t_s_env *e);
+int				command_path(char **path, char *cmd, char *paths);
+
 char			**duplicate_environ(char **table);
-char			**modify_environ(t_argument *var, t_argument *end, char **env);
-char			**group_command(t_argument *cmd);
-int				path_command(char **path, char *cmd, char *paths);
-int				access_command(char *path);
+char			**modify_environ(t_argument *var, t_execute *exec);
+char			**command_group(t_argument *cmd);
 
 int				isvalidname(char *str, size_t n);
 
