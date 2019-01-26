@@ -6,14 +6,15 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 06:26:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/25 06:52:27 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/26 10:18:44 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include "execution.h"
 #include "shell_env.h"
 
-static int		builtin_echo_strlen(const char *str)
+static int		echo_strlen(const char *str)
 {
 	int			i;
 
@@ -23,7 +24,7 @@ static int		builtin_echo_strlen(const char *str)
 	return (i);
 }
 
-int				builtin_echo(char **args, t_s_env *e)
+int				builtin_echo(t_execute *exec, t_s_env *e)
 {
 	int			i;
 	int			j;
@@ -32,20 +33,20 @@ int				builtin_echo(char **args, t_s_env *e)
 	i = 1;
 	n = 0;
 	(void)e;
-	while (args[i] && args[i][0] == '-')
+	while (exec->cmd[i] && exec->cmd[i][0] == '-' && exec->cmd[i][1])
 	{
 		j = 1;
-		if ((n = (args[i][j] == 'n')))
-			while (args[i][j] == 'n')
+		if ((n = (exec->cmd[i][j] == 'n')))
+			while (exec->cmd[i][j] == 'n')
 				j++;
-		if (!(n = (args[i][j] == '\0')))
+		if (exec->cmd[i][j] != '\0' && ((i > 1) || !(n = 0)))
 			break ;
 		i++;
 	}
-	while (args[i])
-		if (write(STDIN_FILENO, args[i], builtin_echo_strlen(args[i])) < 0)
+	while (exec->cmd[i])
+		if (write(STDIN_FILENO, exec->cmd[i], echo_strlen(exec->cmd[i])) < 0)
 			return (1);
-		else if (args[++i] && write(STDIN_FILENO, " ", 1) < 0)
+		else if (exec->cmd[++i] && write(STDIN_FILENO, " ", 1) < 0)
 			return (1);
 	if (!n && write(STDIN_FILENO, "\n", 1) < 0)
 		return (1);
