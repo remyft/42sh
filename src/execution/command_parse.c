@@ -6,13 +6,15 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 01:23:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/26 06:58:48 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/26 17:47:58 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "expansion_lib.h"
 #include "execution.h"
+#include "execution_error.h"
+#include "builtins.h"
 
 static int		modify_public_environment(t_argument *var, t_s_env *e)
 {
@@ -42,8 +44,26 @@ static int		modify_public_environment(t_argument *var, t_s_env *e)
 	return (0);
 }
 
-static int		normal_command(t_execute *exec, t_s_env *e)
+static int		command_builtin(int (*builtin)(t_execute *, t_s_env *),
+t_execute *exec, t_s_env *e)
 {
+	if (exec->variable == exec->command)
+		exec->env = e->public_env;
+	else if (!(exec->env = duplicate_environ(e->public_env))
+		|| !(exec->env = modify_environ(exec->variable, exec)))
+		return (command_error(e->progname, ERR_MALLOC_VAL, exec->cmd));
+	e->ret = builtin(exec, e);
+	command_free(exec, e->public_env, NULL);
+	return (0);
+}
+
+static int		command_normal(t_execute *exec, t_s_env *e)
+{
+	static t_builtins	builtins[] = {
+		BUILTIN_ECHO, BUILTIN_CD, /*BUILTIN_SETENV, BUILTIN_UNSETENV, BUILTIN_ENV,
+		BUILTIN_EXIT,*/
+	};
+	size_t				i;
 	t_argument	*ptr;
 
 	ptr = exec->variable;
@@ -52,16 +72,25 @@ static int		normal_command(t_execute *exec, t_s_env *e)
 	exec->command = ptr;
 	if (exec->variable != exec->command && !exec->command)
 		return (modify_public_environment(exec->variable, e));
-	return (check_command(exec, e));
+	if (!(exec->cmd = command_group(exec->command)))
+		return (command_error(e->progname, ERR_MALLOC_VAL, NULL));
+	i = 0;
+	while (i < sizeof(builtins) / sizeof(builtins[0]))
+	{
+		if (!ft_strcmp(builtins[i].name, exec->cmd[0]))
+			return (command_builtin(builtins[i].handler, exec, e));
+		i++;
+	}
+	return (command_fork(exec, e));
 }
 
-static int		pipe_command(t_execute *exec, t_s_env *e)
+static int		command_pipe(t_execute *exec, t_s_env *e)
 {
 	exec->piped = 1;
-	return (fork_command(exec, e));
+	return (command_fork(exec, e));
 }
 
-int				parse_command(void *cmd, t_s_env *e)
+int				command_parse(void *cmd, t_s_env *e)
 {
 	t_execute	exec;
 
@@ -72,6 +101,6 @@ int				parse_command(void *cmd, t_s_env *e)
 	exec.variable = ((t_command *)cmd)->args;
 	exec.redirection = ((t_command *)cmd)->redir;
 	if (*(int *)cmd == IS_A_PIPE)
-		return (pipe_command(&exec, e));
-	return (normal_command(&exec, e));
+		return (command_pipe(&exec, e));
+	return (command_normal(&exec, e));
 }

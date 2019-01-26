@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 19:29:00 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/21 19:35:19 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/26 08:21:45 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char		**alloc_command(t_argument *cmd)
 	return (ft_memalloc(sizeof(*ret) * (size + 1)));
 }
 
-char			**group_command(t_argument *cmd)
+char			**command_group(t_argument *cmd)
 {
 	char		**ret;
 	size_t		i;

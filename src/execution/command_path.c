@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 19:47:39 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/24 08:43:17 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/26 09:33:44 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ static char		*check_access(char *cmd, char *ptr, char *paths)
 		if ((path = ft_strjoinfree(path, "/", 1)))
 			if ((path = ft_strjoinfree(path, cmd, 1)))
 			{
-				if (access_command(path) == ERR_OK_VAL)
+				if (command_access(path) == ERR_OK_VAL)
 					return (path);
 				free(path);
 			}
 	return (NULL);
 }
 
-int				path_command(char **path, char *cmd, char *paths)
+int				command_path(char **path, char *cmd, char *paths)
 {
 	char		*ptr;
 

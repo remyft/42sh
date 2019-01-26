@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_access.c                                   :+:      :+:    :+:   */
+/*   command_error.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/21 19:49:32 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/26 08:17:26 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/01/26 08:06:53 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/01/26 08:20:28 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <sys/stat.h>
+#include "libft.h"
 #include "execution_error.h"
 
-int				command_access(char *path)
+int				command_error(char *progname, int err, char **cmd)
 {
-	struct stat	buf;
+	static char	*error[] = {
+		"", ERR_EXEC_STR, ERR_MALLOC_STR, ERR_NOT_FOUND_STR, ERR_PERM_STR,
+		ERR_IS_DIRECTORY_STR,
+	};
 
-	if (!path)
-		return (ERR_NOT_FOUND_VAL);
-	if (access(path, F_OK))
-		return (ERR_NOT_FOUND_VAL);
-	if (access(path, X_OK))
-		return (ERR_PERM_VAL);
-	if (stat(path, &buf))
-		return (ERR_NOT_FOUND_VAL);
-	if (S_ISDIR(buf.st_mode))
-		return (ERR_IS_DIRECTORY_VAL);
-	return (ERR_OK_VAL);
+	ft_putstr_fd(progname, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	if (cmd && cmd[0])
+	{
+		ft_putstr_fd(cmd[0], STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+	}
+	ft_putendl_fd(error[err], STDERR_FILENO);
+	return (1);
 }
