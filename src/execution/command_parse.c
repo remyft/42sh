@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 01:23:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/24 07:46:42 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/25 06:06:05 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int		normal_command(t_execute *exec, t_s_env *e)
 	exec->command = ptr;
 	if (exec->variable != exec->command && !exec->command)
 		return (modify_public_environment(exec->variable, e));
-	return (fork_command(exec, e));
+	return (check_command(exec, e));
 }
 
 static int		pipe_command(t_execute *exec, t_s_env *e)
