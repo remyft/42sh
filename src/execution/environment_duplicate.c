@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 19:14:22 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/21 19:34:20 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/26 15:45:56 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ char			**duplicate_environ(char **table)
 		{
 			while (i--)
 				free(ret[i]);
+			free(ret);
 			return (NULL);
 		}
 		else
