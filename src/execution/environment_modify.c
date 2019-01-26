@@ -6,30 +6,31 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 19:16:06 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/24 07:45:39 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/26 09:04:31 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "execution.h"
 #include "expansion_lib.h"
 #include "parser.h"
 
-char			**modify_environ(t_argument *var, t_argument *end, char **env)
+char			**modify_environ(t_argument *var, t_execute *exec)
 {
 	char		**ptr;
 	char		*equal;
 	size_t		i;
 
-	while (var != end)
+	while (var != exec->command)
 	{
 		i = 0;
 		while (var->cmd[i])
 		{
 			equal = ft_strchr(var->cmd[i], '=');
 			*equal = '\0';
-			if ((ptr = exp_getnenvaddr(var->cmd[i], env)))
+			if ((ptr = exp_getnenvaddr(var->cmd[i], exec->env)))
 				free(*ptr);
-			else if (!(ptr = exp_newenv(&env)))
+			else if (!(ptr = exp_newenv(&exec->env)))
 				return (NULL);
 			*equal = '=';
 			*ptr = var->cmd[i];
@@ -38,5 +39,5 @@ char			**modify_environ(t_argument *var, t_argument *end, char **env)
 		}
 		var = var->next;
 	}
-	return (env);
+	return (exec->env);
 }
