@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 16:05:02 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/26 21:52:37 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ static void	get_new_cmd(t_line *line, t_s_env *e)
 	}
 	free_buff(line);
 	del_all_state(line);
+	line->tree[1] = free_tree(line->tree[1]);
+	line->tree[1] = create_file_tree(".", line->tree[1]);
 	free(ret);
 }
 
