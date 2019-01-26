@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:37:51 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 01:44:12 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/26 21:39:07 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	deal_lower(t_tree *lower, char *src, int *lenm, t_slct **select)
 			(*select)->next->mln = lower;
 			if (*(src + 1) && !((*select)->next->down =
 						select_branch(lower->tern_next, src + 1, lenm)))
-				return (free_null(*select));
+				return (free_null((*select)->next));
 		}
 		else
 		{
