@@ -6,53 +6,60 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 06:03:10 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/26 06:49:31 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/26 18:29:57 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "execution.h"
 #include "shell_env.h"
 #include "builtin_cd.h"
 
 static char		*cd_change_in_pwd(char *pwd, char *spot, char **args)
 {
 	char		*tmp;
+	char		*ptr;
 
-	if ((tmp = ft_strndup(pwd, ft_strlen(pwd) - ft_strlen(spot))))
+	ptr = pwd;
+	tmp = ft_strndup(pwd, ft_strlen(pwd) - ft_strlen(spot));
+	if (!tmp)
 	{
-		pwd = ft_strjoin(tmp, args[2]);
-		free(tmp);
-		tmp = NULL;
-		if (pwd)
-		{
-			tmp = ft_strjoin(pwd, spot + ft_strlen(args[1]));
-			free(pwd);
-		}
+		free(pwd);
+		return (NULL);
 	}
+	pwd = ft_strjoin(tmp, args[2]);
+	free(tmp);
+	if (!pwd)
+	{
+		free(ptr);
+		return (NULL);
+	}
+	tmp = ft_strjoin(pwd, spot + ft_strlen(args[1]));
+	free(ptr);
+	free(pwd);
 	return (tmp);
 }
 
-int				cd_search_in_pwd(char **args, t_s_env *e)
+int				cd_search_in_pwd(t_execute *exec, t_s_env *e, size_t i)
 {
 	char		*old_pwd;
 	char		*new_pwd;
-	char		*tmp;
 	int			ret;
 
-	if (!(old_pwd = getcwd(NULL, 0)) || !(tmp = ft_strstr(old_pwd, args[1])))
+	if (!(new_pwd = getcwd(NULL, 0)))
+		return (cd_error(ERR_MALLOC, exec->cmd[i]));
+	if (!(old_pwd = ft_strstr(new_pwd, exec->cmd[i + 1])))
 	{
-		if (old_pwd)
-			free(old_pwd);
-		return (cd_error(ERR_NOT_IN_PWD, args[1]));
+		free(new_pwd);
+		return (cd_error(ERR_NOT_IN_PWD, exec->cmd[i + 1]));
 	}
-	new_pwd = cd_change_in_pwd(old_pwd, tmp, args);
-	if (chdir(new_pwd) != -1)
-	{
-		ft_putendl(new_pwd);
-		ret = cd_change_pwds(new_pwd, old_pwd, e);
-		if (old_pwd)
-			free(old_pwd);
-		return (ret);
-	}
-	return (cd_dir_error(new_pwd, old_pwd, new_pwd));
+	if (!(new_pwd = cd_change_in_pwd(new_pwd, old_pwd, exec->cmd + i)))
+		return (cd_error(ERR_MALLOC, exec->cmd[i]));
+	if (chdir(new_pwd) < 0)
+		return (cd_dir_error(new_pwd, NULL, new_pwd));
+	ft_putendl(new_pwd);
+	ret = cd_change_pwds(new_pwd, old_pwd, e);
+	if (old_pwd)
+		free(old_pwd);
+	return ((ret) ? cd_error(ret, exec->cmd[i]) : ERR_NO_ERR);
 }

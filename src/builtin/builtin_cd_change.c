@@ -6,20 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 06:11:54 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/26 06:47:14 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/26 12:20:47 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "shell_env.h"
+#include "builtin_cd.h"
 #include "expansion_lib.h"
-
-static int	cd_change_error(char *new)
-{
-	ft_putstr_fd("cd: unable to change pwd: ", STDERR_FILENO);
-	ft_putendl_fd(new, STDERR_FILENO);
-	return (1);
-}
+#include "libft.h"
 
 static size_t	cd_tablen(char **table)
 {
@@ -42,7 +35,7 @@ static int	cd_change_env(char *envvar, char *value, t_s_env *e)
 	if (!(e->public_env = ft_memalloc(sizeof(value) * (len + 2))))
 	{
 		e->public_env = save;
-		return (cd_change_error(value));
+		return (ERR_MALLOC);
 	}
 	len = 0;
 	if (save)
@@ -52,14 +45,14 @@ static int	cd_change_env(char *envvar, char *value, t_s_env *e)
 	{
 		free(e->public_env);
 		e->public_env = save;
-		return (cd_change_error(value));
+		return (ERR_MALLOC);
 	}
 	if (save)
 		free(save);
-	return (0);
+	return (ERR_NO_ERR);
 }
 
-int			cd_change_pwd(char *new, char *old, t_s_env *e)
+int			cd_change_pwds(char *new, char *old, t_s_env *e)
 {
 	char	**var;
 
@@ -67,7 +60,7 @@ int			cd_change_pwd(char *new, char *old, t_s_env *e)
 	{
 		free(*var);
 		if (!(*var = ft_strjoin("PWD=", new)))
-			return (cd_change_error(new));
+			return (1);
 	}
 	else if (cd_change_env("PWD=", new, e))
 		return (1);
@@ -75,7 +68,7 @@ int			cd_change_pwd(char *new, char *old, t_s_env *e)
 	{
 		free(*var);
 		if (!(*var = ft_strjoin("OLDPWD=", old)))
-			return (cd_change_error(old));
+			return (1);
 	}
 	else if (cd_change_env("OLDPWD=", old, e))
 		return (1);

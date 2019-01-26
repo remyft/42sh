@@ -6,25 +6,30 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 10:20:55 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/26 06:15:13 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/26 11:47:46 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/stat>
+#include <sys/stat.h>
 #include "libft.h"
+#include "builtin_cd.h"
 
 int				cd_error(int err, char *arg)
 {
 	static char	*errors[] = {
-		"invalid option: -", "too much arguments", "string not in pwd",
+		NULL, "not enought memory", "invalid option: -", "too much arguments",
+		"HOME not defined", "OLDPWD not defined", "string not in pwd",
 	};
 
 	ft_putstr_fd("cd: ", STDERR_FILENO);
-	if (err)
+	if (err != ERR_INVALID_OPTION)
 	{
 		ft_putstr_fd(errors[err], STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
-		ft_putendl_fd(arg, STDERR_FILENO);
+		if (arg)
+		{
+			ft_putstr_fd(": ", STDERR_FILENO);
+			ft_putendl_fd(arg, STDERR_FILENO);
+		}
 	}
 	else
 	{
@@ -41,7 +46,7 @@ int				cd_dir_error(char *newpwd, char *oldpwd, char *entry)
 	if (stat(newpwd, &buffer) == -1)
 	{
 		if (lstat(newpwd, &buffer) != -1)
-			ft_putstr_fd_2("cd: too many levels of symbolic links: ", 2);
+			ft_putstr_fd("cd: too many levels of symbolic links: ", 2);
 		else
 			ft_putstr_fd("cd: no such file or directory: ", STDERR_FILENO);
 	}

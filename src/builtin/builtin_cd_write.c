@@ -6,13 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 11:01:36 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/26 06:48:56 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/26 17:41:13 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "shell_env.h"
+#include "builtin_cd.h"
 #include "expansion_lib.h"
+#include "libft.h"
 
 static char		*cd_recreate_path(char *new, char **list)
 {
@@ -38,72 +38,77 @@ static char		*cd_recreate_path(char *new, char **list)
 	return (new);
 }
 
-static char		*cd_get_path(char *path, char *pwd)
+static int		cd_get_path(char **new, char *path, char *pwd)
 {
-	char		*new;
 	char		**list;
+	size_t		i;
 
 	if (!path)
-		return (NULL);
+		return (ERR_NO_ERR);
 	if (!pwd || !*pwd)
-		return (path);
-	new = ft_strnew(ft_strlen(path) + ft_strlen(pwd) + 2);
-	new = ft_strcpy(new, path);
-	list = ft_strsplit(pwd, '/');
-	if (new && list)
-		new = cd_recreate_path(new, list);
-	else
-		ft_putendl_fd("cd: memory insufficiant.", STDERR_FILENO);
-	if (list)
-		ft_freetab(&list);
-	return (new);
+		return ((*new = ft_strdup(path)) != NULL);
+	if (!(*new = ft_strnew(ft_strlen(path) + ft_strlen(pwd) + 2)))
+		return (ERR_MALLOC);
+	*new = ft_strcpy(*new, path);
+	if (!(list = ft_strsplit(pwd, '/')))
+		return (ERR_MALLOC);
+	*new = cd_recreate_path(*new, list);
+	i = 0;
+	while (list[i])
+		free(list[i++]);
+	free(list);
+	return (ERR_NO_ERR);
 }
 
-static char		*cd_get_new_pwd(char **args, t_s_env *e, int i)
+static int		cd_get_new_pwd(t_execute *exec, t_s_env *e, int i, char **pwd)
 {
-	char		*pwd;
-
-	if (!args[i])
+	if (!exec->cmd[i])
 	{
-		if (!(pwd = exp_getnenv("HOME", e->public_env)))
-			if (!(pwd = exp_getnenv("HOME", e->private_env)))
-				ft_putendl_fd("cd: HOME not defined", STDERR_FILENO);
+		if (!(*pwd = exp_getnenv("HOME", exec->env)))
+			if (!(*pwd = exp_getnenv("HOME", e->private_env)))
+				return (ERR_NO_HOME);
 	}
-	else if (!ft_strcmp(args[i], "-"))
+	else if (!ft_strcmp(exec->cmd[i], "-"))
 	{
-		if (!(pwd = exp_getnenv("OLDPWD", e->public_env))
-			&& !(pwd = exp_getnenv("OLDPWD", e->private_env)))
-				ft_putendl_fd("cd: OLDPWD not defined", STDERR_FILENO);
-		else if (chdir(pwd) != -1)
-			ft_putendl(pwd);
+		if (!(*pwd = exp_getnenv("OLDPWD", exec->env))
+			&& !(*pwd = exp_getnenv("OLDPWD", e->private_env)))
+				return (ERR_NO_OLDPWD);
+		ft_putendl(*pwd);
 	}
-	else if (*args[i] == '/')
-		return (cd_get_path("/", args[i]));
-	else if ((pwd = exp_getnenv("PWD", e->public_env))
-			|| (pwd = exp_getnenv("PWD", e->private_env)))
-		return (cd_get_path(pwd, args[i]));
-	return (ft_strdup(pwd));
+	else if (*exec->cmd[i] == '/')
+		return (cd_get_path(pwd, "/", exec->cmd[i]));
+	else if ((*pwd = exp_getnenv("PWD", exec->env))
+			|| (*pwd = exp_getnenv("PWD", e->private_env)))
+		return (cd_get_path(pwd, *pwd, exec->cmd[i]));
+	return ((*pwd = ft_strdup(*pwd)) == NULL);
 }
 
-int				cd_write_in_pwd(char **args, t_s_env *e, int i)
+int				cd_write_in_pwd(t_execute *exec, t_s_env *e, size_t i)
 {
 	char		*old_pwd;
 	char		*new_pwd;
 	int			ret;
 
-	old_pwd = getcwd(NULL, 0);
-	new_pwd = cd_get_new_pwd(args, e, i);
+	ret = 0;
+	if (!(old_pwd = getcwd(NULL, 0)))
+		return (cd_error(ERR_MALLOC, exec->cmd[i]));
+	if ((ret = cd_get_new_pwd(exec, e, i, &new_pwd)) != ERR_NO_ERR)
+		return (cd_error(ret, exec->cmd[i]));
 	if (chdir(new_pwd) < 0)
-		return (cd_dir_error(new_pwd, old_pwd, args[i]));
-	if (args[i - 1][0] == '-' &&
-		ft_strlen(ft_strrchr(args[i - 1], 'P')) == 1)
+		return (cd_dir_error(new_pwd, old_pwd, exec->cmd[i]));
+	if (exec->cmd[i - 1][0] == '-' &&
+		ft_strlen(ft_strrchr(exec->cmd[i - 1], 'P')) == 1)
 	{
 		if (new_pwd)
 			free(new_pwd);
-		new_pwd = getcwd(NULL, 0);
+		if (!(new_pwd = getcwd(NULL, 0)))
+			return (ERR_MALLOC);
 	}
-	ret = cd_change_pwds(new_pwd, old_pwd, e);
+	if (exec->env == e->public_env)
+		ret = cd_change_pwds(new_pwd, old_pwd, e);
+	if (new_pwd)
+		free(new_pwd);
 	if (old_pwd)
 		free(old_pwd);
-	return (ret);
+	return ((ret) ? cd_error(ret, exec->cmd[i]) : ERR_NO_ERR);
 }
