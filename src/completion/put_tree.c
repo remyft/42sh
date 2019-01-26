@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:34:09 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 12:55:59 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/26 21:04:16 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void		ft_put_tree(t_tree *tern, t_cpl_e env, t_line *line, int *car_ret)
 		get_new_buff(tern, env, line);
 		ft_putstr(env.bru);
 		put_space(env, car_ret);
+		tputs(tgetstr("me", NULL), 1, ft_pchar);
 	}
 	if (tern->right)
 		ft_put_tree(tern->right, env, line, car_ret);
