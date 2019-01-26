@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:57:24 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/22 03:15:17 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/25 03:31:22 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,14 @@ void		*free_tree(t_tree *tern)
 		free(tern);
 	}
 	return (NULL);
+}
+
+void		free_all_tree(t_line *line)
+{
+	if (line->tree[0])
+		line->tree[0] = free_tree(line->tree[0]);
+	if (line->tree[1])
+		line->tree[1] = free_tree(line->tree[1]);
+	if (line->tree[2])
+		line->tree[2] = free_tree(line->tree[2]);
 }

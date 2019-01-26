@@ -6,13 +6,11 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:00:36 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/22 03:10:23 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/25 01:44:46 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "put.h"
-
-void	reset_put(t_tree *tern);
 
 void	get_isput(t_slct *select, int len, int lvl, int *tres)
 {
@@ -41,7 +39,7 @@ void	get_psb(t_slct *select, int len, int lvl, int *psb)
 	if (select->down)
 		get_psb(select->down, len, lvl + 1, psb);
 	else if (lvl + 1 == len)
-		if (select->mln->npsb)
+		if (select->mln->tern_next->npsb)
 			*psb += select->mln->tern_next->npsb;
 }
 

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/12 01:26:04 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/24 08:26:50 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/25 15:24:47 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int				fork_command(t_execute *exec, t_s_env *e)
 {
 	pid_t		pid;
 
-	term_restore(*e->save);
+	term_restore(e->save);
 	pid = fork();
 	if (pid < 0)
 		fork_error("fork failed", e);
@@ -126,6 +126,6 @@ int				fork_command(t_execute *exec, t_s_env *e)
 	}
 	else
 		waitpid(pid, &e->ret, 0);
-	define_new_term(e->save);
+	define_new_term(&e->save);
 	return (0);
 }

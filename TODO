@@ -20,6 +20,11 @@ http://pubs.opengroup.org/onlinepubs/9699919799/
 
 Section : 8.3 Other Environment Variables
 
+### COMPLETION
+Fix pb quand une seule possibilite
+Fix pb quand espace
+Ajouter \ quand espace
+
 ###
 
 CHANGE

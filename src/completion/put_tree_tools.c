@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:46:51 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/22 05:39:33 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/25 01:44:30 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,16 @@ int		get_tstr(t_tree *tern, char *str)
 		tern = tern->tern_next;
 	}
 	return (1);
+}
+
+void	get_tree_psb(t_tree *tree, int *psb)
+{
+	if (tree->left)
+		get_tree_psb(tree->left, psb);
+	if (tree->right)
+		get_tree_psb(tree->right, psb);
+	if ((tree->prev || tree->value != '.') && tree->tern_next)
+		get_tree_psb(tree->tern_next, psb);
+	if (!tree->tern_next)
+		*psb += 1;
 }

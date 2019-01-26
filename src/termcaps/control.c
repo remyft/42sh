@@ -6,27 +6,21 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/23 02:52:48 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/25 15:43:36 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "21sh.h"
 
-void	deal_exit(t_line *line)
+void			deal_exit(t_line *line)
 {
-	int i;
-
-	t_hist *curr;
+	int		i;
+	t_hist	*curr;
 
 	if (line->curr->buff[0])
 		return ;
 	term_restore(line->save);
-	if (line->tree[0])
-		free_tree(line->tree[0]);
-	if (line->tree[1])
-		free_tree(line->tree[1]);
-	if (line->tree[2])
-		free_tree(line->tree[2]);
+	free_all_tree(line);
 	ft_putchar('\n');
 	while (line->hist)
 	{
@@ -44,71 +38,24 @@ void	deal_exit(t_line *line)
 	exit(0);
 }
 
-void		del_all_state(t_line *line)
-{
-	int i;
-
-	i = 0;
-	while (i < 10)
-	{
-		*(line->e_cmpl) &= ~(1 << i);
-		i++;
-	}
-	line->is_putb = 0;
-}
-
 static int		ft_cancel(t_line *line)
 {
 	while ((line->index = line->index + line->nb_col) < line->len)
 		tputs(tgetstr("do", NULL), 1, ft_pchar);
-	tputs(tgoto(tgetstr("ch", NULL), 0, (line->len + line->lprompt) % line->nb_col), 1, ft_pchar);
+	tputs(tgoto(tgetstr("ch", NULL), 0,
+				(line->len + line->lprompt) % line->nb_col), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
 	ft_bzero(line->curr->buff_tmp, 8194);
 	del_all_state(line);
-	if (line->hdoc)
-	{
-		while (line->hdoc->next)
-		{
-			if (line->hdoc->prev)
-			{
-				free(line->hdoc->prev->cmd);
-				free(line->hdoc->prev);
-			}
-			line->hdoc = line->hdoc->next;
-		}
-		free(line->hdoc->cmd);
-		free(line->hdoc);
-		line->hdoc = NULL;
-	}
-	if (!line->hist)
-		return (-1);
-	line->hist = line->hist->begin;
-	while (line->hist->next)
-	{
-		if (line->hist->tmp)
-			free(line->hist->tmp);
-		line->hist->tmp = NULL;
-		line->hist = line->hist->next;
-	}
-	if (line->hist->tmp)
-		free(line->hist->tmp);
-	line->hist->tmp = NULL;
-	line->hist = line->hist->begin;
-	while (line->curr->prev)
-	{
-		if (line->curr->next)
-			free(line->curr->next);
-		line->curr = line->curr->prev;
-	}
-	free(line->curr);
-	line->curr = ft_memalloc(sizeof(t_buff));
-//	ft_bzero(line->curr->buff, 8193);
+	free_hdoc(line);
+	reset_hist(line);
+	reset_buff(line);
 	line->len = 0;
 	line->index = 0;
 	return (-1);
 }
 
-void	deal_cancel(t_line *line)
+void			deal_cancel(t_line *line)
 {
 	if (*(line->e_cmpl) & COMPLETION)
 	{
@@ -130,15 +77,14 @@ void	deal_cancel(t_line *line)
 	else
 	{
 		if (line->tree[2])
-			free_tree(line->tree[2]);
-		line->tree[2] = NULL;
+			line->tree[2] = free_tree(line->tree[2]);
 		line->tmp[0] = ft_cancel(line);
 	}
 	*(line->e_cmpl) &= ~COMPLETION;
 	line->is_putb = 0;
 }
 
-void	ft_clear(t_line *line)
+void			ft_clear(t_line *line)
 {
 	tputs(tgetstr("cl", NULL), 1, ft_pchar);
 	put_prompt(line->prompt);
