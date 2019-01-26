@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:42:34 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 13:26:32 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/26 21:25:27 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int			deal_select(t_slct *select, t_cpl_e env, t_line *line)
 					? ft_strrchr(line->curr->buff, ' ') + 1
 					: ft_strrchr(line->curr->buff, '/') + 1);
 		free(env.chr);
+		free_select(select);
 		return (1);
 	}
 	if (line->is_putb && line->key)
@@ -41,16 +42,32 @@ int			deal_select(t_slct *select, t_cpl_e env, t_line *line)
 	return (0);
 }
 
-void		deal_tree(t_line *line, t_tree *tern, t_cpl_e env)
+int		deal_tree(t_line *line, t_tree *tern, t_cpl_e env)
 {
 	int		tres;
+	int		psb;
+	char	*tmp;
+	char	*chr;
 
 	tres = 0;
+	psb = 0;
+	get_tree_psb(tern, &psb);
+	if (psb == 1)
+	{
+		if ((chr = ft_strrchr(line->curr->buff, ' ')))
+			tmp = ft_strchr(chr, '/') ? ft_strrchr(chr, '/') : chr;
+		if (tern->value != '.')
+			get_tstr(tern, tmp);
+		else
+			tern->left ? get_tstr(tern->left, tmp) : get_tstr(tern->right, tmp);
+		return (1);
+	}
 	if (line->is_putb && line->key)
 		deal_tree_key(tern, env.nb_col, line->key);
 	get_put(tern, &tres, *env.chr);
 	if (!tres)
 		reset_put(tern);
+	return (0);
 }
 
 void		init_cpl(t_cpl_e *env, t_line *line, int *put, int *nb_ret)
@@ -69,8 +86,8 @@ int			deal_put(t_line *line, t_cpl_e env, t_slct *select, t_tree *tern)
 {
 	if (select && deal_select(select, env, line))
 		return (1);
-	else if (!select)
-		deal_tree(line, tern, env);
+	else if (!select && deal_tree(line, tern, env))
+		return (1);
 	if (select)
 		put_select_branch(select, env, line);
 	else if (env.lenm)
@@ -91,6 +108,7 @@ int			put_complet(t_tree *tern, int *put, t_line *line, int *nb_ret)
 	int		ret;
 
 	env.chr = NULL;
+	env.bru[0] = 0;
 	select = NULL;
 	if ((env.lenm = get_select(line, tern, &(env.chr), &select)) == -1)
 		return (-1);
