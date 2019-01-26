@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/24 07:33:39 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/01/26 06:51:43 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -165,6 +165,7 @@ SRCS += edebug.c							\
 		param_addchar.c						\
 		param_addstr.c						\
 
+#REDIRECTIONS
 REDIRECTION_DIR = redirection/
 SRCS += redirect_and_dgreat.c				\
 		redirect_and_great.c				\
@@ -179,6 +180,15 @@ SRCS += redirect_and_dgreat.c				\
 		redirect_less.c						\
 		redirect_open_error.c				\
 		redirection.c						\
+
+#BUILTINS
+BUILTIN_DIR = builtin/
+SRCS += builtin_echo.c						\
+		builtin_cd_change.c					\
+		builtin_cd_error.c					\
+		builtin_cd_search.c					\
+		builtin_cd_write.c					\
+		builtin_cd.c						\
 
 #GLOBING
 GLOB_DIR = $(SRCS_DIR)globing/
@@ -276,6 +286,12 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)$(REDIRECTION_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(REDIRECTION_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
 	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR) $(DEBUG)
+	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
+
+$(OBJS_DIR)%.o: $(SRCS_DIR)$(BUILTIN_DIR)%.c
+$(OBJS_DIR)%.o: $(SRCS_DIR)$(BUILTIN_DIR)%.c $(DEPS_DIR)%.d
+	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) #-I$(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(OTHR_DIR)%.c
