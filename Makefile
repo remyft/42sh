@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/26 06:59:05 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/01/26 18:26:23 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -133,12 +133,16 @@ SRCS += free_parser.c						\
 #EXECUTION
 EXECUTION_DIR = execution/
 SRCS += command_access.c					\
+		command_error.c						\
+		command_execute.c					\
+		command_fork.c						\
+		command_free.c						\
 		command_group.c						\
 		command_parse.c						\
 		command_path.c						\
+		command_redirect.c					\
 		environment_duplicate.c				\
 		environment_modify.c				\
-		execute_command.c					\
 		execute_debug.c						\
 		execute_list.c						\
 		quote_removal.c						\
@@ -227,7 +231,7 @@ OK =	$(GREEN)[OK]$(RESET)
 
 NEWLINE = $(shell echo "")
 
-CFLAGS =  -Wall -Wextra -Werror #-Wmissing-prototypes
+CFLAGS =  -Wall -Wextra -Werror #-ansi -pedantic -Wmissing-prototypes
 
 OBJS_DIR = objs/
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
@@ -322,7 +326,7 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)$(EXPANSION_DIR)%.c $(DEPS_DIR)%.d
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(EXECUTION_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(EXECUTION_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(EXECUTION_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(REDIRECTION_DIR) $(DEBUG)
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(EXECUTION_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(BUILTIN_DIR) $(DEBUG)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(REDIRECTION_DIR)%.c
@@ -334,14 +338,14 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)$(REDIRECTION_DIR)%.c $(DEPS_DIR)%.d
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(BUILTIN_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(BUILTIN_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) #-I$(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR)
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(BUILTIN_DIR) -I $(INC_DIR)/$(EXECUTION_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
-$(OBJS_DIR)%.o: $(OTHR_DIR)%.c
-$(OBJS_DIR)%.o: $(OTHR_DIR)%.c $(DEPS_DIR)%.d
-	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
-	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
+# $(OBJS_DIR)%.o: $(OTHR_DIR)%.c
+# $(OBJS_DIR)%.o: $(OTHR_DIR)%.c $(DEPS_DIR)%.d
+# 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
+# 	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
+# 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(GLOB_DIR)%.c
 $(OBJS_DIR)%.o: $(GLOB_DIR)%.c $(DEPS_DIR)%.d
