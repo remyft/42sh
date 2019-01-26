@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collect_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 03:05:48 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 13:02:45 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/26 17:20:59 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@ char		**collect_env(char **ep)
 
 	i = -1;
 	if (!ep || !ep[0]
-			|| !(env = (char**)malloc(sizeof(char*) * (get_tab_len(ep) + 2))))
+			|| !(env = ft_memalloc(sizeof(char*) * (get_tab_len(ep) + 2))))
 		return (NULL);
 	while (ep[++i])
-		env[i] = ft_strdup(ep[i]);
+		if (!(env[i] = ft_strdup(ep[i])))
+			break ;
 	env[i + 1] = NULL;
 	tmp = get_env(env, "SHLVL");
 	ntmp = ft_atoi(tmp);
