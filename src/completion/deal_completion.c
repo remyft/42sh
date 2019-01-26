@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:38:48 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 12:57:22 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/26 15:54:22 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,12 @@ static void	deal_complet(t_tree *file, t_line *line)
 	else
 		put = 1;
 	if ((put = put_complet(file, &put, line, &nb_ret)) == 1)
+	{
+		*line->e_cmpl |= COMPLETION;
 		line->tmp[0] = 10;
+	}
 	else if (put == -1)
 	{
-		*(line->e_cmpl) &= ~COMPLETION;
 		line->is_putb = 0;
 		line->tmp[0] = 0;
 		return ;
@@ -65,7 +67,6 @@ void		set_complet(t_line *line)
 	delete_down();
 	*(line->e_cmpl) &= ~COMPLETION;
 	line->is_putb = 0;
-	line->tmp[0] = 0;
 	if (ft_strrchr(line->curr->buff, ' ')
 			&& (dir = opendir(ft_strrchr(line->curr->buff, ' ') + 1)))
 	{
@@ -82,6 +83,7 @@ void		set_complet(t_line *line)
 	}
 	if (dir)
 		closedir(dir);
+	line->tmp[0] = 0;
 	ft_bzero(line->curr->buff_tmp, 8194);
 	line->index = line->len;
 }

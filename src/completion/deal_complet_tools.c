@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 02:17:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 12:57:40 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/26 17:46:32 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,11 @@ t_tree	*set_tmp(char *buff)
 	char	*stmp;
 
 	stmp = ft_strrchr(buff, ' ') + 1;
-	stmp = ft_strndup(stmp, ft_strrchr(stmp, '/') - stmp);
+	if (*stmp != '/')
+		stmp = ft_strndup(stmp, ft_strrchr(stmp, '/') - stmp);
 	file = create_file_tree(stmp, NULL);
-	free(stmp);
+	if (*stmp != '/')
+		free(stmp);
 	return (file);
 }
 
