@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 05:56:14 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/25 10:24:38 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/26 10:23:38 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@
 typedef struct	s_builtins
 {
 	char		*name;
-	int			(*handler)(char **args, t_s_env *e);
+	int			(*handler)(t_execute *, t_s_env *);
 }				t_builtins;
 
-int				builtin_echo(char **args, t_s_env *e);
-int				builtin_cd(char **args, t_s_env *e);
-int				builtin_setenv(char **args, t_s_env *e);
-int				builtin_unsetenv(char **args, t_s_env *e);
-int				builtin_env(char **args, t_s_env *e);
-int				builtin_exit(char **args, t_s_env *e);
+int				builtin_echo(t_execute *exec, t_s_env *e);
+int				builtin_cd(t_execute *exec, t_s_env *e);
+int				builtin_setenv(t_execute *exec, t_s_env *e);
+int				builtin_unsetenv(t_execute *exec, t_s_env *e);
+int				builtin_env(t_execute *exec, t_s_env *e);
+int				builtin_exit(t_execute *exec, t_s_env *e);
 
 #endif
