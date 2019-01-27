@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 13:26:14 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/27 20:44:11 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ char			**collect_env(char **ep);
 void			put_prompt(char *prompt);
 
 char			*remove_line_continuation(char *line);
-
 
 /*
 ** Termcaps
@@ -134,10 +133,10 @@ void			set_signal(void);
 **	Reset line
 */
 
-void	put_new_prompt(t_line *line);
-void	del_all_state(t_line *line);
-void	free_hdoc(t_line *line);
-void	reset_buff(t_line *line);
-void	reset_hist(t_line *line);
+void			put_new_prompt(t_line *line);
+void			del_all_state(t_line *line);
+void			free_hdoc(t_line *line);
+void			reset_buff(t_line *line);
+void			reset_hist(t_line *line);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:45:53 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 12:43:54 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/27 20:42:09 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 # include "libft.h"
 # include "struct.h"
-
-int		is_change;
 
 void	init_line(char **env, t_line *line);
 void	deal_key(t_line *line);
