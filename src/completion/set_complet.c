@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 17:13:29 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 17:41:17 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/27 20:39:18 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,32 @@
 #include "21sh.h"
 #include "shell_lib.h"
 
-static void	deal_set(t_line *line, char *ptr, DIR *dir)
+static int	deal_set(t_line *line, char *ptr, DIR *dir)
 {
 	char	*tmp;
+	char	c;
 
 	tmp = NULL;
+	if (line->curr->buff[line->len - 1] == '/'
+			|| line->curr->buff[line->len - 1] == ' ')
+		return (10);
 	if (ptr && *(ptr + 1) == '~')
 	{
-		ptr = replace_str(ptr,  "~", getenv("HOME"));
+		ptr = replace_tilde(ptr, getenv("HOME"));
 		tmp = ptr;
 	}
+	line->tree[2] = free_tree(line->tree[2]);
 	if (ptr && (dir = opendir(ptr + 1)))
-	{
-		if (line->tree[2])
-			free_tree(line->tree[2]);
-		line->tree[2] = NULL;
-		ft_putchar(line->curr->buff[line->len] = '/');
-		line->curr->buff[++(line->len)] = '\0';
-	}
+		c = '/';
 	else
-	{
-		ft_putchar(line->curr->buff[(line->len)] = ' ');
-		line->curr->buff[++(line->len)] = '\0';
-	}
+		c = ' ';
+	ft_putchar(line->curr->buff[(line->len)] = c);
+	line->curr->buff[++(line->len)] = '\0';
 	if (tmp)
 		free(tmp);
 	if (dir)
 		closedir(dir);
+	return (0);
 }
 
 void		set_complet(t_line *line)
@@ -53,8 +52,8 @@ void		set_complet(t_line *line)
 	*(line->e_cmpl) &= ~COMPLETION;
 	line->is_putb = 0;
 	ptr = sh_strrchr(line->curr->buff, ' ');
-	deal_set(line, ptr, dir);
-	line->tmp[0] = 0;
-	ft_bzero(line->curr->buff_tmp, 8194);
+	line->tmp[0] = deal_set(line, ptr, dir);
+	ft_bzero(line->curr->buff_tmp, ft_strlen(line->curr->buff_tmp));
+	line->curr->buff_tmp[8193] = 0;
 	line->index = line->len;
 }
