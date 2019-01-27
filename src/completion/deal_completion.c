@@ -6,12 +6,13 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:38:48 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/26 15:54:22 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/27 17:13:52 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 #include "put.h"
+#include "shell_lib.h"
 
 static void	put_cpl_screen(t_line *line, int nb_ret)
 {
@@ -59,35 +60,6 @@ static void	deal_complet(t_tree *file, t_line *line)
 	put_cpl_screen(line, nb_ret);
 }
 
-void		set_complet(t_line *line)
-{
-	DIR		*dir;
-
-	dir = NULL;
-	delete_down();
-	*(line->e_cmpl) &= ~COMPLETION;
-	line->is_putb = 0;
-	if (ft_strrchr(line->curr->buff, ' ')
-			&& (dir = opendir(ft_strrchr(line->curr->buff, ' ') + 1)))
-	{
-		if (line->tree[2])
-			free_tree(line->tree[2]);
-		line->tree[2] = NULL;
-		ft_putchar(line->curr->buff[line->len] = '/');
-		line->curr->buff[++(line->len)] = '\0';
-	}
-	else
-	{
-		ft_putchar(line->curr->buff[(line->len)] = ' ');
-		line->curr->buff[++(line->len)] = '\0';
-	}
-	if (dir)
-		closedir(dir);
-	line->tmp[0] = 0;
-	ft_bzero(line->curr->buff_tmp, 8194);
-	line->index = line->len;
-}
-
 static void	get_new_glob(t_line *line, t_slst *tmp, char *ptr)
 {
 	int i;
@@ -101,9 +73,7 @@ static void	get_new_glob(t_line *line, t_slst *tmp, char *ptr)
 		i = -1;
 		while (tmp->str[++i])
 		{
-			if (!ft_isalnum(tmp->str[i]) && tmp->str[i] != '/'
-					&& tmp->str[i] != '.' && tmp->str[i] != '_'
-					&& tmp->str[i] != '-')
+			if (sh_is_escapable(tmp->str[i]))
 				*ptr++ = '\\';
 			*ptr = tmp->str[i];
 			ptr++;
@@ -125,11 +95,11 @@ void		get_complet(t_line *line)
 	tmp = NULL;
 	if (!inprint(line->curr->buff))
 		return ;
-	if ((ptr = ft_strrchr(line->curr->buff, ' ')) && str_chrglob(ptr))
+	if ((ptr = sh_strrchr(line->curr->buff, ' ')) && str_chrglob(ptr))
 		tmp = deal_globing(ptr + 1, line->tree[1]);
-	else if (!ft_strchr(line->curr->buff, ' ')
-			|| !ft_strchr(ft_strrchr(line->curr->buff, ' '), '/'))
-		deal_complet(!ft_strchr(line->curr->buff, ' ') ? line->tree[0]
+	else if (!sh_strchr(line->curr->buff, ' ')
+			|| !sh_strchr(sh_strrchr(line->curr->buff, ' '), '/'))
+		deal_complet(!sh_strchr(line->curr->buff, ' ') ? line->tree[0]
 				: line->tree[1], line);
 	else
 	{
