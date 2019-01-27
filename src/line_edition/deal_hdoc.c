@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   deal_hdoc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 10:38:58 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 15:29:32 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/27 13:52:30 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 #include "token.h"
 
 static int	del_hdoc(t_line *line, t_state *tmp)

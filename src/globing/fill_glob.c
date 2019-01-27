@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   fill_glob.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 23:31:38 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 13:00:53 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/27 13:52:30 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 #include "globing.h"
 
 void	get_new_str(t_slist **glob, char *prev)

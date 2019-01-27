@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_tools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 21:19:12 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 13:01:04 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/27 13:52:30 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 #include "globing.h"
 
 static void	rev_brack(t_tree *tree, char *tget, t_slist **glob, t_stint sti)

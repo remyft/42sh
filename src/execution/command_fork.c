@@ -6,16 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/26 17:52:45 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/27 14:04:12 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "execution.h"
 #include "shell_env.h"
-
-void			term_restore(struct termios save);
-void			define_new_term(struct termios *save);
+#include "shell.h"
 
 static int		fork_error(const char *err, t_s_env *e)
 {

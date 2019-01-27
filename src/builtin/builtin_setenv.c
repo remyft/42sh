@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 09:37:46 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/27 13:44:23 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/27 13:57:55 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,59 +14,11 @@
 #include "shell_lib.h"
 #include "builtin_setenv.h"
 
-// static int			add_entry(int i, char **entry, t_env *e)
-// {
-// 	char		**new_env;
-// 	char		*ptr;
-
-// 	if ((new_env = malloc(sizeof(*new_env) * (ft_tablen(e->env) + 2))))
-// 	{
-// 		while (e->env[++i])
-// 			new_env[i] = e->env[i];
-// 		if ((ptr = ft_strchr(entry[1], '=')) != NULL)
-// 			*(ptr - 1) = '\0';
-// 		new_env[i] = malloc(ft_strlen(entry[1]) + ft_strlen(entry[2]) + 2);
-// 		if (new_env[i])
-// 		{
-// 			ft_strcpy(new_env[i], entry[1]);
-// 			ft_strcat(new_env[i], "=");
-// 			ft_strcat(new_env[i], entry[2]);
-// 			new_env[i + 1] = NULL;
-// 			free(e->env);
-// 			e->env = new_env;
-// 			return (0);
-// 		}
-// 		free(new_env);
-// 	}
-// 	ft_putendl_fd("setenv: Memory space insufficiant.", 2);
-// 	return (1);
-// }
-
-// static int			modify_entry(char **entry, t_env *e)
-// {
-// 	char		**tmp;
-// 	char		*new_entry;
-// 	int			len;
-
-// 	tmp = ft_getenvaddr(entry[1], e->env);
-// 	len = ft_strlen(entry[1]) + ft_strlen(entry[2]) + 2;
-// 	if ((new_entry = malloc(len)) != NULL)
-// 	{
-// 		ft_strcpy(new_entry, entry[1]);
-// 		ft_strcat(new_entry, "=");
-// 		ft_strcat(new_entry, entry[2]);
-// 		free(*tmp);
-// 		*tmp = new_entry;
-// 		return (0);
-// 	}
-// 	ft_putendl_fd("setenv: Memory space insufficiant.", 2);
-// 	return (1);
-// }
-
 static int		setenv_error(int err, char *cmd_name)
 {
 	static char	*errors[] = {
-		NULL, MALLOC_ERROR, MISSING_ARG, TOO_MANY_ARGS, WRONG_VAR_NAME, ALPHA_VAR_NAME,
+		NULL, MALLOC_ERROR, MISSING_ARG, TOO_MANY_ARGS, WRONG_VAR_NAME,
+		ALPHA_VAR_NAME,
 	};
 
 	ft_putstr_fd(cmd_name, STDERR_FILENO);

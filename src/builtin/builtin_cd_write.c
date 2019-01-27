@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 11:01:36 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/27 11:33:32 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/27 14:02:04 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static int		cd_get_new_pwd(t_execute *exec, t_s_env *e, int i, char **pwd)
 	{
 		if (!(*pwd = sh_getnenv("OLDPWD", exec->env))
 			&& !(*pwd = sh_getnenv("OLDPWD", e->private_env)))
-				return (ERR_NO_OLDPWD);
+			return (ERR_NO_OLDPWD);
 		ft_putendl(*pwd);
 	}
 	else if (*exec->cmd[i] == '/')
@@ -90,14 +90,13 @@ int				cd_write_in_pwd(t_execute *exec, t_s_env *e, size_t i)
 	int			ret;
 
 	ret = 0;
-	if (!(old_pwd = getcwd(NULL, 0)))
-		return (cd_error(ERR_MALLOC, exec->cmd[i]));
-	if ((ret = cd_get_new_pwd(exec, e, i, &new_pwd)) != ERR_NO_ERR)
-		return (cd_error(ret, exec->cmd[i]));
+	if (!(old_pwd = getcwd(NULL, 0))
+		|| (ret = cd_get_new_pwd(exec, e, i, &new_pwd)) != ERR_NO_ERR)
+		return (cd_error((ret) ? ret : ERR_MALLOC, exec->cmd[i]));
 	if (chdir(new_pwd) < 0)
 		return (cd_dir_error(new_pwd, old_pwd, exec->cmd[i]));
 	if (exec->cmd[i - 1][0] == '-' &&
-		ft_strlen(ft_strrchr(exec->cmd[i - 1], 'P')) == 1)
+		exec->cmd[i - 1][ft_strlen(exec->cmd[i - 1]) - 1] == 'P')
 	{
 		if (new_pwd)
 			free(new_pwd);

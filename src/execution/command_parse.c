@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 01:23:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/27 11:25:55 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/27 14:05:17 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int		command_normal(t_execute *exec, t_s_env *e)
 		BUILTIN_EXIT,*/
 	};
 	size_t				i;
-	t_argument	*ptr;
+	t_argument			*ptr;
 
 	ptr = exec->variable;
 	while (ptr && ptr->token->id == ASSIGNMENT_WORD)

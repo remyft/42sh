@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/27 11:27:55 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/01/27 13:56:03 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ BUIL_DIR = $(SRCS_DIR)builtin/
 OTHR_DIR = $(SRCS_DIR)other/
 
 SRCS_DIR = src/
-SRCS =	21sh.c								\
+SRCS =	shell.c								\
 
 #ENVIRONMENT
 ENV_DIR = $(SRCS_DIR)environment/
@@ -266,15 +266,8 @@ $(NAME): $(NEWLINE) $(OBJS) $(LIB)
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(EXECUTION_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
-
-$(OBJS_DIR)21sh.o: INCS += -I$(INC_DIR)/$(TOKEN_DIR)
-$(OBJS_DIR)21sh.o: INCS += -I$(INC_DIR)/$(PARSER_DIR)
-$(OBJS_DIR)21sh.o: INCS += -I$(INC_DIR)/$(EXPANSION_DIR)
-$(OBJS_DIR)21sh.o: INCS += -I$(INC_DIR)/$(EXECUTION_DIR)
-$(OBJS_DIR)deal_hdoc.o: INCS += -I$(INC_DIR)/$(TOKEN_DIR)
-$(OBJS_DIR)create_hdoc.o: INCS += -I$(INC_DIR)/$(TOKEN_DIR)
 
 $(OBJS_DIR)%.o: $(ENV_DIR)%.c
 $(OBJS_DIR)%.o: $(ENV_DIR)%.c $(DEPS_DIR)%.d
@@ -287,6 +280,9 @@ $(OBJS_DIR)%.o: $(LINE_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
 	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
+
+$(OBJS_DIR)deal_hdoc.o: INCS += -I$(INC_DIR)/$(TOKEN_DIR)
+$(OBJS_DIR)create_hdoc.o: INCS += -I$(INC_DIR)/$(TOKEN_DIR)
 
 $(OBJS_DIR)%.o: $(CMPL_DIR)%.c
 $(OBJS_DIR)%.o: $(CMPL_DIR)%.c $(DEPS_DIR)%.d
