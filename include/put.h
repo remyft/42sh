@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:50:35 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 02:19:08 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/27 16:59:39 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int		get_select(t_line *line, t_tree *tern, char **chr, t_slct **select);
 int		inprint(char *str);
 t_tree	*set_tmp(char *buff);
 int		str_chrglob(char *str);
+char	*replace_str(const char *path, const char *src, const char *replace);
 
 /*
 **	Tree creation
