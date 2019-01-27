@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exp_strncmp.c                                      :+:      :+:    :+:   */
+/*   sh_puttab.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/30 16:43:34 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/03 20:07:15 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/01/27 10:30:27 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/01/27 10:31:25 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int				exp_strncmp(const char *s1, const char *s2, unsigned int n)
+#include "libft.h"
+
+int				sh_puttab(const char **env)
 {
-	unsigned int	i;
+	size_t		i;
 
 	i = 0;
-	while (s1[i] && s2[i] && i < n)
-	{
-		if (s1[i] != s2[i])
-			return (s1[i] - s2[i]);
-		i++;
-	}
-	return (s1[i] - s2[i]);
+	if (env)
+		while (env[i])
+			ft_putendl(env[i++]);
+	return (0);
 }

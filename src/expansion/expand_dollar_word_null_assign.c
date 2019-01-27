@@ -6,16 +6,16 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/04 02:29:39 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/16 23:22:07 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/27 11:28:30 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "shell_lib.h"
 #include "free_env.h"
 #include "expansion_word.h"
 #include "expansion_errors.h"
 #include "expansion_action.h"
-#include "expansion_lib.h"
 
 static void		word_fill_str(char **dst, char *cpy, t_ret *word)
 {
@@ -35,9 +35,9 @@ static int		replace_env_value(t_ret *parameter, t_ret *word, t_exp *param)
 	size_t		len;
 
 	name = parameter->word + parameter->brace + parameter->hash + 1;
-	if (!(ret = exp_getnenvaddr(name, param->e->public_env)))
-		if (!(ret = exp_getnenvaddr(name, param->e->private_env)))
-			if (!(ret = exp_newenv(&param->e->private_env)))
+	if (!(ret = sh_getnenvaddr(name, param->e->public_env)))
+		if (!(ret = sh_getnenvaddr(name, param->e->private_env)))
+			if (!(ret = sh_newenv(&param->e->private_env)))
 				return (ERR_MALLOC);
 	save = *ret;
 	len = ft_strlen(name) + 2;

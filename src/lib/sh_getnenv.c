@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_tools.h                                       :+:      :+:    :+:   */
+/*   sh_getnenv.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/23 04:45:53 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 12:29:07 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/01/02 18:44:52 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/01/27 10:15:04 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_TOOLS_H
-# define MAIN_TOOLS_H
+#include "libft.h"
+#include "shell_lib.h"
 
-# include "libft.h"
-# include "struct.h"
+char			*sh_getnenv(const char *name, char **env)
+{
+	size_t		i;
+	size_t		len;
 
-int		is_change;
-
-void	init_line(char **env, t_line *line);
-void	deal_key(t_line *line);
-void	check_path(t_line *line, char **env);
-void	deal_typing(t_line *line);
-
-void	sig_hdlr(int sig);
-void	sig_winch(int sig);
-void	deal_winch(t_line *line);
-
-#endif
+	i = 0;
+	if (!env || !name)
+		return (NULL);
+	len = ft_strlen(name);
+	while (env[i])
+	{
+		if (sh_strncmp(env[i], name, len) == '=')
+			return (&env[i][len + 1]);
+		i++;
+	}
+	return (NULL);
+}

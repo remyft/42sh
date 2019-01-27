@@ -6,13 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 19:16:06 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/26 09:04:31 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/27 11:26:36 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "execution.h"
-#include "expansion_lib.h"
+#include "shell_lib.h"
 #include "parser.h"
 
 char			**modify_environ(t_argument *var, t_execute *exec)
@@ -28,9 +28,9 @@ char			**modify_environ(t_argument *var, t_execute *exec)
 		{
 			equal = ft_strchr(var->cmd[i], '=');
 			*equal = '\0';
-			if ((ptr = exp_getnenvaddr(var->cmd[i], exec->env)))
+			if ((ptr = sh_getnenvaddr(var->cmd[i], exec->env)))
 				free(*ptr);
-			else if (!(ptr = exp_newenv(&exec->env)))
+			else if (!(ptr = sh_newenv(&exec->env)))
 				return (NULL);
 			*equal = '=';
 			*ptr = var->cmd[i];

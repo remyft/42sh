@@ -6,12 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 01:23:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/26 17:47:58 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/27 11:25:55 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "expansion_lib.h"
+#include "shell_lib.h"
 #include "execution.h"
 #include "execution_error.h"
 #include "builtins.h"
@@ -29,10 +29,10 @@ static int		modify_public_environment(t_argument *var, t_s_env *e)
 		{
 			equal = ft_strchr(var->cmd[i], '=');
 			*equal = '\0';
-			if ((ptr = exp_getnenvaddr(var->cmd[i], e->public_env))
-				|| (ptr = exp_getnenvaddr(var->cmd[i], e->private_env)))
+			if ((ptr = sh_getnenvaddr(var->cmd[i], e->public_env))
+				|| (ptr = sh_getnenvaddr(var->cmd[i], e->private_env)))
 				free(*ptr);
-			else if (!(ptr = exp_newenv(&e->private_env)))
+			else if (!(ptr = sh_newenv(&e->private_env)))
 				return (1);
 			*equal = '=';
 			*ptr = var->cmd[i];
@@ -60,7 +60,7 @@ t_execute *exec, t_s_env *e)
 static int		command_normal(t_execute *exec, t_s_env *e)
 {
 	static t_builtins	builtins[] = {
-		BUILTIN_ECHO, BUILTIN_CD, /*BUILTIN_SETENV, BUILTIN_UNSETENV, BUILTIN_ENV,
+		BUILTIN_ECHO, BUILTIN_CD, BUILTIN_SETENV,/* BUILTIN_UNSETENV, BUILTIN_ENV,
 		BUILTIN_EXIT,*/
 	};
 	size_t				i;

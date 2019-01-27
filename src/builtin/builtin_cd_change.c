@@ -6,31 +6,20 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 06:11:54 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/26 12:20:47 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/27 10:57:00 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin_cd.h"
-#include "expansion_lib.h"
 #include "libft.h"
-
-static size_t	cd_tablen(char **table)
-{
-	size_t		i;
-
-	i = 0;
-	if (table)
-		while (table[i])
-			i++;
-	return (i);
-}
+#include "shell_lib.h"
+#include "builtin_cd.h"
 
 static int	cd_change_env(char *envvar, char *value, t_s_env *e)
 {
 	char	**save;
 	size_t	len;
 
-	len = cd_tablen(e->public_env);
+	len = sh_tablen((const char **)e->public_env);
 	save = e->public_env;
 	if (!(e->public_env = ft_memalloc(sizeof(value) * (len + 2))))
 	{
@@ -56,7 +45,7 @@ int			cd_change_pwds(char *new, char *old, t_s_env *e)
 {
 	char	**var;
 
-	if ((var = exp_getnenvaddr("PWD", e->public_env)))
+	if ((var = sh_getnenvaddr("PWD", e->public_env)))
 	{
 		free(*var);
 		if (!(*var = ft_strjoin("PWD=", new)))
@@ -64,7 +53,7 @@ int			cd_change_pwds(char *new, char *old, t_s_env *e)
 	}
 	else if (cd_change_env("PWD=", new, e))
 		return (1);
-	if ((var = exp_getnenvaddr("OLDPWD", e->public_env)))
+	if ((var = sh_getnenvaddr("OLDPWD", e->public_env)))
 	{
 		free(*var);
 		if (!(*var = ft_strjoin("OLDPWD=", old)))
