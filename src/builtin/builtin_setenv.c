@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 09:37:46 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/27 12:36:45 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/27 13:44:23 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,21 @@ static int		setenv_error(int err, char *cmd_name)
 	return (1);
 }
 
-static int		setenv_modify(char **cmd, t_s_env *e)
+static int		setenv_modify(t_execute *exec, t_s_env *e)
 {
 	char		**pos;
 	char		*newvar;
 
-	if (!(newvar = ft_strjoinfree(ft_strjoin(cmd[1], "="), cmd[2], 1)))
-		return (setenv_error(ERR_MALLOC_ERROR, cmd[0]));
-	if ((pos = sh_getnenvaddr(cmd[1], e->public_env)))
-	{
+	newvar = ft_strjoinfree(ft_strjoin(exec->cmd[1], "="), exec->cmd[2], 1);
+	if (!newvar)
+		return (setenv_error(ERR_MALLOC_ERROR, exec->cmd[0]));
+	if (!(pos = sh_getnenvaddr(exec->cmd[1], e->public_env)))
+		if (!(pos = sh_newenv(&e->public_env)))
+			return (setenv_error(ERR_MALLOC_ERROR, exec->cmd[0]));
+	if (*pos)
 		free(*pos);
-		*pos = newvar;
-		return (0);
-	}
+	*pos = newvar;
+	exec->env = e->public_env;
 	return (0);
 }
 
@@ -103,5 +105,5 @@ int				builtin_setenv(t_execute *exec, t_s_env *e)
 		return (setenv_error(ERR_WRONG_VAR_NAME, exec->cmd[0]));
 	if (!sh_stralnum(exec->cmd[1]))
 		return (setenv_error(ERR_ALPHA_VAR_NAME, exec->cmd[0]));
-	return (setenv_modify(exec->cmd, e));
+	return (setenv_modify(exec, e));
 }
