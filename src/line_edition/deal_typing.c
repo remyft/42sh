@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 08:55:32 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 13:03:11 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/27 20:43:17 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ void		deal_typing(t_line *line)
 	{
 		ft_bzero(line->tmp, 10);
 		get_read(line, &nb_read);
-		if (is_change)
-			deal_winch(line);
 		line->tmp[nb_read] = '\0';
 		if (line->tmp[0] == '/')
 			line->tree[2] = free_tree(line->tree[2]);

@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:50:33 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 13:01:48 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/27 20:43:16 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,4 @@ void	sig_winch(int sig)
 			*line->e_cmpl &= ~COMPLETION;
 		get_complet(line);
 	}
-}
-
-void	deal_winch(t_line *line)
-{
-	tgetent(NULL, line->term);
-	line->nb_col = tgetnum("co");
-	is_change = 0;
 }
