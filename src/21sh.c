@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/26 21:52:37 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/27 12:31:03 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ int			main(int ac, char **av, char **ep)
 
 	line = NULL;
 	init_shell_env(&e, ac, av, collect_env(ep));
-	define_new_term(&e.save);
 	init_shell_line(&line, e);
+	define_new_term(&e.save);
 	shell_loop(line, &e);
 	free_shell_env(&e);
 	return (0);
