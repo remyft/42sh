@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/27 11:27:55 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/01/27 17:14:11 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,7 @@ SRCS +=	create_tree.c						\
 		deal_select_branch.c				\
 		fill_tree.c							\
 		feed_branch.c						\
+		set_complet.c						\
 
 #TERMCAPS
 TERM_DIR = $(SRCS_DIR)termcaps/
@@ -223,6 +224,10 @@ SRCS += sh_getnenv.c						\
 		sh_stralnum.c						\
 		sh_strncmp.c						\
 		sh_tablen.c							\
+		sh_is_escapable.c					\
+		sh_strchr.c							\
+		sh_strrchr.c						\
+		sh_str_isescape.c					\
 
 #GLOBING
 GLOB_DIR = $(SRCS_DIR)globing/
@@ -291,7 +296,7 @@ $(OBJS_DIR)%.o: $(LINE_DIR)%.c $(DEPS_DIR)%.d
 $(OBJS_DIR)%.o: $(CMPL_DIR)%.c
 $(OBJS_DIR)%.o: $(CMPL_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(LIBRARY_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(USER_DIR)%.c
