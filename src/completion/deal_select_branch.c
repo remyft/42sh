@@ -6,12 +6,13 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:40:31 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 01:43:53 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/27 16:47:01 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "put.h"
 #include "libft.h"
+#include "shell_lib.h"
 
 void		put_branch(t_slct *select, t_cpl_e env, t_line *line, int *car_ret)
 {
@@ -67,7 +68,7 @@ int			get_select(t_line *line, t_tree *tern, char **chr, t_slct **select)
 	int		lenm;
 
 	lenm = 0;
-	if (!ft_strchr(line->curr->buff_tmp, ' '))
+	if (!sh_strchr(line->curr->buff_tmp, ' '))
 	{
 		*chr = ft_strdup(line->curr->buff_tmp);
 		if (!(*select = select_branch(tern, *chr, &lenm)))
@@ -76,9 +77,9 @@ int			get_select(t_line *line, t_tree *tern, char **chr, t_slct **select)
 			return (-1);
 		}
 	}
-	else if (*(*chr = !ft_strchr(ft_strrchr(line->curr->buff_tmp, ' '), '/')
-				? ft_strdup(ft_strrchr(line->curr->buff_tmp, ' ') + 1)
-				: ft_strdup(ft_strrchr(line->curr->buff_tmp, '/') + 1)))
+	else if (*(*chr = !ft_strchr(sh_strrchr(line->curr->buff_tmp, ' '), '/')
+				? ft_strdup(sh_strrchr(line->curr->buff_tmp, ' ') + 1)
+				: ft_strdup(sh_strrchr(line->curr->buff_tmp, '/') + 1)))
 	{
 		if (!(*select = select_branch(tern, *chr, &lenm)))
 		{
