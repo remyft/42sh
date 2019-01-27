@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:38:48 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 17:13:52 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/27 20:16:37 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,7 @@ void		get_complet(t_line *line)
 		return ;
 	if ((ptr = sh_strrchr(line->curr->buff, ' ')) && str_chrglob(ptr))
 		tmp = deal_globing(ptr + 1, line->tree[1]);
-	else if (!sh_strchr(line->curr->buff, ' ')
-			|| !sh_strchr(sh_strrchr(line->curr->buff, ' '), '/'))
+	else if (!ptr || (!sh_strchr(ptr, '/') && !sh_strchr(ptr, '~')))
 		deal_complet(!sh_strchr(line->curr->buff, ' ') ? line->tree[0]
 				: line->tree[1], line);
 	else
