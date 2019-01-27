@@ -6,14 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 00:07:32 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/25 15:25:11 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/27 13:30:33 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include "libft.h"
 #include "free_env.h"
 #include "shell_env.h"
+#include "21sh.h"
 
 static char		*get_path(char *prog)
 {
@@ -61,7 +61,7 @@ void			init_shell_env(t_s_env *e, int ac, char **av, char **env)
 	e->av = av;
 	e->progpath = get_path(av[0]);
 	e->progname = (ft_strrchr(av[0], '/')) ? ft_strrchr(av[0], '/') + 1 : av[0];
-	e->public_env = env;
+	e->public_env = collect_env(env);
 	e->private_env = build_private_env();
 	e->ret = 0;
 	e->pid = getpid();
