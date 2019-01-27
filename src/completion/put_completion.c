@@ -6,12 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:42:34 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/26 21:25:27 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/27 16:45:27 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 #include "put.h"
+#include "shell_lib.h"
 
 int			deal_select(t_slct *select, t_cpl_e env, t_line *line)
 {
@@ -27,9 +28,9 @@ int			deal_select(t_slct *select, t_cpl_e env, t_line *line)
 			ret_psb(select, ft_strlen(env.chr), 0, line->curr->buff);
 		else
 			ret_psb(select, ft_strlen(env.chr), 0,
-					!ft_strchr(ft_strrchr(line->curr->buff, ' '), '/')
-					? ft_strrchr(line->curr->buff, ' ') + 1
-					: ft_strrchr(line->curr->buff, '/') + 1);
+					!sh_strchr(ft_strrchr(line->curr->buff, ' '), '/')
+					? sh_strrchr(line->curr->buff, ' ') + 1
+					: sh_strrchr(line->curr->buff, '/') + 1);
 		free(env.chr);
 		free_select(select);
 		return (1);
@@ -55,7 +56,7 @@ int		deal_tree(t_line *line, t_tree *tern, t_cpl_e env)
 	if (psb == 1)
 	{
 		if ((chr = ft_strrchr(line->curr->buff, ' ')))
-			tmp = ft_strchr(chr, '/') ? ft_strrchr(chr, '/') : chr;
+			tmp = sh_strchr(chr, '/') ? sh_strrchr(chr, '/') : chr;
 		if (tern->value != '.')
 			get_tstr(tern, tmp);
 		else
