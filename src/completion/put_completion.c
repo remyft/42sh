@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:42:34 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 16:45:27 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/27 20:39:40 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "put.h"
 #include "shell_lib.h"
 
-int			deal_select(t_slct *select, t_cpl_e env, t_line *line)
+static int	deal_select(t_slct *select, t_cpl_e env, t_line *line)
 {
 	int		tres;
 	int		psb;
@@ -43,7 +43,7 @@ int			deal_select(t_slct *select, t_cpl_e env, t_line *line)
 	return (0);
 }
 
-int		deal_tree(t_line *line, t_tree *tern, t_cpl_e env)
+static int	deal_tree(t_line *line, t_tree *tern, t_cpl_e env)
 {
 	int		tres;
 	int		psb;
@@ -55,7 +55,7 @@ int		deal_tree(t_line *line, t_tree *tern, t_cpl_e env)
 	get_tree_psb(tern, &psb);
 	if (psb == 1)
 	{
-		if ((chr = ft_strrchr(line->curr->buff, ' ')))
+		if ((chr = sh_strrchr(line->curr->buff, ' ')))
 			tmp = sh_strchr(chr, '/') ? sh_strrchr(chr, '/') : chr;
 		if (tern->value != '.')
 			get_tstr(tern, tmp);
@@ -71,7 +71,7 @@ int		deal_tree(t_line *line, t_tree *tern, t_cpl_e env)
 	return (0);
 }
 
-void		init_cpl(t_cpl_e *env, t_line *line, int *put, int *nb_ret)
+static void	init_cpl(t_cpl_e *env, t_line *line, int *put, int *nb_ret)
 {
 	env->put = put;
 	env->nb_ret = nb_ret;
@@ -83,7 +83,7 @@ void		init_cpl(t_cpl_e *env, t_line *line, int *put, int *nb_ret)
 	tputs(tgetstr("do", NULL), 1, ft_pchar);
 }
 
-int			deal_put(t_line *line, t_cpl_e env, t_slct *select, t_tree *tern)
+static int	deal_put(t_line *line, t_cpl_e env, t_slct *select, t_tree *tern)
 {
 	if (select && deal_select(select, env, line))
 		return (1);
