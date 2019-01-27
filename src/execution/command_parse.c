@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 01:23:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/27 14:05:17 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/27 19:21:12 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_execute *exec, t_s_env *e)
 {
 	if (exec->variable == exec->command)
 		exec->env = e->public_env;
-	else if (!(exec->env = duplicate_environ(e->public_env))
+	else if (!(exec->env = sh_tabdup(e->public_env))
 		|| !(exec->env = modify_environ(exec->variable, exec)))
 		return (command_error(e->progname, ERR_MALLOC_VAL, exec->cmd));
 	e->ret = builtin(exec, e);
@@ -60,7 +60,7 @@ t_execute *exec, t_s_env *e)
 static int		command_normal(t_execute *exec, t_s_env *e)
 {
 	static t_builtins	builtins[] = {
-		BUILTIN_ECHO, BUILTIN_CD, BUILTIN_SETENV,/* BUILTIN_UNSETENV, BUILTIN_ENV,
+		BUILTIN_ECHO, BUILTIN_CD, BUILTIN_SETENV, BUILTIN_UNSETENV, /*BUILTIN_ENV,
 		BUILTIN_EXIT,*/
 	};
 	size_t				i;

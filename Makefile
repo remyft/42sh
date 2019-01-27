@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/27 13:56:03 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/01/27 19:19:28 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -141,7 +141,6 @@ SRCS += command_access.c					\
 		command_parse.c						\
 		command_path.c						\
 		command_redirect.c					\
-		environment_duplicate.c				\
 		environment_modify.c				\
 		execute_debug.c						\
 		execute_list.c						\
@@ -212,7 +211,9 @@ SRCS += builtin_echo.c						\
 		builtin_cd_search.c					\
 		builtin_cd_write.c					\
 		builtin_cd.c						\
+		builtin_exit.c						\
 		builtin_setenv.c					\
+		builtin_unsetenv.c					\
 
 #LIBRARY
 LIBRARY_DIR = lib/
@@ -222,6 +223,7 @@ SRCS += sh_getnenv.c						\
 		sh_puttab.c							\
 		sh_stralnum.c						\
 		sh_strncmp.c						\
+		sh_tabdup.c							\
 		sh_tablen.c							\
 
 #GLOBING
