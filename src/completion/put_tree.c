@@ -6,24 +6,25 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:34:09 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/26 21:04:16 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/27 16:48:13 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "put.h"
 #include "21sh.h"
+#include "shell_lib.h"
 
 static void	get_new_file(t_tree *tern, t_cpl_e env, t_line *line)
 {
 	char	*chr;
 	int		i;
 
-	if (!*(ft_strrchr(line->curr->buff, ' ') + 1))
+	if (!*(sh_strrchr(line->curr->buff, ' ') + 1))
 		stercat(line->curr->buff_tmp, env.bru, line->curr->buff);
-	else if (!ft_occuc(ft_strrchr(line->curr->buff, ' '), '/'))
+	else if (!ft_occuc(sh_strrchr(line->curr->buff, ' '), '/'))
 	{
-		chr = ft_strrchr(line->curr->buff, ' ') + 1;
+		chr = sh_strrchr(line->curr->buff, ' ') + 1;
 		i = 0;
 		while (&(line->curr->buff)[i] != chr)
 			i++;
@@ -31,7 +32,7 @@ static void	get_new_file(t_tree *tern, t_cpl_e env, t_line *line)
 	}
 	else
 	{
-		chr = ft_strrchr(line->curr->buff, '/') + 1;
+		chr = sh_strrchr(line->curr->buff, '/') + 1;
 		i = 0;
 		while (&(line->curr->buff)[i] != chr)
 			i++;
