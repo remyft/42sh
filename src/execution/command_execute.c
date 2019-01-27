@@ -10,9 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include "execution.h"
 #include "execution_error.h"
-#include "expansion_lib.h"
+#include "shell_lib.h"
 
 static void		restore_signals_to_default(void)
 {
@@ -33,7 +34,7 @@ void			command_execute(t_execute *exec, t_s_env *e)
 		|| !(exec->env = modify_environ(exec->variable, exec)))
 		command_error(e->progname, ERR_MALLOC_VAL, exec->cmd);
 	else if ((error = command_path(&name, exec->cmd[0],
-								exp_getnenv("PATH", exec->env))) != ERR_OK_VAL)
+								sh_getnenv("PATH", exec->env))) != ERR_OK_VAL)
 		command_error(e->progname, error, exec->cmd);
 	else if ((error = command_access(name)) != ERR_OK_VAL)
 		command_error(e->progname, error, exec->cmd);

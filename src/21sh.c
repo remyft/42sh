@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   21sh.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 12:31:03 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/27 12:43:27 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ static void	get_new_cmd(t_line *line, t_s_env *e)
 	free(ret);
 }
 
-static void	init_shell_line(t_line **line, t_s_env e)
+static void	init_shell_line(t_line **line, t_s_env *e)
 {
 	*line = get_struct();
-	init_line(e.public_env, *line);
+	init_line(e->public_env, *line);
 	(*line)->curr = ft_memalloc(sizeof(t_buff));
 	(*line)->beg_buff = (*line)->curr;
 }
@@ -77,7 +77,7 @@ int			main(int ac, char **av, char **ep)
 
 	line = NULL;
 	init_shell_env(&e, ac, av, collect_env(ep));
-	init_shell_line(&line, e);
+	init_shell_line(&line, &e);
 	define_new_term(&e.save);
 	shell_loop(line, &e);
 	free_shell_env(&e);

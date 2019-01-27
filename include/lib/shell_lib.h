@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_tools.h                                       :+:      :+:    :+:   */
+/*   shell_lib.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/23 04:45:53 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 12:43:54 by rfontain         ###   ########.fr       */
+/*   Created: 2019/01/27 09:51:00 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/01/27 11:29:32 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_TOOLS_H
-# define MAIN_TOOLS_H
+#ifndef SHELL_LIB_H
+# define SHELL_LIB_H
 
-# include "libft.h"
-# include "struct.h"
+# include <sys/types.h>
 
-int		is_change;
-
-void	init_line(char **env, t_line *line);
-void	deal_key(t_line *line);
-void	check_path(t_line *line, char **env);
-void	deal_typing(t_line *line);
-
-void	sig_hdlr(int sig);
-void	sig_winch(int sig);
-void	deal_winch(t_line *line);
+size_t			sh_tablen(const char **table);
+char			*sh_getnenv(const char *name, char **env);
+char			**sh_getnenvaddr(const char *name, char **env);
+int				sh_strncmp(const char *s1, const char *s2, unsigned int n);
+char			**sh_newenv(char ***env);
+int				sh_puttab(const char **env);
+int				sh_stralnum(const char *str);
 
 #endif

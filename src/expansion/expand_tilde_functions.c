@@ -6,25 +6,26 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 18:56:52 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/04 02:58:15 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/27 11:32:36 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <pwd.h>
+#include "libft.h"
+#include "shell_lib.h"
 #include "expansion_tilde.h"
 #include "expansion_errors.h"
-#include "expansion_lib.h"
 
 int				expand_tilde_env(t_ret *ret, const char *s, t_exp *param)
 {
 	(void)s;
-	return (param_addstr(exp_getnenv("HOME", param->e->public_env), ret));
+	return (param_addstr(sh_getnenv("HOME", param->e->public_env), ret));
 }
 
 int				expand_tilde_plus(t_ret *ret, const char *s, t_exp *param)
 {
 	if (!s[1])
-		return (param_addstr(exp_getnenv("PWD", param->e->public_env), ret));
+		return (param_addstr(sh_getnenv("PWD", param->e->public_env), ret));
 	else if (tilde_digit(s + 1))
 		return (expand_tilde_directory(ret, s + 1, param));
 	return (expand_tilde_not(ret, s));
@@ -33,7 +34,7 @@ int				expand_tilde_plus(t_ret *ret, const char *s, t_exp *param)
 int				expand_tilde_minus(t_ret *ret, const char *s, t_exp *param)
 {
 	if (!s[1])
-		return (param_addstr(exp_getnenv("OLDPWD", param->e->public_env), ret));
+		return (param_addstr(sh_getnenv("OLDPWD", param->e->public_env), ret));
 	else if (tilde_digit(s + 1))
 		return (expand_tilde_directory(ret, s + 1, param));
 	return (expand_tilde_user(ret, s, param));

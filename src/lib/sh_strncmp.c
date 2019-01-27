@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansion_lib.h                                    :+:      :+:    :+:   */
+/*   sh_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/04 02:44:15 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/04 02:48:39 by gbourgeo         ###   ########.fr       */
+/*   Created: 2018/12/30 16:43:34 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/01/27 10:12:10 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPANSION_LIB_H
-# define EXPANSION_LIB_H
+int				sh_strncmp(const char *s1, const char *s2, unsigned int n)
+{
+	unsigned int	i;
 
-# include "libft.h"
-
-int				exp_strncmp(const char *s1, const char *s2, unsigned int n);
-char			*exp_getnenv(const char *name, char **env);
-char			**exp_getnenvaddr(const char *name, char **env);
-char			**exp_newenv(char ***env);
-
-#endif
+	i = 0;
+	while (s1[i] && s2[i] && i < n)
+	{
+		if (s1[i] != s2[i])
+			return (s1[i] - s2[i]);
+		i++;
+	}
+	return (s1[i] - s2[i]);
+}

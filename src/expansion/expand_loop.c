@@ -6,13 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/02 12:00:40 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/14 18:17:46 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/27 11:29:07 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "shell_lib.h"
 #include "expansion_loop.h"
 #include "expansion_errors.h"
-#include "expansion_lib.h"
 
 static int		expand_rules(t_e_character *charact, t_exp *param, t_ret **ret)
 {
@@ -25,7 +25,7 @@ static int		expand_rules(t_e_character *charact, t_exp *param, t_ret **ret)
 		return (error);
 	if (param->quoted || !(*ret)->word || !*(*ret)->word || !param->fieldsplit)
 		return (error);
-	if ((ifs = exp_getnenv("IFS", param->e->private_env)) != NULL)
+	if ((ifs = sh_getnenv("IFS", param->e->private_env)) != NULL)
 		error = expand_fieldsplit(ret, ifs);
 	return (error);
 }

@@ -6,13 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 11:01:36 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/26 17:41:13 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/27 11:33:32 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin_cd.h"
-#include "expansion_lib.h"
 #include "libft.h"
+#include "shell_lib.h"
+#include "builtin_cd.h"
 
 static char		*cd_recreate_path(char *new, char **list)
 {
@@ -64,21 +64,21 @@ static int		cd_get_new_pwd(t_execute *exec, t_s_env *e, int i, char **pwd)
 {
 	if (!exec->cmd[i])
 	{
-		if (!(*pwd = exp_getnenv("HOME", exec->env)))
-			if (!(*pwd = exp_getnenv("HOME", e->private_env)))
+		if (!(*pwd = sh_getnenv("HOME", exec->env)))
+			if (!(*pwd = sh_getnenv("HOME", e->private_env)))
 				return (ERR_NO_HOME);
 	}
 	else if (!ft_strcmp(exec->cmd[i], "-"))
 	{
-		if (!(*pwd = exp_getnenv("OLDPWD", exec->env))
-			&& !(*pwd = exp_getnenv("OLDPWD", e->private_env)))
+		if (!(*pwd = sh_getnenv("OLDPWD", exec->env))
+			&& !(*pwd = sh_getnenv("OLDPWD", e->private_env)))
 				return (ERR_NO_OLDPWD);
 		ft_putendl(*pwd);
 	}
 	else if (*exec->cmd[i] == '/')
 		return (cd_get_path(pwd, "/", exec->cmd[i]));
-	else if ((*pwd = exp_getnenv("PWD", exec->env))
-			|| (*pwd = exp_getnenv("PWD", e->private_env)))
+	else if ((*pwd = sh_getnenv("PWD", exec->env))
+			|| (*pwd = sh_getnenv("PWD", e->private_env)))
 		return (cd_get_path(pwd, *pwd, exec->cmd[i]));
 	return ((*pwd = ft_strdup(*pwd)) == NULL);
 }
