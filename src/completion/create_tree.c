@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 21:15:52 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 16:42:05 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/27 19:12:59 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,7 @@ t_tree		*create_file_tree(char *path, t_tree *tern)
 	int				is_esc;
 	char			*tmp;
 
-	if (!path)
-		return (NULL);
-	if (!(dir = opendir(path)))
+	if (!path || !(dir = opendir(path)))
 		return (NULL);
 	if (!tern)
 	{
@@ -63,7 +61,6 @@ t_tree		*create_file_tree(char *path, t_tree *tern)
 		tern->value = -1;
 	}
 	while ((indir = readdir(dir)))
-	{
 		if ((is_esc = sh_str_isescape(indir->d_name)))
 		{
 			tmp = add_escape(indir->d_name, is_esc);
@@ -72,7 +69,6 @@ t_tree		*create_file_tree(char *path, t_tree *tern)
 		}
 		else
 			feed_tree(indir->d_name, indir->d_type, &tern, 0);
-	}
 	set_psblty(tern);
 	closedir(dir);
 	return (tern);
