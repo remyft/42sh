@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 15:43:36 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/27 20:31:18 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ static int		ft_cancel(t_line *line)
 	tputs(tgoto(tgetstr("ch", NULL), 0,
 				(line->len + line->lprompt) % line->nb_col), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
-	ft_bzero(line->curr->buff_tmp, 8194);
+	ft_bzero(line->curr->buff_tmp, ft_strlen(line->curr->buff_tmp));
+	line->curr->buff_tmp[8193] = 0;
 	del_all_state(line);
 	free_hdoc(line);
 	reset_hist(line);
@@ -64,14 +65,12 @@ void			deal_cancel(t_line *line)
 		put_prompt(line->prompt);
 		ft_bzero(line->curr->buff, line->len);
 		ft_strcpy(line->curr->buff, line->curr->buff_tmp);
-		ft_bzero(line->curr->buff_tmp, 8194);
+		ft_bzero(line->curr->buff_tmp, ft_strlen(line->curr->buff_tmp));
+		line->curr->buff_tmp[8193] = 0;
 		ft_putstr(line->curr->buff);
 		line->index = ft_strlen(line->curr->buff);
 		line->len = line->index;
-		reset_put(line->tree[0]);
-		reset_put(line->tree[1]);
-		if (line->tree[2])
-			reset_put(line->tree[2]);
+		deal_reset(line->tree[0], line->tree[1], line->tree[2]);
 		line->tmp[0] = 3;
 	}
 	else

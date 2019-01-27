@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:13:27 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 12:59:19 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/27 20:30:55 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ void	left_arrow(t_line *line)
 		return (get_complet(line));
 	}
 	if (line->curr->buff_tmp[8193])
-		ft_bzero(line->curr->buff_tmp, 8194);
+	{
+		ft_bzero(line->curr->buff_tmp, ft_strlen(line->curr->buff_tmp));
+		line->curr->buff_tmp[8193] = 0;
+	}
 	line->index = line->index > 0 ? line->index - 1 : 0;
 	if (line->index
 			&& (line->index + line->lprompt) % line->nb_col == line->nb_col - 1)
@@ -62,7 +65,10 @@ void	right_arrow(t_line *line)
 		return (get_complet(line));
 	}
 	if (line->curr->buff_tmp[8193])
-		ft_bzero(line->curr->buff_tmp, 8194);
+	{
+		ft_bzero(line->curr->buff_tmp, ft_strlen(line->curr->buff_tmp));
+		line->curr->buff_tmp[8193] = 0;
+	}
 	line->index = line->index < line->len ? line->index + 1 : line->len;
 	if (line->index && (line->index + line->lprompt) % line->nb_col == 0)
 		tputs(tgetstr("do", NULL), 1, ft_pchar);
