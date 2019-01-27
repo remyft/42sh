@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environment_duplicate.c                            :+:      :+:    :+:   */
+/*   sh_tabdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 19:14:22 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/26 15:45:56 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/27 19:18:51 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char			**duplicate_environ(char **table)
+char			**sh_tabdup(char **table)
 {
 	char		**ret;
 	size_t		i;

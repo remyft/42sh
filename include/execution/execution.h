@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:17:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/26 15:49:05 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/27 19:19:44 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int				command_access(char *path);
 int				command_redirect(t_redirection *redirection, t_s_env *e);
 int				command_path(char **path, char *cmd, char *paths);
 
-char			**duplicate_environ(char **table);
 char			**modify_environ(t_argument *var, t_execute *exec);
 char			**command_group(t_argument *cmd);
 
