@@ -6,16 +6,17 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:37:51 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/26 21:39:07 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/27 19:09:32 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "put.h"
 
-static int	free_null(void *data)
+static int	free_null(t_slct **data)
 {
-	free(data);
+	free(*data);
+	*data = NULL;
 	return (0);
 }
 
@@ -23,17 +24,18 @@ static int	deal_upper(t_tree *upper, char *src, int *lenm, t_slct **select)
 {
 	if (!upper)
 		return (1);
-	while (upper->value != ft_toupper(*src))
-		if (!(upper = ft_toupper(*src) < upper->value ? upper->left
-					: upper->right))
-			return (1);
-	if (!(src[1]))
-		*lenm = upper->max_len > *lenm ? upper->max_len : *lenm;
-	*select = ft_memalloc(sizeof(t_slct));
-	(*select)->mln = upper;
-	if (*(src + 1) && !((*select)->down =
-				select_branch(upper->tern_next, src + 1, lenm)))
-		return (free_null(*select));
+	while (upper && upper->value != ft_toupper(*src))
+		upper = ft_toupper(*src) < upper->value ? upper->left : upper->right;
+	if (upper)
+	{
+		if (!(src[1]))
+			*lenm = upper->max_len > *lenm ? upper->max_len : *lenm;
+		*select = ft_memalloc(sizeof(t_slct));
+		(*select)->mln = upper;
+		if (*(src + 1) && !((*select)->down =
+					select_branch(upper->tern_next, src + 1, lenm)))
+			return (free_null(select));
+	}
 	return (1);
 }
 
@@ -52,15 +54,15 @@ static int	deal_lower(t_tree *lower, char *src, int *lenm, t_slct **select)
 			(*select)->next->mln = lower;
 			if (*(src + 1) && !((*select)->next->down =
 						select_branch(lower->tern_next, src + 1, lenm)))
-				return (free_null((*select)->next));
+				return (free_null((&(*select)->next)));
 		}
 		else
 		{
 			*select = ft_memalloc(sizeof(t_slct));
 			(*select)->mln = lower;
-			if (*(src + 1) && !((*select)->down) && !((*select)->down =
+			if (*(src + 1) && !((*select)->down =
 						select_branch(lower->tern_next, src + 1, lenm)))
-				return (free_null(*select));
+				return (free_null(select));
 		}
 	}
 	return (1);
@@ -70,14 +72,18 @@ t_slct		*select_branch(t_tree *upper, char *src, int *lenm)
 {
 	t_slct	*select;
 	t_tree	*lower;
+	int		up;
+	int		low;
 
 	select = NULL;
 	lower = upper;
+	up = 0;
+	low = 0;
 	if (*src)
-		if (!(deal_upper(upper, src, lenm, &select)))
-			return (NULL);
+		up = deal_upper(upper, src, lenm, &select);
 	if (*src && ft_toupper(*src) != ft_tolower(*src))
-		if (!(deal_lower(lower, src, lenm, &select)))
-			return (NULL);
+		low = deal_lower(lower, src, lenm, &select);
+	if (!up && !low)
+		return (NULL);
 	return (select);
 }
