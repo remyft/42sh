@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:34:09 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 16:48:13 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/28 17:58:46 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static void	get_new_buff(t_tree *tern, t_cpl_e env, t_line *line)
 {
 	if (!tern->tput && *env.put && *(line->e_cmpl) & COMPLETION)
 	{
+		tputs(tgetstr("me", NULL), 1, ft_pchar);
 		tputs(tgetstr("mr", NULL), 1, ft_pchar);
 		tern->tput = 1;
 		*env.put = 0;
@@ -57,8 +58,6 @@ static void	get_new_buff(t_tree *tern, t_cpl_e env, t_line *line)
 			ft_strncat(line->curr->buff, (char *)&(tern->value), 1);
 		}
 	}
-	else
-		tputs(tgetstr("me", NULL), 1, ft_pchar);
 }
 
 static void	put_space(t_cpl_e env, int *car_ret)
@@ -77,6 +76,18 @@ static void	put_space(t_cpl_e env, int *car_ret)
 	}
 }
 
+static void	deal_type(unsigned int type)
+{
+	static char			*col[] = {CYAN, YELLOW, MAGENTA, BLUE, ERROR};
+	static unsigned int	ttab[] = {DT_DIR, DT_CHR, DT_LNK, DT_BLK, DT_UNKNOWN};
+	int					i;
+
+	i = -1;
+	while (++i < (int)(sizeof(col) / sizeof(*col)))
+		if (type == ttab[i])
+			ft_putstr(col[i]);
+}
+
 void		ft_put_tree(t_tree *tern, t_cpl_e env, t_line *line, int *car_ret)
 {
 	if (tern->left)
@@ -92,10 +103,11 @@ void		ft_put_tree(t_tree *tern, t_cpl_e env, t_line *line, int *car_ret)
 	if (tern && !tern->tern_next)
 	{
 		env.bru[env.lvl] = '\0';
+		deal_type(tern->type);
 		get_new_buff(tern, env, line);
 		ft_putstr(env.bru);
 		put_space(env, car_ret);
-		tputs(tgetstr("me", NULL), 1, ft_pchar);
+		ft_putstr(RESET);
 	}
 	if (tern->right)
 		ft_put_tree(tern->right, env, line, car_ret);
