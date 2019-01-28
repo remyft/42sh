@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 08:54:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/26 11:57:46 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/28 17:41:01 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ enum
 	ERR_NO_HOME,
 	ERR_NO_OLDPWD,
 	ERR_NOT_IN_PWD,
+	ERR_GETCWD,
 };
 
 int				cd_write_in_pwd(t_execute *exec, t_s_env *e, size_t i);
