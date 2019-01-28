@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:42:34 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 20:39:40 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/28 18:27:23 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	deal_select(t_slct *select, t_cpl_e env, t_line *line)
 			ret_psb(select, ft_strlen(env.chr), 0, line->curr->buff);
 		else
 			ret_psb(select, ft_strlen(env.chr), 0,
-					!sh_strchr(ft_strrchr(line->curr->buff, ' '), '/')
+					!sh_strchr(sh_strrchr(line->curr->buff, ' '), '/')
 					? sh_strrchr(line->curr->buff, ' ') + 1
 					: sh_strrchr(line->curr->buff, '/') + 1);
 		free(env.chr);
@@ -111,7 +111,7 @@ int			put_complet(t_tree *tern, int *put, t_line *line, int *nb_ret)
 	env.chr = NULL;
 	env.bru[0] = 0;
 	select = NULL;
-	if ((env.lenm = get_select(line, tern, &(env.chr), &select)) == -1)
+	if ((env.lenm = get_select(line, tern, &env, &select)) == -1)
 		return (-1);
 	init_cpl(&env, line, put, nb_ret);
 	if ((ret = deal_put(line, env, select, tern)))
