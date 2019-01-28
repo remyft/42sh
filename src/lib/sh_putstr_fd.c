@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_strncmp.c                                       :+:      :+:    :+:   */
+/*   sh_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/30 16:43:34 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/28 19:25:31 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/01/28 15:12:06 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/01/28 15:15:18 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int				sh_strncmp(const char *s1, const char *s2, unsigned int n)
+#include <unistd.h>
+
+int			sh_putstr_fd(const char *str, int fd)
 {
-	unsigned int	i;
+	size_t	i;
 
 	i = 0;
-	while (s1[i] && s2[i] && i < n)
-	{
-		if (s1[i] != s2[i])
-			return (s1[i] - s2[i]);
-		i++;
-	}
-	return (s1[i] - s2[i]);
+	if (str)
+		while (str[i])
+			i++;
+	return (write(fd, str, i));
 }

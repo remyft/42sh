@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_strncmp.c                                       :+:      :+:    :+:   */
+/*   sh_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/30 16:43:34 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/28 19:25:31 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/01/28 15:15:33 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/01/28 15:17:47 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int				sh_strncmp(const char *s1, const char *s2, unsigned int n)
-{
-	unsigned int	i;
+#include <unistd.h>
 
-	i = 0;
-	while (s1[i] && s2[i] && i < n)
-	{
-		if (s1[i] != s2[i])
-			return (s1[i] - s2[i]);
-		i++;
-	}
-	return (s1[i] - s2[i]);
+int			sh_putendl_fd(const char *str, int fd)
+{
+	int		ret;
+
+	if ((ret = sh_putstr_fd(str, fd)) < 0)
+		return (ret);
+	return (write(fd, "\n", 1));
 }

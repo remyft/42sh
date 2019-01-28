@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_strncmp.c                                       :+:      :+:    :+:   */
+/*   sh_freetab.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/30 16:43:34 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/28 19:25:31 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/01/28 11:28:59 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/01/28 11:33:46 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int				sh_strncmp(const char *s1, const char *s2, unsigned int n)
+#include <stdlib.h>
+
+void			sh_freetab(char ***table)
 {
-	unsigned int	i;
+	size_t		i;
 
 	i = 0;
-	while (s1[i] && s2[i] && i < n)
-	{
-		if (s1[i] != s2[i])
-			return (s1[i] - s2[i]);
-		i++;
-	}
-	return (s1[i] - s2[i]);
+	if (table)
+		if (*table)
+			while ((*table)[i])
+			{
+				free((*table)[i]);
+				(*table)[i] = NULL;
+				i++;
+			}
+	if (table)
+		*table = (char **)0;
 }
