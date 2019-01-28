@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:50:35 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 20:48:17 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/28 12:41:47 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct	s_cpl_env
 	int		lvl;
 	char	bru[257];
 	char	*chr;
+	char	*ptr;
 }				t_cpl_e;
 
 void			get_isput(t_slct *select, int len, int lvl, int *tres);
@@ -50,8 +51,9 @@ void			put_branch(t_slct *select, t_cpl_e env, t_line *line,
 void			put_select_branch(t_slct *select, t_cpl_e env, t_line *line);
 void			put_tree_branch(t_tree *tree, t_cpl_e env, t_line *line);
 void			free_select(t_slct *select);
-int				get_select(t_line *line, t_tree *tern, char **chr, t_slct
+int				get_select(t_line *line, t_tree *tern, t_cpl_e *env, t_slct
 		**select);
+
 
 /*
 **	deaL_completion tools
