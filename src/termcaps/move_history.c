@@ -63,6 +63,8 @@ void		up_arrow(t_line *line)
 		line->key = UP;
 		return (get_complet(line));
 	}
+	else if (*line->e_cmpl & COMPLETION)
+		*line->e_cmpl &= ~COMPLETION;
 	len = ft_strlen(line->curr->buff_tmp);
 	i = ft_strlen(line->curr->buff);
 	find_up(line, len);
@@ -115,6 +117,8 @@ void		down_arrow(t_line *line)
 		line->key = DOWN;
 		return (get_complet(line));
 	}
+	else if (*line->e_cmpl & COMPLETION)
+		*line->e_cmpl &= ~COMPLETION;
 	len = ft_strlen(line->curr->buff_tmp);
 	i = ft_strlen(line->curr->buff);
 	if (line->hist && line->hist->prev)

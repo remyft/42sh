@@ -4,3 +4,4 @@
 */*.a
 **/objs/
 21sh.dSYM/
+**/*.swp
