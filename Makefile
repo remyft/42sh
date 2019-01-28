@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/27 19:19:28 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/01/28 20:48:31 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,10 @@ GREEN = "\x1b[1;32;40m"
 LIB_PATH = libft
 LIB = $(LIB_PATH)/libft.a
 LIB_LINK = -L$(LIB_PATH) -lft -lncurses
+
+PRINTF_PATH = ft_printf
+PRINTF_LIB = $(PRINTF_PATH)/ft_printf.a
+PRINTF_LINK = -L$(PRINTF_PATH) -lprintf
 
 INC_DIR = include
 INCS = -I$(LIB_PATH)/$(INC_DIR) -I$(INC_DIR)
@@ -138,6 +142,7 @@ SRCS += command_access.c					\
 		command_fork.c						\
 		command_free.c						\
 		command_group.c						\
+		command_normal.c					\
 		command_parse.c						\
 		command_path.c						\
 		command_redirect.c					\
@@ -217,7 +222,9 @@ SRCS += builtin_echo.c						\
 
 #LIBRARY
 LIBRARY_DIR = lib/
-SRCS += sh_getnenv.c						\
+SRCS += sh_freestr.c						\
+		sh_freetab.c						\
+		sh_getnenv.c						\
 		sh_getnenvaddr.c					\
 		sh_newenv.c							\
 		sh_puttab.c							\
@@ -248,7 +255,7 @@ OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 DEPS_DIR = .deps/
 DEPS = $(addprefix $(DEPS_DIR), $(SRCS:.c=.d))
 
-all: $(OBJS_DIR) $(DEPS_DIR) $(LIB) $(NAME)
+all: $(OBJS_DIR) $(DEPS_DIR) $(LIB) $(PRINTF_LIB) $(NAME)
 
 $(OBJS_DIR):
 	mkdir -p $@
@@ -259,8 +266,11 @@ $(DEPS_DIR):
 $(LIB):
 	make -C $(LIB_PATH)
 
+$(PRINTF_LIB):
+	make -C $(PRINTF_PATH)
+
 $(NAME): $(NEWLINE) $(OBJS) $(LIB)
-	@$(CC) $(DEBUG) $^ -o $@ $(LIB_LINK)
+	@$(CC) $(DEBUG) $^ -o $@ $(LIB_LINK) $(PRINTF_LINK)
 	@echo ""
 	@echo $(GREY)" Compilling" $(RESET) [ $(NAME) ] $(OK)
 

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:02:57 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/27 19:20:52 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/28 20:00:25 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void			command_execute(t_execute *exec, t_s_env *e)
 	int			error;
 
 	name = NULL;
-	if (!(exec->env = sh_tabdup(e->public_env))
+	if (!(exec->env = sh_tabdup((const char **)e->public_env))
 		|| !(exec->env = modify_environ(exec->variable, exec)))
 		command_error(e->progname, ERR_MALLOC_VAL, exec->cmd);
 	else if ((error = command_path(&name, exec->cmd[0],
