@@ -6,36 +6,30 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 19:36:53 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/27 20:09:14 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/28 16:30:47 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <unistd.h>
+#include "ft_dprintf.h"
 #include "builtin_env.h"
 
 int				builtin_env_error(int err, char c, t_e_opt *opt)
 {
 	static char	*errors[] = {
 		NULL, MALLOC_STR, ILLEGAL_OPTION_STR, NEED_ARG_STR, NO_SUCH_FILE_STR,
+		WRITE_STR,
 	};
 
-	ft_putstr_fd(opt->cmdname, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd(errors[err], STDERR_FILENO);
-	if (c)
+	ft_dprintf(STDERR_FILENO, "%s: %s", opt->cmdname, errors[err]);
+	if (err == ERR_ILLEGAL_OPT || err == ERR_NEED_ARG)
 	{
-		ft_putstr_fd(" -- ", STDERR_FILENO);
-		ft_putchar_fd(c, STDERR_FILENO);
-		ft_putstr_fd("\nusage: env [-iv] [-P utilpath] ", STDERR_FILENO);
-		ft_putstr_fd("[-S string] [-u name]", STDERR_FILENO);
-		ft_putstr_fd("\n           [name=value ...] ", STDERR_FILENO);
-		ft_putstr_fd("[utility [argument ...]]", STDERR_FILENO);
+		ft_dprintf(STDERR_FILENO, " -- %c\nusage: %s ", c, opt->cmdname);
+		ft_dprintf(STDERR_FILENO, "[-iv] [-P utilpath] [-S string] [-u name]");
+		ft_dprintf(STDERR_FILENO, "\n\t[name=value ...] ");
+		ft_dprintf(STDERR_FILENO, "[utility [argument ...]]\n");
 	}
-	ft_putchar_fd('\n', STDERR_FILENO);
-	ft_freetab(&opt->cpy);
-	ft_freestr(&opt->path);
-	ft_freestr(&opt->cmd);
-	ft_freetab(&opt->ptr);
-	ft_freetab(&opt->extra);
+	ft_dprintf(STDERR_FILENO, "\n");
+	builtin_env_free_opt(opt);
 	return (1);
 }
