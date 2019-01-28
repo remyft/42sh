@@ -6,28 +6,24 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 02:06:53 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/28 16:26:40 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/28 20:09:15 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "struct.h"
 
-static void	create_new_branch(t_tree **tern, t_tree *prev, char *str, int lvl, unsigned int type)
+static t_tree	*create_new_branch(t_tree **tern, char *str, int lvl, unsigned int type)
 {
 	int		len;
 
 	*tern = ft_memalloc(sizeof(t_tree));
-	if (*str < prev->value)
-		prev->left = *tern;
-	else
-		prev->right = *tern;
 	if (!*str)
 		(*tern)->type = type;
 	(*tern)->value = *str;
-	(*tern)->prev = prev->prev;
 	if (lvl + (len = ft_strlen(str)) > (*tern)->max_len)
 		(*tern)->max_len = lvl + len;
+	return (*tern);
 }
 
 static void	feed_branch(t_tree **tern, char *str, int lvl, unsigned int type)
@@ -42,7 +38,10 @@ static void	feed_branch(t_tree **tern, char *str, int lvl, unsigned int type)
 		(*tern) = (*str < (*tern)->value) ? (*tern)->left : (*tern)->right;
 	}
 	if (!(*tern))
-		create_new_branch(tern, prev, str, lvl, type);
+	{
+		*tern = create_new_branch(*str < prev->value ? &prev->left : &prev->right, str, lvl, type);
+		(*tern)->prev = prev;
+	}
 	else
 	{
 		if (lvl + (len = ft_strlen(str)) > (*tern)->max_len)
