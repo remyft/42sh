@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 02:17:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/28 18:27:12 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/28 20:27:23 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,14 @@ int		str_chrglob(char *str)
 		i++;
 	}
 	return (0);
+}
+
+void	free_select(t_slct *select)
+{
+	if (select->next)
+		free_select(select->next);
+	if (select->down)
+		free_select(select->down);
+	if (select)
+		free(select);
 }

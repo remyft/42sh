@@ -6,14 +6,15 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 02:06:53 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/28 20:09:15 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/28 20:11:24 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "struct.h"
 
-static t_tree	*create_new_branch(t_tree **tern, char *str, int lvl, unsigned int type)
+static t_tree	*create_new_branch(t_tree **tern, char *str, int lvl,
+		unsigned int type)
 {
 	int		len;
 
@@ -26,7 +27,8 @@ static t_tree	*create_new_branch(t_tree **tern, char *str, int lvl, unsigned int
 	return (*tern);
 }
 
-static void	feed_branch(t_tree **tern, char *str, int lvl, unsigned int type)
+static void		feed_branch(t_tree **tern, char *str, int lvl,
+		unsigned int type)
 {
 	t_tree	*prev;
 	int		len;
@@ -39,7 +41,8 @@ static void	feed_branch(t_tree **tern, char *str, int lvl, unsigned int type)
 	}
 	if (!(*tern))
 	{
-		*tern = create_new_branch(*str < prev->value ? &prev->left : &prev->right, str, lvl, type);
+		*tern = create_new_branch(*str < prev->value ?
+				&prev->left : &prev->right, str, lvl, type);
 		(*tern)->prev = prev;
 	}
 	else
@@ -49,7 +52,8 @@ static void	feed_branch(t_tree **tern, char *str, int lvl, unsigned int type)
 	}
 }
 
-static void	set_new_mln(t_tree **tern, char *str, int lvl, unsigned int type)
+static void		set_new_mln(t_tree **tern, char *str, int lvl,
+		unsigned int type)
 {
 	int		len;
 
@@ -63,7 +67,7 @@ static void	set_new_mln(t_tree **tern, char *str, int lvl, unsigned int type)
 		(*tern)->max_len = lvl + len;
 }
 
-void		feed_tree(char *str, unsigned char type, t_tree **tern, int lvl)
+void			feed_tree(char *str, unsigned char type, t_tree **tern, int lvl)
 {
 	t_tree		*begin;
 

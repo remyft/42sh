@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:50:35 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/28 12:41:47 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/28 20:22:26 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void			free_select(t_slct *select);
 int				get_select(t_line *line, t_tree *tern, t_cpl_e *env, t_slct
 		**select);
 
+void			change_buff(t_slct *select, t_cpl_e *env, t_line *line,
+		t_tree *tern);
 
 /*
 **	deaL_completion tools
