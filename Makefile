@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/28 20:48:31 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/01/29 13:07:27 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -97,8 +97,6 @@ SRCS += select.c							\
 #TOKENS
 TOKEN_DIR = token/
 SRCS += expand_word.c						\
-		free_token.c						\
-		get_tokens.c						\
 		handle_command.c					\
 		handle_comment.c					\
 		handle_end_of_input.c				\
@@ -116,44 +114,46 @@ SRCS += expand_word.c						\
 		is_token_next.c						\
 		is_token_validname.c				\
 		is_token.c							\
-		new_token.c							\
 		remove_line_continuation.c			\
-		tdebug.c							\
+		token_debug.c						\
+		token_free.c						\
+		token_get.c							\
+		token_new.c							\
 
 #PARSER
 PARSER_DIR = parser/
-SRCS += free_parser.c						\
-		new_functions.c						\
-		parse_ao_list.c						\
+SRCS += parse_ao_list.c						\
 		parse_argument.c					\
+		parse_debug.c						\
 		parse_error.c						\
+		parse_free.c						\
 		parse_io_number.c					\
 		parse_list.c						\
+		parse_new_functions.c				\
 		parse_operator.c					\
 		parse_pipe.c						\
 		parse.c								\
-		pdebug.c							\
 
 #COMMAND
 COMMAND_DIR = command/
 SRCS += command_access.c					\
+		command_debug.c						\
 		command_error.c						\
 		command_execute.c					\
 		command_fork.c						\
 		command_free.c						\
 		command_group.c						\
+		command_list.c						\
 		command_normal.c					\
 		command_parse.c						\
 		command_path.c						\
 		command_redirect.c					\
 		environment_modify.c				\
-		execute_debug.c						\
-		execute_list.c						\
 		quote_removal.c						\
 
 #EXPANSIONS
 EXPANSION_DIR = expansion/
-SRCS += edebug.c							\
+SRCS += expand_debug.c						\
 		expand_argument.c					\
 		expand_arithmetic.c					\
 		expand_backslash.c					\
