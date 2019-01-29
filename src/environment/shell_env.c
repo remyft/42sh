@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 00:07:32 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/27 13:52:30 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/29 15:06:42 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,13 @@ void			init_shell_env(t_s_env *e, int ac, char **av, char **env)
 	e->private_env = build_private_env();
 	e->ret = 0;
 	e->pid = getpid();
+	e->shell_loop = 1;
 }
 
 void			free_shell_env(t_s_env *e)
 {
 	if (e->progpath)
 		free(e->progpath);
+	free_env(e->public_env);
 	free_env(e->private_env);
 }

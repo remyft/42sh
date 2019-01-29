@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   21sh.c                                             :+:      :+:    :+:   */
+/*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 13:52:30 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/29 15:05:26 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	init_shell_line(t_line **line, t_s_env *e)
 
 static void	shell_loop(t_line *line, t_s_env *e)
 {
-	while (1)
+	while (e->shell_loop)
 	{
 		put_prompt(line->prompt);
 		check_path(line, e->public_env);
@@ -80,6 +80,7 @@ int			main(int ac, char **av, char **ep)
 	init_shell_line(&line, &e);
 	define_new_term(&e.save);
 	shell_loop(line, &e);
+	term_restore(e.save);
 	free_shell_env(&e);
 	return (0);
 }
