@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 08:55:32 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 20:43:17 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/29 21:40:26 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void		deal_typing(t_line *line)
 			line->key = 0;
 		deal_key(line);
 		if (*(line->e_cmpl) & COMPLETION && line->tmp[0] == 10)
-			set_complet(line);
+			set_complet(line, 1);
 	}
 	write(1, "\n", 1);
 }
