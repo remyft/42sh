@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:13:27 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 20:30:55 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/29 23:03:43 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	left_arrow(t_line *line)
 	{
 		ft_bzero(line->curr->buff_tmp, ft_strlen(line->curr->buff_tmp));
 		line->curr->buff_tmp[8193] = 0;
+		while (line->hist->prev)
+			line->hist = line->hist->prev;
 	}
 	line->index = line->index > 0 ? line->index - 1 : 0;
 	if (line->index
@@ -68,6 +70,8 @@ void	right_arrow(t_line *line)
 	{
 		ft_bzero(line->curr->buff_tmp, ft_strlen(line->curr->buff_tmp));
 		line->curr->buff_tmp[8193] = 0;
+		while (line->hist->prev)
+			line->hist = line->hist->prev;
 	}
 	line->index = line->index < line->len ? line->index + 1 : line->len;
 	if (line->index && (line->index + line->lprompt) % line->nb_col == 0)
