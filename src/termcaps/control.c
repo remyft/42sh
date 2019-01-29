@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   control.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 20:31:18 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/29 15:19:41 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include <signal.h>
+#include "shell.h"
+
+#ifdef __linux__
+# define NSIG _NSIG
+#endif
 
 void			deal_exit(t_line *line)
 {

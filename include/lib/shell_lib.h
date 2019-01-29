@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 09:51:00 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/27 19:22:23 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/29 15:18:04 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,10 @@ char			*sh_strchr(const char *str, char c);
 char			*sh_strrchr(const char *str, char c);
 int				sh_is_escapable(char c);
 int				sh_str_isescape(const char *str);
+char			**sh_tabdup(const char **table);
+void			sh_freestr(char **str);
+void			sh_freetab(char ***table);
+int				sh_putstr_fd(const char *str, int fd);
+int				sh_putendl_fd(const char *str, int fd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 06:11:54 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/27 10:57:00 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/28 18:00:31 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,17 @@ int			cd_change_pwds(char *new, char *old, t_s_env *e)
 	{
 		free(*var);
 		if (!(*var = ft_strjoin("PWD=", new)))
-			return (1);
+			return (ERR_MALLOC);
 	}
 	else if (cd_change_env("PWD=", new, e))
-		return (1);
+		return (ERR_MALLOC);
 	if ((var = sh_getnenvaddr("OLDPWD", e->public_env)))
 	{
 		free(*var);
 		if (!(*var = ft_strjoin("OLDPWD=", old)))
-			return (1);
+			return (ERR_MALLOC);
 	}
 	else if (cd_change_env("OLDPWD=", old, e))
-		return (1);
-	return (0);
+		return (ERR_MALLOC);
+	return (ERR_NO_ERR);
 }

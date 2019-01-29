@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   set_complet.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 17:13:29 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 20:39:18 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/29 15:20:36 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "put.h"
-#include "21sh.h"
+#include "shell.h"
 #include "shell_lib.h"
 
 static int	deal_set(t_line *line, char *ptr, DIR *dir)

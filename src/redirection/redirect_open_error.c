@@ -10,7 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/syslimits.h>
+#ifdef __linux__
+# include <limits.h>
+#elif __apple__
+# include <sys/syslimits.h>
+#endif
 #include "libft.h"
 #include "shell_env.h"
 

@@ -6,12 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 10:20:55 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/26 11:47:46 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/28 20:00:58 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/stat.h>
 #include "libft.h"
+#include "shell_lib.h"
 #include "builtin_cd.h"
 
 int				cd_error(int err, char *arg)
@@ -19,6 +20,8 @@ int				cd_error(int err, char *arg)
 	static char	*errors[] = {
 		NULL, "not enought memory", "invalid option: -", "too much arguments",
 		"HOME not defined", "OLDPWD not defined", "string not in pwd",
+		"error retrieving current directory: getcwd: cannot access parent "
+		"directories: No such file or directory",
 	};
 
 	ft_putstr_fd("cd: ", STDERR_FILENO);
@@ -54,10 +57,11 @@ int				cd_dir_error(char *newpwd, char *oldpwd, char *entry)
 		ft_putstr_fd("cd: not a directory: ", STDERR_FILENO);
 	else
 		ft_putstr_fd("cd: permission denied: ", STDERR_FILENO);
-	ft_putendl_fd(entry, STDERR_FILENO);
-	if (newpwd)
-		free(newpwd);
-	if (oldpwd)
-		free(oldpwd);
+	if (!ft_strcmp(entry, "-"))
+		ft_putendl_fd(newpwd, STDERR_FILENO);
+	else
+		ft_putendl_fd(entry, STDERR_FILENO);
+	sh_freestr(&newpwd);
+	sh_freestr(&oldpwd);
 	return (1);
 }

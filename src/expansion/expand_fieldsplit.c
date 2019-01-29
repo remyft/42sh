@@ -48,9 +48,6 @@ static char		*check_word(char *str, const char *ifs, t_ret *ret)
 
 static int		get_word(char *str, const char *ifs, t_ret **ret)
 {
-	size_t		i;
-
-	i = 0;
 	while (*str)
 	{
 		while (ft_strchr(ifs, *str))

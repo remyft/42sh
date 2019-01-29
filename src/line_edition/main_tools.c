@@ -6,12 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 12:42:54 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/29 15:19:28 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
-#include "21sh.h"
+#include "shell.h"
 #include "main_tools.h"
 
 void	set_signal(void)

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   globing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 21:19:06 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 13:00:31 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/27 13:52:30 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 #include "globing.h"
 
 static t_slst	*expand_slst(t_slst *lst, char *str)
@@ -49,12 +49,10 @@ static void		fill_mln(int check_dir, char *str, t_slst **ret)
 static t_slst	*fill_slst(char *av, t_slist *glob, int star, int nb)
 {
 	int		is_point;
-	DIR		*dir;
 	char	*ptr;
 	int		check_dir;
 	t_slst	*ret;
 
-	dir = NULL;
 	check_dir = 0;
 	is_point = 0;
 	ret = NULL;

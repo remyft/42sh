@@ -27,10 +27,8 @@ static int	param_error(char *save, t_ret *ret)
 int			param_addchar(char c, t_ret *ret)
 {
 	char	*save;
-	size_t	i;
 
 	save = NULL;
-	i = 0;
 	if (ret->w_len == ret->w_max)
 	{
 		save = ret->word;

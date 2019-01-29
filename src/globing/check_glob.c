@@ -36,10 +36,8 @@ static int		deal_check(char **src, char **targ)
 
 int				check_mln(char *src, char *targ)
 {
-	int		state;
 	int		tmp;
 
-	state = 0;
 	while (*src)
 	{
 		if (!*targ)

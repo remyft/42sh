@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   deal_complet_tools.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 02:17:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 20:32:47 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/29 15:17:46 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 #include "shell_lib.h"
 
 char	*replace_tilde(const char *path, const char *replace)

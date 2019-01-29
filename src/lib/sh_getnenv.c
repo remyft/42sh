@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/02 18:44:52 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/27 10:15:04 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/28 19:26:29 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ char			*sh_getnenv(const char *name, char **env)
 	i = 0;
 	if (!env || !name)
 		return (NULL);
-	len = ft_strlen(name);
+	len = ft_strlen(name) + 1;
 	while (env[i])
 	{
-		if (sh_strncmp(env[i], name, len) == '=')
-			return (&env[i][len + 1]);
+		if (ft_strncmp(env[i], name, len) == '=')
+			return (&env[i][len]);
 		i++;
 	}
 	return (NULL);

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 11:01:36 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/27 11:33:32 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/28 18:34:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,7 @@ static int		cd_get_new_pwd(t_execute *exec, t_s_env *e, int i, char **pwd)
 	{
 		if (!(*pwd = sh_getnenv("OLDPWD", exec->env))
 			&& !(*pwd = sh_getnenv("OLDPWD", e->private_env)))
-				return (ERR_NO_OLDPWD);
-		ft_putendl(*pwd);
+			return (ERR_NO_OLDPWD);
 	}
 	else if (*exec->cmd[i] == '/')
 		return (cd_get_path(pwd, "/", exec->cmd[i]));
@@ -89,26 +88,25 @@ int				cd_write_in_pwd(t_execute *exec, t_s_env *e, size_t i)
 	char		*new_pwd;
 	int			ret;
 
-	ret = 0;
-	if (!(old_pwd = getcwd(NULL, 0)))
-		return (cd_error(ERR_MALLOC, exec->cmd[i]));
 	if ((ret = cd_get_new_pwd(exec, e, i, &new_pwd)) != ERR_NO_ERR)
-		return (cd_error(ret, exec->cmd[i]));
+		return (cd_error((ret) ? ret : ERR_MALLOC, exec->cmd[i]));
 	if (chdir(new_pwd) < 0)
-		return (cd_dir_error(new_pwd, old_pwd, exec->cmd[i]));
+		return (cd_dir_error(new_pwd, NULL, exec->cmd[i]));
 	if (exec->cmd[i - 1][0] == '-' &&
-		ft_strlen(ft_strrchr(exec->cmd[i - 1], 'P')) == 1)
+		exec->cmd[i - 1][ft_strlen(exec->cmd[i - 1]) - 1] == 'P')
 	{
 		if (new_pwd)
 			free(new_pwd);
 		if (!(new_pwd = getcwd(NULL, 0)))
 			return (ERR_MALLOC);
 	}
-	if (exec->env == e->public_env)
-		ret = cd_change_pwds(new_pwd, old_pwd, e);
-	if (new_pwd)
-		free(new_pwd);
-	if (old_pwd)
-		free(old_pwd);
+	if (!(old_pwd = getcwd(NULL, 0)))
+		ret = ERR_GETCWD;
+	else if (exec->env == e->public_env)
+		if ((ret = cd_change_pwds(new_pwd, old_pwd, e)) == ERR_NO_ERR
+		&& exec->cmd[i] && !ft_strcmp(exec->cmd[i], "-"))
+			ft_putendl(new_pwd);
+	sh_freestr(&new_pwd);
+	sh_freestr(&old_pwd);
 	return ((ret) ? cd_error(ret, exec->cmd[i]) : ERR_NO_ERR);
 }

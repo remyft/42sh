@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/27 17:14:11 by rfontain         ###   ########.fr        #
+#    Updated: 2019/01/29 15:20:09 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,15 +25,19 @@ LIB_PATH = libft
 LIB = $(LIB_PATH)/libft.a
 LIB_LINK = -L$(LIB_PATH) -lft -lncurses
 
+PRINTF_PATH = ft_printf
+PRINTF_LIB = $(PRINTF_PATH)/ft_printf.a
+PRINTF_LINK = -L$(PRINTF_PATH) -lprintf
+
 INC_DIR = include
-INCS = -I$(LIB_PATH)/$(INC_DIR) -I$(INC_DIR)
+INCS = -I$(PRINTF_PATH)/$(INC_DIR) -I$(LIB_PATH)/$(INC_DIR) -I$(INC_DIR)
 
 BUIL_DIR = $(SRCS_DIR)builtin/
 
 OTHR_DIR = $(SRCS_DIR)other/
 
 SRCS_DIR = src/
-SRCS =	21sh.c								\
+SRCS =	shell.c								\
 
 #ENVIRONMENT
 ENV_DIR = $(SRCS_DIR)environment/
@@ -94,8 +98,6 @@ SRCS += select.c							\
 #TOKENS
 TOKEN_DIR = token/
 SRCS += expand_word.c						\
-		free_token.c						\
-		get_tokens.c						\
 		handle_command.c					\
 		handle_comment.c					\
 		handle_end_of_input.c				\
@@ -113,44 +115,46 @@ SRCS += expand_word.c						\
 		is_token_next.c						\
 		is_token_validname.c				\
 		is_token.c							\
-		new_token.c							\
 		remove_line_continuation.c			\
-		tdebug.c							\
+		token_debug.c						\
+		token_free.c						\
+		token_get.c							\
+		token_new.c							\
 
 #PARSER
 PARSER_DIR = parser/
-SRCS += free_parser.c						\
-		new_functions.c						\
-		parse_ao_list.c						\
+SRCS += parse_ao_list.c						\
 		parse_argument.c					\
+		parse_debug.c						\
 		parse_error.c						\
+		parse_free.c						\
 		parse_io_number.c					\
 		parse_list.c						\
+		parse_new_functions.c				\
 		parse_operator.c					\
 		parse_pipe.c						\
 		parse.c								\
-		pdebug.c							\
 
-#EXECUTION
-EXECUTION_DIR = execution/
+#COMMAND
+COMMAND_DIR = command/
 SRCS += command_access.c					\
+		command_debug.c						\
 		command_error.c						\
 		command_execute.c					\
 		command_fork.c						\
 		command_free.c						\
 		command_group.c						\
+		command_list.c						\
+		command_normal.c					\
 		command_parse.c						\
 		command_path.c						\
 		command_redirect.c					\
-		environment_duplicate.c				\
 		environment_modify.c				\
-		execute_debug.c						\
-		execute_list.c						\
 		quote_removal.c						\
 
 #EXPANSIONS
 EXPANSION_DIR = expansion/
-SRCS += edebug.c							\
+SRCS += expand_debug.c						\
 		expand_argument.c					\
 		expand_arithmetic.c					\
 		expand_backslash.c					\
@@ -207,22 +211,35 @@ SRCS += redirect_and_dgreat.c				\
 
 #BUILTINS
 BUILTIN_DIR = builtin/
-SRCS += builtin_echo.c						\
-		builtin_cd_change.c					\
+SRCS += builtin_cd_change.c					\
 		builtin_cd_error.c					\
 		builtin_cd_search.c					\
 		builtin_cd_write.c					\
 		builtin_cd.c						\
+		builtin_echo.c						\
+		builtin_env_error.c					\
+		builtin_env_free_opt.c				\
+		builtin_env_opt_i.c					\
+		builtin_env_opt_p.c					\
+		builtin_env_opt_u.c					\
+		builtin_env_opt_v.c					\
+		builtin_env_options.c				\
+		builtin_env.c						\
+		builtin_exit.c						\
 		builtin_setenv.c					\
+		builtin_unsetenv.c					\
 
 #LIBRARY
 LIBRARY_DIR = lib/
-SRCS += sh_getnenv.c						\
+SRCS += sh_freestr.c						\
+		sh_freetab.c						\
+		sh_getnenv.c						\
 		sh_getnenvaddr.c					\
 		sh_newenv.c							\
 		sh_puttab.c							\
 		sh_stralnum.c						\
 		sh_strncmp.c						\
+		sh_tabdup.c							\
 		sh_tablen.c							\
 		sh_is_escapable.c					\
 		sh_strchr.c							\
@@ -251,7 +268,7 @@ OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 DEPS_DIR = .deps/
 DEPS = $(addprefix $(DEPS_DIR), $(SRCS:.c=.d))
 
-all: $(OBJS_DIR) $(DEPS_DIR) $(LIB) $(NAME)
+all: $(OBJS_DIR) $(DEPS_DIR) $(LIB) $(PRINTF_LIB) $(NAME)
 
 $(OBJS_DIR):
 	mkdir -p $@
@@ -262,8 +279,11 @@ $(DEPS_DIR):
 $(LIB):
 	make -C $(LIB_PATH)
 
+$(PRINTF_LIB):
+	make -C $(PRINTF_PATH)
+
 $(NAME): $(NEWLINE) $(OBJS) $(LIB)
-	@$(CC) $(DEBUG) $^ -o $@ $(LIB_LINK)
+	@$(CC) $(DEBUG) $^ -o $@ $(LIB_LINK) $(PRINTF_LINK)
 	@echo ""
 	@echo $(GREY)" Compilling" $(RESET) [ $(NAME) ] $(OK)
 
@@ -271,15 +291,8 @@ $(NAME): $(NEWLINE) $(OBJS) $(LIB)
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(COMMAND_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
-
-$(OBJS_DIR)21sh.o: INCS += -I$(INC_DIR)/$(TOKEN_DIR)
-$(OBJS_DIR)21sh.o: INCS += -I$(INC_DIR)/$(PARSER_DIR)
-$(OBJS_DIR)21sh.o: INCS += -I$(INC_DIR)/$(EXPANSION_DIR)
-$(OBJS_DIR)21sh.o: INCS += -I$(INC_DIR)/$(EXECUTION_DIR)
-$(OBJS_DIR)deal_hdoc.o: INCS += -I$(INC_DIR)/$(TOKEN_DIR)
-$(OBJS_DIR)create_hdoc.o: INCS += -I$(INC_DIR)/$(TOKEN_DIR)
 
 $(OBJS_DIR)%.o: $(ENV_DIR)%.c
 $(OBJS_DIR)%.o: $(ENV_DIR)%.c $(DEPS_DIR)%.d
@@ -292,6 +305,9 @@ $(OBJS_DIR)%.o: $(LINE_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
 	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
+
+$(OBJS_DIR)deal_hdoc.o: INCS += -I$(INC_DIR)/$(TOKEN_DIR)
+$(OBJS_DIR)create_hdoc.o: INCS += -I$(INC_DIR)/$(TOKEN_DIR)
 
 $(OBJS_DIR)%.o: $(CMPL_DIR)%.c
 $(OBJS_DIR)%.o: $(CMPL_DIR)%.c $(DEPS_DIR)%.d
@@ -335,10 +351,10 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)$(EXPANSION_DIR)%.c $(DEPS_DIR)%.d
 	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(LIBRARY_DIR) $(DEBUG)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
-$(OBJS_DIR)%.o: $(SRCS_DIR)$(EXECUTION_DIR)%.c
-$(OBJS_DIR)%.o: $(SRCS_DIR)$(EXECUTION_DIR)%.c $(DEPS_DIR)%.d
+$(OBJS_DIR)%.o: $(SRCS_DIR)$(COMMAND_DIR)%.c
+$(OBJS_DIR)%.o: $(SRCS_DIR)$(COMMAND_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(EXECUTION_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(BUILTIN_DIR) -I$(INC_DIR)/$(LIBRARY_DIR) $(DEBUG)
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(COMMAND_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(BUILTIN_DIR) -I$(INC_DIR)/$(LIBRARY_DIR) $(DEBUG)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(REDIRECTION_DIR)%.c
@@ -350,7 +366,7 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)$(REDIRECTION_DIR)%.c $(DEPS_DIR)%.d
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(BUILTIN_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(BUILTIN_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(BUILTIN_DIR) -I $(INC_DIR)/$(EXECUTION_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(LIBRARY_DIR) -I$(INC_DIR)/$(TOKEN_DIR)
+	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(BUILTIN_DIR) -I $(INC_DIR)/$(COMMAND_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(LIBRARY_DIR) -I$(INC_DIR)/$(TOKEN_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(LIBRARY_DIR)%.c

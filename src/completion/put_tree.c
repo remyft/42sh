@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   put_tree.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:34:09 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 16:48:13 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/29 15:19:10 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "put.h"
-#include "21sh.h"
+#include "shell.h"
 #include "shell_lib.h"
 
 static void	get_new_file(t_tree *tern, t_cpl_e env, t_line *line)

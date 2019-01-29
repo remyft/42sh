@@ -6,11 +6,11 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:57:17 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 20:31:56 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/29 15:19:52 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 
 static void	get_to_buff(t_line *line, int *cp)
 {
@@ -44,10 +44,8 @@ static void	get_to_buff(t_line *line, int *cp)
 void		get_typing(t_line *line, int nb_read)
 {
 	int		cp;
-	int		j;
 
 	cp = 0;
-	j = -1;
 	line->tmp[nb_read] = '\0';
 	if (ft_isprint(line->tmp[0]))
 	{
