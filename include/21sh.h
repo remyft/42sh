@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 20:44:11 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/29 21:32:23 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int				check_hdoc(t_line *line);
 
 int				put_complet(t_tree *tern, int *put, t_line *line, int *nb_ret);
 void			get_complet(t_line *line);
-void			set_complet(t_line *line);
+void			set_complet(t_line *line, int set);
 
 void			feed_tree(char *str, unsigned char type,
 		t_tree **tern, int lvl);
