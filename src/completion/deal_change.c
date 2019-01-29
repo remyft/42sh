@@ -6,13 +6,13 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 20:16:45 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/29 14:29:07 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/29 23:26:36 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "put.h"
 #include "shell_lib.h"
-#include "21sh.h"
+#include "shell.h"
 
 static void	get_ptr_tree(t_tree *tree, char **ptr)
 {
