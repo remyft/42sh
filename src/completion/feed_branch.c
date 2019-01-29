@@ -6,29 +6,29 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 02:06:53 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/28 20:11:24 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/29 22:06:25 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "struct.h"
 
-static t_tree	*create_new_branch(t_tree **tern, char *str, int lvl,
-		unsigned int type)
+static void	create_new_branch(t_tree **tern, t_tree *prev, char *str, int lvl)
 {
 	int		len;
 
 	*tern = ft_memalloc(sizeof(t_tree));
-	if (!*str)
-		(*tern)->type = type;
+	if (*str < prev->value)
+		prev->left = *tern;
+	else
+		prev->right = *tern;
 	(*tern)->value = *str;
+	(*tern)->prev = prev->prev;
 	if (lvl + (len = ft_strlen(str)) > (*tern)->max_len)
 		(*tern)->max_len = lvl + len;
-	return (*tern);
 }
 
-static void		feed_branch(t_tree **tern, char *str, int lvl,
-		unsigned int type)
+static void	feed_branch(t_tree **tern, char *str, int lvl)
 {
 	t_tree	*prev;
 	int		len;
@@ -40,11 +40,7 @@ static void		feed_branch(t_tree **tern, char *str, int lvl,
 		(*tern) = (*str < (*tern)->value) ? (*tern)->left : (*tern)->right;
 	}
 	if (!(*tern))
-	{
-		*tern = create_new_branch(*str < prev->value ?
-				&prev->left : &prev->right, str, lvl, type);
-		(*tern)->prev = prev;
-	}
+		create_new_branch(tern, prev, str, lvl);
 	else
 	{
 		if (lvl + (len = ft_strlen(str)) > (*tern)->max_len)
@@ -52,8 +48,7 @@ static void		feed_branch(t_tree **tern, char *str, int lvl,
 	}
 }
 
-static void		set_new_mln(t_tree **tern, char *str, int lvl,
-		unsigned int type)
+static void	set_new_mln(t_tree **tern, char *str, int lvl, unsigned int type)
 {
 	int		len;
 
@@ -67,7 +62,7 @@ static void		set_new_mln(t_tree **tern, char *str, int lvl,
 		(*tern)->max_len = lvl + len;
 }
 
-void			feed_tree(char *str, unsigned char type, t_tree **tern, int lvl)
+void		feed_tree(char *str, unsigned char type, t_tree **tern, int lvl)
 {
 	t_tree		*begin;
 
@@ -75,7 +70,7 @@ void			feed_tree(char *str, unsigned char type, t_tree **tern, int lvl)
 	if ((*tern)->value >= 0)
 	{
 		begin = *tern;
-		feed_branch(tern, str, lvl, type);
+		feed_branch(tern, str, lvl);
 	}
 	else
 		set_new_mln(tern, str, lvl, type);
