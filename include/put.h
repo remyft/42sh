@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:50:35 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/28 20:22:26 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/29 23:00:41 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void			reset_put(t_tree *tern);
 
 void			ft_put_tree(t_tree *tern, t_cpl_e env, t_line *line,
 		int *car_ret);
+void			deal_type(unsigned int type, t_line *line, char *file);
 
 void			put_branch(t_slct *select, t_cpl_e env, t_line *line,
 		int *car_ret);
