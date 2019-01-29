@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 20:16:45 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/28 20:26:50 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/29 14:29:07 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,9 @@ void		change_buff(t_slct *select, t_cpl_e *env, t_line *line,
 	tmp = 1;
 	if (!(env->ptr = sh_strrchr(line->curr->buff, '/')))
 		if (!(env->ptr = sh_strrchr(line->curr->buff, ' ')))
-			env->ptr = line->curr->buff + 1;
-	env->ptr += 1;
+			env->ptr = line->curr->buff;
+	if (env->ptr != line->curr->buff)
+		env->ptr += 1;
 	if (deal_change(select, tern, env))
 		return ;
 	go_home(line);
