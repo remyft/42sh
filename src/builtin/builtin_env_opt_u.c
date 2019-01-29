@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 14:34:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/28 20:24:49 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/29 13:30:57 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ int			builtin_env_opt_u(size_t *i, size_t *j, char **cmd, t_e_opt *opt)
 			nb = 0;
 			while (addr[nb + 1])
 			{
-				var[nb] = var[nb + 1];
+				addr[nb] = addr[nb + 1];
 				nb++;
 			}
-			var[nb] = NULL;
+			addr[nb] = NULL;
 		}
 	}
 	return (ERR_OK);

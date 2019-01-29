@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 16:25:18 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/28 20:23:50 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/29 14:20:07 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,32 +87,43 @@ static int		env_options_loop(size_t *i, size_t *j, char **cmd, t_e_opt *opt)
 	size_t			nb;
 	int				error;
 
-	*j = 0;
-	while (cmd[*i][++(*j)])
+	*j = 1;
+	error = ERR_OK;
+	while (error == ERR_OK && cmd[*i][*j])
 	{
 		nb = 0;
 		while (nb < sizeof(options) / sizeof(options[0]))
 		{
 			if (cmd[*i][*j] == options[nb].value)
-				return (options[nb].handler(i, j, cmd, opt));
+			{
+				if ((error = options[nb].handler(i, j, cmd, opt)) != ERR_OK)
+					return (error);
+				else
+					break ;
+			}
 			nb++;
 		}
+		if (nb == sizeof(options) / sizeof(options[0]))
+			return (ERR_ILLEGAL_OPT);
+		(*j)++;
 	}
-	return (ERR_ILLEGAL_OPT);
+	return (error);
 }
 
-int				builtin_env_options(int *i, int *j, char **cmd, t_e_opt *opt)
+int				builtin_env_options(size_t *i, size_t *j, char **cmd, t_e_opt *opt)
 {
 	int			error;
 
-	while (cmd[++(*i)] && cmd[*i][0] == '-')
+	*i = 1;
+	while (cmd[*i] && cmd[*i][0] == '-')
 	{
 		if (!cmd[*i][1])
 			opt->i = 1;
-		if (!ft_strcmp(cmd[*i], "--"))
+		else if (!ft_strcmp(cmd[*i], "--"))
 			return (ERR_OK);
-		if ((error = env_options_loop(i, j, cmd, opt)) != ERR_OK)
+		else if ((error = env_options_loop(i, j, cmd, opt)) != ERR_OK)
 			return (error);
+		(*i)++;
 	}
 	return (ERR_OK);
 }

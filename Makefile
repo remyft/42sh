@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/29 13:07:27 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/01/29 13:26:39 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ PRINTF_LIB = $(PRINTF_PATH)/ft_printf.a
 PRINTF_LINK = -L$(PRINTF_PATH) -lprintf
 
 INC_DIR = include
-INCS = -I$(LIB_PATH)/$(INC_DIR) -I$(INC_DIR)
+INCS = -I$(PRINTF_PATH)/$(INC_DIR) -I$(LIB_PATH)/$(INC_DIR) -I$(INC_DIR)
 
 BUIL_DIR = $(SRCS_DIR)builtin/
 
@@ -210,12 +210,20 @@ SRCS += redirect_and_dgreat.c				\
 
 #BUILTINS
 BUILTIN_DIR = builtin/
-SRCS += builtin_echo.c						\
-		builtin_cd_change.c					\
+SRCS += builtin_cd_change.c					\
 		builtin_cd_error.c					\
 		builtin_cd_search.c					\
 		builtin_cd_write.c					\
 		builtin_cd.c						\
+		builtin_echo.c						\
+		builtin_env_error.c					\
+		builtin_env_free_opt.c				\
+		builtin_env_opt_i.c					\
+		builtin_env_opt_p.c					\
+		builtin_env_opt_u.c					\
+		builtin_env_opt_v.c					\
+		builtin_env_options.c				\
+		builtin_env.c						\
 		builtin_exit.c						\
 		builtin_setenv.c					\
 		builtin_unsetenv.c					\

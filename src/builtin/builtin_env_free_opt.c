@@ -6,10 +6,11 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 11:25:55 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/28 16:32:40 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/29 13:28:46 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "builtin_env.h"
 #include "shell_lib.h"
 
