@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 20:44:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/28 20:48:17 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/29 13:41:41 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ t_execute *exec, t_s_env *e)
 int				command_normal(t_execute *exec, t_s_env *e)
 {
 	static t_builtins	builtins[] = {
-		BUILTIN_ECHO, BUILTIN_CD, BUILTIN_SETENV, BUILTIN_UNSETENV, /*BUILTIN_ENV,
-		BUILTIN_EXIT,*/
+		BUILTIN_ECHO, BUILTIN_CD, BUILTIN_SETENV, BUILTIN_UNSETENV, BUILTIN_ENV,
+		BUILTIN_EXIT,
 	};
 	size_t				i;
 	t_argument			*ptr;
