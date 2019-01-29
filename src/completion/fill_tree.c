@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:45:40 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 12:56:09 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/29 22:21:02 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	get_indir(char *toget, int *i, t_tree **ternary)
 	free(path);
 	while (dir && (indir = readdir(dir)))
 		if (ft_strcmp(indir->d_name, ".") && ft_strcmp(indir->d_name, ".."))
-			feed_tree(indir->d_name, indir->d_type, ternary, 0);
+			feed_tree(indir->d_name, -1, ternary, 0);
 	if (!ft_strchr(&toget[*i], ':'))
 	{
 		if (dir)
