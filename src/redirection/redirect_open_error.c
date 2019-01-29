@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:30:11 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/24 07:30:42 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/29 23:35:44 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #endif
 #include "libft.h"
 #include "shell_env.h"
+
+# define NAME_MAX 10
 
 int				redirect_open_error(char *filename, t_s_env *e)
 {
