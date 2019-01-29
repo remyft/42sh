@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pf_wchar.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbourgeo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 19:55:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/04/11 00:55:25 by root             ###   ########.fr       */
+/*   Updated: 2019/01/29 13:40:05 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char		*wchar_to_char(int nb)
 	int			i;
 	int			j;
 
-	bin = ft_itoa_base(nb, 2);
+	bin = pf_itoa_base(nb, 2);
 	fill_buff(ret, &i, ft_strlen(bin));
 	j = 0;
 	while (bin[j])

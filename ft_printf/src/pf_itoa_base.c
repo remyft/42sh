@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa_base.c                                     :+:      :+:    :+:   */
+/*   pf_itoa_base.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbourgeo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/15 22:06:38 by gbourgeo          #+#    #+#             */
-/*   Updated: 2017/08/15 22:36:31 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/29 13:37:18 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-char			*ft_itoa_base(ULL nb, ULL base)
+char			*pf_itoa_base(ULL nb, ULL base)
 {
 	char		*b;
 	ULL			size;

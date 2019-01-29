@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pf_x.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbourgeo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 04:14:34 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/04/11 02:23:46 by root             ###   ########.fr       */
+/*   Updated: 2019/01/29 13:40:17 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static ULL		get_modifier(t_dt *data, int *len)
 static void		get_data(t_dt *data, t_av *av, int *len)
 {
 	av->ui = get_modifier(data, len);
-	av->s = ft_itoa_base(av->ui, 16);
+	av->s = pf_itoa_base(av->ui, 16);
 	av->len = ft_strlen(av->s);
 	if (data->flag.point && av->ui == 0)
 		av->len = 0;

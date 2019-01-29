@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pf_u.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbourgeo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 04:14:39 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/04/11 02:23:22 by root             ###   ########.fr       */
+/*   Updated: 2019/01/29 13:39:55 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void			pf_u(t_dt *data)
 	int			len;
 
 	av.ui = get_modifier(data);
-	av.s = ft_itoa_base(av.ui, 10);
+	av.s = pf_itoa_base(av.ui, 10);
 	av.len = ft_strlen(av.s);
 	len = (data->flag.precision > av.len) ? data->flag.precision : av.len;
 	if (!data->flag.minus)

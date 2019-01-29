@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pf_o.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbourgeo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 04:14:53 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/04/11 02:23:36 by root             ###   ########.fr       */
+/*   Updated: 2019/01/29 13:39:33 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void		pf_o(t_dt *data)
 	int		len;
 
 	av.ui = get_modifier(data);
-	av.s = ft_itoa_base(av.ui, 8);
+	av.s = pf_itoa_base(av.ui, 8);
 	av.len = ft_strlen(av.s) + data->flag.hash;
 	len = (data->flag.precision > av.len) ? data->flag.precision : av.len;
 	print_zero_space(data, &av);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_base_printf.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbourgeo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/21 07:20:27 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/28 15:48:11 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/29 13:37:40 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void				write_char(t_dt *data, unsigned char c);
 void				write_wchar(t_dt *data, wchar_t *w, int *len);
 
 char				*ft_strtoupper(char *s);
-//char				*ft_itoa_base(ULL nb, ULL base);
+char				*pf_itoa_base(ULL nb, ULL base);
 unsigned char		ft_atouc(char *str);
 int					ft_pow(int nb, int power);
 

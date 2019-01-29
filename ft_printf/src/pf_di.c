@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pf_di.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbourgeo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 04:22:17 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/04/11 02:23:39 by root             ###   ########.fr       */
+/*   Updated: 2019/01/29 13:39:21 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void		pf_di(t_dt *data)
 	char	c;
 
 	av.ui = get_modifier(data);
-	av.s = ft_itoa_base(((LL)av.ui < 0) ? av.ui * -1 : av.ui, 10);
+	av.s = pf_itoa_base(((LL)av.ui < 0) ? av.ui * -1 : av.ui, 10);
 	av.len = ft_strlen(av.s);
 	c = '\0';
 	if ((LL)av.ui < 0)
