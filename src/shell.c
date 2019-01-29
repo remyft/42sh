@@ -14,7 +14,7 @@
 #include "main_tools.h"
 #include "token.h"
 #include "parser.h"
-#include "execution.h"
+#include "command.h"
 #include "shell_env.h"
 
 static void	get_new_cmd(t_line *line, t_s_env *e)

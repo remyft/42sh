@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "execution_error.h"
+#include "command_error.h"
 
 int				command_error(char *progname, int err, char **cmd)
 {

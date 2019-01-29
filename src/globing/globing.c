@@ -49,12 +49,10 @@ static void		fill_mln(int check_dir, char *str, t_slst **ret)
 static t_slst	*fill_slst(char *av, t_slist *glob, int star, int nb)
 {
 	int		is_point;
-	DIR		*dir;
 	char	*ptr;
 	int		check_dir;
 	t_slst	*ret;
 
-	dir = NULL;
 	check_dir = 0;
 	is_point = 0;
 	ret = NULL;

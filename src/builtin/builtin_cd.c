@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "execution.h"
 #include "shell_env.h"
 #include "builtin_cd.h"
 

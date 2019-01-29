@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "execution.h"
+#include "command.h"
 
 static int		command_pipe(t_execute *exec, t_s_env *e)
 {

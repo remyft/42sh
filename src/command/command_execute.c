@@ -11,9 +11,14 @@
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <signal.h>
 #include "shell_lib.h"
-#include "execution.h"
-#include "execution_error.h"
+#include "command.h"
+#include "command_error.h"
+
+#ifdef __linux__
+# define NSIG _NSIG
+#endif
 
 static void		restore_signals_to_default(void)
 {

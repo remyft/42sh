@@ -10,8 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
-#include "execution_error.h"
+#include "libft.h"
+#include "shell_lib.h"
+#include "command.h"
+#include "command_error.h"
 #include "builtins.h"
 
 static int		modify_public_environment(t_argument *var, t_s_env *e)
@@ -55,7 +57,7 @@ t_execute *exec, t_s_env *e)
 	return (0);
 }
 
-static int		command_normal(t_execute *exec, t_s_env *e)
+int				command_normal(t_execute *exec, t_s_env *e)
 {
 	static t_builtins	builtins[] = {
 		BUILTIN_ECHO, BUILTIN_CD, BUILTIN_SETENV, BUILTIN_UNSETENV, /*BUILTIN_ENV,

@@ -10,8 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <sys/wait.h>
 #include "libft.h"
-#include "execution.h"
+#include "command.h"
 #include "shell_env.h"
 #include "shell.h"
 

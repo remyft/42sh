@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "command.h"
 #include "operator_types.h"
 #include "expansion.h"
 #include "redirection.h"

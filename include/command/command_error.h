@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution_error.h                                  :+:      :+:    :+:   */
+/*   command_error.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTION_ERROR_H
-# define EXECUTION_ERROR_H
+#ifndef COMMAND_ERROR_H
+# define COMMAND_ERROR_H
 
 enum
 {

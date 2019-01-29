@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.h                                        :+:      :+:    :+:   */
+/*   command.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTION_H
-# define EXECUTION_H
+#ifndef COMMAND_H
+# define COMMAND_H
 
 # include "parser.h"
 # include "shell_env.h"
@@ -37,6 +37,7 @@ void			quote_removal(t_argument *arg);
 void			variable_assignment(t_command *cmd, t_s_env *e);
 
 int				command_check(t_execute *exec, t_s_env *e);
+int				command_normal(t_execute *exec, t_s_env *e);
 int				command_fork(t_execute *exec, t_s_env *e);
 int				command_access(char *path);
 int				command_redirect(t_redirection *redirection, t_s_env *e);

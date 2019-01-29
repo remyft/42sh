@@ -13,7 +13,7 @@
 #ifndef BUILTIN_SETENV_H
 # define BUILTIN_SETENV_H
 
-# include "execution.h"
+# include "command.h"
 # include "shell_env.h"
 
 enum

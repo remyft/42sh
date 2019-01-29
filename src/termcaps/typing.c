@@ -44,10 +44,8 @@ static void	get_to_buff(t_line *line, int *cp)
 void		get_typing(t_line *line, int nb_read)
 {
 	int		cp;
-	int		j;
 
 	cp = 0;
-	j = -1;
 	line->tmp[nb_read] = '\0';
 	if (ft_isprint(line->tmp[0]))
 		ft_bzero(line->curr->buff_tmp, 8194);

@@ -10,7 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <signal.h>
 #include "shell.h"
+
+#ifdef __linux__
+# define NSIG _NSIG
+#endif
 
 void			deal_exit(t_line *line)
 {

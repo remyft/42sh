@@ -57,7 +57,7 @@ void		select_left(t_line *line)
 
 static void	expand_select_right(t_line *line, int diff)
 {
-	line->slct_end = diff < (int)line->len ? diff + 1 : line->len;
+	line->slct_end = diff < (int)line->len ? diff + 1 : (int)line->len;
 	line->index = (size_t)line->slct_end;
 	tputs(tgetstr("mr", NULL), 1, ft_pchar);
 	ft_putchar(line->curr->buff[line->index - 1]);

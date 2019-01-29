@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "execution_error.h"
-#include "execution.h"
+#include "command_error.h"
+#include "command.h"
 
 static char		*check_access(char *cmd, char *ptr, char *paths)
 {
