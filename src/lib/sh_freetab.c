@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 11:28:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/28 11:33:46 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/29 14:53:42 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ void			sh_freetab(char ***table)
 	i = 0;
 	if (table)
 		if (*table)
+		{
 			while ((*table)[i])
 			{
 				free((*table)[i]);
 				(*table)[i] = NULL;
 				i++;
 			}
-	if (table)
-		*table = (char **)0;
+			free(*table);
+			*table = (char **)0;
+		}
 }

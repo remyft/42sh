@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 11:27:06 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/28 11:28:20 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/29 14:54:06 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void			sh_freestr(char **str)
 {
 	if (str)
 		if (*str)
+		{
 			free(*str);
-	if (str)
-		*str = (char *)0;
+			*str = (char *)0;
+		}
 }
