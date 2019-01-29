@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 08:55:32 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/29 15:19:21 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/29 23:22:18 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void		deal_typing(t_line *line)
 			line->key = 0;
 		deal_key(line);
 		if (*(line->e_cmpl) & COMPLETION && line->tmp[0] == 10)
-			set_complet(line);
+			set_complet(line, 1);
 	}
 	write(1, "\n", 1);
 }

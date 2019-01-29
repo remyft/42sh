@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:38:48 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/29 15:18:36 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/29 23:23:59 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,28 @@ static void	get_new_glob(t_line *line, t_slst *tmp, char *ptr)
 	tputs(tgoto(tgetstr("ch", NULL), 0, line->lprompt), 1, ft_pchar);
 }
 
+static void	set_new_glob(t_line *line, t_slst *tmp, char *ptr)
+{
+	if (tmp)
+	{
+		get_new_glob(line, tmp, ptr);
+		ft_putstr(line->curr->buff);
+		line->len = ft_strlen(line->curr->buff);
+		line->index = line->len;
+	}
+}
+
 void		get_complet(t_line *line)
 {
 	char	*ptr;
 	t_slst	*tmp;
 
 	tmp = NULL;
+	if (!(*line->e_cmpl & COMPLETION) && line->curr->buff_tmp[8193])
+	{
+		line->curr->buff_tmp[0] = 0;
+		line->curr->buff_tmp[8193] = 0;
+	}
 	if (!inprint(line->curr->buff))
 		return ;
 	if ((ptr = sh_strrchr(line->curr->buff, ' ')) && str_chrglob(ptr))
@@ -105,11 +121,5 @@ void		get_complet(t_line *line)
 		if (line->tree[2] || (line->tree[2] = set_tmp(line->curr->buff)))
 			deal_complet(line->tree[2], line);
 	}
-	if (tmp)
-	{
-		get_new_glob(line, tmp, ptr);
-		ft_putstr(line->curr->buff);
-		line->len = ft_strlen(line->curr->buff);
-		line->index = line->len;
-	}
+	set_new_glob(line, tmp, ptr);
 }

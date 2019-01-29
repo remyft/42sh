@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 02:17:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/29 15:17:46 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/29 23:24:17 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,10 @@ t_tree	*set_tmp(char *buff)
 		else
 			stmp = ft_strndup(stmp, ft_strrchr(stmp, '/') - stmp);
 	}
+	else
+		stmp = ft_strndup(stmp, ft_strrchr(stmp, '/') - stmp + 1);
 	file = create_file_tree(stmp, NULL);
-	if (*stmp != '/' || tmp)
-		free(stmp);
+	free(stmp);
 	if (tmp)
 		free(tmp);
 	return (file);
@@ -86,4 +87,14 @@ int		str_chrglob(char *str)
 		i++;
 	}
 	return (0);
+}
+
+void	free_select(t_slct *select)
+{
+	if (select->next)
+		free_select(select->next);
+	if (select->down)
+		free_select(select->down);
+	if (select)
+		free(select);
 }

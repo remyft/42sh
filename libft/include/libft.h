@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/04 23:07:03 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/22 05:56:44 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/28 17:53:02 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define CYAN    "\x1b[36m"
 # define WHITE   "\x1b[1;37;40m"
 # define RESET   "\x1b[0m"
+# define ERROR   "\x1b[90m"
 
 typedef struct		s_list
 {

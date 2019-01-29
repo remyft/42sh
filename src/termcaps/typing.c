@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:57:17 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/29 15:19:52 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/29 23:21:31 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,16 @@ void		get_typing(t_line *line, int nb_read)
 
 	cp = 0;
 	line->tmp[nb_read] = '\0';
-	if (ft_isprint(line->tmp[0]))
+	if (ft_isprint(line->tmp[0]) && *line->e_cmpl & COMPLETION)
 	{
-		ft_bzero(line->curr->buff_tmp, ft_strlen(line->curr->buff_tmp));
-		line->curr->buff_tmp[8193] = 0;
+		if (line->is_putb == 1)
+			set_complet(line, 0);
+		else
+		{
+			line->is_putb -= 1;
+			ft_bzero(line->curr->buff_tmp, ft_strlen(line->curr->buff_tmp));
+			line->curr->buff_tmp[8193] = 0;
+		}
 	}
 	while (cp < nb_read && line->tmp[0] != 12 && (ft_isprint(line->tmp[cp])
 				|| ft_isspace(line->tmp[cp]))

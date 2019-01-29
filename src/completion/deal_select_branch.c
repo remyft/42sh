@@ -6,11 +6,12 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:40:31 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 16:47:01 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/28 20:25:47 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "put.h"
+#include "21sh.h"
 #include "libft.h"
 #include "shell_lib.h"
 
@@ -53,41 +54,32 @@ void		put_tree_branch(t_tree *tree, t_cpl_e env, t_line *line)
 	ft_put_tree(tree, env, line, &car_ret);
 }
 
-void		free_select(t_slct *select)
-{
-	if (select->next)
-		free_select(select->next);
-	if (select->down)
-		free_select(select->down);
-	if (select)
-		free(select);
-}
-
-int			get_select(t_line *line, t_tree *tern, char **chr, t_slct **select)
+int			get_select(t_line *line, t_tree *tern, t_cpl_e *env,
+		t_slct **select)
 {
 	int		lenm;
 
 	lenm = 0;
-	if (!sh_strchr(line->curr->buff_tmp, ' '))
+	if (!(env->ptr = sh_strrchr(line->curr->buff_tmp, ' ')))
 	{
-		*chr = ft_strdup(line->curr->buff_tmp);
-		if (!(*select = select_branch(tern, *chr, &lenm)))
+		env->chr = ft_strdup(line->curr->buff_tmp);
+		if (!(*select = select_branch(tern, env->chr, &lenm)))
 		{
-			free(*chr);
+			free(env->chr);
 			return (-1);
 		}
 	}
-	else if (*(*chr = !ft_strchr(sh_strrchr(line->curr->buff_tmp, ' '), '/')
-				? ft_strdup(sh_strrchr(line->curr->buff_tmp, ' ') + 1)
+	else if (*(env->chr = !sh_strchr(env->ptr, '/') ? ft_strdup(env->ptr + 1)
 				: ft_strdup(sh_strrchr(line->curr->buff_tmp, '/') + 1)))
 	{
-		if (!(*select = select_branch(tern, *chr, &lenm)))
+		if (!(*select = select_branch(tern, env->chr, &lenm)))
 		{
-			free(*chr);
+			free(env->chr);
 			return (-1);
 		}
 	}
 	else
 		get_max_len(tern, &lenm);
+	change_buff(*select, env, line, tern);
 	return (lenm);
 }
