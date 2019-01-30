@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 19:47:39 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/26 09:33:44 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/30 15:09:09 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,21 @@
 #include "command_error.h"
 #include "command.h"
 
-static char		*check_access(char *cmd, char *ptr, char *paths)
+static int		check_access(char **path, char *cmd, char *paths, size_t len)
 {
-	char		*path;
+	int			error;
 
-	if ((path = ft_strndup(paths, ptr - paths)))
-		if ((path = ft_strjoinfree(path, "/", 1)))
-			if ((path = ft_strjoinfree(path, cmd, 1)))
+	if ((*path = ft_strndup(paths, len)))
+		if ((*path = ft_strjoinfree(*path, "/", 1)))
+			if ((*path = ft_strjoinfree(*path, cmd, 1)))
 			{
-				if (command_access(path) == ERR_OK_VAL)
-					return (path);
-				free(path);
+				if ((error = command_access(*path, 0)) == ERR_OK_VAL)
+					return (ERR_OK_VAL);
+				free(*path);
+				*path = NULL;
+				return (error);
 			}
-	return (NULL);
+	return (ERR_MALLOC_VAL);
 }
 
 int				command_path(char **path, char *cmd, char *paths)
@@ -36,18 +38,17 @@ int				command_path(char **path, char *cmd, char *paths)
 	if (!cmd || !paths)
 		return (ERR_OK_VAL);
 	if (ft_strrchr(cmd, '/'))
-		return ((*path = ft_strdup(cmd)) ? ERR_OK_VAL : ERR_MALLOC_VAL);
+		return (command_access((*path = ft_strdup(cmd)), 1));
 	ptr = paths;
 	while (*ptr)
 	{
 		if (*ptr == ':')
 		{
-			if ((*path = check_access(cmd, ptr, paths)))
+			if (check_access(path, cmd, paths, ptr - paths) == ERR_OK_VAL)
 				return (ERR_OK_VAL);
 			paths = ptr + 1;
 		}
 		ptr++;
 	}
-	*path = check_access(cmd, ptr, paths);
-	return ((path) ? ERR_OK_VAL : ERR_NOT_FOUND_VAL);
+	return (check_access(path, cmd, paths, ptr - paths));
 }

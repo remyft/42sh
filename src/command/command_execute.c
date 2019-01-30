@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:02:57 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/28 20:00:25 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/30 15:08:41 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void			command_execute(t_execute *exec, t_s_env *e)
 	else if ((error = command_path(&name, exec->cmd[0],
 								sh_getnenv("PATH", exec->env))) != ERR_OK_VAL)
 		command_error(e->progname, error, exec->cmd);
-	else if ((error = command_access(name)) != ERR_OK_VAL)
+	else if ((error = command_access(name, 0)) != ERR_OK_VAL)
 		command_error(e->progname, error, exec->cmd);
 	else
 	{

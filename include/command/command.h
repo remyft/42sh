@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:17:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/27 19:19:44 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/30 15:07:34 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void			variable_assignment(t_command *cmd, t_s_env *e);
 int				command_check(t_execute *exec, t_s_env *e);
 int				command_normal(t_execute *exec, t_s_env *e);
 int				command_fork(t_execute *exec, t_s_env *e);
-int				command_access(char *path);
+int				command_access(char *path, int absolute_path);
 int				command_redirect(t_redirection *redirection, t_s_env *e);
 int				command_path(char **path, char *cmd, char *paths);
 
