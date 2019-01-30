@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/30 17:47:09 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/30 20:13:44 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void			up_arrow(t_line *line);
 void			down_arrow(t_line *line);
 
 void			create_hist(t_hist **begin, char **env);
-void			save_history(int index, char *buff,
+void			save_history(t_line *line, char *buff,
 							t_hist **curr, char **env);
 
 void			deal_exit(t_line *line);
@@ -82,6 +82,9 @@ void			mv_line_down(t_line *line);
 
 void			select_left(t_line *line);
 void			select_right(t_line *line);
+
+void			select_up(t_line *line);
+void			select_down(t_line *line);
 
 void			ft_copy(t_line *line);
 void			ft_paste(t_line *line);

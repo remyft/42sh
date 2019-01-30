@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/30 17:19:02 by rfontain         ###   ########.fr        #
+#    Updated: 2019/01/30 18:29:07 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,6 +94,7 @@ SRCS += term_properties.c					\
 #USER INTERFACE
 USER_DIR = $(SRCS_DIR)user_interface/
 SRCS += select.c							\
+		line_select.c						\
 		ft_copy.c							\
 		ft_cut.c							\
 		ft_paste.c							\
