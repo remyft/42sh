@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 11:37:00 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 13:52:30 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/30 19:01:21 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,8 @@ void		ft_cut(t_line *line)
 		beg++;
 	}
 	line->len = ft_strlen(line->curr->buff);
-	tputs(tgoto(tgetstr("ch", NULL), 0, line->lprompt), 1, ft_pchar);
+	tputs(tgetstr("sc", NULL), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
-	ft_putstr(line->curr->buff);
-	tputs(tgoto(tgetstr("ch", NULL), 0,
-				(line->lprompt + line->index) % line->nb_col), 1, ft_pchar);
+	ft_putstr(&line->curr->buff[line->index]);
+	tputs(tgetstr("rc", NULL), 1, ft_pchar);
 }
