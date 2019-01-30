@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 22:59:17 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/29 23:02:35 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/30 15:10:01 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,17 @@ static void	deal_access(t_line *line, char *file)
 		stmp = ft_strndup(tmp, ft_strrchr(tmp, '/') - tmp + 1);
 	}
 	else if (ptr)
-		stmp = ft_strndup(stmp, ptr - stmp);
+		stmp = ft_strndup(stmp, ptr - stmp + 1);
 	else
 		stmp = ft_strdup("");
 	stmp = ft_strjoinfree(stmp, file, 1);
+/*	ft_putendl("");
+	ft_putendl("");
+	ft_putendl("");
+	ft_putendl(stmp);
+	ft_putendl("");
+	ft_putendl("");
+	ft_putendl("");*/
 	if (!access(stmp, X_OK))
 		ft_putstr(RED);
 	free(stmp);
