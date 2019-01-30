@@ -6,19 +6,17 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:30:11 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/29 23:35:44 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/30 16:45:08 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifdef __linux__
 # include <limits.h>
-#elif __apple__
+#elif __APPLE__
 # include <sys/syslimits.h>
 #endif
 #include "libft.h"
 #include "shell_env.h"
-
-# define NAME_MAX 10
 
 int				redirect_open_error(char *filename, t_s_env *e)
 {
