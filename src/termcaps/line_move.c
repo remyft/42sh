@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/30 16:59:39 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/30 18:00:36 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/30 20:16:23 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	mv_line_up(t_line *line)
 	{
 		tputs(tgetstr("up", NULL), 1, ft_pchar);
 		line->index -= line->nb_col;
-		tputs(tgoto(tgetstr("ch", NULL), 0, (line->index + line->lprompt) % line->nb_col), 1, ft_pchar);
+		tputs(tgoto(tgetstr("ch", NULL), 0,
+					(line->index + line->lprompt) % line->nb_col), 1, ft_pchar);
 	}
 }
 
@@ -30,6 +31,7 @@ void	mv_line_down(t_line *line)
 	{
 		tputs(tgetstr("do", NULL), 1, ft_pchar);
 		line->index += line->nb_col;
-		tputs(tgoto(tgetstr("ch", NULL), 0, (line->index + line->lprompt) % line->nb_col), 1, ft_pchar);
+		tputs(tgoto(tgetstr("ch", NULL), 0,
+					(line->index + line->lprompt) % line->nb_col), 1, ft_pchar);
 	}
 }
