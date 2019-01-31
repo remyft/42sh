@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:43:32 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/30 20:13:59 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/31 20:51:59 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static void	get_old_hist(t_hist **begin, int fd, int continu)
 			curr->c_size = ft_strlen(curr->content);
 		if (!continu)
 		{
+			if (curr->content)
+				free(curr->content);
 			free(curr);
 			curr = NULL;
 			if (*begin)

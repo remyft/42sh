@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/30 20:13:44 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/31 19:56:45 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ char			**collect_env(char **ep);
 void			put_prompt(char *prompt);
 
 char			*remove_line_continuation(char *line);
+
+void			free_struct(t_line *line);
 
 /*
 ** Termcaps
@@ -71,6 +73,7 @@ void			define_new_term(struct termios *save);
 void			deal_prompt(t_line *line);
 void			reset_line(t_line *line);
 void			free_buff(t_line *line);
+void			init_new_buff(t_line *line);
 char			*listnjoin(t_line *line);
 
 void			mv_line_up(t_line *line);

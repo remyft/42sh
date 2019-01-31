@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/30 19:43:01 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/31 20:07:04 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	init_line(char **env, t_line *line)
 	line->nb_line = tgetnum("li");
 	line->slct_beg = -1;
 	line->slct_end = -1;
+	line->shell_loop = 1;
 }
 
 void	deal_key(t_line *line)

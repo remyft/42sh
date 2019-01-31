@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 10:57:02 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 11:28:07 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/31 20:50:06 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,25 @@ void	reset_line(t_line *line)
 	line->index = 0;
 }
 
+
 void	free_buff(t_line *line)
 {
+	t_buff	*tmp;
+
+
 	while (line->curr->prev)
 		line->curr = line->curr->prev;
-	while (line->curr && line->curr->next)
+	while (line->curr)
 	{
-		if (line->curr->prev)
-			free(line->curr->prev);
-		line->curr = line->curr->next;
-	}
-	if (line->curr)
+		tmp = line->curr->next;
 		free(line->curr);
+		line->curr = tmp;
+	}
+}
+
+void	init_new_buff(t_line *line)
+{
+	free_buff(line);
 	line->curr = ft_memalloc(sizeof(t_buff));
 	line->beg_buff = line->curr;
 	line->index = 0;

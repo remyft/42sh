@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/29 15:19:41 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/31 20:16:17 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,45 @@
 # define NSIG _NSIG
 #endif
 
+void			free_hist(t_hist *hist)
+{
+	if (!hist)
+		return ;
+	if (hist)
+		free_hist(hist->next);
+	if (hist->tmp)
+		free(hist->tmp);
+	free(hist->content);
+	free(hist);
+}
+
+void			free_struct(t_line *line)
+{
+	free_all_tree(line);
+	free_buff(line);
+	free_hist(line->hist);
+	free(line->e_cmpl);
+	free(line->prompt);
+	if (line->copy)
+		free(line->copy);
+	if (line->path)
+		free(line->path);
+	if (line->term)
+		free(line->term);
+	free(line);
+}
+
 void			deal_exit(t_line *line)
 {
 	int		i;
-	t_hist	*curr;
 
-	if (line->curr->buff[0])
+	if (line->curr->prev || line->curr->buff[0])
 		return ;
 	term_restore(line->save);
-	free_all_tree(line);
-	ft_putchar('\n');
-	while (line->hist)
-	{
-		curr = line->hist->next;
-		if (line->hist->content)
-			free(line->hist->content);
-		if (line->hist->tmp)
-			free(line->hist->tmp);
-		free(line->hist);
-		line->hist = curr;
-	}
 	i = -1;
 	while (++i < NSIG)
 		signal(i, SIG_DFL);
-	exit(0);
+	line->shell_loop = 0;
 }
 
 static int		ft_cancel(t_line *line)
@@ -50,14 +65,10 @@ static int		ft_cancel(t_line *line)
 	tputs(tgoto(tgetstr("ch", NULL), 0,
 				(line->len + line->lprompt) % line->nb_col), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
-	ft_bzero(line->curr->buff_tmp, ft_strlen(line->curr->buff_tmp));
-	line->curr->buff_tmp[8193] = 0;
+	init_new_buff(line);
 	del_all_state(line);
 	free_hdoc(line);
 	reset_hist(line);
-	reset_buff(line);
-	line->len = 0;
-	line->index = 0;
 	return (-1);
 }
 

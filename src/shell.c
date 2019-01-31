@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/30 20:15:50 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/01/31 20:14:16 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	get_new_cmd(t_line *line, t_s_env *e)
 		}
 		free_token(&tokens);
 	}
-	free_buff(line);
+	init_new_buff(line);
 	del_all_state(line);
 	line->tree[1] = free_tree(line->tree[1]);
 	line->tree[1] = create_file_tree(".", line->tree[1]);
@@ -56,7 +56,7 @@ static void	init_shell_line(t_line **line, t_s_env *e)
 
 static void	shell_loop(t_line *line, t_s_env *e)
 {
-	while (e->shell_loop)
+	while (e->shell_loop && line->shell_loop)
 	{
 		put_prompt(line->prompt);
 		check_path(line, e->public_env);
@@ -82,5 +82,6 @@ int			main(int ac, char **av, char **ep)
 	shell_loop(line, &e);
 	term_restore(e.save);
 	free_shell_env(&e);
+	free_struct(line);
 	return (0);
 }

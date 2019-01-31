@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/24 07:54:48 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/31 20:04:50 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef struct	s_line
 	int				slct_end;
 	int				key;
 	int				is_putb;
+	int				shell_loop;
 	size_t			index;
 	size_t			len;
 	size_t			nb_col;
@@ -110,7 +111,6 @@ typedef struct	s_line
 	t_st			*e_cmpl;
 	t_tree			*tree[3];
 	struct termios	save;
-	char			**env;
 }				t_line;
 
 typedef struct	s_str_list
