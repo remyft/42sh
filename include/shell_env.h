@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/29 15:02:14 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/30 19:53:34 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ typedef struct	s_shell_env
 
 void			init_shell_env(t_s_env *e, int ac, char **av, char **env);
 void			free_shell_env(t_s_env *e);
+void			launch_new_cmd(char **line, t_s_env *e);
 
 #endif
