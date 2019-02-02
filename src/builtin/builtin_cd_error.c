@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 10:20:55 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/28 20:00:58 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/02 19:43:04 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int				cd_error(int err, char *arg)
 		NULL, "not enought memory", "invalid option: -", "too much arguments",
 		"HOME not defined", "OLDPWD not defined", "string not in pwd",
 		"error retrieving current directory: getcwd: cannot access parent "
-		"directories: No such file or directory",
+		"directories: No such file or directory", "pathname too long"
 	};
 
 	ft_putstr_fd("cd: ", STDERR_FILENO);
@@ -42,7 +42,7 @@ int				cd_error(int err, char *arg)
 	return (1);
 }
 
-int				cd_dir_error(char *newpwd, char *oldpwd, char *entry)
+int				cd_dir_error(char *newpwd, char *entry)
 {
 	struct stat	buffer;
 
@@ -61,7 +61,5 @@ int				cd_dir_error(char *newpwd, char *oldpwd, char *entry)
 		ft_putendl_fd(newpwd, STDERR_FILENO);
 	else
 		ft_putendl_fd(entry, STDERR_FILENO);
-	sh_freestr(&newpwd);
-	sh_freestr(&oldpwd);
 	return (1);
 }

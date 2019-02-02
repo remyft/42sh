@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 08:54:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/28 17:41:01 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/02 19:58:43 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,27 @@ enum
 	ERR_NO_OLDPWD,
 	ERR_NOT_IN_PWD,
 	ERR_GETCWD,
+	ERR_NAME_TOO_LONG,
+};
+
+typedef struct	s_cd
+{
+	int			options;
+}				t_cd;
+
+enum
+{
+	CD_OPT_P,
+	CD_OPT_L,
+	CD_OPT_BACK,
 };
 
 int				cd_write_in_pwd(t_execute *exec, t_s_env *e, size_t i);
 int				cd_search_in_pwd(t_execute *exec, t_s_env *e, size_t i);
-int				cd_change_pwds(char *new, char *old, t_s_env *e);
+int				cd_change_pwds(char *new, t_s_env *e);
+char			*cd_recreate_path(char *pwd);
 
 int				cd_error(int err, char *arg);
-int				cd_dir_error(char *newpwd, char *oldpwd, char *entry);
+int				cd_dir_error(char *newpwd, char *entry);
 
 #endif

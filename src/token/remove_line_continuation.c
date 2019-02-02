@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 01:42:26 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/01 01:56:18 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/30 20:19:28 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ char			*remove_line_continuation(char *line)
 	{
 		if (line[i] == '\'')
 			quote = !quote;
-		if (!quote && line[i] == '\\' && line[i + 1] == '\n')
-			ft_strcpy(line + i, line + i + 2);
+		else if (line[i] == '\\' && line[i + 1] == '\n')
+			if (!quote)
+				ft_strcpy(line + i, line + i + 2);
 		i++;
 	}
 	return (line);
