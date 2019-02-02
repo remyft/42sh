@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:43:32 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 13:52:07 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/30 20:13:59 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,16 +76,13 @@ void		fill_hist(t_hist **curr, char *buff, int fd)
 
 void		get_new_hist(t_hist **curr, char *buff, int fd)
 {
-	t_hist	*tmp;
-
 	if (*curr)
 	{
 		if (ft_strcmp(buff, (*curr)->begin->content) != 0)
 		{
-			tmp = *curr;
-			fill_hist(curr, buff, fd);
-			(*curr)->next = tmp->begin;
-			tmp->begin->prev = *curr;
+			(*curr) = (*curr)->begin;
+			fill_hist(&((*curr)->prev), buff, fd);
+			(*curr)->prev->next = *curr;
 			while ((*curr)->next)
 			{
 				if ((*curr)->tmp)
@@ -95,7 +92,7 @@ void		get_new_hist(t_hist **curr, char *buff, int fd)
 					(*curr)->begin = (*curr)->prev->begin;
 				*curr = (*curr)->next;
 			}
-			(*curr)->begin = tmp->begin;
+			*curr = (*curr)->prev;
 		}
 		*curr = (*curr)->begin;
 	}
@@ -103,12 +100,11 @@ void		get_new_hist(t_hist **curr, char *buff, int fd)
 		fill_hist(curr, buff, fd);
 }
 
-void		save_history(int index, char *buff, t_hist **curr, char **env)
+void		save_history(t_line *line, char *buff, t_hist **curr, char **env)
 {
 	int		j;
-	char	*term;
 	int		fd;
-	int		nb_col;
+	int		index;
 	char	*path;
 
 	if (!(path = get_env(env, "HOME")))
@@ -120,11 +116,8 @@ void		save_history(int index, char *buff, t_hist **curr, char **env)
 		fd = open(path, O_RDWR | O_APPEND | O_CREAT, 0644);
 		free(path);
 	}
-	term = getenv("TERM");
-	tgetent(NULL, term);
-	nb_col = tgetnum("co");
-	index = index / nb_col - 1;
-	j = ft_strlen(buff) / nb_col;
+	index = line->index / line->nb_col - 1;
+	j = ft_strlen(buff) / line->nb_col;
 	while (++index < j)
 		tputs(tgetstr("do", NULL), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 2, ft_pchar);

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/29 15:19:28 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/30 19:43:01 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,10 @@ void	deal_key(t_line *line)
 		{ "\x1B\x5B\x31\x3B\x32\x43", &select_right},
 		{ "\x17", &next_word }, { "\x2", &prev_word },
 		{ "\xC3\xA7", &ft_copy }, { "\xE2\x88\x9A", &ft_paste },
-		{ "\xE2\x89\x88", &ft_cut } };
+		{ "\xE2\x89\x88", &ft_cut }, { "\x1B\x1B\x5B\x41", &mv_line_up},
+		{ "\x1B\x1B\x5B\x42", &mv_line_down},
+		{ "\x1B\x5B\x31\x3B\x32\x41", &select_up},
+		{ "\x1B\x5B\x31\x3B\x32\x42", &select_down} };
 
 	i = -1;
 	while (++i < (int)(sizeof(fctn) / sizeof(*fctn)))
