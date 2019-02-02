@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 16:42:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/29 15:03:38 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/02 20:04:48 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static int		exit_error(int err, const char *cmdname, const char *progname)
 	static char	*errors[] = {
 		"too many arguments", "numeric argument required",
 	};
+
 	ft_putstr_fd(progname, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putstr_fd(cmdname, STDERR_FILENO);
