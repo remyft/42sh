@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/02 20:21:46 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/02 20:24:44 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	get_new_cmd(t_line *line, t_s_env *e)
 
 	ret = listnjoin(line);
 	*(line->e_cmpl) &= ~COMPLETION;
-	save_history(line->index, ret, &(line->hist), e->public_env);
+	save_history(line, ret, &(line->hist), e->public_env);
 	launch_new_cmd(&ret, e);
 	free(ret);
 	free_buff(line);
