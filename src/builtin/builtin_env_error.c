@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 19:36:53 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/02 20:03:56 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/02 20:28:49 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "ft_dprintf.h"
 #include "builtin_env.h"
 
-int				builtin_env_error(int err, char *c, t_e_opt *opt)
+int				env_error(int err, char *c, t_e_opt *opt)
 {
 	static char	*errors[] = {
 		NULL, MALLOC_STR, ILLEGAL_OPTION_STR, NEED_ARG_STR, NOT_FOUND_STR,
@@ -35,6 +35,6 @@ int				builtin_env_error(int err, char *c, t_e_opt *opt)
 	else
 		ft_dprintf(STDERR_FILENO, ": %s", c);
 	ft_dprintf(STDERR_FILENO, "\n");
-	builtin_env_free_opt(opt);
+	env_free_opt(opt);
 	return (values[err]);
 }

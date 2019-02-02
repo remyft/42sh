@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 12:31:37 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/30 16:59:47 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/02 20:28:25 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "ft_printf.h"
 #include "builtin_env.h"
 
-int			builtin_env_opt_v(size_t *i, size_t *j, char **cmd, t_e_opt *opt)
+int			env_opt_v(size_t *i, size_t *j, char **cmd, t_e_opt *opt)
 {
 	(void)i;
 	(void)j;

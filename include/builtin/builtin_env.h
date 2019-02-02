@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 18:54:19 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/30 20:03:58 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/02 20:28:57 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ typedef struct	s_env_opt
 	int			verbosity;
 	char		*path;
 	char		*cmd;
-//	int			s;
 }				t_e_opt;
 
 typedef struct	s_opt
@@ -69,18 +68,18 @@ typedef struct	s_opt
 	int			(*handler)(size_t *, size_t *, char **, t_e_opt *);
 }				t_opt;
 
-# define ENV_OPTION_LESS		{ '-', builtin_env_opt_i }
-# define ENV_OPTION_I			{ 'i', builtin_env_opt_i }
-# define ENV_OPTION_V			{ 'v', builtin_env_opt_v }
-# define ENV_OPTION_P			{ 'P', builtin_env_opt_p }
-# define ENV_OPTION_U			{ 'u', builtin_env_opt_u }
+# define ENV_OPTION_LESS		{ '-', env_opt_i }
+# define ENV_OPTION_I			{ 'i', env_opt_i }
+# define ENV_OPTION_V			{ 'v', env_opt_v }
+# define ENV_OPTION_P			{ 'P', env_opt_p }
+# define ENV_OPTION_U			{ 'u', env_opt_u }
 
-void			builtin_env_free_opt(t_e_opt *opt);
-int				builtin_env_options(size_t *i, size_t *j, char **cmd, t_e_opt *opt);
-int				builtin_env_opt_i(size_t *i, size_t *j, char **cmd, t_e_opt *opt);
-int				builtin_env_opt_v(size_t *i, size_t *j, char **cmd, t_e_opt *opt);
-int				builtin_env_opt_p(size_t *i, size_t *j, char **cmd, t_e_opt *opt);
-int				builtin_env_opt_u(size_t *i, size_t *j, char **cmd, t_e_opt *opt);
-int				builtin_env_error(int err, char *c, t_e_opt *opt);
+void			env_free_opt(t_e_opt *opt);
+int				env_options(size_t *i, size_t *j, char **cmd, t_e_opt *opt);
+int				env_opt_i(size_t *i, size_t *j, char **cmd, t_e_opt *opt);
+int				env_opt_v(size_t *i, size_t *j, char **cmd, t_e_opt *opt);
+int				env_opt_p(size_t *i, size_t *j, char **cmd, t_e_opt *opt);
+int				env_opt_u(size_t *i, size_t *j, char **cmd, t_e_opt *opt);
+int				env_error(int err, char *c, t_e_opt *opt);
 
 #endif

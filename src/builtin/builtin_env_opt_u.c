@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 14:34:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/30 16:56:01 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/02 20:28:21 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "shell_lib.h"
 #include "builtin_env.h"
 
-int			builtin_env_opt_u(size_t *i, size_t *j, char **cmd, t_e_opt *opt)
+int			env_opt_u(size_t *i, size_t *j, char **cmd, t_e_opt *opt)
 {
 	char	*var;
 	char	**addr;

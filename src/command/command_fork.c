@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/31 23:25:28 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/02 20:37:02 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,16 @@ static void		restore_signals_to_default(void)
 		signal(i++, SIG_DFL);
 }
 
+static void		command_execve(char *name, t_execute *exec, t_s_env *e)
+{
+	term_restore(e->save);
+	restore_signals_to_default();
+	if (!command_redirect(exec->redirection, e))
+		execve(name, exec->cmd, exec->env);
+	command_error(e->progname, ERR_EXEC_VAL, exec->cmd);
+	exit(EXIT_FAILURE);
+}
+
 int				command_fork(t_execute *exec, t_s_env *e)
 {
 	char		*name;
@@ -44,14 +54,7 @@ int				command_fork(t_execute *exec, t_s_env *e)
 	else if ((error = command_access(name, 0)) != ERR_OK_VAL)
 		error = command_error(e->progname, error, exec->cmd);
 	else if ((pid = fork()) == 0)
-	{
-		term_restore(e->save);
-		restore_signals_to_default();
-		if (!command_redirect(exec->redirection, e))
-			execve(name, exec->cmd, exec->env);
-		command_error(e->progname, ERR_EXEC_VAL, exec->cmd);
-		exit(EXIT_FAILURE);
-	}
+		command_execve(name, exec, e);
 	else if (pid > 0)
 	{
 		waitpid(pid, &e->ret, 0);

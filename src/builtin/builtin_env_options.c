@@ -6,14 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 16:25:18 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/02 20:04:30 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/02 20:27:55 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "builtin_env.h"
 
-static int	env_options_loop(size_t *i, size_t *j, char **cmd, t_e_opt *opt)
+static int		env_options_loop(size_t *i, size_t *j, char **cmd, t_e_opt *opt)
 {
 	static t_opt	options[] = {
 		ENV_OPTION_LESS, ENV_OPTION_I, ENV_OPTION_V, ENV_OPTION_P, ENV_OPTION_U,
@@ -30,7 +30,7 @@ static int	env_options_loop(size_t *i, size_t *j, char **cmd, t_e_opt *opt)
 	return (ERR_ILLEGAL_OPT);
 }
 
-int			builtin_env_options(size_t *i, size_t *j, char **cmd, t_e_opt *opt)
+int				env_options(size_t *i, size_t *j, char **cmd, t_e_opt *opt)
 {
 	int			error;
 
