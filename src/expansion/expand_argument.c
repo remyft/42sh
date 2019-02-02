@@ -6,24 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/07 22:38:14 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/23 03:12:37 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/31 18:13:38 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "shell_lib.h"
 #include "expansion.h"
 #include "expansion_errors.h"
-
-static size_t	table_len(char **table)
-{
-	size_t		i;
-
-	i = 0;
-	if (table)
-		while (table[i])
-			i++;
-	return (i);
-}
 
 static int		token_end(t_exp *param)
 {
@@ -50,7 +40,7 @@ int				expand_argument(t_argument *arg, t_s_env *e)
 	if (expand_end(&ret, arg))
 		return (expand_error(ERR_MALLOC, e->progname, &ret));
 	if (arg->token && arg->token->prev && arg->token->prev->type == OPERATOR
-		&& table_len(arg->cmd) > 1)
+		&& sh_tablen((const char **)arg->cmd) > 1)
 		return (expand_error(ERR_AMBIGUOUS, e->progname, &ret));
 	expand_free_t_ret(&ret, 0);
 	return (expand_argument(arg->next, e));
