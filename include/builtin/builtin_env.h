@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 18:54:19 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/29 13:33:33 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/30 20:03:58 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 # define BUILTIN_ENV_H
 
 # include <sys/types.h>
+
+/*
+** Builtin errors
+*/
 
 enum
 {
@@ -25,11 +29,24 @@ enum
 	ERR_WRITE,
 };
 
-# define MALLOC_STR			"not enought memory"
-# define ILLEGAL_OPTION_STR	"illegal option"
-# define NEED_ARG_STR		"option requires an argument"
-# define NOT_FOUND_STR		"No such file or directory"
-# define WRITE_STR			"write error: Bad file descriptor"
+# define MALLOC_STR				"not enought memory"
+# define ILLEGAL_OPTION_STR		"illegal option"
+# define NEED_ARG_STR			"option requires an argument"
+# define NOT_FOUND_STR			"No such file or directory"
+# define WRITE_STR				"write error: Bad file descriptor"
+
+/*
+**Builtins options values
+*/
+
+enum
+{
+	BUILTIN_OPT_I = (1 << 1),
+	BUILTIN_OPT_P = (1 << 2),
+	BUILTIN_OPT_S = (1 << 3),
+	BUILTIN_OPT_U = (1 << 4),
+	BUILTIN_OPT_V = (1 << 5),
+};
 
 /*
 ** Main structure for env variables
@@ -39,16 +56,11 @@ typedef struct	s_env_opt
 {
 	char		*cmdname;
 	char		**env;
-	int			i;
-	int			v;
-//	int			p;
+	int			options;
+	int			verbosity;
 	char		*path;
-	int			freeable;
 	char		*cmd;
-	int			s;
-	int			u;
-//	char		**ptr;
-	char		**extra;
+//	int			s;
 }				t_e_opt;
 
 typedef struct	s_opt
@@ -69,6 +81,6 @@ int				builtin_env_opt_i(size_t *i, size_t *j, char **cmd, t_e_opt *opt);
 int				builtin_env_opt_v(size_t *i, size_t *j, char **cmd, t_e_opt *opt);
 int				builtin_env_opt_p(size_t *i, size_t *j, char **cmd, t_e_opt *opt);
 int				builtin_env_opt_u(size_t *i, size_t *j, char **cmd, t_e_opt *opt);
-int				builtin_env_error(int err, char c, t_e_opt *opt);
+int				builtin_env_error(int err, char *c, t_e_opt *opt);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 14:21:24 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/28 20:26:33 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/30 16:52:33 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,6 @@ int			builtin_env_opt_i(size_t *i, size_t *j, char **cmd, t_e_opt *opt)
 	(void)i;
 	(void)j;
 	(void)cmd;
-	opt->i = 1;
+	opt->options |= BUILTIN_OPT_I;
 	return (ERR_OK);
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 14:33:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/28 20:25:24 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/30 17:03:40 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,10 @@
 
 int			builtin_env_opt_p(size_t *i, size_t *j, char **cmd, t_e_opt *opt)
 {
-	if (cmd[*i][*j + 1] || cmd[*i + 1])
-	{
-		opt->path = (cmd[*i][*j + 1]) ?
-					&cmd[*i][*j + 1] : cmd[++(*i)];
-		return (ERR_OK);
-	}
-	return (ERR_NEED_ARG);
+	if (!cmd[*i][*j + 1] && !cmd[*i + 1])
+		return (ERR_NEED_ARG);
+	opt->options |= BUILTIN_OPT_P;
+	opt->path = (cmd[*i][*j + 1]) ?
+				&cmd[*i][*j + 1] : cmd[++(*i)];
+	return (ERR_OK);
 }
