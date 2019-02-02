@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/29 23:24:54 by rfontain         ###   ########.fr        #
+#    Updated: 2019/02/02 19:59:27 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -140,16 +140,17 @@ SRCS += parse_ao_list.c						\
 #COMMAND
 COMMAND_DIR = command/
 SRCS += command_access.c					\
+		command_builtin.c					\
+		command_check.c						\
 		command_debug.c						\
 		command_error.c						\
-		command_execute.c					\
 		command_fork.c						\
 		command_free.c						\
 		command_group.c						\
 		command_list.c						\
-		command_normal.c					\
 		command_parse.c						\
 		command_path.c						\
+		command_prepare.c					\
 		command_redirect.c					\
 		environment_modify.c				\
 		quote_removal.c						\
@@ -215,6 +216,7 @@ SRCS += redirect_and_dgreat.c				\
 BUILTIN_DIR = builtin/
 SRCS += builtin_cd_change.c					\
 		builtin_cd_error.c					\
+		builtin_cd_recreate.c				\
 		builtin_cd_search.c					\
 		builtin_cd_write.c					\
 		builtin_cd.c						\
@@ -233,30 +235,32 @@ SRCS += builtin_cd_change.c					\
 
 #LIBRARY
 LIBRARY_DIR = lib/
-SRCS += sh_freestr.c						\
+SRCS += sh_is_escapable.c					\
+		sh_freestr.c						\
 		sh_freetab.c						\
 		sh_getnenv.c						\
 		sh_getnenvaddr.c					\
 		sh_newenv.c							\
 		sh_puttab.c							\
+		sh_setenv.c							\
+		sh_str_isescape.c					\
 		sh_stralnum.c						\
+		sh_strchr.c							\
 		sh_strncmp.c						\
+		sh_strrchr.c						\
 		sh_tabdup.c							\
 		sh_tablen.c							\
-		sh_is_escapable.c					\
-		sh_strchr.c							\
-		sh_strrchr.c						\
-		sh_str_isescape.c					\
+		sh_unsetenv.c						\
 
 #GLOBING
 GLOB_DIR = $(SRCS_DIR)globing/
-SRCS += globing.c		\
-		glob_tools.c	\
-		get_glob.c		\
-		get_tools.c		\
-		fill_glob.c		\
-		check_glob.c	\
-		check_tool.c	\
+SRCS += globing.c							\
+		glob_tools.c						\
+		get_glob.c							\
+		get_tools.c							\
+		fill_glob.c							\
+		check_glob.c						\
+		check_tool.c						\
 
 OK =	$(GREEN)[OK]$(RESET)
 
@@ -376,12 +380,6 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)$(LIBRARY_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
 	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(LIBRARY_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
-
-# $(OBJS_DIR)%.o: $(OTHR_DIR)%.c
-# $(OBJS_DIR)%.o: $(OTHR_DIR)%.c $(DEPS_DIR)%.d
-# 	@echo $(RED)" ᚘ  "$(RESET) | tr -d '\n'
-# 	$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
-# 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(GLOB_DIR)%.c
 $(OBJS_DIR)%.o: $(GLOB_DIR)%.c $(DEPS_DIR)%.d
