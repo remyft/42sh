@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 09:51:00 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/29 15:18:04 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/01 22:41:58 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,7 @@ void			sh_freestr(char **str);
 void			sh_freetab(char ***table);
 int				sh_putstr_fd(const char *str, int fd);
 int				sh_putendl_fd(const char *str, int fd);
+void			sh_unsetenv(char *var, char **env);
+int				sh_setenv(char *name, char *value, char ***env);
 
 #endif
