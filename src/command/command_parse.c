@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 01:23:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/28 20:45:47 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/01/31 23:27:05 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 static int		command_pipe(t_execute *exec, t_s_env *e)
 {
 	exec->piped = 1;
-	return (command_fork(exec, e));
+	return (command_prepare(exec, e));
 }
 
 int				command_parse(void *cmd, t_s_env *e)
@@ -31,5 +31,5 @@ int				command_parse(void *cmd, t_s_env *e)
 	exec.redirection = ((t_command *)cmd)->redir;
 	if (*(int *)cmd == IS_A_PIPE)
 		return (command_pipe(&exec, e));
-	return (command_normal(&exec, e));
+	return (command_prepare(&exec, e));
 }
