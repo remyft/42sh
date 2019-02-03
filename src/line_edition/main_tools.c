@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/31 20:07:04 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/03 23:24:34 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	init_line(char **env, t_line *line)
 	line->tree[0] = create_bin_tree(env);
 	line->tree[1] = create_file_tree(".", NULL);
 	line->tree[2] = NULL;
+	line->tree[3] = create_env_tree(env);
 	line->prompt = ft_strdup("$> ");
 	line->lprompt = ft_strlen(line->prompt);
 	line->nb_col = tgetnum("co");

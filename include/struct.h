@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/31 20:04:50 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/03 23:24:44 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ typedef struct	s_line
 	t_state			*hdoc;
 	t_hist			*hist;
 	t_st			*e_cmpl;
-	t_tree			*tree[3];
+	t_tree			*tree[4];
 	struct termios	save;
 }				t_line;
 

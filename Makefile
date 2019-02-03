@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/01/30 18:29:07 by rfontain         ###   ########.fr        #
+#    Updated: 2019/02/03 23:02:25 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ LINE_DIR = $(SRCS_DIR)line_edition/
 SRCS += tools.c								\
 		main_tools.c						\
 		signal.c							\
-		singleton.c							\
+		deal_struct.c						\
 		reset_line.c						\
 		deal_typing.c						\
 		deal_hdoc.c							\

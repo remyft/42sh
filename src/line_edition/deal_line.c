@@ -6,12 +6,13 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 10:57:02 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/31 20:50:06 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/03 23:06:10 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct.h"
 #include "libft.h"
+#include "shell.h"
 
 void	deal_prompt(t_line *line)
 {
@@ -36,22 +37,6 @@ void	reset_line(t_line *line)
 	ft_bzero(line->curr->buff_tmp, 8194);
 	line->len = 0;
 	line->index = 0;
-}
-
-
-void	free_buff(t_line *line)
-{
-	t_buff	*tmp;
-
-
-	while (line->curr->prev)
-		line->curr = line->curr->prev;
-	while (line->curr)
-	{
-		tmp = line->curr->next;
-		free(line->curr);
-		line->curr = tmp;
-	}
 }
 
 void	init_new_buff(t_line *line)

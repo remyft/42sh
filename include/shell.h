@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/31 19:56:45 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/03 23:27:19 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void			put_prompt(char *prompt);
 
 char			*remove_line_continuation(char *line);
 
+void			free_buff(t_line *line);
 void			free_struct(t_line *line);
 
 /*
@@ -114,6 +115,7 @@ void			set_complet(t_line *line, int set);
 void			feed_tree(char *str, unsigned char type,
 		t_tree **tern, int lvl);
 t_tree			*create_bin_tree(char **env);
+t_tree			*create_env_tree(char **env);
 t_tree			*create_file_tree(char *path, t_tree *tern);
 
 void			set_psblty(t_tree *tern);
@@ -121,7 +123,7 @@ void			*free_tree(t_tree *tern);
 void			free_all_tree(t_line *line);
 
 void			reset_put(t_tree *tern);
-void			deal_reset(t_tree *tree1, t_tree *tree2, t_tree *tree3);
+void			deal_reset(t_tree **tree);
 
 t_line			*get_struct(void);
 void			del_all_state(t_line *line);

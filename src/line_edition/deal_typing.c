@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 08:55:32 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/31 20:13:45 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/03 23:47:46 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void		deal_typing(t_line *line)
 		if (line->tmp[0] == '/')
 			line->tree[2] = free_tree(line->tree[2]);
 		else if (!(*line->e_cmpl & COMPLETION))
-			deal_reset(line->tree[0], line->tree[1], NULL);
+			deal_reset(line->tree);
 		if (line->key)
 			line->key = 0;
 		deal_key(line);

@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:50:35 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/29 23:00:41 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/04 00:38:33 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct	s_cpl_env
 	int		*put;
 	int		*nb_ret;
 	int		lvl;
+	int		is_dol;
 	char	bru[257];
 	char	*chr;
 	char	*ptr;

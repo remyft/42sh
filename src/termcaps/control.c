@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/31 20:16:17 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/03 23:26:50 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,34 +16,6 @@
 #ifdef __linux__
 # define NSIG _NSIG
 #endif
-
-void			free_hist(t_hist *hist)
-{
-	if (!hist)
-		return ;
-	if (hist)
-		free_hist(hist->next);
-	if (hist->tmp)
-		free(hist->tmp);
-	free(hist->content);
-	free(hist);
-}
-
-void			free_struct(t_line *line)
-{
-	free_all_tree(line);
-	free_buff(line);
-	free_hist(line->hist);
-	free(line->e_cmpl);
-	free(line->prompt);
-	if (line->copy)
-		free(line->copy);
-	if (line->path)
-		free(line->path);
-	if (line->term)
-		free(line->term);
-	free(line);
-}
 
 void			deal_exit(t_line *line)
 {
@@ -86,7 +58,7 @@ void			deal_cancel(t_line *line)
 		ft_putstr(line->curr->buff);
 		line->index = ft_strlen(line->curr->buff);
 		line->len = line->index;
-		deal_reset(line->tree[0], line->tree[1], line->tree[2]);
+		deal_reset(line->tree);
 		line->tmp[0] = 3;
 	}
 	else

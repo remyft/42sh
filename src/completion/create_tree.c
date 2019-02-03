@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 21:15:52 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/29 15:18:32 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/03 23:44:46 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,18 @@ t_tree		*create_bin_tree(char **env)
 		return (NULL);
 	ternary = NULL;
 	fill_tree_bin(env, &ternary);
+	set_psblty(ternary);
+	return (ternary);
+}
+
+t_tree		*create_env_tree(char **env)
+{
+	t_tree	*ternary;
+
+	if (!env)
+		return (NULL);
+	ternary = NULL;
+	fill_tree_env(env, &ternary);
 	set_psblty(ternary);
 	return (ternary);
 }

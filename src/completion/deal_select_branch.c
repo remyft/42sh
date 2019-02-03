@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:40:31 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/29 23:26:16 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/04 00:38:32 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,50 @@ void		put_tree_branch(t_tree *tree, t_cpl_e env, t_line *line)
 	ft_put_tree(tree, env, line, &car_ret);
 }
 
+int			have_to_expand(t_line *line)
+{
+	char	*space;
+	char	*slash;
+	char	*dol;
+
+	space = sh_strrchr(line->curr->buff_tmp, ' ');
+	slash = sh_strrchr(line->curr->buff_tmp, '/');
+	if (!(dol = sh_strrchr(line->curr->buff_tmp, '$')))
+		return (0);
+	if (!space && dol)
+		return (1);
+	if (space && !slash && dol > space)
+		return (1);
+	if (space && slash && dol > slash && dol > space)
+		return (1);
+	return (0);
+}
+
 int			get_select(t_line *line, t_tree *tern, t_cpl_e *env,
 		t_slct **select)
 {
 	int		lenm;
 
 	lenm = 0;
-	if (!(env->ptr = sh_strrchr(line->curr->buff_tmp, ' ')))
+	if ((env->is_dol = have_to_expand(line)))
+	{
+		env->ptr = sh_strrchr(line->curr->buff_tmp, '$');
+		if (!*(env->ptr + 1))
+		{
+			env->chr = ft_strdup(line->curr->buff_tmp);
+			get_max_len(tern, &lenm);
+		}
+		else
+		{
+			env->chr = ft_strdup(env->ptr + 1);
+			if (!(*select = select_branch(tern, env->chr, &lenm)))
+			{
+				free(env->chr);
+				return (-1);
+			}
+		}
+	}
+	else if (!(env->ptr = sh_strrchr(line->curr->buff_tmp, ' ')))
 	{
 		env->chr = ft_strdup(line->curr->buff_tmp);
 		if (!(*select = select_branch(tern, env->chr, &lenm)))

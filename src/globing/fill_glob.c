@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 23:31:38 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 13:52:30 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/03 21:35:13 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	get_new_str(t_slist **glob, char *prev)
 	if (prev)
 		tlen = ft_strlen(prev) + 1;
 	tlen = (*glob)->mln->len + tlen;
-	(*glob)->str = malloc(sizeof(char) * (tlen + 1));
+	(*glob)->str = ft_memalloc(sizeof(char) * (tlen + 1));
 	if (prev)
 	{
 		i = -1;
@@ -71,6 +71,7 @@ void	deal_rec(char *str, t_slist **glob, t_stint *sti)
 		get_glob(tmp, "**", glob, *sti);
 	else
 		get_glob(tmp, str + 1, glob, *sti);
+	free_tree(tmp);
 }
 
 void	get_new_mln(t_tree *tree, char *str, t_slist **glob, t_stint sti)

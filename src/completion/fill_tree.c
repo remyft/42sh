@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:45:40 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/29 23:23:37 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/04 00:00:39 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void		fill_tree_env(char **env, t_tree **ternary)
 	int		i;
 	char	*var;
 
+	if (!(*ternary = ft_memalloc(sizeof(t_tree))))
+		return ;
 	i = 0;
 	while (env[i])
 	{
