@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/02/03 23:02:25 by rfontain         ###   ########.fr        #
+#    Updated: 2019/02/05 01:12:31 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -307,7 +307,7 @@ $(OBJS_DIR)%.o: $(ENV_DIR)%.c $(DEPS_DIR)%.d
 $(OBJS_DIR)%.o: $(LINE_DIR)%.c
 $(OBJS_DIR)%.o: $(LINE_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)"ᚘ"$(RESET) | tr -d '\n'
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(LIBRARY_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)deal_hdoc.o: INCS += -I$(INC_DIR)/$(TOKEN_DIR)
