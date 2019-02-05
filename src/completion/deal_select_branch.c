@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:40:31 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/04 00:38:32 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/05 01:19:48 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ int			have_to_expand(t_line *line)
 	char	*slash;
 	char	*dol;
 
-	space = sh_strrchr(line->curr->buff_tmp, ' ');
-	slash = sh_strrchr(line->curr->buff_tmp, '/');
-	if (!(dol = sh_strrchr(line->curr->buff_tmp, '$')))
+	space = sh_strrchr(line->curr->buff, ' ');
+	slash = sh_strrchr(line->curr->buff, '/');
+	if (!(dol = sh_strrchr(line->curr->buff, '$')))
 		return (0);
 	if (!space && dol)
 		return (1);
@@ -82,14 +82,15 @@ int			get_select(t_line *line, t_tree *tern, t_cpl_e *env,
 	if ((env->is_dol = have_to_expand(line)))
 	{
 		env->ptr = sh_strrchr(line->curr->buff_tmp, '$');
-		if (!*(env->ptr + 1))
+		if (!*(env->ptr + 1) || (*(env->ptr + 1) == '{' && !*(env->ptr + 2)))
 		{
 			env->chr = ft_strdup(line->curr->buff_tmp);
 			get_max_len(tern, &lenm);
 		}
 		else
 		{
-			env->chr = ft_strdup(env->ptr + 1);
+			env->chr = *(env->ptr + 1) == '{' ? ft_strdup(env->ptr + 2)
+				: ft_strdup(env->ptr + 1);
 			if (!(*select = select_branch(tern, env->chr, &lenm)))
 			{
 				free(env->chr);

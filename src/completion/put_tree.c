@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:34:09 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/29 23:22:58 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/05 01:19:38 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,31 +18,31 @@
 static void	get_new_file(t_tree *tern, t_cpl_e env, t_line *line)
 {
 	char	*chr;
-	int		i;
 
 	if (!*(sh_strrchr(line->curr->buff, ' ') + 1))
 		stercat(line->curr->buff_tmp, env.bru, line->curr->buff);
 	else if (!ft_occuc(sh_strrchr(line->curr->buff, ' '), '/'))
 	{
 		chr = sh_strrchr(line->curr->buff, ' ') + 1;
-		i = 0;
-		while (&(line->curr->buff)[i] != chr)
-			i++;
-		ft_strcpy(&(line->curr->buff)[i], env.bru);
+		if (sh_strrchr(chr, '$'))
+		{
+			chr = sh_strrchr(chr, '$') + 1;
+			chr = *chr == '{' ? chr + 1 : chr;
+		}
+		ft_strcpy(chr, env.bru);
 	}
 	else
 	{
 		chr = sh_strrchr(line->curr->buff, '/') + 1;
-		i = 0;
-		while (&(line->curr->buff)[i] != chr)
-			i++;
-		ft_strcpy(&(line->curr->buff)[i], env.bru);
+		ft_strcpy(chr, env.bru);
 	}
 	ft_strncat(line->curr->buff, (char*)&(tern->value), 1);
 }
 
 static void	get_new_buff(t_tree *tern, t_cpl_e env, t_line *line)
 {
+	char	*ptr;
+
 	if (!tern->tput && *env.put && *(line->e_cmpl) & COMPLETION)
 	{
 		tputs(tgetstr("me", NULL), 1, ft_pchar);
@@ -53,6 +53,14 @@ static void	get_new_buff(t_tree *tern, t_cpl_e env, t_line *line)
 			get_new_file(tern, env, line);
 		else
 		{
+			if ((ptr = sh_strrchr(line->curr->buff, '$')))
+			{
+				ptr = (*(ptr + 1) == '{') ? ptr + 1 : ptr;
+				ft_bzero(ptr + 1, ft_strlen(ptr + 1));
+				ft_strcpy(ptr + 1, env.bru);
+				ft_strncat(ptr + 1, (char *)&(tern->value), 1);
+				return ;
+			}
 			ft_bzero(line->curr->buff, ft_strlen(line->curr->buff));
 			ft_strcpy(line->curr->buff, env.bru);
 			ft_strncat(line->curr->buff, (char *)&(tern->value), 1);
