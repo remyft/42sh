@@ -6,19 +6,34 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/03 23:24:34 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/05 01:15:07 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
 #include "shell.h"
+#include "shell_lib.h"
 #include "main_tools.h"
+#include "put.h"
 
 void	set_signal(void)
 {
 	signal(SIGINT, &sig_hdlr);
 	signal(SIGQUIT, &sig_hdlr);
 	signal(SIGWINCH, &sig_winch);
+}
+
+void	create_all_tree(t_line *line)
+{
+	free_all_tree(line);
+	if (sh_getnenv("PATH", *line->public_env))
+		GET_TREE(line->tree, BIN) = create_bin_tree(*line->public_env);
+	else if (sh_getnenv("PATH", *line->private_env))
+		GET_TREE(line->tree, BIN) = create_bin_tree(*line->private_env);
+	GET_TREE(line->tree, FILES) = create_file_tree(".", NULL);
+	GET_TREE(line->tree, TEMP) = NULL;
+	fill_tree_env(*line->public_env, &GET_TREE(line->tree, ENV));
+	fill_tree_env(*line->private_env, &GET_TREE(line->tree, ENV));
 }
 
 void	init_line(char **env, t_line *line)
@@ -33,10 +48,7 @@ void	init_line(char **env, t_line *line)
 	tcgetattr(0, &line->save);
 	set_signal();
 	tputs(tgetstr("cl", NULL), 1, ft_pchar);
-	line->tree[0] = create_bin_tree(env);
-	line->tree[1] = create_file_tree(".", NULL);
-	line->tree[2] = NULL;
-	line->tree[3] = create_env_tree(env);
+	create_all_tree(line);
 	line->prompt = ft_strdup("$> ");
 	line->lprompt = ft_strlen(line->prompt);
 	line->nb_col = tgetnum("co");
