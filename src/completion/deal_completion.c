@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:38:48 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/04 00:39:56 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/04 23:58:04 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void		choose_tree(t_line *line)
 		tmp = deal_globing(ptr + 1, line->tree[1]);
 	else if (!ptr && str_chrglob(line->curr->buff))
 		tmp = deal_globing(line->curr->buff, line->tree[1]);
-	else if (line->curr->buff[line->index - 1] == '$')
+	else if (have_to_expand(line))
 		deal_complet(line->tree[3], line);
 	else if (!ptr || (!sh_strchr(ptr, '/') && !sh_strchr(ptr, '~')))
 		deal_complet(!sh_strchr(line->curr->buff, ' ') ? line->tree[0]
