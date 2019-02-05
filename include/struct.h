@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/03 23:24:44 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/05 01:06:19 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@
 # define UP 1 << 2
 # define DOWN 1 << 3
 # define WINCH 1 << 4
+
+#define BIN 0
+#define FILES 1
+#define TEMP 2
+#define ENV 3
+#define GET_TREE(x, y) x[y]
+
 
 typedef enum	e_state
 {
@@ -89,28 +96,30 @@ typedef struct	s_state
 
 typedef struct	s_line
 {
-	t_buff			*curr;
-	t_buff			*beg_buff;
-	char			tmp[10];
-	char			*copy;
-	char			*prompt;
-	char			*path;
-	char			*term;
-	size_t			lprompt;
 	int				slct_beg;
 	int				slct_end;
 	int				key;
 	int				is_putb;
 	int				shell_loop;
+	struct termios	save;
+	size_t			lprompt;
 	size_t			index;
 	size_t			len;
 	size_t			nb_col;
 	size_t			nb_line;
+	char			tmp[10];
+	char			*copy;
+	char			*prompt;
+	char			*path;
+	char			*term;
+	t_buff			*curr;
+	t_buff			*beg_buff;
 	t_state			*hdoc;
 	t_hist			*hist;
 	t_st			*e_cmpl;
 	t_tree			*tree[4];
-	struct termios	save;
+	char			***public_env;
+	char			***private_env;
 }				t_line;
 
 typedef struct	s_str_list
