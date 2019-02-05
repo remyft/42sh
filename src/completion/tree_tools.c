@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:57:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/03 23:04:14 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/05 00:40:26 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,6 @@ void		free_all_tree(t_line *line)
 		line->tree[1] = free_tree(line->tree[1]);
 	if (line->tree[2])
 		line->tree[2] = free_tree(line->tree[2]);
+	if (line->tree[3])
+		line->tree[3] = free_tree(line->tree[3]);
 }
