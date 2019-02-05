@@ -6,12 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:45:40 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/04 00:00:39 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/05 01:08:28 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 #include "put.h"
+#include "ft_printf.h"
 
 static int	get_indir(char *toget, int *i, t_tree **ternary)
 {
@@ -61,13 +62,17 @@ void		fill_tree_env(char **env, t_tree **ternary)
 	int		i;
 	char	*var;
 
-	if (!(*ternary = ft_memalloc(sizeof(t_tree))))
-		return ;
+	if (!*ternary)
+	{
+		if (!(*ternary = ft_memalloc(sizeof(t_tree))))
+			return ;
+		(*ternary)->value = -1;
+	}
 	i = 0;
 	while (env[i])
 	{
 		var = strdup_until(env[i], '=');
-		feed_tree(var, 0, ternary, 0);
+		feed_tree(var, -1, ternary, 0);
 		free(var);
 		i++;
 	}
