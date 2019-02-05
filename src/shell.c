@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/31 20:14:16 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/05 00:54:58 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ static void	get_new_cmd(t_line *line, t_s_env *e)
 static void	init_shell_line(t_line **line, t_s_env *e)
 {
 	*line = get_struct();
+	(*line)->public_env = &e->public_env;
+	(*line)->private_env = &e->private_env;
 	init_line(e->public_env, *line);
 	(*line)->curr = ft_memalloc(sizeof(t_buff));
 	(*line)->beg_buff = (*line)->curr;
@@ -83,5 +85,5 @@ int			main(int ac, char **av, char **ep)
 	term_restore(e.save);
 	free_shell_env(&e);
 	free_struct(line);
-	return (0);
+	return (e.ret);
 }
