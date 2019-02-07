@@ -6,17 +6,17 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 17:39:24 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/16 00:55:42 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/05 18:27:36 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPANSION_ERRORS_H
 # define EXPANSION_ERRORS_H
 
-# define ERR_NONE_STR				"? ? ?"
+# define ERR_NONE_STR				"???"
 # define ERR_SYNTAX_STR				"bad substitution."
 # define ERR_MODIFIER_STR			"unrecognized modifier."
-# define ERR_UNHANDLED_STR			"pattern not handled."
+# define ERR_UNHANDLED_STR			"pattern not handled yet."
 # define ERR_MALLOC_STR				"malloc error."
 # define ERR_NO_ENV_STR				"variable not set."
 # define ERR_DIRECTORY_STACK_STR	"not enough directory stack entries."
