@@ -6,11 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 15:15:33 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/28 15:17:47 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/03 22:32:51 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include "shell_lib.h"
 
 int			sh_putendl_fd(const char *str, int fd)
 {
