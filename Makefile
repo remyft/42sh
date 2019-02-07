@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/02/07 01:16:53 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/02/07 03:54:36 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ LINE_DIR = $(SRCS_DIR)line_edition/
 SRCS += tools.c								\
 		main_tools.c						\
 		signal.c							\
-		singleton.c							\
+		deal_struct.c						\
 		reset_line.c						\
 		deal_typing.c						\
 		deal_hdoc.c							\
@@ -72,11 +72,13 @@ SRCS +=	create_tree.c						\
 		put_tree.c							\
 		select_branch.c						\
 		deal_select_branch.c				\
+		deal_select_tools.c					\
 		fill_tree.c							\
 		feed_branch.c						\
 		set_complet.c						\
 		deal_change.c						\
 		color_put.c							\
+		get_completion.c					\
 
 #TERMCAPS
 TERM_DIR = $(SRCS_DIR)termcaps/
@@ -315,7 +317,7 @@ $(OBJS_DIR)%.o: $(ENV_DIR)%.c $(DEPS_DIR)%.d
 $(OBJS_DIR)%.o: $(LINE_DIR)%.c
 $(OBJS_DIR)%.o: $(LINE_DIR)%.c $(DEPS_DIR)%.d
 	@echo $(RED)"ᚘ"$(RESET) | tr -d '\n'
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(LIBRARY_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)deal_hdoc.o: INCS += -I$(INC_DIR)/$(TOKEN_DIR)

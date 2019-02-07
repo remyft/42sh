@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/29 15:19:41 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/03 23:26:50 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,14 @@
 void			deal_exit(t_line *line)
 {
 	int		i;
-	t_hist	*curr;
 
-	if (line->curr->buff[0])
+	if (line->curr->prev || line->curr->buff[0])
 		return ;
 	term_restore(line->save);
-	free_all_tree(line);
-	ft_putchar('\n');
-	while (line->hist)
-	{
-		curr = line->hist->next;
-		if (line->hist->content)
-			free(line->hist->content);
-		if (line->hist->tmp)
-			free(line->hist->tmp);
-		free(line->hist);
-		line->hist = curr;
-	}
 	i = -1;
 	while (++i < NSIG)
 		signal(i, SIG_DFL);
-	exit(0);
+	line->shell_loop = 0;
 }
 
 static int		ft_cancel(t_line *line)
@@ -50,14 +37,10 @@ static int		ft_cancel(t_line *line)
 	tputs(tgoto(tgetstr("ch", NULL), 0,
 				(line->len + line->lprompt) % line->nb_col), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
-	ft_bzero(line->curr->buff_tmp, ft_strlen(line->curr->buff_tmp));
-	line->curr->buff_tmp[8193] = 0;
+	init_new_buff(line);
 	del_all_state(line);
 	free_hdoc(line);
 	reset_hist(line);
-	reset_buff(line);
-	line->len = 0;
-	line->index = 0;
 	return (-1);
 }
 
@@ -75,7 +58,7 @@ void			deal_cancel(t_line *line)
 		ft_putstr(line->curr->buff);
 		line->index = ft_strlen(line->curr->buff);
 		line->len = line->index;
-		deal_reset(line->tree[0], line->tree[1], line->tree[2]);
+		deal_reset(line->tree);
 		line->tmp[0] = 3;
 	}
 	else

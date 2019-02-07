@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 02:06:53 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/29 22:06:25 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/03 23:49:47 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ static void	create_new_branch(t_tree **tern, t_tree *prev, char *str, int lvl)
 {
 	int		len;
 
-	*tern = ft_memalloc(sizeof(t_tree));
+	if (!(*tern = ft_memalloc(sizeof(t_tree))))
+		return ;
 	if (*str < prev->value)
 		prev->left = *tern;
 	else
@@ -76,7 +77,8 @@ void		feed_tree(char *str, unsigned char type, t_tree **tern, int lvl)
 		set_new_mln(tern, str, lvl, type);
 	if (!(*tern)->tern_next && *str)
 	{
-		(*tern)->tern_next = ft_memalloc(sizeof(t_tree));
+		if (!((*tern)->tern_next = ft_memalloc(sizeof(t_tree))))
+			return ;
 		(*tern)->tern_next->prev = (*tern);
 		(*tern)->tern_next->value = -1;
 	}

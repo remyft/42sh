@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 21:19:06 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 13:52:30 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/03 21:35:24 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,22 @@ static void		fill_mln(int check_dir, char *str, t_slst **ret)
 		*ret = expand_slst(*ret, str);
 }
 
+void			free_glob(t_slist *glob)
+{
+	if (!glob)
+		return ;
+	free_glob(glob->next);
+	free(glob->str);
+	free(glob);
+}
+
 static t_slst	*fill_slst(char *av, t_slist *glob, int star, int nb)
 {
 	int		is_point;
 	char	*ptr;
 	int		check_dir;
 	t_slst	*ret;
+	t_slist	*to_free;
 
 	check_dir = 0;
 	is_point = 0;
@@ -60,6 +70,7 @@ static t_slst	*fill_slst(char *av, t_slist *glob, int star, int nb)
 		is_point = 1;
 	if ((ptr = ft_strrchr(av, '/')) && !*(ptr + 1))
 		check_dir = 1;
+	to_free = glob;
 	while (glob && glob->str)
 	{
 		if (check_mln(av, glob->str))
@@ -68,6 +79,7 @@ static t_slst	*fill_slst(char *av, t_slist *glob, int star, int nb)
 				fill_mln(check_dir, glob->str, &ret);
 		glob = glob->next;
 	}
+	free_glob(to_free);
 	return (ret);
 }
 

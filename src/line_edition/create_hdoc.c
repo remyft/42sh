@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 11:00:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 13:52:30 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/03 22:57:17 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,11 @@ static int	get_new_hdoc(t_line *line, int state, t_buff *buff)
 			buff = buff->prev;
 		while (line->hdoc && line->hdoc->prev)
 		{
-			line->hdoc->cmd = expand_word((t_token*)line->hdoc);
+			if (!line->hdoc->cmd)
+				line->hdoc->cmd = expand_word((t_token*)line->hdoc);
 			line->hdoc = line->hdoc->prev;
 		}
-		if (line->hdoc)
+		if (line->hdoc && !line->hdoc->cmd)
 			line->hdoc->cmd = expand_word((t_token*)line->hdoc);
 		return (1);
 	}

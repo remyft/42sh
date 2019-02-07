@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:43:32 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/30 20:13:59 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/03 23:00:34 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ static void	get_old_hist(t_hist **begin, int fd, int continu)
 			curr->c_size = ft_strlen(curr->content);
 		if (!continu)
 		{
+			if (curr->content)
+				free(curr->content);
 			free(curr);
-			curr = NULL;
 			if (*begin)
 				(*begin)->prev = NULL;
 		}
@@ -65,13 +66,20 @@ void		create_hist(t_hist **begin, char **env)
 	close(fd);
 }
 
-void		fill_hist(t_hist **curr, char *buff, int fd)
+t_hist		*fill_hist(char *buff, int fd)
 {
-	ft_putendl_fd(buff, fd);
-	*curr = ft_memalloc(sizeof(t_hist));
-	(*curr)->content = ft_strdup(buff);
-	(*curr)->c_size = ft_strlen(buff);
-	(*curr)->begin = *curr;
+	int		i;
+	t_hist	*curr;
+
+	i = 0;
+	while (buff[i] && buff[i] != '\n')
+		ft_putchar_fd(buff[i++], fd);
+	ft_putchar_fd('\n', fd);
+	curr = ft_memalloc(sizeof(t_hist));
+	curr->content = strdup_until(buff, '\n');
+	curr->c_size = ft_strlen_ch(buff, '\n');
+	curr->begin = curr;
+	return (curr);
 }
 
 void		get_new_hist(t_hist **curr, char *buff, int fd)
@@ -81,7 +89,7 @@ void		get_new_hist(t_hist **curr, char *buff, int fd)
 		if (ft_strcmp(buff, (*curr)->begin->content) != 0)
 		{
 			(*curr) = (*curr)->begin;
-			fill_hist(&((*curr)->prev), buff, fd);
+			(*curr)->prev = fill_hist(buff, fd);
 			(*curr)->prev->next = *curr;
 			while ((*curr)->next)
 			{
@@ -97,7 +105,7 @@ void		get_new_hist(t_hist **curr, char *buff, int fd)
 		*curr = (*curr)->begin;
 	}
 	else
-		fill_hist(curr, buff, fd);
+		*curr = fill_hist(buff, fd);
 }
 
 void		save_history(t_line *line, char *buff, t_hist **curr, char **env)

@@ -8,6 +8,7 @@
 ### PROMPT
 - recuperer PROMPT= dans .21shrc
 - gestion de la couleur (ex: {RED}, {BLUE}, etc.)
+- gerer ${, $(, "$(("
 
 ### MESSAGE D'ACCEUIL
 - google : libcaca

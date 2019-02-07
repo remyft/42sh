@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 23:32:32 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/16 00:14:24 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/03 21:28:30 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int			deal_star(char **src, char **targ)
 			*src += 1;
 		if (**targ == *(*src + 1))
 		{
-			if (**src == '*')
+			if (**src == '*' && **targ)
 				if (check_mln(*src, *targ + 1))
 					return (1);
 			*src += 1;

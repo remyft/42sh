@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:50:35 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/29 23:00:41 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 03:43:21 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct	s_cpl_env
 	int		*put;
 	int		*nb_ret;
 	int		lvl;
+	int		is_dol;
 	char	bru[257];
 	char	*chr;
 	char	*ptr;
@@ -57,6 +58,10 @@ int				get_select(t_line *line, t_tree *tern, t_cpl_e *env, t_slct
 
 void			change_buff(t_slct *select, t_cpl_e *env, t_line *line,
 		t_tree *tern);
+
+int				have_to_expand(t_line *line);
+
+void			deal_complet(t_tree *file, t_line *line);
 
 /*
 **	deaL_completion tools

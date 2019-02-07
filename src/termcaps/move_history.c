@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 05:00:51 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/30 19:43:51 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 03:07:29 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void		up_arrow(t_line *line)
 	int		find;
 	t_hist	*tmp;
 
-	find = 0;
 	if (key_complet(line, UP))
 		return ;
 	if (!line->curr->buff_tmp[8193])
@@ -75,7 +74,11 @@ void		up_arrow(t_line *line)
 	else
 	{
 		if (line->hist && ft_strcmp(line->hist->content, line->curr->buff))
+		{
+			if (line->hist->tmp)
+				free(line->hist->tmp);
 			line->hist->tmp = ft_strdup(line->curr->buff);
+		}
 	}
 	tmp = line->hist;
 	find = find_hist(line, 0);
@@ -92,10 +95,14 @@ void		down_arrow(t_line *line)
 	find = 0;
 	if (!line->curr->buff_tmp[8193])
 		return ;
-	if (line->hist && ft_strcmp(line->hist->content, line->curr->buff))
-		line->hist->tmp = ft_strdup(line->curr->buff);
 	if (key_complet(line, DOWN))
 		return ;
+	if (line->hist && ft_strcmp(line->hist->content, line->curr->buff))
+	{
+		if (line->hist->tmp)
+			free(line->hist->tmp);
+		line->hist->tmp = ft_strdup(line->curr->buff);
+	}
 	find = find_hist(line, 1);
 	if (find == 1)
 		is_find(line);
