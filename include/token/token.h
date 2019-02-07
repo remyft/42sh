@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/23 05:59:31 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/07 00:21:37 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,8 @@ t_token			*handle_word(t_param *param, t_call *token);
 
 t_token			*identify_operator(t_param *param);
 t_token			*identify_word(t_param *param);
+
+size_t			check_operator(t_token *token, size_t len);
 
 char			*expand_word(t_token *token);
 
