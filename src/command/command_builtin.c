@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/31 23:11:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/07 00:53:35 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/07 03:38:36 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,5 @@ t_execute *exec, t_s_env *e)
 		ret = builtin(exec, e);
 	command_restore_fds(exec->fds);
 	command_free(exec, e->public_env, NULL);
-	e->ret = ret;
 	return (ret);
 }

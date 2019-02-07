@@ -6,12 +6,11 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:10:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/05 20:04:12 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/07 22:02:59 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "ft_dprintf.h"
 #include "redirection.h"
 #include "shell_env.h"
 
@@ -29,15 +28,15 @@ int				command_redirect(int fds[3], t_redirection *redir, t_s_env *e)
 	int			fdarg;
 	int			fdio;
 
-	ft_memset(fds , 0, 3);
+	ft_memset(fds, 0, 3);
 	while (redir)
 	{
 		fdarg = GET_FD(redir->fdarg);
 		fdio = GET_FD(redir->fdio);
 		if (command_save_fds(fdarg, fds) || command_save_fds(fdio, fds))
-			return (redirect_error(1, "FCNTL", e)); //
+			return (redirect_error(1, "FCNTL", e));
 		if (fdarg > 0 && dup2(fdarg, fdio) < 0)
-			return (redirect_error(0, "DUP2", e)); //
+			return (redirect_error(0, "DUP2", e));
 		if (redir->fdio != fdio)
 			close(fdio);
 		if (fdarg > 0 && redir->fdarg != fdarg)
