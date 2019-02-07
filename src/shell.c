@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/02 20:24:44 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/07 00:21:03 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,5 @@ int			main(int ac, char **av, char **ep)
 	shell_loop(line, &e);
 	term_restore(e.save);
 	free_shell_env(&e);
-	return (0);
+	return (e.ret);
 }
