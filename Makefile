@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/02/02 20:22:42 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/02/07 01:16:53 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -154,6 +154,7 @@ SRCS += command_access.c					\
 		command_path.c						\
 		command_prepare.c					\
 		command_redirect.c					\
+		command_restore_fds.c				\
 		environment_modify.c				\
 		quote_removal.c						\
 
@@ -224,6 +225,7 @@ SRCS += builtin_cd_change.c					\
 		builtin_cd.c						\
 		builtin_echo.c						\
 		builtin_env_error.c					\
+		builtin_env_exec.c					\
 		builtin_env_free_opt.c				\
 		builtin_env_opt_i.c					\
 		builtin_env_opt_p.c					\
@@ -243,6 +245,8 @@ SRCS += sh_is_escapable.c					\
 		sh_getnenv.c						\
 		sh_getnenvaddr.c					\
 		sh_newenv.c							\
+		sh_putendl_fd.c						\
+		sh_putstr_fd.c						\
 		sh_puttab.c							\
 		sh_setenv.c							\
 		sh_str_isescape.c					\
