@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/05 00:54:58 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 03:08:21 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static void	get_new_cmd(t_line *line, t_s_env *e)
 	tokens = NULLTOKEN;
 	tree = NULLLIST;
 	ret = listnjoin(line);
-	*(line->e_cmpl) &= ~COMPLETION;
 	save_history(line, ret, &(line->hist), e->public_env);
 	ret = ft_strjoinfree(ret, "\n", 1);
 	remove_line_continuation(ret);
@@ -41,6 +40,7 @@ static void	get_new_cmd(t_line *line, t_s_env *e)
 	}
 	init_new_buff(line);
 	del_all_state(line);
+	reset_hist(line);
 	line->tree[1] = free_tree(line->tree[1]);
 	line->tree[1] = create_file_tree(".", line->tree[1]);
 	free(ret);

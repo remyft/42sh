@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/02/05 01:12:31 by rfontain         ###   ########.fr        #
+#    Updated: 2019/02/07 03:42:37 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,11 +72,13 @@ SRCS +=	create_tree.c						\
 		put_tree.c							\
 		select_branch.c						\
 		deal_select_branch.c				\
+		deal_select_tools.c					\
 		fill_tree.c							\
 		feed_branch.c						\
 		set_complet.c						\
 		deal_change.c						\
 		color_put.c							\
+		get_completion.c					\
 
 #TERMCAPS
 TERM_DIR = $(SRCS_DIR)termcaps/
