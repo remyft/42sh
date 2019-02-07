@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 18:53:23 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/07 22:40:26 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/08 00:14:05 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,19 @@ int				builtin_env(t_execute *exec, t_s_env *e)
 	{
 		opt.cmdname = exec->cmd[0];
 		if (!(opt.public_env = sh_tabdup((const char **)e->public_env)))
-			return (env_error(ERR_MALLOC, 0, &opt));
+			return (env_error(ERR_MALLOC, 0, &opt, e));
 		if ((error = env_options(&i, &j, exec->cmd, &opt)) != ERR_OK)
-			return (env_error(error, &exec->cmd[i][j], &opt));
+			return (env_error(error, NULL, &opt, e));
 		if (!exec->cmd[i])
-			sh_puttab((const char **)opt.public_env);
+		{
+			if (sh_puttab((const char **)opt.public_env) < 0)
+				return (env_error(ERR_WRITE, &exec->cmd[i][j], &opt, e));
+		}
 		else if ((error = env_exec(exec, i, &opt, e)) != ERR_OK)
-			return (env_error(error, &exec->cmd[i][j], &opt));
+			return (env_error(error, &exec->cmd[i][j], &opt, e));
 		env_free_opt(&opt);
 	}
-	else
-		sh_puttab((const char **)e->public_env);
-	return (e->ret);
+	else if (sh_puttab((const char **)e->public_env) < 0)
+		return (env_error(ERR_WRITE, NULL, &opt, e));
+	return (ERR_OK);
 }

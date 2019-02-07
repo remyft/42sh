@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 01:15:20 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/07 22:30:00 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/08 00:06:35 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,26 @@
 #include "builtin_env.h"
 #include "shell.h"
 
-static int		env_fork(char *line, t_s_env *e)
+static int		env_fork(char *line, t_e_opt *opt, t_s_env *e)
 {
+	t_s_env		newe;
 	pid_t		pid;
 
-	e->forked = 1;
+	ft_memcpy(&newe, e, sizeof(newe));
+	newe.progname = opt->cmdname;
+	newe.public_env = opt->public_env;
+	newe.forked = 1;
+	term_restore(e->save);
 	if ((pid = fork()) > 0)
 		waitpid(pid, &e->ret, 0);
 	else if (pid == 0)
 	{
-		launch_new_cmd(&line, e);
-		exit(e->ret);
+		launch_new_cmd(&line, &newe);
+		exit(newe.ret);
 	}
 	else
 		return (ERR_FORK);
+	define_new_term(&e->save);
 	return (ERR_OK);
 }
 
@@ -82,27 +88,23 @@ static int		env_get_command(char **cmd, t_e_opt *opt)
 
 int				env_exec(t_execute *exec, size_t i, t_e_opt *opt, t_s_env *e)
 {
-	t_s_env		newe;
 	int			error;
 
 	if (opt->options & BUILTIN_OPT_I)
 	{
 		if (opt->options & BUILTIN_OPT_V)
-			ft_printf("#%s clearing environ\n", opt->cmdname);
+			if (ft_printf("#%s clearing environ\n", opt->cmdname) < 0)
+				return (ERR_WRITE);
 		sh_freetab(&opt->public_env);
 	}
 	if ((error = env_prepare_command(exec->cmd + i, opt)) != ERR_OK)
 		return (error);
 	if (opt->options & BUILTIN_OPT_V)
-		ft_printf("#%s executing: %s\n", opt->cmdname, opt->cmd);
+	{
+		if (ft_printf("#%s executing: %s\n", opt->cmdname, opt->cmd) < 0)
+			return (ERR_WRITE);
+	}
 	if ((error = env_get_command(exec->cmd + i, opt)) != ERR_OK)
 		return (error);
-	ft_memcpy(&newe, e, sizeof(newe));
-	newe.progname = opt->cmdname;
-	newe.public_env = opt->public_env;
-	term_restore(e->save);
-	error = env_fork(opt->cmd, &newe);
-	define_new_term(&e->save);
-	e->ret = newe.ret;
-	return (error);
+	return (env_fork(opt->cmd, opt, e));
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 09:37:46 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/07 22:48:03 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/07 23:49:42 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ static int		setenv_error(int err, char *cmd_name, t_s_env *e)
 {
 	static char	*errors[] = {
 		NULL, MALLOC_ERROR, MISSING_ARG, TOO_MANY_ARGS, WRONG_VAR_NAME,
-		ALPHA_VAR_NAME,
+		ALPHA_VAR_NAME, WRITE_ERROR,
 	};
 
-	ft_dprintf(STDERR_FILENO, "%s: setenv: %s: %s\n", e->progname, cmd_name,
-														errors[err]);
+	ft_dprintf(STDERR_FILENO, "%s: %s: %s\n",
+			e->progname, cmd_name, errors[err]);
 	return (1);
 }
 
@@ -32,7 +32,11 @@ int				builtin_setenv(t_execute *exec, t_s_env *e)
 	char		**ptr;
 
 	if (!exec->cmd[1])
-		return (sh_puttab((const char **)e->public_env));
+	{
+		if (sh_puttab((const char **)e->public_env) < 0)
+			return (setenv_error(ERR_WRITE, exec->cmd[0], e));
+		return (0);
+	}
 	if (!exec->cmd[2])
 		return (setenv_error(ERR_MISSING_ARG, exec->cmd[0], e));
 	if (exec->cmd[3])

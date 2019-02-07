@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 10:20:55 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/07 22:32:20 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/07 23:53:25 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,16 @@ int				cd_error(int err, char *arg, t_s_env *e)
 		NULL, "not enought memory", "invalid option: -", "too many arguments",
 		"HOME not defined", "OLDPWD not defined", "string not in pwd",
 		"error retrieving current directory: getcwd: cannot access parent "
-		"directories: No such file or directory", "pathname too long"
+		"directories: No such file or directory", "pathname too long",
+		"write error: Bad file descriptor",
 	};
 
 	ft_dprintf(STDERR_FILENO, "%s: cd: %s", e->progname, errors[err]);
 	if (err == ERR_INVALID_OPTION)
-		ft_dprintf(STDERR_FILENO, "%c\ncd: usage: cd [-L|-P] [dir]\n", *arg);
+		ft_dprintf(STDERR_FILENO, "%c\ncd: usage: cd [-L|-P] [dir]", *arg);
 	else if (arg)
-		ft_dprintf(STDERR_FILENO, ": %s\n", arg);
+		ft_dprintf(STDERR_FILENO, ": %s", arg);
+	ft_dprintf(STDERR_FILENO, "\n");
 	return (1);
 }
 

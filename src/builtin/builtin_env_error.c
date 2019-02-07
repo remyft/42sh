@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 19:36:53 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/07 22:49:29 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/08 00:00:52 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "ft_dprintf.h"
 #include "builtin_env.h"
 
-int				env_error(int err, char *c, t_e_opt *opt)
+int				env_error(int err, char *c, t_e_opt *opt, t_s_env *e)
 {
 	static char	*errors[] = {
 		"", MALLOC_STR, ILLEGAL_OPTION_STR, NEED_ARG_STR, NOT_FOUND_STR,
@@ -24,15 +24,19 @@ int				env_error(int err, char *c, t_e_opt *opt)
 		1, 1, 1, 1, 127, 1,
 	};
 
-	ft_dprintf(STDERR_FILENO, "%s: %s", opt->cmdname, errors[err]);
-	if (err == ERR_ILLEGAL_OPT || err == ERR_NEED_ARG)
+	ft_dprintf(STDERR_FILENO, "%s: env: %s", e->progname, errors[err]);
+	if (c)
 	{
-		ft_dprintf(STDERR_FILENO, " -- %c\nusage: %s ", *c, opt->cmdname);
-		ft_dprintf(STDERR_FILENO, "[-iv] [-P utilpath] [-u name]\n\t");
-		ft_dprintf(STDERR_FILENO, "[name=value ...] [utility [args ...]]\n");
+		if (err == ERR_ILLEGAL_OPT || err == ERR_NEED_ARG)
+		{
+			ft_dprintf(STDERR_FILENO, " -- %c\nusage: env ", *c);
+			ft_dprintf(STDERR_FILENO, "[-iv] [-P utilpath] [-u name]\n\t");
+			ft_dprintf(STDERR_FILENO, "[name=value ...] [utility [argument ...]]");
+		}
+		else if (err != ERR_WRITE)
+			ft_dprintf(STDERR_FILENO, ": %s", c);
 	}
-	else
-		ft_dprintf(STDERR_FILENO, ": %s\n", c);
+	ft_dprintf(STDERR_FILENO, "\n");
 	env_free_opt(opt);
 	return (values[err]);
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 09:22:44 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/27 12:35:21 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/07 23:48:32 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ enum
 	ERR_TOO_MANY_ARGS,
 	ERR_WRONG_VAR_NAME,
 	ERR_ALPHA_VAR_NAME,
+	ERR_WRITE,
 };
 
 # define MALLOC_ERROR		"memory space insufficient"
@@ -31,6 +32,7 @@ enum
 # define TOO_MANY_ARGS		"too many arguments"
 # define WRONG_VAR_NAME		"Variable name must begin with a letter"
 # define ALPHA_VAR_NAME		"Variable contain non alphanumeric character"
+# define WRITE_ERROR		"write error: Bad file descriptor"
 
 int				builtin_setenv(t_execute *exec, t_s_env *e);
 
