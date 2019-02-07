@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 01:23:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/07 22:38:15 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/08 00:10:56 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int				command_parse(void *cmd, t_s_env *e)
 		return (0);
 	exec.variable = ((t_command *)cmd)->args;
 	exec.redirection = ((t_command *)cmd)->redir;
-	e->ret = (*(int *)cmd == IS_A_PIPE) ?
-		command_pipe(&exec, e) : command_prepare(&exec, e);
-	return (e->ret);
+	if (*(int *)cmd == IS_A_PIPE)
+		return (command_pipe(&exec, e));
+	return (command_prepare(&exec, e));
 }

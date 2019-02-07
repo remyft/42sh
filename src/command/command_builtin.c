@@ -6,17 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/31 23:11:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/07 03:38:36 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/08 00:14:32 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <signal.h>
-#include "libft.h"
-#include "ft_dprintf.h"
-#include "shell_lib.h"
 #include "command.h"
 #include "command_error.h"
+#include "shell_lib.h"
 
 int				command_builtin(int (*builtin)(t_execute *, t_s_env *),
 t_execute *exec, t_s_env *e)
