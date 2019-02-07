@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 01:00:11 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/24 07:06:42 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/04 23:58:15 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include "shell_env.h"
 # include "parser.h"
+
+# define CLOSE_FD_ON_EXEC	(1 << 16)
+# define GET_FD(x)			(x & ~CLOSE_FD_ON_EXEC)
 
 enum
 {
