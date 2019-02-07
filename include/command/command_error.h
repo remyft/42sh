@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 18:30:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/31 23:19:45 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/03 23:54:40 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ enum
 	ERR_PERM_VAL,
 	ERR_IS_DIRECTORY_VAL,
 	ERR_FORK_VAL,
+	ERR_BAD_FD_VAL,
 };
 
 # define ERR_EXEC_STR			"execution failed"
@@ -32,5 +33,6 @@ enum
 # define ERR_PERM_STR			"Permission denied"
 # define ERR_IS_DIRECTORY_STR	"Is a directory"
 # define ERR_FORK_STR			"fork failed"
+# define ER_BAD_FD_STR			"Bad file descriptor"
 
 #endif

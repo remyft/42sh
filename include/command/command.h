@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:17:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/31 23:16:57 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/04 16:56:10 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct	s_execute
 	char			**cmd;
 	char			**env;
 	int				builtin;
+	int				fds[3];
 }				t_execute;
 
 int				execute_list(t_m_list *list, t_s_env *e);
@@ -44,7 +45,8 @@ t_execute *exec, t_s_env *e);
 int				command_fork(t_execute *exec, t_s_env *e);
 int				command_path(char **path, char *cmd, char *paths);
 int				command_access(char *path, int absolute_path);
-int				command_redirect(t_redirection *redirection, t_s_env *e);
+int				command_redirect(int fds[3], t_redirection *redir, t_s_env *e);
+int				command_restore_fds(int fds[3]);
 
 char			**modify_environ(t_argument *var, t_execute *exec);
 

@@ -6,14 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:02:57 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/31 23:24:53 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/03 19:34:34 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "command.h"
-#include "command_error.h"
-#include "builtins.h"
 #include "libft.h"
+#include "command.h"
+#include "builtins.h"
 
 int				command_check(t_execute *exec, t_s_env *e)
 {

@@ -6,29 +6,43 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:10:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/26 18:25:11 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/05 20:04:12 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "parser.h"
+#include "ft_dprintf.h"
+#include "redirection.h"
 #include "shell_env.h"
 
-static int		redirect_error(const char *err, t_s_env *e)
+static int		command_save_fds(int fd, int fds[3])
 {
-	ft_putstr_fd(e->progname, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putendl_fd(err, STDERR_FILENO);
-	return (1);
+	if (fd == STDIN_FILENO || fd == STDOUT_FILENO || fd == STDERR_FILENO)
+		if (fds[fd] == 0)
+			if ((fds[fd] = fcntl(fd, F_DUPFD_CLOEXEC, 10)) < 0)
+				return (1);
+	return (0);
 }
 
-int				command_redirect(t_redirection *redirection, t_s_env *e)
+int				command_redirect(int fds[3], t_redirection *redir, t_s_env *e)
 {
-	while (redirection)
+	int			fdarg;
+	int			fdio;
+
+	ft_memset(fds , 0, 3);
+	while (redir)
 	{
-		if (dup2(redirection->fdarg, redirection->fdio) < 0)
-			return (redirect_error("dup2 failed.", e));
-		redirection = redirection->next;
+		fdarg = GET_FD(redir->fdarg);
+		fdio = GET_FD(redir->fdio);
+		if (command_save_fds(fdarg, fds) || command_save_fds(fdio, fds))
+			return (redirect_error(1, "FCNTL", e)); //
+		if (fdarg > 0 && dup2(fdarg, fdio) < 0)
+			return (redirect_error(0, "DUP2", e)); //
+		if (redir->fdio != fdio)
+			close(fdio);
+		if (fdarg > 0 && redir->fdarg != fdarg)
+			close(fdarg);
+		redir = redir->next;
 	}
 	return (0);
 }
