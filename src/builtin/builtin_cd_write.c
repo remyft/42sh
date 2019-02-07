@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 11:01:36 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/02 19:56:41 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/07 01:07:22 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ int				cd_write_in_pwd(t_execute *exec, t_s_env *e, size_t i)
 	int			ret;
 
 	if ((ret = cd_get_new_pwd(exec, e, i, new_pwd)) != ERR_NO_ERR)
-		return (cd_error(ret, exec->cmd[i]));
+		return (cd_error(ret, exec->cmd[i], e));
 	if (chdir(new_pwd) < 0)
-		return (cd_dir_error(new_pwd, exec->cmd[i]));
+		return (cd_dir_error(new_pwd, exec->cmd[i], e));
 	if (exec->cmd[i - 1][0] == '-' &&
 		exec->cmd[i - 1][ft_strlen(exec->cmd[i - 1]) - 1] == 'P')
 	{
@@ -71,5 +71,5 @@ int				cd_write_in_pwd(t_execute *exec, t_s_env *e, size_t i)
 		if ((ret = cd_change_pwds(new_pwd, e)) == ERR_NO_ERR
 		&& exec->cmd[i] && !ft_strcmp(exec->cmd[i], "-"))
 			ft_putendl(new_pwd);
-	return ((ret) ? cd_error(ret, exec->cmd[i]) : ERR_NO_ERR);
+	return ((ret) ? cd_error(ret, exec->cmd[i], e) : ERR_NO_ERR);
 }

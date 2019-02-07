@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 08:20:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/01 20:16:45 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/07 01:08:08 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "shell_env.h"
 #include "builtin_cd.h"
 
-static int		cd_args_loop(char *arg, t_cd *cd)
+static int		cd_args_loop(char *arg, t_cd *cd, t_s_env *e)
 {
 	size_t		i;
 
@@ -32,13 +32,13 @@ static int		cd_args_loop(char *arg, t_cd *cd)
 			cd->options |= CD_OPT_L;
 		}
 		else
-			return (cd_error(ERR_INVALID_OPTION, &arg[i]));
+			return (cd_error(ERR_INVALID_OPTION, &arg[i], e));
 		i++;
 	}
 	return (0);
 }
 
-static size_t	cd_args(char **args, t_cd *cd)
+static size_t	cd_args(char **args, t_cd *cd, t_s_env *e)
 {
 	size_t		i;
 
@@ -52,7 +52,7 @@ static size_t	cd_args(char **args, t_cd *cd)
 		}
 		if (!ft_strcmp(args[i], "--"))
 			return (i + 1);
-		if (cd_args_loop(args[i], cd))
+		if (cd_args_loop(args[i], cd, e))
 			return (0);
 		i++;
 	}
@@ -65,11 +65,11 @@ int				builtin_cd(t_execute *exec, t_s_env *e)
 	size_t		i;
 
 	ft_memset(&cd, 0, sizeof(cd));
-	if (!(i = cd_args(exec->cmd, &cd)))
+	if (!(i = cd_args(exec->cmd, &cd, e)))
 		return (1);
 	if (!exec->cmd[i] || !exec->cmd[i + 1])
 		return (cd_write_in_pwd(exec, e, i));
 	if (!exec->cmd[i + 2])
 		return (cd_search_in_pwd(exec, e, i - 1));
-	return (cd_error(ERR_TOO_MUCH_ARGUMENT, exec->cmd[1]));
+	return (cd_error(ERR_TOO_MUCH_ARGUMENT, exec->cmd[1], e));
 }

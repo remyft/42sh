@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 06:03:10 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/02 20:00:49 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/07 01:07:01 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,15 @@ int				cd_search_in_pwd(t_execute *exec, t_s_env *e, size_t i)
 	|| (ptr = sh_getnenv("PWD", e->private_env)))
 		ft_strcpy(new_pwd, ptr);
 	else if (getcwd(new_pwd, MAXPATHLEN) == NULL)
-		return (cd_error(ERR_GETCWD, NULL));
+		return (cd_error(ERR_GETCWD, NULL, e));
 	if (!(ptr = ft_strstr(new_pwd, exec->cmd[i + 1])))
-		return (cd_error(ERR_NOT_IN_PWD, exec->cmd[i + 1]));
+		return (cd_error(ERR_NOT_IN_PWD, exec->cmd[i + 1], e));
 	if (!cd_change_string(new_pwd, ptr, exec->cmd[i + 1], exec->cmd[i + 2]))
-		return (cd_error(ERR_NAME_TOO_LONG, NULL));
+		return (cd_error(ERR_NAME_TOO_LONG, NULL, e));
 	if (chdir(new_pwd) < 0)
-		return (cd_dir_error(new_pwd, new_pwd));
-	ft_putendl(new_pwd);
+		return (cd_dir_error(new_pwd, new_pwd, e));
+	if (sh_putendl_fd(new_pwd, STDOUT_FILENO) < 0)
+		return (cd_error(ERR_WRITE, NULL, e));
 	ret = cd_change_pwds(new_pwd, e);
-	return ((ret) ? cd_error(ret, exec->cmd[i]) : ERR_NO_ERR);
+	return ((ret) ? cd_error(ret, exec->cmd[i], e) : ERR_NO_ERR);
 }

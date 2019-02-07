@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 08:54:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/02 19:58:43 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/07 00:56:23 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ enum
 	ERR_NOT_IN_PWD,
 	ERR_GETCWD,
 	ERR_NAME_TOO_LONG,
+	ERR_WRITE,
 };
 
 typedef struct	s_cd
@@ -46,7 +47,7 @@ int				cd_search_in_pwd(t_execute *exec, t_s_env *e, size_t i);
 int				cd_change_pwds(char *new, t_s_env *e);
 char			*cd_recreate_path(char *pwd);
 
-int				cd_error(int err, char *arg);
-int				cd_dir_error(char *newpwd, char *entry);
+int				cd_error(int err, char *arg, t_s_env *e);
+int				cd_dir_error(char *newpwd, char *entry, t_s_env *e);
 
 #endif
