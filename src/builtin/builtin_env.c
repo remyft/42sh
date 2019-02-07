@@ -6,13 +6,11 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 18:53:23 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/07 01:15:28 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/07 22:40:26 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include "libft.h"
-#include "ft_printf.h"
 #include "shell_lib.h"
 #include "builtin_env.h"
 
@@ -39,5 +37,5 @@ int				builtin_env(t_execute *exec, t_s_env *e)
 	}
 	else
 		sh_puttab((const char **)e->public_env);
-	return (0);
+	return (e->ret);
 }

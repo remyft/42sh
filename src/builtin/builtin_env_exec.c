@@ -6,37 +6,31 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 01:15:20 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/07 02:59:26 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/07 22:30:00 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_printf.h"
-#include "ft_dprintf.h"
 #include "shell_lib.h"
 #include "builtin_env.h"
+#include "shell.h"
 
 static int		env_fork(char *line, t_s_env *e)
 {
 	pid_t		pid;
-	int			ret;
 
-	ret = 1;
 	e->forked = 1;
 	if ((pid = fork()) > 0)
-		waitpid(pid, &ret, 0);
+		waitpid(pid, &e->ret, 0);
 	else if (pid == 0)
 	{
-		ft_dprintf(2, "launching cmd '%s'\n", line);
 		launch_new_cmd(&line, e);
-		ft_dprintf(2,"env finish with ret %d\n", e->ret);
 		exit(e->ret);
 	}
 	else
-		ft_dprintf(STDERR_FILENO, "%s: fork failed\n", e->progname);
-	ft_dprintf(1,"finished env with ret %d\n", ret);
-	e->forked = 0;
-	return (ret);
+		return (ERR_FORK);
+	return (ERR_OK);
 }
 
 static int		env_prepare_command(char **cmd, t_e_opt *opt)
@@ -106,6 +100,9 @@ int				env_exec(t_execute *exec, size_t i, t_e_opt *opt, t_s_env *e)
 	ft_memcpy(&newe, e, sizeof(newe));
 	newe.progname = opt->cmdname;
 	newe.public_env = opt->public_env;
-	env_fork(opt->cmd, &newe);
-	return (ERR_OK);
+	term_restore(e->save);
+	error = env_fork(opt->cmd, &newe);
+	define_new_term(&e->save);
+	e->ret = newe.ret;
+	return (error);
 }
