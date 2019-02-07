@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 06:26:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/03 22:43:31 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/07 22:28:07 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int				builtin_echo(t_execute *exec, t_s_env *e)
 
 	i = 1;
 	n = 0;
-	(void)e;
 	while (exec->cmd[i] && exec->cmd[i][0] == '-' && exec->cmd[i][1])
 	{
 		j = 1;
