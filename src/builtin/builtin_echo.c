@@ -6,11 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 06:26:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/26 10:18:44 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/03 22:43:31 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include "ft_dprintf.h"
 #include "command.h"
 #include "shell_env.h"
 
@@ -22,6 +23,13 @@ static int		echo_strlen(const char *str)
 	while (str[i])
 		i++;
 	return (i);
+}
+
+static int		echo_error(t_s_env *e)
+{
+	ft_dprintf(STDERR_FILENO, "%s: echo: write error: "
+	"bad file descriptor\n", e->progname);
+	return (1);
 }
 
 int				builtin_echo(t_execute *exec, t_s_env *e)
@@ -44,11 +52,11 @@ int				builtin_echo(t_execute *exec, t_s_env *e)
 		i++;
 	}
 	while (exec->cmd[i])
-		if (write(STDIN_FILENO, exec->cmd[i], echo_strlen(exec->cmd[i])) < 0)
-			return (1);
-		else if (exec->cmd[++i] && write(STDIN_FILENO, " ", 1) < 0)
-			return (1);
-	if (!n && write(STDIN_FILENO, "\n", 1) < 0)
-		return (1);
+		if (write(STDOUT_FILENO, exec->cmd[i], echo_strlen(exec->cmd[i])) < 0)
+			return (echo_error(e));
+		else if (exec->cmd[++i] && write(STDOUT_FILENO, " ", 1) < 0)
+			return (echo_error(e));
+	if (!n && write(STDOUT_FILENO, "\n", 1) < 0)
+		return (echo_error(e));
 	return (0);
 }
