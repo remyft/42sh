@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 19:36:53 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/08 00:00:52 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/08 00:17:53 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,13 @@ int				env_error(int err, char *c, t_e_opt *opt, t_s_env *e)
 		{
 			ft_dprintf(STDERR_FILENO, " -- %c\nusage: env ", *c);
 			ft_dprintf(STDERR_FILENO, "[-iv] [-P utilpath] [-u name]\n\t");
-			ft_dprintf(STDERR_FILENO, "[name=value ...] [utility [argument ...]]");
+			ft_dprintf(STDERR_FILENO, "[name=value ...] [utility [args ...]]");
 		}
 		else if (err != ERR_WRITE)
 			ft_dprintf(STDERR_FILENO, ": %s", c);
 	}
 	ft_dprintf(STDERR_FILENO, "\n");
 	env_free_opt(opt);
+	e->ret = values[err];
 	return (values[err]);
 }

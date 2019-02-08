@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 01:15:20 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/08 00:06:35 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/08 00:23:04 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "builtin_env.h"
 #include "shell.h"
 
-static int		env_fork(char *line, t_e_opt *opt, t_s_env *e)
+static int		env_fork(t_e_opt *opt, t_s_env *e)
 {
 	t_s_env		newe;
 	pid_t		pid;
@@ -30,7 +30,7 @@ static int		env_fork(char *line, t_e_opt *opt, t_s_env *e)
 		waitpid(pid, &e->ret, 0);
 	else if (pid == 0)
 	{
-		launch_new_cmd(&line, &newe);
+		launch_new_cmd(&opt->cmd, &newe);
 		exit(newe.ret);
 	}
 	else
@@ -53,17 +53,17 @@ static int		env_prepare_command(char **cmd, t_e_opt *opt)
 			return (ERR_MALLOC);
 		return (ERR_OK);
 	}
-	if (opt->verbosity > 1)
-	{
-		ft_printf("#%s Searching: '%s'\n", opt->cmdname, opt->path);
-		ft_printf("#%s  for file: '%s'\n", opt->cmdname, cmd[0]);
-	}
+	if (opt->verbosity > 1
+	&& (ft_printf("#%s Searching: '%s'\n", opt->cmdname, opt->path) < 0
+		|| ft_printf("#%s  for file: '%s'\n", opt->cmdname, cmd[0]) < 0))
+		return (ERR_WRITE);
 	if (!(opt->cmd = ft_strjoinfree(ft_strjoin(opt->path, "/"), cmd[0], 1)))
 		return (ERR_MALLOC);
 	if (access(opt->cmd, F_OK | X_OK))
 		return (ERR_NOT_FOUND);
-	else if (opt->verbosity > 1)
-		ft_printf("#%s   matched: '%s'\n", opt->cmdname, opt->cmd);
+	else if (opt->verbosity > 1
+	&& ft_printf("#%s   matched: '%s'\n", opt->cmdname, opt->cmd) < 0)
+		return (ERR_WRITE);
 	return (ERR_OK);
 }
 
@@ -72,12 +72,14 @@ static int		env_get_command(char **cmd, t_e_opt *opt)
 	size_t		i;
 
 	i = 1;
-	if (opt->options & BUILTIN_OPT_V)
-		ft_printf("#%s    arg[%d]= '%s'\n", opt->cmdname, 0, opt->cmd);
+	if (opt->options & BUILTIN_OPT_V
+	&& ft_printf("#%s    arg[%d]= '%s'\n", opt->cmdname, 0, opt->cmd) < 0)
+		return (ERR_WRITE);
 	while (cmd[i])
 	{
-		if (opt->options & BUILTIN_OPT_V)
-			ft_printf("#%s    arg[%d]= '%s'\n", opt->cmdname, i, cmd[i]);
+		if (opt->options & BUILTIN_OPT_V
+		&& ft_printf("#%s    arg[%d]= '%s'\n", opt->cmdname, i, cmd[i]) < 0)
+			return (ERR_WRITE);
 		if (!(opt->cmd = ft_strjoinfree(opt->cmd, " ", 1))
 		|| !(opt->cmd = ft_strjoinfree(opt->cmd, cmd[i], 1)))
 			return (ERR_MALLOC);
@@ -92,19 +94,17 @@ int				env_exec(t_execute *exec, size_t i, t_e_opt *opt, t_s_env *e)
 
 	if (opt->options & BUILTIN_OPT_I)
 	{
-		if (opt->options & BUILTIN_OPT_V)
-			if (ft_printf("#%s clearing environ\n", opt->cmdname) < 0)
-				return (ERR_WRITE);
+		if (opt->options & BUILTIN_OPT_V
+		&& ft_printf("#%s clearing environ\n", opt->cmdname) < 0)
+			return (ERR_WRITE);
 		sh_freetab(&opt->public_env);
 	}
 	if ((error = env_prepare_command(exec->cmd + i, opt)) != ERR_OK)
 		return (error);
-	if (opt->options & BUILTIN_OPT_V)
-	{
-		if (ft_printf("#%s executing: %s\n", opt->cmdname, opt->cmd) < 0)
-			return (ERR_WRITE);
-	}
+	if (opt->options & BUILTIN_OPT_V
+	&& ft_printf("#%s executing: %s\n", opt->cmdname, opt->cmd) < 0)
+		return (ERR_WRITE);
 	if ((error = env_get_command(exec->cmd + i, opt)) != ERR_OK)
 		return (error);
-	return (env_fork(opt->cmd, opt, e));
+	return (env_fork(opt, e));
 }
