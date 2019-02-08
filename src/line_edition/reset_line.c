@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 03:41:00 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 06:34:31 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/08 04:09:29 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,14 @@ void	reset_hist(t_line *line)
 		if (line->hist->tmp)
 			free(line->hist->tmp);
 		line->hist->tmp = NULL;
+		if (line->hist->prev)
+			line->hist->begin = line->hist->prev->begin;
 		line->hist = line->hist->next;
 	}
 	if (line->hist->tmp)
 		free(line->hist->tmp);
 	line->hist->tmp = NULL;
+	if (line->hist->prev)
+		line->hist->begin = line->hist->prev->begin;
 	line->hist = line->hist->begin;
 }

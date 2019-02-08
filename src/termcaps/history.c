@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:43:32 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 06:52:24 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/08 04:07:11 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ static void	get_new_hist(t_hist **curr, char *buff, int fd)
 			if (!((*curr)->prev = fill_hist(buff, fd)))
 				return ;
 			(*curr)->prev->next = *curr;
+			(*curr) = (*curr)->prev;
 			while ((*curr)->next)
 			{
 				if ((*curr)->tmp)
