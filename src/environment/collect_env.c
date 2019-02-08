@@ -6,11 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 03:05:48 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 13:52:30 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/07 06:48:42 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+#include "libft.h"
 
 char		**collect_env(char **ep)
 {

@@ -6,11 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 11:37:00 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/30 19:01:21 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 06:53:25 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+#include "libft.h"
+#include "shell_term.h"
 
 void		ft_cut(t_line *line)
 {

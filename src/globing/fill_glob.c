@@ -6,11 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 23:31:38 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/03 21:35:13 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 06:53:55 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+#include "libft.h"
 #include "globing.h"
 
 void	get_new_str(t_slist **glob, char *prev)
@@ -23,7 +24,8 @@ void	get_new_str(t_slist **glob, char *prev)
 	if (prev)
 		tlen = ft_strlen(prev) + 1;
 	tlen = (*glob)->mln->len + tlen;
-	(*glob)->str = ft_memalloc(sizeof(char) * (tlen + 1));
+	if (!((*glob)->str = ft_memalloc(sizeof(char) * (tlen + 1))))
+		return ;
 	if (prev)
 	{
 		i = -1;
@@ -49,12 +51,16 @@ int		get_new_glob(t_tree *tree, t_slist **glob)
 			*glob = (*glob)->next;
 		if ((*glob)->mln == tree)
 			return (0);
-		(*glob)->next = ft_memalloc(sizeof(t_slist));
+		if (!((*glob)->next = ft_memalloc(sizeof(t_slist))))
+			return (0);
 		(*glob)->next->prev = *glob;
 		*glob = (*glob)->next;
 	}
 	else
-		*glob = ft_memalloc(sizeof(t_slist));
+	{
+		if (!(*glob = ft_memalloc(sizeof(t_slist))))
+			return (0);
+	}
 	(*glob)->mln = tree;
 	return (1);
 }
@@ -74,6 +80,21 @@ void	deal_rec(char *str, t_slist **glob, t_stint *sti)
 	free_tree(tmp);
 }
 
+void	deal_error_glob(t_slist **glob)
+{
+	if ((*glob)->prev)
+	{
+		*glob = (*glob)->prev;
+		free((*glob)->next);
+		(*glob)->next = NULL;
+	}
+	else
+	{
+		free(*glob);
+		*glob = NULL;
+	}
+}
+
 void	get_new_mln(t_tree *tree, char *str, t_slist **glob, t_stint sti)
 {
 	DIR			*dir;
@@ -86,6 +107,8 @@ void	get_new_mln(t_tree *tree, char *str, t_slist **glob, t_stint sti)
 	if (get_new_glob(tree, glob) == 0)
 		return ;
 	get_new_str(glob, sti.str);
+	if (!(*glob)->str)
+		return (deal_error_glob(glob));
 	si_tmp.str = ft_strdup((*glob)->str);
 	si_tmp.nb = sti.nb;
 	if ((dir = opendir((*glob)->str)) && ((*str == '/' && *(str + 1))

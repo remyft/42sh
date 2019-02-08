@@ -6,12 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/03 23:26:50 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 06:52:41 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
 #include "shell.h"
+#include "libft.h"
+#include "shell_term.h"
 
 #ifdef __linux__
 # define NSIG _NSIG

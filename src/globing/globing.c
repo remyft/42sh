@@ -6,11 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 21:19:06 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/03 21:35:24 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 06:53:46 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+#include "libft.h"
 #include "globing.h"
 
 static t_slst	*expand_slst(t_slst *lst, char *str)

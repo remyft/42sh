@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:50:35 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 03:43:21 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/08 03:38:48 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ void			ft_put_tree(t_tree *tern, t_cpl_e env, t_line *line,
 		int *car_ret);
 void			deal_type(unsigned int type, t_line *line, char *file);
 
+int				put_complet(t_tree *tern, int *put, t_line *line, int *nb_ret);
+void			get_complet(t_line *line);
+void			set_complet(t_line *line, int set);
+
 void			put_branch(t_slct *select, t_cpl_e env, t_line *line,
 		int *car_ret);
 void			put_select_branch(t_slct *select, t_cpl_e env, t_line *line);
@@ -63,6 +67,8 @@ int				have_to_expand(t_line *line);
 
 void			deal_complet(t_tree *file, t_line *line);
 
+char			*find_separator(char *buff);
+
 /*
 **	deaL_completion tools
 */
@@ -71,6 +77,8 @@ int				inprint(char *str);
 t_tree			*set_tmp(char *buff);
 int				str_chrglob(char *str);
 char			*replace_tilde(const char *path, const char *replace);
+
+char			*find_start_pos(char *buff, t_line *line);
 
 /*
 **	Tree creation
@@ -98,5 +106,6 @@ void			deal_slct_winch(t_tree *select, t_tree *tree);
 
 void			deal_tree_key(t_tree *tree, int nb_col, int key);
 void			deal_slct_key(t_slct *select, int nb_col, int key);
+
 
 #endif

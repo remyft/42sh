@@ -6,11 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/06 05:48:08 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 13:52:30 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/07 06:49:16 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+#include "libft.h"
 
 void	put_prompt(char *prompt)
 {

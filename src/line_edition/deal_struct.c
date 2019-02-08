@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 08:44:05 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/03 23:19:44 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 05:13:54 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static void		free_hist(t_hist *hist)
 
 void			free_struct(t_line *line)
 {
+	if (!line)
+		return ;
 	free_all_tree(line);
 	free_buff(line);
 	while (line->hist->prev)

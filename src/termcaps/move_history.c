@@ -6,11 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 05:00:51 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 03:07:29 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 06:52:35 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+#include "libft.h"
+#include "put.h"
 
 int			find_hist(t_line *line, int way)
 {

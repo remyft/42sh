@@ -6,11 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:43:32 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/03 23:00:34 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 06:52:24 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+#include "libft.h"
+#include "shell_term.h"
+#include "history.h"
 
 static void	get_old_hist(t_hist **begin, int fd, int continu)
 {
@@ -18,7 +21,8 @@ static void	get_old_hist(t_hist **begin, int fd, int continu)
 
 	while (continu)
 	{
-		curr = ft_memalloc(sizeof(t_hist));
+		if (!(curr = ft_memalloc(sizeof(t_hist))))
+			return ;
 		if (*begin)
 		{
 			curr->next = *begin;
@@ -48,11 +52,11 @@ void		create_hist(t_hist **begin, char **env)
 	char	*path;
 
 	if (!(path = get_env(env, "HOME")))
-		fd = open("/tmp/.21sh_history", O_RDWR | O_APPEND | O_CREAT, 0644);
+		fd = open(TMP_PATH, O_RDWR | O_APPEND | O_CREAT, 0644);
 	else
 	{
 		path = ft_strjoinfree(path, "/", 1);
-		path = ft_strjoinfree(path, ".21sh_history", 1);
+		path = ft_strjoinfree(path, HIST_NAME, 1);
 		fd = open(path, O_RDWR | O_APPEND | O_CREAT, 0644);
 		free(path);
 	}
@@ -66,7 +70,7 @@ void		create_hist(t_hist **begin, char **env)
 	close(fd);
 }
 
-t_hist		*fill_hist(char *buff, int fd)
+static t_hist	*fill_hist(char *buff, int fd)
 {
 	int		i;
 	t_hist	*curr;
@@ -75,21 +79,27 @@ t_hist		*fill_hist(char *buff, int fd)
 	while (buff[i] && buff[i] != '\n')
 		ft_putchar_fd(buff[i++], fd);
 	ft_putchar_fd('\n', fd);
-	curr = ft_memalloc(sizeof(t_hist));
-	curr->content = strdup_until(buff, '\n');
+	if (!(curr = ft_memalloc(sizeof(t_hist))))
+		return (NULL);
+	if (!(curr->content = strdup_until(buff, '\n')))
+	{
+		free(curr);
+		return (NULL);
+	}
 	curr->c_size = ft_strlen_ch(buff, '\n');
 	curr->begin = curr;
 	return (curr);
 }
 
-void		get_new_hist(t_hist **curr, char *buff, int fd)
+static void	get_new_hist(t_hist **curr, char *buff, int fd)
 {
 	if (*curr)
 	{
 		if (ft_strcmp(buff, (*curr)->begin->content) != 0)
 		{
 			(*curr) = (*curr)->begin;
-			(*curr)->prev = fill_hist(buff, fd);
+			if (!((*curr)->prev = fill_hist(buff, fd)))
+				return ;
 			(*curr)->prev->next = *curr;
 			while ((*curr)->next)
 			{
@@ -116,11 +126,11 @@ void		save_history(t_line *line, char *buff, t_hist **curr, char **env)
 	char	*path;
 
 	if (!(path = get_env(env, "HOME")))
-		fd = open("/tmp/.21sh_history", O_RDWR | O_APPEND | O_CREAT, 0644);
+		fd = open(TMP_PATH, O_RDWR | O_APPEND | O_CREAT, 0644);
 	else
 	{
 		path = ft_strjoinfree(path, "/", 1);
-		path = ft_strjoinfree(path, ".21sh_history", 1);
+		path = ft_strjoinfree(path, HIST_NAME, 1);
 		fd = open(path, O_RDWR | O_APPEND | O_CREAT, 0644);
 		free(path);
 	}

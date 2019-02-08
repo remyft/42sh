@@ -6,11 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:57:17 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/29 23:21:31 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 06:53:05 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+#include "shell_term.h"
+#include "put.h"
+#include "libft.h"
 
 static void	get_to_buff(t_line *line, int *cp)
 {

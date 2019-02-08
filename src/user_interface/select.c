@@ -6,11 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 05:18:39 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 13:52:30 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/07 06:53:14 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+#include "libft.h"
+#include "shell_term.h"
 
 static void	expand_select_left(t_line *line, int diff, int mal)
 {

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/07 03:04:11 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/07 06:44:42 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 #include "shell_env.h"
 #include "shell.h"
 #include "ft_printf.h"
+#include "shell_term.h"
+
 static void		command_execve(char *name, t_execute *exec)
 {
 	ft_printf("executing %s\n", name);

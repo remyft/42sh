@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 10:57:02 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/03 23:06:10 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 05:12:43 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,11 @@ void	reset_line(t_line *line)
 void	init_new_buff(t_line *line)
 {
 	free_buff(line);
-	line->curr = ft_memalloc(sizeof(t_buff));
+	if (!(line->curr = ft_memalloc(sizeof(t_buff))))
+	{
+		line->shell_loop = 0;
+		return ;
+	}
 	line->beg_buff = line->curr;
 	line->index = 0;
 	line->len = 0;
@@ -56,18 +60,23 @@ char	*listnjoin(t_line *line)
 	while (line->curr->prev)
 		line->curr = line->curr->prev;
 	begin = line->curr;
-	str = ft_strdup(line->curr->buff);
+	if (!(str = ft_strdup(line->curr->buff)))
+		return (NULL);
 	if (line->curr->next)
-		str = ft_strjoinfree(str, "\n", 1);
+		if (!(str = ft_strjoinfree(str, "\n", 1)))
+			return (NULL);
 	line->curr = line->curr->next;
 	while (line->curr && line->curr->next)
 	{
-		str = ft_strjoinfree(str, line->curr->buff, 1);
-		str = ft_strjoinfree(str, "\n", 1);
+		if (!(str = ft_strjoinfree(str, line->curr->buff, 1)))
+			return (NULL);
+		if (!(str = ft_strjoinfree(str, "\n", 1)))
+			return (NULL);
 		line->curr = line->curr->next;
 	}
 	if (line->curr)
-		str = ft_strjoinfree(str, line->curr->buff, 1);
+		if (!(str = ft_strjoinfree(str, line->curr->buff, 1)))
+			return (NULL);
 	line->curr = begin;
 	return (str);
 }

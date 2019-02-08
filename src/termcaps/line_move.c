@@ -6,13 +6,12 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/30 16:59:39 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/30 20:16:23 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 06:43:38 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-#include <stdio.h>
+#include "shell_term.h"
 
 void	mv_line_up(t_line *line)
 {

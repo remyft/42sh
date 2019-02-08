@@ -6,18 +6,16 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/03 23:27:19 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 06:54:51 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SHELL_H
 # define SHELL_H
 
-# include "libft.h"
 # include "struct.h"
 # include <sys/types.h>
 # include <sys/stat.h>
-# include <termios.h>
 # include <dirent.h>
 
 char			*get_line(int fd);
@@ -28,57 +26,6 @@ char			**ft_ralloc(char ***env, int len);
 void			ft_setenv(char ***env, char *new, int len);
 char			*get_env(char **env, char *to_get);
 char			**collect_env(char **ep);
-
-void			put_prompt(char *prompt);
-
-char			*remove_line_continuation(char *line);
-
-void			free_buff(t_line *line);
-void			free_struct(t_line *line);
-
-/*
-** Termcaps
-*/
-
-void			go_home(t_line *line);
-void			go_end(t_line *line);
-void			left_arrow(t_line *line);
-void			right_arrow(t_line *line);
-
-void			next_word(t_line *line);
-void			prev_word(t_line *line);
-
-int				ft_pchar(int nb);
-void			delete_down(void);
-void			put_prompt(char *prompt);
-
-void			up_arrow(t_line *line);
-void			down_arrow(t_line *line);
-
-void			create_hist(t_hist **begin, char **env);
-void			save_history(t_line *line, char *buff,
-							t_hist **curr, char **env);
-
-void			deal_exit(t_line *line);
-void			deal_cancel(t_line *line);
-void			ft_clear(t_line *line);
-
-void			del_lines(t_line *line);
-void			deal_dleft(t_line *line);
-void			del_right(t_line *line);
-
-void			get_typing(t_line *line, int nb_read);
-void			term_restore(struct termios save);
-void			define_new_term(struct termios *save);
-
-void			deal_prompt(t_line *line);
-void			reset_line(t_line *line);
-void			free_buff(t_line *line);
-void			init_new_buff(t_line *line);
-char			*listnjoin(t_line *line);
-
-void			mv_line_up(t_line *line);
-void			mv_line_down(t_line *line);
 
 /*
 **	Select, copy, cut and paste
@@ -107,11 +54,6 @@ int				check_hdoc(t_line *line);
 /*
 ** Completion
 */
-
-int				put_complet(t_tree *tern, int *put, t_line *line, int *nb_ret);
-void			get_complet(t_line *line);
-void			set_complet(t_line *line, int set);
-
 void			feed_tree(char *str, unsigned char type,
 		t_tree **tern, int lvl);
 t_tree			*create_bin_tree(char **env);
@@ -124,9 +66,6 @@ void			free_all_tree(t_line *line);
 
 void			reset_put(t_tree *tern);
 void			deal_reset(t_tree **tree);
-
-t_line			*get_struct(void);
-void			del_all_state(t_line *line);
 
 /*
 ** Globing
@@ -147,7 +86,15 @@ void			set_signal(void);
 void			put_new_prompt(t_line *line);
 void			del_all_state(t_line *line);
 void			free_hdoc(t_line *line);
-void			reset_buff(t_line *line);
 void			reset_hist(t_line *line);
+
+void			put_prompt(char *prompt);
+
+char			*remove_line_continuation(char *line);
+
+void			free_buff(t_line *line);
+t_line			*get_struct(void);
+void			free_struct(t_line *line);
+void			del_all_state(t_line *line);
 
 #endif

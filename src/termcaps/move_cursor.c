@@ -6,11 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:13:27 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/29 23:21:55 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 06:41:50 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shell.h"
+#include "libft.h"
+#include "shell_term.h"
+#include "put.h"
 
 void	go_home(t_line *line)
 {

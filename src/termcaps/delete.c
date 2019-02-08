@@ -6,11 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:51:36 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/30 16:10:57 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 06:52:48 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+#include "libft.h"
+#include "shell_term.h"
 
 void		del_lines(t_line *line)
 {

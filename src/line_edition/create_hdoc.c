@@ -6,12 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 11:00:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/03 22:57:17 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 06:49:40 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 #include "token.h"
+#include "libft.h"
+#include "shell_term.h"
 
 static void	deal_state(t_line *line, char c)
 {
@@ -63,10 +65,14 @@ static int	get_new_hdoc(t_line *line, int state, t_buff *buff)
 static void	create_new_hdoc(t_line *line, int *state, int i)
 {
 	if (!line->hdoc)
-		line->hdoc = ft_memalloc(sizeof(*line->hdoc));
+	{
+		if (!(line->hdoc = ft_memalloc(sizeof(*line->hdoc))))
+			return ;
+	}
 	else
 	{
-		line->hdoc->next = ft_memalloc(sizeof(*line->hdoc));
+		if (!(line->hdoc->next = ft_memalloc(sizeof(*line->hdoc))))
+			return ;
 		line->hdoc->next->prev = line->hdoc;
 		line->hdoc = line->hdoc->next;
 	}

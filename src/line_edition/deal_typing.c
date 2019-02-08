@@ -6,12 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 08:55:32 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/03 23:47:46 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 06:39:47 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 #include "main_tools.h"
+#include "put.h"
 
 static void	deal_unselect(t_line *line)
 {

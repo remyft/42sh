@@ -6,11 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 03:41:00 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 13:52:30 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/07 06:34:31 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shell.h"
+#include "shell_term.h"
+#include "libft.h"
 
 void	put_new_prompt(t_line *line)
 {
@@ -53,18 +54,6 @@ void	free_hdoc(t_line *line)
 		free(line->hdoc);
 		line->hdoc = NULL;
 	}
-}
-
-void	reset_buff(t_line *line)
-{
-	while (line->curr->prev)
-	{
-		if (line->curr->next)
-			free(line->curr->next);
-		line->curr = line->curr->prev;
-	}
-	free(line->curr);
-	line->curr = ft_memalloc(sizeof(t_buff));
 }
 
 void	reset_hist(t_line *line)

@@ -6,11 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 05:59:37 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/30 19:38:42 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 06:53:32 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+#include "libft.h"
+#include "shell_term.h"
 
 static int	get_paste(t_line *line, int *j)
 {
