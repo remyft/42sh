@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_fork.c                                     :+:      :+:    :+:   */
+/*   command_system.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/07 21:42:38 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/08 02:18:53 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void		command_ret(char *name, t_execute *exec, t_s_env *e)
 	command_free(exec, e->public_env, NULL);
 }
 
-int				command_fork(t_execute *exec, t_s_env *e)
+int				command_system(t_execute *exec, t_s_env *e)
 {
 	char		*name;
 	pid_t		pid;
