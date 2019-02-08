@@ -6,18 +6,18 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 04:12:28 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/08 05:50:02 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shell.h"
-#include "main_tools.h"
-#include "token.h"
-#include "parser.h"
 #include "command.h"
-#include "shell_env.h"
 #include "history.h"
+#include "main_tools.h"
+#include "parser.h"
+#include "shell.h"
+#include "shell_env.h"
 #include "shell_term.h"
+#include "token.h"
 
 void		launch_new_cmd(char **line, t_s_env *e)
 {
@@ -30,6 +30,7 @@ void		launch_new_cmd(char **line, t_s_env *e)
 	remove_line_continuation(*line);
 	if ((tokens = tokenise(*line)) != NULLTOKEN)
 	{
+		tokens = alias_get(tokens, e->alias_list);
 		if ((tree = parse(tokens)) != NULLLIST)
 		{
 			e->ret = execute_list(tree, e);
