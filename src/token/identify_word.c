@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 22:30:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/24 00:10:05 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/08 05:37:18 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ t_token			*identify_word(t_param *param)
 		else
 			param->token->id = name(param);
 	}
+	// if (!param->token->prev)
+	// 	find_alias();
 	param->token->next = new_token(param->buff, param->i);
 	param->token->next->prev = param->token;
 	return (param->token->next);
