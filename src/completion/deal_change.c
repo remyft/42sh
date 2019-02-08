@@ -6,13 +6,15 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 20:16:45 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/03 20:42:44 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 11:06:27 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "put.h"
 #include "shell_lib.h"
+#include "shell_term.h"
 #include "shell.h"
+#include "libft.h"
 
 static void	get_ptr_tree(t_tree *tree, char **ptr)
 {
@@ -47,6 +49,12 @@ static void	get_nb_slct(t_slct *select, int *nb)
 
 static void	change_ptr(t_slct *select, char **ptr)
 {
+	if (**ptr == '$')
+	{
+		*ptr += 1;
+		if (**ptr == '{')
+			*ptr += 1;
+	}
 	**ptr = select->mln->value;
 	*ptr += 1;
 	if (select->down)
@@ -84,9 +92,10 @@ void		change_buff(t_slct *select, t_cpl_e *env, t_line *line,
 
 	tmp = 1;
 	if (!(env->ptr = sh_strrchr(line->curr->buff, '/')))
-		if (!(env->ptr = sh_strrchr(line->curr->buff, ' ')))
-			env->ptr = line->curr->buff;
+		env->ptr = find_start_pos(line->curr->buff, line);
 	if (env->ptr != line->curr->buff || line->curr->buff[0] == ' ')
+		env->ptr += 1;
+	if (ft_strchr("&;|", *env->ptr))
 		env->ptr += 1;
 	if (deal_change(select, tern, env))
 		return ;

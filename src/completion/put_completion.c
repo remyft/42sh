@@ -6,13 +6,26 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:42:34 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/04 00:38:25 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 10:15:05 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+#include "libft.h"
 #include "put.h"
 #include "shell_lib.h"
+#include "shell_term.h"
+
+static char	*find_chr_buff(t_line *line)
+{
+	char	*ptr;
+
+	if (have_to_expand(line))
+		return (*(ptr = sh_strrchr(line->curr->buff, '$') + 1) == '{' ?
+				ptr + 1 : ptr);
+	return (sh_strchr(ptr = sh_strrchr(line->curr->buff, ' '), '/') ?
+			sh_strrchr(ptr, '/') + 1 : ptr + 1);
+}
 
 static int	deal_select(t_slct *select, t_cpl_e env, t_line *line)
 {
@@ -27,10 +40,7 @@ static int	deal_select(t_slct *select, t_cpl_e env, t_line *line)
 		if (!ft_strcmp(env.chr, line->curr->buff_tmp))
 			ret_psb(select, ft_strlen(env.chr), 0, line->curr->buff);
 		else
-			ret_psb(select, ft_strlen(env.chr), 0,
-					!sh_strchr(sh_strrchr(line->curr->buff, ' '), '/')
-					? sh_strrchr(line->curr->buff, ' ') + 1
-					: sh_strrchr(line->curr->buff, '/') + 1);
+			ret_psb(select, ft_strlen(env.chr), 0, find_chr_buff(line));
 		free(env.chr);
 		free_select(select);
 		return (1);

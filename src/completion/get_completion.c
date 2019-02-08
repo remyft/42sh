@@ -6,13 +6,15 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 03:41:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 03:42:18 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/08 03:25:06 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "put.h"
 #include "shell_lib.h"
+#include "shell_term.h"
 #include "shell.h"
+#include "libft.h"
 
 static void	get_new_glob(t_line *line, t_slst *tmp, char *ptr)
 {
@@ -21,7 +23,6 @@ static void	get_new_glob(t_line *line, t_slst *tmp, char *ptr)
 
 	while (tmp->prev)
 		tmp = tmp->prev;
-	ptr++;
 	ft_bzero(ptr, ft_strlen(ptr));
 	while ((to_free = tmp))
 	{
@@ -54,6 +55,50 @@ static void	set_new_glob(t_line *line, t_slst *tmp, char *ptr)
 	}
 }
 
+int			check_is_file(char *buff, t_line *line)
+{
+	int		i;
+
+	i = line->len - 1;
+	while (!ft_strchr("&;| ", buff[i]) && i >= 0)
+		i--;
+	while ((buff[i] == ' ' || buff[i] == '\t') && i >= 0)
+		i--;
+	if (i == -1 || ft_strchr(";&|", buff[i]))
+		return (0);
+	return (1);
+}
+
+int			search_to_tmp(char *buff)
+{
+	int		i;
+
+	i = -1;
+	while (buff[++i])
+		if (buff[i] == '~' || buff[i] == '/')
+			return (1);
+	return (0);
+}
+
+void		deal_choose_tree(t_line *line, char *ptr)
+{
+	if (have_to_expand(line))
+		deal_complet(GET_TREE(line->tree, ENV), line);
+	else if (check_is_file(line->curr->buff, line))
+	{
+		if (search_to_tmp(ptr))
+		{
+			if (GET_TREE(line->tree, TMP)
+					|| (GET_TREE(line->tree, TMP) = set_tmp(line->curr->buff)))
+				deal_complet(GET_TREE(line->tree, TMP), line);
+		}
+		else
+			deal_complet(GET_TREE(line->tree, FILES), line);
+	}
+	else
+		deal_complet(GET_TREE(line->tree, BIN), line);
+}
+
 void		choose_tree(t_line *line)
 {
 	char	*ptr;
@@ -64,17 +109,12 @@ void		choose_tree(t_line *line)
 		tmp = deal_globing(ptr + 1, line->tree[1]);
 	else if (!ptr && str_chrglob(line->curr->buff))
 		tmp = deal_globing(line->curr->buff, line->tree[1]);
-	else if (have_to_expand(line))
-		deal_complet(line->tree[3], line);
-	else if (!ptr || (!sh_strchr(ptr, '/') && !sh_strchr(ptr, '~')))
-		deal_complet(!sh_strchr(line->curr->buff, ' ') ? line->tree[0]
-				: line->tree[1], line);
 	else
-	{
-		if (line->tree[2] || (line->tree[2] = set_tmp(line->curr->buff)))
-			deal_complet(line->tree[2], line);
-	}
-	set_new_glob(line, tmp, ptr);
+		deal_choose_tree(line, ptr);
+	if (!ptr)
+		set_new_glob(line, tmp, line->curr->buff);
+	else
+		set_new_glob(line, tmp, ptr + 1);
 }
 
 void		get_complet(t_line *line)

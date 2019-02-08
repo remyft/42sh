@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:34:09 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/05 01:19:38 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/08 03:38:30 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,32 @@
 #include "put.h"
 #include "shell.h"
 #include "shell_lib.h"
+#include "shell_term.h"
+
+char		*find_start_pos(char *buff, t_line *line)
+{
+	int		i;
+
+	i = line->len - 1;
+	while (i > 0)
+	{
+		if (ft_strchr("&|; ", buff[i]))
+			return (buff + i + 1);
+		i--;
+	}
+	return (buff);
+}
 
 static void	get_new_file(t_tree *tern, t_cpl_e env, t_line *line)
 {
 	char	*chr;
+	char	*ptr;
 
-	if (!*(sh_strrchr(line->curr->buff, ' ') + 1))
+	if (!*((ptr = find_start_pos(line->curr->buff, line))))
 		stercat(line->curr->buff_tmp, env.bru, line->curr->buff);
-	else if (!ft_occuc(sh_strrchr(line->curr->buff, ' '), '/'))
+	else if (!ft_strchr(ptr, '/'))
 	{
-		chr = sh_strrchr(line->curr->buff, ' ') + 1;
+		chr = ptr;
 		if (sh_strrchr(chr, '$'))
 		{
 			chr = sh_strrchr(chr, '$') + 1;
@@ -61,9 +77,10 @@ static void	get_new_buff(t_tree *tern, t_cpl_e env, t_line *line)
 				ft_strncat(ptr + 1, (char *)&(tern->value), 1);
 				return ;
 			}
-			ft_bzero(line->curr->buff, ft_strlen(line->curr->buff));
-			ft_strcpy(line->curr->buff, env.bru);
-			ft_strncat(line->curr->buff, (char *)&(tern->value), 1);
+			ptr = find_separator(line->curr->buff);
+			ft_bzero(ptr, ft_strlen(ptr));
+			ft_strcpy(ptr, env.bru);
+			ft_strncat(ptr, (char *)&(tern->value), 1);
 		}
 	}
 }

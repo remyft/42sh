@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:40:31 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 03:39:52 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/08 03:37:46 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,50 @@ int			deal_expand(t_line *line, t_tree *tern, t_cpl_e *env,
 	return (lenm);
 }
 
+char		*find_separator(char *buff)
+{
+	int		i;
+
+	i = ft_strlen(buff) - 1;
+	while (i >= 0)
+	{
+		if (ft_strchr(";&| ", buff[i]))
+			return (&buff[i + 1]);
+		i--;
+	}
+	return (buff);
+}
+
+#include "shell_term.h"
+
 int			get_select(t_line *line, t_tree *tern, t_cpl_e *env,
 		t_slct **select)
 {
 	int		lenm;
+	char	*ptr;
 
 	lenm = 0;
 	if ((env->is_dol = have_to_expand(line)))
 		lenm = deal_expand(line, tern, env, select);
 	else if (!(env->ptr = sh_strrchr(line->curr->buff_tmp, ' ')))
 	{
-		env->chr = ft_strdup(line->curr->buff_tmp);
-		lenm = check_select(tern, env, select);
+		ptr = find_separator(line->curr->buff_tmp);
+		env->chr = ft_strdup(ptr);
+		if (*ptr)
+			lenm = check_select(tern, env, select);
+		else
+			get_max_len(tern, &lenm);
 	}
 	else if (*(env->chr = !sh_strchr(env->ptr, '/') ? ft_strdup(env->ptr + 1)
 				: ft_strdup(sh_strrchr(line->curr->buff_tmp, '/') + 1)))
-		lenm = check_select(tern, env, select);
+	{
+		if ((env->ptr = find_separator(env->ptr)))
+			env->chr = ft_strdup(env->ptr);
+		if (!*env->chr)
+			get_max_len(tern, &lenm);
+		else
+			lenm = check_select(tern, env, select);
+	}
 	else
 		get_max_len(tern, &lenm);
 	if (lenm == -1)

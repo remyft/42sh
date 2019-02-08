@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:37:51 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/04 00:38:29 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 04:53:53 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ static int	deal_upper(t_tree *upper, char *src, int *lenm, t_slct **select)
 	{
 		if (!(src[1]))
 			*lenm = upper->max_len > *lenm ? upper->max_len : *lenm;
-		*select = ft_memalloc(sizeof(t_slct));
+		if (!(*select = ft_memalloc(sizeof(t_slct))))
+			return (0);
 		(*select)->mln = upper;
 		if (*(src + 1) && !((*select)->down =
 					select_branch(upper->tern_next, src + 1, lenm)))
@@ -49,7 +50,8 @@ static int	deal_lower(t_tree *lower, char *src, int *lenm, t_slct **select)
 	{
 		if (*select)
 		{
-			(*select)->next = ft_memalloc(sizeof(t_slct));
+			if (!((*select)->next = ft_memalloc(sizeof(t_slct))))
+				return (0);
 			(*select)->next->prev = *select;
 			(*select)->next->mln = lower;
 			if (*(src + 1) && !((*select)->next->down =
@@ -58,7 +60,8 @@ static int	deal_lower(t_tree *lower, char *src, int *lenm, t_slct **select)
 		}
 		else
 		{
-			*select = ft_memalloc(sizeof(t_slct));
+			if (!(*select = ft_memalloc(sizeof(t_slct))))
+				return (0);
 			(*select)->mln = lower;
 			if (*(src + 1) && !((*select)->down =
 						select_branch(lower->tern_next, src + 1, lenm)))

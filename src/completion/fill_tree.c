@@ -6,10 +6,11 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:45:40 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/05 01:08:28 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 06:51:49 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "shell.h"
 #include "put.h"
 #include "ft_printf.h"

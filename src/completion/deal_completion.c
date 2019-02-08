@@ -6,13 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:38:48 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 03:44:13 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 06:36:59 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shell.h"
+#include "libft.h"
 #include "put.h"
 #include "shell_lib.h"
+#include "shell_term.h"
 
 static void	put_cpl_screen(t_line *line, int nb_ret)
 {

@@ -6,13 +6,15 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 17:13:29 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/29 23:22:39 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 06:51:58 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "put.h"
 #include "shell.h"
+#include "libft.h"
 #include "shell_lib.h"
+#include "shell_term.h"
 
 static int	deal_set(t_line *line, char *ptr, DIR *dir)
 {
