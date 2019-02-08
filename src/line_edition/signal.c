@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:50:33 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 06:39:10 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/08 13:12:59 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	sig_winch(int sig)
 	line = get_struct();
 	tgetent(NULL, line->term);
 	line->nb_col = tgetnum("co");
+	line->nb_line = tgetnum("li");
 	line->key = WINCH;
 	if (*line->e_cmpl & COMPLETION)
 	{

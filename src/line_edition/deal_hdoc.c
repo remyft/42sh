@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 10:38:58 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 06:49:27 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/08 16:51:04 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int			deal_hdoc(t_line *line)
 	{
 		free(tmp);
 		return (0);
-	};
+	}
 	if (tmp->cmd && line->hdoc && line->hdoc->cmd
 			&& ft_strcmp(tmp->cmd, line->hdoc->cmd) == 0)
 		return (del_hdoc(line, tmp));
@@ -72,7 +72,7 @@ int			deal_continue(t_line *line)
 			|| *(line->e_cmpl) & WT_HDOC)
 	{
 		if (!(line->curr->next = ft_memalloc(sizeof(t_buff))))
-			return (0);		
+			return (0);
 		line->curr->next->prev = line->curr;
 		line->curr = line->curr->next;
 		line->index = 0;

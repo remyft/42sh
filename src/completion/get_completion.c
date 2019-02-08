@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 03:41:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 03:25:06 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/08 17:01:18 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,31 +53,6 @@ static void	set_new_glob(t_line *line, t_slst *tmp, char *ptr)
 		line->len = ft_strlen(line->curr->buff);
 		line->index = line->len;
 	}
-}
-
-int			check_is_file(char *buff, t_line *line)
-{
-	int		i;
-
-	i = line->len - 1;
-	while (!ft_strchr("&;| ", buff[i]) && i >= 0)
-		i--;
-	while ((buff[i] == ' ' || buff[i] == '\t') && i >= 0)
-		i--;
-	if (i == -1 || ft_strchr(";&|", buff[i]))
-		return (0);
-	return (1);
-}
-
-int			search_to_tmp(char *buff)
-{
-	int		i;
-
-	i = -1;
-	while (buff[++i])
-		if (buff[i] == '~' || buff[i] == '/')
-			return (1);
-	return (0);
 }
 
 void		deal_choose_tree(t_line *line, char *ptr)

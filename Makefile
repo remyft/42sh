@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/02/08 12:02:47 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/02/08 17:01:29 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,6 +79,8 @@ SRCS +=	create_tree.c						\
 		deal_change.c						\
 		color_put.c							\
 		get_completion.c					\
+		deal_put_tool.c						\
+		get_comp_tools.c					\
 
 #TERMCAPS
 TERM_DIR = $(SRCS_DIR)termcaps/
@@ -279,14 +281,16 @@ DIRNAME		=	$$(basename $$(pwd))
 DIRNAMELEN	=	$$(basename $$(pwd) | tr -d '\n' | wc -m )
 MOON		=	$$(echo 🌝)
 CLOCK		=	$$(echo 🕛)
-DELTA		=	$$(echo "$$(tput cols)-$(COL)-$(DIRNAMELEN)-18"|bc)
+DELTA		=	$$(echo "$$(tput cols)-$(COL)-$(DIRNAMELEN)-19"|bc)
 NB			=	$(words $(SRCS))
+MAX			=	$$(echo "$(NB) - 1"|bc)
 INDEX		=	0
 TSITSI = 	$(eval DONE=$(shell echo $$(($(INDEX)*$(COL)/$(NB)))))  \
 	$(eval PERCENT=$(shell echo $$(($(INDEX)*101/$(NB)))))  \
 	$(eval COLOR=$(shell echo $$(($(PERCENT)%35+196))))  \
 	$(eval TO_DO=$(shell echo $$(($(COL)-$(INDEX)*$(COL)/$(NB)))))  \
-	$(eval MOON=$(shell if [ $(MOON) == 🌝 ]; then echo 🌔; \
+	$(eval MOON=$(shell if [ $(INDEX) == $(MAX) ]; then echo 🌞; \
+							elif [ $(MOON) == 🌝 ]; then echo 🌔; \
 							elif [ $(MOON) == 🌔 ]; then echo 🌓; \
 							elif [ $(MOON) == 🌓 ]; then echo 🌒; \
 							elif [ $(MOON) == 🌒 ]; then echo 🌚; \
@@ -294,7 +298,8 @@ TSITSI = 	$(eval DONE=$(shell echo $$(($(INDEX)*$(COL)/$(NB)))))  \
 							elif [ $(MOON) == 🌘 ]; then echo 🌗; \
 							elif [ $(MOON) == 🌗 ]; then echo 🌖; \
 							elif [ $(MOON) == 🌖 ]; then echo 🌝; fi )) \
-	$(eval CLOCK=$(shell if [ $(CLOCK) == 🕛 ]; then echo 🕑; \
+	$(eval CLOCK=$(shell if [ $(INDEX) == $(MAX) ]; then echo 💥; \
+							elif [ $(CLOCK) == 🕛 ]; then echo 🕑; \
 							elif [ $(CLOCK) == 🕑 ]; then echo 🕒; \
 							elif [ $(CLOCK) == 🕒 ]; then echo 🕔; \
 							elif [ $(CLOCK) == 🕔 ]; then echo 🕕; \
@@ -302,7 +307,7 @@ TSITSI = 	$(eval DONE=$(shell echo $$(($(INDEX)*$(COL)/$(NB)))))  \
 							elif [ $(CLOCK) == 🕗 ]; then echo 🕘; \
 							elif [ $(CLOCK) == 🕘 ]; then echo 🕙; \
 							elif [ $(CLOCK) == 🕙 ]; then echo 🕛; fi )) \
-	printf "\r\033[38;5;11m%s  MAKE : %3d%% \033[48;5;%dm%*s\033[0m%*s %s  21sh/%.*s\033[0m\033[K" $(MOON) $(PERCENT) $(COLOR) $(DONE) "" $(TO_DO) "" $(CLOCK) $(DELTA) "$<" \
+	printf "\r\033[38;5;11m%s  MAKE : %3d%% \033[48;5;%dm%*s\033[0m%*s%s  21sh/%.*s\033[0m\033[K" $(MOON) $(PERCENT) $(COLOR) $(DONE) "" $(TO_DO) "" $(CLOCK) $(DELTA) "$<" \
 	$(eval INDEX=$(shell echo $$(($(INDEX)+1)))) \
 
 OK =	$(GREEN)[OK]$(RESET)
@@ -316,7 +321,7 @@ OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 
 DEPS_DIR = .deps/
 DEPS = $(addprefix $(DEPS_DIR), $(SRCS:.c=.d))
-# 🕛 🕑 🕒 🕔 🕕 🕗 🕘 🕙 
+
 all: $(OBJS_DIR) $(DEPS_DIR) $(LIB) $(PRINTF_LIB) $(NAME)
 
 $(OBJS_DIR):

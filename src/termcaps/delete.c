@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:51:36 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 06:52:48 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/08 14:17:14 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void		deal_dleft(t_line *line)
 		*(line->e_cmpl) &= ~COMPLETION;
 		line->curr->buff_tmp[0] = 0;
 		line->curr->buff_tmp[8193] = 0;
+		line->index = line->len;
 	}
 	else
 		del_left(line);

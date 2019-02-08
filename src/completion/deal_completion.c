@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:38:48 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 06:36:59 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/08 16:21:58 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,14 @@
 
 static void	put_cpl_screen(t_line *line, int nb_ret)
 {
-	size_t	j;
-
-	while (nb_ret-- + 1)
-		tputs(tgetstr("up", NULL), 1, ft_pchar);
-	tputs(tgoto(tgetstr("ch", NULL), 0, ft_strlen(line->prompt)), 1, ft_pchar);
-	j = 0;
-	while (j < line->len)
-	{
-		tputs(tgetstr("dc", NULL), 1, ft_pchar);
-		j++;
-	}
-	ft_putstr(line->curr->buff);
 	line->len = ft_strlen(line->curr->buff);
 	line->index = line->len;
+	while (nb_ret-- + 1)
+		tputs(tgetstr("up", NULL), 1, ft_pchar);
+	tputs(tgoto(tgetstr("ch", NULL), 0,
+				(line->index + line->lprompt) % line->nb_col), 1, ft_pchar);
+	go_home(line);
+	ft_putstr(line->curr->buff);
 }
 
 void		deal_complet(t_tree *file, t_line *line)

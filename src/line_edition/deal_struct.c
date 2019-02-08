@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 08:44:05 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 05:13:54 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/08 15:07:28 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void			free_struct(t_line *line)
 		return ;
 	free_all_tree(line);
 	free_buff(line);
-	while (line->hist->prev)
+	while (line->hist && line->hist->prev)
 		line->hist = line->hist->prev;
 	free_hist(line->hist);
 	free(line->e_cmpl);

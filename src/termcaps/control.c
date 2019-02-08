@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 06:52:41 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/08 16:19:12 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,7 @@ void			deal_exit(t_line *line)
 
 static int		ft_cancel(t_line *line)
 {
-	while ((line->index = line->index + line->nb_col) < line->len)
-		tputs(tgetstr("do", NULL), 1, ft_pchar);
-	tputs(tgoto(tgetstr("ch", NULL), 0,
-				(line->len + line->lprompt) % line->nb_col), 1, ft_pchar);
+	go_end(line);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
 	init_new_buff(line);
 	del_all_state(line);
@@ -50,18 +47,20 @@ void			deal_cancel(t_line *line)
 {
 	if (*(line->e_cmpl) & COMPLETION)
 	{
+		line->index = ft_strlen(line->curr->buff_tmp);
+		line->len = line->index;
+		go_home(line);
 		tputs(tgetstr("cr", NULL), 1, ft_pchar);
 		tputs(tgetstr("cd", NULL), 1, ft_pchar);
 		put_prompt(line->prompt);
-		ft_bzero(line->curr->buff, line->len);
+		ft_bzero(line->curr->buff, 8192);
 		ft_strcpy(line->curr->buff, line->curr->buff_tmp);
-		ft_bzero(line->curr->buff_tmp, ft_strlen(line->curr->buff_tmp));
+		ft_bzero(line->curr->buff_tmp, 8193);
 		line->curr->buff_tmp[8193] = 0;
 		ft_putstr(line->curr->buff);
-		line->index = ft_strlen(line->curr->buff);
-		line->len = line->index;
 		deal_reset(line->tree);
 		line->tmp[0] = 3;
+		line->index = line->len;
 	}
 	else
 	{

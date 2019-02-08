@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 20:16:45 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 06:20:08 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/08 16:12:41 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ static void	change_ptr(t_slct *select, char **ptr)
 		get_ptr_tree(select->mln->tern_next, ptr);
 }
 
-#include <stdio.h>
-
 static int	deal_change(t_slct *select, t_tree *tern, t_cpl_e *env)
 {
 	int		tmp;
@@ -74,10 +72,7 @@ static int	deal_change(t_slct *select, t_tree *tern, t_cpl_e *env)
 	{
 		get_nb_slct(select, &tmp);
 		if (tmp == 1)
-		{
-//			ft_putendl("changing");
 			change_ptr(select, &env->ptr);
-		}
 	}
 	else if (tern)
 	{
@@ -98,14 +93,8 @@ void		change_buff(t_slct *select, t_cpl_e *env, t_line *line,
 	tmp = 1;
 	if (!(env->ptr = sh_strrchr(line->curr->buff, '/')))
 		env->ptr = find_start_pos(line->curr->buff, line);
-//	if (env->ptr != line->curr->buff || line->curr->buff[0] == ' ')
-//		env->ptr += 1;
-	if (ft_strchr("&;|/", *env->ptr))
+	if (ft_strchr("&;|/ ", *env->ptr))
 		env->ptr += 1;
 	if (deal_change(select, tern, env))
 		return ;
-	go_home(line);
-	tputs(tgetstr("cr", NULL), 1, ft_pchar);
-	put_prompt(line->prompt);
-	ft_putstr(line->curr->buff);
 }
