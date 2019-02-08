@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 01:23:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/08 02:57:56 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/08 03:13:53 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@ static int		command_pipe(void *cmd, t_s_env *e)
 	int			ret;
 	int			pfd[2];
 
+	pid = 0;
 	if (!((t_pipeline *)cmd)->left || !((t_pipeline *)cmd)->right)
 		return (0);
-	if ((pid = fork()) < 0)
+	if (!e->forked && (pid = fork()) < 0)
 	{
 		ft_dprintf(STDERR_FILENO, "%s: fork failed\n", e->progname);
 		return (1);
 	}
-	else if (pid == 0)
+	if (pid == 0)
 	{
 		if (pipe(pfd) < 0)
 		{
@@ -47,6 +48,7 @@ static int		command_pipe(void *cmd, t_s_env *e)
 
 			ft_memcpy(&newe, e, sizeof(newe));
 			newe.public_env = sh_tabdup((const char **)e->public_env);
+			newe.forked = 1;
 			close(pfd[0]);
 			dup2(pfd[1], STDOUT_FILENO);
 			close(pfd[1]);
@@ -61,6 +63,7 @@ static int		command_pipe(void *cmd, t_s_env *e)
 
 			ft_memcpy(&newe, e, sizeof(newe));
 			newe.public_env = sh_tabdup((const char **)e->public_env);
+			newe.forked = 1;
 			close(pfd[1]);
 			dup2(pfd[0], STDIN_FILENO);
 			close(pfd[0]);

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/31 23:11:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/08 02:30:02 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/08 03:41:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "command_error.h"
 #include "shell_lib.h"
 
-int				command_builtin(f_builtin builtin, t_execute *exec, t_s_env *e)
+int				command_builtin(t_builtin builtin, t_execute *exec, t_s_env *e)
 {
 	int			ret;
 
