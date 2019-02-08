@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 17:13:29 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 06:51:58 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/08 06:25:24 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,11 @@ static int	deal_set(t_line *line, char *ptr, DIR *dir)
 		c = '/';
 	else
 		c = ' ';
-	ft_putchar(line->curr->buff[(line->len)] = c);
-	line->curr->buff[++(line->len)] = '\0';
+//	if (line->tmp[0] != ' ')
+//	{
+		ft_putchar(line->curr->buff[(line->len)] = c);
+		line->curr->buff[++(line->len)] = '\0';
+//	}
 	if (tmp)
 		free(tmp);
 	if (dir)

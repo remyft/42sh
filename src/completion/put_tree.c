@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:34:09 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 03:38:30 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/08 06:19:44 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char		*find_start_pos(char *buff, t_line *line)
 	i = line->len - 1;
 	while (i > 0)
 	{
-		if (ft_strchr("&|; ", buff[i]))
+		if (ft_strchr("&|; /", buff[i]))
 			return (buff + i + 1);
 		i--;
 	}
