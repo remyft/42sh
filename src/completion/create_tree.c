@@ -6,12 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 21:15:52 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/03 23:44:46 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/07 06:49:50 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 #include "put.h"
+#include "libft.h"
 #include "shell_lib.h"
 #include <dirent.h>
 
@@ -69,7 +70,8 @@ t_tree		*create_file_tree(char *path, t_tree *tern)
 		return (NULL);
 	if (!tern)
 	{
-		tern = ft_memalloc(sizeof(t_tree));
+		if (!(tern = ft_memalloc(sizeof(t_tree))))
+			return (NULL);
 		tern->value = -1;
 	}
 	while ((indir = readdir(dir)))
