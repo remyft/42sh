@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 05:00:02 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/29 12:59:45 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/08 02:37:38 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #ifndef DEBUG
 
-void			debug_execution(t_command *cmd)
+void			command_debug(t_command *cmd)
 {
 	(void)cmd;
 }
@@ -35,11 +35,17 @@ static void		print_args(t_argument **arg, int id)
 	}
 }
 
-void			debug_execution(t_command *cmd)
+void			command_debug(t_command *cmd)
 {
 	t_redirection	*red;
 	t_argument		*arg;
 
+	if (cmd->type == IS_A_PIPE)
+	{
+		command_debug(((t_pipeline *)cmd)->left);
+		command_debug(((t_pipeline *)cmd)->right);
+		return ;
+	}
 	printf("\nEXECUTION-----------------------\n");
 	arg = cmd->args;
 	printf("Variables:\n");

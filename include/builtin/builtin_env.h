@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 18:54:19 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/07 01:17:41 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/07 23:56:37 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ enum
 	ERR_NEED_ARG,
 	ERR_NOT_FOUND,
 	ERR_WRITE,
+	ERR_FORK,
 };
 
 # define MALLOC_STR				"not enought memory"
@@ -36,6 +37,7 @@ enum
 # define NEED_ARG_STR			"option requires an argument"
 # define NOT_FOUND_STR			"No such file or directory"
 # define WRITE_STR				"write error: Bad file descriptor"
+# define FORK_STR				"forking failed"
 
 /*
 **Builtins options values
@@ -84,7 +86,7 @@ int				env_opt_u(size_t *i, size_t *j, char **cmd, t_e_opt *opt);
 
 int				env_exec(t_execute *exec, size_t i, t_e_opt *opt, t_s_env *e);
 
-int				env_error(int err, char *c, t_e_opt *opt);
+int				env_error(int err, char *c, t_e_opt *opt, t_s_env *e);
 
 void			env_free_opt(t_e_opt *opt);
 

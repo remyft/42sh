@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/02/07 09:30:43 by rfontain         ###   ########.fr        #
+#    Updated: 2019/02/08 04:13:18 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -148,7 +148,7 @@ SRCS += command_access.c					\
 		command_check.c						\
 		command_debug.c						\
 		command_error.c						\
-		command_fork.c						\
+		command_system.c					\
 		command_free.c						\
 		command_group.c						\
 		command_list.c						\

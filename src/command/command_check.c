@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:02:57 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/03 19:34:34 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/08 01:23:54 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,5 @@ int				command_check(t_execute *exec, t_s_env *e)
 			return (command_builtin(builtins[i].handler, exec, e));
 		i++;
 	}
-	return (command_fork(exec, e));
+	return (command_system(exec, e));
 }

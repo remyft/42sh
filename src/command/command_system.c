@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_fork.c                                     :+:      :+:    :+:   */
+/*   command_system.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/07 06:44:42 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/08 04:13:09 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 
 static void		command_execve(char *name, t_execute *exec)
 {
-	ft_printf("executing %s\n", name);
 	execve(name, exec->cmd, exec->env);
 	exit(EXIT_FAILURE);
 }
@@ -33,30 +32,28 @@ static int		command_wait(pid_t pid, t_s_env *e)
 	return (e->ret);
 }
 
-static void		command_ret(char *name, t_execute *exec, t_s_env *e)
+static void		command_cleanup(char *name, t_execute *exec, t_s_env *e)
 {
 	ft_strdel(&name);
 	command_restore_fds(exec->fds);
-	define_new_term(&e->save);
 	command_free(exec, e->public_env, NULL);
 }
 
-int				command_fork(t_execute *exec, t_s_env *e)
+int				command_system(t_execute *exec, t_s_env *e)
 {
 	char		*name;
 	pid_t		pid;
 	int			error;
 
 	name = NULL;
-	term_restore(e->save);
 	if ((error = command_path(&name, exec->cmd[0],
 				sh_getnenv("PATH", exec->env))) != ERR_OK_VAL)
 		error = command_error(e->progname, error, exec->cmd);
-	else if ((error = command_access(name, exec->cmd[0][0] == '/')) != ERR_OK_VAL)
+	else if ((error = command_access(name, **exec->cmd == '/')) != ERR_OK_VAL)
 		error = command_error(e->progname, error, exec->cmd);
 	else if (!command_redirect(exec->fds, exec->redirection, e))
 	{
-		ft_printf("IS FORKED %d\n", e->forked);
+		pid = 0;
 		if (e->forked || (pid = fork()) == 0)
 			command_execve(name, exec);
 		else if (pid > 0)
@@ -64,6 +61,6 @@ int				command_fork(t_execute *exec, t_s_env *e)
 		else if (pid < 0)
 			error = command_error(e->progname, ERR_FORK_VAL, exec->cmd);
 	}
-	command_ret(name, exec, e);
+	command_cleanup(name, exec, e);
 	return ((e->ret = error));
 }

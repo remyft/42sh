@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 00:38:00 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/07 00:15:18 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/07 22:03:31 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static size_t	max(size_t a, size_t b)
 	return ((a > b) ? a : b);
 }
 
-size_t		check_operator(t_token *token, size_t len)
+size_t			check_operator(t_token *token, size_t len)
 {
 	static t_ope	ope[] = {
 		OP_OR_IF, OP_PIPE, OP_PIPE_AND, OP_NOT, OP_AND_IF, OP_BACKGRND, OP_SEMI,
