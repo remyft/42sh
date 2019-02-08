@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/02/07 03:54:36 by rfontain         ###   ########.fr        #
+#    Updated: 2019/02/07 09:30:43 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -299,7 +299,7 @@ $(PRINTF_LIB):
 $(NAME): $(NEWLINE) $(OBJS) $(LIB)
 	@$(CC) $(DEBUG) $^ -o $@ $(LIB_LINK) $(PRINTF_LINK)
 	@echo ""
-	@echo $(GREY)" Compilling" $(RESET) [ $(NAME) ] $(OK)
+	@echo $(GREY)" Compiling" $(RESET) [ $(NAME) ] $(OK)
 
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
