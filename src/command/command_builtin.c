@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/31 23:11:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/08 03:41:39 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/09 07:52:00 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,7 @@ int				command_builtin(t_builtin builtin, t_execute *exec, t_s_env *e)
 		ret = builtin(exec, e);
 	command_restore_fds(exec->fds);
 	command_free(exec, e->public_env, NULL);
+	if (e->forked)
+		exit(ret);
 	return (ret);
 }

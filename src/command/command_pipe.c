@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/09 06:58:04 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/09 07:08:11 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/09 07:53:24 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ static int		command_pipe_father(pid_t pid, int pfd[2], void *cmd, t_s_env *e)
 	dup2(pfd[1], STDOUT_FILENO);
 	close(pfd[1]);
 	ret = command_parse(cmd, &newe);
-	sh_freetab(&newe.public_env);
 	waitpid(pid, &ret, 0);
+	sh_freetab(&newe.public_env);
 	exit(ret);
 }
 
