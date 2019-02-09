@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 06:26:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/07 22:28:07 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/09 07:30:40 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,6 @@
 #include "ft_dprintf.h"
 #include "command.h"
 #include "shell_env.h"
-
-static int		echo_strlen(const char *str)
-{
-	int			i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
 
 static int		echo_error(t_s_env *e)
 {
@@ -51,11 +41,11 @@ int				builtin_echo(t_execute *exec, t_s_env *e)
 		i++;
 	}
 	while (exec->cmd[i])
-		if (write(STDOUT_FILENO, exec->cmd[i], echo_strlen(exec->cmd[i])) < 0)
+		if (ft_dprintf(STDOUT_FILENO, "%s", exec->cmd[i]) < 0)
 			return (echo_error(e));
-		else if (exec->cmd[++i] && write(STDOUT_FILENO, " ", 1) < 0)
+		else if (exec->cmd[++i] && ft_dprintf(STDOUT_FILENO, " ") < 0)
 			return (echo_error(e));
-	if (!n && write(STDOUT_FILENO, "\n", 1) < 0)
+	if (!n && ft_dprintf(STDOUT_FILENO, "\n") < 0)
 		return (echo_error(e));
 	return (0);
 }
