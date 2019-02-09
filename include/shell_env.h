@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/08 05:49:43 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/09 10:47:24 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct	s_shell_env
 	struct termios	save;
 	int				shell_loop;
 	int				forked;
+	int				last_pipe;
 }				t_s_env;
 
 void			init_shell_env(t_s_env *e, int ac, char **av, char **env);
