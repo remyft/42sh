@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/09 06:58:04 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/09 07:53:24 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/09 09:59:19 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int		command_pipe_error(const char *err, t_s_env *e)
 	return (1);
 }
 
-static int		command_pipe_father(pid_t pid, int pfd[2], void *cmd, t_s_env *e)
+static int		command_pipe_father(int pfd[2], void *cmd, t_s_env *e)
 {
 	t_s_env		newe;
 	int			ret;
@@ -36,7 +36,6 @@ static int		command_pipe_father(pid_t pid, int pfd[2], void *cmd, t_s_env *e)
 	dup2(pfd[1], STDOUT_FILENO);
 	close(pfd[1]);
 	ret = command_parse(cmd, &newe);
-	waitpid(pid, &ret, 0);
 	sh_freetab(&newe.public_env);
 	exit(ret);
 }
@@ -75,7 +74,7 @@ int				command_pipe(void *cmd, t_s_env *e)
 		if ((pid = fork()) < 0)
 			command_pipe_error("fork", e);
 		else if (pid > 0)
-			command_pipe_father(pid, pfd, ((t_pipeline *)cmd)->left, e);
+			command_pipe_father(pfd, ((t_pipeline *)cmd)->left, e);
 		else
 			command_pipe_child(pfd, ((t_pipeline *)cmd)->right, e);
 	}
