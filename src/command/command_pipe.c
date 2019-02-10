@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/09 06:58:04 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/09 20:41:00 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/10 17:32:27 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,115 +25,89 @@ static int		command_pipe_error(const char *err, t_s_env *e)
 	return (1);
 }
 
-static int		command_pipe_father(pid_t pid, int pfd[2], void *cmd, t_s_env *e)
+static int		command_pipe_father(void *cmd, t_s_env *e, t_pipe *p, pid_t pid)
 {
 	t_s_env		newe;
-	int			ret;
 
 	ft_memcpy(&newe, e, sizeof(newe));
 	newe.public_env = sh_tabdup((const char **)e->public_env);
 	newe.forked = 1;
-	close(pfd[0]);
-	dup2(pfd[1], STDOUT_FILENO);
-	close(pfd[1]);
-	ret = command_parse(((t_pipeline *)cmd)->left, &newe);
+	close(p->pfd[0]);
+	dup2(p->pfd[1], STDOUT_FILENO);
+	close(p->pfd[1]);
+	command_parse(((t_pipeline *)cmd)->left, &newe);
 	sh_freetab(&newe.public_env);
 	close(STDOUT_FILENO);
-	// waitpid(pid, &e->ret, 0);
-	(void)pid;
-	exit(e->ret);
+	waitpid(pid, &p->ret, 0);
+	exit(p->ret);
 }
 
-static int		command_pipe_child(void *cmd, t_s_env *e, int pfd[2])
+static int		command_pipe_child(void *cmd, t_s_env *e, t_pipe *p)
 {
 	t_s_env		newe;
-	int			ret;
 
 	ft_memcpy(&newe, e, sizeof(newe));
 	newe.public_env = sh_tabdup((const char **)e->public_env);
 	newe.forked = 1;
-	close(pfd[1]);
-	dup2(pfd[0], STDIN_FILENO);
-	close(pfd[0]);
-	ret = command_parse(((t_pipeline *)cmd)->right, &newe);
+	close(p->pfd[1]);
+	dup2(p->pfd[0], STDIN_FILENO);
+	close(p->pfd[0]);
+	p->ret = command_parse(((t_pipeline *)cmd)->right, &newe);
 	sh_freetab(&newe.public_env);
-	exit(ret);
+	exit(p->ret);
 }
 
-static int		command_pipeception(void *cmd, t_s_env *e, int pfc[2])
+static int		command_pipeception(void *cmd, t_s_env *e, t_pipe *p)
 {
 	pid_t		pid;
-	// pid_t		pic;
-	int			pfd[2];
 
-	pid = 0;
-		close(pfc[0]);
-		dup2(pfc[1], STDOUT_FILENO);
-		close(pfc[1]);
+	close(p->pfd[1]);
+	dup2(p->pfd[0], STDIN_FILENO);
+	close(p->pfd[0]);
 	if ((pid = fork()) < 0)
 		return (command_pipe_error("fork", e));
 	else if (pid == 0)
 	{
-		close(pfc[0]);
-		dup2(pfc[1], STDOUT_FILENO);
-		close(pfc[1]);
-		if (pipe(pfd) < 0)
+		if (pipe(p->pfd) < 0)
 			command_pipe_error("pipe", e);
-		if (*(int *)((t_pipeline *)cmd)->right == IS_A_PIPE)
-			command_pipeception(((t_pipeline *)cmd)->right, e, pfd);
-		else if ((pid = fork()) == 0)
-			command_pipe_child(cmd, e, pfd);
-		if (pid > 0)
-			command_pipe_father(pid, pfd, cmd, e);
-		command_pipe_error("fork", e);
+		if ((pid = fork()) == 0)
+		{
+			if (*(int *)((t_pipeline *)cmd)->right == IS_A_PIPE)
+				command_pipeception(((t_pipeline *)cmd)->right, e, p);
+			command_pipe_child(cmd, e, p);
+		}
+		else if (pid < 0)
+			command_pipe_error("fork", e);
+		command_pipe_father(cmd, e, p, pid);
 	}
-	else
-		waitpid(pid, &e->ret, 0);
-	(void)pfc;
-	// if (pipe(pfd) < 0)
-	// 	command_pipe_error("pipe", e);
-	// // else if ((pid = fork()) < 0)
-	// // 	return (command_pipe_error("fork", e));
-	// // else if (pid == 0)
-	// if ((pid = fork()) == 0)
-	// 	command_pipe_child(cmd, e, pfd);
-	// else if (pid > 0)
-	// {
-	// 	command_pipe_father(pid, pfd, cmd, e);
-	// }
-	exit(e->ret);
+	waitpid(pid, &p->ret, 0);
+	exit(p->ret);
 }
 
 int				command_pipe(void *cmd, t_s_env *e)
 {
 	pid_t		pid;
-	int			pfd[2];
+	t_pipe		p;
 
-	pid = 0;
+	ft_memset(&p, 0, sizeof(p));
 	if ((pid = fork()) < 0)
 		return (command_pipe_error("fork", e));
 	else if (pid == 0)
 	{
-		if (pipe(pfd) < 0)
+		e->forked = 1;
+		if (pipe(p.pfd) < 0)
 			command_pipe_error("pipe", e);
-		if (*(int *)((t_pipeline *)cmd)->right == IS_A_PIPE)
-			command_pipeception(((t_pipeline *)cmd)->right, e, pfd);
-		else if ((pid = fork()) == 0)
-			command_pipe_child(cmd, e, pfd);
-		if (pid > 0)
-			command_pipe_father(pid, pfd, cmd, e);
-		command_pipe_error("fork", e);
+		if ((pid = fork()) == 0)
+		{
+			if (*(int *)((t_pipeline *)cmd)->right == IS_A_PIPE)
+				command_pipeception(((t_pipeline *)cmd)->right, e, &p);
+			command_pipe_child(cmd, e, &p);
+		}
+		else if (pid < 0)
+			command_pipe_error("fork", e);
+		command_pipe_father(cmd, e, &p, pid);
 	}
-	else
-		waitpid(pid, &e->ret, 0);
-	ft_dprintf(1,"ret:%d\n",e->ret);
+	waitpid(pid, &p.ret, 0);
+	// ft_dprintf(2,"ret:%d\n",p.ret);
 	return (0);
-	// if ((pic = fork()) < 0)
-	// 	return (command_pipe_error("fork", e));
-	// else if (pic == 0)
-	// 	command_pipe_father(pid, pfd, cmd, e);
-	// else
-	// 	waitpid(pic, &e->ret, 0);
-	// ft_dprintf(1,"ret:%d\n",e->ret);
-	// return (0);
 }
