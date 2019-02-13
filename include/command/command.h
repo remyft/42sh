@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:17:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/10 17:06:58 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/13 08:19:04 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,6 @@
 
 # include "parser.h"
 # include "shell_env.h"
-
-typedef struct	s_pipe
-{
-//	pid_t		pid;
-	int			pfd[2];
-	int			ret;
-}				t_pipe;
 
 typedef struct	s_execute
 {
