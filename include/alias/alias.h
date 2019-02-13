@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 05:27:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/08 05:34:54 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/13 00:34:19 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ typedef struct	s_alias
 	struct s_alias	*prev;
 }				t_alias;
 
-t_token				*alias_get(t_token *token, t_alias *alias);
+t_token			*alias_get(t_token *token, t_alias *alias);
 
 #endif
