@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/13 00:29:15 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/15 06:24:42 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define SHELL_ENV_H
 
 # include <term.h>
-# include "alias.h"
 
 # define IFS_SEPARATORS		" \t\n"
 
@@ -26,7 +25,7 @@ typedef struct	s_shell_env
 	char			*progname;
 	char			**public_env;
 	char			**private_env;
-	t_alias			*alias_list;
+	void			*alias_list;
 	int				ret;
 	int				pid;
 	struct termios	save;
