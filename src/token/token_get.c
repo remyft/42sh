@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/08 05:16:06 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/15 06:18:31 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,11 @@ t_token			*token_loop(t_param *param, int (*ft_end)(t_param *))
 	return (check_head(head));
 }
 
-t_token			*tokenise(const char *buff)
+t_token			*tokenise(const char *buff, t_s_env *e)
 {
 	t_param		param;
 
+	param.e = e;
 	param.token = new_token(buff, 0);
 	param.buff = buff;
 	param.i = 0;

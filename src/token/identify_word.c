@@ -6,25 +6,26 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 22:30:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/13 00:32:56 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/15 06:30:57 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+#include "alias.h"
 #include "grammar_rules.h"
 #include "reserved_words.h"
-#include "libft.h"
 
-static int		ionumber_type(t_param *param)
+static int		ionumber_type(t_token *token)
 {
 	size_t		i;
 
 	i = 0;
-	while (i < param->token->len && ft_isdigit(param->token->head[i]))
+	while (i < token->len && ft_isdigit(token->head[i]))
 		i++;
-	return ((i == param->token->len) ? IO_NUMBER : WORD);
+	return ((i == token->len) ? IO_NUMBER : WORD);
 }
 
-static int		reserved_type(t_param *param)
+static int		reserved_type(t_token *token)
 {
 	static t_ope	reserve[] = {
 		TOKEN_IF, TOKEN_THEN, TOKEN_ELSE, TOKEN_ELIF, TOKEN_FI, TOKEN_DO,
@@ -36,25 +37,38 @@ static int		reserved_type(t_param *param)
 	i = 0;
 	while (i < sizeof(reserve) / sizeof(reserve[0]))
 	{
-		if ((len = ft_strlen(reserve[i].name)) < param->token->len)
-			len = param->token->len;
-		if (!ft_strncmp(reserve[i].name, param->token->head, len))
+		if ((len = ft_strlen(reserve[i].name)) < token->len)
+			len = token->len;
+		if (!ft_strncmp(reserve[i].name, token->head, len))
 			return (RESERVED_WORD);
 		i++;
 	}
 	return (WORD);
 }
 
-static int		name(t_param *param)
+static int		name_type(t_token *token)
 {
 	size_t		i;
 
 	i = 0;
-	if (ft_isdigit(param->token->head[i]))
+	if (ft_isdigit(token->head[i]))
 		return (WORD);
-	while (i < param->token->len && ft_isname(param->token->head[i]))
+	while (i < token->len && ft_isname(token->head[i]))
 		i++;
-	return ((i == param->token->len) ? NAME : WORD);
+	return ((i == token->len) ? NAME : WORD);
+}
+
+static int		is_valid_alias_name(t_token *token)
+{
+	size_t		i;
+
+	i = 0;
+	while (i < token->len)
+		if (token->head[i] != '_' && !ft_isalnum(token->head[i]))
+			return (0);
+		else
+			i++;
+	return (1);
 }
 
 t_token			*identify_word(t_param *param)
@@ -65,12 +79,17 @@ t_token			*identify_word(t_param *param)
 	else if (param->token->id == COMMENT)
 		return (param->token);
 	else if (param->token->id == WORD
-			&& (param->token->id = reserved_type(param)) == WORD)
+			&& (param->token->id = reserved_type(param->token)) == WORD)
 	{
 		if (param->buff[param->i] == '<' || param->buff[param->i] == '>')
-			param->token->id = ionumber_type(param);
+			param->token->id = ionumber_type(param->token);
 		else
-			param->token->id = name(param);
+			param->token->id = name_type(param->token);
+		if ((!param->token->prev || param->token->prev->type == OPERATOR)
+		&& is_valid_alias_name(param->token))
+			param->token->alias = alias_get(param->token->head,
+											param->token->len,
+											param->e->alias_list);
 	}
 	param->token->next = new_token(param->buff, param->i);
 	param->token->next->prev = param->token;

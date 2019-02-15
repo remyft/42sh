@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/08 05:17:53 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/15 06:26:05 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <stdio.h>
+# include "shell_env.h"
 
 # define NULLTOKEN	(t_token *)0
 
@@ -66,6 +67,7 @@ typedef struct	s_token
 	size_t			depth;
 	int				type;
 	int				id;
+	const char		*alias;
 	struct s_token	*prev;
 }				t_token;
 
@@ -76,6 +78,7 @@ typedef struct	s_token
 
 typedef struct	s_param
 {
+	t_s_env		*e;
 	t_token		*token;
 	const char	*buff;
 	size_t		i;
@@ -133,7 +136,7 @@ typedef struct	s_func
 /*
 ** Functions
 */
-t_token			*tokenise(const char *buff);
+t_token			*tokenise(const char *buff, t_s_env *e);
 t_token			*token_loop(t_param *param, int (*ft_end)(t_param *));
 t_token			*new_token(const char *buff, size_t pos);
 

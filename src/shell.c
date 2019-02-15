@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 05:50:02 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/15 06:22:11 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,9 @@ void		launch_new_cmd(char **line, t_s_env *e)
 	tree = NULLLIST;
 	*line = ft_strjoinfree(*line, "\n", 1);
 	remove_line_continuation(*line);
-	if ((tokens = tokenise(*line)) != NULLTOKEN)
+	if ((tokens = tokenise(*line, e)) != NULLTOKEN)
 	{
-		tokens = alias_get(tokens, e->alias_list);
-		if ((tree = parse(tokens)) != NULLLIST)
+		if ((tree = parse(tokens, e)) != NULLLIST)
 		{
 			e->ret = execute_list(tree, e);
 			free_m_list(&tree);
