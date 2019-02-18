@@ -6,12 +6,17 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/20 20:42:12 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/15 02:42:57 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/17 19:47:38 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parser.h"
+
+// static int	parse_operator_args(t_token **token, t_p_param *param, t_s_env *e)
+// {
+
+// }
 
 int			parse_operator(t_token **token, t_p_param *param, t_s_env *e)
 {
