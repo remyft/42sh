@@ -6,12 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 22:30:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/15 06:30:57 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/17 23:28:50 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "alias.h"
+#include "builtin_alias.h"
 #include "grammar_rules.h"
 #include "reserved_words.h"
 
@@ -58,19 +58,6 @@ static int		name_type(t_token *token)
 	return ((i == token->len) ? NAME : WORD);
 }
 
-static int		is_valid_alias_name(t_token *token)
-{
-	size_t		i;
-
-	i = 0;
-	while (i < token->len)
-		if (token->head[i] != '_' && !ft_isalnum(token->head[i]))
-			return (0);
-		else
-			i++;
-	return (1);
-}
-
 t_token			*identify_word(t_param *param)
 {
 	param->token->len = (param->buff + param->i) - param->token->head;
@@ -85,11 +72,7 @@ t_token			*identify_word(t_param *param)
 			param->token->id = ionumber_type(param->token);
 		else
 			param->token->id = name_type(param->token);
-		if ((!param->token->prev || param->token->prev->type == OPERATOR)
-		&& is_valid_alias_name(param->token))
-			param->token->alias = alias_get(param->token->head,
-											param->token->len,
-											param->e->alias_list);
+		param->token = handle_alias(param, param->e);
 	}
 	param->token->next = new_token(param->buff, param->i);
 	param->token->next->prev = param->token;

@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   alias_get.c                                        :+:      :+:    :+:   */
+/*   builtin_alias.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/08 05:26:06 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/15 06:30:42 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/02/08 05:27:28 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/02/17 22:11:42 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include "libft.h"
-#include "alias.h"
+#ifndef BUILTIN_ALIAS_H
+# define BUILTIN_ALIAS_H
 
-const char			*alias_get(const char *str, size_t len, t_alias *alias)
-{
-	if (!str || !alias || len == 0)
-		return (NULL);
-	while (alias->next)
-	{
-		if (!ft_strncmp(str, alias->key, len))
-			return (alias->value);
-		alias = alias->next;
-	}
-	return (NULL);
-}
+# include "shell_env.h"
+
+int					alias_set(char *key_value, t_alias **alias);
+int					alias_set_value(char *value, t_alias *alias);
+t_alias				*alias_new(char *key, char *value, t_alias *alias);
+
+t_alias				*alias_get(const char *str, size_t len, t_alias *alias);
+
+#endif

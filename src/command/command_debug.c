@@ -6,11 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 05:00:02 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/15 01:27:33 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/17 16:39:30 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command.h"
+#include "ft_dprintf.h"
 
 #ifndef DEBUG
 
@@ -20,8 +21,6 @@ void			command_debug(t_command *cmd)
 }
 
 #else
-
-#include "ft_dprintf.h"
 
 static void		print_args(t_argument **arg, int id)
 {

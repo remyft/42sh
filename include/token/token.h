@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/15 06:26:05 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/17 23:23:43 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ typedef struct	s_token
 	size_t			depth;
 	int				type;
 	int				id;
-	const char		*alias;
 	struct s_token	*prev;
 }				t_token;
 
@@ -79,6 +78,7 @@ typedef struct	s_token
 typedef struct	s_param
 {
 	t_s_env		*e;
+	t_token		*head;
 	t_token		*token;
 	const char	*buff;
 	size_t		i;
@@ -139,22 +139,23 @@ typedef struct	s_func
 t_token			*tokenise(const char *buff, t_s_env *e);
 t_token			*token_loop(t_param *param, int (*ft_end)(t_param *));
 t_token			*new_token(const char *buff, size_t pos);
+void			free_token(t_token **token);
 
-t_token			*handle_end_of_input(t_param *param, t_call *token);
-t_token			*handle_quote(t_param *param, t_call *token);
+t_token			*handle_alias(t_param *param, t_s_env *e);
 t_token			*handle_command(t_param *param, t_call *token);
-t_token			*handle_subs(t_param *param, t_call *token);
 t_token			*handle_comment(t_param *param, t_call *tokens);
-t_token			*handle_newline(t_param *param, t_call *token);
 t_token			*handle_equal(t_param *param, t_call *token);
+t_token			*handle_end_of_input(t_param *param, t_call *token);
 t_token			*handle_minus(t_param *param, t_call *token);
+t_token			*handle_newline(t_param *param, t_call *token);
 t_token			*handle_operator(t_param *param, t_call *token);
+t_token			*handle_quote(t_param *param, t_call *token);
+t_token			*handle_subs(t_param *param, t_call *token);
 t_token			*handle_word(t_param *param, t_call *token);
 
+size_t			check_operator(t_token *token, size_t len);
 t_token			*identify_operator(t_param *param);
 t_token			*identify_word(t_param *param);
-
-size_t			check_operator(t_token *token, size_t len);
 
 char			*expand_word(t_token *token);
 
@@ -183,7 +184,6 @@ int				ft_isspecialend(t_param *param);
 int				ft_iscommand(int c);
 int				ft_isvalidname(t_param *param);
 
-void			free_token(t_token **token);
-
 void			debug_tokens(t_token *tokens);
+
 #endif
