@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/02/19 01:31:09 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/02/19 03:14:14 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -118,10 +118,11 @@ SRCS += expand_word.c						\
 		handle_word.c						\
 		identify_operator.c					\
 		identify_word.c						\
+		is_alias_valid_name.c				\
 		is_subs_next.c						\
 		is_subs.c							\
 		is_token_next.c						\
-		is_token_validname.c				\
+		is_token_valid_name.c				\
 		is_token.c							\
 		remove_line_continuation.c			\
 		token_debug.c						\
@@ -222,7 +223,8 @@ SRCS += redirect_and_dgreat.c				\
 
 # BUILTINS
 BUILTIN_DIR = builtin/
-SRCS += builtin_alias_get.c					\
+SRCS += builtin_alias_error.c				\
+		builtin_alias_get.c					\
 		builtin_alias_new.c					\
 		builtin_alias_set_value.c			\
 		builtin_alias_set.c					\
