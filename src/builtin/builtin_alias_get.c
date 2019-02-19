@@ -6,12 +6,22 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 05:26:06 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/17 22:16:47 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/19 01:59:51 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "builtin_alias.h"
+
+static int		alias_strncmp(const char *s1, const char *s2, size_t len)
+{
+	size_t		i;
+
+	i = 0;
+	while (i < len && s1[i] == s2[i])
+		i++;
+	return (!(i == len && s2[i] == '\0'));
+}
 
 t_alias			*alias_get(const char *str, size_t len, t_alias *alias)
 {
@@ -19,7 +29,7 @@ t_alias			*alias_get(const char *str, size_t len, t_alias *alias)
 		return (NULLALIAS);
 	while (alias)
 	{
-		if (!ft_strncmp(str, alias->key, len) && !alias->in_use)
+		if (!alias->in_use && !alias_strncmp(str, alias->key, len))
 			return (alias);
 		alias = alias->next;
 	}
