@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 22:30:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/17 23:28:50 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/19 03:32:14 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,20 +51,21 @@ static int		name_type(t_token *token)
 	size_t		i;
 
 	i = 0;
-	if (ft_isdigit(token->head[i]))
+	if (ft_isdigit(token->head[0]))
 		return (WORD);
-	while (i < token->len && ft_isname(token->head[i]))
-		i++;
-	return ((i == token->len) ? NAME : WORD);
+	while (i < token->len)
+		if (ft_isname(token->head[i++]))
+			return (WORD);
+	return (NAME);
 }
 
 t_token			*identify_word(t_param *param)
 {
 	param->token->len = (param->buff + param->i) - param->token->head;
+	if (param->token->id == COMMENT)
+		return (param->token);
 	if (ft_isquote(*param->token->head))
 		param->token->id = WORD;
-	else if (param->token->id == COMMENT)
-		return (param->token);
 	else if (param->token->id == WORD
 			&& (param->token->id = reserved_type(param->token)) == WORD)
 	{

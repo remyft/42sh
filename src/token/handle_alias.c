@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 21:08:51 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/17 23:47:07 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/19 03:38:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,9 @@
 #include "operator_types.h"
 #include "builtin_alias.h"
 
-static int		is_command_token(t_token *token)
+static int		is_token_a_command(t_token *token)
 {
 	return (token->type == OPERATOR && token->id < LESS_VALUE);
-}
-
-static int		is_valid_alias_name(t_token *token)
-{
-	size_t		i;
-
-	i = 0;
-	while (i < token->len)
-		if (token->head[i] != '_' && !ft_isalnum(token->head[i]))
-			return (0);
-		else
-			i++;
-	return (1);
 }
 
 t_token			*handle_alias(t_param *param, t_s_env *e)
@@ -39,8 +26,8 @@ t_token			*handle_alias(t_param *param, t_s_env *e)
 	t_alias		*alias;
 	t_token		*save;
 
-	if (param->token->prev && (!is_command_token(param->token->prev)
-	|| !is_valid_alias_name(param->token)))
+	if (param->token->prev && (!is_token_a_command(param->token->prev)
+	|| !is_alias_valid_name(param->token->head, param->token->len)))
 		return (param->token);
 	alias = alias_get(param->token->head, param->token->len, e->alias_list);
 	if (!alias)
