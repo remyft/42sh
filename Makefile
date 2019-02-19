@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/02/17 21:59:44 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/02/19 01:31:09 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,8 @@ DEPS_DIR = .deps/
 DEPS = $(addprefix $(DEPS_DIR), $(SRCS:.c=.d))
 
 RM = /bin/rm -rf
+
+SHELL := /bin/bash
 
 # SHELL
 SRCS_DIR = src/
@@ -243,6 +245,7 @@ SRCS += builtin_alias_get.c					\
 		builtin_env.c						\
 		builtin_exit.c						\
 		builtin_setenv.c					\
+		builtin_unalias.c					\
 		builtin_unsetenv.c					\
 
 # LIBRARY
