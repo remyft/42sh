@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 05:26:06 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/19 02:42:05 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/19 03:43:17 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ t_alias			*alias_get(const char *str, size_t len, t_alias *alias)
 		return (NULLALIAS);
 	while (alias)
 	{
-		printf("ALIAS %s=%s in use:%d cmp: %.*s == %s %ld\n",alias->key,alias->value,alias->in_use,(int)len,str,alias->key, len);
 		if (!alias->in_use && !alias_strncmp(str, alias->key, len))
 			return (alias);
 		alias = alias->next;
