@@ -6,13 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/15 23:01:04 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/17 04:29:38 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/19 03:12:35 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "shell_env.h"
 #include "builtin_alias.h"
+#include "token.h"
 
 static int		alias_set_key_value(char *key, char *value, t_alias **alias)
 {
@@ -51,5 +52,7 @@ int				alias_set(char *key, t_alias **alias)
 			return (alias_set_value(value, ptr));
 		ptr = ptr->next;
 	}
+	if (!is_alias_valid_name(key, ft_strlen(key)))
+		return (ERR_INVALID_KEY);
 	return (alias_set_key_value(key, value, alias));
 }
