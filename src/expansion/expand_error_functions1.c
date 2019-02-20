@@ -6,55 +6,42 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 22:09:04 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/16 00:51:23 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/15 05:07:04 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <unistd.h>
+#include "ft_dprintf.h"
 #include "expansion.h"
 #include "expansion_errors.h"
 
 void			err_none_func(const char *progname, t_ret *ret)
 {
 	(void)ret;
-	ft_putstr_fd(progname, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd(ERR_NONE_STR, STDERR_FILENO);
-	ft_putchar_fd('\n', STDERR_FILENO);
+	ft_dprintf(STDERR_FILENO, "%s: %s\n", progname, ERR_NONE_STR);
 }
 
 void			err_syntax_func(const char *progname, t_ret *ret)
 {
 	(void)ret;
-	ft_putstr_fd(progname, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd(ERR_SYNTAX_STR, STDERR_FILENO);
-	ft_putchar_fd('\n', STDERR_FILENO);
+	ft_dprintf(STDERR_FILENO, "%s: %s\n", progname, ERR_SYNTAX_STR);
 }
 
 void			err_modifier_func(const char *progname, t_ret *ret)
 {
 	(void)ret;
-	ft_putstr_fd(progname, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd(ERR_MODIFIER_STR, STDERR_FILENO);
-	ft_putchar_fd('\n', STDERR_FILENO);
+	ft_dprintf(STDERR_FILENO, "%s: %s\n", progname, ERR_MODIFIER_STR);
 }
 
 void			err_unhandled_func(const char *progname, t_ret *ret)
 {
 	(void)ret;
-	ft_putstr_fd(progname, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd(ERR_UNHANDLED_STR, STDERR_FILENO);
-	ft_putchar_fd('\n', STDERR_FILENO);
+	ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", progname,
+		ret ? ret->word : "", ERR_UNHANDLED_STR);
 }
 
 void			err_malloc_func(const char *progname, t_ret *ret)
 {
 	(void)ret;
-	ft_putstr_fd(progname, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd(ERR_MALLOC_STR, STDERR_FILENO);
-	ft_putchar_fd('\n', STDERR_FILENO);
+	ft_dprintf(STDERR_FILENO, "%s: %s\n", progname, ERR_MALLOC_STR);
 }

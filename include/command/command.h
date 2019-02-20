@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:17:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/08 03:41:26 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/13 08:19:04 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef int		(*t_builtin)(t_execute *, t_s_env *);
 int				execute_list(t_m_list *list, t_s_env *e);
 void			command_execute(t_execute *exec, t_s_env *e);
 int				command_parse(void *cmd, t_s_env *e);
+int				command_pipe(void *cmd, t_s_env *e);
 void			command_free(t_execute *exec, char **public, char *name);
 int				command_prepare(t_execute *exec, t_s_env *e);
 int				command_error(char *progname, int err, char **cmd);

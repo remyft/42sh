@@ -6,20 +6,27 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 18:11:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/23 04:46:38 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/15 02:40:27 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <unistd.h>
 #include "parser.h"
+#include "ft_dprintf.h"
 
-int				parse_error(t_token *token)
+int				parse_error(int err, t_token *token, t_s_env *e)
 {
-	ft_putstr_fd("21sh: parse error near unexpected token `", 2);
+	static char	*errors[] = {
+		"parse error near unexpected token", "parse error near unhandled token",
+		"parse error from failed malloc near",
+	};
+
+	ft_dprintf(STDERR_FILENO, "%s: %s `", e->progname, errors[err]);
 	if (token == NULLTOKEN)
-		ft_putstr_fd("\\n", 2);
+		write(STDERR_FILENO, "\\n", 2);
 	else
-		write(2, token->head, token->len);
-	ft_putendl_fd("'", 2);
+		write(STDERR_FILENO, token->head, token->len);
+	ft_dprintf(STDERR_FILENO, "'\n");
+	e->ret = 2;
 	return (0);
 }

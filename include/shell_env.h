@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/08 05:49:43 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/17 22:10:08 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,19 @@
 # define SHELL_ENV_H
 
 # include <term.h>
-# include "alias.h"
 
 # define IFS_SEPARATORS		" \t\n"
+
+# define NULLALIAS		(t_alias *)0
+
+typedef struct	s_alias
+{
+	char			*key;
+	char			*value;
+	int				in_use;
+	struct s_alias	*next;
+	struct s_alias	*prev;
+}				t_alias;
 
 typedef struct	s_shell_env
 {

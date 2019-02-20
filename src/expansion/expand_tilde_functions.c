@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 18:56:52 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/27 11:32:36 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/20 11:25:17 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,37 +16,38 @@
 #include "expansion_tilde.h"
 #include "expansion_errors.h"
 
-int				expand_tilde_env(t_ret *ret, const char *s, t_exp *param)
+int				expand_tilde_env(t_ret *ret, t_ret *parame, t_exp *param)
 {
-	(void)s;
+	if (parame->substitute)
+		return (expand_tilde_not(ret, parame->word));
 	return (param_addstr(sh_getnenv("HOME", param->e->public_env), ret));
 }
 
-int				expand_tilde_plus(t_ret *ret, const char *s, t_exp *param)
+int				expand_tilde_plus(t_ret *ret, t_ret *parame, t_exp *param)
 {
-	if (!s[1])
+	if (!parame->word[1])
 		return (param_addstr(sh_getnenv("PWD", param->e->public_env), ret));
-	else if (tilde_digit(s + 1))
-		return (expand_tilde_directory(ret, s + 1, param));
-	return (expand_tilde_not(ret, s));
+	else if (tilde_digit(parame->word + 1))
+		return (expand_tilde_directory(ret, parame/*->word + 1*/, param));
+	return (expand_tilde_not(ret, parame->word));
 }
 
-int				expand_tilde_minus(t_ret *ret, const char *s, t_exp *param)
+int				expand_tilde_minus(t_ret *ret, t_ret *parame, t_exp *param)
 {
-	if (!s[1])
+	if (!parame->word[1])
 		return (param_addstr(sh_getnenv("OLDPWD", param->e->public_env), ret));
-	else if (tilde_digit(s + 1))
-		return (expand_tilde_directory(ret, s + 1, param));
-	return (expand_tilde_user(ret, s, param));
+	else if (tilde_digit(parame->word + 1))
+		return (expand_tilde_directory(ret, parame/*->word + 1*/, param));
+	return (expand_tilde_user(ret, parame/*->word*/, param));
 }
 
-int				expand_tilde_directory(t_ret *ret, const char *s, t_exp *param)
+int				expand_tilde_directory(t_ret *ret, t_ret *parame, t_exp *param)
 {
 	int			entry;
 	char		*cwd;
 
 	(void)param;
-	entry = ft_atoi(s);
+	entry = ft_atoi(parame->word);
 	if (entry != 0)
 		return (ERR_DIRECTORY_STACK);
 	if (!(cwd = getcwd(NULL, 0)))
@@ -57,14 +58,14 @@ int				expand_tilde_directory(t_ret *ret, const char *s, t_exp *param)
 	return (ERR_NONE);
 }
 
-int				expand_tilde_user(t_ret *ret, const char *s, t_exp *param)
+int				expand_tilde_user(t_ret *ret, t_ret *parame, t_exp *param)
 {
 	struct passwd	*user;
 
 	(void)param;
-	if ((user = getpwnam(s)) == NULL)
+	if ((user = getpwnam(parame->word)) == NULL)
 	{
-		if (param_addstr(s, ret))
+		if (param_addstr(parame->word, ret))
 			return (ERR_MALLOC);
 		return (ERR_NO_SUCH_USER);
 	}

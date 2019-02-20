@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_end_of_input.c                              :+:      :+:    :+:   */
+/*   builtin_alias_set_value.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/30 23:42:06 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/19 03:38:16 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/02/17 04:26:17 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/02/19 03:11:12 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "token.h"
+#include "libft.h"
+#include "shell_env.h"
+#include "builtin_alias.h"
 
-t_token			*handle_end_of_input(t_param *param, t_call *token)
+int				alias_set_value(char *value, t_alias *alias)
 {
-	t_token		*ret;
+	char		*save;
 
-	param->token->len = (param->buff + param->i) - param->token->head;
-	if (param->token->type == UNDEFINED || (param->token->id != COMMENT))
-		param->token = token[param->token->type].identifier(param);
-	if ((ret = param->token->prev))
+	save = alias->value;
+	if (!(alias->value = ft_memalloc(ft_strlen(value) + 1)))
 	{
-		free(ret->next);
-		ret->next = NULL;
+		alias->value = save;
+		return (ERR_MALLOC);
 	}
-	return (NULLTOKEN);
+	ft_strcpy(alias->value, value);
+	if (save)
+		free(save);
+	return (ERR_OK);
 }

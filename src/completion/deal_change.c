@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   deal_change.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 20:16:45 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 16:12:41 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/20 19:52:14 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,9 @@ static int	deal_change(t_slct *select, t_tree *tern, t_cpl_e *env)
 void		change_buff(t_slct *select, t_cpl_e *env, t_line *line,
 		t_tree *tern)
 {
-	int		tmp;
+	// int		tmp;
 
-	tmp = 1;
+	// tmp = 1;
 	if (!(env->ptr = sh_strrchr(line->curr->buff, '/')))
 		env->ptr = find_start_pos(line->curr->buff, line);
 	if (ft_strchr("&;|/ ", *env->ptr))

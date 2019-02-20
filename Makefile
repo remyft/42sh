@@ -6,46 +6,47 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/02/08 17:01:29 by rfontain         ###   ########.fr        #
+#    Updated: 2019/02/20 19:52:22 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 21sh
 
 CC = gcc
+CFLAGS = -Wall -Wextra -Werror #-ansi -pedantic -Wmissing-prototypes
 
-RM = rm -rf
-
-RED = "\x1b[0;31;40m"
-RESET = "\x1b[1;37;40m"
-GREY = "\x1b[1;30;40m"
-GREEN = "\x1b[1;32;40m"
-
-LIB_PATH = libft
-LIB = $(LIB_PATH)/libft.a
-LIB_LINK = -L$(LIB_PATH) -lft -lncurses
+LIBFT_PATH = libft
+LIBFT_LIB = $(LIBFT_PATH)/libft.a
+LIBFT_LINK = -L$(LIBFT_PATH) -lft -lncurses
 
 PRINTF_PATH = ft_printf
 PRINTF_LIB = $(PRINTF_PATH)/ft_printf.a
 PRINTF_LINK = -L$(PRINTF_PATH) -lprintf
 
 INC_DIR = include
-INCS = -I$(PRINTF_PATH)/$(INC_DIR) -I$(LIB_PATH)/$(INC_DIR) -I$(INC_DIR)
+INCS = -I$(PRINTF_PATH)/$(INC_DIR) -I$(LIBFT_PATH)/$(INC_DIR) -I$(INC_DIR)
 
-BUIL_DIR = $(SRCS_DIR)builtin/
+OBJS_DIR = objs/
+OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 
-OTHR_DIR = $(SRCS_DIR)other/
+DEPS_DIR = .deps/
+DEPS = $(addprefix $(DEPS_DIR), $(SRCS:.c=.d))
 
+RM = /bin/rm -rf
+
+SHELL := /bin/bash
+
+# SHELL
 SRCS_DIR = src/
 SRCS =	shell.c								\
 
-#ENVIRONMENT
+# ENVIRONMENT
 ENV_DIR = $(SRCS_DIR)environment/
 SRCS += collect_env.c						\
 		shell_env.c							\
 		free_env.c							\
 
-#LINE EDITION
+# LINE EDITION
 LINE_DIR = $(SRCS_DIR)line_edition/
 SRCS += tools.c								\
 		main_tools.c						\
@@ -57,7 +58,7 @@ SRCS += tools.c								\
 		create_hdoc.c						\
 		deal_line.c							\
 
-#COMPLETION
+# COMPLETION
 CMPL_DIR = $(SRCS_DIR)completion/
 SRCS +=	create_tree.c						\
 		deal_completion.c					\
@@ -82,7 +83,7 @@ SRCS +=	create_tree.c						\
 		deal_put_tool.c						\
 		get_comp_tools.c					\
 
-#TERMCAPS
+# TERMCAPS
 TERM_DIR = $(SRCS_DIR)termcaps/
 SRCS += term_properties.c					\
 		move_cursor.c						\
@@ -95,7 +96,7 @@ SRCS += term_properties.c					\
 		typing.c							\
 		line_move.c							\
 
-#USER INTERFACE
+# USER INTERFACE
 USER_DIR = $(SRCS_DIR)user_interface/
 SRCS += select.c							\
 		line_select.c						\
@@ -103,9 +104,10 @@ SRCS += select.c							\
 		ft_cut.c							\
 		ft_paste.c							\
 
-#TOKENS
+# TOKENS
 TOKEN_DIR = token/
 SRCS += expand_word.c						\
+		handle_alias.c						\
 		handle_command.c					\
 		handle_comment.c					\
 		handle_end_of_input.c				\
@@ -118,10 +120,11 @@ SRCS += expand_word.c						\
 		handle_word.c						\
 		identify_operator.c					\
 		identify_word.c						\
+		is_alias_valid_name.c				\
 		is_subs_next.c						\
 		is_subs.c							\
 		is_token_next.c						\
-		is_token_validname.c				\
+		is_token_valid_name.c				\
 		is_token.c							\
 		remove_line_continuation.c			\
 		token_debug.c						\
@@ -129,7 +132,7 @@ SRCS += expand_word.c						\
 		token_get.c							\
 		token_new.c							\
 
-#PARSER
+# PARSER
 PARSER_DIR = parser/
 SRCS += parse_ao_list.c						\
 		parse_argument.c					\
@@ -143,7 +146,7 @@ SRCS += parse_ao_list.c						\
 		parse_pipe.c						\
 		parse.c								\
 
-#COMMAND
+# COMMAND
 COMMAND_DIR = command/
 SRCS += command_access.c					\
 		command_builtin.c					\
@@ -156,13 +159,14 @@ SRCS += command_access.c					\
 		command_list.c						\
 		command_parse.c						\
 		command_path.c						\
+		command_pipe.c						\
 		command_prepare.c					\
 		command_redirect.c					\
 		command_restore_fds.c				\
 		environment_modify.c				\
 		quote_removal.c						\
 
-#EXPANSIONS
+# EXPANSIONS
 EXPANSION_DIR = expansion/
 SRCS += expand_debug.c						\
 		expand_argument.c					\
@@ -203,7 +207,7 @@ SRCS += expand_debug.c						\
 		param_addchar.c						\
 		param_addstr.c						\
 
-#REDIRECTIONS
+# REDIRECTIONS
 REDIRECTION_DIR = redirection/
 SRCS += redirect_and_dgreat.c				\
 		redirect_and_great.c				\
@@ -219,9 +223,15 @@ SRCS += redirect_and_dgreat.c				\
 		redirect_open_error.c				\
 		redirection.c						\
 
-#BUILTINS
+# BUILTINS
 BUILTIN_DIR = builtin/
-SRCS += builtin_cd_change.c					\
+SRCS += builtin_alias_error.c				\
+		builtin_alias_get.c					\
+		builtin_alias_new.c					\
+		builtin_alias_set_value.c			\
+		builtin_alias_set.c					\
+		builtin_alias.c						\
+		builtin_cd_change.c					\
 		builtin_cd_error.c					\
 		builtin_cd_recreate.c				\
 		builtin_cd_search.c					\
@@ -239,9 +249,10 @@ SRCS += builtin_cd_change.c					\
 		builtin_env.c						\
 		builtin_exit.c						\
 		builtin_setenv.c					\
+		builtin_unalias.c					\
 		builtin_unsetenv.c					\
 
-#LIBRARY
+# LIBRARY
 LIBRARY_DIR = lib/
 SRCS += sh_is_escapable.c					\
 		sh_freestr.c						\
@@ -262,11 +273,7 @@ SRCS += sh_is_escapable.c					\
 		sh_tablen.c							\
 		sh_unsetenv.c						\
 
-# ALIAS
-ALIAS_DIR = alias/
-SRCS += alias_get.c							\
-
-#GLOBING
+# GLOBING
 GLOB_DIR = $(SRCS_DIR)globing/
 SRCS += globing.c							\
 		glob_tools.c						\
@@ -281,7 +288,11 @@ DIRNAME		=	$$(basename $$(pwd))
 DIRNAMELEN	=	$$(basename $$(pwd) | tr -d '\n' | wc -m )
 MOON		=	$$(echo 🌝)
 CLOCK		=	$$(echo 🕛)
+<<<<<<< HEAD
 DELTA		=	$$(echo "$$(tput cols)-$(COL)-$(DIRNAMELEN)-19"|bc)
+=======
+DELTA		=	$$(echo "$$(tput cols)-$(COL)-$(DIRNAMELEN)-20"|bc)
+>>>>>>> e18930dbbf2431bee2fee01c9bb3d099861b27d8
 NB			=	$(words $(SRCS))
 MAX			=	$$(echo "$(NB) - 1"|bc)
 INDEX		=	0
@@ -289,6 +300,7 @@ TSITSI = 	$(eval DONE=$(shell echo $$(($(INDEX)*$(COL)/$(NB)))))  \
 	$(eval PERCENT=$(shell echo $$(($(INDEX)*101/$(NB)))))  \
 	$(eval COLOR=$(shell echo $$(($(PERCENT)%35+196))))  \
 	$(eval TO_DO=$(shell echo $$(($(COL)-$(INDEX)*$(COL)/$(NB)))))  \
+<<<<<<< HEAD
 	$(eval MOON=$(shell if [ $(INDEX) == $(MAX) ]; then echo 🌞; \
 							elif [ $(MOON) == 🌝 ]; then echo 🌔; \
 							elif [ $(MOON) == 🌔 ]; then echo 🌓; \
@@ -308,12 +320,36 @@ TSITSI = 	$(eval DONE=$(shell echo $$(($(INDEX)*$(COL)/$(NB)))))  \
 							elif [ $(CLOCK) == 🕘 ]; then echo 🕙; \
 							elif [ $(CLOCK) == 🕙 ]; then echo 🕛; fi )) \
 	printf "\r\033[38;5;11m%s  MAKE : %3d%% \033[48;5;%dm%*s\033[0m%*s%s  21sh/%.*s\033[0m\033[K" $(MOON) $(PERCENT) $(COLOR) $(DONE) "" $(TO_DO) "" $(CLOCK) $(DELTA) "$<" \
+=======
+	$(eval MOON=$(shell if [ $(MOON) == 🌝 ]; then echo 🌔; \
+						elif [ $(MOON) == 🌔 ]; then echo 🌓; \
+						elif [ $(MOON) == 🌓 ]; then echo 🌒; \
+						elif [ $(MOON) == 🌒 ]; then echo 🌚; \
+						elif [ $(MOON) == 🌚 ]; then echo 🌘; \
+						elif [ $(MOON) == 🌘 ]; then echo 🌗; \
+						elif [ $(MOON) == 🌗 ]; then echo 🌖; \
+						elif [ $(MOON) == 🌖 ]; then echo 🌝; fi )) \
+	$(eval CLOCK=$(shell if [ $(CLOCK) == 🕛 ]; then echo 🕑; \
+						elif [ $(CLOCK) == 🕑 ]; then echo 🕒; \
+						elif [ $(CLOCK) == 🕒 ]; then echo 🕔; \
+						elif [ $(CLOCK) == 🕔 ]; then echo 🕕; \
+						elif [ $(CLOCK) == 🕕 ]; then echo 🕗; \
+						elif [ $(CLOCK) == 🕗 ]; then echo 🕘; \
+						elif [ $(CLOCK) == 🕘 ]; then echo 🕙; \
+						elif [ $(CLOCK) == 🕙 ]; then echo 🕛; fi )) \
+	printf "\r\033[38;5;11m%s  MAKE : %3d%% \033[48;5;%dm%*s\033[0m%*s %s  21sh/%.*s\033[0m\033[K" $(MOON) $(PERCENT) $(COLOR) $(DONE) "" $(TO_DO) "" $(CLOCK) $(DELTA) "$<" \
+>>>>>>> e18930dbbf2431bee2fee01c9bb3d099861b27d8
 	$(eval INDEX=$(shell echo $$(($(INDEX)+1)))) \
 
-OK =	$(GREEN)[OK]$(RESET)
-
+RESET	= \x1b[0m
+GREY	= \x1b[1;30m
+RED		= \x1b[1;31m
+GREEN	= \x1b[0;32m
+YELLOW	= \x1b[0;33m
+OK =	$(GREEN)[ OK ]$(RESET)
 NEWLINE = $(shell echo "")
 
+<<<<<<< HEAD
 CFLAGS = -Wall -Wextra -Werror #-ansi -pedantic -Wmissing-prototypes
 
 OBJS_DIR = objs/
@@ -323,6 +359,9 @@ DEPS_DIR = .deps/
 DEPS = $(addprefix $(DEPS_DIR), $(SRCS:.c=.d))
 
 all: $(OBJS_DIR) $(DEPS_DIR) $(LIB) $(PRINTF_LIB) $(NAME)
+=======
+all: $(OBJS_DIR) $(DEPS_DIR) $(LIBFT_LIB) $(PRINTF_LIB) $(NAME)
+>>>>>>> e18930dbbf2431bee2fee01c9bb3d099861b27d8
 
 $(OBJS_DIR):
 	@mkdir -p $@
@@ -330,27 +369,26 @@ $(OBJS_DIR):
 $(DEPS_DIR):
 	@mkdir -p $@
 
-$(LIB):
-	make -C $(LIB_PATH)
+$(LIBFT_LIB):
+	@make -C $(LIBFT_PATH)
 
 $(PRINTF_LIB):
 	@make -C $(PRINTF_PATH)
 
-$(NAME): $(NEWLINE) $(OBJS) $(LIB)
-	@$(CC) $(DEBUG) $^ -o $@ $(LIB_LINK) $(PRINTF_LINK)
-	@echo ""
-	@echo $(GREY)" Compiling" $(RESET) [ $(NAME) ] $(OK)
+$(NAME): $(NEWLINE) $(OBJS)
+	@$(CC) $^ -o $@ $(LIBFT_LINK) $(PRINTF_LINK) $(DEBUG)
+	@echo -e "\n$(GREEN) Compiling $(YELLOW)[ $(RESET)$(NAME)$(YELLOW) ] $(OK) $(RESET)"
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(COMMAND_DIR) -I$(INC_DIR)/$(ALIAS_DIR)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(COMMAND_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(ENV_DIR)%.c
 $(OBJS_DIR)%.o: $(ENV_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(ALIAS_DIR)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(LINE_DIR)%.c
@@ -389,13 +427,13 @@ $(OBJS_DIR)%.o: $(TERM_DIR)%.c $(DEPS_DIR)%.d
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(TOKEN_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(TOKEN_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) $(DEBUG)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(BUILTIN_DIR) $(DEBUG)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(PARSER_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(PARSER_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR) $(DEBUG)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(ALIAS_DIR) $(DEBUG)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(EXPANSION_DIR)%.c
@@ -407,7 +445,7 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)$(EXPANSION_DIR)%.c $(DEPS_DIR)%.d
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(COMMAND_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(COMMAND_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(COMMAND_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(BUILTIN_DIR) -I$(INC_DIR)/$(LIBRARY_DIR) -I$(INC_DIR)/$(ALIAS_DIR)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(COMMAND_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(BUILTIN_DIR) -I$(INC_DIR)/$(LIBRARY_DIR) -I$(INC_DIR)/$(ALIAS_DIR) $(DEBUG)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(REDIRECTION_DIR)%.c
@@ -428,12 +466,6 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)$(LIBRARY_DIR)%.c $(DEPS_DIR)%.d
 	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(LIBRARY_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
-$(OBJS_DIR)%.o: $(SRCS_DIR)$(ALIAS_DIR)%.c
-$(OBJS_DIR)%.o: $(SRCS_DIR)$(ALIAS_DIR)%.c $(DEPS_DIR)%.d
-	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(ALIAS_DIR)
-	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
-
 $(OBJS_DIR)%.o: $(GLOB_DIR)%.c
 $(OBJS_DIR)%.o: $(GLOB_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
@@ -448,13 +480,13 @@ $(DEPS_DIR)%.d: ;
 clean:
 	@$(RM) $(OBJS_DIR)
 	@$(RM) $(DEPS_DIR)
-#	@make -C $(LIB_PATH) clean
-	@echo $(GREY)" Cleaning :" $(RESET) [ $(NAME) ] $(OK)
+#	@make -C $(LIBFT_PATH) clean
+	@echo -e "$(RED) Cleaning : $(YELLOW)[ $(RESET)$(NAME)$(YELLOW) ] $(OK)"
 
 fclean: clean
 	@$(RM) $(NAME)
-#	@make -C $(LIB_PATH) fclean
-	@echo $(GREY)" Deleting.." $(RESET) [ $(NAME) ] $(OK)
+#	@make -C $(LIBFT_PATH) fclean
+	@echo -e "$(RED) Deleting..$(YELLOW) [ $(RESET)$(NAME)$(YELLOW) ] $(OK)"
 
 re: fclean all
 

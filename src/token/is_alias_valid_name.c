@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_end_of_input.c                              :+:      :+:    :+:   */
+/*   is_alias_valid_name.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/30 23:42:06 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/19 03:38:16 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/02/19 02:47:34 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/02/19 03:12:48 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "token.h"
+#include "libft.h"
 
-t_token			*handle_end_of_input(t_param *param, t_call *token)
+int				is_alias_valid_name(const char *alias, size_t len)
 {
-	t_token		*ret;
+	size_t		i;
 
-	param->token->len = (param->buff + param->i) - param->token->head;
-	if (param->token->type == UNDEFINED || (param->token->id != COMMENT))
-		param->token = token[param->token->type].identifier(param);
-	if ((ret = param->token->prev))
-	{
-		free(ret->next);
-		ret->next = NULL;
-	}
-	return (NULLTOKEN);
+	i = 0;
+	while (i < len)
+		if (alias[i] != '_' && !ft_isalnum(alias[i]))
+			return (0);
+		else
+			i++;
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 23:05:54 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/29 12:58:18 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/17 22:05:20 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_token			*new_token(const char *buff, size_t pos)
 
 	new = ft_memalloc(sizeof(*new));
 	if (!new)
-		return (new);
+		return (NULLTOKEN);
 	new->type = define_token(buff[pos]);
 	new->head = buff + pos;
 	return (new);

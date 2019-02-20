@@ -6,13 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:21:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/06 18:45:03 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/20 10:16:47 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parser.h"
-#include "shell_env.h"
+#include "redirection.h"
 
 /*
 ** Anime must watch (@ touche speciale agrum)
@@ -29,12 +29,41 @@
 **  - Nichijou (wtf)
 */
 
+static int		handle_here_doc(t_redirection **redir, t_s_env *e)
+{
+	char		buff[4096];
+	char		*ptr;
+	int			ret;
+	static size_t	number = 0;
+
+	ptr = buff;
+	while (1)
+	{
+		ft_putstr("\033[31mheredoc> \033[0m");
+		if ((ret = read(STDIN_FILENO, ptr, sizeof(buff) - (ptr - buff))) <= 0)
+			break ;
+		if (!ft_strncmp(ptr, (*redir)->arg->cmd[0], ret - 1))
+			break ;
+		ptr += ret;
+		if ((unsigned long)(ptr - buff) >= sizeof(buff))
+			break ;
+	}
+	*ptr = '\0';
+	if (!((*redir)->file = ft_strjoinfree("/tmp/.21sh_tmpfile_", ft_itoa(number++), 2)))
+		return (redirect_open_error((*redir)->file, e));
+	if (((*redir)->fdarg = open((*redir)->file, O_CREAT | O_TRUNC | O_WRONLY, 0600)) < 0)
+		return (redirect_open_error((*redir)->file, e));
+	write((*redir)->fdarg, buff, ptr - buff);
+	return (0);
+}
+
 int				redirect_dless(t_redirection **redir, t_s_env *e)
 {
-	ft_putendl("redirect_dless");
-	(*redir)->fdio = 0;
-	(*redir)->fdarg = 0;
-	(void)redir;
-	(void)e;
+
+	(*redir)->fdio = (*redir)->ionumber ? ft_atoi((*redir)->ionumber->head) : 0;
+	if (handle_here_doc(redir, e))
+		return (1);
+	if (((*redir)->fdarg = open((*redir)->file, O_RDONLY)) < 0)
+		return (redirect_open_error((*redir)->file, e));
 	return (0);
 }

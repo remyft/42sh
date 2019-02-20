@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:59:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/23 06:59:59 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/20 09:35:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 # define PARSER_H
 
 # include "token.h"
+# include "shell_env.h"
+
+enum
+{
+	ERR_UNEXPECTED_TOKEN,
+	ERR_NOT_HANDLED_YET,
+	ERR_MALLOC_FAILED,
+};
 
 /*
 ** Structure for arguments
@@ -39,6 +47,7 @@ typedef struct	s_redirection
 	t_argument				*arg;
 	int						fdio;
 	int						fdarg;
+	char					*file;
 	struct s_redirection	*next;
 }				t_redirection;
 
@@ -118,7 +127,7 @@ typedef struct	s_parser_param
 */
 typedef struct	s_param_call
 {
-	int			(*handler)(t_token **, t_p_param *);
+	int			(*handler)(t_token **, t_p_param *, t_s_env *e);
 }				t_p_call;
 
 typedef struct	s_t_p_call
@@ -126,20 +135,20 @@ typedef struct	s_t_p_call
 	t_p_call	*type;
 }				t_t_p_call;
 
-t_m_list		*parse(t_token *token);
-int				parse_error(t_token *token);
+t_m_list		*parse(t_token *token, t_s_env *e);
+int				parse_error(int err, t_token *token, t_s_env *e);
 
 int				new_tree(t_token *token, t_p_param *param, t_m_list **list);
 t_m_list		**new_m_list(t_token *token, t_m_list **list);
 t_ao_list		**new_ao_list(t_token *token, t_ao_list **list);
 void			**new_command(void **cmd);
 
-int				parse_list(t_token **tok, t_p_param *par);
-int				parse_operator(t_token **tok, t_p_param *par);
-int				parse_pipe(t_token **tok, t_p_param *par);
-int				parse_ao_list(t_token **tok, t_p_param *par);
-int				parse_io_number(t_token **tok, t_p_param *par);
-int				parse_argument(t_token **tok, t_p_param *par);
+int				parse_list(t_token **tok, t_p_param *par, t_s_env *e);
+int				parse_operator(t_token **tok, t_p_param *par, t_s_env *e);
+int				parse_pipe(t_token **tok, t_p_param *par, t_s_env *e);
+int				parse_ao_list(t_token **tok, t_p_param *par, t_s_env *e);
+int				parse_io_number(t_token **tok, t_p_param *par, t_s_env *e);
+int				parse_argument(t_token **tok, t_p_param *par, t_s_env *e);
 
 void			free_m_list(t_m_list **list);
 

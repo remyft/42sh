@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/20 20:43:39 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/24 03:13:41 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/15 02:41:59 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,17 @@ static int	check_token_next(t_token *token)
 	return (1);
 }
 
-int			parse_ao_list(t_token **token, t_p_param *param)
+int			parse_ao_list(t_token **token, t_p_param *param, t_s_env *e)
 {
 	if (((t_command *)*param->cmd)->args == NULLARG
 		&& ((t_command *)*param->cmd)->redir == NULLREDIR)
-		return (parse_error(*token));
+		return (parse_error(ERR_UNEXPECTED_TOKEN, *token, e));
 	if (!check_token_next((*token)->next))
-		return (parse_error((*token)->next));
+		return (parse_error(ERR_UNEXPECTED_TOKEN, (*token)->next, e));
 	if (!(param->aolist = new_ao_list(*token, &(*param->aolist)->next)))
-		return (parse_error(*token));
+		return (parse_error(ERR_MALLOC_FAILED, *token, e));
 	if (!(param->cmd = new_command(&(*param->aolist)->cmd)))
-		return (parse_error(*token));
+		return (parse_error(ERR_MALLOC_FAILED, *token, e));
 	param->arg = &((t_command *)*param->cmd)->args;
 	param->redir = &((t_command *)*param->cmd)->redir;
 	return (1);

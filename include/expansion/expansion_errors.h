@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 17:39:24 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/05 18:27:36 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/20 11:27:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define ERR_NO_ENV_STR				"variable not set."
 # define ERR_DIRECTORY_STACK_STR	"not enough directory stack entries."
 # define ERR_GIVEN_STR				""
-# define ERR_NO_SUCH_USER_STR		"no such user or named directory: "
+# define ERR_NO_SUCH_USER_STR		"no such user or named directory:"
 # define ERR_AMBIGUOUS_STR			"ambiguous redirect."
 
 /*

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/02 12:00:40 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/27 11:29:07 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/15 05:13:26 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int				expand_loop(t_ret *ret, t_exp *param, int (*end_loop)(t_exp *))
 {
 	static t_e_character	character[] = {
 		OP_EXP_SQUOTE, OP_EXP_BACKSLSH, OP_EXP_DQUOTE,
-		OP_EXP_TILDE, OP_EXP_DOLLAR, OP_EXP_BACKTICK, OP_EXP_STAR,
+		OP_EXP_TILDE, OP_EXP_DOLLAR, OP_EXP_BACKTICK, OP_EXP_GLOB,
 		OP_EXP_BRACKET, OP_EXP_QUESTION,
 	};
 	size_t					i;

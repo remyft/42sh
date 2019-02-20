@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   alias.h                                            :+:      :+:    :+:   */
+/*   is_token_valid_name.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/08 05:27:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/08 05:34:54 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/01/23 05:46:14 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/02/19 02:49:43 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ALIAS_H
-# define ALIAS_H
+#include "libft.h"
+#include "token.h"
 
-# include "token.h"
-
-typedef struct	s_alias
+int			is_token_valid_name(t_param *param)
 {
-	char			*key;
-	char			*value;
-	struct s_alias	*next;
-	struct s_alias	*prev;
-}				t_alias;
+	const char	*str;
+	size_t		n;
 
-t_token				*alias_get(t_token *token, t_alias *alias);
-
-#endif
+	str = param->token->head;
+	n = param->i - (size_t)(param->token->head - param->buff);
+	if (!n || ft_isdigit(*str))
+		return (0);
+	while (n--)
+		if (!ft_isalnum(*str) && *str != '_')
+			return (0);
+		else
+			str++;
+	return (1);
+}

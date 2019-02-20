@@ -6,15 +6,17 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 01:15:20 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/08 07:32:57 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/20 03:54:40 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifdef __linux__
+# include <wait.h>
+#endif
 #include "libft.h"
 #include "ft_printf.h"
 #include "shell_lib.h"
 #include "builtin_env.h"
-#include "shell_term.h"
 
 static int		env_fork(t_e_opt *opt, t_s_env *e)
 {
@@ -25,7 +27,6 @@ static int		env_fork(t_e_opt *opt, t_s_env *e)
 	newe.progname = opt->cmdname;
 	newe.public_env = opt->public_env;
 	newe.forked = 1;
-	term_restore(e->save);
 	if ((pid = fork()) > 0)
 		waitpid(pid, &e->ret, 0);
 	else if (pid == 0)
@@ -35,7 +36,6 @@ static int		env_fork(t_e_opt *opt, t_s_env *e)
 	}
 	else
 		return (ERR_FORK);
-	define_new_term(&e->save);
 	return (ERR_OK);
 }
 

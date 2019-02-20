@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 00:07:32 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/29 15:06:42 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/17 23:52:08 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,23 @@ void			init_shell_env(t_s_env *e, int ac, char **av, char **env)
 	e->shell_loop = 1;
 }
 
+static void		free_aliases(t_alias *alias)
+{
+	if (!alias)
+		return ;
+	free_aliases(alias->next);
+	if (alias->key)
+		free(alias->key);
+	if (alias->value)
+		free(alias->value);
+	free(alias);
+}
+
 void			free_shell_env(t_s_env *e)
 {
 	if (e->progpath)
 		free(e->progpath);
 	free_env(e->public_env);
 	free_env(e->private_env);
+	free_aliases(e->alias_list);
 }

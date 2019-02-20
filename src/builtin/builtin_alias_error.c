@@ -1,31 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_token_validname.c                               :+:      :+:    :+:   */
+/*   builtin_alias_error.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/23 05:46:14 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/23 05:46:31 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/02/19 03:01:18 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/02/19 03:10:35 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "token.h"
+#include <unistd.h>
+#include "ft_dprintf.h"
 
-int			ft_isvalidname(t_param *param)
+int		alias_error(int err, const char *cmd, const char *key, const char *prog)
 {
-	const char	*str;
-	size_t		n;
+	static char	*errors[] = {
+		NULL, "malloc failed", "not found", "key not valid",
+	};
 
-	str = param->token->head;
-	n = param->i - (size_t)(param->token->head - param->buff);
-	if (!n || ft_isdigit(*str))
-		return (0);
-	while (n--)
-		if (!ft_isalnum(*str) && *str != '_')
-			return (0);
-		else
-			str++;
+	ft_dprintf(STDERR_FILENO, "%s: %s: %s: %s\n", prog, cmd, key, errors[err]);
 	return (1);
 }

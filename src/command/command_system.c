@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/08 04:13:09 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/15 01:28:04 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,6 @@
 #include "command_error.h"
 #include "shell_lib.h"
 #include "shell_env.h"
-#include "shell.h"
-#include "ft_printf.h"
-#include "shell_term.h"
 
 static void		command_execve(char *name, t_execute *exec)
 {
@@ -56,7 +53,7 @@ int				command_system(t_execute *exec, t_s_env *e)
 		pid = 0;
 		if (e->forked || (pid = fork()) == 0)
 			command_execve(name, exec);
-		else if (pid > 0)
+		if (pid > 0)
 			error = command_wait(pid, e);
 		else if (pid < 0)
 			error = command_error(e->progname, ERR_FORK_VAL, exec->cmd);
