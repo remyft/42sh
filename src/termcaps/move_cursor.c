@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:13:27 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 14:00:03 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/12 12:21:47 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,9 @@ void	right_arrow(t_line *line)
 		while (line->hist->prev)
 			line->hist = line->hist->prev;
 	}
-	line->index = line->index < line->len ? line->index + 1 : line->len;
+	if (line->index == line->len)
+		return ;
+	line->index += 1;
 	if (line->index && (line->index + line->lprompt) % line->nb_col == 0)
 		tputs(tgetstr("do", NULL), 1, ft_pchar);
 	tputs(tgoto(tgetstr("ch", NULL), 0,
