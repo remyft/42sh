@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 11:00:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 06:49:40 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/18 17:33:12 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int			check_hdoc(t_line *line)
 			deal_state(line, line->curr->buff[i]);
 		if (!line->curr->prev && !(state & UN_HDOC))
 		{
-			if (line->curr->buff[i] == '\\' && !(state & NSTATE))
+			if (line->curr->buff[i] == '\\' && !(state & NSTATE) && !((*line->e_cmpl) & QUOTE))
 				state |= NSTATE;
 			else if (state & NSTATE)
 			{
