@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:57:17 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 16:20:55 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/19 18:47:52 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "shell_term.h"
 #include "put.h"
 #include "libft.h"
+
+#include "stdio.h"
 
 static void	get_to_buff(t_line *line, int *cp)
 {
@@ -42,6 +44,11 @@ static void	get_to_buff(t_line *line, int *cp)
 		ft_putstr(&(line->curr->buff[line->index]));
 		tputs(tgetstr("rc", NULL), 1, ft_pchar);
 	}
+		if ((line->index + line->lprompt) % line->nb_col == 0)
+		{
+			tputs(tgetstr("do", NULL), 1, ft_pchar);
+			tputs(tgetstr("cr", NULL), 1, ft_pchar);
+		}
 }
 
 void		get_typing(t_line *line, int nb_read)

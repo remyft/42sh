@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 16:19:12 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/18 18:04:23 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ void			deal_cancel(t_line *line)
 {
 	if (*(line->e_cmpl) & COMPLETION)
 	{
+		go_home(line);
 		line->index = ft_strlen(line->curr->buff_tmp);
 		line->len = line->index;
-		go_home(line);
 		tputs(tgetstr("cr", NULL), 1, ft_pchar);
 		tputs(tgetstr("cd", NULL), 1, ft_pchar);
 		put_prompt(line->prompt);
