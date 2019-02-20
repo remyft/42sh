@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:21:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/20 10:06:36 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/20 10:16:47 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ static int		handle_here_doc(t_redirection **redir, t_s_env *e)
 	if (((*redir)->fdarg = open((*redir)->file, O_CREAT | O_TRUNC | O_WRONLY, 0600)) < 0)
 		return (redirect_open_error((*redir)->file, e));
 	write((*redir)->fdarg, buff, ptr - buff);
-	if (((*redir)->fdarg = open((*redir)->file, O_RDONLY)) < 0)
-		return (redirect_open_error((*redir)->file, e));
 	return (0);
 }
 
@@ -63,5 +61,9 @@ int				redirect_dless(t_redirection **redir, t_s_env *e)
 {
 
 	(*redir)->fdio = (*redir)->ionumber ? ft_atoi((*redir)->ionumber->head) : 0;
-	return (handle_here_doc(redir, e));
+	if (handle_here_doc(redir, e))
+		return (1);
+	if (((*redir)->fdarg = open((*redir)->file, O_RDONLY)) < 0)
+		return (redirect_open_error((*redir)->file, e));
+	return (0);
 }
