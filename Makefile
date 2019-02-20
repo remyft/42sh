@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/02/20 19:52:22 by rfontain         ###   ########.fr        #
+#    Updated: 2019/02/20 19:54:05 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -288,11 +288,7 @@ DIRNAME		=	$$(basename $$(pwd))
 DIRNAMELEN	=	$$(basename $$(pwd) | tr -d '\n' | wc -m )
 MOON		=	$$(echo 🌝)
 CLOCK		=	$$(echo 🕛)
-<<<<<<< HEAD
-DELTA		=	$$(echo "$$(tput cols)-$(COL)-$(DIRNAMELEN)-19"|bc)
-=======
 DELTA		=	$$(echo "$$(tput cols)-$(COL)-$(DIRNAMELEN)-20"|bc)
->>>>>>> e18930dbbf2431bee2fee01c9bb3d099861b27d8
 NB			=	$(words $(SRCS))
 MAX			=	$$(echo "$(NB) - 1"|bc)
 INDEX		=	0
@@ -300,7 +296,6 @@ TSITSI = 	$(eval DONE=$(shell echo $$(($(INDEX)*$(COL)/$(NB)))))  \
 	$(eval PERCENT=$(shell echo $$(($(INDEX)*101/$(NB)))))  \
 	$(eval COLOR=$(shell echo $$(($(PERCENT)%35+196))))  \
 	$(eval TO_DO=$(shell echo $$(($(COL)-$(INDEX)*$(COL)/$(NB)))))  \
-<<<<<<< HEAD
 	$(eval MOON=$(shell if [ $(INDEX) == $(MAX) ]; then echo 🌞; \
 							elif [ $(MOON) == 🌝 ]; then echo 🌔; \
 							elif [ $(MOON) == 🌔 ]; then echo 🌓; \
@@ -320,25 +315,6 @@ TSITSI = 	$(eval DONE=$(shell echo $$(($(INDEX)*$(COL)/$(NB)))))  \
 							elif [ $(CLOCK) == 🕘 ]; then echo 🕙; \
 							elif [ $(CLOCK) == 🕙 ]; then echo 🕛; fi )) \
 	printf "\r\033[38;5;11m%s  MAKE : %3d%% \033[48;5;%dm%*s\033[0m%*s%s  21sh/%.*s\033[0m\033[K" $(MOON) $(PERCENT) $(COLOR) $(DONE) "" $(TO_DO) "" $(CLOCK) $(DELTA) "$<" \
-=======
-	$(eval MOON=$(shell if [ $(MOON) == 🌝 ]; then echo 🌔; \
-						elif [ $(MOON) == 🌔 ]; then echo 🌓; \
-						elif [ $(MOON) == 🌓 ]; then echo 🌒; \
-						elif [ $(MOON) == 🌒 ]; then echo 🌚; \
-						elif [ $(MOON) == 🌚 ]; then echo 🌘; \
-						elif [ $(MOON) == 🌘 ]; then echo 🌗; \
-						elif [ $(MOON) == 🌗 ]; then echo 🌖; \
-						elif [ $(MOON) == 🌖 ]; then echo 🌝; fi )) \
-	$(eval CLOCK=$(shell if [ $(CLOCK) == 🕛 ]; then echo 🕑; \
-						elif [ $(CLOCK) == 🕑 ]; then echo 🕒; \
-						elif [ $(CLOCK) == 🕒 ]; then echo 🕔; \
-						elif [ $(CLOCK) == 🕔 ]; then echo 🕕; \
-						elif [ $(CLOCK) == 🕕 ]; then echo 🕗; \
-						elif [ $(CLOCK) == 🕗 ]; then echo 🕘; \
-						elif [ $(CLOCK) == 🕘 ]; then echo 🕙; \
-						elif [ $(CLOCK) == 🕙 ]; then echo 🕛; fi )) \
-	printf "\r\033[38;5;11m%s  MAKE : %3d%% \033[48;5;%dm%*s\033[0m%*s %s  21sh/%.*s\033[0m\033[K" $(MOON) $(PERCENT) $(COLOR) $(DONE) "" $(TO_DO) "" $(CLOCK) $(DELTA) "$<" \
->>>>>>> e18930dbbf2431bee2fee01c9bb3d099861b27d8
 	$(eval INDEX=$(shell echo $$(($(INDEX)+1)))) \
 
 RESET	= \x1b[0m
@@ -349,19 +325,7 @@ YELLOW	= \x1b[0;33m
 OK =	$(GREEN)[ OK ]$(RESET)
 NEWLINE = $(shell echo "")
 
-<<<<<<< HEAD
-CFLAGS = -Wall -Wextra -Werror #-ansi -pedantic -Wmissing-prototypes
-
-OBJS_DIR = objs/
-OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
-
-DEPS_DIR = .deps/
-DEPS = $(addprefix $(DEPS_DIR), $(SRCS:.c=.d))
-
-all: $(OBJS_DIR) $(DEPS_DIR) $(LIB) $(PRINTF_LIB) $(NAME)
-=======
 all: $(OBJS_DIR) $(DEPS_DIR) $(LIBFT_LIB) $(PRINTF_LIB) $(NAME)
->>>>>>> e18930dbbf2431bee2fee01c9bb3d099861b27d8
 
 $(OBJS_DIR):
 	@mkdir -p $@
