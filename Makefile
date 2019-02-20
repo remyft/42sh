@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/02/19 03:14:14 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/02/20 04:19:55 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -312,11 +312,12 @@ TSITSI = 	$(eval DONE=$(shell echo $$(($(INDEX)*$(COL)/$(NB)))))  \
 	printf "\r\033[38;5;11m%s  MAKE : %3d%% \033[48;5;%dm%*s\033[0m%*s %s  21sh/%.*s\033[0m\033[K" $(MOON) $(PERCENT) $(COLOR) $(DONE) "" $(TO_DO) "" $(CLOCK) $(DELTA) "$<" \
 	$(eval INDEX=$(shell echo $$(($(INDEX)+1)))) \
 
-RED = "\x1b[0;31;40m"
-RESET = "\x1b[1;37;40m"
-GREY = "\x1b[1;30;40m"
-GREEN = "\x1b[1;32;40m"
-OK =	$(GREEN)[OK]$(RESET)
+RESET	= \x1b[0m
+GREY	= \x1b[1;30m
+RED		= \x1b[1;31m
+GREEN	= \x1b[0;32m
+YELLOW	= \x1b[0;33m
+OK =	$(GREEN)[ OK ]$(RESET)
 NEWLINE = $(shell echo "")
 
 all: $(OBJS_DIR) $(DEPS_DIR) $(LIBFT_LIB) $(PRINTF_LIB) $(NAME)
@@ -335,8 +336,7 @@ $(PRINTF_LIB):
 
 $(NAME): $(NEWLINE) $(OBJS)
 	@$(CC) $^ -o $@ $(LIBFT_LINK) $(PRINTF_LINK) $(DEBUG)
-	@echo $(RESET)
-	@echo $(GREEN)" Compiling" $(RESET) [ $(NAME) ] $(OK)
+	@echo -e "\n$(GREEN) Compiling $(YELLOW)[ $(RESET)$(NAME)$(YELLOW) ] $(OK) $(RESET)"
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(DEPS_DIR)%.d
@@ -440,12 +440,12 @@ clean:
 	@$(RM) $(OBJS_DIR)
 	@$(RM) $(DEPS_DIR)
 #	@make -C $(LIBFT_PATH) clean
-	@echo $(RED)" Cleaning :" $(RESET) [ $(NAME) ] $(OK)
+	@echo -e "$(RED) Cleaning : $(YELLOW)[ $(RESET)$(NAME)$(YELLOW) ] $(OK)"
 
 fclean: clean
 	@$(RM) $(NAME)
 #	@make -C $(LIBFT_PATH) fclean
-	@echo $(RED)" Deleting.." $(RESET) [ $(NAME) ] $(OK)
+	@echo -e "$(RED) Deleting..$(YELLOW) [ $(RESET)$(NAME)$(YELLOW) ] $(OK)"
 
 re: fclean all
 
