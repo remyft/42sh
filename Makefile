@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/02/20 04:19:55 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/02/20 07:40:07 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -286,7 +286,7 @@ DIRNAME		=	$$(basename $$(pwd))
 DIRNAMELEN	=	$$(basename $$(pwd) | tr -d '\n' | wc -m )
 MOON		=	$$(echo 🌝)
 CLOCK		=	$$(echo 🕛)
-DELTA		=	$$(echo "$$(tput cols)-$(COL)-$(DIRNAMELEN)-18"|bc)
+DELTA		=	$$(echo "$$(tput cols)-$(COL)-$(DIRNAMELEN)-20"|bc)
 NB			=	$(words $(SRCS))
 INDEX		=	0
 TSITSI = 	$(eval DONE=$(shell echo $$(($(INDEX)*$(COL)/$(NB)))))  \

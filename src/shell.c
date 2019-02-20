@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/15 06:22:11 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/20 09:29:40 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ static void	shell_loop(t_line *line, t_s_env *e)
 		put_prompt(line->prompt);
 		check_path(line, e->public_env);
 		deal_typing(line);
-		if (!deal_hdoc(line))
-			if (check_hdoc(line))
-				continue ;
+		// if (!deal_hdoc(line))
+		// 	if (check_hdoc(line))
+		// 		continue ;
 		if (line->curr->buff[0] && line->tmp[0] != -1
 				&& line->curr->buff[0] != 10)
 			get_new_cmd(line, e);

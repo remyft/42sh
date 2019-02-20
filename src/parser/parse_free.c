@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 18:06:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/30 19:37:51 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/20 09:43:47 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,14 @@ static void		free_redir(t_redirection **redir)
 	free_redir(&(*redir)->next);
 	if ((*redir)->arg)
 		free_args(&(*redir)->arg);
-	if ((*redir)->fdarg > 2)
+	if ((*redir)->fdarg != STDIN_FILENO && (*redir)->fdarg != STDOUT_FILENO
+	&& (*redir)->fdarg != STDERR_FILENO)
 		close((*redir)->fdarg);
+	if ((*redir)->file)
+	{
+		unlink((*redir)->file);
+		free((*redir)->file);
+	}
 	ft_memset(*redir, 0, sizeof(**redir));
 	free(*redir);
 	*redir = NULLREDIR;

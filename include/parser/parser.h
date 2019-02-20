@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:59:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/15 02:40:36 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/20 09:35:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct	s_redirection
 	t_argument				*arg;
 	int						fdio;
 	int						fdarg;
+	char					*file;
 	struct s_redirection	*next;
 }				t_redirection;
 
