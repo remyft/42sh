@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 03:41:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 17:01:18 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/10 21:43:40 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ static void	get_new_glob(t_line *line, t_slst *tmp, char *ptr)
 	while (tmp->prev)
 		tmp = tmp->prev;
 	ft_bzero(ptr, ft_strlen(ptr));
+	tputs(tgetstr("sc", NULL), 1, ft_pchar);
+	tputs(tgetstr("do", NULL), 1, ft_pchar);
+	tputs(tgetstr("cr", NULL), 1, ft_pchar);
+	tputs(tgetstr("cd", NULL), 1, ft_pchar);
+	tputs(tgetstr("rc", NULL), 1, ft_pchar);
 	while ((to_free = tmp))
 	{
 		i = -1;

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:42:34 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 16:59:20 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/20 19:46:12 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ static void	init_cpl(t_cpl_e *env, t_line *line, int *put, int *nb_ret)
 	env->nb_ret = nb_ret;
 	env->nb_col = line->nb_col / (env->lenm + 1);
 	env->len = ft_strlen(env->chr);
-	tputs(tgetstr("sc", NULL), 1, ft_pchar);
+/*	tputs(tgetstr("sc", NULL), 1, ft_pchar);
 	go_home(line);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
 	tputs(tgetstr("rc", NULL), 1, ft_pchar);
-	tputs(tgetstr("do", NULL), 1, ft_pchar);
+	tputs(tgetstr("do", NULL), 1, ft_pchar);*/
 }
 
 void		deal_all_put(t_line *line, t_tree *tern, t_slct **select,
@@ -34,6 +34,7 @@ void		deal_all_put(t_line *line, t_tree *tern, t_slct **select,
 {
 	int		psb;
 
+//	sleep(1);
 	tputs(tgetstr("sc", NULL), 1, ft_pchar);
 	ft_putendl("");
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
@@ -72,21 +73,36 @@ int			check_put(t_line *line, t_tree *tern, t_slct **select,
 	return (0);
 }
 
+#include "stdio.h"
+
 int			put_complet(t_tree *tern, int *put, t_line *line, int *nb_ret)
 {
 	t_slct	*select;
 	t_cpl_e	env;
 	int		ret;
+	int		bsn;
 
 	env.chr = NULL;
+	bsn = 0;
 	env.bru[0] = 0;
 	select = NULL;
 	env.nb_ret = nb_ret;
 	if ((env.lenm = get_select(line, tern, &env, &select)) == -1)
 		return (-1);
 	init_cpl(&env, line, put, nb_ret);
+	if (env.lenm + ((line->len + line->lprompt) % line->nb_col) >= line->nb_col && *line->e_cmpl & COMPLETION)
+	{
+		bsn = 1;
+		tputs(tgetstr("do", NULL), 1, ft_pchar);
+	}
 	if ((ret = deal_put(line, env, select, tern)))
+	{
+//		if (bsn)
+//			tputs(tgetstr("up", NULL), 1, ft_pchar);
 		return (ret);
+	}
+	if (bsn)
+		tputs(tgetstr("up", NULL), 1, ft_pchar);
 	if (*line->e_cmpl & COMPLETION)
 		if (line->is_putb < 1)
 			line->is_putb += 1;
