@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 18:33:48 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/03 19:13:12 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/20 11:25:35 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 typedef struct	s_tilde
 {
 	int			(*comparaison)(const char *);
-	int			(*handler)(t_ret *, const char *, t_exp *);
+	int			(*handler)(t_ret *, t_ret *, t_exp *);
 }				t_tilde;
 
 int				tilde_no_param(const char *word);
@@ -33,11 +33,11 @@ int				tilde_minus(const char *word);
 int				tilde_digit(const char *word);
 int				tilde_alpha(const char *word);
 
-int				expand_tilde_env(t_ret *ret, const char *s, t_exp *param);
-int				expand_tilde_plus(t_ret *ret, const char *s, t_exp *param);
-int				expand_tilde_minus(t_ret *ret, const char *s, t_exp *param);
-int				expand_tilde_directory(t_ret *ret, const char *s, t_exp *param);
-int				expand_tilde_user(t_ret *ret, const char *s, t_exp *param);
+int				expand_tilde_env(t_ret *ret, t_ret *parame, t_exp *param);
+int				expand_tilde_plus(t_ret *ret, t_ret *parame, t_exp *param);
+int				expand_tilde_minus(t_ret *ret, t_ret *parame, t_exp *param);
+int				expand_tilde_directory(t_ret *ret, t_ret *parame, t_exp *param);
+int				expand_tilde_user(t_ret *ret, t_ret *parame, t_exp *param);
 int				expand_tilde_not(t_ret *ret, const char *word);
 
 #endif
