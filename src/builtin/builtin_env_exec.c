@@ -6,11 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 01:15:20 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/19 00:51:00 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/20 03:54:40 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <wait.h>
+#ifdef __linux__
+# include <wait.h>
+#endif
 #include "libft.h"
 #include "ft_printf.h"
 #include "shell_lib.h"
