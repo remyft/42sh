@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 19:47:39 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/06 21:47:08 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/21 06:56:24 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int				command_path(char **path, char *cmd, char *paths)
 	char		*ptr;
 
 	if (!cmd || !paths)
-		return (ERR_OK_VAL);
+		return (ERR_NO_SUCH_FILE_VAL);
 	if (ft_strrchr(cmd, '/'))
 		return ((*path = ft_strdup(cmd)) ? ERR_OK_VAL : ERR_MALLOC_VAL);
 	ptr = paths;

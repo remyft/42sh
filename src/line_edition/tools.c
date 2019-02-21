@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/06 05:48:08 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 06:49:16 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/21 06:57:54 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,12 @@ void	free_tab(char ***tabl)
 	int i;
 
 	i = -1;
-	while ((*tabl)[++i])
-		free((*tabl)[i]);
-	free(*tabl);
+	if (*tabl)
+	{
+		while ((*tabl)[++i])
+			free((*tabl)[i]);
+		free(*tabl);
+	}
 }
 
 char	**ft_ralloc(char ***env, int len)
