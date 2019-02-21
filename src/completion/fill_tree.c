@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:45:40 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 06:51:49 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/21 06:45:10 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,12 @@ void		fill_tree_env(char **env, t_tree **ternary)
 		(*ternary)->value = -1;
 	}
 	i = 0;
-	while (env[i])
-	{
-		var = strdup_until(env[i], '=');
-		feed_tree(var, -1, ternary, 0);
-		free(var);
-		i++;
-	}
+	if (env)
+		while (env[i])
+		{
+			var = strdup_until(env[i], '=');
+			feed_tree(var, -1, ternary, 0);
+			free(var);
+			i++;
+		}
 }

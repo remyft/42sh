@@ -6,13 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 05:26:06 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/19 03:43:17 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/21 05:22:40 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "builtin_alias.h"
-	#include<stdio.h>
+
 static int		alias_strncmp(const char *s1, const char *s2, size_t len)
 {
 	size_t		i;

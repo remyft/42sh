@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 07:53:53 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/21 05:32:29 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@
 # define DOWN 1 << 3
 # define WINCH 1 << 4
 
-#define BIN 0
-#define FILES 1
-#define TMP 2
-#define ENV 3
-#define GET_TREE(x, y) x[y]
+# define BIN 0
+# define FILES 1
+# define TMP 2
+# define ENV 3
+# define GET_TREE(x, y) x[y]
 
 typedef enum	e_state
 {
