@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/02/20 07:40:07 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/02/20 19:54:05 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,6 +80,8 @@ SRCS +=	create_tree.c						\
 		deal_change.c						\
 		color_put.c							\
 		get_completion.c					\
+		deal_put_tool.c						\
+		get_comp_tools.c					\
 
 # TERMCAPS
 TERM_DIR = $(SRCS_DIR)termcaps/
@@ -288,28 +290,31 @@ MOON		=	$$(echo 🌝)
 CLOCK		=	$$(echo 🕛)
 DELTA		=	$$(echo "$$(tput cols)-$(COL)-$(DIRNAMELEN)-20"|bc)
 NB			=	$(words $(SRCS))
+MAX			=	$$(echo "$(NB) - 1"|bc)
 INDEX		=	0
 TSITSI = 	$(eval DONE=$(shell echo $$(($(INDEX)*$(COL)/$(NB)))))  \
 	$(eval PERCENT=$(shell echo $$(($(INDEX)*101/$(NB)))))  \
 	$(eval COLOR=$(shell echo $$(($(PERCENT)%35+196))))  \
 	$(eval TO_DO=$(shell echo $$(($(COL)-$(INDEX)*$(COL)/$(NB)))))  \
-	$(eval MOON=$(shell if [ $(MOON) == 🌝 ]; then echo 🌔; \
-						elif [ $(MOON) == 🌔 ]; then echo 🌓; \
-						elif [ $(MOON) == 🌓 ]; then echo 🌒; \
-						elif [ $(MOON) == 🌒 ]; then echo 🌚; \
-						elif [ $(MOON) == 🌚 ]; then echo 🌘; \
-						elif [ $(MOON) == 🌘 ]; then echo 🌗; \
-						elif [ $(MOON) == 🌗 ]; then echo 🌖; \
-						elif [ $(MOON) == 🌖 ]; then echo 🌝; fi )) \
-	$(eval CLOCK=$(shell if [ $(CLOCK) == 🕛 ]; then echo 🕑; \
-						elif [ $(CLOCK) == 🕑 ]; then echo 🕒; \
-						elif [ $(CLOCK) == 🕒 ]; then echo 🕔; \
-						elif [ $(CLOCK) == 🕔 ]; then echo 🕕; \
-						elif [ $(CLOCK) == 🕕 ]; then echo 🕗; \
-						elif [ $(CLOCK) == 🕗 ]; then echo 🕘; \
-						elif [ $(CLOCK) == 🕘 ]; then echo 🕙; \
-						elif [ $(CLOCK) == 🕙 ]; then echo 🕛; fi )) \
-	printf "\r\033[38;5;11m%s  MAKE : %3d%% \033[48;5;%dm%*s\033[0m%*s %s  21sh/%.*s\033[0m\033[K" $(MOON) $(PERCENT) $(COLOR) $(DONE) "" $(TO_DO) "" $(CLOCK) $(DELTA) "$<" \
+	$(eval MOON=$(shell if [ $(INDEX) == $(MAX) ]; then echo 🌞; \
+							elif [ $(MOON) == 🌝 ]; then echo 🌔; \
+							elif [ $(MOON) == 🌔 ]; then echo 🌓; \
+							elif [ $(MOON) == 🌓 ]; then echo 🌒; \
+							elif [ $(MOON) == 🌒 ]; then echo 🌚; \
+							elif [ $(MOON) == 🌚 ]; then echo 🌘; \
+							elif [ $(MOON) == 🌘 ]; then echo 🌗; \
+							elif [ $(MOON) == 🌗 ]; then echo 🌖; \
+							elif [ $(MOON) == 🌖 ]; then echo 🌝; fi )) \
+	$(eval CLOCK=$(shell if [ $(INDEX) == $(MAX) ]; then echo 💥; \
+							elif [ $(CLOCK) == 🕛 ]; then echo 🕑; \
+							elif [ $(CLOCK) == 🕑 ]; then echo 🕒; \
+							elif [ $(CLOCK) == 🕒 ]; then echo 🕔; \
+							elif [ $(CLOCK) == 🕔 ]; then echo 🕕; \
+							elif [ $(CLOCK) == 🕕 ]; then echo 🕗; \
+							elif [ $(CLOCK) == 🕗 ]; then echo 🕘; \
+							elif [ $(CLOCK) == 🕘 ]; then echo 🕙; \
+							elif [ $(CLOCK) == 🕙 ]; then echo 🕛; fi )) \
+	printf "\r\033[38;5;11m%s  MAKE : %3d%% \033[48;5;%dm%*s\033[0m%*s%s  21sh/%.*s\033[0m\033[K" $(MOON) $(PERCENT) $(COLOR) $(DONE) "" $(TO_DO) "" $(CLOCK) $(DELTA) "$<" \
 	$(eval INDEX=$(shell echo $$(($(INDEX)+1)))) \
 
 RESET	= \x1b[0m

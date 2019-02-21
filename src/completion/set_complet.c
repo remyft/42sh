@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 17:13:29 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 06:51:58 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/08 16:50:23 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,19 @@
 #include "libft.h"
 #include "shell_lib.h"
 #include "shell_term.h"
+
+static char	get_char(char *ptr, DIR *dir)
+{
+	char	c;
+
+	if (ptr && (dir = opendir(ptr + 1)))
+		c = '/';
+	else
+		c = ' ';
+	if (dir)
+		closedir(dir);
+	return (c);
+}
 
 static int	deal_set(t_line *line, char *ptr, DIR *dir)
 {
@@ -31,16 +44,14 @@ static int	deal_set(t_line *line, char *ptr, DIR *dir)
 		tmp = ptr;
 	}
 	line->tree[2] = free_tree(line->tree[2]);
-	if (ptr && (dir = opendir(ptr + 1)))
-		c = '/';
-	else
-		c = ' ';
-	ft_putchar(line->curr->buff[(line->len)] = c);
-	line->curr->buff[++(line->len)] = '\0';
+	c = get_char(ptr, dir);
+	if (line->tmp[0] != ' ')
+	{
+		ft_putchar(line->curr->buff[(line->len)] = c);
+		line->curr->buff[++(line->len)] = '\0';
+	}
 	if (tmp)
 		free(tmp);
-	if (dir)
-		closedir(dir);
 	return (0);
 }
 

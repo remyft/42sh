@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:43:32 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 04:07:11 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/08 16:52:08 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "shell_term.h"
 #include "history.h"
 
-static void	get_old_hist(t_hist **begin, int fd, int continu)
+static void		get_old_hist(t_hist **begin, int fd, int continu)
 {
 	t_hist	*curr;
 
@@ -34,8 +34,7 @@ static void	get_old_hist(t_hist **begin, int fd, int continu)
 			curr->c_size = ft_strlen(curr->content);
 		if (!continu)
 		{
-			if (curr->content)
-				free(curr->content);
+			free(curr->content);
 			free(curr);
 			if (*begin)
 				(*begin)->prev = NULL;
@@ -45,7 +44,7 @@ static void	get_old_hist(t_hist **begin, int fd, int continu)
 	}
 }
 
-void		create_hist(t_hist **begin, char **env)
+void			create_hist(t_hist **begin, char **env)
 {
 	t_hist	*curr;
 	int		fd;
@@ -91,7 +90,7 @@ static t_hist	*fill_hist(char *buff, int fd)
 	return (curr);
 }
 
-static void	get_new_hist(t_hist **curr, char *buff, int fd)
+static void		get_new_hist(t_hist **curr, char *buff, int fd)
 {
 	if (*curr)
 	{
@@ -119,7 +118,8 @@ static void	get_new_hist(t_hist **curr, char *buff, int fd)
 		*curr = fill_hist(buff, fd);
 }
 
-void		save_history(t_line *line, char *buff, t_hist **curr, char **env)
+void			save_history(t_line *line, char *buff, t_hist **curr,
+		char **env)
 {
 	int		j;
 	int		fd;

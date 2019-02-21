@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:40:31 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 03:37:46 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/08 16:39:47 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "shell.h"
 #include "libft.h"
 #include "shell_lib.h"
+#include "shell_term.h"
 
 int			check_select(t_tree *tern, t_cpl_e *env, t_slct **select)
 {
@@ -56,46 +57,49 @@ char		*find_separator(char *buff)
 	i = ft_strlen(buff) - 1;
 	while (i >= 0)
 	{
-		if (ft_strchr(";&| ", buff[i]))
+		if (ft_strchr(";&| /", buff[i]))
 			return (&buff[i + 1]);
 		i--;
 	}
 	return (buff);
 }
 
-#include "shell_term.h"
-
-int			get_select(t_line *line, t_tree *tern, t_cpl_e *env,
+int			get_select_tool(t_line *line, t_tree *tern, t_cpl_e *env,
 		t_slct **select)
 {
 	int		lenm;
 	char	*ptr;
 
 	lenm = 0;
+	ptr = find_separator(line->curr->buff_tmp);
+	env->chr = ft_strdup(ptr);
+	if (!*env->chr)
+		get_max_len(tern, &lenm);
+	else
+		lenm = check_select(tern, env, select);
+	return (lenm);
+}
+
+int			get_select(t_line *line, t_tree *tern, t_cpl_e *env,
+		t_slct **select)
+{
+	int		lenm;
+
+	lenm = 0;
 	if ((env->is_dol = have_to_expand(line)))
 		lenm = deal_expand(line, tern, env, select);
 	else if (!(env->ptr = sh_strrchr(line->curr->buff_tmp, ' ')))
-	{
-		ptr = find_separator(line->curr->buff_tmp);
-		env->chr = ft_strdup(ptr);
-		if (*ptr)
-			lenm = check_select(tern, env, select);
-		else
-			get_max_len(tern, &lenm);
-	}
+		lenm = get_select_tool(line, tern, env, select);
 	else if (*(env->chr = !sh_strchr(env->ptr, '/') ? ft_strdup(env->ptr + 1)
 				: ft_strdup(sh_strrchr(line->curr->buff_tmp, '/') + 1)))
 	{
-		if ((env->ptr = find_separator(env->ptr)))
-			env->chr = ft_strdup(env->ptr);
-		if (!*env->chr)
-			get_max_len(tern, &lenm);
-		else
-			lenm = check_select(tern, env, select);
+		free(env->chr);
+		lenm = get_select_tool(line, tern, env, select);
 	}
 	else
 		get_max_len(tern, &lenm);
-	if (lenm == -1)
+	env->lenm = lenm;
+	if (lenm == -1 || check_put(line, tern, select, env))
 		return (-1);
 	change_buff(*select, env, line, tern);
 	return (lenm);

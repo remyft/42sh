@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:34:09 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 03:38:30 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/08 16:40:27 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char		*find_start_pos(char *buff, t_line *line)
 	i = line->len - 1;
 	while (i > 0)
 	{
-		if (ft_strchr("&|; ", buff[i]))
+		if (ft_strchr("&|; /", buff[i]))
 			return (buff + i + 1);
 		i--;
 	}
@@ -39,7 +39,8 @@ static void	get_new_file(t_tree *tern, t_cpl_e env, t_line *line)
 		stercat(line->curr->buff_tmp, env.bru, line->curr->buff);
 	else if (!ft_strchr(ptr, '/'))
 	{
-		chr = ptr;
+		if ((chr = ptr) == line->curr->buff)
+			chr += 1;
 		if (sh_strrchr(chr, '$'))
 		{
 			chr = sh_strrchr(chr, '$') + 1;
@@ -74,13 +75,11 @@ static void	get_new_buff(t_tree *tern, t_cpl_e env, t_line *line)
 				ptr = (*(ptr + 1) == '{') ? ptr + 1 : ptr;
 				ft_bzero(ptr + 1, ft_strlen(ptr + 1));
 				ft_strcpy(ptr + 1, env.bru);
-				ft_strncat(ptr + 1, (char *)&(tern->value), 1);
 				return ;
 			}
 			ptr = find_separator(line->curr->buff);
 			ft_bzero(ptr, ft_strlen(ptr));
 			ft_strcpy(ptr, env.bru);
-			ft_strncat(ptr, (char *)&(tern->value), 1);
 		}
 	}
 }

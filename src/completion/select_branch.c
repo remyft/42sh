@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:37:51 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 04:53:53 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/08 16:45:54 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,30 @@ static int	deal_upper(t_tree *upper, char *src, int *lenm, t_slct **select)
 	return (1);
 }
 
+static int	tool_lower(t_tree *lower, char *src, int *lenm, t_slct **select)
+{
+	if (*select)
+	{
+		if (!((*select)->next = ft_memalloc(sizeof(t_slct))))
+			return (0);
+		(*select)->next->prev = *select;
+		(*select)->next->mln = lower;
+		if (*(src + 1) && !((*select)->next->down =
+					select_branch(lower->tern_next, src + 1, lenm)))
+			return (free_null((&(*select)->next)));
+	}
+	else
+	{
+		if (!(*select = ft_memalloc(sizeof(t_slct))))
+			return (0);
+		(*select)->mln = lower;
+		if (*(src + 1) && !((*select)->down =
+					select_branch(lower->tern_next, src + 1, lenm)))
+			return (free_null(select));
+	}
+	return (1);
+}
+
 static int	deal_lower(t_tree *lower, char *src, int *lenm, t_slct **select)
 {
 	while (lower && lower->value != ft_tolower(*src))
@@ -48,25 +72,8 @@ static int	deal_lower(t_tree *lower, char *src, int *lenm, t_slct **select)
 		*lenm = lower->max_len > *lenm ? lower->max_len : *lenm;
 	if (lower)
 	{
-		if (*select)
-		{
-			if (!((*select)->next = ft_memalloc(sizeof(t_slct))))
-				return (0);
-			(*select)->next->prev = *select;
-			(*select)->next->mln = lower;
-			if (*(src + 1) && !((*select)->next->down =
-						select_branch(lower->tern_next, src + 1, lenm)))
-				return (free_null((&(*select)->next)));
-		}
-		else
-		{
-			if (!(*select = ft_memalloc(sizeof(t_slct))))
-				return (0);
-			(*select)->mln = lower;
-			if (*(src + 1) && !((*select)->down =
-						select_branch(lower->tern_next, src + 1, lenm)))
-				return (free_null(select));
-		}
+		if (!tool_lower(lower, src, lenm, select))
+			return (0);
 	}
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 20:16:45 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/19 00:50:02 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/20 19:52:14 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,8 @@ void		change_buff(t_slct *select, t_cpl_e *env, t_line *line,
 	// tmp = 1;
 	if (!(env->ptr = sh_strrchr(line->curr->buff, '/')))
 		env->ptr = find_start_pos(line->curr->buff, line);
-	if (env->ptr != line->curr->buff || line->curr->buff[0] == ' ')
-		env->ptr += 1;
-	if (ft_strchr("&;|", *env->ptr))
+	if (ft_strchr("&;|/ ", *env->ptr))
 		env->ptr += 1;
 	if (deal_change(select, tern, env))
 		return ;
-	go_home(line);
-	tputs(tgetstr("cr", NULL), 1, ft_pchar);
-	put_prompt(line->prompt);
-	ft_putstr(line->curr->buff);
 }

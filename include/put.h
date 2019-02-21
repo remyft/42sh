@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:50:35 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 03:38:48 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/08 17:01:14 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@ int				put_complet(t_tree *tern, int *put, t_line *line, int *nb_ret);
 void			get_complet(t_line *line);
 void			set_complet(t_line *line, int set);
 
+int			check_is_file(char *buff, t_line *line);
+int			search_to_tmp(char *buff);
+
 void			put_branch(t_slct *select, t_cpl_e env, t_line *line,
 		int *car_ret);
 void			put_select_branch(t_slct *select, t_cpl_e env, t_line *line);
@@ -65,6 +68,8 @@ void			change_buff(t_slct *select, t_cpl_e *env, t_line *line,
 
 int				have_to_expand(t_line *line);
 
+int				check_put(t_line *line, t_tree *tern, t_slct **select,
+		t_cpl_e *env);
 void			deal_complet(t_tree *file, t_line *line);
 
 char			*find_separator(char *buff);
@@ -107,5 +112,16 @@ void			deal_slct_winch(t_tree *select, t_tree *tree);
 void			deal_tree_key(t_tree *tree, int nb_col, int key);
 void			deal_slct_key(t_slct *select, int nb_col, int key);
 
+/*
+**	Deal put tool
+*/
+
+
+int				deal_put(t_line *line, t_cpl_e env, t_slct *select,
+		t_tree *tern);
+void			deal_all_put(t_line *line, t_tree *tern, t_slct **select,
+		t_cpl_e *env);
+int				check_put(t_line *line, t_tree *tern, t_slct **select,
+		t_cpl_e *env);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:42:34 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 10:15:05 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/20 19:46:12 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,118 +16,95 @@
 #include "shell_lib.h"
 #include "shell_term.h"
 
-static char	*find_chr_buff(t_line *line)
-{
-	char	*ptr;
-
-	if (have_to_expand(line))
-		return (*(ptr = sh_strrchr(line->curr->buff, '$') + 1) == '{' ?
-				ptr + 1 : ptr);
-	return (sh_strchr(ptr = sh_strrchr(line->curr->buff, ' '), '/') ?
-			sh_strrchr(ptr, '/') + 1 : ptr + 1);
-}
-
-static int	deal_select(t_slct *select, t_cpl_e env, t_line *line)
-{
-	int		tres;
-	int		psb;
-
-	psb = 0;
-	tres = 0;
-	get_psb(select, ft_strlen(env.chr), 0, &psb);
-	if (psb == 1)
-	{
-		if (!ft_strcmp(env.chr, line->curr->buff_tmp))
-			ret_psb(select, ft_strlen(env.chr), 0, line->curr->buff);
-		else
-			ret_psb(select, ft_strlen(env.chr), 0, find_chr_buff(line));
-		free(env.chr);
-		free_select(select);
-		return (1);
-	}
-	if (line->is_putb && line->key)
-		deal_slct_key(select, env.nb_col, line->key);
-	get_isput(select, ft_strlen(env.chr), 1, &tres);
-	if (!tres)
-		reset_isput(select, ft_strlen(env.chr), 1);
-	return (0);
-}
-
-static int	deal_tree(t_line *line, t_tree *tern, t_cpl_e env)
-{
-	int		tres;
-	int		psb;
-	char	*tmp;
-	char	*chr;
-
-	tres = 0;
-	psb = 0;
-	get_tree_psb(tern, &psb);
-	if (psb == 1)
-	{
-		if ((chr = sh_strrchr(line->curr->buff, ' ')))
-			tmp = sh_strchr(chr, '/') ? sh_strrchr(chr, '/') : chr;
-		if (tern->value != '.')
-			get_tstr(tern, tmp);
-		else
-			tern->left ? get_tstr(tern->left, tmp) : get_tstr(tern->right, tmp);
-		return (1);
-	}
-	if (line->is_putb && line->key)
-		deal_tree_key(tern, env.nb_col, line->key);
-	get_put(tern, &tres, *env.chr);
-	if (!tres)
-		reset_put(tern);
-	return (0);
-}
-
 static void	init_cpl(t_cpl_e *env, t_line *line, int *put, int *nb_ret)
 {
 	env->put = put;
 	env->nb_ret = nb_ret;
 	env->nb_col = line->nb_col / (env->lenm + 1);
 	env->len = ft_strlen(env->chr);
-	tputs(tgetstr("cr", NULL), 1, ft_pchar);
+/*	tputs(tgetstr("sc", NULL), 1, ft_pchar);
+	go_home(line);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
-	put_prompt(line->prompt);
-	tputs(tgetstr("do", NULL), 1, ft_pchar);
+	tputs(tgetstr("rc", NULL), 1, ft_pchar);
+	tputs(tgetstr("do", NULL), 1, ft_pchar);*/
 }
 
-static int	deal_put(t_line *line, t_cpl_e env, t_slct *select, t_tree *tern)
+void		deal_all_put(t_line *line, t_tree *tern, t_slct **select,
+		t_cpl_e *env)
 {
-	if (select && deal_select(select, env, line))
-		return (1);
-	else if (!select && deal_tree(line, tern, env))
-		return (1);
-	if (select)
-		put_select_branch(select, env, line);
-	else if (env.lenm)
-		put_tree_branch(tern, env, line);
+	int		psb;
+
+//	sleep(1);
+	tputs(tgetstr("sc", NULL), 1, ft_pchar);
+	ft_putendl("");
+	tputs(tgetstr("cd", NULL), 1, ft_pchar);
+	ft_putendl("");
+	psb = 1;
+	env->put = &psb;
+	env->nb_col = line->nb_col / (env->lenm + 1);
+	env->len = ft_strlen(env->chr);
+	deal_put(line, *env, *select, tern);
+	if (*select)
+		free_select(*select);
+	if (env->chr)
+		free(env->chr);
+	tputs(tgetstr("do", NULL), 1, ft_pchar);
+	tputs(tgetstr("cd", NULL), 1, ft_pchar);
+	put_prompt(line->prompt);
+	ft_putstr(line->curr->buff);
+}
+
+int			check_put(t_line *line, t_tree *tern, t_slct **select,
+		t_cpl_e *env)
+{
+	int		psb;
+
+	psb = 0;
+	if (!*select)
+		get_tree_psb(tern, &psb);
 	else
+		get_psb(*select, ft_strlen(env->chr), 0, &psb);
+	psb *= env->lenm;
+	if (psb > (int)(line->nb_col * line->nb_line))
 	{
-		if (env.chr)
-			free(env.chr);
-		return (-1);
+		deal_all_put(line, tern, select, env);
+		return (1);
 	}
 	return (0);
 }
+
+#include "stdio.h"
 
 int			put_complet(t_tree *tern, int *put, t_line *line, int *nb_ret)
 {
 	t_slct	*select;
 	t_cpl_e	env;
 	int		ret;
+	int		bsn;
 
 	env.chr = NULL;
+	bsn = 0;
 	env.bru[0] = 0;
 	select = NULL;
+	env.nb_ret = nb_ret;
 	if ((env.lenm = get_select(line, tern, &env, &select)) == -1)
 		return (-1);
 	init_cpl(&env, line, put, nb_ret);
+	if (env.lenm + ((line->len + line->lprompt) % line->nb_col) >= line->nb_col && *line->e_cmpl & COMPLETION)
+	{
+		bsn = 1;
+		tputs(tgetstr("do", NULL), 1, ft_pchar);
+	}
 	if ((ret = deal_put(line, env, select, tern)))
+	{
+//		if (bsn)
+//			tputs(tgetstr("up", NULL), 1, ft_pchar);
 		return (ret);
+	}
+	if (bsn)
+		tputs(tgetstr("up", NULL), 1, ft_pchar);
 	if (*line->e_cmpl & COMPLETION)
-		if (line->is_putb < 2)
+		if (line->is_putb < 1)
 			line->is_putb += 1;
 	*(line->e_cmpl) |= COMPLETION;
 	if (env.chr)
