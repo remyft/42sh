@@ -6,14 +6,14 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/02/21 05:40:13 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/02/21 06:09:23 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 21sh
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror #-ansi -pedantic -Wmissing-prototypes
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address #-ansi -pedantic -Wmissing-prototypes
 
 LIBFT_PATH = libft
 LIBFT_LIB = $(LIBFT_PATH)/libft.a
@@ -339,7 +339,7 @@ $(PRINTF_LIB):
 	@make -C $(PRINTF_PATH)
 
 $(NAME): $(NEWLINE) $(OBJS)
-	@$(CC) $^ -o $@ $(LIBFT_LINK) $(PRINTF_LINK) $(DEBUG)
+	@$(CC) -fsanitize=address $^ -o $@ $(LIBFT_LINK) $(PRINTF_LINK) $(DEBUG)
 	@echo -e "\n$(GREEN) Compiling $(YELLOW)[ $(RESET)$(NAME)$(YELLOW) ] $(OK) $(RESET)"
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
@@ -351,7 +351,7 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(DEPS_DIR)%.d
 $(OBJS_DIR)%.o: $(ENV_DIR)%.c
 $(OBJS_DIR)%.o: $(ENV_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(LIBRARY_DIR) -I$(INC_DIR)/$(TOKEN_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(LINE_DIR)%.c
