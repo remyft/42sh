@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:50:35 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 17:01:14 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/21 05:32:15 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ int				put_complet(t_tree *tern, int *put, t_line *line, int *nb_ret);
 void			get_complet(t_line *line);
 void			set_complet(t_line *line, int set);
 
-int			check_is_file(char *buff, t_line *line);
-int			search_to_tmp(char *buff);
+int				check_is_file(char *buff, t_line *line);
+int				search_to_tmp(char *buff);
 
 void			put_branch(t_slct *select, t_cpl_e env, t_line *line,
 		int *car_ret);
@@ -115,7 +115,6 @@ void			deal_slct_key(t_slct *select, int nb_col, int key);
 /*
 **	Deal put tool
 */
-
 
 int				deal_put(t_line *line, t_cpl_e env, t_slct *select,
 		t_tree *tern);
