@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 00:07:32 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/17 23:52:08 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/21 05:40:42 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void			free_shell_env(t_s_env *e)
 {
 	if (e->progpath)
 		free(e->progpath);
-	free_env(e->public_env);
-	free_env(e->private_env);
+	free_tab(&e->public_env);
+	free_tab(&e->private_env);
 	free_aliases(e->alias_list);
 }

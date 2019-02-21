@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/02/20 19:54:05 by rfontain         ###   ########.fr        #
+#    Updated: 2019/02/21 05:40:13 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,65 +44,64 @@ SRCS =	shell.c								\
 ENV_DIR = $(SRCS_DIR)environment/
 SRCS += collect_env.c						\
 		shell_env.c							\
-		free_env.c							\
 
 # LINE EDITION
 LINE_DIR = $(SRCS_DIR)line_edition/
-SRCS += tools.c								\
-		main_tools.c						\
-		signal.c							\
-		deal_struct.c						\
-		reset_line.c						\
-		deal_typing.c						\
+SRCS += create_hdoc.c						\
 		deal_hdoc.c							\
-		create_hdoc.c						\
 		deal_line.c							\
+		deal_typing.c						\
+		deal_struct.c						\
+		main_tools.c						\
+		reset_line.c						\
+		signal.c							\
+		tools.c								\
 
 # COMPLETION
 CMPL_DIR = $(SRCS_DIR)completion/
-SRCS +=	create_tree.c						\
-		deal_completion.c					\
+SRCS += completion_key.c					\
+		color_put.c							\
+		create_tree.c						\
+		cpl_select_key.c					\
+		deal_change.c						\
 		deal_complet_tools.c				\
+		deal_completion.c					\
+		deal_put_tool.c						\
+		deal_select_branch.c				\
+		deal_select_tools.c					\
+		feed_branch.c						\
+		fill_tree.c							\
+		get_completion.c					\
+		get_comp_tools.c					\
 		put_completion.c					\
 		put_select_tools.c					\
 		put_tree_tools.c					\
-		tree_tools.c						\
-		reset_tree.c						\
-		completion_key.c					\
-		cpl_select_key.c					\
 		put_tree.c							\
+		reset_tree.c						\
 		select_branch.c						\
-		deal_select_branch.c				\
-		deal_select_tools.c					\
-		fill_tree.c							\
-		feed_branch.c						\
 		set_complet.c						\
-		deal_change.c						\
-		color_put.c							\
-		get_completion.c					\
-		deal_put_tool.c						\
-		get_comp_tools.c					\
+		tree_tools.c						\
 
 # TERMCAPS
 TERM_DIR = $(SRCS_DIR)termcaps/
-SRCS += term_properties.c					\
-		move_cursor.c						\
-		term_tools.c						\
-		history.c							\
-		move_history.c						\
-		control.c							\
+SRCS += control.c							\
 		delete.c							\
-		move_word.c							\
-		typing.c							\
+		history.c							\
 		line_move.c							\
+		move_cursor.c						\
+		move_history.c						\
+		move_word.c							\
+		term_properties.c					\
+		term_tools.c						\
+		typing.c							\
 
 # USER INTERFACE
 USER_DIR = $(SRCS_DIR)user_interface/
-SRCS += select.c							\
-		line_select.c						\
-		ft_copy.c							\
+SRCS += ft_copy.c							\
 		ft_cut.c							\
 		ft_paste.c							\
+		line_select.c						\
+		select.c							\
 
 # TOKENS
 TOKEN_DIR = token/
@@ -275,13 +274,13 @@ SRCS += sh_is_escapable.c					\
 
 # GLOBING
 GLOB_DIR = $(SRCS_DIR)globing/
-SRCS += globing.c							\
-		glob_tools.c						\
+SRCS += check_glob.c						\
+		check_tool.c						\
+		fill_glob.c							\
 		get_glob.c							\
 		get_tools.c							\
-		fill_glob.c							\
-		check_glob.c						\
-		check_tool.c						\
+		glob_tools.c						\
+		globing.c							\
 
 COL			=	$$(tput cols)/3
 DIRNAME		=	$$(basename $$(pwd))
