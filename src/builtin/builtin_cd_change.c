@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 06:11:54 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/23 18:49:40 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/23 19:14:05 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 int			cd_change_pwds(char *new, char **env, t_s_env *e)
 {
 	char	*pwd;
-	char	**var;
 
 	sh_unsetenv("OLDPWD", e->public_env);
 	sh_unsetenv("OLDPWD", e->private_env);
