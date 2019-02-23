@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 08:54:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/07 00:56:23 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/21 19:31:58 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ enum
 
 int				cd_write_in_pwd(t_execute *exec, t_s_env *e, size_t i);
 int				cd_search_in_pwd(t_execute *exec, t_s_env *e, size_t i);
-int				cd_change_pwds(char *new, t_s_env *e);
+int				cd_change_pwds(char *new, char **env, t_s_env *e);
 char			*cd_recreate_path(char *pwd);
 
 int				cd_error(int err, char *arg, t_s_env *e);

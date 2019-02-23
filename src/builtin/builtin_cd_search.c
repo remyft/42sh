@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 06:03:10 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/07 01:07:01 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/21 19:32:18 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ int				cd_search_in_pwd(t_execute *exec, t_s_env *e, size_t i)
 	char		*ptr;
 	int			ret;
 
-	if ((ptr = sh_getnenv("PWD", exec->env))
-	|| (ptr = sh_getnenv("PWD", e->private_env)))
+	if ((ptr = sh_getnenv("PWD", exec->env)))
 		ft_strcpy(new_pwd, ptr);
 	else if (getcwd(new_pwd, MAXPATHLEN) == NULL)
 		return (cd_error(ERR_GETCWD, NULL, e));
@@ -51,6 +50,6 @@ int				cd_search_in_pwd(t_execute *exec, t_s_env *e, size_t i)
 		return (cd_dir_error(new_pwd, new_pwd, e));
 	if (sh_putendl_fd(new_pwd, STDOUT_FILENO) < 0)
 		return (cd_error(ERR_WRITE, NULL, e));
-	ret = cd_change_pwds(new_pwd, e);
+	ret = cd_change_pwds(new_pwd, exec->env, e);
 	return ((ret) ? cd_error(ret, exec->cmd[i], e) : ERR_NO_ERR);
 }
