@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 14:52:10 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/23 14:21:14 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/23 22:21:24 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void			debug_parser(t_m_list *list)
 # define PC(p) print_command(p)
 # define PP(p) print_pipe(p)
 # define TYPE(p) (p && *(int *)p == IS_A_COMMAND) ? PC(p) : PP(p)
-# define ERR STDERR_FILENO
+# define ERR 2
 
 static void		print_r(t_command *cmd)
 {
@@ -38,20 +38,20 @@ static void		print_r(t_command *cmd)
 	while (red)
 	{
 		if ((token = red->ionumber))
-			ft_dprintf(ERR, "\t\t\tIONUMBER %.*s\n",
-				(int)token->len, token->head);
+			dprintf(2, "\t\t\tIONUMBER %.*s\n",
+				(int)token->len, token->head); //
 		if ((token = red->token))
-			ft_dprintf(ERR, "\t\t\tREDIR %.*s\n", (int)token->len, token->head);
+			dprintf(2, "\t\t\tREDIR %.*s\n", (int)token->len, token->head);
 		if (red->arg && (token = red->arg->token))
 		{
-			ft_dprintf(ERR, "\t\t\t  ARG %.*s\n", (int)token->len, token->head);
+			dprintf(2, "\t\t\t  ARG %.*s\n", (int)token->len, token->head);
 			i = 0;
 			while (red->arg->cmd && red->arg->cmd[i])
-				ft_dprintf(ERR, "\t\t\t      %s\n", arg->cmd[i++]);
+				ft_dprintf(2, "\t\t\t      %s\n", red->arg->cmd[i++]);
 		}
 		if ((hdoc = red->heredoc))
-			ft_dprintf(ERR, "\t\t\t  HDOC %.*s\n", (int)hdoc->len, hdoc->head);
-		ft_dprintf(STDERR_FILENO, "\t\t\t---------------------\n");
+			dprintf(2, "\t\t\t  HDOC %.*s\n", (int)hdoc->len, hdoc->head);
+		ft_dprintf(2, "\t\t\t---------------------\n");
 		red = red->next;
 	}
 }
@@ -64,16 +64,16 @@ static void		print_command(t_command *cmd)
 
 	if (!cmd)
 		return ;
-	ft_dprintf(STDERR_FILENO, "\t\tCOMMAND (type : %d)\n", cmd->type);
+	ft_dprintf(2, "\t\tCOMMAND (type : %d)\n", cmd->type);
 	arg = cmd->args;
 	while (arg)
 	{
 		token = arg->token;
-		ft_dprintf(STDERR_FILENO, "\t\t\tARG %.*s\n",
+		dprintf(2, "\t\t\tARG %.*s\n",
 			(int)token->len, token->head);
 		i = 0;
 		while (arg->cmd && arg->cmd[i])
-			ft_dprintf(STDERR_FILENO, "\t\t\t    %s\n", arg->cmd[i++]);
+			ft_dprintf(2, "\t\t\t    %s\n", arg->cmd[i++]);
 		arg = arg->next;
 	}
 	print_r(cmd);
@@ -83,9 +83,9 @@ static void		print_pipe(t_pipeline *pipe)
 {
 	if (!pipe)
 		return ;
-	ft_dprintf(STDERR_FILENO, "\t\tPIPE LEFT\n");
+	ft_dprintf(2, "\t\tPIPE LEFT\n");
 	TYPE(pipe->left);
-	ft_dprintf(STDERR_FILENO, "\t\tPIPE RIGHT\n");
+	ft_dprintf(2, "\t\tPIPE RIGHT\n");
 	TYPE(pipe->right);
 }
 
@@ -95,20 +95,20 @@ void			debug_parser(t_m_list *list)
 	t_ao_list	*ao;
 
 	ptr = list;
-	ft_dprintf(STDERR_FILENO, "\nPARSER--------------------------\n");
+	ft_dprintf(2, "\nPARSER--------------------------\n");
 	while (ptr)
 	{
-		ft_dprintf(STDERR_FILENO, "Main List (mode : %d)\n", ptr->mode);
+		ft_dprintf(2, "Main List (mode : %d)\n", ptr->mode);
 		ao = ptr->aolist;
 		while (ao)
 		{
-			ft_dprintf(STDERR_FILENO, "\tAND OR LIST (mode : %d)\n", ao->mode);
+			ft_dprintf(2, "\tAND OR LIST (mode : %d)\n", ao->mode);
 			TYPE(ao->cmd);
 			ao = ao->next;
 		}
 		ptr = ptr->next;
 	}
-	ft_dprintf(STDERR_FILENO, "------------------------------END\n");
+	ft_dprintf(2, "------------------------------END\n");
 }
 
 #endif

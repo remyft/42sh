@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/17 23:47:28 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/23 22:03:38 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ t_token			*token_loop(t_param *param, int (*ft_end)(t_param *))
 		ID_TOKEN, ID_OPERATOR,
 	};
 
-	param->head = param->token;
 	while (param->token)
 	{
 		if (ft_isnull(param) || ft_end(param))
@@ -80,5 +79,6 @@ t_token			*tokenise(const char *buff, t_s_env *e)
 	param.token = new_token(buff, 0);
 	param.buff = buff;
 	param.i = 0;
+	param.head = param.token;
 	return (token_loop(&param, ft_isnull));
 }
