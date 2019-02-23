@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/18 18:04:23 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/21 12:25:25 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,11 @@ void			deal_cancel(t_line *line)
 		deal_reset(line->tree);
 		line->tmp[0] = 3;
 		line->index = line->len;
+		if ((line->len + line->lprompt) % line->nb_col == 0)
+		{
+			tputs(tgetstr("do", NULL), 1, ft_pchar);
+			tputs(tgetstr("cr", NULL), 1, ft_pchar);
+		}
 	}
 	else
 	{

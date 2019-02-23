@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:42:34 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/20 19:46:12 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/21 12:49:08 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,7 @@ int			put_complet(t_tree *tern, int *put, t_line *line, int *nb_ret)
 		tputs(tgetstr("do", NULL), 1, ft_pchar);
 	}
 	if ((ret = deal_put(line, env, select, tern)))
-	{
-//		if (bsn)
-//			tputs(tgetstr("up", NULL), 1, ft_pchar);
 		return (ret);
-	}
 	if (bsn)
 		tputs(tgetstr("up", NULL), 1, ft_pchar);
 	if (*line->e_cmpl & COMPLETION)
