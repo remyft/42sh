@@ -6,13 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:21:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/21 05:25:59 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/23 14:05:41 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parser.h"
 #include "redirection.h"
+#include "struct.h"
 
 /*
 ** Anime must watch (@ touche speciale agrum)
@@ -32,28 +33,15 @@
 static int		handle_here_doc(t_redirection **redir, t_s_env *e)
 {
 	static size_t	fnum = 0;
-	char			buff[4096];
-	char			*ptr;
-	int				ret;
+	int				mode;
 
-	ptr = buff;
-	while (1)
-	{
-		ft_putstr("\033[31mheredoc> \033[0m");
-		if ((ret = read(STDIN_FILENO, ptr, sizeof(buff) - (ptr - buff))) <= 0)
-			break ;
-		if (!ft_strncmp(ptr, (*redir)->arg->cmd[0], ret - 1))
-			break ;
-		ptr += ret;
-		if ((unsigned long)(ptr - buff) >= sizeof(buff))
-			break ;
-	}
-	*ptr = '\0';
-	if (!((*redir)->file = ft_strjoinfree("/tmp/.21sh_tmpfile_", ft_itoa(fnum++), 2)))
+	mode = O_CREAT | O_TRUNC | O_WRONLY;
+	if (!((*redir)->file = ft_strjoinfree("/tmp/.21sh_tmpfile_",
+											ft_itoa(fnum++), 2)))
 		return (redirect_error(ERR_MALLOC, (*redir)->arg->cmd[0], e));
-	if (((*redir)->fdarg = open((*redir)->file, O_CREAT | O_TRUNC | O_WRONLY, 0600)) < 0)
+	if (((*redir)->fdarg = open((*redir)->file, mode, 0600)) < 0)
 		return (redirect_open_error((*redir)->file, e));
-	write((*redir)->fdarg, buff, ptr - buff);
+	write((*redir)->fdarg, (*redir)->heredoc->head, (*redir)->heredoc->len + 1);
 	return (0);
 }
 
