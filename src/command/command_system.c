@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/15 01:28:04 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/23 17:43:06 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ static int		command_wait(pid_t pid, t_s_env *e)
 	return (e->ret);
 }
 
-static void		command_cleanup(char *name, t_execute *exec, t_s_env *e)
+static void		command_cleanup(char *name, t_execute *exec)
 {
 	ft_strdel(&name);
 	command_restore_fds(exec->fds);
-	command_free(exec, e->public_env, NULL);
+	command_free(exec, NULL);
 }
 
 int				command_system(t_execute *exec, t_s_env *e)
@@ -58,6 +58,6 @@ int				command_system(t_execute *exec, t_s_env *e)
 		else if (pid < 0)
 			error = command_error(e->progname, ERR_FORK_VAL, exec->cmd);
 	}
-	command_cleanup(name, exec, e);
+	command_cleanup(name, exec);
 	return ((e->ret = error));
 }

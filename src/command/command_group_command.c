@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_group.c                                    :+:      :+:    :+:   */
+/*   command_group_command.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 19:29:00 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/15 03:49:10 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/21 18:18:38 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char		**alloc_command(t_argument *cmd)
 	return (ft_memalloc(sizeof(*ret) * (size + 1)));
 }
 
-char			**command_group(t_argument *cmd)
+char			**command_group_command(t_argument *cmd)
 {
 	char		**ret;
 	size_t		i;
