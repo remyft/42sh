@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/20 20:43:39 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/15 02:41:59 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/23 11:06:19 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int			parse_ao_list(t_token **token, t_p_param *param, t_s_env *e)
 	if (!check_token_next((*token)->next))
 		return (parse_error(ERR_UNEXPECTED_TOKEN, (*token)->next, e));
 	if (!(param->aolist = new_ao_list(*token, &(*param->aolist)->next)))
-		return (parse_error(ERR_MALLOC_FAILED, *token, e));
+		return (parse_error(ERR_MALLOC_FAILED, NULLTOKEN, e));
 	if (!(param->cmd = new_command(&(*param->aolist)->cmd)))
-		return (parse_error(ERR_MALLOC_FAILED, *token, e));
+		return (parse_error(ERR_MALLOC_FAILED, NULLTOKEN, e));
 	param->arg = &((t_command *)*param->cmd)->args;
 	param->redir = &((t_command *)*param->cmd)->redir;
 	return (1);
