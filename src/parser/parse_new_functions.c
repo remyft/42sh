@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/19 18:24:09 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/22 22:34:37 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/24 18:01:42 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ t_m_list		**new_m_list(t_token *token, t_m_list **list)
 		return (NULL);
 	if ((*list = ft_memalloc(sizeof(**list))) == NULLLIST)
 		return (NULL);
-	if (token->id == BACKGRND_VALUE)
-		(*list)->mode = token->id;
-	else
-		(*list)->mode = SEMI_VALUE;
+	(*list)->mode = SEMI_VALUE;
 	return (list);
 }
 
