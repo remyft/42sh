@@ -7,10 +7,14 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*   Updated: 2019/02/23 16:22:56 by dbaffier         ###   ########.fr       */
 =======
 /*   Updated: 2019/02/23 17:43:06 by gbourgeo         ###   ########.fr       */
 >>>>>>> ae67f43beccf4176e735b3f1aabc8424f9d8a5a7
+=======
+/*   Updated: 2019/02/24 18:54:13 by gbourgeo         ###   ########.fr       */
+>>>>>>> 0da62b1aea1eb542d11da9bd1755dd461c2b81ca
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +33,17 @@ static void		command_execve(char *name, t_execute *exec)
 
 static int		command_wait(pid_t pid, t_s_env *e)
 {
-	waitpid(pid, &e->ret, 0);
-	return (e->ret);
+	pid_t		ret;;
+
+	while ((ret = waitpid(pid, &e->ret, 0)) > 0)
+		if (ret == pid)
+			return (0);
+	return (1);
 }
 
 static void		command_cleanup(char *name, t_execute *exec)
 {
 	ft_strdel(&name);
-	command_restore_fds(exec->fds);
 	command_free(exec, NULL);
 }
 
@@ -63,5 +70,5 @@ int				command_system(t_execute *exec, t_s_env *e)
 			error = command_error(e->progname, ERR_FORK_VAL, exec->cmd);
 	}
 	command_cleanup(name, exec);
-	return ((e->ret = error));
+	return (command_restore_fds(exec->fds));
 }
