@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/17 22:10:08 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/24 18:38:43 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,14 @@ typedef struct	s_shell_env
 	char			**public_env;
 	char			**private_env;
 	t_alias			*alias_list;
+	t_jobs			*jobs;
 	int				ret;
 	int				pid;
+	int				pgid;
 	struct termios	save;
 	int				shell_loop;
 	int				forked;
+	int				async;
 }				t_s_env;
 
 void			init_shell_env(t_s_env *e, int ac, char **av, char **env);

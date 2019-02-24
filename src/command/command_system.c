@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/24 17:53:54 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/02/24 18:37:53 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ static void		command_execve(char *name, t_execute *exec)
 
 static int		command_wait(pid_t pid, t_s_env *e)
 {
-	waitpid(pid, &e->ret, 0);
+	if (!e->async)
+		waitpid(pid, &e->ret, 0);
+	// to check segfault in fork
 	return (e->ret);
 }
 

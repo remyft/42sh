@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 00:07:32 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/23 14:23:31 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/24 18:58:27 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,7 @@ void			init_shell_env(t_s_env *e, int ac, char **av, char **env)
 	e->private_env = build_private_env(env);
 	e->ret = 0;
 	e->pid = getpid();
+	setpgid(pid, pid);
+	tcsetpgrp(0, pid);
 	e->shell_loop = 1;
 }

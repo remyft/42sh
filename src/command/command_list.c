@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/24 18:00:47 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/02/24 18:23:56 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,7 @@ static int	execute_ao_list(t_ao_list *aolist, t_s_env *e, int mode)
 {
 	if (!aolist)
 		return (0);
-	if (!aolist->next && mode & BACKGRND_VALUE)
-	{
-		printf("Enter\n");
-		//execute_backgrnd_list(aolist->cmd, e);
-	}
+	e->async = !aolist->next && mode == BACKGRND_VALUE;
 	if (!aolist->mode
 		|| (aolist->mode == OR_IF_VALUE && e->ret)
 		|| (aolist->mode == AND_IF_VALUE && !e->ret))

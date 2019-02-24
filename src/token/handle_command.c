@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 10:42:52 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/18 18:11:48 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/24 17:36:06 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_token			*handle_command(t_param *param, t_call *token)
 	i = 0;
 	if (param->token->type == UNDEFINED)
 		param->token->type = TOKEN;
-	else if (param->token->type == OPERATOR)
+	else if (param->token->type != TOKEN)
 		param->token = token[OPERATOR].identifier(param);
 	while (i < sizeof(quote) / sizeof(*quote))
 	{
