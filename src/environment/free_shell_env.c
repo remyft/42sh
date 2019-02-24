@@ -1,35 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_new.c                                        :+:      :+:    :+:   */
+/*   free_shell_env.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/22 23:05:54 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/23 20:40:24 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/02/23 14:23:24 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/02/23 14:34:16 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "token.h"
+#include <stdlib.h>
+#include "shell_lib.h"
+#include "shell_env.h"
 
-static int		define_token(int c)
+static void		free_aliases(t_alias *alias)
 {
-	if (!c || ft_isspace(c))
-		return (UNDEFINED);
-	if (ft_isoperator(c))
-		return (OPERATOR);
-	return (TOKEN);
+	if (!alias)
+		return ;
+	free_aliases(alias->next);
+	if (alias->key)
+		free(alias->key);
+	if (alias->value)
+		free(alias->value);
+	free(alias);
 }
 
-t_token			*new_token(const char *buff, size_t pos)
+void			free_shell_env(t_s_env *e)
 {
-	t_token		*new;
-
-	new = ft_memalloc(sizeof(*new));
-	if (!new)
-		return (NULLTOKEN);
-	new->type = define_token(buff[pos]);
-	new->head = buff + pos;
-	return (new);
+	if (e->progpath)
+		free(e->progpath);
+	sh_freetab(&e->public_env);
+	sh_freetab(&e->private_env);
+	free_aliases(e->alias_list);
 }

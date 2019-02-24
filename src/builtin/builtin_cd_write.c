@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 11:01:36 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/07 23:53:04 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/23 15:59:54 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,39 +15,37 @@
 #include "shell_lib.h"
 #include "builtin_cd.h"
 
-static int		cd_get_path(char *pwd, char *path)
+static int		cd_get_path(char *pwd, char *cmd)
 {
-	if (*path == '/')
-		ft_strncpy(pwd, path, MAXPATHLEN);
+	if (*cmd == '/')
+		ft_strncpy(pwd, cmd, MAXPATHLEN);
 	else if (getcwd(pwd, MAXPATHLEN) == NULL)
 		return (ERR_GETCWD);
 	else
 	{
 		ft_strncat(pwd, "/", MAXPATHLEN);
-		ft_strncat(pwd, path, MAXPATHLEN);
+		ft_strncat(pwd, cmd, MAXPATHLEN);
 	}
 	pwd = cd_recreate_path(pwd);
 	return (ERR_NO_ERR);
 }
 
-static int		cd_get_new_pwd(t_execute *exec, t_s_env *e, int i, char *pwd)
+static int		cd_get_new_pwd(char *cmd, char *pwd, char **env)
 {
 	char		*path;
 
-	if (!exec->cmd[i])
+	if (!cmd)
 	{
-		if (!(path = sh_getnenv("HOME", exec->env)))
-			if (!(path = sh_getnenv("HOME", e->private_env)))
-				return (ERR_NO_HOME);
+		if (!(path = sh_getnenv("HOME", env)))
+			return (ERR_NO_HOME);
 	}
-	else if (!ft_strcmp(exec->cmd[i], "-"))
+	else if (!ft_strcmp(cmd, "-"))
 	{
-		if (!(path = sh_getnenv("OLDPWD", exec->env))
-			&& !(path = sh_getnenv("OLDPWD", e->private_env)))
+		if (!(path = sh_getnenv("OLDPWD", env)))
 			return (ERR_NO_OLDPWD);
 	}
 	else
-		return (cd_get_path(pwd, exec->cmd[i]));
+		return (cd_get_path(pwd, cmd));
 	ft_strncpy(pwd, path, MAXPATHLEN);
 	return (ERR_NO_ERR);
 }
@@ -57,7 +55,7 @@ int				cd_write_in_pwd(t_execute *exec, t_s_env *e, size_t i)
 	char		new_pwd[MAXPATHLEN];
 	int			ret;
 
-	if ((ret = cd_get_new_pwd(exec, e, i, new_pwd)) != ERR_NO_ERR)
+	if ((ret = cd_get_new_pwd(exec->cmd[i], new_pwd, exec->env)) != ERR_NO_ERR)
 		return (cd_error(ret, exec->cmd[i], e));
 	if (chdir(new_pwd) < 0)
 		return (cd_dir_error(new_pwd, exec->cmd[i], e));
@@ -67,9 +65,8 @@ int				cd_write_in_pwd(t_execute *exec, t_s_env *e, size_t i)
 		if (getcwd(new_pwd, MAXPATHLEN) == NULL)
 			return (ERR_GETCWD);
 	}
-	if (exec->env == e->public_env)
-		if ((ret = cd_change_pwds(new_pwd, e)) == ERR_NO_ERR
-		&& exec->cmd[i] && !ft_strcmp(exec->cmd[i], "-"))
+	if ((ret = cd_change_pwds(new_pwd, exec->env, e)) == ERR_NO_ERR)
+		if (exec->cmd[i] && !ft_strcmp(exec->cmd[i], "-"))
 			if (sh_putendl_fd(new_pwd, STDOUT_FILENO) < 0)
 				return (cd_error(ERR_WRITE, NULL, e));
 	return ((ret) ? cd_error(ret, exec->cmd[i], e) : ERR_NO_ERR);

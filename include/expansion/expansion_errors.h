@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 17:39:24 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/20 11:27:39 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/21 10:25:33 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,16 @@ enum
 	ERR_AMBIGUOUS,
 };
 
-# define ERR_NONE_FUNC				{ ERR_NONE,            err_none_func }
-# define ERR_SYNTAX_FUNC			{ ERR_SYNTAX,          err_syntax_func }
-# define ERR_MODIFIER_FUNC			{ ERR_MODIFIER,        err_modifier_func }
-# define ERR_UNHANDLED_FUNC			{ ERR_UNHANDLED,       err_unhandled_func }
-# define ERR_MALLOC_FUNC			{ ERR_MALLOC,          err_malloc_func }
-# define ERR_NO_ENV_FUNC			{ ERR_NO_ENV,          err_no_env_func }
-# define ERR_DIRECTORY_STACK_FUNC	{ ERR_DIRECTORY_STACK, err_directory_func }
-# define ERR_GIVEN_FUNC				{ ERR_GIVEN,           err_given_func }
-# define ERR_NO_SUCH_USER_FUNC		{ ERR_NO_SUCH_USER,    err_no_user_func }
-# define ERR_AMBIGUOUS_FUNC			{ ERR_AMBIGUOUS,       err_ambigous_func }
+# define ERR_NONE_FUNC				{ ERR_NONE            , err_none_func }
+# define ERR_SYNTAX_FUNC			{ ERR_SYNTAX          , err_syntax_func }
+# define ERR_MODIFIER_FUNC			{ ERR_MODIFIER        , err_modifier_func }
+# define ERR_UNHANDLED_FUNC			{ ERR_UNHANDLED       , err_unhandled_func }
+# define ERR_MALLOC_FUNC			{ ERR_MALLOC          , err_malloc_func }
+# define ERR_NO_ENV_FUNC			{ ERR_NO_ENV          , err_no_env_func }
+# define ERR_DIRECTORY_STACK_FUNC	{ ERR_DIRECTORY_STACK , err_directory_func }
+# define ERR_GIVEN_FUNC				{ ERR_GIVEN           , err_given_func }
+# define ERR_NO_SUCH_USER_FUNC		{ ERR_NO_SUCH_USER    , err_no_user_func }
+# define ERR_AMBIGUOUS_FUNC			{ ERR_AMBIGUOUS       , err_ambigous_func }
 
 typedef struct	s_error
 {

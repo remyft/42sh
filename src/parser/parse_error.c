@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 18:11:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/15 02:40:27 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/23 11:00:29 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@
 int				parse_error(int err, t_token *token, t_s_env *e)
 {
 	static char	*errors[] = {
-		"parse error near unexpected token", "parse error near unhandled token",
-		"parse error from failed malloc near",
+		"parse error near unexpected token",
+		"parse error: missing token",
+		"parse error near unhandled token",
+		"parse error: malloc failed",
 	};
 
 	ft_dprintf(STDERR_FILENO, "%s: %s `", e->progname, errors[err]);

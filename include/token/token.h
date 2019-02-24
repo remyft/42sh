@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/19 02:53:46 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/23 22:03:08 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,10 @@ typedef struct	s_token
 typedef struct	s_param
 {
 	t_s_env		*e;
-	t_token		*head;
 	t_token		*token;
 	const char	*buff;
 	size_t		i;
+	t_token		*head;
 }				t_param;
 
 /*

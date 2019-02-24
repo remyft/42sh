@@ -6,12 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 05:00:02 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/17 16:39:30 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/23 19:57:43 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "command.h"
 #include "ft_dprintf.h"
+#include "command.h"
 
 #ifndef DEBUG
 

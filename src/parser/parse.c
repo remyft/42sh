@@ -6,10 +6,15 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 17:00:25 by gbourgeo          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2019/02/24 17:38:55 by dbaffier         ###   ########.fr       */
+=======
+/*   Updated: 2019/02/23 10:59:35 by gbourgeo         ###   ########.fr       */
+>>>>>>> ae67f43beccf4176e735b3f1aabc8424f9d8a5a7
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "parser.h"
 #include "handler.h"
 
@@ -24,7 +29,7 @@ static int		parse_not_handled_yet(t_token **tok, t_p_param *par, t_s_env *e)
 static int		parse_loop(t_token *token, t_p_param *param, t_s_env *e)
 {
 	static t_p_call		type_token[] = {
-		H_ARGUMENT, H_ARGUMENT, H_ARGUMENT, { NULL }, H_IO_NUMBER,
+		H_ARGUMENT, H_ARGUMENT, H_ARGUMENT, H_NEWLINE, H_IO_NUMBER,
 		H_ARGUMENT,
 	};
 	static t_p_call		type_operator[] = {
@@ -54,8 +59,9 @@ t_m_list		*parse(t_token *token, t_s_env *e)
 	t_p_param	param;
 
 	list = NULLLIST;
+	ft_memset(&param, 0, sizeof(param));
 	if (!new_tree(token, &param, &list))
-		parse_error(ERR_MALLOC_FAILED, token, e);
+		parse_error(ERR_MALLOC_FAILED, NULLTOKEN, e);
 	else if (!parse_loop(token, &param, e))
 		free_m_list(&list);
 	debug_parser(list);

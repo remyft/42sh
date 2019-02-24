@@ -6,14 +6,14 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/02/21 06:09:23 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/02/23 14:56:12 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 21sh
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address #-ansi -pedantic -Wmissing-prototypes
+CFLAGS = -Wall -Wextra -Werror #-ansi -pedantic -Wmissing-prototypes
 
 LIBFT_PATH = libft
 LIBFT_LIB = $(LIBFT_PATH)/libft.a
@@ -43,6 +43,7 @@ SRCS =	shell.c								\
 # ENVIRONMENT
 ENV_DIR = $(SRCS_DIR)environment/
 SRCS += collect_env.c						\
+		free_shell_env.c					\
 		shell_env.c							\
 
 # LINE EDITION
@@ -141,6 +142,7 @@ SRCS += parse_ao_list.c						\
 		parse_io_number.c					\
 		parse_list.c						\
 		parse_new_functions.c				\
+		parse_newline.c						\
 		parse_operator.c					\
 		parse_pipe.c						\
 		parse.c								\
@@ -154,7 +156,8 @@ SRCS += command_access.c					\
 		command_error.c						\
 		command_system.c					\
 		command_free.c						\
-		command_group.c						\
+		command_group_command.c				\
+		command_group_env.c					\
 		command_list.c						\
 		command_parse.c						\
 		command_path.c						\
@@ -339,7 +342,7 @@ $(PRINTF_LIB):
 	@make -C $(PRINTF_PATH)
 
 $(NAME): $(NEWLINE) $(OBJS)
-	@$(CC) -fsanitize=address $^ -o $@ $(LIBFT_LINK) $(PRINTF_LINK) $(DEBUG)
+	@$(CC) $^ -o $@ $(LIBFT_LINK) $(PRINTF_LINK) $(DEBUG)
 	@echo -e "\n$(GREEN) Compiling $(YELLOW)[ $(RESET)$(NAME)$(YELLOW) ] $(OK) $(RESET)"
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c

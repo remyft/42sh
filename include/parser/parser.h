@@ -6,7 +6,11 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:59:43 by gbourgeo          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2019/02/23 16:03:58 by dbaffier         ###   ########.fr       */
+=======
+/*   Updated: 2019/02/23 11:37:13 by gbourgeo         ###   ########.fr       */
+>>>>>>> ae67f43beccf4176e735b3f1aabc8424f9d8a5a7
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +23,7 @@
 enum
 {
 	ERR_UNEXPECTED_TOKEN,
+	ERR_MISSING_PARAMETER,
 	ERR_NOT_HANDLED_YET,
 	ERR_MALLOC_FAILED,
 };
@@ -36,6 +41,19 @@ typedef struct	s_argument
 }				t_argument;
 
 /*
+** Structure for here documents
+*/
+# define NULLHEREDOC	(t_hdoc *)0
+
+typedef struct	s_hdoc
+{
+	void			*redir;
+	const char		*head;
+	size_t			len;
+	struct s_hdoc	*next;
+}				t_hdoc;
+
+/*
 ** Structure for redirections
 */
 # define NULLREDIR		(t_redirection *)0
@@ -47,6 +65,7 @@ typedef struct	s_redirection
 	t_argument				*arg;
 	int						fdio;
 	int						fdarg;
+	t_hdoc					*heredoc;
 	char					*file;
 	struct s_redirection	*next;
 }				t_redirection;
@@ -120,6 +139,7 @@ typedef struct	s_parser_param
 	void			**cmd;
 	t_argument		**arg;
 	t_redirection	**redir;
+	t_hdoc			*heredoc;
 }				t_p_param;
 
 /*
@@ -149,6 +169,7 @@ int				parse_pipe(t_token **tok, t_p_param *par, t_s_env *e);
 int				parse_ao_list(t_token **tok, t_p_param *par, t_s_env *e);
 int				parse_io_number(t_token **tok, t_p_param *par, t_s_env *e);
 int				parse_argument(t_token **tok, t_p_param *par, t_s_env *e);
+int				parse_newline(t_token **tok, t_p_param *par, t_s_env *e);
 
 void			free_m_list(t_m_list **list);
 

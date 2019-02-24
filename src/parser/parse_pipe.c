@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/20 20:43:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/15 02:43:48 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/23 11:07:01 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ int				parse_pipe(t_token **token, t_p_param *param, t_s_env *e)
 	if (ptr == NULL || ptr->left == NULL || !check_token_next((*token)->next))
 		return (parse_error(ERR_UNEXPECTED_TOKEN, (*token)->next, e));
 	if ((*param->cmd = ft_memalloc(sizeof(*ptr))) == NULL)
-		return (parse_error(ERR_MALLOC_FAILED, *token, e));
+		return (parse_error(ERR_MALLOC_FAILED, NULLTOKEN, e));
 	((t_pipeline *)(*param->cmd))->type = IS_A_PIPE;
 	((t_pipeline *)(*param->cmd))->left = ptr;
 	if (!(param->cmd = new_command(&((t_pipeline *)(*param->cmd))->right)))
-		return (parse_error(ERR_MALLOC_FAILED, *token, e));
+		return (parse_error(ERR_MALLOC_FAILED, NULLTOKEN, e));
 	param->arg = &((t_command *)*param->cmd)->args;
 	param->redir = &((t_command *)*param->cmd)->redir;
 	return (1);
