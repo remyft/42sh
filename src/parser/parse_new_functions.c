@@ -7,10 +7,14 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/19 18:24:09 by gbourgeo          #+#    #+#             */
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*   Updated: 2019/02/23 16:36:52 by dbaffier         ###   ########.fr       */
 =======
 /*   Updated: 2019/02/22 22:34:37 by gbourgeo         ###   ########.fr       */
 >>>>>>> ae67f43beccf4176e735b3f1aabc8424f9d8a5a7
+=======
+/*   Updated: 2019/02/24 18:01:42 by gbourgeo         ###   ########.fr       */
+>>>>>>> 21b2848435b65b265fbd3fb244949ce539f3ea8a
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +28,7 @@ t_m_list		**new_m_list(t_token *token, t_m_list **list)
 		return (NULL);
 	if ((*list = ft_memalloc(sizeof(**list))) == NULLLIST)
 		return (NULL);
-	if (token->id == BACKGRND_VALUE)
-		(*list)->mode = token->id;
-	else
-		(*list)->mode = SEMI_VALUE;
+	(*list)->mode = SEMI_VALUE;
 	return (list);
 }
 
