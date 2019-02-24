@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:17:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/13 08:19:04 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/23 16:21:11 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 
 # include "parser.h"
 # include "shell_env.h"
+# include "job_control.h"
 
 typedef struct	s_execute
 {
 	t_argument		*variable;
 	t_argument		*command;
 	t_redirection	*redirection;
+	t_jobs			*jobs;
 	int				piped;
 	char			**cmd;
 	char			**env;

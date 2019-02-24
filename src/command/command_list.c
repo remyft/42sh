@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/15 03:32:15 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/24 17:47:26 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,15 @@ static int	prepare_command(void *cmd, t_s_env *e)
 	return (0);
 }
 
-static int	execute_ao_list(t_ao_list *aolist, t_s_env *e)
+static int	execute_ao_list(t_ao_list *aolist, t_s_env *e, int mode)
 {
 	if (!aolist)
 		return (0);
+	if (mode & BACKGRND_VALUE)
+	{
+		printf("Enter\n");
+		//execute_backgrnd_list(aolist->cmd, e);
+	}
 	if (!aolist->mode
 		|| (aolist->mode == OR_IF_VALUE && e->ret)
 		|| (aolist->mode == AND_IF_VALUE && !e->ret))
@@ -63,7 +68,7 @@ int			execute_list(t_m_list *list, t_s_env *e)
 {
 	if (!list)
 		return (0);
-	if (execute_ao_list(list->aolist, e))
+	if (execute_ao_list(list->aolist, e, list->mode))
 		return (1);
 	return (execute_list(list->next, e));
 }
