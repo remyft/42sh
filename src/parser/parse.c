@@ -6,11 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 17:00:25 by gbourgeo          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2019/02/24 17:38:55 by dbaffier         ###   ########.fr       */
-=======
-/*   Updated: 2019/02/23 10:59:35 by gbourgeo         ###   ########.fr       */
->>>>>>> ae67f43beccf4176e735b3f1aabc8424f9d8a5a7
+/*   Updated: 2019/02/24 17:53:40 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +19,6 @@ static int		parse_not_handled_yet(t_token **tok, t_p_param *par, t_s_env *e)
 	(void)par;
 	return (parse_error(ERR_NOT_HANDLED_YET, *tok, e));
 }
-
-//# define BACKGRND			"&"
 
 static int		parse_loop(t_token *token, t_p_param *param, t_s_env *e)
 {
