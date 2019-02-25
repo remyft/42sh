@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/24 18:38:43 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/02/25 17:32:53 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define SHELL_ENV_H
 
 # include <term.h>
+# include "job_control.h"
 
 # define IFS_SEPARATORS		" \t\n"
 
@@ -40,7 +41,6 @@ typedef struct	s_shell_env
 	t_jobs			*jobs;
 	int				ret;
 	int				pid;
-	int				pgid;
 	struct termios	save;
 	int				shell_loop;
 	int				forked;

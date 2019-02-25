@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 00:07:32 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/24 18:58:27 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/02/25 17:32:53 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,10 @@ void			init_shell_env(t_s_env *e, int ac, char **av, char **env)
 	e->private_env = build_private_env(env);
 	e->ret = 0;
 	e->pid = getpid();
-	setpgid(pid, pid);
-	tcsetpgrp(0, pid);
+	e->jobs = ft_memalloc(sizeof(t_jobs *));
+	e->jobs->pgid = -1;
+	setpgid(e->pid, e->pid);
+	tcsetpgrp(0, e->pid);
+	e->pgid = -1;
 	e->shell_loop = 1;
 }
