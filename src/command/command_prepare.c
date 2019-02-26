@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 20:44:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/24 17:56:39 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/02/26 22:18:39 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "shell_lib.h"
 #include "command.h"
 #include "command_error.h"
+#include "job_insert.h"
 
 static int		modify_public_environment(t_argument *var, t_s_env *e)
 {
@@ -57,6 +58,8 @@ int				command_prepare(t_execute *exec, t_s_env *e)
 	(const char **)e->public_env, (const char **)e->private_env)))
 		return (command_error(e->progname, ERR_MALLOC_VAL, exec->cmd));
 	if (!(exec->cmd = command_group_command(exec->command)))
+		return (command_error(e->progname, ERR_MALLOC_VAL, NULL));
+	if (!(insert_job(e)))
 		return (command_error(e->progname, ERR_MALLOC_VAL, NULL));
 	return (command_check(exec, e));
 }

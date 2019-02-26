@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/02/24 19:13:20 by dbaffier         ###   ########.fr        #
+#    Updated: 2019/02/26 22:23:05 by dbaffier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -287,6 +287,7 @@ SRCS += check_glob.c						\
 
 #JOB_CONTROL
 JOB_DIR = job_control/
+SRCS	+= job_insert.c						\
 
 COL			=	$$(tput cols)/3
 DIRNAME		=	$$(basename $$(pwd))
@@ -439,6 +440,12 @@ $(OBJS_DIR)%.o: $(GLOB_DIR)%.c
 $(OBJS_DIR)%.o: $(GLOB_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
 	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
+	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
+
+$(OBJS_DIR)%.o: $(SRCS_DIR)$(JOB_DIR)%.c
+$(OBJS_DIR)%.o: $(SRCS_DIR)$(JOB_DIR)%.c $(DEPS_DIR)%.d
+	@$(TSITSI)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(JOB_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(DEPS_DIR)%.d: ;

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/25 17:32:54 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/02/26 21:33:12 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,14 @@ static void		command_execve(char *name, t_execute *exec, t_s_env *e)
 	signal(SIGTTIN, SIG_DFL);
 	signal(SIGTTOU, SIG_DFL);
 	signal(SIGCHLD, SIG_DFL);
-	if (e->pgid > 0)
+	(void)e;
+	/*if (e->pgid > 0)
 		setpgid(0, e->pgid);
 	else
 	{
 		e->pgid = getpid();
 		setpgid(0, e->pgid);
-	}
+	}*/
 	execve(name, exec->cmd, exec->env);
 	exit(EXIT_FAILURE);
 }
