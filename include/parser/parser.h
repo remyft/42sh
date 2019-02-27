@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:59:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/23 11:37:13 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/28 00:34:28 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ enum
 
 typedef struct	s_argument
 {
+	int					async;
 	t_token				*token;
 	char				**cmd;
 	struct s_argument	*next;
@@ -107,7 +108,7 @@ typedef struct	s_pipeline
 
 typedef struct	s_and_or_list
 {
-	int						mode;
+	int						type;
 	void					*cmd;
 	struct s_and_or_list	*next;
 }				t_ao_list;
@@ -120,7 +121,6 @@ typedef struct	s_and_or_list
 
 typedef struct	s_main_list
 {
-	int					mode;
 	t_ao_list			*aolist;
 	struct s_main_list	*next;
 }				t_m_list;
@@ -166,6 +166,7 @@ int				parse_ao_list(t_token **tok, t_p_param *par, t_s_env *e);
 int				parse_io_number(t_token **tok, t_p_param *par, t_s_env *e);
 int				parse_argument(t_token **tok, t_p_param *par, t_s_env *e);
 int				parse_newline(t_token **tok, t_p_param *par, t_s_env *e);
+int				parse_async(t_token **tok, t_p_param *par, t_s_env *e);
 
 void			free_m_list(t_m_list **list);
 

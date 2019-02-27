@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 17:00:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/23 10:59:35 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/27 22:28:10 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int		parse_loop(t_token *token, t_p_param *param, t_s_env *e)
 	};
 	static t_p_call		type_operator[] = {
 		{ NULL }, H_AO_LIST, H_PIPE, H_OPERATOR, H_ERROR, H_AO_LIST,
-		H_LIST, H_LIST, H_ERROR, H_OPERATOR, H_OPERATOR, H_OPERATOR,
+		H_ASYNC, H_LIST, H_ERROR, H_OPERATOR, H_OPERATOR, H_OPERATOR,
 		H_OPERATOR, H_OPERATOR, H_OPERATOR, H_OPERATOR, H_OPERATOR,
 		H_OPERATOR, H_OPERATOR, H_OPERATOR, H_OPERATOR,
 	};
