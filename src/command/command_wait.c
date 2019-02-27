@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_parse.c                                    :+:      :+:    :+:   */
+/*   command_wait.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/20 01:23:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/27 23:53:13 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/02/27 20:23:05 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/02/27 23:36:48 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "command.h"
+#include <sys/wait.h>
+#include "shell_env.h"
 
-int				command_parse(void *cmd, t_s_env *e)
+int				command_wait(pid_t pid, int async, int *ret)
 {
-	t_execute	exec;
+	pid_t		got;
 
-	if (*(int *)cmd == IS_A_PIPE)
-		return (command_pipe(cmd, e));
-	command_debug(cmd);
-	ft_memset(&exec, 0, sizeof(exec));
-	if (!((t_command *)cmd)->args)
-		return (0);
-	exec.variable = ((t_command *)cmd)->args;
-	exec.redirection = ((t_command *)cmd)->redir;
-	return (command_prepare(&exec, e));
+	if (!async)
+		while ((got = waitpid(pid, ret, 0)) > 0)
+			if (got == pid)
+				return (0);
+	return (1);
 }
