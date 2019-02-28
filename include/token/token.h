@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/26 22:10:43 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/02/28 13:51:36 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,29 +159,29 @@ t_token			*identify_word(t_param *param);
 
 char			*expand_word(t_token *token);
 
-int				ft_isquote(int c);
-int				ft_issubs(int c);
-int				ft_isnewline(int c);
-int				ft_isoperator(int c);
-int				ft_isword(int c);
-int				ft_isname(int c);
+int				ft_iscommand(int c);
 int				ft_iscomment(int c);
 int				ft_isequal(int c);
+int				ft_isname(int c);
+int				ft_isnewline(int c);
 int				ft_isminus(int c);
+int				ft_isoperator(int c);
+int				ft_isquote(int c);
+int				ft_issubs(int c);
+int				ft_isword(int c);
 
-int				ft_isnull(t_param *param);
-int				ft_isendl(t_param *param);
-int				ft_isbracket(t_param *param);
-int				ft_isdparen(t_param *param);
-int				ft_isparen(t_param *param);
-int				ft_isnameend(t_param *param);
 int				ft_isbackquote(t_param *param);
+int				ft_isbracket(t_param *param);
 int				ft_isbracketend(t_param *param);
+int				ft_isdparen(t_param *param);
 int				ft_isdparenend(t_param *param);
+int				ft_isendl(t_param *param);
+int				ft_isnameend(t_param *param);
+int				ft_isnull(t_param *param);
+int				ft_isparen(t_param *param);
 int				ft_isparenend(t_param *param);
 int				ft_isspecial(t_param *param);
 int				ft_isspecialend(t_param *param);
-int				ft_iscommand(int c);
 
 int				is_token_valid_name(t_param *param);
 int				is_alias_valid_name(const char *alias, size_t len);

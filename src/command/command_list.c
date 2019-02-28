@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/28 13:25:20 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/02/28 13:51:29 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,27 +46,24 @@ static int	prepare_command(void *cmd, t_s_env *e)
 	return (0);
 }
 
-static int	execute_ao_list(t_ao_list *aolist, t_s_env *e, int mode)
+static int	execute_ao_list(t_ao_list *aolist, t_s_env *e)
 {
 	if (!aolist)
 		return (0);
-	e->async = !aolist->next && mode == BACKGRND_VALUE;
-	//if (!aolist->next && mode == BACKGRND_VALUE)
-	//	printf("Enter in bg\n");
-	if (!aolist->mode
-		|| (aolist->mode == OR_IF_VALUE && e->ret)
-		|| (aolist->mode == AND_IF_VALUE && !e->ret))
+	if (!aolist->type
+		|| (aolist->type == OR_IF_VALUE && e->ret)
+		|| (aolist->type == AND_IF_VALUE && !e->ret))
 		if (prepare_command(aolist->cmd, e)
 			|| command_parse(aolist->cmd, e))
 			return (1);
-	return (execute_ao_list(aolist->next, e, mode));
+	return (execute_ao_list(aolist->next, e));
 }
 
 int			execute_list(t_m_list *list, t_s_env *e)
 {
 	if (!list)
 		return (0);
-	if (execute_ao_list(list->aolist, e, list->mode))
+	if (execute_ao_list(list->aolist, e))
 		return (1);
 	return (execute_list(list->next, e));
 }

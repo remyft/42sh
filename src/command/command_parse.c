@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 01:23:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/28 10:59:54 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/02/28 13:51:03 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int				command_parse(void *cmd, t_s_env *e)
 {
 	t_execute	exec;
 
-	command_debug(cmd);
 	if (*(int *)cmd == IS_A_PIPE)
 		return (command_pipe(cmd, e));
+	command_debug(cmd);
 	ft_memset(&exec, 0, sizeof(exec));
 	if (!((t_command *)cmd)->args)
 		return (0);

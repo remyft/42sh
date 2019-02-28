@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 17:39:24 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/21 10:25:33 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/26 20:28:14 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # define ERR_GIVEN_STR				""
 # define ERR_NO_SUCH_USER_STR		"no such user or named directory:"
 # define ERR_AMBIGUOUS_STR			"ambiguous redirect."
+# define ERR_PIPE_STR				"pipe failed."
+# define ERR_FCNTL_STR				"fcntl failed."
+# define ERR_FORK_STR				"fork failed."
 
 /*
 ** Enumeration of expansions errors
@@ -39,6 +42,9 @@ enum
 	ERR_GIVEN,
 	ERR_NO_SUCH_USER,
 	ERR_AMBIGUOUS,
+	ERR_PIPE,
+	ERR_FCNTL,
+	ERR_FORK,
 };
 
 # define ERR_NONE_FUNC				{ ERR_NONE            , err_none_func }
@@ -51,6 +57,9 @@ enum
 # define ERR_GIVEN_FUNC				{ ERR_GIVEN           , err_given_func }
 # define ERR_NO_SUCH_USER_FUNC		{ ERR_NO_SUCH_USER    , err_no_user_func }
 # define ERR_AMBIGUOUS_FUNC			{ ERR_AMBIGUOUS       , err_ambigous_func }
+# define ERR_PIPE_FUNC				{ ERR_PIPE            , err_pipe_func }
+# define ERR_FCNTL_FUNC				{ ERR_FCNTL           , err_fcntl_func }
+# define ERR_FORK_FUNC				{ ERR_FORK            , err_fork_func }
 
 typedef struct	s_error
 {
@@ -68,5 +77,8 @@ void			err_directory_func(const char *progname, t_ret *ret);
 void			err_given_func(const char *progname, t_ret *ret);
 void			err_no_user_func(const char *progname, t_ret *ret);
 void			err_ambigous_func(const char *progname, t_ret *ret);
+void			err_pipe_func(const char *progname, t_ret *ret);
+void			err_fcntl_func(const char *progname, t_ret *ret);
+void			err_fork_func(const char *progname, t_ret *ret);
 
 #endif

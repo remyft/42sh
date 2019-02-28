@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_list.c                                       :+:      :+:    :+:   */
+/*   command_wait.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/20 20:39:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/27 23:07:49 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/02/27 20:23:05 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/02/27 23:36:48 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include <sys/wait.h>
+#include "shell_env.h"
 
-int				parse_list(t_token **token, t_p_param *param, t_s_env *e)
+int				command_wait(pid_t pid, int async, int *ret)
 {
-	if ((*token)->next && !new_tree(*token, param, &(*param->list)->next))
-		return (parse_error(ERR_MALLOC_FAILED, NULLTOKEN, e));
+	pid_t		got;
+
+	if (!async)
+		while ((got = waitpid(pid, ret, 0)) > 0)
+			if (got == pid)
+				return (0);
 	return (1);
 }

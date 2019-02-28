@@ -6,7 +6,11 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2019/02/28 10:28:06 by dbaffier         ###   ########.fr        #
+=======
+#    Updated: 2019/02/27 22:31:17 by gbourgeo         ###   ########.fr        #
+>>>>>>> master
 #                                                                              #
 # **************************************************************************** #
 
@@ -134,7 +138,8 @@ SRCS += expand_word.c						\
 
 # PARSER
 PARSER_DIR = parser/
-SRCS += parse_ao_list.c						\
+SRCS += parse_async.c						\
+		parse_ao_list.c						\
 		parse_argument.c					\
 		parse_debug.c						\
 		parse_error.c						\
@@ -165,6 +170,7 @@ SRCS += command_access.c					\
 		command_prepare.c					\
 		command_redirect.c					\
 		command_restore_fds.c				\
+		command_wait.c						\
 		environment_modify.c				\
 		quote_removal.c						\
 
@@ -195,6 +201,7 @@ SRCS += expand_debug.c						\
 		expand_error.c						\
 		expand_error_functions1.c			\
 		expand_error_functions2.c			\
+		expand_error_functions3.c			\
 		expand_fieldsplit.c					\
 		expand_free_t_ret.c					\
 		expand_glob.c						\
@@ -270,6 +277,7 @@ SRCS += sh_is_escapable.c					\
 		sh_stralnum.c						\
 		sh_strchr.c							\
 		sh_strncmp.c						\
+		sh_strnjoin.c						\
 		sh_strrchr.c						\
 		sh_tabdup.c							\
 		sh_tablen.c							\

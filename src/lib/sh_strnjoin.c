@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_list.c                                       :+:      :+:    :+:   */
+/*   sh_strnjoin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/20 20:39:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/27 23:07:49 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/02/25 23:35:18 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/02/25 23:38:30 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "libft.h"
 
-int				parse_list(t_token **token, t_p_param *param, t_s_env *e)
+char			*sh_strnjoin(const char *s1, const char *s2, size_t len)
 {
-	if ((*token)->next && !new_tree(*token, param, &(*param->list)->next))
-		return (parse_error(ERR_MALLOC_FAILED, NULLTOKEN, e));
-	return (1);
+	char		*ret;
+
+	if (!(ret = ft_memalloc(len + ft_strlen(s2) + 1)))
+		return (NULL);
+	ret = ft_strncpy(ret, s1, len);
+	ret = ft_strcat(ret, s2);
+	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:17:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/28 10:54:09 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/02/28 13:52:16 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef struct	s_execute
 	t_argument		*variable;
 	t_argument		*command;
 	t_redirection	*redirection;
-	int				piped;
+	t_jobs			*jobs;
 	char			**cmd;
 	char			**env;
 	int				builtin;
@@ -48,6 +48,7 @@ int				command_path(char **path, char *cmd, char *paths);
 int				command_access(char *path, int absolute_path);
 int				command_redirect(int fds[3], t_redirection *redir, t_s_env *e);
 int				command_restore_fds(int fds[3]);
+int				command_wait(pid_t pid, int async, int *ret);
 
 void			quote_removal(t_argument *arg);
 void			variable_assignment(t_command *cmd, t_s_env *e);
