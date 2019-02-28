@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:17:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/26 22:21:18 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/02/28 10:54:09 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct	s_execute
 	char			**cmd;
 	char			**env;
 	int				builtin;
+	int				job_id;
 	int				fds[3];
 }				t_execute;
 

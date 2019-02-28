@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 20:44:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/26 22:18:39 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/02/28 13:16:48 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int				command_prepare(t_execute *exec, t_s_env *e)
 		return (command_error(e->progname, ERR_MALLOC_VAL, exec->cmd));
 	if (!(exec->cmd = command_group_command(exec->command)))
 		return (command_error(e->progname, ERR_MALLOC_VAL, NULL));
-	if (!(insert_job(e)))
+	if (!(exec->job_id = job_insert(e)))
 		return (command_error(e->progname, ERR_MALLOC_VAL, NULL));
 	return (command_check(exec, e));
 }

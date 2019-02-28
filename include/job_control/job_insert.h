@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 22:12:48 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/02/26 22:27:18 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/02/28 10:27:56 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 # include "shell_env.h"
 
-int			insert_job(t_s_env *e);
+int			job_insert(t_s_env *e);
 
 #endif
