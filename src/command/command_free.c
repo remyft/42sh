@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 15:24:52 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/23 17:41:52 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/28 01:41:37 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,6 @@
 
 void		command_free(t_execute *exec, char *name)
 {
-	size_t		i;
-
-	i = 0;
 	if (exec->env)
 		free(exec->env);
 	exec->env = NULL;

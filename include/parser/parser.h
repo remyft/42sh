@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:59:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/28 00:34:28 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/28 02:01:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ typedef struct	s_command
 typedef struct	s_pipeline
 {
 	int				type;
-	void			*left;
+	t_command		*left;
 	void			*right;
 }				t_pipeline;
 

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:17:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/27 23:51:45 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/28 12:04:21 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,17 @@
 
 # include "parser.h"
 # include "shell_env.h"
+
+# define NULLPID	(t_pid *)0
+
+typedef struct	s_pid
+{
+	pid_t			pid;
+	int				pfd[2];
+	t_command		*cmd;
+	struct s_pid	*next;
+	struct s_pid	*prev;
+}				t_pid;
 
 typedef struct	s_execute
 {
