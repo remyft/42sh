@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:21:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/23 14:05:41 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/27 23:10:01 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static int		handle_here_doc(t_redirection **redir, t_s_env *e)
 
 int				redirect_dless(t_redirection **redir, t_s_env *e)
 {
-
 	(*redir)->fdio = (*redir)->ionumber ? ft_atoi((*redir)->ionumber->head) : 0;
 	if (handle_here_doc(redir, e))
 		return (1);

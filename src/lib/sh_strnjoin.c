@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_parse.c                                    :+:      :+:    :+:   */
+/*   sh_strnjoin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/20 01:23:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/28 13:47:46 by dbaffier         ###   ########.fr       */
+/*   Created: 2019/02/25 23:35:18 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/02/25 23:38:30 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "command.h"
 
-int				command_parse(void *cmd, t_s_env *e)
+char			*sh_strnjoin(const char *s1, const char *s2, size_t len)
 {
-	t_execute	exec;
+	char		*ret;
 
-	if (*(int *)cmd == IS_A_PIPE)
-		return (command_pipe(cmd, e));
-	command_debug(cmd);
-	ft_memset(&exec, 0, sizeof(exec));
-	if (!((t_command *)cmd)->args)
-		return (0);
-	exec.variable = ((t_command *)cmd)->args;
-	exec.redirection = ((t_command *)cmd)->redir;
-	return (command_prepare(&exec, e));
+	if (!(ret = ft_memalloc(len + ft_strlen(s2) + 1)))
+		return (NULL);
+	ret = ft_strncpy(ret, s1, len);
+	ret = ft_strcat(ret, s2);
+	return (ret);
 }

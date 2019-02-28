@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_parse.c                                    :+:      :+:    :+:   */
+/*   parse_async.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/20 01:23:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/28 13:47:46 by dbaffier         ###   ########.fr       */
+/*   Created: 2019/02/27 22:19:03 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/02/27 22:39:35 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "command.h"
+#include "parser.h"
 
-int				command_parse(void *cmd, t_s_env *e)
+int				parse_async(t_token **token, t_p_param *param, t_s_env *e)
 {
-	t_execute	exec;
+	t_command	*cmd;
 
-	if (*(int *)cmd == IS_A_PIPE)
-		return (command_pipe(cmd, e));
-	command_debug(cmd);
-	ft_memset(&exec, 0, sizeof(exec));
-	if (!((t_command *)cmd)->args)
-		return (0);
-	exec.variable = ((t_command *)cmd)->args;
-	exec.redirection = ((t_command *)cmd)->redir;
-	return (command_prepare(&exec, e));
+	cmd = (t_command *)*param->cmd;
+	if (!cmd || !cmd->args)
+		return (parse_error(ERR_UNEXPECTED_TOKEN, *token, e));
+	cmd->args->async = 1;
+	return (1);
 }

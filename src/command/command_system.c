@@ -6,15 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-<<<<<<< HEAD
-<<<<<<< HEAD
-/*   Updated: 2019/02/23 16:22:56 by dbaffier         ###   ########.fr       */
-=======
-/*   Updated: 2019/02/23 17:43:06 by gbourgeo         ###   ########.fr       */
->>>>>>> ae67f43beccf4176e735b3f1aabc8424f9d8a5a7
-=======
-/*   Updated: 2019/02/24 18:54:13 by gbourgeo         ###   ########.fr       */
->>>>>>> 0da62b1aea1eb542d11da9bd1755dd461c2b81ca
+/*   Updated: 2019/02/28 13:47:39 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +21,6 @@ static void		command_execve(char *name, t_execute *exec)
 {
 	execve(name, exec->cmd, exec->env);
 	exit(EXIT_FAILURE);
-}
-
-static int		command_wait(pid_t pid, t_s_env *e)
-{
-	pid_t		ret;;
-
-	while ((ret = waitpid(pid, &e->ret, 0)) > 0)
-		if (ret == pid)
-			return (0);
-	return (1);
 }
 
 static void		command_cleanup(char *name, t_execute *exec)
@@ -65,7 +47,7 @@ int				command_system(t_execute *exec, t_s_env *e)
 		if (e->forked || (pid = fork()) == 0)
 			command_execve(name, exec);
 		if (pid > 0)
-			error = command_wait(pid, e);
+			error = command_wait(pid, exec->command->async, &e->ret);
 		else if (pid < 0)
 			error = command_error(e->progname, ERR_FORK_VAL, exec->cmd);
 	}
