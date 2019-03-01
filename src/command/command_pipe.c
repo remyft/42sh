@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/09 06:58:04 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/28 16:10:26 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/01 16:13:29 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,21 @@
 
 static int		command_pipe_error(const char *err, t_s_env *e)
 {
-	ft_dprintf(STDERR_FILENO, "%s: %s failed\n", e->progname, err);
+	ft_dprintf(STDERR_FILENO, "%s: %s failed.\n", e->progname, err);
 	if (e->forked)
 		exit(EXIT_FAILURE);
 	return (1);
 }
 
-static int		command_pipe_left(void *cmd, t_s_env *e, int pfd[2])
+static int		command_pipe_left(void *cmd, t_s_env *e, int pfd[2], int *ppfd)
 {
 	t_s_env		newe;
 
+	if (ppfd[0])
+	{
+		dup2(ppfd[0], STDIN_FILENO);
+		close(ppfd[0]);
+	}
 	ft_memcpy(&newe, e, sizeof(newe));
 	newe.public_env = sh_tabdup((const char **)e->public_env);
 	newe.private_env = sh_tabdup((const char **)e->private_env);
@@ -61,54 +66,46 @@ static int		command_pipe_right(void *cmd, t_s_env *e, int pfd[2])
 	exit(newe.ret);
 }
 
-void			*command_pipeception(void *cmd, t_s_env *e, void *right)
+static int		command_last_pipe(int pfd[2], t_pipeline *cmd, t_s_env *e)
 {
-	t_command	*arg;
 	pid_t		pid;
-	int			pfd[2];
-
-	if (*(int *)((t_pipeline *)right)->right == IS_A_PIPE)
-		cmd = command_pipeception(cmd, e, ((t_pipeline *)right)->right);
-	if (pipe(pfd) < 0)
-		command_pipe_error("pipe", e);
-	if ((pid = fork()) < 0)
-		command_pipe_error("fork", e);
-	else if (pid == 0)
-		command_pipe_left(cmd, e, pfd);
-	arg = (t_command *)((t_pipeline *)cmd)->left;
-	command_wait(pid, arg->args->async, NULL);
-	close(pfd[1]);
-	dup2(pfd[0], STDIN_FILENO);
-	close(pfd[0]);
-	return (((t_pipeline *)cmd)->right);
-}
-
-int				command_pipe(void *cmd, t_s_env *e)
-{
 	t_command	*arg;
-	pid_t		pid;
-	int			pfd[2];
 
-	e->forked = 1;
-	if (*(int *)((t_pipeline *)cmd)->right == IS_A_PIPE)
-		cmd = command_pipeception(cmd, e, ((t_pipeline *)cmd)->right);
-	arg = (t_command *)((t_pipeline *)cmd)->right;
 	if ((pid = fork()) < 0)
 		return (command_pipe_error("fork", e));
 	else if (pid == 0)
-	{
-		if (pipe(pfd) < 0)
-			command_pipe_error("pipe", e);
-		if ((pid = fork()) < 0)
-			command_pipe_error("fork", e);
-		else if (pid == 0)
-			command_pipe_left(cmd, e, pfd);
-		arg = (t_command *)((t_pipeline *)cmd)->left;
-		command_wait(pid, arg->args->async, NULL);
 		command_pipe_right(cmd, e, pfd);
+	close(pfd[0]);
+	arg = (t_command *)((t_pipeline *)cmd)->right;
+	if (command_wait(pid, arg->args->async, &e->ret))
+		return (command_pipe_error("waitpid", e));
+	return (0);
+}
+
+int				command_pipe(void *cmd, t_s_env *e, int ppfd[2])
+{
+	pid_t		pid;
+	int			pfd[2];
+	t_command	*arg;
+
+	if (pipe(pfd) < 0)
+		return (command_pipe_error("pipe", e));
+	if ((pid = fork()) < 0)
+		return (command_pipe_error("fork", e));
+	else if (pid == 0)
+		command_pipe_left(cmd, e, pfd, ppfd);
+	if (ppfd[0])
+		close(ppfd[0]);
+	close(pfd[1]);
+	if (*(int *)((t_pipeline *)cmd)->right == IS_A_PIPE)
+	{
+		if (command_pipe(((t_pipeline *)cmd)->right, e, pfd))
+			return (1);
 	}
-	command_wait(pid, arg->args->async, &e->ret);
-	printf("[%s] async:%d - ret:%d\n", arg->args->cmd[0], arg->args->async, e->ret);
-	e->forked = 0;
+	else if (command_last_pipe(pfd, cmd, e))
+		return (1);
+	arg = (t_command *)((t_pipeline *)cmd)->left;
+	if (command_wait(pid, arg->args->async, NULL))
+		return (command_pipe_error("waitpid", e));
 	return (0);
 }

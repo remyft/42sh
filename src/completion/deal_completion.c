@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:38:48 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/21 12:47:02 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/02/28 01:41:09 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@
 
 static void	put_cpl_screen(t_line *line, int nb_ret)
 {
-	int		count;
-
-	count = line->index;
 	line->len = ft_strlen(line->curr->buff);
 	line->index = line->len;
 	while (nb_ret-- + 1)

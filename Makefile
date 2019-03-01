@@ -6,7 +6,11 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2019/02/28 13:52:44 by dbaffier         ###   ########.fr        #
+=======
+#    Updated: 2019/03/01 13:02:49 by gbourgeo         ###   ########.fr        #
+>>>>>>> master
 #                                                                              #
 # **************************************************************************** #
 
@@ -166,6 +170,7 @@ SRCS += command_access.c					\
 		command_prepare.c					\
 		command_redirect.c					\
 		command_restore_fds.c				\
+		command_save_fds.c					\
 		command_wait.c						\
 		environment_modify.c				\
 		quote_removal.c						\
