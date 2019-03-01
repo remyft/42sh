@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 18:30:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/03 23:54:40 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/01 18:09:07 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,33 @@
 
 enum
 {
-	ERR_OK_VAL = 0,
-	ERR_EXEC_VAL,
-	ERR_MALLOC_VAL,
-	ERR_NOT_FOUND_VAL,
-	ERR_NO_SUCH_FILE_VAL,
-	ERR_PERM_VAL,
-	ERR_IS_DIRECTORY_VAL,
-	ERR_FORK_VAL,
-	ERR_BAD_FD_VAL,
+	ERR_OK = 0,
+	ERR_NOT_FOUND,
+	ERR_NO_SUCH_FILE,
+	ERR_IS_DIRECTORY,
+	ERR_PERM,
+	ERR_MALLOC,
+	ERR_EXEC,
+	ERR_FORK,
+	ERR_BAD_FD,
+	ERR_DUP,
 };
 
-# define ERR_EXEC_STR			"execution failed"
-# define ERR_MALLOC_STR			"not enought memory"
-# define ERR_NOT_FOUND_STR		"command not found"
-# define ERR_NO_SUCH_FILE_STR	"No such file or directory"
-# define ERR_PERM_STR			"Permission denied"
-# define ERR_IS_DIRECTORY_STR	"Is a directory"
-# define ERR_FORK_STR			"fork failed"
-# define ER_BAD_FD_STR			"Bad file descriptor"
+typedef struct	s_error
+{
+	const char	*error;
+	int			value;
+}				t_error;
+
+# define ERR_OK_STR				{ ""                          , 0 }
+# define ERR_EXEC_STR			{ "execution failed"          , 127 }
+# define ERR_MALLOC_STR			{ "not enought memory"        , 127 }
+# define ERR_NOT_FOUND_STR		{ "command not found"         , 127 }
+# define ERR_NO_SUCH_FILE_STR	{ "No such file or directory" , 127 }
+# define ERR_IS_DIRECTORY_STR	{ "Is a directory"            , 126 }
+# define ERR_PERM_STR			{ "Permission denied"         , 126 }
+# define ERR_FORK_STR			{ "fork() failed"             , 124 }
+# define ERR_BAD_FD_STR			{ "Bad file descriptor"       , 124 }
+# define ERR_DUP_STR			{ "dup2() failed"             , 124 }
 
 #endif

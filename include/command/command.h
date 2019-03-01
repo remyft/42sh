@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:17:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/01 12:59:29 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/01 17:42:30 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int				command_parse(void *cmd, t_s_env *e);
 int				command_pipe(void *cmd, t_s_env *e, int ppfd[2]);
 void			command_free(t_execute *exec, char *name);
 int				command_prepare(t_execute *exec, t_s_env *e);
-int				command_error(char *progname, int err, char **cmd);
+int				command_error(char *progname, int err, char **cmd, t_s_env *e);
 char			**command_group_command(t_argument *cmd);
 char			**command_group_env(t_argument *var, t_argument *cmd,
 				const char **public, const char **private);
