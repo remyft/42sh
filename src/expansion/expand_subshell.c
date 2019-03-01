@@ -6,11 +6,11 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 20:24:31 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/27 20:30:28 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/02/28 01:42:19 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include <fcntl.h>
+#include <sys/wait.h>
 #include "libft.h"
 #include "shell_lib.h"
 #include "expansion.h"
