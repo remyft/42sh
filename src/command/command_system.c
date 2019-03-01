@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/01 16:20:06 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/01 18:36:49 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,15 @@ int				command_system(t_execute *exec, t_s_env *e)
 		}
 		else if (pid < 0)
 			error = command_error(e->progname, ERR_FORK_VAL, exec->cmd);
+	}
+	t_jobs	*jobs;
+
+	dprintf(2, "hi\n");
+	jobs = e->jobs;
+	while (jobs)
+	{
+		printf("Hello\n");
+		jobs = jobs->next;
 	}
 	command_cleanup(name, exec);
 	return (command_restore_fds(exec->fds));
