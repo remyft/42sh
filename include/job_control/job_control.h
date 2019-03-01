@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 14:09:06 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/02/28 10:47:28 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/02/28 15:29:55 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,15 @@ typedef struct			s_process
 {
 	int					pid;
 	int					status;
+	char				*cmd;
 	struct s_process	*next;
 }						t_process;
 
 typedef struct			s_jobs
 {
 	int					id;
-	t_process			*proc;
 	int					pgid;
+	t_process			*process;
 	struct s_jobs		*next;
 }						t_jobs;
 
