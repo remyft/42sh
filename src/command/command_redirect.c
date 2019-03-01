@@ -6,22 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:10:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/07 22:02:59 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/01 13:03:24 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "redirection.h"
-#include "shell_env.h"
-
-static int		command_save_fds(int fd, int fds[3])
-{
-	if (fd == STDIN_FILENO || fd == STDOUT_FILENO || fd == STDERR_FILENO)
-		if (fds[fd] == 0)
-			if ((fds[fd] = fcntl(fd, F_DUPFD_CLOEXEC, 10)) < 0)
-				return (1);
-	return (0);
-}
+#include "command.h"
 
 int				command_redirect(int fds[3], t_redirection *redir, t_s_env *e)
 {
