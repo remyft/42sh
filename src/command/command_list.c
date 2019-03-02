@@ -6,11 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/01 18:36:49 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/02 15:34:11 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "job_control.h"
 #include "command.h"
 #include "operator_types.h"
 #include "expansion.h"
@@ -53,9 +54,11 @@ static int	execute_ao_list(t_ao_list *aolist, t_s_env *e)
 	if (!aolist->type
 		|| (aolist->type == OR_IF_VALUE && e->ret)
 		|| (aolist->type == AND_IF_VALUE && !e->ret))
+	{
 		if (prepare_command(aolist->cmd, e)
 			|| command_parse(aolist->cmd, e))
 			return (1);
+	}
 	return (execute_ao_list(aolist->next, e));
 }
 

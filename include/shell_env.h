@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/28 16:40:29 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/02 16:04:58 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define SHELL_ENV_H
 
 # include <term.h>
-# include "job_control.h"
-
 # define IFS_SEPARATORS		" \t\n"
 
 # define NULLALIAS		(t_alias *)0
@@ -28,6 +26,23 @@ typedef struct	s_alias
 	struct s_alias	*next;
 	struct s_alias	*prev;
 }				t_alias;
+
+typedef struct	s_process
+{
+	int					pid;
+	int					status;
+	char				*cmd;
+	struct s_process	*next;
+}				t_process;
+
+
+typedef struct	s_jobs
+{
+	int					id;
+	int					pgid;
+	t_process			*process;
+	struct s_jobs		*next;
+}				t_jobs;
 
 typedef struct	s_shell_env
 {

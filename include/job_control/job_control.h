@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 14:09:06 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/02/28 15:29:55 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/02 15:39:34 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,22 @@
 # define JOB_CONTROL_H
 
 # include "libft.h"
+# include "shell_env.h"
 
-# define JOB_RUNNING "running"
-# define JOB_SUSPENDED "suspended"
-# define JOB_DONE "done"
-# define JOB_CONTINUE "continued"
-# define JOB_TERMINATED "terminated"
+# define JOB_TERMINATED 1
+
+# define STR_RUNNING "running"
+# define STR_SUSPENDED "suspended"
+# define STR_DONE "done"
+# define STR_CONTINUE "continued"
+# define STR_TERMINATED "terminated"
 
 
-typedef struct			s_process
-{
-	int					pid;
-	int					status;
-	char				*cmd;
-	struct s_process	*next;
-}						t_process;
+int				job_insert(t_s_env *e, char **cmd);
+int				job_by_pid(t_s_env *e, pid_t pid);
+int				jobs_terminated(t_s_env *e);
+int				job_completed(t_jobs *jobs, int job_id);
 
-typedef struct			s_jobs
-{
-	int					id;
-	int					pgid;
-	t_process			*process;
-	struct s_jobs		*next;
-}						t_jobs;
+t_jobs			*get_job_by_id(int id, t_jobs *jobs);
 
 #endif

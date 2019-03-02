@@ -1,21 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   job_insert.h                                       :+:      :+:    :+:   */
+/*   job_terminated.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/26 22:12:48 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/02/28 15:31:42 by dbaffier         ###   ########.fr       */
+/*   Created: 2019/03/02 15:18:47 by dbaffier          #+#    #+#             */
+/*   Updated: 2019/03/02 16:04:57 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef JOB_INSERT_H
-# define JOB_INSERT_H
+#include "job_control.h"
+#include <stdio.h>
 
-# include "shell_env.h"
+int	jobs_terminated(t_s_env *e)
+{
+	int		status;
+	pid_t	pid;
+	int		job_id;
 
-int			job_insert(t_s_env *e, char **cmd);
-t_jobs		*get_job_by_id(int id, t_jobs *jobs);
-
-#endif
+	while ((pid = waitpid(-1, &status, WNOHANG | WUNTRACED | WCONTINUED)) > 0)
+	{
+		job_id = job_by_pid(e, pid);
+		if (job_id > 0 && job_completed(e->jobs, job_id))
+		{
+			printf("[%d]+ Done [%d]\t\t%s\n", job_id, pid, "Command");
+			// remove job
+			return (1);
+		}
+	}
+	return (0);
+}

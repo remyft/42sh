@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/03/01 16:14:51 by dbaffier         ###   ########.fr        #
+#    Updated: 2019/03/02 15:36:17 by dbaffier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -293,6 +293,9 @@ SRCS += check_glob.c						\
 #JOB_CONTROL
 JOB_DIR = job_control/
 SRCS	+= job_insert.c						\
+		   job_status.c						\
+		   job_terminated.c					\
+		   job_utils.c						\
 
 COL			=	$$(tput cols)/3
 DIRNAME		=	$$(basename $$(pwd))

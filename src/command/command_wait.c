@@ -6,14 +6,30 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 20:23:05 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/01 16:13:21 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/02 16:04:58 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/wait.h>
 #include "shell_env.h"
 #include "command.h"
-#include "job_insert.h"
+#include "job_control.h"
+
+
+static int waitjob(t_jobs *jobs, int id)
+{
+
+    int wait_pid = -1;
+    int status = 0;
+
+	(void)id;
+	wait_pid = waitpid(-jobs->pgid, &status, WUNTRACED);
+    if (WIFSIGNALED(status))
+	{
+		jobs->process->status = JOB_TERMINATED;
+	}
+	return (status);
+}
 
 int				command_wait2(pid_t pid, t_execute *exec, t_s_env *e)
 {
@@ -37,7 +53,8 @@ int				command_wait2(pid_t pid, t_execute *exec, t_s_env *e)
 	//	while ((got = waitpid(pid, &e->ret, 0)) > 0)
 		//	if (got == pid)
 			//	return (0);
-		waitpid(pid, &e->ret, 0);
+		waitjob(job, exec->job_id);
+	//	waitpid(pid, &e->ret, 0);
 		signal(SIGTTOU, SIG_IGN);
 		tcsetpgrp(0, getpid());
 		signal(SIGTTOU, SIG_DFL);
