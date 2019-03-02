@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:17:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/02 16:12:01 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/02 16:14:54 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,8 @@ int				command_access(char *path, int absolute_path);
 int				command_redirect(int fds[3], t_redirection *redir, t_s_env *e);
 int				command_restore_fds(int fds[3]);
 int				command_save_fds(int fd, int fds[3]);
-<<<<<<< HEAD
-int				command_wait(pid_t pid, int async, int *ret);
 int				command_wait2(pid_t pid, t_execute *exec, t_s_env *e);
-=======
 void			command_wait(pid_t pid, int async, int *ret);
->>>>>>> master
 
 void			quote_removal(t_argument *arg);
 void			variable_assignment(t_command *cmd, t_s_env *e);
