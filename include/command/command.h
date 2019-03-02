@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:17:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/01 17:42:30 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/02 15:21:28 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,6 @@
 
 # define NULLPID	(t_pid *)0
 
-typedef struct	s_pid
-{
-	t_command		*cmd;
-	struct s_pid	*next;
-	struct s_pid	*prev;
-}				t_pid;
-
 typedef struct	s_execute
 {
 	t_argument		*variable;
@@ -32,7 +25,6 @@ typedef struct	s_execute
 	t_redirection	*redirection;
 	char			**cmd;
 	char			**env;
-	int				builtin;
 	int				fds[3];
 }				t_execute;
 
@@ -56,7 +48,7 @@ int				command_access(char *path, int absolute_path);
 int				command_redirect(int fds[3], t_redirection *redir, t_s_env *e);
 int				command_restore_fds(int fds[3]);
 int				command_save_fds(int fd, int fds[3]);
-int				command_wait(pid_t pid, int async, int *ret);
+void			command_wait(pid_t pid, int async, int *ret);
 
 void			quote_removal(t_argument *arg);
 void			variable_assignment(t_command *cmd, t_s_env *e);

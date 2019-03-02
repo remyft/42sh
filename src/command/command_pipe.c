@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/09 06:58:04 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/01 16:36:08 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/02 15:20:25 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,7 @@ static int		command_last_pipe(int pfd[2], t_pipeline *cmd, t_s_env *e)
 		command_pipe_right(cmd, e, pfd);
 	close(pfd[0]);
 	arg = (t_command *)((t_pipeline *)cmd)->right;
-	if (command_wait(pid, arg->args->async, &e->ret))
-		return (command_pipe_error("waitpid()", e));
+	command_wait(pid, arg->args->async, &e->ret);
 	return (0);
 }
 
@@ -105,7 +104,6 @@ int				command_pipe(void *cmd, t_s_env *e, int ppfd[2])
 	else if (command_last_pipe(pfd, cmd, e))
 		return (1);
 	arg = (t_command *)((t_pipeline *)cmd)->left;
-	if (command_wait(pid, arg->args->async, NULL))
-		return (command_pipe_error("waitpid()", e));
+	command_wait(pid, arg->args->async, NULL);
 	return (0);
 }
