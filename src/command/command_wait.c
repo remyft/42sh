@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 20:23:05 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/02 16:04:58 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/02 16:09:52 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,24 @@ int				command_wait2(pid_t pid, t_execute *exec, t_s_env *e)
 	return (1);
 }
 
-int				command_wait(pid_t pid, int async, int *ret)
+static void		command_ret(int *ret)
+{
+	if (!ret)
+		return ;
+	if (WIFEXITED(*ret))
+		*ret = WEXITSTATUS(*ret);
+	else if (WIFSIGNALED(*ret))
+		*ret = WTERMSIG(*ret) + 128;
+	else if (WIFSTOPPED(*ret))
+		*ret = WTERMSIG(*ret) + 128;
+}
+
+void			command_wait(pid_t pid, int async, int *ret)
 {
 	pid_t		got;
 
 	if (!async)
 		while ((got = waitpid(pid, ret, 0)) > 0)
 			if (got == pid)
-				return (0);
-	return (1);
+				return (command_ret(ret));
 }

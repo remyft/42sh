@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/02 15:34:01 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/02 16:10:26 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,6 @@ static void		command_cleanup(char *name, t_execute *exec)
 	command_free(exec, NULL);
 }
 
-static int print_job_status(t_jobs *jobs, int id)
-{
-
-	printf("[%d]", id);
-    printf(" %d", jobs->process->pid);
-	printf("\n");
-
-    return (0);
-}
-
 int				command_system(t_execute *exec, t_s_env *e)
 {
 	char		*name;
@@ -67,10 +57,10 @@ int				command_system(t_execute *exec, t_s_env *e)
 
 	name = NULL;
 	if ((error = command_path(&name, exec->cmd[0],
-				sh_getnenv("PATH", exec->env))) != ERR_OK_VAL)
-		error = command_error(e->progname, error, exec->cmd);
-	else if ((error = command_access(name, **exec->cmd == '/')) != ERR_OK_VAL)
-		error = command_error(e->progname, error, exec->cmd);
+				sh_getnenv("PATH", exec->env))) != ERR_OK)
+		error = command_error(e->progname, error, exec->cmd, e);
+	else if ((error = command_access(name, **exec->cmd == '/')) != ERR_OK)
+		error = command_error(e->progname, error, exec->cmd, e);
 	else if (!command_redirect(exec->fds, exec->redirection, e))
 	{
 		pid = 0;
@@ -80,10 +70,11 @@ int				command_system(t_execute *exec, t_s_env *e)
 			error = command_wait2(pid, exec, e);
 	//		error = command_wait(pid, exec->command->async, &e->ret);
 		else if (pid < 0)
-			error = command_error(e->progname, ERR_FORK_VAL, exec->cmd);
+			error = command_error(e->progname, ERR_FORK, exec->cmd, e);
 	}
 	if (exec->command->async)
 		print_job_status(get_job_by_id(exec->job_id, e->jobs), exec->job_id);
 	command_cleanup(name, exec);
-	return (command_restore_fds(exec->fds));
+	error += command_restore_fds(exec->fds);
+	return (error);
 }
