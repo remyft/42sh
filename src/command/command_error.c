@@ -6,19 +6,20 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:06:53 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/31 23:19:06 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/01 18:07:25 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "command_error.h"
+#include "shell_env.h"
 
-int				command_error(char *progname, int err, char **cmd)
+int				command_error(char *progname, int err, char **cmd, t_s_env *e)
 {
-	static char	*error[] = {
-		"", ERR_EXEC_STR, ERR_MALLOC_STR, ERR_NOT_FOUND_STR,
-		ERR_NO_SUCH_FILE_STR, ERR_PERM_STR, ERR_IS_DIRECTORY_STR,
-		ERR_FORK_STR,
+	static t_error	errors[] = {
+		ERR_OK_STR, ERR_NOT_FOUND_STR, ERR_NO_SUCH_FILE_STR,
+		ERR_IS_DIRECTORY_STR, ERR_PERM_STR, ERR_MALLOC_STR, ERR_EXEC_STR,
+		ERR_FORK_STR, ERR_BAD_FD_STR, ERR_DUP_STR,
 	};
 
 	ft_putstr_fd(progname, STDERR_FILENO);
@@ -28,6 +29,7 @@ int				command_error(char *progname, int err, char **cmd)
 		ft_putstr_fd(cmd[0], STDERR_FILENO);
 		ft_putstr_fd(": ", STDERR_FILENO);
 	}
-	ft_putendl_fd(error[err], STDERR_FILENO);
+	ft_putendl_fd(errors[err].error, STDERR_FILENO);
+	e->ret = errors[err].value;
 	return (1);
 }

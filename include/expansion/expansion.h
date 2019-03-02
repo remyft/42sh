@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 20:20:47 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/26 15:19:32 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/02 14:10:22 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct	s_ret
 }				t_ret;
 
 /*
-** Structure for expansions global variables
+** Structure for expansions variables
 */
 typedef struct	s_expansion
 {

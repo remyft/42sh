@@ -6,12 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 03:05:48 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/21 06:50:55 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/01 20:14:12 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shell.h"
 #include "libft.h"
+#include "shell.h"
+#include "shell_lib.h"
 
 char		**collect_env(char **ep)
 {
@@ -60,19 +61,10 @@ static int	cmp_env(char *env, char *new)
 
 char		*get_env(char **env, char *to_get)
 {
-	int		i;
-	int		j;
+	char	*ptr;
 
-	i = 0;
-	while (env && env[i] && !cmp_env(env[i], to_get))
-		i++;
-	if (env && env[i])
-	{
-		j = 0;
-		while (env[i][j] != '=')
-			j++;
-		return (ft_strdup(&env[i][j + 1]));
-	}
+	if ((ptr = sh_getnenv((const char *)to_get, env)))
+		return (ft_strdup(ptr));
 	return (NULL);
 }
 
