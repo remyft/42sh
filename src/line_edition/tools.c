@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/06 05:48:08 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/21 06:57:54 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/02 16:08:40 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 
 void	put_prompt(char *prompt)
 {
-	ft_putstr(RESET);
-	ft_putstr_cl(prompt, RED);
-	ft_putstr(RESET);
+	ft_putstr_fd(RESET, STDERR_FILENO);
+	ft_putstr_fd(RED, STDERR_FILENO);
+	ft_putstr_fd(prompt, STDERR_FILENO);
+	ft_putstr_fd(RESET, STDERR_FILENO);
 }
 
 char	*get_line(int fd)
