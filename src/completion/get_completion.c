@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 03:41:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/10 21:43:40 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/03 16:46:35 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ static void	get_new_glob(t_line *line, t_slst *tmp, char *ptr)
 	int		i;
 	t_slst	*to_free;
 
-	while (tmp->prev)
-		tmp = tmp->prev;
 	ft_bzero(ptr, ft_strlen(ptr));
 	tputs(tgetstr("sc", NULL), 1, ft_pchar);
 	tputs(tgetstr("do", NULL), 1, ft_pchar);
@@ -53,6 +51,8 @@ static void	set_new_glob(t_line *line, t_slst *tmp, char *ptr)
 {
 	if (tmp)
 	{
+		while (tmp->prev)
+			tmp = tmp->prev;
 		get_new_glob(line, tmp, ptr);
 		ft_putstr(line->curr->buff);
 		line->len = ft_strlen(line->curr->buff);
