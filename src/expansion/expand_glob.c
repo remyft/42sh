@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 03:52:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/03 18:27:58 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/03 18:30:26 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include "expansion_errors.h"
 	#include <stdio.h>
 #include "struct.h"
-#include "globing.h"
+#include "shell.h"
+#include "libft.h"
 
 int				expand_glob(t_exp *param, t_ret *ret)
 {
@@ -25,7 +26,7 @@ int				expand_glob(t_exp *param, t_ret *ret)
 	(void)param;
 	(void)ret;
 	printf("glob: [%.*s]\n", (int)param->buff_len, param->buff + param->i);
-	ptr = ft_strndup(param->buff + param->i, (int)param->buff_len);
+	ptr = ft_strndup((char *)param->buff + param->i, (int)param->buff_len);
 	line = get_struct();
 	glob = deal_globing(ptr, line->tree[1]);
 	param_addchar(param->buff[param->i], ret);
