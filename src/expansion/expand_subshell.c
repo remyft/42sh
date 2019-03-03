@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 20:24:31 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/02 17:13:24 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/03 16:30:09 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,18 +103,6 @@ int				expand_subshell(t_exp *param, t_ret *ret)
 		}
 		close(pfd[0]);
 		i = 0;
-		// if (ret->substitute)
-		// 	while (ret->substitute[i])
-		// 	{
-		// 		if (ret->substitute[i] == '\n')
-		// 			ret->substitute[i] = ' ';
-		// 		i++;
-		// 	}
-		// printf("word: %s\n", ret->word);
-		// printf("subs: %s\n", ret->substitute);
-		// sh_freestr(&ret->word);
-		// ret->w_len = 0;
-		// ret->w_max = 0;
 		param_addstr(ret->substitute, ret);
 		ret->freeable = 1;
 	}
