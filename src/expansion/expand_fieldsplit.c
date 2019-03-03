@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/05 15:31:37 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/19 22:49:15 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/02 17:08:19 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void		ifs_whitespace(char *ifsws, const char *ifs)
 	while (*ifs)
 	{
 		if (ft_strchr(IFS_SEPARATORS, *ifs) && !ft_strchr(ifsws, *ifs))
-			ifsws[i] = *ifs;
+			ifsws[i++] = *ifs;
 		ifs++;
 	}
 }

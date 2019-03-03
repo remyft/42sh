@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 20:24:31 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/02 15:34:56 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/02 17:13:24 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,9 @@ int				expand_subshell(t_exp *param, t_ret *ret)
 {
 	int			pfd[2];
 	pid_t		pid;
+	size_t		i;
 
+	i = get_line_length(param->buff + param->i + 1) + param->i + 1;
 	if (pipe(pfd) < 0)
 		return (ERR_PIPE);
 	if ((pid = fork()) < 0)
@@ -66,7 +68,6 @@ int				expand_subshell(t_exp *param, t_ret *ret)
 	else if (pid == 0)
 	{
 		t_s_env		newe;
-		size_t		i;
 		char		*line;
 
 		ft_memcpy(&newe, param->e, sizeof(newe));
@@ -76,7 +77,6 @@ int				expand_subshell(t_exp *param, t_ret *ret)
 		close(pfd[0]);
 		dup2(pfd[1], STDOUT_FILENO);
 		close(pfd[1]);
-		i = get_line_length(param->buff + param->i + 1) + param->i + 1;
 		line = sh_strnjoin(param->buff + param->i + 2, "\n", i - param->i - 2);
 		if (line)
 			launch_new_cmd(&line, &newe);
@@ -103,20 +103,21 @@ int				expand_subshell(t_exp *param, t_ret *ret)
 		}
 		close(pfd[0]);
 		i = 0;
-		if (ret->substitute)
-			while (ret->substitute[i])
-			{
-				if (ret->substitute[i] == '\n')
-					ret->substitute[i] = ' ';
-				i++;
-			}
+		// if (ret->substitute)
+		// 	while (ret->substitute[i])
+		// 	{
+		// 		if (ret->substitute[i] == '\n')
+		// 			ret->substitute[i] = ' ';
+		// 		i++;
+		// 	}
 		// printf("word: %s\n", ret->word);
-		printf("subs: %s\n", ret->substitute);
-		sh_freestr(&ret->word);
-		ret->w_len = 0;
-		ret->w_max = 0;
+		// printf("subs: %s\n", ret->substitute);
+		// sh_freestr(&ret->word);
+		// ret->w_len = 0;
+		// ret->w_max = 0;
 		param_addstr(ret->substitute, ret);
-		sh_freestr(&ret->substitute);
+		ret->freeable = 1;
 	}
+	param->i = i;
 	return (ERR_NONE);
 }
