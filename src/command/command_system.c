@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/02 16:17:07 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/03 09:47:06 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ int				command_system(t_execute *exec, t_s_env *e)
 	}
 	if (exec->command->async)
 		print_job_status(get_job_by_id(exec->job_id, e->jobs), exec->job_id);
+	else
+		remove_job(&e->jobs, exec->job_id);
 	command_cleanup(name, exec);
 	error += command_restore_fds(exec->fds);
 	return (error);

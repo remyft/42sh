@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 14:09:06 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/03/02 15:39:34 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/03 09:47:08 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define STR_CONTINUE "continued"
 # define STR_TERMINATED "terminated"
 
+void			remove_job(t_jobs **jobs, int id);
 
 int				job_insert(t_s_env *e, char **cmd);
 int				job_by_pid(t_s_env *e, pid_t pid);

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 20:23:05 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/02 16:09:52 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/03 09:13:13 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static int waitjob(t_jobs *jobs, int id)
     int status = 0;
 
 	(void)id;
+	//printf("Waiting [%d]\n", -jobs->pgid);
 	wait_pid = waitpid(-jobs->pgid, &status, WUNTRACED);
     if (WIFSIGNALED(status))
 	{

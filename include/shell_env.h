@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/02 16:04:58 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/03 09:22:06 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct	s_jobs
 	int					id;
 	int					pgid;
 	t_process			*process;
+	struct s_jobs		*prev;
 	struct s_jobs		*next;
 }				t_jobs;
 

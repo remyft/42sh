@@ -6,22 +6,13 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 21:33:49 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/03/02 15:37:32 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/03 09:34:05 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "job_control.h"
+#include <stdio.h>
 
-t_jobs		*get_job_by_id(int id, t_jobs *jobs)
-{
-	while (jobs)
-	{
-		if (jobs->id == id)
-			return (jobs);
-		jobs = jobs->next;
-	}
-	return (jobs);
-}
 
 void	add_job(t_jobs *jobs, t_jobs *new)
 {
@@ -37,6 +28,7 @@ void	add_job(t_jobs *jobs, t_jobs *new)
 	}
 	new->id = id;
 	jobs->next = new;
+	new->prev = jobs;
 }
 
 int		job_insert(t_s_env *e, char **cmd)
