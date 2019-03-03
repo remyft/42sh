@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 21:19:06 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 06:53:46 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/03 16:46:24 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ static t_slst	*fill_slst(char *av, t_slist *glob, int star, int nb)
 		glob = glob->next;
 	}
 	free_glob(to_free);
+	sort_glob(ret);
 	return (ret);
 }
 

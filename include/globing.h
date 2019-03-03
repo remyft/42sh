@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 23:28:01 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/15 00:02:20 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/03 16:42:45 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,6 @@ int						deal_bracket(char **src, char **targ);
 int						check_mln(char *src, char *targ);
 void					ft_nstrstr(char *str, char *to_find, int *nb);
 int						ft_nslash(char *str);
+void					sort_glob(t_slst *glob);
 
 #endif
