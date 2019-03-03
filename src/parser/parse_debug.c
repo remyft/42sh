@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 14:52:10 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/27 23:11:53 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/03 17:06:56 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,7 @@ static void		print_command(t_command *cmd)
 
 	if (!cmd)
 		return ;
-	ft_dprintf(2, "\t\t%s COMMAND\n",
-		(cmd->args && cmd->args->async) ? "ASYNCHRONOUS" : "SIMPLE");
+	ft_dprintf(2, "\t\t%s COMMAND\n");
 	arg = cmd->args;
 	while (arg)
 	{
@@ -96,7 +95,7 @@ void			debug_parser(t_m_list *list)
 	ft_dprintf(2, "\nPARSER--------------------------\n");
 	while (ptr)
 	{
-		ft_dprintf(2, "Main List\n");
+		ft_dprintf(2, "Main List %s\n", ptr->async ? "asynchronous" : "");
 		ao = ptr->aolist;
 		while (ao)
 		{

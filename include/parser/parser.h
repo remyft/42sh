@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:59:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/28 15:38:32 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/03 16:52:13 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ enum
 
 typedef struct	s_argument
 {
-	int					async;
 	t_token				*token;
 	char				**cmd;
 	struct s_argument	*next;
@@ -121,6 +120,7 @@ typedef struct	s_and_or_list
 
 typedef struct	s_main_list
 {
+	int					async;
 	t_ao_list			*aolist;
 	struct s_main_list	*next;
 }				t_m_list;
