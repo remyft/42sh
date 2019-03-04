@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 20:23:05 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/03 09:13:13 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/03 10:55:58 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static int waitjob(t_jobs *jobs, int id)
     int status = 0;
 
 	(void)id;
-	//printf("Waiting [%d]\n", -jobs->pgid);
 	wait_pid = waitpid(-jobs->pgid, &status, WUNTRACED);
     if (WIFSIGNALED(status))
 	{
@@ -32,11 +31,10 @@ static int waitjob(t_jobs *jobs, int id)
 	return (status);
 }
 
-int				command_wait2(pid_t pid, t_execute *exec, t_s_env *e)
+void			command_wait2(pid_t pid, t_execute *exec, t_s_env *e)
 {
 	t_jobs		*job;
 	t_process	*proc;
-	//pid_t		got;
 
 	job = get_job_by_id(exec->job_id, e->jobs);
 	proc = job->process;
@@ -51,16 +49,11 @@ int				command_wait2(pid_t pid, t_execute *exec, t_s_env *e)
 	if (!exec->command->async)
 	{
 		tcsetpgrp(0, job->pgid);
-	//	while ((got = waitpid(pid, &e->ret, 0)) > 0)
-		//	if (got == pid)
-			//	return (0);
 		waitjob(job, exec->job_id);
-	//	waitpid(pid, &e->ret, 0);
 		signal(SIGTTOU, SIG_IGN);
 		tcsetpgrp(0, getpid());
 		signal(SIGTTOU, SIG_DFL);
 	}
-	return (1);
 }
 
 static void		command_ret(int *ret)
