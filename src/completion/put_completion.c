@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:42:34 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/03 12:39:57 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/04 17:28:34 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ int			put_complet(t_tree *tern, int *put, t_line *line, int *nb_ret)
 	if ((env.lenm = get_select(line, tern, &env, &select)) == -1)
 		return (-1);
 	init_cpl(&env, line, put, nb_ret);
-	if (env.lenm + ((line->len + line->lprompt) % line->nb_col) >= line->nb_col && *line->e_cmpl & COMPLETION)
+	if ((env.lenm + ((line->len + line->lprompt) % line->nb_col) >=
+			line->nb_col && *line->e_cmpl & COMPLETION))
 	{
 		bsn = 1;
 		tputs(tgetstr("do", NULL), 1, ft_pchar);
