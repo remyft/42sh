@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 14:34:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/06 18:50:43 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/03 19:14:01 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,15 @@
 #include "shell_lib.h"
 #include "builtin_env.h"
 
-int			env_opt_u(size_t *i, size_t *j, char **cmd, t_e_opt *opt)
+int			env_opt_u(char **cmd, t_e_opt *opt)
 {
 	char	*var;
 
-	if (!cmd[*i][*j + 1] && !cmd[*i + 1])
+	if (!cmd[opt->i][opt->j + 1] && !cmd[opt->i + 1])
 		return (ERR_NEED_ARG);
 	opt->options |= BUILTIN_OPT_U;
-	var = (cmd[*i][*j + 1]) ? &cmd[*i][*j + 1] : cmd[++(*i)];
+	var = (cmd[opt->i][opt->j + 1]) ?
+		&cmd[opt->i][opt->j + 1] : cmd[++(opt->i)];
 	if (opt->options & BUILTIN_OPT_V)
 	{
 		if (ft_printf("#%s unset:\t%s\n", opt->cmdname, var) < 0)

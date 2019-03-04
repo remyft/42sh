@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/03 16:43:56 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/04 13:59:29 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int				command_system(t_execute *exec, t_s_env *e)
 	if ((error = command_path(&name, exec->cmd[0],
 				sh_getnenv("PATH", exec->env))) != ERR_OK)
 		error = command_error(e->progname, error, exec->cmd, e);
-	else if ((error = command_access(name, **exec->cmd == '/')) != ERR_OK)
+	else if ((error = command_access(name, exec->cmd[0])) != ERR_OK)
 		error = command_error(e->progname, error, exec->cmd, e);
 	else if (!command_redirect(exec->fds, exec->redirection, e))
 	{
@@ -75,7 +75,11 @@ int				command_system(t_execute *exec, t_s_env *e)
 		if (e->forked || (pid = fork()) == 0)
 			command_execve(name, exec, e);
 		if (pid > 0)
+<<<<<<< HEAD
 			command_wait2(pid, exec, e);
+=======
+			command_wait(pid, 0, &e->ret);
+>>>>>>> master
 		else if (pid < 0)
 			error = command_error(e->progname, ERR_FORK, exec->cmd, e);
 	}

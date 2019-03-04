@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 05:59:37 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 06:53:32 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/03 15:05:41 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,17 @@ void		ft_paste(t_line *line)
 		return ;
 	j = 0;
 	index_tmp = line->index;
+	if (*line->e_cmpl & COMPLETION)
+	{
+		tputs(tgetstr("sc", NULL), 1, ft_pchar);
+		go_end(line);
+		tputs(tgetstr("do", NULL), 1, ft_pchar);
+		tputs(tgetstr("cr", NULL), 1, ft_pchar);
+		tputs(tgetstr("cd", NULL), 1, ft_pchar);
+		tputs(tgetstr("rc", NULL), 1, ft_pchar);
+		line->index = index_tmp;
+	}
+	*line->e_cmpl &= ~COMPLETION;
 	if (line->len + (len = ft_strlen(line->copy)) > 8192)
 		return ;
 	while (line->copy[j])
