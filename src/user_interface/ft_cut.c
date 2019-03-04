@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 11:37:00 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 06:53:25 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/04 19:50:15 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void		ft_cut(t_line *line)
 
 	if (line->slct_beg < 0)
 		return ;
-	ft_copy(line);
 	beg = line->slct_beg;
 	end = line->slct_end;
+	ft_copy(line);
 	while (line->curr->buff[beg])
 	{
 		if (line->curr->buff[end])
