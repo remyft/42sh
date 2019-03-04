@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 03:41:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/03 18:37:38 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/04 17:04:23 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ static void	get_new_glob(t_line *line, t_slst *tmp, char *ptr)
 {
 	int		i;
 	t_slst	*to_free;
+	int		tmp_len;
 
+	tmp_len = line->len;
 	ft_bzero(ptr, ft_strlen(ptr));
 	tputs(tgetstr("sc", NULL), 1, ft_pchar);
 	tputs(tgetstr("do", NULL), 1, ft_pchar);
@@ -48,7 +50,7 @@ static void	get_new_glob(t_line *line, t_slst *tmp, char *ptr)
 		free(to_free->str);
 		free(to_free);
 	}
-	i = line->len / line->nb_col;
+	i = tmp_len / line->nb_col;
 	while (i--)
 		tputs(tgetstr("up", NULL), 1, ft_pchar);
 	tputs(tgoto(tgetstr("ch", NULL), 0, line->lprompt), 1, ft_pchar);
