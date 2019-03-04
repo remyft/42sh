@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:38:48 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/28 01:41:09 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/04 17:37:26 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,18 @@
 
 static void	put_cpl_screen(t_line *line, int nb_ret)
 {
+	int		iter;
+
 	line->len = ft_strlen(line->curr->buff);
 	line->index = line->len;
-	while (nb_ret-- + 1)
+	iter = line->len + line->lprompt;
+	while (nb_ret--)
 		tputs(tgetstr("up", NULL), 1, ft_pchar);
+	while (iter >= 0)
+	{
+		tputs(tgetstr("up", NULL), 1, ft_pchar);
+		iter -= line->nb_col;
+	}
 	tputs(tgoto(tgetstr("ch", NULL), 0, 0), 1, ft_pchar);
 	put_prompt(line->prompt);
 	ft_putstr(line->curr->buff);
@@ -33,6 +41,9 @@ static void	put_cpl_screen(t_line *line, int nb_ret)
 
 int			deal_ret(t_tree *file, t_line *line, int *nb_ret, int put)
 {
+	int		tmp_len;
+
+	tmp_len = line->len + line->lprompt;
 	if ((put = put_complet(file, &put, line, nb_ret)) == 1)
 	{
 		*line->e_cmpl |= COMPLETION;
@@ -40,11 +51,14 @@ int			deal_ret(t_tree *file, t_line *line, int *nb_ret, int put)
 	}
 	else if (put == -1)
 	{
+		ft_bzero(line->curr->buff_tmp, 8194);
 		line->is_putb = 0;
 		line->tmp[0] = 0;
-		tputs(tgetstr("up", NULL), 1, ft_pchar);
-		if (line->lprompt + line->len >= line->nb_col)
+		while (tmp_len >= 0)
+		{
 			tputs(tgetstr("up", NULL), 1, ft_pchar);
+			tmp_len -= line->nb_col;
+		}
 		put_prompt(line->prompt);
 		ft_putstr(line->curr->buff);
 		if ((line->len + line->lprompt) % line->nb_col == 0)
@@ -79,8 +93,8 @@ void		deal_complet(t_tree *file, t_line *line)
 		if (deal_ret(file, line, &nb_ret, 1))
 			return ;
 	}
-	if ((ft_strlen(line->curr->buff_tmp) + line->lprompt) >= line->nb_col)
-		tputs(tgetstr("up", NULL), 1, ft_pchar);
+//	if ((ft_strlen(line->curr->buff_tmp) + line->lprompt) >= line->nb_col)
+//		tputs(tgetstr("up", NULL), 1, ft_pchar);
 	if ((line->len + line->lprompt) % line->nb_col <
 			(ft_strlen(line->curr->buff_tmp) + line->lprompt) % line->nb_col)
 	{
