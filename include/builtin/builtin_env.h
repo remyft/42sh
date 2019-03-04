@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 18:54:19 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/07 23:56:37 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/03 20:35:43 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ enum
 	BUILTIN_OPT_P = (1 << 2),
 	BUILTIN_OPT_U = (1 << 3),
 	BUILTIN_OPT_V = (1 << 4),
+	BUILTIN_OPT_END = (1 << 5),
 };
 
 /*
@@ -64,12 +65,14 @@ typedef struct	s_env_opt
 	char		*path;
 	char		**env;
 	char		*cmd;
+	size_t		i;
+	size_t		j;
 }				t_e_opt;
 
 typedef struct	s_opt
 {
 	char		value;
-	int			(*handler)(size_t *, size_t *, char **, t_e_opt *);
+	int			(*handler)(char **, t_e_opt *);
 }				t_opt;
 
 # define ENV_OPTION_LESS		{ '-', env_opt_i }
@@ -78,13 +81,13 @@ typedef struct	s_opt
 # define ENV_OPTION_P			{ 'P', env_opt_p }
 # define ENV_OPTION_U			{ 'u', env_opt_u }
 
-int				env_options(size_t *i, size_t *j, char **cmd, t_e_opt *opt);
-int				env_opt_i(size_t *i, size_t *j, char **cmd, t_e_opt *opt);
-int				env_opt_v(size_t *i, size_t *j, char **cmd, t_e_opt *opt);
-int				env_opt_p(size_t *i, size_t *j, char **cmd, t_e_opt *opt);
-int				env_opt_u(size_t *i, size_t *j, char **cmd, t_e_opt *opt);
+int				env_options(char **cmd, t_e_opt *opt);
+int				env_opt_i(char **cmd, t_e_opt *opt);
+int				env_opt_v(char **cmd, t_e_opt *opt);
+int				env_opt_p(char **cmd, t_e_opt *opt);
+int				env_opt_u(char **cmd, t_e_opt *opt);
 
-int				env_exec(t_execute *exec, size_t i, t_e_opt *opt, t_s_env *e);
+int				env_exec(t_execute *exec, t_e_opt *opt, t_s_env *e);
 
 int				env_error(int err, char *c, t_e_opt *opt, t_s_env *e);
 

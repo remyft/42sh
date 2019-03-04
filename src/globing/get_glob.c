@@ -6,11 +6,34 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 21:19:10 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 02:43:04 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/03 16:46:22 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "globing.h"
+#include "libft.h"
+
+void		sort_glob(t_slst *glob)
+{
+	t_slst	*tmp;
+	char	*ptr;
+
+	while (glob->prev)
+		glob = glob->prev;
+	tmp = glob;
+	while (glob->next)
+	{
+		if (ft_strcmp(glob->str, glob->next->str) > 0)
+		{
+			ptr = glob->str;
+			glob->str = glob->next->str;
+			glob->next->str = ptr;
+			glob = tmp;
+		}
+		else
+			glob = glob->next;
+	}
+}
 
 void	get_glob(t_tree *tree, char *tget, t_slist **glob, t_stint sti)
 {

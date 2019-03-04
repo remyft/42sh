@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/28 13:47:28 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/04 13:58:26 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,22 @@ static int	execute_ao_list(t_ao_list *aolist, t_s_env *e)
 
 int			execute_list(t_m_list *list, t_s_env *e)
 {
+	pid_t	pid;
+
+	pid = 0;
 	if (!list)
 		return (0);
-	if (execute_ao_list(list->aolist, e))
+	if (list->async)
+	{
+		if ((pid = fork()) < 0)
+			return (1);
+		if (pid == 0)
+		{
+			execute_ao_list(list->aolist, e);
+			exit(0);
+		}
+	}
+	else if (execute_ao_list(list->aolist, e))
 		return (1);
 	return (execute_list(list->next, e));
 }

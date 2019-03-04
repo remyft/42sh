@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 01:15:20 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/20 03:54:40 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/03 21:02:32 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "ft_printf.h"
 #include "shell_lib.h"
 #include "builtin_env.h"
+#include "command.h"
 
 static int		env_fork(t_e_opt *opt, t_s_env *e)
 {
@@ -28,7 +29,7 @@ static int		env_fork(t_e_opt *opt, t_s_env *e)
 	newe.public_env = opt->public_env;
 	newe.forked = 1;
 	if ((pid = fork()) > 0)
-		waitpid(pid, &e->ret, 0);
+		command_wait(pid, 0, &e->ret);
 	else if (pid == 0)
 	{
 		launch_new_cmd(&opt->cmd, &newe);
@@ -88,7 +89,7 @@ static int		env_get_command(char **cmd, t_e_opt *opt)
 	return (ERR_OK);
 }
 
-int				env_exec(t_execute *exec, size_t i, t_e_opt *opt, t_s_env *e)
+int				env_exec(t_execute *exec, t_e_opt *opt, t_s_env *e)
 {
 	int			error;
 
@@ -99,12 +100,12 @@ int				env_exec(t_execute *exec, size_t i, t_e_opt *opt, t_s_env *e)
 			return (ERR_WRITE);
 		sh_freetab(&opt->public_env);
 	}
-	if ((error = env_prepare_command(exec->cmd + i, opt)) != ERR_OK)
+	if ((error = env_prepare_command(exec->cmd + opt->i, opt)) != ERR_OK)
 		return (error);
 	if (opt->options & BUILTIN_OPT_V
 	&& ft_printf("#%s executing: %s\n", opt->cmdname, opt->cmd) < 0)
 		return (ERR_WRITE);
-	if ((error = env_get_command(exec->cmd + i, opt)) != ERR_OK)
+	if ((error = env_get_command(exec->cmd + opt->i, opt)) != ERR_OK)
 		return (error);
 	return (env_fork(opt, e));
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 18:30:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/02 11:44:06 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/03 20:54:01 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ typedef struct	s_error
 }				t_error;
 
 # define ERR_OK_STR				{ ""                          , 0 }
-# define ERR_EXEC_STR			{ "execution failed"          , 127 }
-# define ERR_MALLOC_STR			{ "not enought memory"        , 127 }
 # define ERR_NOT_FOUND_STR		{ "command not found"         , 127 }
 # define ERR_NO_SUCH_FILE_STR	{ "No such file or directory" , 127 }
 # define ERR_IS_DIRECTORY_STR	{ "Is a directory"            , 126 }
 # define ERR_PERM_STR			{ "Permission denied"         , 126 }
+# define ERR_MALLOC_STR			{ "not enought memory"        , 125 }
+# define ERR_EXEC_STR			{ "execution failed"          , 125 }
 # define ERR_FORK_STR			{ "fork() failed"             , 125 }
 # define ERR_BAD_FD_STR			{ "Bad file descriptor"       , 125 }
 # define ERR_DUP_STR			{ "dup2() failed"             , 125 }

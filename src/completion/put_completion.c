@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:42:34 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/21 12:49:08 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/03 12:39:57 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void		deal_all_put(t_line *line, t_tree *tern, t_slct **select,
 {
 	int		psb;
 
-//	sleep(1);
 	tputs(tgetstr("sc", NULL), 1, ft_pchar);
 	ft_putendl("");
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
@@ -49,9 +48,8 @@ void		deal_all_put(t_line *line, t_tree *tern, t_slct **select,
 	if (env->chr)
 		free(env->chr);
 	tputs(tgetstr("do", NULL), 1, ft_pchar);
+	tputs(tgetstr("do", NULL), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
-	put_prompt(line->prompt);
-	ft_putstr(line->curr->buff);
 }
 
 int			check_put(t_line *line, t_tree *tern, t_slct **select,
@@ -72,8 +70,6 @@ int			check_put(t_line *line, t_tree *tern, t_slct **select,
 	}
 	return (0);
 }
-
-#include "stdio.h"
 
 int			put_complet(t_tree *tern, int *put, t_line *line, int *nb_ret)
 {
