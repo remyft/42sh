@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:02:57 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/24 18:39:48 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/02 16:27:49 by tsisadag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int				command_check(t_execute *exec, t_s_env *e)
 {
 	static t_builtins	builtins[] = {
 		BUILTIN_ALIAS, BUILTIN_CD, BUILTIN_ECHO, BUILTIN_ENV, BUILTIN_EXIT,
-		BUILTIN_SETENV, BUILTIN_UNALIAS, BUILTIN_UNSETENV,
+		BUILTIN_SETENV, BUILTIN_UNALIAS, BUILTIN_UNSETENV, BUILTIN_TYPE,
 	};
 	size_t				i;
 
