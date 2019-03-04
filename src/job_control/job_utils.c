@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 15:17:20 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/03/03 09:15:12 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/04 18:51:11 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ t_jobs		*get_job_by_id(int id, t_jobs *jobs)
 	return (jobs);
 }
 
+#include <stdio.h>
+
 int		job_by_pid(t_s_env *e, pid_t pid)
 {
 	t_jobs	*jobs;
@@ -30,6 +32,7 @@ int		job_by_pid(t_s_env *e, pid_t pid)
 	jobs = e->jobs;
 	while (jobs)
 	{
+		printf("[%d] == [%d]\n", jobs->process->pid, pid);
 		if (jobs->process->pid == pid)
 			return (jobs->id);
 		jobs = jobs->next;

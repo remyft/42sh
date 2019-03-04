@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 21:33:49 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/03/03 09:34:05 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/04 18:18:50 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,15 @@ void	add_job(t_jobs *jobs, t_jobs *new)
 
 int		job_insert(t_s_env *e, char **cmd)
 {
+
 	t_jobs		*job;
 	int			id;
 
 	id = 1;
 	job = NULL;
-	if (!cmd)
-		return (0);
+	//if (!cmd)
+	//	return (0);
+	(void)cmd;
 	if (!(job = ft_memalloc(sizeof(t_jobs))))
 		return (0);
 	job->pgid = -1;
@@ -47,7 +49,7 @@ int		job_insert(t_s_env *e, char **cmd)
 	if (!(job->process = ft_memalloc(sizeof(t_process))))
 		return (0);
 	job->process->pid = -1;
-	job->process->cmd = ft_strdup(cmd[0]);
+	//job->process->cmd = ft_strdup(cmd[0]);
 	if (!e->jobs)
 		e->jobs = job;
 	else

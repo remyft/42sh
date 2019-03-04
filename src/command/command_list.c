@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/04 13:59:49 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/04 18:51:10 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static int	redirect_prepare(t_redirection *cmd, t_s_env *e)
 
 static int	prepare_command(void *cmd, t_s_env *e)
 {
+	t_jobs	*job;
 	if (!cmd)
 		return (0);
 	if (*(int *)cmd == IS_A_PIPE)
@@ -44,6 +45,8 @@ static int	prepare_command(void *cmd, t_s_env *e)
 		|| redirect_prepare(((t_command *)cmd)->redir, e))
 		return (1);
 	quote_removal(((t_command *)cmd)->args);
+	job = get_job_by_id(e->job_id, e->jobs);
+	job->process->cmd = command_group_command(((t_command *)cmd)->args);
 	return (0);
 }
 
@@ -69,12 +72,15 @@ int			execute_list(t_m_list *list, t_s_env *e)
 	pid = 0;
 	if (!list)
 		return (0);
+	e->async = list->async;
+	e->job_id = job_insert(e, NULL);
 	if (list->async)
 	{
 		if ((pid = fork()) < 0)
 			return (1);
 		if (pid == 0)
 		{
+			e->jobs->process->pid = getpid();
 			execute_ao_list(list->aolist, e);
 			exit(0);
 		}

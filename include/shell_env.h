@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/04 13:59:54 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/04 18:43:18 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct	s_process
 {
 	int					pid;
 	int					status;
-	char				*cmd;
+	char				**cmd;
 	struct s_process	*next;
 }				t_process;
 
@@ -40,6 +40,7 @@ typedef struct	s_jobs
 {
 	int					id;
 	int					pgid;
+	int					ppid;
 	t_process			*process;
 	struct s_jobs		*prev;
 	struct s_jobs		*next;
@@ -55,7 +56,9 @@ typedef struct	s_shell_env
 	char			**private_env;
 	t_alias			*alias_list;
 	t_jobs			*jobs;
+	int				async;
 	int				ret;
+	int				job_id;
 	int				pid;
 	struct termios	save;
 	int				shell_loop;

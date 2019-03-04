@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 20:23:05 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/04 13:59:23 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/04 17:31:42 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void			command_wait2(pid_t pid, t_execute *exec, t_s_env *e)
 	t_jobs		*job;
 	t_process	*proc;
 
-	job = get_job_by_id(exec->job_id, e->jobs);
+	(void)exec;
+	job = get_job_by_id(e->job_id, e->jobs);
 	proc = job->process;
 	proc->pid = pid;
 	if (job->pgid > 0)
@@ -46,10 +47,10 @@ void			command_wait2(pid_t pid, t_execute *exec, t_s_env *e)
 		job->pgid = proc->pid;
 		setpgid(pid, job->pgid);
 	}
-	if (!exec->command->async)
+	if (!e->async)
 	{
 		tcsetpgrp(0, job->pgid);
-		waitjob(job, exec->job_id);
+		waitjob(job, e->job_id);
 		signal(SIGTTOU, SIG_IGN);
 		tcsetpgrp(0, getpid());
 		signal(SIGTTOU, SIG_DFL);

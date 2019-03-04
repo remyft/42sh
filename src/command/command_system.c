@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/04 13:59:29 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/04 18:51:10 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void		command_execve(char *name, t_execute *exec, t_s_env *e)
 	signal(SIGTTIN, SIG_DFL);
 	signal(SIGTTOU, SIG_DFL);
 	signal(SIGCHLD, SIG_DFL);
-	job = get_job_by_id(exec->job_id, e->jobs);
+	job = get_job_by_id(e->job_id, e->jobs);
 	proc = job->process;
 	proc->pid = getpid();
 	if (job->pgid > 0)
@@ -46,7 +46,7 @@ static void		command_execve(char *name, t_execute *exec, t_s_env *e)
 static int print_job_status(t_jobs *jobs, int id)
 {
 	printf("[%d]", id);
-    printf(" %d", jobs->process->pid);
+    printf("%d", jobs->process->pid);
 	printf("\n");
     return (0);
 }
@@ -75,18 +75,14 @@ int				command_system(t_execute *exec, t_s_env *e)
 		if (e->forked || (pid = fork()) == 0)
 			command_execve(name, exec, e);
 		if (pid > 0)
-<<<<<<< HEAD
 			command_wait2(pid, exec, e);
-=======
-			command_wait(pid, 0, &e->ret);
->>>>>>> master
 		else if (pid < 0)
 			error = command_error(e->progname, ERR_FORK, exec->cmd, e);
 	}
-	if (exec->command->async)
-		print_job_status(get_job_by_id(exec->job_id, e->jobs), exec->job_id);
+	if (e->async)
+		print_job_status(e->jobs, e->job_id);
 	else
-		remove_job(&e->jobs, exec->job_id);
+		remove_job(&e->jobs, e->job_id);
 	command_cleanup(name, exec);
 	error += command_restore_fds(exec->fds);
 	return (error);
