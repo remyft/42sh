@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/29 11:36:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/13 14:33:17 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/05 19:37:50 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 
 static t_token	*backslash(t_param *param)
 {
+	if (!param->buff[param->i + 1])
+	{
+		ft_putendl("REMY I NEED YOU TO DO THIS WITH ME");
+		return (param->token);
+	}
 	if (!(param->token->quote & SINGLE_QUOTE))
 		param->i++;
 	return (param->token);
