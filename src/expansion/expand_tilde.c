@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 02:35:19 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/20 11:27:07 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/05 18:04:59 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int		tilde_get_parameter(t_ret *parameter, t_exp *param)
 int				expand_tilde(t_exp *param, t_ret *ret)
 {
 	static t_tilde	tilde[] = {
-		TILDE_NONE, TILDE_PLUS, TILDE_MINUS, TILDE_DIGIT, TILDE_ALPHA,
+		TILDE_NONE, TILDE_PLUS, TILDE_MINUS, TILDE_ALPHA,
 	};
 	size_t			i;
 	t_ret			parameter;

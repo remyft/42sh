@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 18:33:48 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/20 11:25:35 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/05 18:04:49 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # define TILDE_NONE		{ tilde_no_param, expand_tilde_env }
 # define TILDE_PLUS		{ tilde_plus,     expand_tilde_plus }
 # define TILDE_MINUS	{ tilde_minus,    expand_tilde_minus }
-# define TILDE_DIGIT	{ tilde_digit,    expand_tilde_directory }
 # define TILDE_ALPHA	{ tilde_alpha,    expand_tilde_user }
 
 typedef struct	s_tilde
@@ -36,7 +35,6 @@ int				tilde_alpha(const char *word);
 int				expand_tilde_env(t_ret *ret, t_ret *parame, t_exp *param);
 int				expand_tilde_plus(t_ret *ret, t_ret *parame, t_exp *param);
 int				expand_tilde_minus(t_ret *ret, t_ret *parame, t_exp *param);
-int				expand_tilde_directory(t_ret *ret, t_ret *parame, t_exp *param);
 int				expand_tilde_user(t_ret *ret, t_ret *parame, t_exp *param);
 int				expand_tilde_not(t_ret *ret, const char *word);
 
