@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 18:33:48 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/05 18:04:49 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/05 19:41:08 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 # include "expansion.h"
 
 # define TILDE_NONE		{ tilde_no_param, expand_tilde_env }
-# define TILDE_PLUS		{ tilde_plus,     expand_tilde_plus }
-# define TILDE_MINUS	{ tilde_minus,    expand_tilde_minus }
-# define TILDE_ALPHA	{ tilde_alpha,    expand_tilde_user }
+# define TILDE_PLUS		{ tilde_plus    , expand_tilde_plus }
+# define TILDE_MINUS	{ tilde_minus   , expand_tilde_minus }
+# define TILDE_ALPHA	{ tilde_alpha   , expand_tilde_user }
 
 typedef struct	s_tilde
 {
