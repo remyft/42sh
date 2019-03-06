@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/03/02 12:00:14 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/03/05 20:10:40 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -108,10 +108,10 @@ SRCS += ft_copy.c							\
 TOKEN_DIR = token/
 SRCS += expand_word.c						\
 		handle_alias.c						\
-		handle_command.c					\
 		handle_comment.c					\
 		handle_end_of_input.c				\
 		handle_equal.c						\
+		handle_grouped_command.c			\
 		handle_minus.c						\
 		handle_newline.c					\
 		handle_operator.c					\

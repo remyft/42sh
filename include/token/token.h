@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/26 15:11:34 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/05 21:15:34 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include "shell_env.h"
-
-# define NULLTOKEN	(t_token *)0
 
 /*
 ** Token Types
@@ -43,27 +41,40 @@ enum {
 };
 
 /*
-** Enumeration for '\', ''', '"'.
+** Enumeration for \, ', ", (, `.
 */
 enum {
 	BACKSLASH = (1 << 0),
 	DOUBLE_QUOTE = (1 << 1),
 	SINGLE_QUOTE = (1 << 2),
 	PARENTHESE = (1 << 3),
-	BRACKET = (1 << 4),
-	BACKQUOTE = (1 << 5),
+	BACKQUOTE = (1 << 4),
 };
 
 /*
-** Token main structure
+** Quote main structure
 */
+# define NULLQUOTE	(t_quote *)0
+
+typedef struct	s_quote
+{
+	int				type;
+	struct s_quote	*next;
+}				t_quote;
+
+/*
+** Structure for TOKENS
+*/
+# define NULLTOKEN	(t_token *)0
+
 typedef struct	s_token
 {
-	int				quote;
+	int				quoted;
 	const char		*head;
 	size_t			len;
 	struct s_token	*next;
 
+	t_quote			*quote;
 	size_t			depth;
 	int				type;
 	int				id;
@@ -85,17 +96,17 @@ typedef struct	s_param
 }				t_param;
 
 /*
-** Typedef for QUOTES
+** Structure for quote function handler
 */
 
-typedef struct	s_quote
+typedef struct	s_quote_handler
 {
 	char		value;
 	t_token		*(*handler)(t_param *);
-}				t_quote;
+}				t_quote_h;
 
 /*
-** Typedef for OPERATORs, see above
+** Structure for OPERATORs, see above
 */
 typedef struct	s_ope
 {
@@ -104,7 +115,7 @@ typedef struct	s_ope
 }				t_ope;
 
 /*
-** Token identification
+** Token identifiers
 */
 # define ID_OPERATOR		{ identify_operator }
 # define ID_TOKEN			{ identify_word }
@@ -118,7 +129,7 @@ typedef struct	s_call
 ** Characters Handler
 */
 # define CHAR_QUOTE			{ ft_isquote,    handle_quote }
-# define CHAR_CMD			{ ft_iscommand,  handle_command }
+# define CHAR_CMD			{ ft_iscommand,  handle_grouped_command }
 # define CHAR_SUBS			{ ft_issubs,     handle_subs }
 # define CHAR_COMMENT		{ ft_iscomment,  handle_comment }
 # define CHAR_NEWLINE		{ ft_isnewline,  handle_newline }
@@ -142,7 +153,7 @@ t_token			*new_token(const char *buff, size_t pos);
 void			free_token(t_token **token);
 
 t_token			*handle_alias(t_param *param, t_s_env *e);
-t_token			*handle_command(t_param *param, t_call *token);
+t_token			*handle_grouped_command(t_param *param, t_call *token);
 t_token			*handle_comment(t_param *param, t_call *tokens);
 t_token			*handle_equal(t_param *param, t_call *token);
 t_token			*handle_end_of_input(t_param *param, t_call *token);

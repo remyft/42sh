@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/29 11:36:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/05 19:37:50 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/05 20:47:40 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,36 +20,39 @@ static t_token	*backslash(t_param *param)
 		ft_putendl("REMY I NEED YOU TO DO THIS WITH ME");
 		return (param->token);
 	}
-	if (!(param->token->quote & SINGLE_QUOTE))
+	if (!(param->token->quoted & SINGLE_QUOTE))
 		param->i++;
 	return (param->token);
 }
 
 static t_token	*singlequote(t_param *param)
 {
-	if (param->token->quote & DOUBLE_QUOTE)
+	if (param->token->quoted & DOUBLE_QUOTE)
 		return (param->token);
-	if (!(param->token->quote & SINGLE_QUOTE))
-		param->token->quote |= SINGLE_QUOTE;
+	if (!(param->token->quoted & SINGLE_QUOTE))
+		param->token->quoted |= SINGLE_QUOTE;
 	else
-		param->token->quote &= ~SINGLE_QUOTE;
+		param->token->quoted &= ~SINGLE_QUOTE;
 	return (param->token);
 }
 
 static t_token	*doublequote(t_param *param)
 {
-	if (param->token->quote & SINGLE_QUOTE)
+	// // if a doublequote is in a singlequote don't add doublequote to the quote list
+	// if (quote_check(param->token->quote, DOUBLE_QUOTE))
+	// 	return (param->token);
+	if (param->token->quoted & SINGLE_QUOTE)
 		return (param->token);
-	if (!(param->token->quote & DOUBLE_QUOTE))
-		param->token->quote |= DOUBLE_QUOTE;
+	if (!(param->token->quoted & DOUBLE_QUOTE))
+		param->token->quoted |= DOUBLE_QUOTE;
 	else
-		param->token->quote &= ~DOUBLE_QUOTE;
+		param->token->quoted &= ~DOUBLE_QUOTE;
 	return (param->token);
 }
 
 t_token			*handle_quote(t_param *param, t_call *token)
 {
-	static t_quote	quote[] = {
+	static t_quote_h	quote[] = {
 		{ '\\', backslash },
 		{ '\'', singlequote },
 		{ '"', doublequote },
