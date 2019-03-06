@@ -59,7 +59,7 @@ int				command_prepare(t_execute *exec, t_s_env *e)
 		return (command_error(e->progname, ERR_MALLOC, exec->cmd, e));
 	if (!(exec->cmd = command_group_command(exec->command)))
 		return (command_error(e->progname, ERR_MALLOC, NULL, e));
-	//if (!(exec->job_id = job_insert(e, exec->cmd)))
-		//return (command_error(e->progname, ERR_MALLOC, NULL, e));
+	if (!(exec->process = create_process(exec, e)))
+		return (command_error(e->progname, ERR_MALLOC, NULL, e));
 	return (command_check(exec, e));
 }

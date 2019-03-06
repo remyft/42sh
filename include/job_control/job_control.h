@@ -26,7 +26,7 @@
 
 void			remove_job(t_jobs **jobs, int id);
 
-int				job_insert(t_s_env *e, char **cmd);
+int				job_insert(t_s_env *e);
 int				job_by_pid(t_s_env *e, pid_t pid);
 int				jobs_terminated(t_s_env *e);
 int				job_completed(t_jobs *jobs, int job_id);

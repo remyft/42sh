@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "job_control.h"
-#include <stdio.h>
-
 
 void	add_job(t_jobs *jobs, t_jobs *new)
 {
@@ -31,7 +29,7 @@ void	add_job(t_jobs *jobs, t_jobs *new)
 	new->prev = jobs;
 }
 
-int		job_insert(t_s_env *e, char **cmd)
+int		job_insert(t_s_env *e)
 {
 
 	t_jobs		*job;
@@ -39,17 +37,10 @@ int		job_insert(t_s_env *e, char **cmd)
 
 	id = 1;
 	job = NULL;
-	//if (!cmd)
-	//	return (0);
-	(void)cmd;
 	if (!(job = ft_memalloc(sizeof(t_jobs))))
 		return (0);
 	job->pgid = -1;
 	job->id = 1;
-	if (!(job->process = ft_memalloc(sizeof(t_process))))
-		return (0);
-	job->process->pid = -1;
-	//job->process->cmd = ft_strdup(cmd[0]);
 	if (!e->jobs)
 		e->jobs = job;
 	else

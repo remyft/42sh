@@ -73,17 +73,17 @@ int			execute_list(t_m_list *list, t_s_env *e)
 	if (!list)
 		return (0);
 	e->async = list->async;
-	e->job_id = job_insert(e, NULL);
+	e->job_id = job_insert(e);
 	if (list->async)
 	{
 		if ((pid = fork()) < 0)
 			return (1);
 		if (pid == 0)
 		{
-			e->jobs->process->pid = getpid();
 			execute_ao_list(list->aolist, e);
 			exit(0);
 		}
+		e->jobs->process->pid = pid;
 	}
 	else if (execute_ao_list(list->aolist, e))
 		return (1);
