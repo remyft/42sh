@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/09 06:58:04 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/03 17:45:13 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/06 13:02:56 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,12 @@ static int		command_pipe_right(void *cmd, t_s_env *e, int pfd[2])
 static int		command_last_pipe(int pfd[2], t_pipeline *cmd, t_s_env *e)
 {
 	pid_t		pid;
-	t_command	*arg;
 
 	if ((pid = fork()) < 0)
 		return (command_pipe_error("fork()", e));
 	else if (pid == 0)
 		command_pipe_right(cmd, e, pfd);
 	close(pfd[0]);
-	arg = (t_command *)((t_pipeline *)cmd)->right;
 	command_wait(pid, 0, &e->ret);
 	return (0);
 }
@@ -85,7 +83,6 @@ int				command_pipe(void *cmd, t_s_env *e, int ppfd[2])
 {
 	pid_t		pid;
 	int			pfd[2];
-	t_command	*arg;
 
 	if (pipe(pfd) < 0)
 		return (command_pipe_error("pipe()", e));
@@ -103,7 +100,6 @@ int				command_pipe(void *cmd, t_s_env *e, int ppfd[2])
 	}
 	else if (command_last_pipe(pfd, cmd, e))
 		return (1);
-	arg = (t_command *)((t_pipeline *)cmd)->left;
 	command_wait(pid, 0, NULL);
 	return (0);
 }
