@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 00:07:32 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/23 14:23:31 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/06 17:02:39 by tsisadag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ void			init_shell_env(t_s_env *e, int ac, char **av, char **env)
 	e->progname = (ft_strrchr(av[0], '/')) ? ft_strrchr(av[0], '/') + 1 : av[0];
 	e->public_env = collect_env(env);
 	e->private_env = build_private_env(env);
+	if (!(e->exported_env = ft_memalloc(sizeof(char **))))
+		return ;
 	e->ret = 0;
 	e->pid = getpid();
 	e->shell_loop = 1;

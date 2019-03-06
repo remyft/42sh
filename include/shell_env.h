@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/02 15:30:03 by tsisadag         ###   ########.fr       */
+/*   Updated: 2019/03/06 16:57:47 by tsisadag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct	s_shell_env
 	char			*progname;
 	char			**public_env;
 	char			**private_env;
+	char			**exported_env;
 	t_alias			*alias_list;
 	int				ret;
 	int				pid;
