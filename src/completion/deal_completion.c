@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:38:48 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/04 17:37:26 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/06 16:56:44 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,18 @@ int			deal_ret(t_tree *file, t_line *line, int *nb_ret, int put)
 {
 	int		tmp_len;
 
-	tmp_len = line->len + line->lprompt;
 	if ((put = put_complet(file, &put, line, nb_ret)) == 1)
 	{
+		tmp_len = ft_strlen(line->curr->buff) + line->lprompt;
+		if (tmp_len % line->nb_col < (ft_strlen(line->curr->buff_tmp) + line->lprompt) % line->nb_col)
+			tputs(tgetstr("do", NULL), 1, ft_pchar);
 		*line->e_cmpl |= COMPLETION;
 		line->tmp[0] = 10;
 	}
 	else if (put == -1)
 	{
+		tmp_len = ft_strlen(line->curr->buff) + line->lprompt;
+		write(2, "\a", 1);
 		ft_bzero(line->curr->buff_tmp, 8194);
 		line->is_putb = 0;
 		line->tmp[0] = 0;
@@ -92,14 +96,6 @@ void		deal_complet(t_tree *file, t_line *line)
 	{
 		if (deal_ret(file, line, &nb_ret, 1))
 			return ;
-	}
-//	if ((ft_strlen(line->curr->buff_tmp) + line->lprompt) >= line->nb_col)
-//		tputs(tgetstr("up", NULL), 1, ft_pchar);
-	if ((line->len + line->lprompt) % line->nb_col <
-			(ft_strlen(line->curr->buff_tmp) + line->lprompt) % line->nb_col)
-	{
-		if (line->is_putb >= 1)
-			tputs(tgetstr("up", NULL), 1, ft_pchar);
 	}
 	put_cpl_screen(line, nb_ret);
 }
