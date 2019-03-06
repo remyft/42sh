@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/05 13:42:39 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/06 11:49:24 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static int	redirect_prepare(t_redirection *cmd, t_s_env *e)
 
 static int	prepare_command(void *cmd, t_s_env *e)
 {
-	//t_jobs	*job;
 	if (!cmd)
 		return (0);
 	if (*(int *)cmd == IS_A_PIPE)
@@ -45,8 +44,6 @@ static int	prepare_command(void *cmd, t_s_env *e)
 		|| redirect_prepare(((t_command *)cmd)->redir, e))
 		return (1);
 	quote_removal(((t_command *)cmd)->args);
-	//job = get_job_by_id(e->job_id, e->jobs);
-	//job->process->cmd = command_group_command(((t_command *)cmd)->args);
 	return (0);
 }
 
@@ -65,6 +62,14 @@ static int	execute_ao_list(t_ao_list *aolist, t_s_env *e)
 	return (execute_ao_list(aolist->next, e));
 }
 
+static int print_job_status(t_jobs *jobs, int id)
+{
+	printf("[%d]", id);
+    printf("%d", jobs->process->pid);
+	printf("\n");
+    return (0);
+}
+
 int			execute_list(t_m_list *list, t_s_env *e)
 {
 	pid_t	pid;
@@ -72,10 +77,13 @@ int			execute_list(t_m_list *list, t_s_env *e)
 	pid = 0;
 	if (!list)
 		return (0);
+	printf("2\n");
 	e->async = list->async;
-	e->job_id = job_insert(e, NULL);
+	jobs_prepare(list, e);
 	if (list->async)
 	{
+		t_jobs	*job;
+		job = get_job_by_id(e->job_id, e->jobs);
 		if ((pid = fork()) < 0)
 			return (1);
 		if (pid == 0)
@@ -83,6 +91,8 @@ int			execute_list(t_m_list *list, t_s_env *e)
 			execute_ao_list(list->aolist, e);
 			exit(0);
 		}
+		job->process->pid = pid;
+		print_job_status(e->jobs, e->job_id);
 	}
 	else if (execute_ao_list(list->aolist, e))
 		return (1);

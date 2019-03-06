@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 15:18:47 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/03/04 18:51:11 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/06 11:49:23 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,17 @@ int	jobs_terminated(t_s_env *e)
 		}
 	}
 	return (0);
+}
+
+int	job_completed(t_jobs *jobs, int job_id)
+{
+	while (jobs)
+	{
+		if (jobs->id == job_id)
+			break ;
+		jobs = jobs->next;
+	}
+	if (jobs->process->status == JOB_TERMINATED)
+		return (0);
+	return (1);
 }

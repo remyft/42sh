@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/03/04 17:36:23 by dbaffier         ###   ########.fr        #
+#    Updated: 2019/03/06 09:57:26 by dbaffier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -297,6 +297,7 @@ SRCS	+= job_insert.c						\
 		   job_terminated.c					\
 		   job_utils.c						\
 		   prepare_job.c					\
+		   create_process.c					\
 
 COL			=	$$(tput cols)/3
 DIRNAME		=	$$(basename $$(pwd))

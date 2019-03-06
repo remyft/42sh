@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 14:13:28 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/03/04 17:17:36 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/06 11:07:56 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,14 @@
 static int	job_in(t_argument *ptr, t_s_env *e)
 {
 	char			**test;
+	t_jobs			*job;
 
 	while (ptr && ptr->token->id == ASSIGNMENT_WORD)
 		ptr = ptr->next;
-	//printf("%s\n", ptr->cmd[0]);
 	test = command_group_command(ptr);
-	//printf("Hey\n");
-	(void)e;
+	e->job_id = job_insert(e);
+	job = get_job_by_id(e->job_id, e->jobs);
+	job->process = create_process(NULL, e);
 	return (1);
 }
 
@@ -36,7 +37,8 @@ static int	prepare_job(void *cmd, t_s_env *e)
 	if (*(int *)cmd == IS_A_PIPE)
 		// after
 		;
-	else if (expand_argument(((t_command *)cmd)->args, e) || job_in(((t_command *)cmd)->args, e))
+	else if (expand_argument(((t_command *)cmd)->args, e)
+			|| job_in(((t_command *)cmd)->args, e))
 		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/05 11:37:42 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/06 10:54:43 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void		launch_new_cmd(char **line, t_s_env *e)
 	{
 		if ((tree = parse(tokens, e)) != NULLLIST)
 		{
-			jobs_prepare(tree, e);
+	//		jobs_prepare(tree, e);
 			execute_list(tree, e);
 			free_m_list(&tree);
 		}
