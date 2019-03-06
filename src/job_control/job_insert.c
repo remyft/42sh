@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 21:33:49 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/03/04 18:18:50 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/05 13:31:01 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int		job_insert(t_s_env *e, char **cmd)
 	if (!(job->process = ft_memalloc(sizeof(t_process))))
 		return (0);
 	job->process->pid = -1;
-	//job->process->cmd = ft_strdup(cmd[0]);
 	if (!e->jobs)
 		e->jobs = job;
 	else

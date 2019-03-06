@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 20:23:05 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/04 17:31:42 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/05 13:42:39 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void			command_wait2(pid_t pid, t_execute *exec, t_s_env *e)
 	(void)exec;
 	job = get_job_by_id(e->job_id, e->jobs);
 	proc = job->process;
+	//if (proc->pid == -1)
 	proc->pid = pid;
 	if (job->pgid > 0)
 		setpgid(pid, job->pgid);

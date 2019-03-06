@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/04 18:43:18 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/05 13:01:25 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct	s_process
 	int					pid;
 	int					status;
 	char				**cmd;
+	char				*test;
 	struct s_process	*next;
 }				t_process;
 
