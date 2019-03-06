@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:51:36 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 14:17:14 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/05 17:47:01 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ static void	del_left(t_line *line)
 					(line->index + line->lprompt) % line->nb_col), 1, ft_pchar);
 		tputs(tgetstr("dc", NULL), 1, ft_pchar);
 	}
+	else
+		write(2, "\a", 1);
 	del_left_tool(line);
 }
 
@@ -99,6 +101,8 @@ void		del_right(t_line *line)
 		line->tmp[0] = 10;
 	else
 	{
+		if (line->index == line->len)
+			write(2, "\a", 1);
 		j = -1;
 		if (line->curr->buff[line->index] == '/')
 			line->tree[2] = free_tree(line->tree[2]);

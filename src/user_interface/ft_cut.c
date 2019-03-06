@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 11:37:00 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 06:53:25 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/05 15:31:06 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void		ft_cut(t_line *line)
 
 	if (line->slct_beg < 0)
 		return ;
-	ft_copy(line);
 	beg = line->slct_beg;
 	end = line->slct_end;
+	ft_copy(line);
 	while (line->curr->buff[beg])
 	{
 		if (line->curr->buff[end])
@@ -32,6 +32,16 @@ void		ft_cut(t_line *line)
 			line->curr->buff[beg] = '\0';
 		beg++;
 	}
+	if (line->slct_end == (int)line->index)
+	{
+		while (line->slct_end != line->slct_beg)
+		{
+			left_arrow(line);
+			line->slct_end -= 1;
+		}
+	}
+	line->slct_end = -1;
+	line->slct_beg = -1;
 	line->len = ft_strlen(line->curr->buff);
 	tputs(tgetstr("sc", NULL), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
