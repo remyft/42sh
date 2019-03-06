@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 03:52:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/03 18:30:26 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/06 13:03:42 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int				expand_glob(t_exp *param, t_ret *ret)
 	ptr = ft_strndup((char *)param->buff + param->i, (int)param->buff_len);
 	line = get_struct();
 	glob = deal_globing(ptr, line->tree[1]);
+	(void)glob;
 	param_addchar(param->buff[param->i], ret);
 	return (ERR_UNHANDLED);
 	return (ERR_NONE);
