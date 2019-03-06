@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 23:42:06 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/05 20:14:59 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/06 17:09:04 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,34 @@ static void		clean_end_token(t_token **token, t_token **head)
 	*token = NULLTOKEN;
 }
 
+static t_token	*handle_new_tokens(t_param *param, t_call *token)
+{
+	t_param		nparam;
+
+
+	nparam.e = param->e;
+	if (!(nparam.token = new_token(buff, 0)))
+		return (NULLTOKEN);
+	nparam.token->quoted = param->token->quoted;
+	nparam.token->quote = param->token->quote;
+	nparam.buff = buff;
+	nparam.i = 0;
+	nparam.head = nparam.token;
+	while (nparam.token->quote)
+	{
+		
+	}
+	token_loop(&param, ft_isnull));
+
+}
+
 t_token			*handle_end_of_input(t_param *param, t_call *token)
 {
-	// if (param->token->quote)
-	// 	printf("quoted: %d\n", param->token->quote);
 	param->token->len = (param->buff + param->i) - param->token->head;
 	if (param->token->type != UNDEFINED && (param->token->id != COMMENT))
 		param->token = token[param->token->type].identifier(param);
 	clean_end_token(&param->token, &param->head);
+	if (param->token->quote)
+		return (handle_new_tokens(param, token));
 	return (NULLTOKEN);
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/05 21:15:34 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/06 16:58:44 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,9 @@ enum {
 	BACKSLASH = (1 << 0),
 	DOUBLE_QUOTE = (1 << 1),
 	SINGLE_QUOTE = (1 << 2),
-	PARENTHESE = (1 << 3),
-	BACKQUOTE = (1 << 4),
+	BRACKET = (1 << 3),
+	PARENTHESE = (1 << 4),
+	BACKQUOTE = (1 << 5),
 };
 
 /*
@@ -167,6 +168,10 @@ t_token			*handle_word(t_param *param, t_call *token);
 size_t			check_operator(t_token *token, size_t len);
 t_token			*identify_operator(t_param *param);
 t_token			*identify_word(t_param *param);
+
+t_quote			*quote_add(t_quote **head, int type);
+void			quote_remove(t_quote **head, int type);
+int				quote_type(t_quote *head);
 
 char			*expand_word(t_token *token);
 

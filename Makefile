@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/03/05 20:10:40 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/03/06 16:59:50 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -127,6 +127,7 @@ SRCS += expand_word.c						\
 		is_token_valid_name.c				\
 		is_token.c							\
 		remove_line_continuation.c			\
+		quote_funcs.c						\
 		token_debug.c						\
 		token_free.c						\
 		token_get.c							\
