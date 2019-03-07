@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 20:23:05 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/06 10:06:57 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/06 16:55:57 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,20 @@
 #include "command.h"
 #include "job_control.h"
 
-
 static int waitjob(t_jobs *jobs, int id)
 {
-
+	t_process	*p;
     int wait_pid = -1;
     int status = 0;
 
 	(void)id;
-	wait_pid = waitpid(-jobs->pgid, &status, WUNTRACED);
-    if (WIFSIGNALED(status))
+	p = jobs->process;
+	while (jobs)
 	{
-		jobs->process->status = JOB_TERMINATED;
+		wait_pid = waitpid(-jobs->pgid, &status, WUNTRACED);
+		if (WIFSIGNALED(status))
+			jobs->process->status = JOB_TERMINATED;
+		jobs = jobs->next;
 	}
 	return (status);
 }
@@ -41,9 +43,7 @@ void			command_wait2(pid_t pid, t_execute *exec, t_s_env *e)
 	proc = job->process;
 	proc->pid = pid;
 	if (job->pgid > 0)
-	{
 		setpgid(pid, job->pgid);
-	}
 	else
 	{
 		job->pgid = proc->pid;
@@ -52,7 +52,7 @@ void			command_wait2(pid_t pid, t_execute *exec, t_s_env *e)
 	if (!e->async)
 	{
 		tcsetpgrp(0, job->pgid);
-		waitjob(job, e->job_id);
+		waitjob(e->jobs, e->job_id);
 		signal(SIGTTOU, SIG_IGN);
 		tcsetpgrp(0, getpid());
 		signal(SIGTTOU, SIG_DFL);

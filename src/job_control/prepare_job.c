@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 14:13:28 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/03/06 11:07:56 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/06 16:55:09 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static int	job_in(t_argument *ptr, t_s_env *e)
 	e->job_id = job_insert(e);
 	job = get_job_by_id(e->job_id, e->jobs);
 	job->process = create_process(NULL, e);
+	job->process->cmd = test;
 	return (1);
 }
 
