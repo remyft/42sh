@@ -72,7 +72,8 @@ int				command_system(t_execute *exec, t_s_env *e)
 		else if (pid < 0)
 			error = command_error(e->progname, ERR_FORK, exec->cmd, e);
 	}
-	remove_job(&e->jobs, e->job_id);
+	if (e->forked == 0)
+		remove_job(&e->jobs, e->job_id);
 	command_cleanup(name, exec);
 	error += command_restore_fds(exec->fds);
 	return (error);

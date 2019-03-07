@@ -30,7 +30,7 @@ int		job_by_pid(t_s_env *e, pid_t pid)
 	jobs = e->jobs;
 	while (jobs)
 	{
-		if (jobs->process->pid == pid)
+		if (jobs->process && jobs->process->pid == pid)
 			return (jobs->id);
 		jobs = jobs->next;
 	}

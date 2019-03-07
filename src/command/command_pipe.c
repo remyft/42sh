@@ -77,7 +77,8 @@ static int		command_last_pipe(int pfd[2], t_pipeline *cmd, t_s_env *e)
 		command_pipe_right(cmd, e, pfd);
 	close(pfd[0]);
 	arg = (t_command *)((t_pipeline *)cmd)->right;
-	command_wait(pid, 0, &e->ret);
+	//command_wait(pid, 0, &e->ret);
+	command_wait2(pid, NULL, e);
 	return (0);
 }
 
@@ -104,6 +105,7 @@ int				command_pipe(void *cmd, t_s_env *e, int ppfd[2])
 	else if (command_last_pipe(pfd, cmd, e))
 		return (1);
 	arg = (t_command *)((t_pipeline *)cmd)->left;
-	command_wait(pid, 0, NULL);
+	//command_wait(pid, 0, NULL);
+	command_wait2(pid, NULL, e);
 	return (0);
 }
