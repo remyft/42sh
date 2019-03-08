@@ -6,7 +6,7 @@
 /*   By: tsisadag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 21:42:11 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/03/06 21:44:23 by tsisadag         ###   ########.fr       */
+/*   Updated: 2019/03/08 21:54:43 by tsisadag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,13 @@ void	export_print(char **exported, char **public_env)
 	export_sort(&sorted);
 	while (sorted[i])
 	{
-		if ((len = var_name_len(sorted[i])) > 0)
+		if ((len = var_name_len(sorted[i])) == (int)ft_strlen(sorted[i]))
+		{
+			if (sorted[i][len])
+				len = -1;
+			len = -2;
+		}
+		if (len > 0)
 		{
 			sub = ft_strsub(sorted[i], 0, len + 1);
 			ft_printf("declare -x %s", sub);
@@ -36,7 +42,7 @@ void	export_print(char **exported, char **public_env)
 		else
 			ft_printf("declare -x %s", sorted[i]);
 		if (len > 0)
-			ft_printf("\"%s\"\n", &(sorted[i])[len + 1]);
+			ft_printf("\"%s\"", &(sorted[i])[len + 1]);
 		(len == -1) ? ft_printf("\"\"\n") : ft_printf("\n");
 		i++;
 	}
@@ -100,7 +106,6 @@ char	**clone_2_arr(char **arr1, char **arr2)
 	while (arr1[i])
 	{
 		clone[j] = ft_strdup(arr1[i]);
-		printf("arr1 clone[%d] = %s\n", j, clone[j]);
 		i++;
 		j++;
 	}
@@ -108,7 +113,6 @@ char	**clone_2_arr(char **arr1, char **arr2)
 	while (arr2[i])
 	{
 		clone[j] = ft_strdup(arr2[i]);
-		printf("arr2 clone[%d] = %s\n", j, clone[j]);
 		i++;
 		j++;
 	}
