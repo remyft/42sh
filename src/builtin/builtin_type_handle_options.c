@@ -6,7 +6,7 @@
 /*   By: tsisadag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 17:13:24 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/03/05 18:13:27 by tsisadag         ###   ########.fr       */
+/*   Updated: 2019/03/09 18:37:45 by tsisadag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int		illegal_option(char *option)
 		if (option[i] != 'a' && option[i] != 'f' && option[i] != 'p'
 				&& option[i] != 't' && option[i] != 'P')
 		{
-			ft_dprintf(2, "21sh: type: -%c: invalid option\ntype: usage: "
+			ft_dprintf(2, "42sh: type: -%c: invalid option\ntype: usage: "
 					"type [-afptP] name [name ...]\n", option[i]);
 			return (2);
 		}

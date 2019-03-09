@@ -6,7 +6,7 @@
 /*   By: tsisadag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 21:42:11 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/03/08 21:54:43 by tsisadag         ###   ########.fr       */
+/*   Updated: 2019/03/09 19:00:50 by tsisadag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,13 @@ void	export_print(char **exported, char **public_env)
 	int		len;
 	char	*sub;
 
-	i = 0;
+	i = -1;
 	sorted = clone_2_arr(exported, public_env);
 	export_sort(&sorted);
-	while (sorted[i])
+	while (sorted[++i])
 	{
 		if ((len = var_name_len(sorted[i])) == (int)ft_strlen(sorted[i]))
-		{
-			if (sorted[i][len])
-				len = -1;
-			len = -2;
-		}
+			len = (sorted[i][len]) ? -1 : -2;
 		if (len > 0)
 		{
 			sub = ft_strsub(sorted[i], 0, len + 1);
@@ -41,10 +37,8 @@ void	export_print(char **exported, char **public_env)
 		}
 		else
 			ft_printf("declare -x %s", sorted[i]);
-		if (len > 0)
-			ft_printf("\"%s\"", &(sorted[i])[len + 1]);
+		(len > 0) ? ft_printf("\"%s\"", &(sorted[i])[len + 1]) : 0;
 		(len == -1) ? ft_printf("\"\"\n") : ft_printf("\n");
-		i++;
 	}
 	sh_freetab(&sorted);
 }

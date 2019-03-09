@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/03/06 21:45:01 by tsisadag         ###   ########.fr        #
+#    Updated: 2019/03/09 18:47:18 by tsisadag         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -258,8 +258,10 @@ SRCS += builtin_alias_error.c				\
 		builtin_type_check.c				\
 		builtin_export.c					\
 		builtin_export_check.c				\
+		builtin_export_check_2.c			\
 		builtin_export_exec.c				\
 		builtin_export_tools.c				\
+		builtin_export_change_env.c			\
 
 # LIBRARY
 LIBRARY_DIR = lib/
