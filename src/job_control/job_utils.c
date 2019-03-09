@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 15:17:20 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/03/07 17:44:42 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/09 10:10:49 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		job_by_pid(t_s_env *e, pid_t pid)
 	jobs = e->jobs;
 	while (jobs)
 	{
-		if (jobs->process->pid == pid)
+		if (jobs->process && jobs->process->pid == pid)
 			return (jobs->id);
 		jobs = jobs->next;
 	}

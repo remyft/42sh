@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/09 10:06:21 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/09 10:13:55 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int			execute_list(t_m_list *list, t_s_env *e)
 		t_jobs	*job;
 	//	printf("job id[%d]\n", e->job_id);
 		job = get_job_by_id(e->job_id, e->jobs);
+		e->forked = 1;
 		if ((pid = fork()) < 0)
 			return (1);
 		if (pid == 0)
@@ -91,9 +92,11 @@ int			execute_list(t_m_list *list, t_s_env *e)
 			execute_ao_list(list->aolist, e);
 			exit(0);
 		}
-		printf("Pid : [%d]\n", pid);
+	//	waitpid(pid, NULL, 0);
+	//	printf("Pid : [%d]\n", pid);
 		job->process->pid = pid;
 		print_job_status(job, e->job_id);
+		e->forked = 0;
 	}
 	else if (execute_ao_list(list->aolist, e))
 	{

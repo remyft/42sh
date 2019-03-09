@@ -14,17 +14,11 @@
 
 void	add_job(t_jobs *jobs, t_jobs *new)
 {
-	size_t		id;
-
-	id = 2;
 	if (jobs == NULL || new == NULL)
 		return ;
 	while (jobs->next)
-	{
-		id++;
 		jobs = jobs->next;
-	}
-	new->id = id;
+	new->id = jobs->id + 1;
 	jobs->next = new;
 	new->prev = jobs;
 }

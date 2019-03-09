@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/07 18:36:28 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/09 10:13:55 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ int				command_system(t_execute *exec, t_s_env *e)
 		else if (pid < 0)
 			error = command_error(e->progname, ERR_FORK, exec->cmd, e);
 	}
+	//if (e->forked == 0)
+		//remove_job(&e->jobs, e->job_id);
 	command_cleanup(name, exec);
 	error += command_restore_fds(exec->fds);
 	return (error);

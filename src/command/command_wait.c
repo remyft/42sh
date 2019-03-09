@@ -58,6 +58,7 @@ void			command_wait2(pid_t pid, t_execute *exec, t_s_env *e)
 
 	(void)exec;
 	job = get_job_by_id(e->job_id, e->jobs);
+	printf("%p\n", job);
 	proc = job->process;
 	proc->pid = pid;
 	if (job->pgid > 0)
