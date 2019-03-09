@@ -6,7 +6,7 @@
 /*   By: tsisadag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 18:28:31 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/03/09 18:58:05 by tsisadag         ###   ########.fr       */
+/*   Updated: 2019/03/09 20:54:28 by tsisadag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		valid_id(char *arg)
 	if ((!ft_isalpha(arg[0]) && arg[0] != '_') ||
 			(!has_invalid_id(arg)))
 	{
-		ft_dprintf(1, "42sh: export: `%s': not a valid identifier\n",
+		ft_dprintf(2, "42sh: export: `%s': not a valid identifier\n",
 				arg);
 		return (0);
 	}

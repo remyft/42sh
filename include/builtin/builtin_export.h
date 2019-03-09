@@ -6,7 +6,7 @@
 /*   By: tsisadag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 16:24:07 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/03/09 18:46:29 by tsisadag         ###   ########.fr       */
+/*   Updated: 2019/03/09 20:13:23 by tsisadag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,5 @@ void			change_public_env(char *arg, t_s_env ***e);
 int				valid_id(char *arg);
 int				has_invalid_id(char *arg);
 int				illegal_option_export(char *opion);
+
 #endif

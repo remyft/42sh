@@ -6,7 +6,7 @@
 /*   By: tsisadag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 18:08:03 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/03/09 18:21:48 by tsisadag         ###   ########.fr       */
+/*   Updated: 2019/03/09 19:51:02 by tsisadag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	delete_local(char *arg, t_s_env ****e, int i, int j)
 	clone[j] = NULL;
 	sh_freetab(&(***e)->private_env);
 	(***e)->private_env = clone_arr(clone);
+	sh_freetab(&clone);
 }
 
 void	delete_exported(char *arg, t_s_env ****e, int i, int j)
@@ -68,6 +69,7 @@ void	delete_exported(char *arg, t_s_env ****e, int i, int j)
 	clone[j] = NULL;
 	sh_freetab(&(***e)->exported_env);
 	(***e)->exported_env = clone_arr(clone);
+	sh_freetab(&clone);
 }
 
 void	add_public(char *arg, t_s_env ****e)
@@ -121,9 +123,9 @@ void	change_public(char *arg, t_s_env ****e)
 	char	*tmp1;
 	char	*tmp2;
 
-	i = 0;
+	i = -1;
 	len = var_name_len(arg);
-	while ((***e)->public_env[i])
+	while ((***e)->public_env[++i])
 	{
 		tmp1 = ft_strsub(arg, 0, len);
 		tmp2 = ft_strsub((***e)->public_env[i], 0, len);
@@ -135,7 +137,8 @@ void	change_public(char *arg, t_s_env ****e)
 			free(tmp2);
 			return ;
 		}
-		i++;
+		free(tmp1);
+		free(tmp2);
 	}
 	printf("errror\n");
 }
