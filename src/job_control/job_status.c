@@ -6,11 +6,16 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 14:39:27 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/03/07 10:56:29 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/09 11:32:42 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "job_control.h"
+
+void		set_process_status(pid_t pid, int status)
+{
+
+}
 
 void		get_job_status(t_jobs *jobs)
 {

@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 14:09:06 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/03/06 17:00:28 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/09 11:30:18 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,17 @@
 
 # define JOB_TERMINATED 1
 
+enum {
+	STATUS_FINISHED,
+	STATUS_RUNNING,
+	STATUS_SUSPENDED,
+	STATUS_CONTINUED,
+	STATUS_TERMINATED,
+};
+
 # define STR_RUNNING "running"
 # define STR_SUSPENDED "suspended"
-# define STR_DONE "done"
+# define STR_FINISHED "finished"
 # define STR_CONTINUE "continued"
 # define STR_TERMINATED "terminated"
 

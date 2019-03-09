@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 15:18:47 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/03/09 10:13:21 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/09 11:31:27 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,13 @@ int	jobs_terminated(t_s_env *e)
 	while ((pid = waitpid(-1, &status, WNOHANG | WUNTRACED | WCONTINUED)) > 0)
 	{
 		job_id = job_by_pid(e, pid);
-	//	if (WIFSIGNALED(status))
-	//		job->process->status = JOB_TERMINATED;
-		printf("Getting pid :%d with job [%d]\n", pid, job_id);
+        if (WIFEXITED(status))
+			set_process_status(pid, STATUS_FINISHED);
+		else if (WIFSTOPPED(status))
+			set_process_status(pid, STATUS_SUSPENDED);
+        else if (WIFCONTINUED(status))
+            set_process_status(pid, STATUS_CONTINUED);
+	//	printf("Getting pid :%d with job [%d]\n", pid, job_id);
 		if (job_id > 0 && job_completed(e->jobs, job_id))
 		{
 			printf("[%d]+ Done [%d]\t\t%s\n", job_id, pid, "Command");
