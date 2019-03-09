@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/02 12:15:49 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/15 05:13:20 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/07 17:52:25 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct	s_expansion_handler
 # define OP_EXP_DOLLAR		{ '$',  expand_dollar }
 # define OP_EXP_BACKTICK	{ '`',  expand_backtick }
 # define OP_EXP_GLOB		{ '*',  expand_glob }
-# define OP_EXP_BRACKET		{ '[',  expand_math }
+# define OP_EXP_BRACKET		{ '[',  expand_glob }
 # define OP_EXP_QUESTION	{ '?',  expand_glob }
 
 int				expand_backslash(t_exp *param, t_ret *ret);
