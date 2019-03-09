@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 20:23:05 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/06 16:55:57 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/09 10:03:58 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,42 @@
 #include "shell_env.h"
 #include "command.h"
 #include "job_control.h"
+#include <errno.h>
 
 static int waitjob(t_jobs *jobs, int id)
 {
 	t_process	*p;
     int wait_pid = -1;
     int status = 0;
+	t_jobs		*job;
 
 	(void)id;
 	p = jobs->process;
-	while (jobs)
-	{
+	job = get_job_by_id(id, jobs);
+	// NEED TO while process
+	//if (job->pgid > 0)
+	//	wait_pid = waitpid(jobs->process->pid, &status, WUNTRACED);
+	//else
 		wait_pid = waitpid(-jobs->pgid, &status, WUNTRACED);
-		if (WIFSIGNALED(status))
-			jobs->process->status = JOB_TERMINATED;
-		jobs = jobs->next;
-	}
+ //   if (WIFEXITED(status))
+	//	jobs->process->status = 2;
+	if (WIFSIGNALED(status))
+		jobs->process->status = JOB_TERMINATED;
 	return (status);
 }
+
+static void		command_ret(int *ret)
+{
+	if (!ret)
+		return ;
+	if (WIFEXITED(*ret))
+		*ret = WEXITSTATUS(*ret);
+	else if (WIFSIGNALED(*ret))
+		*ret = WTERMSIG(*ret) + 128;
+	else if (WIFSTOPPED(*ret))
+		*ret = WTERMSIG(*ret) + 128;
+}
+
 
 void			command_wait2(pid_t pid, t_execute *exec, t_s_env *e)
 {
@@ -52,23 +70,12 @@ void			command_wait2(pid_t pid, t_execute *exec, t_s_env *e)
 	if (!e->async)
 	{
 		tcsetpgrp(0, job->pgid);
-		waitjob(e->jobs, e->job_id);
+		e->ret = waitjob(e->jobs, e->job_id);
 		signal(SIGTTOU, SIG_IGN);
 		tcsetpgrp(0, getpid());
 		signal(SIGTTOU, SIG_DFL);
 	}
-}
-
-static void		command_ret(int *ret)
-{
-	if (!ret)
-		return ;
-	if (WIFEXITED(*ret))
-		*ret = WEXITSTATUS(*ret);
-	else if (WIFSIGNALED(*ret))
-		*ret = WTERMSIG(*ret) + 128;
-	else if (WIFSTOPPED(*ret))
-		*ret = WTERMSIG(*ret) + 128;
+	return (command_ret(&e->ret));
 }
 
 void			command_wait(pid_t pid, int async, int *ret)

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/06 17:01:04 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/09 10:06:21 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,16 @@ int			execute_list(t_m_list *list, t_s_env *e)
 			execute_ao_list(list->aolist, e);
 			exit(0);
 		}
-	//	printf("Pid : [%d]\n", pid);
+		printf("Pid : [%d]\n", pid);
 		job->process->pid = pid;
 		print_job_status(job, e->job_id);
 	}
 	else if (execute_ao_list(list->aolist, e))
+	{
+		remove_job(&e->jobs, e->job_id);
 		return (1);
+	}
+	if (!list->async)
+		remove_job(&e->jobs, e->job_id);
 	return (execute_list(list->next, e));
 }
