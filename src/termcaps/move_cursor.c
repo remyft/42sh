@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:13:27 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/05 18:14:57 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/09 15:58:44 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,21 @@ void	go_home(t_line *line)
 		tputs(tgetstr("up", NULL), 1, ft_pchar);
 	tputs(tgoto(tgetstr("ch", NULL), 0, line->lprompt), 1, ft_pchar);
 	line->index = 0;
+}
+
+void	deal_home(t_line *line)
+{
+	if (*line->e_cmpl & COMPLETION)
+	{
+		go_end(line);
+		tputs(tgetstr("sc", NULL), 1, ft_pchar);
+		tputs(tgetstr("do", NULL), 1, ft_pchar);
+		tputs(tgetstr("cr", NULL), 1, ft_pchar);
+		tputs(tgetstr("cd", NULL), 1, ft_pchar);
+		tputs(tgetstr("rc", NULL), 1, ft_pchar);
+		*line->e_cmpl &= ~COMPLETION;
+	}
+	go_home(line);
 }
 
 void	go_end(t_line *line)
