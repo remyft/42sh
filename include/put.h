@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:50:35 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/21 05:32:15 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/10 14:06:55 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char			*find_separator(char *buff);
 */
 
 int				inprint(char *str);
-t_tree			*set_tmp(char *buff);
+t_tree			*set_tmp(char *buff, int glob);
 int				str_chrglob(char *str);
 char			*replace_tilde(const char *path, const char *replace);
 

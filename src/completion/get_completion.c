@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 03:41:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/04 17:04:23 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/10 19:49:34 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void		deal_choose_tree(t_line *line, char *ptr)
 		if (search_to_tmp(ptr))
 		{
 			if (GET_TREE(line->tree, TMP)
-					|| (GET_TREE(line->tree, TMP) = set_tmp(line->curr->buff)))
+					|| (GET_TREE(line->tree, TMP) = set_tmp(line->curr->buff, 0)))
 				deal_complet(GET_TREE(line->tree, TMP), line);
 		}
 		else
@@ -88,6 +88,33 @@ void		deal_choose_tree(t_line *line, char *ptr)
 		deal_complet(GET_TREE(line->tree, BIN), line);
 }
 
+t_slst		*choose_globing(t_line *line, char *ptr)
+{
+	t_slst	*tmp;
+	char	*str;
+	t_cpl_e	env;
+	int		c;
+
+	env.lvl = 0;
+	*env.nb_ret = 0;
+	c = 2;
+	env.lenm = 10;
+	tmp = NULL;
+	if (search_to_tmp(ptr))
+	{
+		if (GET_TREE(line->tree, TMP)
+				|| (GET_TREE(line->tree, TMP) = set_tmp(line->curr->buff, 1)))
+		{
+			if (!(str = sh_strchr(ptr, '/')))
+				return (NULL);
+			tmp = deal_globing(str + 1, GET_TREE(line->tree, TMP));
+		}
+	}
+	else
+		tmp = deal_globing(ptr, GET_TREE(line->tree, FILES));
+	return (tmp);
+}
+
 void		choose_tree(t_line *line)
 {
 	char	*ptr;
@@ -95,9 +122,11 @@ void		choose_tree(t_line *line)
 
 	tmp = NULL;
 	if ((ptr = sh_strrchr(line->curr->buff, ' ')) && str_chrglob(ptr))
-		tmp = deal_globing(ptr + 1, line->tree[1]);
+		//tmp = deal_globing(ptr + 1, GET_TREE(line->tree, FILES));
+		tmp = choose_globing(line, ptr + 1);
 	else if (!ptr && str_chrglob(line->curr->buff))
-		tmp = deal_globing(line->curr->buff, line->tree[1]);
+		//tmp = deal_globing(line->curr->buff, GET_TREE(line->tree, FILES));
+		tmp = choose_globing(line, line->curr->buff);
 	else
 		deal_choose_tree(line, ptr);
 	if (!ptr)
@@ -110,8 +139,7 @@ void		get_complet(t_line *line)
 {
 	if (!(*line->e_cmpl & COMPLETION) && line->curr->buff_tmp[8193])
 	{
-		line->curr->buff_tmp[0] = 0;
-		line->curr->buff_tmp[8193] = 0;
+		ft_bzero(line->curr->buff_tmp, 8194);
 	}
 	if (!inprint(line->curr->buff))
 		return ;
