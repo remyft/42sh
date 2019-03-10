@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/09 10:13:55 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/10 19:49:25 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,22 @@ int			execute_list(t_m_list *list, t_s_env *e)
 	pid = 0;
 	if (!list)
 		return (0);
-	e->async = list->async;
+	//e->async = list->async;
 	jobs_prepare(list, e);
+#ifdef JOBS_DEBUG
+	for (t_jobs *job = e->jobs; job; job = job->next)
+	{
+		printf("Job with id [%d] has pid : :\n", job->id);
+		for (t_process *proc = job->process; proc; proc = proc->next)
+		{
+			printf("\tProcess {%p}", proc);
+			printf("--pid : %d -- cmd: {%s}\n", proc->pid, proc->cmd[0]);
+		}
+	}
+#endif
 	if (list->async)
 	{
 		t_jobs	*job;
-	//	printf("job id[%d]\n", e->job_id);
 		job = job_by_id(e->job_id, e->jobs);
 		e->forked = 1;
 		if ((pid = fork()) < 0)
@@ -92,11 +102,10 @@ int			execute_list(t_m_list *list, t_s_env *e)
 			execute_ao_list(list->aolist, e);
 			exit(0);
 		}
-	//	waitpid(pid, NULL, 0);
-	//	printf("Pid : [%d]\n", pid);
 		job->process->pid = pid;
 		print_job_status(job, e->job_id);
 		e->forked = 0;
+		printf("Enter\n");
 	}
 	else if (execute_ao_list(list->aolist, e))
 	{

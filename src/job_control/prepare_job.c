@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 14:13:28 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/03/07 17:41:07 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/10 18:41:19 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,19 @@
 #include "operator_types.h"
 #include "command.h"
 #include "expansion.h"
+#include "shell_lib.h"
 
 static int	job_in(t_argument *ptr, t_s_env *e)
 {
-	char			**test;
-	t_jobs			*job;
+	char			**cmd;
+	t_process		*proc;
 
 	while (ptr && ptr->token->id == ASSIGNMENT_WORD)
 		ptr = ptr->next;
-	test = command_group_command(ptr);
-	e->job_id = job_insert(e);
-	job = job_by_id(e->job_id, e->jobs);
-	job->process = create_process(NULL, e);
-	job->process->cmd = test;
-	return (1);
+	cmd = sh_tabdup((const char **)command_group_command(ptr));
+	proc = create_process(NULL, e);
+	proc->cmd = cmd;
+	return (0);
 }
 
 static int	prepare_job(void *cmd, t_s_env *e)
@@ -36,8 +35,8 @@ static int	prepare_job(void *cmd, t_s_env *e)
 	if (!cmd)
 		return (0);
 	if (*(int *)cmd == IS_A_PIPE)
-		// after
-		;
+		return (prepare_job(((t_pipeline *)cmd)->left, e)
+				|| prepare_job(((t_pipeline *)cmd)->right, e));
 	else if (expand_argument(((t_command *)cmd)->args, e)
 			|| job_in(((t_command *)cmd)->args, e))
 		return (1);
@@ -62,7 +61,9 @@ int		jobs_prepare(t_m_list *list, t_s_env *e)
 {
 	if (!list)
 		return (0);
+	e->job_id = job_insert(e);
 	if (jobs_ao_parse(list->aolist, e))
 		return (1);
-	return (jobs_prepare(list->next, e));
+	return (0);
+	//return (jobs_prepare(list->next, e));
 }

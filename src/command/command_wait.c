@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 20:23:05 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/09 10:03:58 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/10 19:06:42 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,21 @@
 #include "job_control.h"
 #include <errno.h>
 
-static int waitjob(t_jobs *jobs, int id)
+static int waitjob(t_jobs *jobs)
 {
     int wait_pid = -1;
     int status = 0;
-	t_jobs		*job;
 
-	job = job_by_id(id, jobs);
-	// NEED TO while process
 	//if (job->pgid > 0)
 	//	wait_pid = waitpid(jobs->process->pid, &status, WUNTRACED);
 	//else
-		wait_pid = waitpid(-job->pgid, &status, WUNTRACED);
-		printf("%d\n", job->next->process->status);
+	wait_pid = waitpid(jobs->process->pid, &status, WUNTRACED);
+	//	printf("%d\n", job->next->process->status);
  //   if (WIFEXITED(status))
 	//	jobs->process->status = 2;
-	if (WIFSIGNALED(status))
+	//if (WIFSIGNALED(status))
 	//	set_pstatus(jobs->process, wait_pid, STATUS_FINISHED);
-		job->process->status = STATUS_FINISHED;
+	//	jobs->process->status = STATUS_FINISHED;
 	return (status);
 }
 
@@ -55,7 +52,6 @@ void			command_wait2(pid_t pid, t_execute *exec, t_s_env *e)
 	t_jobs		*job;
 	t_process	*proc;
 
-	(void)exec;
 	job = job_by_id(e->job_id, e->jobs);
 	proc = job->process;
 	proc->pid = pid;
@@ -66,10 +62,10 @@ void			command_wait2(pid_t pid, t_execute *exec, t_s_env *e)
 		job->pgid = proc->pid;
 		setpgid(pid, job->pgid);
 	}
-	if (!e->async)
+	if (!exec->async)
 	{
 		tcsetpgrp(0, job->pgid);
-		e->ret = waitjob(e->jobs, e->job_id);
+		e->ret = waitjob(job);
 		signal(SIGTTOU, SIG_IGN);
 		tcsetpgrp(0, getpid());
 		signal(SIGTTOU, SIG_DFL);

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:59:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/04 14:00:00 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/10 19:49:24 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ enum
 typedef struct	s_command
 {
 	int				type;
+	int				async;
 	t_argument		*args;
 	t_redirection	*redir;
 }				t_command;

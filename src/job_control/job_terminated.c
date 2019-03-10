@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 15:18:47 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/03/09 11:31:27 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/10 18:28:46 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	free_proc(t_process *proc)
 {
 	if (proc)
 	{
-	//	sh_freetab(&proc->cmd);
-		free(proc->cmd);
+		sh_freetab(&proc->cmd);
+	//	free(proc->cmd);
 		free_proc(proc->next);
 		free(proc);
 	}

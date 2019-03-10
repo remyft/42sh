@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/03/06 09:57:26 by dbaffier         ###   ########.fr        #
+#    Updated: 2019/03/10 18:51:56 by dbaffier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,8 @@ OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 
 DEPS_DIR = .deps/
 DEPS = $(addprefix $(DEPS_DIR), $(SRCS:.c=.d))
+
+DEBUG = -DJOBS_DEBUG
 
 RM = /bin/rm -rf
 
@@ -456,7 +458,7 @@ $(OBJS_DIR)%.o: $(GLOB_DIR)%.c $(DEPS_DIR)%.d
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(JOB_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(JOB_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(JOB_DIR) -I$(INC_DIR)/$(COMMAND_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(LIBRARY_DIR)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(JOB_DIR) -I$(INC_DIR)/$(COMMAND_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(LIBRARY_DIR) $(DEBUG)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(DEPS_DIR)%.d: ;
@@ -477,7 +479,7 @@ fclean: clean
 
 re: fclean all
 
-debug: DEBUG = -g3 -fsanitize=address -DDEBUG -g
+debug: DEBUG += -g3 -fsanitize=address -DDEBUG -g
 debug: re
 
 nn:
