@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 05:00:51 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 04:06:58 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/09 16:23:05 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,11 @@ void		up_arrow(t_line *line)
 	if (find == 1)
 		is_find(line);
 	else
+	{
 		line->hist = tmp;
+		if (!tmp->prev)
+			ft_bzero(line->curr->buff_tmp, 8194);
+	}
 }
 
 void		down_arrow(t_line *line)
