@@ -298,6 +298,7 @@ SRCS	+= job_insert.c						\
 		   job_utils.c						\
 		   prepare_job.c					\
 		   create_process.c					\
+		   process_status.c					\
 
 COL			=	$$(tput cols)/3
 DIRNAME		=	$$(basename $$(pwd))

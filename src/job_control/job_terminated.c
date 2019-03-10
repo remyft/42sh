@@ -29,7 +29,7 @@ void	remove_job(t_jobs **jobs, int id)
 {
 	t_jobs		*job;
 
-	job = get_job_by_id(id, *jobs);
+	job = job_by_id(id, *jobs);
 	if (*jobs == job)
 		*jobs = job->next;
 	if (job->next != NULL)
@@ -44,37 +44,41 @@ int	jobs_terminated(t_s_env *e)
 {
 	int		status;
 	pid_t	pid;
-	int		job_id;
+	t_jobs	*job;
 
-	t_jobs	*p;
-	p = e->jobs;
 	while ((pid = waitpid(-1, &status, WNOHANG | WUNTRACED | WCONTINUED)) > 0)
 	{
-		job_id = job_by_pid(e, pid);
+		if (!(job = job_by_pid(e, pid)))
+			break ;
         if (WIFEXITED(status))
-			set_process_status(pid, STATUS_FINISHED);
-		else if (WIFSTOPPED(status))
-			set_process_status(pid, STATUS_SUSPENDED);
+			set_pstatus(job->process, pid, STATUS_FINISHED);
+	/*	else if (WIFSTOPPED(status))
+			set_pstatus(job->process, pid, STATUS_SUSPENDED);
         else if (WIFCONTINUED(status))
-            set_process_status(pid, STATUS_CONTINUED);
+            set_pstatus(job->process, pid, STATUS_CONTINUED);
+			*/
 	//	printf("Getting pid :%d with job [%d]\n", pid, job_id);
-		if (job_id > 0 && job_completed(e->jobs, job_id))
+		if (job_completed(job))
 		{
-			printf("[%d]+ Done [%d]\t\t%s\n", job_id, pid, "Command");
-			remove_job(&e->jobs, job_id);
+			printf("[%d]+ Done [%d]\t\t%s\n", job->id, pid, "Command");
+			remove_job(&e->jobs, job->id);
 		}
 	}
 	return (1);
 }
 
-int	job_completed(t_jobs *jobs, int job_id)
+int	job_completed(t_jobs *job)
 {
-	while (jobs)
+	t_process	*proc;
+
+	if (!job)
+		return (0);
+	proc = job->process;
+	while (proc)
 	{
-		printf("jobs->id [%d] == [%d]\n", jobs->id, job_id);
-		if (jobs->id == job_id)
-			break ;
-		jobs = jobs->next;
+		if (proc->status != STATUS_FINISHED)
+			return (0);
+		proc = proc->next;
 	}
-	return (jobs->process->status != JOB_TERMINATED);
+	return (1);
 }

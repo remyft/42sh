@@ -12,11 +12,6 @@
 
 #include "job_control.h"
 
-void		set_process_status(pid_t pid, int status)
-{
-
-}
-
 void		get_job_status(t_jobs *jobs)
 {
 	int		status;

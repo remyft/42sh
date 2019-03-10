@@ -25,7 +25,7 @@ static int	job_in(t_argument *ptr, t_s_env *e)
 		ptr = ptr->next;
 	test = command_group_command(ptr);
 	e->job_id = job_insert(e);
-	job = get_job_by_id(e->job_id, e->jobs);
+	job = job_by_id(e->job_id, e->jobs);
 	job->process = create_process(NULL, e);
 	job->process->cmd = test;
 	return (1);

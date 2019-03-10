@@ -83,7 +83,7 @@ int			execute_list(t_m_list *list, t_s_env *e)
 	{
 		t_jobs	*job;
 	//	printf("job id[%d]\n", e->job_id);
-		job = get_job_by_id(e->job_id, e->jobs);
+		job = job_by_id(e->job_id, e->jobs);
 		e->forked = 1;
 		if ((pid = fork()) < 0)
 			return (1);

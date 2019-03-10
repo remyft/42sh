@@ -20,7 +20,7 @@
 # define JOB_TERMINATED 1
 
 enum {
-	STATUS_FINISHED,
+	STATUS_FINISHED = 1,
 	STATUS_RUNNING,
 	STATUS_SUSPENDED,
 	STATUS_CONTINUED,
@@ -36,11 +36,13 @@ enum {
 void			remove_job(t_jobs **jobs, int id);
 
 int				job_insert(t_s_env *e);
-int				job_by_pid(t_s_env *e, pid_t pid);
 int				jobs_terminated(t_s_env *e);
-int				job_completed(t_jobs *jobs, int job_id);
+int				job_completed(t_jobs *job);
 
-t_jobs			*get_job_by_id(int id, t_jobs *jobs);
+t_jobs			*job_by_id(int id, t_jobs *jobs);
+t_jobs			*job_by_pid(t_s_env *e, pid_t pid);
+
 t_process		*create_process(t_execute *exec, t_s_env *e);
+int				set_pstatus(t_process *proc, pid_t pid, int status);
 
 #endif

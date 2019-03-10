@@ -12,7 +12,7 @@
 
 #include "job_control.h"
 
-t_jobs		*get_job_by_id(int id, t_jobs *jobs)
+t_jobs		*job_by_id(int id, t_jobs *jobs)
 {
 	while (jobs)
 	{
@@ -23,17 +23,23 @@ t_jobs		*get_job_by_id(int id, t_jobs *jobs)
 	return (jobs);
 }
 
-int		job_by_pid(t_s_env *e, pid_t pid)
+t_jobs		*job_by_pid(t_s_env *e, pid_t pid)
 {
-	t_jobs	*jobs;
+	t_jobs		*jobs;
+	t_process	*curr;
 
 	jobs = e->jobs;
 	while (jobs)
 	{
-		if (jobs->process && jobs->process->pid == pid)
-			return (jobs->id);
+		curr = jobs->process;
+		while (curr)
+		{
+			if (curr->pid == pid)
+				return (jobs);
+			curr = curr->next;
+		}
 		jobs = jobs->next;
 	}
-	return (0);
+	return (NULL);
 }
 

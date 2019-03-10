@@ -29,7 +29,7 @@ static void		command_execve(char *name, t_execute *exec, t_s_env *e)
 	signal(SIGTTIN, SIG_DFL);
 	signal(SIGTTOU, SIG_DFL);
 	signal(SIGCHLD, SIG_DFL);
-	job = get_job_by_id(e->job_id, e->jobs);
+	job = job_by_id(e->job_id, e->jobs);
 	proc = job->process;
 	proc->pid = getpid();
 	if (job->pgid > 0)
@@ -73,7 +73,7 @@ int				command_system(t_execute *exec, t_s_env *e)
 			error = command_error(e->progname, ERR_FORK, exec->cmd, e);
 	}
 	//if (e->forked == 0)
-		//remove_job(&e->jobs, e->job_id);
+	//	remove_job(&e->jobs, e->job_id);
 	command_cleanup(name, exec);
 	error += command_restore_fds(exec->fds);
 	return (error);

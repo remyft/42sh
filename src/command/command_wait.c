@@ -18,23 +18,22 @@
 
 static int waitjob(t_jobs *jobs, int id)
 {
-	t_process	*p;
     int wait_pid = -1;
     int status = 0;
 	t_jobs		*job;
 
-	(void)id;
-	p = jobs->process;
-	job = get_job_by_id(id, jobs);
+	job = job_by_id(id, jobs);
 	// NEED TO while process
 	//if (job->pgid > 0)
 	//	wait_pid = waitpid(jobs->process->pid, &status, WUNTRACED);
 	//else
-		wait_pid = waitpid(-jobs->pgid, &status, WUNTRACED);
+		wait_pid = waitpid(-job->pgid, &status, WUNTRACED);
+		printf("%d\n", job->next->process->status);
  //   if (WIFEXITED(status))
 	//	jobs->process->status = 2;
 	if (WIFSIGNALED(status))
-		jobs->process->status = JOB_TERMINATED;
+	//	set_pstatus(jobs->process, wait_pid, STATUS_FINISHED);
+		job->process->status = STATUS_FINISHED;
 	return (status);
 }
 
@@ -57,8 +56,7 @@ void			command_wait2(pid_t pid, t_execute *exec, t_s_env *e)
 	t_process	*proc;
 
 	(void)exec;
-	job = get_job_by_id(e->job_id, e->jobs);
-	printf("%p\n", job);
+	job = job_by_id(e->job_id, e->jobs);
 	proc = job->process;
 	proc->pid = pid;
 	if (job->pgid > 0)
