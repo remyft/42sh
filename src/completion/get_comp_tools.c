@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 17:00:18 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 17:01:16 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/09 18:52:41 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,7 @@ int			search_to_tmp(char *buff)
 	while (buff[++i])
 		if (buff[i] == '~' || buff[i] == '/')
 			return (1);
+		else if (buff[i] == '*')
+			return (0);
 	return (0);
 }
