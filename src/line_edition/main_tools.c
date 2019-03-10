@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/21 06:53:32 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/09 16:09:04 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	deal_key(t_line *line)
 		{ "\x7F", &deal_dleft }, { "\x1B\x5B\x41", &up_arrow },
 		{ "\x1B\x5B\x42", &down_arrow }, { "\x1B\x5B\x43", &right_arrow },
 		{ "\x1B\x5B\x44", &left_arrow }, { "\x1B\x5B\x46", &go_end },
-		{ "\x1B\x5B\x48", &go_home }, { "\x1B\x5B\x33\x7E", &del_right },
+		{ "\x1B\x5B\x48", &deal_home }, { "\x1B\x5B\x33\x7E", &del_right },
 		{ "\x1B\x5B\x31\x3B\x32\x44", &select_left},
 		{ "\x1B\x5B\x31\x3B\x32\x43", &select_right},
 		{ "\x17", &next_word }, { "\x2", &prev_word },
