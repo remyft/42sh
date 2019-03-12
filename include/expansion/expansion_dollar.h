@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/04 00:18:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/15 22:07:56 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/10 20:54:12 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 # define EXPANSION_DOLLAR_H
 
 # include "expansion.h"
+
+/*
+** Typedef for dollar_get_parameter_init()
+*/
+typedef int		(*t_end)(t_exp *);
 
 typedef struct	s_dollar
 {

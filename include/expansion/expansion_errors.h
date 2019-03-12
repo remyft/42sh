@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 17:39:24 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/26 20:28:14 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/10 20:23:51 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,21 +64,21 @@ enum
 typedef struct	s_error
 {
 	int			error;
-	void		(*handler)(const char *, t_ret *);
+	void		(*handler)(t_ret *, t_exp *, t_s_env *);
 }				t_error;
 
-void			err_none_func(const char *progname, t_ret *ret);
-void			err_syntax_func(const char *progname, t_ret *ret);
-void			err_modifier_func(const char *progname, t_ret *ret);
-void			err_unhandled_func(const char *progname, t_ret *ret);
-void			err_malloc_func(const char *progname, t_ret *ret);
-void			err_no_env_func(const char *progname, t_ret *ret);
-void			err_directory_func(const char *progname, t_ret *ret);
-void			err_given_func(const char *progname, t_ret *ret);
-void			err_no_user_func(const char *progname, t_ret *ret);
-void			err_ambigous_func(const char *progname, t_ret *ret);
-void			err_pipe_func(const char *progname, t_ret *ret);
-void			err_fcntl_func(const char *progname, t_ret *ret);
-void			err_fork_func(const char *progname, t_ret *ret);
+void			err_none_func(t_ret *ret, t_exp *par, t_s_env *e);
+void			err_syntax_func(t_ret *ret, t_exp *par, t_s_env *e);
+void			err_modifier_func(t_ret *ret, t_exp *par, t_s_env *e);
+void			err_unhandled_func(t_ret *ret, t_exp *par, t_s_env *e);
+void			err_malloc_func(t_ret *ret, t_exp *par, t_s_env *e);
+void			err_no_env_func(t_ret *ret, t_exp *par, t_s_env *e);
+void			err_directory_func(t_ret *ret, t_exp *par, t_s_env *e);
+void			err_given_func(t_ret *ret, t_exp *par, t_s_env *e);
+void			err_no_user_func(t_ret *ret, t_exp *par, t_s_env *e);
+void			err_ambigous_func(t_ret *ret, t_exp *par, t_s_env *e);
+void			err_pipe_func(t_ret *ret, t_exp *par, t_s_env *e);
+void			err_fcntl_func(t_ret *ret, t_exp *par, t_s_env *e);
+void			err_fork_func(t_ret *ret, t_exp *par, t_s_env *e);
 
 #endif

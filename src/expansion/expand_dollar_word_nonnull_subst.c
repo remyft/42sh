@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 19:02:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/16 01:05:55 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/08 15:17:03 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ int				word_nonnull_subst(t_ret *subs, t_ret *para, t_exp *param)
 		&& (para->substitute[0] || !(para->action & COLON_ACTION)))
 	{
 		expand_free_t_ret(para, 0);
-		ft_memcpy(para, subs, sizeof(*para));
+		para->word = subs->substitute;
+		para->substitute = subs->word;
+		para->freeable = 0;
 		ft_memset(subs, 0, sizeof(*subs));
 	}
 	return (ERR_NONE);

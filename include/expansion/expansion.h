@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 20:20:47 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/02 14:10:22 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/10 20:51:11 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,16 @@ typedef struct	s_expansion
 	const char	*buff;
 	size_t		buff_len;
 	size_t		i;
-	int			quoted;
+	t_quote		*quote;
 	int			expand;
-	int			fieldsplit;
 }				t_exp;
 
 int				expand_argument(t_argument *arg, t_s_env *e);
 int				expand_loop(t_ret *ret, t_exp *param, int (*end_loop)(t_exp *));
-int				expand_error(int error, const char *progname, t_ret *ret);
+int				expand_error(int error, t_ret *ret, t_exp *par, t_s_env *e);
 int				expand_end(t_ret *ret, t_argument *arg);
 
-int				expand_fieldsplit(t_ret **ret, const char *ifs);
+int				expand_fieldsplit(t_ret **ret, t_s_env *e);
 
 int				param_addchar(char c, t_ret *ret);
 int				param_addstr(const char *str, t_ret *ret);
@@ -64,6 +63,8 @@ void			expand_free_t_ret(t_ret *ret, int free_ret);
 
 int				expand_arithmetic(t_exp *param, t_ret *ret);
 int				expand_subshell(t_exp *param, t_ret *ret);
+void			expand_subshell_father(int pfd[2], pid_t pid, t_exp *param,
+t_ret *ret);
 
 void			debug_expansion(char *name, t_ret *ret);
 
