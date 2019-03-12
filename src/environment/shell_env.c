@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 00:07:32 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/23 14:23:31 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/09 21:13:43 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static char		**build_private_env(char **env)
 	if ((ret = ft_memalloc(sizeof(*ret) * size)) != NULL)
 	{
 		size = 0;
-		if ((ret[size] = ft_strjoin("IFS=", IFS_SEPARATORS)) != NULL)
+		if ((ret[size] = ft_strjoin("IFS=", IFS_DEFAULT)) != NULL)
 			size++;
 		if (!sh_getnenv("PATH", env))
 			get_bin_paths(ret, &size);
