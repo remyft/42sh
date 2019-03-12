@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/05 19:44:00 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/11 18:24:22 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	prepare_command(void *cmd, t_s_env *e)
 		return (0);
 	if (*(int *)cmd == IS_A_PIPE)
 		return (prepare_command(((t_pipeline *)cmd)->left, e)
-				|| prepare_command(((t_pipeline *)cmd)->right, e));
+			|| prepare_command(((t_pipeline *)cmd)->right, e));
 	else if (expand_argument(((t_command *)cmd)->args, e)
 		|| redirect_prepare(((t_command *)cmd)->redir, e))
 		return (1);
