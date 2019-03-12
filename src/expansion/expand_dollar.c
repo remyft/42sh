@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 00:56:12 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/26 15:19:27 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/10 21:10:03 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@ static int		check_expression(t_exp *param)
 	size_t	depth;
 
 	j = param->i + 2;
-	depth = 0;
-	while (j < param->buff_len
-		&& !(depth == 0 && param->buff[j + 1] == ')'))
+	depth = 1;
+	while (j < param->buff_len && depth)
 	{
 		if (param->buff[j] == '(')
 			++depth;
@@ -30,12 +29,12 @@ static int		check_expression(t_exp *param)
 			--depth;
 		++j;
 	}
-	return (param->buff[j] == ')' && param->buff[j + 1] == ')');
+	return (param->buff[j - 2] == ')');
 }
 
 int				expand_dollar(t_exp *param, t_ret *ret)
 {
-	int			i;
+	size_t		i;
 
 	i = param->i + 1;
 	if (param->buff[i] == '(')
