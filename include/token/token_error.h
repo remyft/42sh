@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_newline.c                                   :+:      :+:    :+:   */
+/*   token_error.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/29 07:55:06 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/17 22:41:32 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/03/08 04:08:41 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/03/08 04:09:15 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "token.h"
+#ifndef TOKEN_ERROR_H
+# define TOKEN_ERROR_H
 
-t_token			*handle_newline(t_param *param, t_call *token)
+enum
 {
-	if (param->token->type != UNDEFINED)
-		param->token = token[param->token->type].identifier(param);
-	param->token->type = TOKEN;
-	param->token->id = NEWLINE;
-	return (param->token);
-}
+	ERR_MALLOC,
+};
+
+#endif

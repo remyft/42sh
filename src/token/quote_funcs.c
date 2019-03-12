@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 15:38:42 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/06 17:00:05 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/09 16:21:52 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@ t_quote			*quote_add(t_quote **head, int type)
 		return (*head);
 	}
 	if (*head && !(*head)->next)
+	{
 		free(*head);
-	return (NULLQUOTE);
+		*head = NULLQUOTE;
+	}
+	return (*head);
 }
 
 void			quote_remove(t_quote **head, int type)
@@ -43,7 +46,7 @@ void			quote_remove(t_quote **head, int type)
 int				quote_type(t_quote *head)
 {
 	if (!head)
-		return (0);
+		return (NO_QUOTE);
 	if (head->next)
 		return (quote_type(head->next));
 	return (head->type);

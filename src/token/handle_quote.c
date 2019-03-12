@@ -6,58 +6,115 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/29 11:36:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/05 20:47:40 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/11 20:39:02 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "token_error.h"
 #include "token.h"
 
-static t_token	*backslash(t_param *param)
+static t_token	*backslash(t_param *param, int type)
 {
-	if (!param->buff[param->i + 1])
-	{
-		ft_putendl("REMY I NEED YOU TO DO THIS WITH ME");
+	int			qtype;
+
+	qtype = quote_type(param->quote);
+	if (qtype == SINGLE_QUOTE)
 		return (param->token);
-	}
-	if (!(param->token->quoted & SINGLE_QUOTE))
-		param->i++;
+	if (!quote_add(&param->quote, type))
+		return (token_error(ERR_MALLOC, param));
 	return (param->token);
 }
 
-static t_token	*singlequote(t_param *param)
+static t_token	*singlequote(t_param *param, int type)
 {
-	if (param->token->quoted & DOUBLE_QUOTE)
+	int			qtype;
+
+	qtype = quote_type(param->quote);
+	if (qtype == DOUBLE_QUOTE || qtype == BACKQUOTE)
 		return (param->token);
-	if (!(param->token->quoted & SINGLE_QUOTE))
-		param->token->quoted |= SINGLE_QUOTE;
-	else
-		param->token->quoted &= ~SINGLE_QUOTE;
+	if (qtype == type)
+		quote_remove(&param->quote, type);
+	else if (!quote_add(&param->quote, type))
+		return (token_error(ERR_MALLOC, param));
 	return (param->token);
 }
 
-static t_token	*doublequote(t_param *param)
+static t_token	*doublequote(t_param *param, int type)
 {
-	// // if a doublequote is in a singlequote don't add doublequote to the quote list
-	// if (quote_check(param->token->quote, DOUBLE_QUOTE))
-	// 	return (param->token);
-	if (param->token->quoted & SINGLE_QUOTE)
+	int			qtype;
+
+	qtype = quote_type(param->quote);
+	if (qtype == SINGLE_QUOTE || qtype == BACKQUOTE)
 		return (param->token);
-	if (!(param->token->quoted & DOUBLE_QUOTE))
-		param->token->quoted |= DOUBLE_QUOTE;
-	else
-		param->token->quoted &= ~DOUBLE_QUOTE;
+	if (qtype == type)
+		quote_remove(&param->quote, type);
+	else if (!quote_add(&param->quote, type))
+		return (token_error(ERR_MALLOC, param));
+	return (param->token);
+}
+
+static t_token	*braceopen(t_param *param, int type)
+{
+	if (quote_type(param->quote) == SINGLE_QUOTE)
+		return (param->token);
+	if (!quote_add(&param->quote, type))
+		return (token_error(ERR_MALLOC, param));
+	return (param->token);
+}
+
+static t_token	*braceclose(t_param *param, int type)
+{
+	if (!param->quote)
+		return (param->token);
+	quote_remove(&param->quote, type);
+	return (param->token);
+}
+
+static t_token	*parentheseopen(t_param *param, int type)
+{
+	if (quote_type(param->quote) == SINGLE_QUOTE)
+		return (param->token);
+	if (!quote_add(&param->quote, type))
+		return (token_error(ERR_MALLOC, param));
+	return (param->token);
+}
+
+static t_token	*parentheseclose(t_param *param, int type)
+{
+	if (!param->quote)
+		return (param->token);
+	quote_remove(&param->quote, type);
+	return (param->token);
+}
+
+static t_token	*backquote(t_param *param, int type)
+{
+	int			qtype;
+
+	qtype = quote_type(param->quote);
+	if (qtype == SINGLE_QUOTE)
+		return (param->token);
+	if (qtype == BACKQUOTE)
+		quote_remove(&param->quote, type);
+	else if (!quote_add(&param->quote, type))
+		return (NULLTOKEN);
 	return (param->token);
 }
 
 t_token			*handle_quote(t_param *param, t_call *token)
 {
 	static t_quote_h	quote[] = {
-		{ '\\', backslash },
-		{ '\'', singlequote },
-		{ '"', doublequote },
+		{ '\\', backslash, BACKSLASH },
+		{ '"', doublequote, DOUBLE_QUOTE },
+		{ '\'', singlequote, SINGLE_QUOTE },
+		{ '{', braceopen, BRACE },
+		{ '}', braceclose, BRACE },
+		{ '(', parentheseopen, PARENTHESE },
+		{ ')', parentheseclose, PARENTHESE },
+		{ '`', backquote, BACKQUOTE },
 	};
-	size_t			i;
+	size_t				i;
 
 	i = 0;
 	if (param->token->type == UNDEFINED)
@@ -66,8 +123,8 @@ t_token			*handle_quote(t_param *param, t_call *token)
 		param->token = token[OPERATOR].identifier(param);
 	while (i < sizeof(quote) / sizeof(*quote))
 	{
-		if (param->buff[param->i] == quote[i].value)
-			return (quote[i].handler(param));
+		if ((*param->line)[param->i] == quote[i].value)
+			return (quote[i].handler(param, quote[i].type));
 		i++;
 	}
 	return (param->token);
