@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/03 17:43:54 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/09 20:40:23 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <term.h>
 
-# define IFS_SEPARATORS		" \t\n"
+# define IFS_DEFAULT	" \t\n"
 
 # define NULLALIAS		(t_alias *)0
 
