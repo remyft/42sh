@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 20:44:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/01 17:49:27 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/13 16:59:23 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ static int		modify_public_environment(t_argument *var, t_s_env *e)
 
 int				command_prepare(t_execute *exec, t_s_env *e)
 {
-	t_argument			*ptr;
+	t_argument	*ptr;
+	int			len;
 
 	ptr = exec->variable;
 	while (ptr && ptr->token->id == ASSIGNMENT_WORD)
@@ -53,10 +54,13 @@ int				command_prepare(t_execute *exec, t_s_env *e)
 	exec->command = ptr;
 	if (exec->variable != exec->command && !exec->command)
 		return (modify_public_environment(exec->variable, e));
+	if (!(exec->cmd = command_group_command(exec->command)))
+		return (command_error(e->progname, ERR_MALLOC, NULL, e));
+	if ((len = sh_tablen((const char **)exec->cmd)))
+		len--;
+	sh_setenv("_", exec->cmd[len], &e->public_env);
 	if (!(exec->env = command_group_env(exec->variable, exec->command,
 	(const char **)e->public_env, (const char **)e->private_env)))
 		return (command_error(e->progname, ERR_MALLOC, exec->cmd, e));
-	if (!(exec->cmd = command_group_command(exec->command)))
-		return (command_error(e->progname, ERR_MALLOC, NULL, e));
 	return (command_check(exec, e));
 }
