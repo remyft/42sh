@@ -59,8 +59,10 @@ typedef struct	s_shell_env
 	t_jobs			*jobs;
 	int				async;
 	int				ret;
+	int				interactive;
 	int				job_id;
 	int				pid;
+	int				pgid;
 	struct termios	save;
 	int				shell_loop;
 	int				forked;

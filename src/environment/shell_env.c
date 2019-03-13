@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <sys/param.h>
+#include <signal.h>
 #include "libft.h"
 #include "free_env.h"
 #include "shell_lib.h"
@@ -84,6 +85,33 @@ static char		**build_private_env(char **env)
 	return (ret);
 }
 
+#include <stdio.h>
+
+void			init_job(t_s_env *e)
+{
+	e->interactive = isatty(STDIN_FILENO);
+	if (e->interactive)
+	{
+		while (tcgetpgrp(STDIN_FILENO) != (e->pgid = getpgrp()))
+			kill (-e->pgid, SIGTTIN);
+		signal (SIGINT, SIG_IGN);
+		signal (SIGQUIT, SIG_IGN);
+		signal (SIGTSTP, SIG_IGN);
+		signal (SIGTTIN, SIG_IGN);
+		signal (SIGTTOU, SIG_IGN);
+		signal (SIGCHLD, SIG_IGN);
+		e->pgid = getpid();
+		if (setpgid(e->pgid, e->pgid) < 0)
+		{
+			ft_dprintf(2, "%s: setpgid error\n", e->progname);
+			exit(1);
+		}
+		tcsetpgrp(0, e->pgid);
+		// maybe save attribute man tcgetattr
+	}
+
+}
+
 void			init_shell_env(t_s_env *e, int ac, char **av, char **env)
 {
 	ft_memset(e, 0, sizeof(*e));
@@ -95,7 +123,6 @@ void			init_shell_env(t_s_env *e, int ac, char **av, char **env)
 	e->private_env = build_private_env(env);
 	e->ret = 0;
 	e->pid = getpid();
-	setpgid(e->pid, e->pid);
-	tcsetpgrp(0, e->pid);
+	init_job(e);
 	e->shell_loop = 1;
 }

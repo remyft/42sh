@@ -86,7 +86,6 @@ int				command_pipe(void *cmd, t_s_env *e, int ppfd[2])
 {
 	pid_t		pid;
 	int			pfd[2];
-	t_command	*arg;
 
 	if (pipe(pfd) < 0)
 		return (command_pipe_error("pipe()", e));
@@ -104,7 +103,6 @@ int				command_pipe(void *cmd, t_s_env *e, int ppfd[2])
 	}
 	else if (command_last_pipe(pfd, cmd, e))
 		return (1);
-	arg = (t_command *)((t_pipeline *)cmd)->left;
 	//command_wait(pid, 0, NULL);
 	command_wait2(pid, NULL, e);
 	return (0);

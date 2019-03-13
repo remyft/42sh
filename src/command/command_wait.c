@@ -52,6 +52,7 @@ void			command_wait2(pid_t pid, t_execute *exec, t_s_env *e)
 	t_jobs		*job;
 	t_process	*proc;
 
+	(void)exec;
 	job = job_by_id(e->job_id, e->jobs);
 	proc = job->process;
 	proc->pid = pid;
@@ -62,7 +63,7 @@ void			command_wait2(pid_t pid, t_execute *exec, t_s_env *e)
 		job->pgid = proc->pid;
 		setpgid(pid, job->pgid);
 	}
-	if (!exec->async)
+	if (!e->async)
 	{
 		tcsetpgrp(0, job->pgid);
 		e->ret = waitjob(job);
