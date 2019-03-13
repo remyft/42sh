@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/25 20:34:30 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/07 19:15:06 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/12 15:06:35 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_token			*handle_operator(t_param *param, t_call *token)
 {
 	size_t		len;
 
-	len = (*param->line + param->i) - param->token->head + 1;
+	len = param->line + param->i - param->token->head + 1;
 	if (param->token->type == UNDEFINED)
 		param->token->type = OPERATOR;
 	else if (param->token->type != OPERATOR

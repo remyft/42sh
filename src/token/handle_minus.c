@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/23 05:48:00 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/11 14:58:47 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/12 14:57:25 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_token				*handle_minus(t_param *param, t_call *token)
 	param->token = token[param->token->type].identifier(param);
 	if (param->token->prev->head[param->token->prev->len - 1] != '&')
 		return (param->token);
-	if (!(param->token->next = new_token(*param->line, param->i + 1)))
+	if (!(param->token->next = new_token(param->line, param->i + 1)))
 		return (token_error(ERR_MALLOC, param));
 	param->token->next->prev = param->token;
 	param->token->len++;

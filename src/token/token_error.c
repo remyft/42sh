@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 04:07:17 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/11 17:50:25 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/12 14:50:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,5 @@ t_token			*token_error(int err, t_param *param)
 
 	ft_dprintf(STDERR_FILENO, "%s: %s.\n", param->e->progname, errors[err]);
 	free_token(&param->head);
-	free_quote(&param->quote);
 	return (NULLTOKEN);
 }
