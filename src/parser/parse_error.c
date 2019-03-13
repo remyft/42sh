@@ -6,21 +6,24 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 18:11:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/23 11:00:29 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/12 19:06:38 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include "parser.h"
 #include "ft_dprintf.h"
+#include "parser_errors.h"
+#include "token.h"
 
 int				parse_error(int err, t_token *token, t_s_env *e)
 {
 	static char	*errors[] = {
-		"parse error near unexpected token",
-		"parse error: missing token",
-		"parse error near unhandled token",
-		"parse error: malloc failed",
+		NONE_STR,
+		UNEXPECTED_TOKEN_STR,
+		MISSING_PARAMETER_STR,
+		NOT_HANDLED_YET_STR,
+		MALLOC_FAILED_STR,
+		TOKENIZATION_STR,
 	};
 
 	ft_dprintf(STDERR_FILENO, "%s: %s `", e->progname, errors[err]);

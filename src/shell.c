@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/12 13:47:02 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/13 12:55:51 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void			launch_new_cmd(char **line, t_s_env *e)
 
 	tokens = NULLTOKEN;
 	tree = NULLLIST;
-	if ((tokens = tokenise(line, e)) != NULLTOKEN)
+	if ((tokens = tokenise(*line, e)) != NULLTOKEN)
 	{
-		if ((tree = parse(tokens, e)) != NULLLIST)
+		if ((tree = parse(line, &tokens, e)) != NULLLIST)
 		{
 			term_restore(e->save);
 			execute_list(tree, e);

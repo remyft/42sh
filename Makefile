@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/03/11 20:37:57 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/03/13 17:02:09 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,8 @@ DEPS_DIR = .deps/
 DEPS = $(addprefix $(DEPS_DIR), $(SRCS:.c=.d))
 
 RM = /bin/rm -rf
+
+#DEBUG := -g3 -fsanitize=address -DDEBUG -g
 
 SHELL := /bin/bash
 
@@ -112,7 +114,6 @@ SRCS += handle_alias.c						\
 		handle_end_of_input.c				\
 		handle_equal.c						\
 		handle_minus.c						\
-		handle_new_input.c					\
 		handle_operator.c					\
 		handle_quote.c						\
 		handle_word.c						\
@@ -141,6 +142,7 @@ SRCS += parse_async.c						\
 		parse_io_number.c					\
 		parse_list.c						\
 		parse_new_functions.c				\
+		parse_new_input.c					\
 		parse_newline.c						\
 		parse_operator.c					\
 		parse_pipe.c						\
@@ -458,9 +460,6 @@ fclean: clean
 	@echo -e "$(RED) Deleting..$(YELLOW) [ $(RESET)$(NAME)$(YELLOW) ] $(OK)"
 
 re: fclean all
-
-debug: DEBUG = -g3 -fsanitize=address -DDEBUG -g
-debug: re
 
 nn:
 	norminette $(SRCS)
