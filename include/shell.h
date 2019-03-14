@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 06:54:51 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/14 15:59:11 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,23 +42,13 @@ void			ft_paste(t_line *line);
 void			ft_cut(t_line *line);
 
 /*
-**	Heredoc
-*/
-
-int				deal_hdoc(t_line *line);
-int				deal_continue(t_line *line);
-void			change_state(t_line *line, int state);
-
-int				check_hdoc(t_line *line);
-
-/*
 ** Completion
 */
 void			feed_tree(char *str, unsigned char type,
 		t_tree **tern, int lvl);
 t_tree			*create_bin_tree(char **env);
 t_tree			*create_env_tree(char **env);
-t_tree			*create_file_tree(char *path, t_tree *tern);
+t_tree			*create_file_tree(char *path, char *beg, t_tree *tern);
 
 void			set_psblty(t_tree *tern);
 void			*free_tree(t_tree *tern);
