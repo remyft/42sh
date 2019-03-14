@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/02 12:15:49 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/07 17:52:25 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/14 16:45:08 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,12 @@ typedef struct	s_expansion_handler
 	int			(*handler)(t_exp *, t_ret *);
 }				t_e_character;
 
-# define OP_EXP_NULL		{ '\0', NULL }
 # define OP_EXP_BACKSLSH	{ '\\', expand_backslash }
 # define OP_EXP_SQUOTE		{ '\'', expand_squote }
 # define OP_EXP_DQUOTE		{ '"',  expand_dquote }
-# define OP_EXP_TILDE		{ '~',  expand_tilde }
 # define OP_EXP_DOLLAR		{ '$',  expand_dollar }
 # define OP_EXP_BACKTICK	{ '`',  expand_backtick }
+# define OP_EXP_TILDE		{ '~',  expand_tilde }
 # define OP_EXP_GLOB		{ '*',  expand_glob }
 # define OP_EXP_BRACKET		{ '[',  expand_glob }
 # define OP_EXP_QUESTION	{ '?',  expand_glob }

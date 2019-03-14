@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 19:00:54 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/16 01:13:58 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/08 16:35:51 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,8 @@ int				word_null_error(t_ret *subs, t_ret *para, t_exp *param)
 		return (ERR_NONE);
 	if (param_addstr(": ", para))
 		return (ERR_MALLOC);
-	if (subs->substitute && subs->substitute[0])
-	{
-		if (param_addstr(subs->substitute, para))
-			return (ERR_MALLOC);
-	}
-	else if (subs->word && subs->word[0])
+	if ((subs->substitute && subs->substitute[0])
+	|| (subs->word && subs->word[0]))
 	{
 		if (param_addstr(subs->word, para))
 			return (ERR_MALLOC);

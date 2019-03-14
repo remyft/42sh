@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 04:42:31 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/13 07:52:51 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/10 20:39:29 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ static int		expand_argv(t_ret *subs, t_ret *para, t_exp *param)
 	int			nb;
 
 	word = &para->word[para->brace + para->hash + 1];
+	if (para->brace)
+		while (*word)
+			if (!ft_isdigit(*word++))
+				return (ERR_SYNTAX);
+	word = &para->word[para->brace + para->hash + 1];
 	nb = ft_atoi(word);
 	subs->word = (nb < param->e->ac) ? param->e->av[nb] : NULL;
 	para->substitute = subs->word;
@@ -51,6 +56,11 @@ static int		expand_env(t_ret *subs, t_ret *para, t_exp *param)
 {
 	char		*word;
 
+	word = &para->word[para->brace + para->hash + 1];
+	if (para->brace)
+		while (*word)
+			if (!is_valid_name(*word++))
+				return (ERR_SYNTAX);
 	word = &para->word[para->brace + para->hash + 1];
 	if (!(subs->word = sh_getnenv(word, param->e->public_env)))
 		subs->word = sh_getnenv(word, param->e->private_env);
@@ -73,7 +83,7 @@ int				expand_dollar_parameter_value(t_ret *parameter, t_exp *param)
 	ft_memset(&substitute, 0, sizeof(substitute));
 	word = &parameter->word[parameter->brace + parameter->hash + 1];
 	if (!*word && !parameter->hash)
-		return (ERR_NONE);
+		return (ERR_SYNTAX);
 	if (is_expand_null(parameter))
 		return (expand_argc(&substitute, parameter, param));
 	while (i < sizeof(dollar) / sizeof(dollar[0]))

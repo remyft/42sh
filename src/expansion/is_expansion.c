@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 05:37:20 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/04 23:55:28 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/10 18:31:50 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ int				is_special(int c)
 		|| (c == '!'));
 }
 
-int				is_word_end(t_exp *param)
+int				is_brace_end(t_exp *param)
 {
-	return (param->buff[param->i] != '}' || param->quoted);
+	return (param->buff[param->i] != '}' || param->quote);
 }
 
 int				is_expand_null(t_ret *ret)

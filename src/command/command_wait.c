@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 20:23:05 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/06 13:23:59 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/08 16:57:34 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ static void		command_ret(int *ret)
 	else if (WIFSIGNALED(*ret))
 	{
 		*ret = WTERMSIG(*ret) + 128;
-		// if (WTERMSIG(*ret) == SIGINT)
-			write(1, "\n", 1);
+		write(1, "\n", 1);
 	}
 	else if (WIFSTOPPED(*ret))
 		*ret = WTERMSIG(*ret) + 128;

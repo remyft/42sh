@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 22:09:04 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/15 05:07:04 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/10 21:01:38 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,36 @@
 #include "expansion.h"
 #include "expansion_errors.h"
 
-void			err_none_func(const char *progname, t_ret *ret)
+void			err_none_func(t_ret *ret, t_exp *par, t_s_env *e)
 {
 	(void)ret;
-	ft_dprintf(STDERR_FILENO, "%s: %s\n", progname, ERR_NONE_STR);
+	(void)par;
+	ft_dprintf(STDERR_FILENO, "%s: %s\n", e->progname, ERR_NONE_STR);
 }
 
-void			err_syntax_func(const char *progname, t_ret *ret)
+void			err_syntax_func(t_ret *ret, t_exp *par, t_s_env *e)
 {
 	(void)ret;
-	ft_dprintf(STDERR_FILENO, "%s: %s\n", progname, ERR_SYNTAX_STR);
+	ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", e->progname, par->buff,
+		ERR_SYNTAX_STR);
 }
 
-void			err_modifier_func(const char *progname, t_ret *ret)
+void			err_modifier_func(t_ret *ret, t_exp *par, t_s_env *e)
 {
 	(void)ret;
-	ft_dprintf(STDERR_FILENO, "%s: %s\n", progname, ERR_MODIFIER_STR);
+	(void)par;
+	ft_dprintf(STDERR_FILENO, "%s: %s\n", e->progname, ERR_MODIFIER_STR);
 }
 
-void			err_unhandled_func(const char *progname, t_ret *ret)
+void			err_unhandled_func(t_ret *ret, t_exp *par, t_s_env *e)
 {
-	(void)ret;
-	ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", progname,
-		ret ? ret->word : "", ERR_UNHANDLED_STR);
+	ft_dprintf(STDERR_FILENO, "%s: `%s': %s %s\n", e->progname,
+		par->buff, ret->word, ERR_UNHANDLED_STR);
 }
 
-void			err_malloc_func(const char *progname, t_ret *ret)
+void			err_malloc_func(t_ret *ret, t_exp *par, t_s_env *e)
 {
 	(void)ret;
-	ft_dprintf(STDERR_FILENO, "%s: %s\n", progname, ERR_MALLOC_STR);
+	(void)par;
+	ft_dprintf(STDERR_FILENO, "%s: %s\n", e->progname, ERR_MALLOC_STR);
 }

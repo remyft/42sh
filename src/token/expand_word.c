@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 04:02:23 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/23 02:07:52 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/05 20:19:53 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,45 +69,45 @@ char			*expand_word(t_token *token)
 	while (i < token->len)
 	{
 		if (token->head[i] == '\''
-				&& (!token->quote || token->quote & SINGLE_QUOTE))
+				&& (!token->quoted || token->quoted & SINGLE_QUOTE))
 		{
 			if (!my_strnchr(token->head + i + 1, '\'', token->len - i)
-					&& !(token->quote & SINGLE_QUOTE))
+					&& !(token->quoted & SINGLE_QUOTE))
 			{
 				i++;
 				continue ;
 			}
 			ret = my_strnjoin(ret, token->head + start, i - start);
 			start = i + 1;
-			if (!token->quote)
-				token->quote |= SINGLE_QUOTE;
+			if (!token->quoted)
+				token->quoted |= SINGLE_QUOTE;
 			else
-				token->quote &= ~SINGLE_QUOTE;
+				token->quoted &= ~SINGLE_QUOTE;
 		}
 		else if (token->head[i] == '"'
-				&& (!token->quote || token->quote & DOUBLE_QUOTE))
+				&& (!token->quoted || token->quoted & DOUBLE_QUOTE))
 		{
 			if (!my_strnchr(token->head + i + 1, '"', token->len - i)
-					&& !(token->quote & DOUBLE_QUOTE))
+					&& !(token->quoted & DOUBLE_QUOTE))
 			{
 				i++;
 				continue ;
 			}
 			ret = my_strnjoin(ret, token->head + start, i - start);
 			start = i + 1;
-			if (!token->quote)
-				token->quote |= DOUBLE_QUOTE;
+			if (!token->quoted)
+				token->quoted |= DOUBLE_QUOTE;
 			else
-				token->quote &= ~DOUBLE_QUOTE;
+				token->quoted &= ~DOUBLE_QUOTE;
 		}
 		else if (token->head[i] == '\\'
-				&& (!token->quote || token->quote & DOUBLE_QUOTE))
+				&& (!token->quoted || token->quoted & DOUBLE_QUOTE))
 		{
 			ret = my_strnjoin(ret, token->head + start, i - start);
 			start = i + 1;
 			i++;
 		}
-		// else if (token->head[i] == '$' && !(token->quote & SINGLE_QUOTE))
+		// else if (token->head[i] == '$' && !(token->quoted & SINGLE_QUOTE))
 		// {
 		// 	ret = my_strnjoin(ret, token->head + start, i - start);
 		// 	if (sub)

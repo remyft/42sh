@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_newline.c                                   :+:      :+:    :+:   */
+/*   expand_tilde_not.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/29 07:55:06 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/17 22:41:32 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/03/09 19:16:31 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/03/09 19:16:57 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "token.h"
+#include "expansion.h"
+#include "expansion_errors.h"
 
-t_token			*handle_newline(t_param *param, t_call *token)
+int				expand_tilde_not(t_ret *ret, const char *word)
 {
-	if (param->token->type != UNDEFINED)
-		param->token = token[param->token->type].identifier(param);
-	param->token->type = TOKEN;
-	param->token->id = NEWLINE;
-	return (param->token);
+	if (param_addchar('~', ret) || param_addstr(word, ret))
+		return (ERR_MALLOC);
+	return (ERR_NONE);
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 17:39:24 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/13 18:21:38 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/14 16:45:34 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ enum
 typedef struct	s_error
 {
 	int			error;
-	void		(*handler)(const char *, t_ret *);
+	void		(*handler)(t_ret *, t_exp *, t_s_env *);
 }				t_error;
 
 void			err_none_func(const char *progname, t_ret *ret);

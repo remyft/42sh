@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_dollar_substitution.c                       :+:      :+:    :+:   */
+/*   token_error.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/26 05:38:14 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/03 17:47:36 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/03/08 04:08:41 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/03/08 04:09:15 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expansion.h"
-#include "expansion_errors.h"
+#ifndef TOKEN_ERROR_H
+# define TOKEN_ERROR_H
 
-int				expand_substitution(t_exp *param, t_ret *ret)
+enum
 {
-	(void)param;
-	(void)ret;
-	return (ERR_NONE);
-}
+	ERR_MALLOC,
+};
+
+#endif

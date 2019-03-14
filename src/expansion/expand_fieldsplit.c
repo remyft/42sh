@@ -6,11 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/05 15:31:37 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/02 17:08:19 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/09 21:58:59 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "shell_lib.h"
+#include "shell_env.h"
 #include "expansion.h"
 #include "expansion_errors.h"
 
@@ -61,36 +63,48 @@ static int		get_word(char *str, const char *ifs, t_ret **ret)
 	return ((str) ? ERR_NONE : ERR_MALLOC);
 }
 
-static void		ifs_whitespace(char *ifsws, const char *ifs)
+static char		*remove_ifs_characters_at_start_and_end(char *word, t_s_env *e)
 {
-	size_t		i;
+	char		*ifs;
+	char		*w;
 
-	i = 0;
-	ft_memset(ifsws, 0, 4);
-	while (*ifs)
+	if (!(ifs = sh_getnenv("IFS", e->public_env)))
+		ifs = sh_getnenv("IFS", e->private_env);
+	w = word;
+	if (!ifs || !ft_strcmp(ifs, IFS_DEFAULT))
 	{
-		if (ft_strchr(IFS_SEPARATORS, *ifs) && !ft_strchr(ifsws, *ifs))
-			ifsws[i++] = *ifs;
-		ifs++;
+		while (ft_strchr(IFS_DEFAULT, *w))
+			w = ft_strcpy(w, w + 1);
+		if ((w = word + ft_strlen(word)) != word)
+			w--;
+		while (ft_strchr(IFS_DEFAULT, *w) && w != word && *(w - 1) != '\\')
+			*w-- = '\0';
+		return (ifs);
 	}
+	while (ft_strchr(IFS_DEFAULT, *w) && ft_strchr(ifs, *w))
+		w = ft_strcpy(w, w + 1);
+	if ((w = word + ft_strlen(word)) != word)
+		w--;
+	while (ft_strchr(IFS_DEFAULT, *w) && ft_strchr(ifs, *w)
+	&& w != word && *(w - 1) != '\\')
+		*w-- = '\0';
+	return (ifs);
 }
 
-int				expand_fieldsplit(t_ret **ret, const char *ifs)
+int				expand_fieldsplit(t_ret **ret, t_s_env *e)
 {
-	char		ifsws[4];
+	char		*ifs;
 	char		*ptr;
 	int			error;
 
-	ifs_whitespace(ifsws, ifs);
-	ptr = (*ret)->word;
-	while (ft_strchr(ifsws, *ptr))
-		ptr = ft_strcpy(ptr, ptr + 1);
-	ptr = (*ret)->word + ft_strlen((*ret)->word) - 1;
-	while (ft_strchr(ifsws, *ptr) && *(ptr - 1) != '\\')
-		*ptr-- = '\0';
-	ptr = (*ret)->word;
-	ft_memset(*ret, 0, sizeof(char *) + sizeof(size_t) + sizeof(size_t));
-	error = get_word(ptr, ifs, ret);
-	free(ptr);
+	error = ERR_NONE;
+	if ((*ret)->word && *(*ret)->word
+	&& !(ifs = remove_ifs_characters_at_start_and_end((*ret)->word, e)))
+	{
+		ptr = (*ret)->word;
+		ft_memset(*ret, 0, sizeof(char *) + sizeof(size_t) + sizeof(size_t));
+		error = get_word(ptr, ifs, ret);
+		free(ptr);
+	}
 	return (error);
 }

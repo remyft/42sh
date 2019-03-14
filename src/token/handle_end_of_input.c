@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 23:42:06 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/23 22:05:26 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/12 18:58:14 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,7 @@ static void		clean_end_token(t_token **token, t_token **head)
 {
 	if (!*token)
 		return ;
-	if ((*token)->type != UNDEFINED
-		&& ((*token)->type != TOKEN
-		|| (*token)->id != NEWLINE
-		|| (*token)->len > 1))
+	if ((*token)->type != UNDEFINED)
 		return ;
 	clean_end_token(&(*token)->prev, head);
 	if ((*token)->prev)
@@ -34,8 +31,8 @@ static void		clean_end_token(t_token **token, t_token **head)
 
 t_token			*handle_end_of_input(t_param *param, t_call *token)
 {
-	param->token->len = (param->buff + param->i) - param->token->head;
-	if (param->token->type != UNDEFINED && (param->token->id != COMMENT))
+	param->token->len = param->line + param->i - param->token->head;
+	if (param->token->type != UNDEFINED)
 		param->token = token[param->token->type].identifier(param);
 	clean_end_token(&param->token, &param->head);
 	return (NULLTOKEN);
