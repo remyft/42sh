@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 04:07:17 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/12 14:50:39 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/14 17:53:27 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 t_token			*token_error(int err, t_param *param)
 {
 	static char	*errors[] = {
-		"malloc failed"
+		"malloc failed",
 	};
 
 	ft_dprintf(STDERR_FILENO, "%s: %s.\n", param->e->progname, errors[err]);
