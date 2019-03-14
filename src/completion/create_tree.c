@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 21:15:52 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 06:49:50 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/14 14:48:28 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,35 @@ t_tree		*create_env_tree(char **env)
 	return (ternary);
 }
 
-t_tree		*create_file_tree(char *path, t_tree *tern)
+static void	feed_file_tree(struct dirent *indir, char *beg, t_tree **tern)
+{
+	int		is_esc;
+	char	*tmp;
+
+	if ((is_esc = sh_str_isescape(indir->d_name)))
+	{
+		tmp = add_escape(indir->d_name, is_esc);
+		if (beg)
+			tmp = ft_strjoinfree(beg, tmp, 2);
+		feed_tree(tmp, indir->d_type, tern, 0);
+		free(tmp);
+	}
+	else
+	{
+		if (beg)
+			tmp = ft_strjoin(beg, indir->d_name);
+		else
+			tmp = indir->d_name;
+		feed_tree(tmp, indir->d_type, tern, 0);
+		if (beg)
+			free(tmp);
+	}
+}
+
+t_tree		*create_file_tree(char *path, char *beg, t_tree *tern)
 {
 	struct dirent	*indir;
 	DIR				*dir;
-	int				is_esc;
-	char			*tmp;
 
 	if (!path || !(dir = opendir(path)))
 		return (NULL);
@@ -75,14 +98,7 @@ t_tree		*create_file_tree(char *path, t_tree *tern)
 		tern->value = -1;
 	}
 	while ((indir = readdir(dir)))
-		if ((is_esc = sh_str_isescape(indir->d_name)))
-		{
-			tmp = add_escape(indir->d_name, is_esc);
-			feed_tree(tmp, indir->d_type, &tern, 0);
-			free(tmp);
-		}
-		else
-			feed_tree(indir->d_name, indir->d_type, &tern, 0);
+		feed_file_tree(indir, beg, &tern);
 	set_psblty(tern);
 	closedir(dir);
 	return (tern);
