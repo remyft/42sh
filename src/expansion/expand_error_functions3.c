@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 15:26:50 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/14 16:44:18 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/14 17:07:26 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ void			err_fork_func(t_ret *ret, t_exp *par, t_s_env *e)
 	ft_dprintf(STDERR_FILENO, "%s: %s\n", e->progname, ERR_FORK_STR);
 }
 
-void			err_no_match_func(const char *progname, t_ret *ret)
+void			err_no_match_func(t_ret *ret, t_exp *par, t_s_env *e)
 {
-	ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", progname,
+	(void)par;
+	ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", e->progname,
 			ERR_NO_MATCH_FOUND_STR, ret->word);
 }

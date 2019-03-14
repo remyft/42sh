@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 03:52:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/14 16:43:57 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/14 17:11:35 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ t_slst			*get_exp_glob(t_ret *ret, char *ptr, char *tmp)
 	t_slst	*glob;
 
 	line = get_struct();
+	ft_putendl(ptr);
 	if (GET_TREE(line->tree, TMP)
 		|| (GET_TREE(line->tree, TMP) = set_tmp(ptr, 1)))
 		glob = deal_globing(ptr, GET_TREE(line->tree, TMP));
@@ -84,12 +85,15 @@ int				expand_glob(t_exp *param, t_ret *ret)
 {
 	char	*ptr;
 	char	*tmp;
+	char	*slash;
 	t_slst	*glob;
 
 	ptr = ft_strndup((char *)param->buff + param->i, (int)param->buff_len);
 	tmp = ptr;
 	if (ret->word != NULL)
 		ptr = ft_strjoin(ret->word, ptr);
+	if (*(slash = (ft_strchr(ptr, 0) - 1)) == '/')
+		*slash = 0;
 	glob = get_exp_glob(ret, ptr, tmp);
 	if (ptr != tmp)
 		free(ptr);

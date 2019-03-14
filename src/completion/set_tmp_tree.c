@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 15:51:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/14 15:55:23 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/14 17:30:08 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*chr_beg_glob(char *buff)
 	return (ptr);
 }
 
-static char	*get_flag(char *tmp, int to_add, int glob)
+static char	*get_flag(char *tmp, int glob)
 {
 	char	*flag;
 	char	*stmp;
@@ -39,7 +39,12 @@ static char	*get_flag(char *tmp, int to_add, int glob)
 		flag = chr_beg_glob(tmp);
 	else if (!(flag = sh_strrchr(tmp, '/')))
 		flag = ft_strchr(tmp, 0);
-	stmp = ft_strndup(tmp, flag - tmp + to_add);
+	while (flag != tmp && *(flag - 1) == '/')
+		flag--;
+	if (flag != tmp)
+		stmp = ft_strndup(tmp, flag - tmp);
+	else
+		stmp = ft_strndup(tmp, flag - tmp + 1);
 	return (stmp);
 }
 
@@ -50,12 +55,12 @@ static char	*get_stmp(char *stmp, char *tmp, int glob)
 		if (*stmp == '~')
 			tmp = replace_tilde(stmp, getenv("HOME"));
 		if (*stmp == '~')
-			stmp = get_flag(tmp, 0, glob);
+			stmp = get_flag(tmp, glob);
 		else
-			stmp = get_flag(stmp, 0, glob);
+			stmp = get_flag(stmp, glob);
 	}
 	else
-		stmp = get_flag(stmp, 1, glob);
+		stmp = get_flag(stmp, glob);
 	if (tmp)
 		free(tmp);
 	return (stmp);
@@ -75,7 +80,7 @@ t_tree		*set_tmp(char *buff, int glob)
 	stmp = get_stmp(stmp, tmp, glob);
 	if (glob)
 	{
-		if (stmp[0] != '/' || stmp[1])
+		if ((stmp[0] != '/' || stmp[1]))
 			tmp = ft_strjoin(stmp, "/");
 		else
 			tmp = ft_strdup(stmp);
