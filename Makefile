@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/03/02 12:00:14 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/03/14 15:57:51 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,9 +48,7 @@ SRCS += collect_env.c						\
 
 # LINE EDITION
 LINE_DIR = $(SRCS_DIR)line_edition/
-SRCS += create_hdoc.c						\
-		deal_hdoc.c							\
-		deal_line.c							\
+SRCS += deal_line.c							\
 		deal_typing.c						\
 		deal_struct.c						\
 		main_tools.c						\
@@ -82,6 +80,7 @@ SRCS += completion_key.c					\
 		select_branch.c						\
 		set_complet.c						\
 		tree_tools.c						\
+		set_tmp_tree.c						\
 
 # TERMCAPS
 TERM_DIR = $(SRCS_DIR)termcaps/
