@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/21 12:25:25 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/14 16:01:14 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,30 +43,33 @@ static int		ft_cancel(t_line *line)
 	return (-1);
 }
 
+void			cancel_on_completion(t_line *line)
+{
+	go_home(line);
+	line->index = ft_strlen(line->curr->buff_tmp);
+	line->len = line->index;
+	tputs(tgetstr("cr", NULL), 1, ft_pchar);
+	tputs(tgetstr("cd", NULL), 1, ft_pchar);
+	put_prompt(line->prompt);
+	ft_bzero(line->curr->buff, 8192);
+	ft_strcpy(line->curr->buff, line->curr->buff_tmp);
+	ft_bzero(line->curr->buff_tmp, 8193);
+	line->curr->buff_tmp[8193] = 0;
+	ft_putstr(line->curr->buff);
+	deal_reset(line->tree);
+	line->tmp[0] = 3;
+	line->index = line->len;
+	if ((line->len + line->lprompt) % line->nb_col == 0)
+	{
+		tputs(tgetstr("do", NULL), 1, ft_pchar);
+		tputs(tgetstr("cr", NULL), 1, ft_pchar);
+	}
+}
+
 void			deal_cancel(t_line *line)
 {
 	if (*(line->e_cmpl) & COMPLETION)
-	{
-		go_home(line);
-		line->index = ft_strlen(line->curr->buff_tmp);
-		line->len = line->index;
-		tputs(tgetstr("cr", NULL), 1, ft_pchar);
-		tputs(tgetstr("cd", NULL), 1, ft_pchar);
-		put_prompt(line->prompt);
-		ft_bzero(line->curr->buff, 8192);
-		ft_strcpy(line->curr->buff, line->curr->buff_tmp);
-		ft_bzero(line->curr->buff_tmp, 8193);
-		line->curr->buff_tmp[8193] = 0;
-		ft_putstr(line->curr->buff);
-		deal_reset(line->tree);
-		line->tmp[0] = 3;
-		line->index = line->len;
-		if ((line->len + line->lprompt) % line->nb_col == 0)
-		{
-			tputs(tgetstr("do", NULL), 1, ft_pchar);
-			tputs(tgetstr("cr", NULL), 1, ft_pchar);
-		}
-	}
+		cancel_on_completion(line);
 	else
 	{
 		if (line->tree[2])

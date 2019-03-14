@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:57:17 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/19 18:47:52 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/14 16:16:17 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,27 @@
 
 #include "stdio.h"
 
+static void	get_to_len(t_line *line, char tchar)
+{
+	char	cbis;
+	int		j;
+
+	j = 1;
+	while (line->index + j < line->len)
+	{
+		cbis = line->curr->buff[line->index + j];
+		line->curr->buff[line->index + j] = tchar;
+		tchar = cbis;
+		j++;
+	}
+	tputs(tgetstr("sc", NULL), 1, ft_pchar);
+	ft_putstr(&(line->curr->buff[line->index]));
+	tputs(tgetstr("rc", NULL), 1, ft_pchar);
+}
+
 static void	get_to_buff(t_line *line, int *cp)
 {
 	char	tchar;
-	char	cbis;
 	int		j;
 
 	tchar = line->curr->buff[line->index + 1];
@@ -32,23 +49,12 @@ static void	get_to_buff(t_line *line, int *cp)
 	ft_putchar(line->tmp[*cp]);
 	*cp += 1;
 	if (line->index != line->len)
+		get_to_len(line, tchar);
+	if ((line->index + line->lprompt) % line->nb_col == 0)
 	{
-		while (line->index + j < line->len)
-		{
-			cbis = line->curr->buff[line->index + j];
-			line->curr->buff[line->index + j] = tchar;
-			tchar = cbis;
-			j++;
-		}
-		tputs(tgetstr("sc", NULL), 1, ft_pchar);
-		ft_putstr(&(line->curr->buff[line->index]));
-		tputs(tgetstr("rc", NULL), 1, ft_pchar);
+		tputs(tgetstr("do", NULL), 1, ft_pchar);
+		tputs(tgetstr("cr", NULL), 1, ft_pchar);
 	}
-		if ((line->index + line->lprompt) % line->nb_col == 0)
-		{
-			tputs(tgetstr("do", NULL), 1, ft_pchar);
-			tputs(tgetstr("cr", NULL), 1, ft_pchar);
-		}
 }
 
 void		get_typing(t_line *line, int nb_read)

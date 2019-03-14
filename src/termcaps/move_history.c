@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 05:00:51 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/09 16:23:05 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/14 16:12:31 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int			find_hist(t_line *line, int way)
 	{
 		if (line->hist->c_size > len)
 			if (ft_strstr(line->hist->content, line->curr->buff_tmp) ==
-				line->hist->content && (line->hist->tmp ?
-					ft_strcmp(line->curr->buff, line->hist->tmp) :
+					line->hist->content && (line->hist->tmp ?
+						ft_strcmp(line->curr->buff, line->hist->tmp) :
 						ft_strcmp(line->curr->buff, line->hist->content)) != 0)
 				return (1);
 		if (!(way == 1 ? line->hist->prev : line->hist->next))
@@ -51,14 +51,31 @@ int			key_complet(t_line *line, int key)
 	return (0);
 }
 
-void		is_find(t_line *line)
+void		is_find(t_line *line, int find, int way, t_hist *tmp)
 {
-	ft_bzero(line->curr->buff, 8192);
-	if (line->hist->tmp)
-		ft_strcpy(line->curr->buff, line->hist->tmp);
-	else
-		ft_strcpy(line->curr->buff, line->hist->content);
-	put_new_prompt(line);
+	if (find == 1)
+	{
+		ft_bzero(line->curr->buff, 8192);
+		if (line->hist->tmp)
+			ft_strcpy(line->curr->buff, line->hist->tmp);
+		else
+			ft_strcpy(line->curr->buff, line->hist->content);
+		put_new_prompt(line);
+	}
+	else if (find == 2 && way == 1)
+	{
+		ft_bzero(line->curr->buff, 8192);
+		ft_strcpy(line->curr->buff, line->curr->buff_tmp);
+		line->curr->buff_tmp[0] = 0;
+		line->curr->buff_tmp[8193] = 0;
+		put_new_prompt(line);
+	}
+	else if (way == 0)
+	{
+		line->hist = tmp;
+		if (!tmp->prev)
+			ft_bzero(line->curr->buff_tmp, 8194);
+	}
 }
 
 void		up_arrow(t_line *line)
@@ -84,14 +101,7 @@ void		up_arrow(t_line *line)
 	}
 	tmp = line->hist;
 	find = find_hist(line, 0);
-	if (find == 1)
-		is_find(line);
-	else
-	{
-		line->hist = tmp;
-		if (!tmp->prev)
-			ft_bzero(line->curr->buff_tmp, 8194);
-	}
+	is_find(line, find, 0, tmp);
 }
 
 void		down_arrow(t_line *line)
@@ -110,14 +120,5 @@ void		down_arrow(t_line *line)
 		line->hist->tmp = ft_strdup(line->curr->buff);
 	}
 	find = find_hist(line, 1);
-	if (find == 1)
-		is_find(line);
-	else if (find == 2)
-	{
-		ft_bzero(line->curr->buff, 8192);
-		ft_strcpy(line->curr->buff, line->curr->buff_tmp);
-		line->curr->buff_tmp[0] = 0;
-		line->curr->buff_tmp[8193] = 0;
-		put_new_prompt(line);
-	}
+	is_find(line, find, 1, NULL);
 }
