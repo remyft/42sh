@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 03:41:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/14 15:50:58 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/14 18:06:36 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,7 @@ void			choose_tree(t_line *line)
 void			get_complet(t_line *line)
 {
 	if (!(*line->e_cmpl & COMPLETION) && line->curr->buff_tmp[8193])
-	{
 		ft_bzero(line->curr->buff_tmp, 8194);
-	}
 	if (!inprint(line->curr->buff))
 		return ;
 	choose_tree(line);
