@@ -6,19 +6,19 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 03:52:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/10 14:09:09 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/14 16:32:08 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expansion.h"
 #include "expansion_errors.h"
-	#include <stdio.h>
 #include "struct.h"
 #include "shell.h"
 #include "libft.h"
 #include "put.h"
+#include "globing.h"
 
-int		get_glob_len(t_slst *glob)
+int				get_glob_len(t_slst *glob)
 {
 	int	len;
 
@@ -31,7 +31,7 @@ int		get_glob_len(t_slst *glob)
 	return (len);
 }
 
-char	*get_glob_str(t_slst *glob)
+char			*get_glob_str(t_slst *glob)
 {
 	char	*str;
 	int		i;
@@ -52,43 +52,54 @@ char	*get_glob_str(t_slst *glob)
 	return (str);
 }
 
+static void		free_exp_glob(t_slst *glob)
+{
+	if (!glob)
+		return ;
+	free_exp_glob(glob->next);
+	free(glob->str);
+	free(glob);
+}
+
+t_slst			*get_exp_glob(t_ret *ret, char *ptr, char *tmp)
+{
+	t_line	*line;
+	t_slst	*glob;
+
+	line = get_struct();
+	if (GET_TREE(line->tree, TMP)
+		|| (GET_TREE(line->tree, TMP) = set_tmp(ptr, 1)))
+		glob = deal_globing(ptr, GET_TREE(line->tree, TMP));
+	else
+		glob = deal_globing(ptr, GET_TREE(line->tree, FILES));
+	if (!glob)
+		param_addstr(tmp, ret);
+	while (glob && glob->prev)
+		glob = glob->prev;
+	GET_TREE(line->tree, TMP) = free_tree(GET_TREE(line->tree, TMP));
+	return (glob);
+}
+
 int				expand_glob(t_exp *param, t_ret *ret)
 {
 	char	*ptr;
 	char	*tmp;
-	t_line	*line;
 	t_slst	*glob;
 
-	(void)param;
-	(void)ret;
-	printf("ret: [%s]\n", ret->word);
-	printf("glob: [%.*s]\n", (int)param->buff_len, param->buff + param->i);
-	printf("len : [%d]\n", (int)param->buff_len);
 	ptr = ft_strndup((char *)param->buff + param->i, (int)param->buff_len);
 	tmp = ptr;
 	if (ret->word != NULL)
 		ptr = ft_strjoin(ret->word, ptr);
-	ft_putendl(ptr);
-	line = get_struct();
-	if (GET_TREE(line->tree, TMP)
-		|| (GET_TREE(line->tree, TMP) = set_tmp(ptr, 1)))
-		glob = deal_globing(tmp, GET_TREE(line->tree, TMP));
-	else
-		glob = deal_globing(ptr, GET_TREE(line->tree, FILES));
+	glob = get_exp_glob(ret, ptr, tmp);
 	if (ptr != tmp)
 		free(ptr);
 	free(tmp);
 	if (!glob)
-	{
-		return (ERR_NONE);
-	}
-//	ft_putendl("NEXT");
-	while (glob->prev)
-		glob = glob->prev;
+		return (ERR_NO_MATCH_FOUND);
 	ptr = get_glob_str(glob);
-	printf("str : [%s]\n", ptr);
-	param_addchar(param->buff[param->i], ret);
+	free_exp_glob(glob);
+	expand_free_t_ret(ret, 0);
+	param_addstr(ptr, ret);
 	free(ptr);
-	return (ERR_UNHANDLED);
 	return (ERR_NONE);
 }
