@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 04:44:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/13 08:12:52 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/10 19:53:29 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,16 @@ int				expand_dollar_parameter(t_exp *param, t_ret *ret)
 	t_ret		parameter;
 	int			error;
 
+	ft_memset(&parameter, 0, sizeof(parameter));
 	if ((error = expand_dollar_parameter_init(&parameter, param)) != ERR_NONE)
 		return (expand_dollar_parameter_error(error, &parameter));
 	if (parameter.brace || !is_expand_null(&parameter) || parameter.hash)
 	{
-		if ((error = expand_dollar_parameter_value(&parameter, param)))
-			return (expand_dollar_parameter_error(error, &parameter));
-		if ((error = expand_dollar_get_action(&parameter, param)) != ERR_NONE)
-			return (expand_dollar_parameter_error(error, &parameter));
-		if (parameter.brace)
-			error = expand_dollar_word_value(&parameter, param);
-		if (expand_final(parameter.substitute, parameter.hash, ret))
+		if ((error = expand_dollar_parameter_value(&parameter, param))
+		|| (error = expand_dollar_get_action(&parameter, param))
+		|| (parameter.brace
+			&& (error = expand_dollar_word_value(&parameter, param)))
+		|| (error = expand_final(parameter.substitute, parameter.hash, ret)))
 			return (expand_dollar_parameter_error(error, &parameter));
 	}
 	else

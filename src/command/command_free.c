@@ -23,4 +23,6 @@ void		command_free(t_execute *exec, char *name)
 	exec->cmd = NULL;
 	if (name)
 		free(name);
+	if (exec)
+		free(exec);
 }

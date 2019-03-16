@@ -36,7 +36,8 @@ typedef int		(*t_builtin)(t_execute *, t_s_env *);
 int				execute_list(t_m_list *list, t_s_env *e);
 int				command_access(char *path, char *absolute_path);
 int				command_builtin(t_builtin builtin, t_execute *exec, t_s_env *e);
-int				command_check(t_execute *exec, t_s_env *e);
+int				command_check(t_jobs *job, t_process *p, t_s_env *e);
+int				command_job(t_jobs *job, t_s_env *e);
 int				command_error(char *progname, int err, char **cmd, t_s_env *e);
 void			command_execute(t_execute *exec, t_s_env *e);
 void			command_free(t_execute *exec, char *name);
@@ -51,7 +52,7 @@ int				command_redirect(int fds[3], t_redirection *redir, t_s_env *e);
 int				command_restore_fds(int fds[3]);
 int				command_save_fds(int fd, int fds[3]);
 void			command_wait2(pid_t pid, t_execute *exec, t_s_env *e);
-int				command_system(t_execute *exec, t_s_env *e);
+int				command_system(t_jobs *job, t_process *p, t_s_env *e);
 void			command_wait(pid_t pid, int async, int *ret);
 
 void			quote_removal(t_argument *arg);
@@ -60,7 +61,7 @@ void			variable_assignment(t_command *cmd, t_s_env *e);
 char			**modify_environ(t_argument *var, t_execute *exec);
 
 int				isvalidname(char *str, size_t n);
-int				jobs_prepare(t_m_list *list, t_s_env *e);
+t_jobs			*jobs_prepare(t_s_env *e);
 
 void			command_debug(t_command *cmd);
 

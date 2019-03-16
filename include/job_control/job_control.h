@@ -35,7 +35,7 @@ enum {
 
 void			remove_job(t_jobs **jobs, int id);
 
-int				job_insert(t_s_env *e);
+t_jobs			*job_insert(t_s_env *e);
 int				jobs_terminated(t_s_env *e);
 int				job_completed(t_jobs *job);
 

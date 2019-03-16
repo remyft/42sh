@@ -6,17 +6,25 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 00:17:27 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/27 02:20:56 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/09 19:59:22 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expansion.h"
+#include "expansion_errors.h"
 
 int				expand_squote(t_exp *param, t_ret *ret)
 {
-	if (param->quoted == param->buff[param->i])
-		param->quoted = 0;
-	else if (param->quoted == 0)
-		param->quoted = param->buff[param->i];
-	return (param_addchar(param->buff[param->i], ret));
+	int			error;
+	size_t		i;
+
+	error = ERR_NONE;
+	i = param->i;
+	if (quote_type(param->quote) != DOUBLE_QUOTE)
+		while (param->i - i < param->buff_len
+		&& (error = param_addchar(param->buff[param->i++], ret)) == ERR_NONE)
+			if (param->buff[param->i] == '\'')
+				break ;
+	return ((error == ERR_NONE && param->i - i < param->buff_len) ?
+		param_addchar(param->buff[param->i], ret) : error);
 }

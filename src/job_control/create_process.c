@@ -25,10 +25,8 @@ t_process		*create_process(t_execute *exec, t_s_env *e)
 
 	if (!(new = ft_memalloc(sizeof(t_process))))
 		return (NULL);
-	if (exec != NULL)
-		if (!(new->cmd = sh_tabdup((const char **)exec->cmd)))
-			return (NULL);
 	job = job_by_id(e->job_id, e->jobs);
+	(void)exec;
 	insert_process(job, new);
 	return (new);
 }

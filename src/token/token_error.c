@@ -1,39 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_subs.c                                          :+:      :+:    :+:   */
+/*   token_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/05 21:57:02 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/27 01:22:59 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/03/08 04:07:17 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/03/11 17:50:25 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <unistd.h>
+#include "ft_dprintf.h"
 #include "token.h"
 
-int			ft_isnull(t_param *param)
+t_token			*token_error(int err, t_param *param)
 {
-	return ((param->buff[param->i] == 0));
-}
+	static char	*errors[] = {
+		"malloc failed"
+	};
 
-int			ft_isbracket(t_param *param)
-{
-	return ((param->buff[param->i] == '{'));
-}
-
-int			ft_isparen(t_param *param)
-{
-	return ((param->buff[param->i] == '('));
-}
-
-int			ft_isnameend(t_param *param)
-{
-	return (!ft_isalnum(param->buff[param->i]));
-}
-
-int			ft_isbackquote(t_param *param)
-{
-	return ((param->buff[param->i] == '`'));
+	ft_dprintf(STDERR_FILENO, "%s: %s.\n", param->e->progname, errors[err]);
+	free_token(&param->head);
+	free_quote(&param->quote);
+	return (NULLTOKEN);
 }

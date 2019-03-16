@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/10 19:49:25 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/11 18:24:22 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	prepare_command(void *cmd, t_s_env *e)
 		return (0);
 	if (*(int *)cmd == IS_A_PIPE)
 		return (prepare_command(((t_pipeline *)cmd)->left, e)
-				|| prepare_command(((t_pipeline *)cmd)->right, e));
+			|| prepare_command(((t_pipeline *)cmd)->right, e));
 	else if (expand_argument(((t_command *)cmd)->args, e)
 		|| redirect_prepare(((t_command *)cmd)->redir, e))
 		return (1);
@@ -47,7 +47,7 @@ static int	prepare_command(void *cmd, t_s_env *e)
 	return (0);
 }
 
-static int	execute_ao_list(t_ao_list *aolist, t_s_env *e)
+static int	execute_ao_list(t_ao_list *aolist, t_s_env *e, t_jobs *job)
 {
 	if (!aolist)
 		return (0);
@@ -59,23 +59,30 @@ static int	execute_ao_list(t_ao_list *aolist, t_s_env *e)
 			|| command_parse(aolist->cmd, e))
 			return (1);
 	}
-	return (execute_ao_list(aolist->next, e));
+	if (command_job(job, e))
+		return (1);
+	return (execute_ao_list(aolist->next, e, job));
 }
 
 int			execute_list(t_m_list *list, t_s_env *e)
 {
 	pid_t	pid;
+	t_jobs	*job;
 
 	pid = 0;
 	if (!list)
 		return (0);
 	e->async = list->async;
-	jobs_prepare(list, e);
-	if (execute_ao_list(list->aolist, e))
-	{
-		//remove_job(&e->jobs, e->job_id);
+	job = jobs_prepare(e);
+	if (execute_ao_list(list->aolist, e, job))
 		return (1);
-	}
+	/*for (t_jobs *job = e->jobs; job; job = job->next)
+	{
+		printf("Job [%d] has add {%p} with \n", job->id, job);
+		for (t_process *p = job->process; p; p = p->next)
+			printf("\t process with cmd [%s]\n", ((t_execute *)p->exec)->cmd[0]);
+
+	}*/
 	//if (!list->async)
 		//remove_job(&e->jobs, e->job_id);
 	return (execute_list(list->next, e));

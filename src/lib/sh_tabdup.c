@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 19:14:22 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/10 15:23:37 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/05 17:09:17 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char			**sh_tabdup(const char **table)
 	if (!(ret = ft_memalloc(sizeof(*ret) * (i + 1))))
 		return (NULL);
 	i = 0;
+	if (!table)
+		return (ret);
 	while (table[i])
 		if (!(ret[i] = ft_strdup(table[i])))
 		{

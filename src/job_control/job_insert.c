@@ -23,7 +23,7 @@ void	add_job(t_jobs *jobs, t_jobs *new)
 	new->prev = jobs;
 }
 
-int		job_insert(t_s_env *e)
+t_jobs	*job_insert(t_s_env *e)
 {
 
 	t_jobs		*job;
@@ -39,6 +39,7 @@ int		job_insert(t_s_env *e)
 		e->jobs = job;
 	else
 		add_job(e->jobs, job);
-	return (job->id);
+	e->job_id = job->id;
+	return (job);
 }
 

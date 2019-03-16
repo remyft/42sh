@@ -49,10 +49,10 @@ SRCS += collect_env.c						\
 		shell_env.c							\
 
 # LINE EDITION
+#		deal_hdoc.c							
+#		create_hdoc.c						
 LINE_DIR = $(SRCS_DIR)line_edition/
-SRCS += create_hdoc.c						\
-		deal_hdoc.c							\
-		deal_line.c							\
+SRCS += deal_line.c							\
 		deal_typing.c						\
 		deal_struct.c						\
 		main_tools.c						\
@@ -107,29 +107,27 @@ SRCS += ft_copy.c							\
 		select.c							\
 
 # TOKENS
+#expand_word.c
 TOKEN_DIR = token/
-SRCS += expand_word.c						\
-		handle_alias.c						\
-		handle_command.c					\
+SRCS += handle_alias.c						\
 		handle_comment.c					\
 		handle_end_of_input.c				\
 		handle_equal.c						\
 		handle_minus.c						\
-		handle_newline.c					\
+		handle_new_input.c					\
 		handle_operator.c					\
 		handle_quote.c						\
-		handle_subs.c						\
 		handle_word.c						\
 		identify_operator.c					\
 		identify_word.c						\
 		is_alias_valid_name.c				\
-		is_subs_next.c						\
-		is_subs.c							\
 		is_token_next.c						\
 		is_token_valid_name.c				\
 		is_token.c							\
 		remove_line_continuation.c			\
+		quote_funcs.c						\
 		token_debug.c						\
+		token_error.c						\
 		token_free.c						\
 		token_get.c							\
 		token_new.c							\
@@ -187,7 +185,6 @@ SRCS += expand_debug.c						\
 		expand_dollar_parameter.c			\
 		expand_dollar_special_next.c		\
 		expand_dollar_special.c				\
-		expand_dollar_substitution.c		\
 		expand_dollar_word_value.c			\
 		expand_dollar_word_nonnull_subst.c	\
 		expand_dollar_word_null_assign.c	\
@@ -210,6 +207,7 @@ SRCS += expand_debug.c						\
 		expand_subshell.c					\
 		expand_tilde_comparaison.c			\
 		expand_tilde_functions.c			\
+		expand_tilde_not.c					\
 		expand_tilde.c						\
 		is_expansion.c						\
 		param_addchar.c						\

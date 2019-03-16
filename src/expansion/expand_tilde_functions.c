@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 18:56:52 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/21 05:22:09 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/05 18:04:34 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,17 @@ int				expand_tilde_env(t_ret *ret, t_ret *parame, t_exp *param)
 
 int				expand_tilde_plus(t_ret *ret, t_ret *parame, t_exp *param)
 {
-	if (!parame->word[1])
+	if (!parame->word[1]
+	|| (tilde_digit(parame->word + 1) && !ft_atoi(parame->word + 1)))
 		return (param_addstr(sh_getnenv("PWD", param->e->public_env), ret));
-	else if (tilde_digit(parame->word + 1))
-		return (expand_tilde_directory(ret, parame, param));
 	return (expand_tilde_not(ret, parame->word));
 }
 
 int				expand_tilde_minus(t_ret *ret, t_ret *parame, t_exp *param)
 {
-	if (!parame->word[1])
+	if (!parame->word[1]
+	|| (tilde_digit(parame->word + 1) && !ft_atoi(parame->word + 1)))
 		return (param_addstr(sh_getnenv("OLDPWD", param->e->public_env), ret));
-	else if (tilde_digit(parame->word + 1))
-		return (expand_tilde_directory(ret, parame, param));
 	return (expand_tilde_user(ret, parame, param));
 }
 

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 20:23:05 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/10 19:06:42 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/08 16:57:34 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "command.h"
 #include "job_control.h"
 #include <errno.h>
+#include <unistd.h>
 
 static int waitjob(t_jobs *jobs)
 {
@@ -41,7 +42,10 @@ static void		command_ret(int *ret)
 	if (WIFEXITED(*ret))
 		*ret = WEXITSTATUS(*ret);
 	else if (WIFSIGNALED(*ret))
+	{
 		*ret = WTERMSIG(*ret) + 128;
+		write(1, "\n", 1);
+	}
 	else if (WIFSTOPPED(*ret))
 		*ret = WTERMSIG(*ret) + 128;
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/10 16:59:37 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/12 13:47:02 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,38 +20,36 @@
 #include "token.h"
 #include "job_control.h"
 
-void		launch_new_cmd(char **line, t_s_env *e)
+void			launch_new_cmd(char **line, t_s_env *e)
 {
 	t_token		*tokens;
 	t_m_list	*tree;
 
 	tokens = NULLTOKEN;
 	tree = NULLLIST;
-	*line = ft_strjoinfree(*line, "\n", 1);
-	remove_line_continuation(*line);
-	if ((tokens = tokenise(*line, e)) != NULLTOKEN)
+	if ((tokens = tokenise(line, e)) != NULLTOKEN)
 	{
 		if ((tree = parse(tokens, e)) != NULLLIST)
 		{
-	//		jobs_prepare(tree, e);
+			term_restore(e->save);
 			execute_list(tree, e);
+			define_new_term(&e->save);
 			free_m_list(&tree);
 		}
 		free_token(&tokens);
 	}
 }
 
-static void	get_new_cmd(t_line *line, t_s_env *e)
+static void		get_new_cmd(t_line *line, t_s_env *e)
 {
 	char		*ret;
 
 	ret = listnjoin(line);
 	*(line->e_cmpl) &= ~COMPLETION;
-	save_history(line, ret, &(line->hist), e->public_env);
-	term_restore(e->save);
 	launch_new_cmd(&ret, e);
-	define_new_term(&e->save);
-	free(ret);
+	if (ret)
+		save_history(line, ret, &(line->hist), e->public_env);
+	ft_strdel(&ret);
 	init_new_buff(line);
 	del_all_state(line);
 	reset_hist(line);
@@ -59,7 +57,7 @@ static void	get_new_cmd(t_line *line, t_s_env *e)
 	GET_TREE(line->tree, FILES) = create_file_tree(".", line->tree[1]);
 }
 
-static void	init_shell_line(t_line **line, t_s_env *e)
+static void		init_shell_line(t_line **line, t_s_env *e)
 {
 	if (!(*line = get_struct()))
 	{
@@ -78,16 +76,13 @@ static void	init_shell_line(t_line **line, t_s_env *e)
 	(*line)->beg_buff = (*line)->curr;
 }
 
-static void	shell_loop(t_line *line, t_s_env *e)
+static void		shell_loop(t_line *line, t_s_env *e)
 {
 	while (e->shell_loop && line->shell_loop)
 	{
 		put_prompt(line->prompt);
 		check_path(line, e->public_env);
 		deal_typing(line);
-		if (!deal_hdoc(line))
-			if (check_hdoc(line))
-				continue ;
 		if (line->curr->buff[0] && line->tmp[0] != -1
 				&& line->curr->buff[0] != 10)
 			get_new_cmd(line, e);
@@ -95,7 +90,7 @@ static void	shell_loop(t_line *line, t_s_env *e)
 	}
 }
 
-int			main(int ac, char **av, char **ep)
+int				main(int ac, char **av, char **ep)
 {
 	t_line		*line;
 	t_s_env		e;

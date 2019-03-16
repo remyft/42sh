@@ -47,6 +47,7 @@ static int		modify_public_environment(t_argument *var, t_s_env *e)
 int				command_prepare(t_execute *exec, t_s_env *e)
 {
 	t_argument			*ptr;
+	t_process			*p;
 
 	ptr = exec->variable;
 	while (ptr && ptr->token->id == ASSIGNMENT_WORD)
@@ -59,5 +60,8 @@ int				command_prepare(t_execute *exec, t_s_env *e)
 		return (command_error(e->progname, ERR_MALLOC, exec->cmd, e));
 	if (!(exec->cmd = command_group_command(exec->command)))
 		return (command_error(e->progname, ERR_MALLOC, NULL, e));
-	return (command_check(exec, e));
+	p = create_process(exec, e);
+	p->exec = exec;
+	return (0);
+	//return (command_check(0, e));
 }

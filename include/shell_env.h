@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/10 18:32:46 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/09 20:40:23 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define SHELL_ENV_H
 
 # include <term.h>
-# define IFS_SEPARATORS		" \t\n"
+
+# define IFS_DEFAULT	" \t\n"
 
 # define NULLALIAS		(t_alias *)0
 
@@ -32,6 +33,7 @@ typedef struct	s_process
 	int					pid;
 	int					status;
 	char				**cmd;
+	void				*exec;
 	//t_execute			*exec;
 	struct s_process	*next;
 }				t_process;

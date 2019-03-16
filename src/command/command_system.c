@@ -18,45 +18,45 @@
 #include "shell_env.h"
 #include "job_control.h"
 
-static void		command_execve(char *name, t_execute *exec, t_s_env *e)
+static void		command_execve(char *name, t_jobs *job, t_process *p, t_s_env *e)
 {
-	t_jobs		*job;
-	t_process	*proc;
-
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGSTOP, SIG_DFL);
 	signal(SIGTTIN, SIG_DFL);
 	signal(SIGTTOU, SIG_DFL);
 	signal(SIGCHLD, SIG_DFL);
-	job = job_by_id(e->job_id, e->jobs);
-	proc = job->process;
-	proc->pid = getpid();
+	(void)e;
+	p->pid = getpid();
 	if (job->pgid > 0)
 		setpgid(0, job->pgid);
 	else
 	{
-		job->pgid = proc->pid;
+		job->pgid = p->pid;
 		setpgid(0, job->pgid);
 	}
-	execve(name, exec->cmd, exec->env);
+	execve(name, ((t_execute *)p->exec)->cmd, ((t_execute *)p->exec)->env);
 	exit(EXIT_FAILURE);
 }
 
 
 static void		command_cleanup(char *name, t_execute *exec)
 {
-	ft_strdel(&name);
-	command_free(exec, NULL);
+	(void)name;
+	(void)exec;
+	//ft_strdel(&name);
+	//command_free(exec, NULL);
 }
 
-int				command_system(t_execute *exec, t_s_env *e)
+int				command_system(t_jobs *job, t_process *p, t_s_env *e)
 {
 	char		*name;
 	pid_t		pid;
 	int			error;
+	t_execute	*exec;
 
 	name = NULL;
+	exec = (t_execute *)p->exec;
 	if ((error = command_path(&name, exec->cmd[0],
 				sh_getnenv("PATH", exec->env))) != ERR_OK)
 		error = command_error(e->progname, error, exec->cmd, e);
@@ -66,7 +66,7 @@ int				command_system(t_execute *exec, t_s_env *e)
 	{
 		pid = 0;
 		if (e->forked || (pid = fork()) == 0)
-			command_execve(name, exec, e);
+			command_execve(name, job, p, e);
 		if (pid > 0)
 			command_wait2(pid, exec, e);
 		else if (pid < 0)

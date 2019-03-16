@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 23:05:54 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/23 20:40:24 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/11 14:56:19 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static int		define_token(int c)
 {
-	if (!c || ft_isspace(c))
+	if (!c || ft_isspace(c) || c == '#')
 		return (UNDEFINED);
 	if (ft_isoperator(c))
 		return (OPERATOR);
