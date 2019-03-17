@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 02:17:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/14 15:54:11 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/17 19:20:48 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,19 @@ char	*replace_tilde(const char *path, const char *replace)
 		str[k + l] = path[k + j];
 	str[k + l] = '\0';
 	return (str);
+}
+
+int		search_to_tmp(char *buff)
+{
+	int		i;
+
+	i = -1;
+	while (buff[++i])
+		if (buff[i] == '~' || buff[i] == '/')
+			return (1);
+		else if (buff[i] == '*')
+			return (0);
+	return (0);
 }
 
 int		inprint(char *str)
