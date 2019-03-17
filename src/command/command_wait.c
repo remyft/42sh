@@ -50,6 +50,16 @@ static void		command_ret(int *ret)
 		*ret = WTERMSIG(*ret) + 128;
 }
 
+void			command_process(pid_t pid, t_jobs *job, t_process *p, t_s_env *e)
+{
+	p->pid = pid;
+	if (e->interactive)
+	{
+		if (job->pgid < 0)
+			job->pgid = pid;
+		setpgid(pid, job->pgid);
+	}
+}
 
 void			command_wait2(pid_t pid, t_execute *exec, t_s_env *e)
 {

@@ -33,6 +33,7 @@ enum {
 # define STR_CONTINUE "continued"
 # define STR_TERMINATED "terminated"
 
+void			job_handler(t_jobs *job, t_s_env *e);
 void			remove_job(t_jobs **jobs, int id);
 
 t_jobs			*job_insert(t_s_env *e);
@@ -43,6 +44,7 @@ t_jobs			*job_by_id(int id, t_jobs *jobs);
 t_jobs			*job_by_pid(t_s_env *e, pid_t pid);
 
 t_process		*create_process(t_execute *exec, t_s_env *e);
-int				set_pstatus(t_process *proc, pid_t pid, int status);
+int				set_pstatus(t_process *p, int status);
+int				proc_update(t_jobs *job, pid_t pid, int status);
 
 #endif

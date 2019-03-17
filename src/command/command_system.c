@@ -44,7 +44,7 @@ static void		command_cleanup(char *name, t_execute *exec)
 {
 	(void)name;
 	(void)exec;
-	//ft_strdel(&name);
+	ft_strdel(&name);
 	//command_free(exec, NULL);
 }
 
@@ -68,13 +68,13 @@ int				command_system(t_jobs *job, t_process *p, t_s_env *e)
 		if (e->forked || (pid = fork()) == 0)
 			command_execve(name, job, p, e);
 		if (pid > 0)
-			command_wait2(pid, exec, e);
+			command_process(pid, job, p, e);
+	//		command_wait2(pid, exec, e);
 		else if (pid < 0)
 			error = command_error(e->progname, ERR_FORK, exec->cmd, e);
 	}
+	command_cleanup(name, exec);
 	//if (e->forked == 0)
 	//	remove_job(&e->jobs, e->job_id);
-	command_cleanup(name, exec);
-	error += command_restore_fds(exec->fds);
 	return (error);
 }

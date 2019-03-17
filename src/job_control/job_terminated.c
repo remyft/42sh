@@ -50,8 +50,8 @@ int	jobs_terminated(t_s_env *e)
 	{
 		if (!(job = job_by_pid(e, pid)))
 			break ;
-        if (WIFEXITED(status))
-			set_pstatus(job->process, pid, STATUS_FINISHED);
+ //       if (WIFEXITED(status))
+	//		set_pstatus(job->process, pid, STATUS_FINISHED);
 	/*	else if (WIFSTOPPED(status))
 			set_pstatus(job->process, pid, STATUS_SUSPENDED);
         else if (WIFCONTINUED(status))

@@ -13,6 +13,7 @@
 #include "libft.h"
 #include "shell_lib.h"
 #include "builtins.h"
+#include "job_control.h"
 
 int				command_check(t_jobs *job, t_process *p, t_s_env *e)
 {
@@ -27,6 +28,9 @@ int				command_check(t_jobs *job, t_process *p, t_s_env *e)
 	i = 0;
 	ret = 0;
 	exec = (t_execute *)p->exec;
+	printf("%s\n", exec->cmd[0]);
+	printf("%s\n", exec->cmd[1]);
+	printf("%s\n", exec->cmd[2]);
 	if (exec->cmd && exec->cmd[0])
 	{
 		if ((ret = sh_tablen((const char **)exec->cmd)))
@@ -40,7 +44,7 @@ int				command_check(t_jobs *job, t_process *p, t_s_env *e)
 		}
 		ret = command_system(job, p, e);
 	}
-	command_free(exec, NULL);
+	//command_free(exec, NULL);
 	return (ret);
 }
 
@@ -50,9 +54,19 @@ int			command_job(t_jobs *job, t_s_env *e)
 
 	ret = 0;
 	for (t_process *p = job->process; p; p = p->next)
+	{
 		ret = command_check(job, p, e);
+	}
+	//ret += command_restore_fds(((t_execute *)job->process->exec)->fds);
+	job_handler(job, e);
+	//fprintf (stderr, "%ld (%s):\n", (long)job->pgid, "launch");
 	return (0);
 }
+
+
+
+
+
 
 
 

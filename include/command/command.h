@@ -54,6 +54,7 @@ int				command_save_fds(int fd, int fds[3]);
 void			command_wait2(pid_t pid, t_execute *exec, t_s_env *e);
 int				command_system(t_jobs *job, t_process *p, t_s_env *e);
 void			command_wait(pid_t pid, int async, int *ret);
+void			command_process(pid_t pid, t_jobs *job, t_process *p, t_s_env *e);
 
 void			quote_removal(t_argument *arg);
 void			variable_assignment(t_command *cmd, t_s_env *e);

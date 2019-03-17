@@ -59,8 +59,7 @@ static int	execute_ao_list(t_ao_list *aolist, t_s_env *e, t_jobs *job)
 			|| command_parse(aolist->cmd, e))
 			return (1);
 	}
-	if (command_job(job, e))
-		return (1);
+	command_job(job, e);
 	return (execute_ao_list(aolist->next, e, job));
 }
 
@@ -76,14 +75,5 @@ int			execute_list(t_m_list *list, t_s_env *e)
 	job = jobs_prepare(e);
 	if (execute_ao_list(list->aolist, e, job))
 		return (1);
-	/*for (t_jobs *job = e->jobs; job; job = job->next)
-	{
-		printf("Job [%d] has add {%p} with \n", job->id, job);
-		for (t_process *p = job->process; p; p = p->next)
-			printf("\t process with cmd [%s]\n", ((t_execute *)p->exec)->cmd[0]);
-
-	}*/
-	//if (!list->async)
-		//remove_job(&e->jobs, e->job_id);
 	return (execute_list(list->next, e));
 }
