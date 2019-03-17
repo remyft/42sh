@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/14 16:01:14 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/17 19:17:28 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static int		ft_cancel(t_line *line)
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
 	init_new_buff(line);
 	del_all_state(line);
-	free_hdoc(line);
 	reset_hist(line);
 	return (-1);
 }
