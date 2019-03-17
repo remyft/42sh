@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 17:00:18 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/14 15:48:32 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/17 19:19:58 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,28 +28,31 @@ int			check_is_file(char *buff, t_line *line)
 	return (1);
 }
 
-int			search_to_tmp(char *buff)
-{
-	int		i;
-
-	i = -1;
-	while (buff[++i])
-		if (buff[i] == '~' || buff[i] == '/')
-			return (1);
-		else if (buff[i] == '*')
-			return (0);
-	return (0);
-}
-
 static int	erase_complet(char *ptr, t_line *line)
 {
 	ft_bzero(ptr, ft_strlen(ptr));
-	tputs(tgetstr("sc", NULL), 1, ft_pchar);
 	tputs(tgetstr("do", NULL), 1, ft_pchar);
 	tputs(tgetstr("cr", NULL), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
-	tputs(tgetstr("rc", NULL), 1, ft_pchar);
+	tputs(tgetstr("up", NULL), 1, ft_pchar);
+	tputs(tgoto(tgetstr("ch", NULL), 0, (line->lprompt + line->index)
+				% line->nb_col), 1, ft_pchar);
 	return (line->len);
+}
+
+static void	finish_glob(t_line *line, t_slst **tmp, int nb_line)
+{
+	t_slst	*to_free;
+
+	while ((to_free = *tmp))
+	{
+		*tmp = (*tmp)->next;
+		free(to_free->str);
+		free(to_free);
+	}
+	while (nb_line--)
+		tputs(tgetstr("up", NULL), 1, ft_pchar);
+	tputs(tgoto(tgetstr("ch", NULL), 0, line->lprompt), 1, ft_pchar);
 }
 
 static void	get_new_glob(t_line *line, t_slst *tmp, char *ptr)
@@ -57,11 +60,12 @@ static void	get_new_glob(t_line *line, t_slst *tmp, char *ptr)
 	int		i;
 	t_slst	*to_free;
 	int		tmp_len;
+	int		len;
 
 	tmp_len = erase_complet(ptr, line);
 	while ((to_free = tmp))
 	{
-		if (line->len + ft_strlen(tmp->str) > 8192)
+		if (line->len + (len = ft_strlen(tmp->str)) + 1 > 8192)
 			break ;
 		i = -1;
 		while (tmp->str[++i])
@@ -75,10 +79,7 @@ static void	get_new_glob(t_line *line, t_slst *tmp, char *ptr)
 		free(to_free->str);
 		free(to_free);
 	}
-	i = tmp_len / line->nb_col;
-	while (i--)
-		tputs(tgetstr("up", NULL), 1, ft_pchar);
-	tputs(tgoto(tgetstr("ch", NULL), 0, line->lprompt), 1, ft_pchar);
+	finish_glob(line, &tmp, (tmp_len / line->nb_col));
 }
 
 void		set_new_glob(t_line *line, t_slst *tmp, char *ptr)
