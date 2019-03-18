@@ -6,17 +6,20 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/14 15:59:11 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/17 19:18:07 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SHELL_H
 # define SHELL_H
 
-# include "struct.h"
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <dirent.h>
+# include "struct.h"
+# include "shell_env.h"
+
+# define RC_NAME ".21shrc"
 
 char			*get_line(int fd);
 void			free_tab(char ***tabl);
@@ -26,6 +29,8 @@ char			**ft_ralloc(char ***env, int len);
 void			ft_setenv(char ***env, char *new, int len);
 char			*get_env(char **env, char *to_get);
 char			**collect_env(char **ep);
+
+void			get_rc(t_s_env *e);
 
 /*
 **	Select, copy, cut and paste
@@ -75,7 +80,6 @@ void			set_signal(void);
 
 void			put_new_prompt(t_line *line);
 void			del_all_state(t_line *line);
-void			free_hdoc(t_line *line);
 void			reset_hist(t_line *line);
 
 void			put_prompt(char *prompt);

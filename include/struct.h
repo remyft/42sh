@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/16 17:48:47 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/18 14:48:31 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ typedef struct	s_line
 	char			*term;
 	t_buff			*curr;
 	t_buff			*beg_buff;
-	t_state			*hdoc;
 	t_hist			*hist;
 	t_st			*e_cmpl;
 	t_tree			*tree[4];

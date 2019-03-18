@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 13:56:40 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/03 12:40:59 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/17 19:11:53 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,6 @@ static char			*ft_ralloc(char *str1, char *str2, int n)
 	return (str1);
 }
 
-static int			free_current(t_list **current)
-{
-	free((*current)->content);
-	(*current)->content = NULL;
-	free(*current);
-	*current = NULL;
-	return (0);
-}
-
 int					get_next_line(const int fd, char **line)
 {
 	static t_list			*file = NULL;
@@ -79,7 +70,7 @@ int					get_next_line(const int fd, char **line)
 	if (!(read_line(current->content_size, current)))
 		return (-1);
 	if (!current->content || !(len = (int)ft_strlen(current->content)))
-		return (free_current(&current));
+		return (0);
 	*line = NULL;
 	n = ft_copyuntil(line, current->content, CHAR_SEP);
 	if (n < len)

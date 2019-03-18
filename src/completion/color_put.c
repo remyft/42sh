@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 22:59:17 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/30 15:13:31 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/17 17:45:40 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void	deal_access(t_line *line, char *file)
 	{
 		tmp = replace_tilde(stmp, getenv("HOME"));
 		stmp = ft_strndup(tmp, ft_strrchr(tmp, '/') - tmp + 1);
+		free(tmp);
 	}
 	else if (ptr)
 		stmp = ft_strndup(stmp, ptr - stmp + 1);
