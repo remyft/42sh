@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/02 12:00:40 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/10 20:55:55 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/18 20:46:27 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ static int		expand_rules(t_e_character *charact, t_exp *param, t_ret **ret)
 		return (error);
 	if (quote_type(param->quote))
 		return (error);
-	return (expand_fieldsplit(ret, param->e));
+	if (param->expand)
+		return (expand_fieldsplit(ret, param->e));
+	return (error);
 }
 
 static size_t	expand_i_value(t_exp *param, size_t size)

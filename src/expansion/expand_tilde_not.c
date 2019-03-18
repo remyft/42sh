@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 19:16:31 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/09 19:16:57 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/18 19:26:32 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int				expand_tilde_not(t_ret *ret, const char *word)
 {
-	if (param_addchar('~', ret) || param_addstr(word, ret))
+	if ((*word != '~' && param_addchar('~', ret)) || param_addstr(word, ret))
 		return (ERR_MALLOC);
 	return (ERR_NONE);
 }
