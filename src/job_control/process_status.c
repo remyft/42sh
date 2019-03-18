@@ -12,19 +12,25 @@ int		set_pstatus(t_process *p, int status)
 	return (1);
 }
 
-int		proc_update(t_jobs *job, pid_t pid, int status)
+int		proc_update(t_s_env *e, t_jobs *job, pid_t pid, int status)
 {
-	t_process	*p;
-
-	p = job->process;
-	while (p)
+	(void)job;
+	if (pid > 0)
 	{
-		if (p->pid == pid)
+		printf("%d\n", pid);
+		printf("ENTRER\n");
+		printf("--PID %d\n", pid);
+		for (t_jobs *jobs = e->jobs; jobs; jobs = jobs->next)
 		{
-			set_pstatus(p, status);
-			return (0);
+			for (t_process *p = jobs->process; p; p = p->next)
+			{
+				if (p->pid == pid)
+				{
+					set_pstatus(p, status);
+					return (0);
+				}
+			}
 		}
-		p = p->next;
 	}
 	return (-1);
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 20:23:05 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/08 16:57:34 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/18 17:50:27 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,6 @@
 #include "job_control.h"
 #include <errno.h>
 #include <unistd.h>
-
-static int waitjob(t_jobs *jobs)
-{
-    int wait_pid = -1;
-    int status = 0;
-
-	//if (job->pgid > 0)
-	//	wait_pid = waitpid(jobs->process->pid, &status, WUNTRACED);
-	//else
-	wait_pid = waitpid(jobs->process->pid, &status, WUNTRACED);
-	//	printf("%d\n", job->next->process->status);
- //   if (WIFEXITED(status))
-	//	jobs->process->status = 2;
-	//if (WIFSIGNALED(status))
-	//	set_pstatus(jobs->process, wait_pid, STATUS_FINISHED);
-	//	jobs->process->status = STATUS_FINISHED;
-	return (status);
-}
 
 static void		command_ret(int *ret)
 {
@@ -55,7 +37,7 @@ void			command_process(pid_t pid, t_jobs *job, t_process *p, t_s_env *e)
 	p->pid = pid;
 	if (e->interactive)
 	{
-		if (job->pgid < 0)
+		if (!job->pgid)
 			job->pgid = pid;
 		setpgid(pid, job->pgid);
 	}
@@ -80,7 +62,6 @@ void			command_wait2(pid_t pid, t_execute *exec, t_s_env *e)
 	if (!e->async)
 	{
 		tcsetpgrp(0, job->pgid);
-		e->ret = waitjob(job);
 		signal(SIGTTOU, SIG_IGN);
 		tcsetpgrp(0, getpid());
 		signal(SIGTTOU, SIG_DFL);

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:02:57 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/13 12:28:17 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/18 18:49:21 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,6 @@ int				command_check(t_jobs *job, t_process *p, t_s_env *e)
 	i = 0;
 	ret = 0;
 	exec = (t_execute *)p->exec;
-	printf("%s\n", exec->cmd[0]);
-	printf("%s\n", exec->cmd[1]);
-	printf("%s\n", exec->cmd[2]);
 	if (exec->cmd && exec->cmd[0])
 	{
 		while (i < sizeof(builtins) / sizeof(builtins[0]))
@@ -51,17 +48,10 @@ int			command_job(t_jobs *job, t_s_env *e)
 
 	ret = 0;
 	for (t_process *p = job->process; p; p = p->next)
+	{
 		ret = command_check(job, p, e);
-	//ret += command_restore_fds(((t_execute *)job->process->exec)->fds);
+		ret += command_restore_fds(((t_execute *)job->process->exec)->fds);
+	}
 	job_handler(job, e);
-	//fprintf (stderr, "%ld (%s):\n", (long)job->pgid, "launch");
 	return (0);
 }
-
-
-
-
-
-
-
-

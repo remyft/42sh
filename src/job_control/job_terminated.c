@@ -6,12 +6,13 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 15:18:47 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/03/10 18:28:46 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/18 18:40:18 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell_lib.h"
 #include "job_control.h"
+#include <errno.h>
 #include <stdio.h>
 
 void	free_proc(t_process *proc)
@@ -46,18 +47,16 @@ int	jobs_terminated(t_s_env *e)
 	pid_t	pid;
 	t_jobs	*job;
 
-	while ((pid = waitpid(-1, &status, WNOHANG | WUNTRACED | WCONTINUED)) > 0)
+	while ((pid = waitpid(WAIT_ANY, &status, WNOHANG | WUNTRACED | WCONTINUED)) > 0)
 	{
 		if (!(job = job_by_pid(e, pid)))
 			break ;
- //       if (WIFEXITED(status))
-	//		set_pstatus(job->process, pid, STATUS_FINISHED);
-	/*	else if (WIFSTOPPED(status))
-			set_pstatus(job->process, pid, STATUS_SUSPENDED);
+	     if (WIFEXITED(status))
+			proc_update(e,job, pid, status);
+		else if (WIFSTOPPED(status))
+			proc_update(e,job, pid, status);
         else if (WIFCONTINUED(status))
-            set_pstatus(job->process, pid, STATUS_CONTINUED);
-			*/
-	//	printf("Getting pid :%d with job [%d]\n", pid, job_id);
+			proc_update(e,job, pid, status);
 		if (job_completed(job))
 		{
 			printf("[%d]+ Done [%d]\t\t%s\n", job->id, pid, "Command");

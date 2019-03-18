@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 14:09:06 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/03/09 11:30:18 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/18 18:38:32 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@ t_jobs			*job_by_pid(t_s_env *e, pid_t pid);
 
 t_process		*create_process(t_execute *exec, t_s_env *e);
 int				set_pstatus(t_process *p, int status);
-int				proc_update(t_jobs *job, pid_t pid, int status);
+int				proc_update(t_s_env *e, t_jobs *job, pid_t pid, int status);
 
 #endif
