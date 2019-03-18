@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/05 15:31:37 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/09 21:58:59 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/14 18:01:24 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int				expand_fieldsplit(t_ret **ret, t_s_env *e)
 
 	error = ERR_NONE;
 	if ((*ret)->word && *(*ret)->word
-	&& !(ifs = remove_ifs_characters_at_start_and_end((*ret)->word, e)))
+	&& (ifs = remove_ifs_characters_at_start_and_end((*ret)->word, e)))
 	{
 		ptr = (*ret)->word;
 		ft_memset(*ret, 0, sizeof(char *) + sizeof(size_t) + sizeof(size_t));

@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 11:36:28 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/05 15:09:26 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/14 16:16:44 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,10 @@ void		ft_copy(t_line *line)
 		free(line->copy);
 	line->copy = ft_strndup(&(line->curr->buff[line->slct_beg]),
 			line->slct_end - line->slct_beg);
-	while (tmp_end > line->slct_beg)
+	while (line->slct_end != (int)line->index && tmp_end > line->slct_beg)
 	{
-		line->slct_beg == (int)line->index ? left_arrow(line) : right_arrow(line);
+		line->slct_beg == (int)line->index ? left_arrow(line)
+			: right_arrow(line);
 		tmp_end -= 1;
 	}
 }

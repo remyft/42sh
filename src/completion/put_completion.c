@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:42:34 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/06 16:33:26 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/14 15:40:40 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,19 @@ int			check_put(t_line *line, t_tree *tern, t_slct **select,
 	return (0);
 }
 
+int			end_put(t_line *line, t_cpl_e env, t_slct *select)
+{
+	if (*line->e_cmpl & COMPLETION)
+		if (line->is_putb <= 1)
+			line->is_putb += 1;
+	*(line->e_cmpl) |= COMPLETION;
+	if (env.chr)
+		free(env.chr);
+	if (select)
+		free_select(select);
+	return (0);
+}
+
 int			put_complet(t_tree *tern, int *put, t_line *line, int *nb_ret)
 {
 	t_slct	*select;
@@ -78,7 +91,8 @@ int			put_complet(t_tree *tern, int *put, t_line *line, int *nb_ret)
 	env.bru[0] = 0;
 	select = NULL;
 	env.nb_ret = nb_ret;
-	if ((env.lenm = get_select(line, tern, &env, &select)) == -1)
+	if ((env.lenm = get_select(line, tern, &env, &select)) == -1
+			|| env.lenm + line->len > 8192)
 		return (-1);
 	init_cpl(&env, line, put, nb_ret);
 	if ((env.lenm + line->lprompt + line->len) % line->nb_col
@@ -87,13 +101,5 @@ int			put_complet(t_tree *tern, int *put, t_line *line, int *nb_ret)
 		tputs(tgetstr("do", NULL), 1, ft_pchar);
 	if ((ret = deal_put(line, env, select, tern)))
 		return (ret);
-	if (*line->e_cmpl & COMPLETION)
-		if (line->is_putb <= 1)
-			line->is_putb += 1;
-	*(line->e_cmpl) |= COMPLETION;
-	if (env.chr)
-		free(env.chr);
-	if (select)
-		free_select(select);
-	return (0);
+	return (end_put(line, env, select));
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 19:47:39 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/04 13:59:42 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/13 17:01:27 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,20 @@ static int		check_access(char **path, char *cmd, char *paths, size_t len)
 {
 	int			error;
 
-	if ((*path = ft_strndup(paths, len)))
+	error = ERR_MALLOC;
+	if (!*cmd || !ft_strcmp(cmd, ".") || !ft_strcmp(cmd, ".."))
+		error = ERR_NOT_FOUND;
+	else if ((*path = ft_strndup(paths, len)))
 		if ((*path = ft_strjoinfree(*path, "/", 1)))
 			if ((*path = ft_strjoinfree(*path, cmd, 1)))
 			{
 				if ((error = command_access(*path, cmd)) == ERR_OK)
 					return (ERR_OK);
-				free(*path);
-				*path = NULL;
+				ft_strdel(path);
 				return (error);
 			}
-	return (ERR_MALLOC);
+	ft_strdel(path);
+	return (error);
 }
 
 int				command_path(char **path, char *cmd, char *paths)

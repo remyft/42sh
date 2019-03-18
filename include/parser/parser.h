@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:59:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/10 19:49:24 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/13 18:00:04 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,6 @@
 
 # include "token.h"
 # include "shell_env.h"
-
-enum
-{
-	ERR_UNEXPECTED_TOKEN,
-	ERR_MISSING_PARAMETER,
-	ERR_NOT_HANDLED_YET,
-	ERR_MALLOC_FAILED,
-};
 
 /*
 ** Structure for arguments
@@ -131,6 +123,7 @@ typedef struct	s_main_list
 */
 typedef struct	s_parser_param
 {
+	char			**line;
 	t_m_list		**list;
 	t_ao_list		**aolist;
 	void			**cmd;
@@ -152,7 +145,7 @@ typedef struct	s_t_p_call
 	t_p_call	*type;
 }				t_t_p_call;
 
-t_m_list		*parse(t_token *token, t_s_env *e);
+t_m_list		*parse(char **line, t_token **token, t_s_env *e);
 int				parse_error(int err, t_token *token, t_s_env *e);
 
 int				new_tree(t_token *token, t_p_param *param, t_m_list **list);
@@ -168,6 +161,7 @@ int				parse_io_number(t_token **tok, t_p_param *par, t_s_env *e);
 int				parse_argument(t_token **tok, t_p_param *par, t_s_env *e);
 int				parse_newline(t_token **tok, t_p_param *par, t_s_env *e);
 int				parse_async(t_token **tok, t_p_param *par, t_s_env *e);
+int				parse_new_input(t_token **tok, t_p_param *param, t_s_env *e);
 
 void			free_m_list(t_m_list **list);
 

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 11:37:00 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/05 15:31:06 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/14 16:19:26 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,8 @@
 #include "libft.h"
 #include "shell_term.h"
 
-void		ft_cut(t_line *line)
+static void	cut_on_buff(t_line *line, int beg, int end)
 {
-	int beg;
-	int end;
-
-	if (line->slct_beg < 0)
-		return ;
-	beg = line->slct_beg;
-	end = line->slct_end;
-	ft_copy(line);
 	while (line->curr->buff[beg])
 	{
 		if (line->curr->buff[end])
@@ -40,6 +32,19 @@ void		ft_cut(t_line *line)
 			line->slct_end -= 1;
 		}
 	}
+}
+
+void		ft_cut(t_line *line)
+{
+	int beg;
+	int end;
+
+	if (line->slct_beg < 0)
+		return ;
+	beg = line->slct_beg;
+	end = line->slct_end;
+	ft_copy(line);
+	cut_on_buff(line, beg, end);
 	line->slct_end = -1;
 	line->slct_beg = -1;
 	line->len = ft_strlen(line->curr->buff);

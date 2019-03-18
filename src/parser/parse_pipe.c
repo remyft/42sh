@@ -6,13 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/20 20:43:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/27 21:56:51 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/12 18:42:45 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "parser.h"
 #include "operator_types.h"
+#include "parser_errors.h"
+#include "parser.h"
 
 static int		check_token_next(t_token *token)
 {

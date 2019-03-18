@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 00:38:00 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/11 19:31:23 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/12 15:07:33 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ size_t			check_operator(t_token *token, size_t len)
 
 t_token			*identify_operator(t_param *param)
 {
-	param->token->len = (*param->line + param->i) - param->token->head;
+	param->token->len = param->line + param->i - param->token->head;
 	param->token->id = check_operator(param->token, param->token->len);
-	if (!(param->token->next = new_token(*param->line, param->i)))
+	if (!(param->token->next = new_token(param->line, param->i)))
 		return (token_error(ERR_MALLOC, param));
 	param->token->next->prev = param->token;
 	return (param->token->next);

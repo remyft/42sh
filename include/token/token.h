@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/11 20:37:26 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/13 16:01:03 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ enum {
 # define DEFAULT_PROMPT		"> "
 # define BACKSLASH_PROMPT	""
 # define DQUOTE_PROMPT		"dquote"
-# define SQUOTE_PROMPT		"squote"
+# define SQUOTE_PROMPT		"quote"
 # define BRACE_PROMPT		"braceparam"
 # define PARENTHESE_PROMPT	"cmdsubst"
 # define BACKQUOTE_PROMPT	"bquote"
@@ -80,11 +80,10 @@ typedef struct	s_token
 {
 	const char		*head;
 	size_t			len;
-	struct s_token	*next;
-
-	// size_t			depth;
 	int				type;
 	int				id;
+	t_quote			*quote;
+	struct s_token	*next;
 	struct s_token	*prev;
 }				t_token;
 
@@ -96,11 +95,10 @@ typedef struct	s_token
 typedef struct	s_param
 {
 	t_s_env		*e;
-	t_token		*token;
-	char		**line;
-	size_t		i;
 	t_token		*head;
-	t_quote		*quote;
+	t_token		*token;
+	size_t		i;
+	char		*line;
 }				t_param;
 
 /*
@@ -153,11 +151,10 @@ typedef struct	s_func
 /*
 ** Functions
 */
-t_token			*tokenise(char **line, t_s_env *e);
+t_token			*tokenise(char *line, t_s_env *e);
 t_token			*token_loop(t_param *param, int (*ft_end)(int));
 t_token			*new_token(const char *buff, size_t pos);
 void			free_token(t_token **token);
-void			free_quote(t_quote **quote);
 t_token			*token_error(int err, t_param *param);
 
 t_token			*handle_alias(t_param *param, t_s_env *e);
@@ -165,7 +162,6 @@ t_token			*handle_comment(t_param *param, t_call *tokens);
 t_token			*handle_equal(t_param *param, t_call *token);
 t_token			*handle_end_of_input(t_param *param, t_call *token);
 t_token			*handle_minus(t_param *param, t_call *token);
-t_token			*handle_new_input(t_param *param);
 t_token			*handle_operator(t_param *param, t_call *token);
 t_token			*handle_quote(t_param *param, t_call *token);
 t_token			*handle_word(t_param *param, t_call *token);

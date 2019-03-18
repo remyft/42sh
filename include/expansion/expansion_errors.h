@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 17:39:24 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/10 20:23:51 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/14 17:05:16 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define ERR_PIPE_STR				"pipe failed."
 # define ERR_FCNTL_STR				"fcntl failed."
 # define ERR_FORK_STR				"fork failed."
+# define ERR_NO_MATCH_FOUND_STR		"no matches found"
 
 /*
 ** Enumeration of expansions errors
@@ -45,6 +46,7 @@ enum
 	ERR_PIPE,
 	ERR_FCNTL,
 	ERR_FORK,
+	ERR_NO_MATCH_FOUND,
 };
 
 # define ERR_NONE_FUNC				{ ERR_NONE            , err_none_func }
@@ -60,6 +62,7 @@ enum
 # define ERR_PIPE_FUNC				{ ERR_PIPE            , err_pipe_func }
 # define ERR_FCNTL_FUNC				{ ERR_FCNTL           , err_fcntl_func }
 # define ERR_FORK_FUNC				{ ERR_FORK            , err_fork_func }
+# define ERR_NO_MATCH_FUNC			{ ERR_NO_MATCH_FOUND  , err_no_match_func }
 
 typedef struct	s_error
 {
@@ -80,5 +83,6 @@ void			err_ambigous_func(t_ret *ret, t_exp *par, t_s_env *e);
 void			err_pipe_func(t_ret *ret, t_exp *par, t_s_env *e);
 void			err_fcntl_func(t_ret *ret, t_exp *par, t_s_env *e);
 void			err_fork_func(t_ret *ret, t_exp *par, t_s_env *e);
+void			err_no_match_func(t_ret *ret, t_exp *par, t_s_env *e);
 
 #endif

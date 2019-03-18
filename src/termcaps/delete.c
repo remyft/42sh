@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:51:36 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/05 17:47:01 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/14 16:03:48 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,8 @@ static void	del_left(t_line *line)
 		if (line->index > 0 && line->curr->buff[line->index - 1] == '/')
 			line->tree[2] = free_tree(line->tree[2]);
 		line->index = line->index > 0 ? line->index - 1 : 0;
-		while (line->index + j < line->len)
-		{
-			line->curr->buff[line->index + j] =
-				line->curr->buff[line->index + j + 1];
-			j++;
-		}
-		line->curr->buff[line->len] = '\0';
+		ft_strcpy(&line->curr->buff[line->index],
+				&line->curr->buff[line->index + 1]);
 		line->len = line->len > 0 ? line->len - 1 : 0;
 		tputs(tgoto(tgetstr("ch", NULL), 0,
 					(line->index + line->lprompt) % line->nb_col), 1, ft_pchar);

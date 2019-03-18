@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 02:33:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/10 20:23:11 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/14 16:44:30 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int				expand_error(int error, t_ret *ret, t_exp *par, t_s_env *e)
 		ERR_NONE_FUNC, ERR_SYNTAX_FUNC, ERR_MODIFIER_FUNC, ERR_UNHANDLED_FUNC,
 		ERR_MALLOC_FUNC, ERR_NO_ENV_FUNC, ERR_DIRECTORY_STACK_FUNC,
 		ERR_GIVEN_FUNC, ERR_NO_SUCH_USER_FUNC, ERR_AMBIGUOUS_FUNC,
-		ERR_PIPE_FUNC,
+		ERR_PIPE_FUNC, ERR_FCNTL_FUNC, ERR_FORK_FUNC, ERR_NO_MATCH_FUNC,
 	};
 	size_t			i;
 

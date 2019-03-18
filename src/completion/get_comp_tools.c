@@ -6,12 +6,13 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 17:00:18 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 17:01:16 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/17 19:19:58 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "put.h"
 #include "libft.h"
+#include "shell_term.h"
 
 int			check_is_file(char *buff, t_line *line)
 {
@@ -27,13 +28,69 @@ int			check_is_file(char *buff, t_line *line)
 	return (1);
 }
 
-int			search_to_tmp(char *buff)
+static int	erase_complet(char *ptr, t_line *line)
+{
+	ft_bzero(ptr, ft_strlen(ptr));
+	tputs(tgetstr("do", NULL), 1, ft_pchar);
+	tputs(tgetstr("cr", NULL), 1, ft_pchar);
+	tputs(tgetstr("cd", NULL), 1, ft_pchar);
+	tputs(tgetstr("up", NULL), 1, ft_pchar);
+	tputs(tgoto(tgetstr("ch", NULL), 0, (line->lprompt + line->index)
+				% line->nb_col), 1, ft_pchar);
+	return (line->len);
+}
+
+static void	finish_glob(t_line *line, t_slst **tmp, int nb_line)
+{
+	t_slst	*to_free;
+
+	while ((to_free = *tmp))
+	{
+		*tmp = (*tmp)->next;
+		free(to_free->str);
+		free(to_free);
+	}
+	while (nb_line--)
+		tputs(tgetstr("up", NULL), 1, ft_pchar);
+	tputs(tgoto(tgetstr("ch", NULL), 0, line->lprompt), 1, ft_pchar);
+}
+
+static void	get_new_glob(t_line *line, t_slst *tmp, char *ptr)
 {
 	int		i;
+	t_slst	*to_free;
+	int		tmp_len;
+	int		len;
 
-	i = -1;
-	while (buff[++i])
-		if (buff[i] == '~' || buff[i] == '/')
-			return (1);
-	return (0);
+	tmp_len = erase_complet(ptr, line);
+	while ((to_free = tmp))
+	{
+		if (line->len + (len = ft_strlen(tmp->str)) + 1 > 8192)
+			break ;
+		i = -1;
+		while (tmp->str[++i])
+		{
+			*ptr++ = tmp->str[i];
+			line->len++;
+		}
+		*ptr++ = ' ';
+		line->len++;
+		tmp = tmp->next;
+		free(to_free->str);
+		free(to_free);
+	}
+	finish_glob(line, &tmp, (tmp_len / line->nb_col));
+}
+
+void		set_new_glob(t_line *line, t_slst *tmp, char *ptr)
+{
+	if (tmp)
+	{
+		while (tmp->prev)
+			tmp = tmp->prev;
+		get_new_glob(line, tmp, ptr);
+		ft_putstr(line->curr->buff);
+		line->len = ft_strlen(line->curr->buff);
+		line->index = line->len;
+	}
 }

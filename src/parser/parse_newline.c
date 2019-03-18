@@ -6,11 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/22 13:07:08 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/23 14:02:55 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/12 18:41:48 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "parser_errors.h"
 #include "parser.h"
 
 static int		parse_strncmp(const char *s1, size_t len1,

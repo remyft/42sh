@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 03:41:00 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 04:09:29 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/17 19:17:34 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,25 +35,6 @@ void	del_all_state(t_line *line)
 		i++;
 	}
 	line->is_putb = 0;
-}
-
-void	free_hdoc(t_line *line)
-{
-	if (line->hdoc)
-	{
-		while (line->hdoc->next)
-		{
-			if (line->hdoc->prev)
-			{
-				free(line->hdoc->prev->cmd);
-				free(line->hdoc->prev);
-			}
-			line->hdoc = line->hdoc->next;
-		}
-		free(line->hdoc->cmd);
-		free(line->hdoc);
-		line->hdoc = NULL;
-	}
 }
 
 void	reset_hist(t_line *line)

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 05:18:39 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/04 17:53:23 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/14 16:30:35 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@
 
 static void	expand_select_left(t_line *line, int diff, int mal)
 {
+	if (mal == 2)
+	{
+		line->slct_end = (int)line->index + 1;
+		diff = line->slct_end;
+	}
 	line->slct_beg = diff > 0 ? diff - mal : 0;
 	line->index = (size_t)line->slct_beg;
 	tputs(tgetstr("mr", NULL), 1, ft_pchar);
@@ -28,15 +33,32 @@ static void	expand_select_left(t_line *line, int diff, int mal)
 				(line->lprompt + line->index) % line->nb_col), 1, ft_pchar);
 }
 
+void		is_in_completion(t_line *line)
+{
+	int		index_tmp;
+
+	index_tmp = line->index;
+	if (*line->e_cmpl & COMPLETION)
+	{
+		tputs(tgetstr("sc", NULL), 1, ft_pchar);
+		go_end(line);
+		tputs(tgetstr("do", NULL), 1, ft_pchar);
+		tputs(tgetstr("cr", NULL), 1, ft_pchar);
+		tputs(tgetstr("cd", NULL), 1, ft_pchar);
+		tputs(tgetstr("rc", NULL), 1, ft_pchar);
+		line->index = index_tmp;
+		*line->e_cmpl &= ~COMPLETION;
+		ft_bzero(line->curr->buff_tmp, 8194);
+	}
+}
+
 void		select_left(t_line *line)
 {
 	if (line->index == 0)
 		return ;
+	is_in_completion(line);
 	if (line->slct_beg < 0)
-	{
-		line->slct_end = (int)line->index + 1;
 		expand_select_left(line, line->slct_end, 2);
-	}
 	else
 	{
 		if (line->slct_beg == (int)line->index)
@@ -52,7 +74,7 @@ void		select_left(t_line *line)
 				tputs(tgetstr("up", NULL), 1, ft_pchar);
 			tputs(tgoto(tgetstr("ch", NULL), 0,
 						(line->lprompt + line->index) % line->nb_col), 1,
-							ft_pchar);
+					ft_pchar);
 		}
 	}
 }
@@ -93,7 +115,7 @@ void		select_right(t_line *line)
 				tputs(tgetstr("do", NULL), 1, ft_pchar);
 			tputs(tgoto(tgetstr("ch", NULL), 0,
 						(line->lprompt + line->index) % line->nb_col), 1,
-							ft_pchar);
+					ft_pchar);
 		}
 	}
 }

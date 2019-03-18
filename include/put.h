@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:50:35 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/21 05:32:15 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/14 15:48:48 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void			set_complet(t_line *line, int set);
 
 int				check_is_file(char *buff, t_line *line);
 int				search_to_tmp(char *buff);
+void			set_new_glob(t_line *line, t_slst *tmp, char *ptr);
 
 void			put_branch(t_slct *select, t_cpl_e env, t_line *line,
 		int *car_ret);
@@ -79,7 +80,7 @@ char			*find_separator(char *buff);
 */
 
 int				inprint(char *str);
-t_tree			*set_tmp(char *buff);
+t_tree			*set_tmp(char *buff, int glob);
 int				str_chrglob(char *str);
 char			*replace_tilde(const char *path, const char *replace);
 

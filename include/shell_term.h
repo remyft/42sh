@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 05:38:23 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 06:35:02 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/09 15:59:11 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "struct.h"
 
 void			go_home(t_line *line);
+void			deal_home(t_line *line);
 void			go_end(t_line *line);
 void			left_arrow(t_line *line);
 void			right_arrow(t_line *line);

@@ -6,14 +6,14 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 21:19:10 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/03 18:42:13 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/14 15:56:15 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "globing.h"
 #include "libft.h"
 
-void		sort_glob(t_slst *glob)
+void	sort_glob(t_slst *glob)
 {
 	t_slst	*tmp;
 	char	*ptr;

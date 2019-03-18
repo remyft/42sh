@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_new_input.c                                 :+:      :+:    :+:   */
+/*   parse_new_input.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 03:13:50 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/12 13:48:04 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/13 18:00:30 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct.h"
 #include "main_tools.h"
-#include "token_error.h"
-#include "token.h"
-#include "shell.h"
+#include "parser_errors.h"
+#include "parser.h"
 
 static char		*get_prompt(t_quote *head)
 {
@@ -40,85 +39,97 @@ static char		*get_prompt(t_quote *head)
 	return (ret);
 }
 
-static void		new_tokens_head(t_token *token, char *line, char *oldline)
+static t_token	*get_token(t_token *token, char **line, char *oldl, t_s_env *e)
 {
+	t_token		*ret;
+
+	ret = token;
+	if (token)
+		while (token->prev)
+			token = token->prev;
 	while (token)
 	{
-		token->head = line + (token->head - oldline);
+		token->head = *line + (token->head - oldl);
 		token = token->next;
 	}
+	token = ret;
+	if (!(ret = tokenise(*line + ft_strlen(oldl) - token->len, e)))
+		return (NULLTOKEN);
+	ft_strdel(&oldl);
+	ret->prev = token->prev;
+	if (ret->prev)
+		ret->prev->next = ret;
+	return (ret);
 }
 
-static t_line	*init_new_input(char **save, t_param *param)
+static t_line	*get_new_input(t_token *token)
 {
 	t_line		*line;
 	char		*promptsave;
 
 	// line->param = param;
 	if (!(line = get_struct()))
-		return (NULL); /// //// ??????
-	*save = *param->line;
-	*param->line = NULL;
+		return (NULL);
 	promptsave = line->prompt;
-	if (quote_type(param->quote) == BACKSLASH)
-		quote_remove(&param->quote, BACKSLASH);
 	init_new_buff(line);
-	if (!(line->prompt = get_prompt(param->quote)))
-		return (NULL); //// ?????
+	if (!(line->prompt = get_prompt(token->quote)))
+		return (NULL);
 	line->lprompt = ft_strlen(line->prompt);
 	put_prompt(line->prompt);
 	deal_typing(line);
-
+	////// Handle CTRL-C + CTRL-D !!
 	ft_strdel(&line->prompt);
 	line->prompt = promptsave;
 	line->lprompt = ft_strlen(line->prompt);
 	return (line);
 }
 
-static t_token		*new_input_type(t_line *line, t_param *param, int type, char *l)
+static int		old_input_type(t_token *token, t_line *line, t_p_param *param, int type, char *l)
 {
 	if (type == BACKSLASH)
-		l[--param->i] = '\0';
+		l[ft_strlen(l) - 1] = '\0';
 	else if (type == PARENTHESE)
 	{
 		if (*line->curr->buff
-		&& ft_strncmp(param->token->head + param->token->len - 2, "$(", 2)
+		&& ft_strncmp(token->head + token->len - 2, "$(", 2)
 		&& line->curr->buff[0] != ')')
-			if (!((*param->line) = ft_strjoin(l, ";")))
-				return (token_error(ERR_MALLOC, param));
+			if (!(*param->line = ft_strjoin(l, ";")))
+				return (ERR_MALLOC_FAILED);
 	}
 	else if (type == BACKQUOTE)
 	{
 		if (*line->curr->buff
-		&& param->token->head[param->token->len - 1] != '`'
+		&& token->head[token->len - 1] != '`'
 		&& line->curr->buff[0] != '`')
-			if (!((*param->line) = ft_strjoin(l, ";")))
-				return (token_error(ERR_MALLOC, param));
+			if (!(*param->line = ft_strjoin(l, ";")))
+				return (ERR_MALLOC_FAILED);
 	}
-	else if ((type == DOUBLE_QUOTE || type == SINGLE_QUOTE || type == BRACE)
-		&& (!(*param->line = ft_strjoin(l, "\n"))))
-		return (token_error(ERR_MALLOC, param));
-	return (param->token);
+	else if (!(*param->line = ft_strjoin(l, "\n")))
+		return (ERR_MALLOC_FAILED);
+	return (ERR_NONE);
 }
 
-
-t_token			*handle_new_input(t_param *param)
+int				parse_new_input(t_token **token, t_p_param *param, t_s_env *e)
 {
 	t_line		*line;
 	char		*linesave;
 	int			type;
+	t_token		*newt;
 
-	type = quote_type(param->quote);
-	if (!(line = init_new_input(&linesave, param)))
-		return (token_error(ERR_MALLOC, param)); /// ???
-	if (!(param->token = new_input_type(line, param, type, linesave)))
-		return (param->token);
-	if (!(*param->line = (*param->line) ?
+	type = quote_type((*token)->quote);
+	if (!(line = get_new_input(*token)))
+		return (ERR_MALLOC_FAILED);
+	linesave = *param->line;
+	*param->line = NULL;
+	if (old_input_type(*token, line, param, type, linesave))
+		return (ERR_MALLOC_FAILED);
+	if (!(*param->line = (*param->line != NULL) ?
 		ft_strjoinfree(*param->line, line->curr->buff, 1) :
 		ft_strjoin(linesave, line->curr->buff)))
-		return (token_error(ERR_MALLOC, param));
-	--param->i;
-	new_tokens_head(param->head, *param->line, linesave);
-	ft_strdel(&linesave);
-	return (param->token);
+		return (ERR_MALLOC_FAILED);
+	if (!(newt = get_token(*token, param->line, linesave, e)))
+		return (ERR_TOKENIZATION);
+	free_token(token);
+	*token = newt;
+	return (ERR_NONE);
 }

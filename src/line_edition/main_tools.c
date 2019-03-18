@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/21 06:53:32 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/11 16:17:52 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	create_all_tree(t_line *line)
 		GET_TREE(line->tree, BIN) = create_bin_tree(*line->public_env);
 	else if (sh_getnenv("PATH", *line->private_env))
 		GET_TREE(line->tree, BIN) = create_bin_tree(*line->private_env);
-	GET_TREE(line->tree, FILES) = create_file_tree(".", NULL);
+	GET_TREE(line->tree, FILES) = create_file_tree(".", NULL, NULL);
 	GET_TREE(line->tree, TMP) = NULL;
 	fill_tree_env(*line->public_env, &GET_TREE(line->tree, ENV));
 	fill_tree_env(*line->private_env, &GET_TREE(line->tree, ENV));
@@ -70,7 +70,7 @@ void	deal_key(t_line *line)
 		{ "\x7F", &deal_dleft }, { "\x1B\x5B\x41", &up_arrow },
 		{ "\x1B\x5B\x42", &down_arrow }, { "\x1B\x5B\x43", &right_arrow },
 		{ "\x1B\x5B\x44", &left_arrow }, { "\x1B\x5B\x46", &go_end },
-		{ "\x1B\x5B\x48", &go_home }, { "\x1B\x5B\x33\x7E", &del_right },
+		{ "\x1B\x5B\x48", &deal_home }, { "\x1B\x5B\x33\x7E", &del_right },
 		{ "\x1B\x5B\x31\x3B\x32\x44", &select_left},
 		{ "\x1B\x5B\x31\x3B\x32\x43", &select_right},
 		{ "\x17", &next_word }, { "\x2", &prev_word },

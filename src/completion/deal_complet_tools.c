@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 02:17:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 06:50:14 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/17 19:20:48 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*replace_tilde(const char *path, const char *replace)
 	char	*str;
 
 	if (!(str = ft_memalloc(sizeof(char) * (ft_strlen(path)
-						+ ft_strlen(replace)))))
+						+ ft_strlen(replace) + 1))))
 		return (NULL);
 	k = -1;
 	while (path[++k] != '~')
@@ -38,6 +38,19 @@ char	*replace_tilde(const char *path, const char *replace)
 	return (str);
 }
 
+int		search_to_tmp(char *buff)
+{
+	int		i;
+
+	i = -1;
+	while (buff[++i])
+		if (buff[i] == '~' || buff[i] == '/')
+			return (1);
+		else if (buff[i] == '*')
+			return (0);
+	return (0);
+}
+
 int		inprint(char *str)
 {
 	int i;
@@ -47,33 +60,6 @@ int		inprint(char *str)
 		if (ft_isprint(str[i]))
 			return (1);
 	return (0);
-}
-
-t_tree	*set_tmp(char *buff)
-{
-	t_tree	*file;
-	char	*stmp;
-	char	*tmp;
-
-	stmp = sh_strrchr(buff, ' ') + 1;
-	tmp = NULL;
-	if (*stmp != '/')
-	{
-		if (*stmp == '~')
-		{
-			tmp = replace_tilde(stmp, getenv("HOME"));
-			stmp = ft_strndup(tmp, ft_strrchr(tmp, '/') - tmp);
-		}
-		else
-			stmp = ft_strndup(stmp, ft_strrchr(stmp, '/') - stmp);
-	}
-	else
-		stmp = ft_strndup(stmp, ft_strrchr(stmp, '/') - stmp + 1);
-	file = create_file_tree(stmp, NULL);
-	free(stmp);
-	if (tmp)
-		free(tmp);
-	return (file);
 }
 
 int		str_chrglob(char *str)

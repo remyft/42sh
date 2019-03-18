@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 23:31:38 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 06:53:55 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/13 17:01:25 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int		get_new_glob(t_tree *tree, t_slist **glob)
 {
 	if (*glob)
 	{
+		while ((*glob)->prev)
+			*glob = (*glob)->prev;
 		while ((*glob)->next && (*glob)->mln != tree)
 			*glob = (*glob)->next;
 		if ((*glob)->mln == tree)
@@ -69,7 +71,7 @@ void	deal_rec(char *str, t_slist **glob, t_stint *sti)
 {
 	t_tree *tmp;
 
-	if (!(tmp = create_file_tree((*glob)->str, NULL)))
+	if (!(tmp = create_file_tree((*glob)->str, NULL, NULL)))
 		return ;
 	if (sti->nb & IS_SLASH)
 		sti->nb |= IS_REC;

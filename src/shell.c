@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/12 13:47:02 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/16 15:21:14 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void			launch_new_cmd(char **line, t_s_env *e)
 
 	tokens = NULLTOKEN;
 	tree = NULLLIST;
-	if ((tokens = tokenise(line, e)) != NULLTOKEN)
+	if ((tokens = tokenise(*line, e)) != NULLTOKEN)
 	{
-		if ((tree = parse(tokens, e)) != NULLLIST)
+		if ((tree = parse(line, &tokens, e)) != NULLLIST)
 		{
 			term_restore(e->save);
 			execute_list(tree, e);
@@ -54,7 +54,7 @@ static void		get_new_cmd(t_line *line, t_s_env *e)
 	del_all_state(line);
 	reset_hist(line);
 	GET_TREE(line->tree, FILES) = free_tree(line->tree[1]);
-	GET_TREE(line->tree, FILES) = create_file_tree(".", line->tree[1]);
+	GET_TREE(line->tree, FILES) = create_file_tree(".", NULL, line->tree[1]);
 }
 
 static void		init_shell_line(t_line **line, t_s_env *e)
@@ -99,6 +99,7 @@ int				main(int ac, char **av, char **ep)
 	init_shell_env(&e, ac, av, ep);
 	init_shell_line(&line, &e);
 	define_new_term(&e.save);
+	get_rc(&e);
 	shell_loop(line, &e);
 	term_restore(e.save);
 	free_shell_env(&e);

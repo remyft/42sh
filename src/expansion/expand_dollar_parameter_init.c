@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 22:07:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/10 20:54:18 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/13 12:40:08 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int				expand_dollar_parameter_init(t_ret *parameter, t_exp *param)
 	if ((error = expand_loop(&ret, param, end_func)))
 		return (error);
 	param_addstr(ret.word, parameter);
+	expand_free_t_ret(&ret, 0);
 	if (is_expand_null(parameter)
 		&& is_special(param->buff[param->i])
 		&& param_addchar(param->buff[param->i++], parameter))

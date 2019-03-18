@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 23:31:08 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/03 21:30:49 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/14 15:55:59 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@ int				check_mln(char *src, char *targ)
 
 	while (*src)
 	{
+		if (*src == '/' && *targ == '/' && *(targ + 1) == '.'
+				&& *(src + 1) != '.')
+			return (0);
 		if (!*targ)
 			break ;
 		if ((tmp = deal_check(&src, &targ)) != 2)

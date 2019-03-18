@@ -6,13 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/20 20:42:12 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/23 14:25:46 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/12 18:42:06 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "parser.h"
 #include "operator_types.h"
+#include "parser_errors.h"
+#include "parser.h"
 
 static int	add_heredoc(t_p_param *param, t_s_env *e)
 {
