@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/23 05:46:14 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/07 19:18:14 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/18 20:38:29 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int			is_token_valid_name(t_param *param)
 	size_t		n;
 
 	str = param->token->head;
-	n = param->i - (size_t)(param->token->head - *param->line);
+	n = param->i - (size_t)(param->token->head - param->line);
 	if (!n || ft_isdigit(*str))
 		return (0);
 	while (n--)
