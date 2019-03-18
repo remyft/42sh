@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/07 00:07:12 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/14 00:59:33 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/18 16:17:55 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ static void		remove_back(char *str, char *quote, size_t *i)
 {
 	if (*quote == '\'')
 		return ;
-	ft_strcpy(str + *i, str + *i + 1);
+	else if (*quote == '"'
+	&& (str[*i + 1] == '$' || str[*i + 1] == '`' || str[*i + 1] == '"'
+		|| str[*i + 1] == '\\' || str[*i + 1] == '\n'))
+		ft_strcpy(str + *i, str + *i + 1);
 }
 
 static void		check_str(char *str)
