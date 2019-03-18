@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/03/14 16:45:49 by rfontain         ###   ########.fr        #
+#    Updated: 2019/03/16 19:01:11 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ DEPS = $(addprefix $(DEPS_DIR), $(SRCS:.c=.d))
 
 RM = /bin/rm -rf
 
-#DEBUG := -g3 -fsanitize=address -DDEBUG -g
+DEBUG := -g3 -fsanitize=address -DDEBUG -g
 
 SHELL := /bin/bash
 
@@ -49,8 +49,6 @@ SRCS += collect_env.c						\
 		shell_env.c							\
 
 # LINE EDITION
-#		deal_hdoc.c							
-#		create_hdoc.c						
 LINE_DIR = $(SRCS_DIR)line_edition/
 SRCS += deal_line.c							\
 		deal_typing.c						\
@@ -108,7 +106,6 @@ SRCS += ft_copy.c							\
 		select.c							\
 
 # TOKENS
-#expand_word.c
 TOKEN_DIR = token/
 SRCS += handle_alias.c						\
 		handle_comment.c					\
@@ -125,7 +122,9 @@ SRCS += handle_alias.c						\
 		is_token_valid_name.c				\
 		is_token.c							\
 		remove_line_continuation.c			\
-		quote_funcs.c						\
+		quote_functions.c					\
+		quote_handlers1.c					\
+		quote_handlers2.c					\
 		token_debug.c						\
 		token_error.c						\
 		token_free.c						\
@@ -144,7 +143,6 @@ SRCS += parse_async.c						\
 		parse_list.c						\
 		parse_new_functions.c				\
 		parse_new_input.c					\
-		parse_newline.c						\
 		parse_operator.c					\
 		parse_pipe.c						\
 		parse.c								\
@@ -368,9 +366,6 @@ $(OBJS_DIR)%.o: $(LINE_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
 	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(LIBRARY_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
-
-$(OBJS_DIR)deal_hdoc.o: INCS += -I$(INC_DIR)/$(TOKEN_DIR)
-$(OBJS_DIR)create_hdoc.o: INCS += -I$(INC_DIR)/$(TOKEN_DIR)
 
 $(OBJS_DIR)%.o: $(CMPL_DIR)%.c
 $(OBJS_DIR)%.o: $(CMPL_DIR)%.c $(DEPS_DIR)%.d

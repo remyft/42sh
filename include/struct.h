@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/21 05:32:29 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/16 17:48:47 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct	s_buff
 {
 	char			buff[8193];
 	char			buff_tmp[8194];
+	int				quoted;
 	struct s_buff	*next;
 	struct s_buff	*prev;
 }				t_buff;

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/14 16:01:14 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/16 17:49:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void			deal_exit(t_line *line)
 {
 	int		i;
 
-	if (line->curr->prev || line->curr->buff[0])
+	if (line->curr->prev || line->curr->buff[0] || line->curr->quoted)
 		return ;
 	term_restore(line->save);
 	i = -1;
