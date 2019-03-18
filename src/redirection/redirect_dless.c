@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:21:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/27 23:10:01 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/18 16:07:24 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "parser.h"
 #include "redirection.h"
 #include "struct.h"
+#include "redirection_errors.h"
+#include "main_tools.h"
 
 /*
 ** Anime must watch (@ touche speciale agrum)
@@ -30,6 +32,64 @@
 **  - Nichijou (wtf)
 */
 
+static int		get_here_doc_line(char **hdoc, char *eof, t_line *line)
+{
+	while (1)
+	{
+		put_prompt(line->prompt);
+		deal_typing(line);
+		write(1, "\n", 1);
+		if (line->tmp[0] == -1 || !ft_strcmp(line->curr->buff, eof))
+			break ;
+		else if (line->tmp[0] != 4)
+		{
+			if (*hdoc == NULL)
+				*hdoc = ft_strdup(line->curr->buff);
+			else
+				*hdoc = ft_strjoinfree(*hdoc, line->curr->buff, 1);
+			if (!*hdoc)
+				return (ERR_MALLOC);
+			if (!(*hdoc = ft_strjoinfree(*hdoc, "\n", 1)))
+				return (ERR_MALLOC);
+		}
+		ft_strclr(line->curr->buff);
+		ft_strclr(line->tmp);
+		line->beg_buff = line->curr;
+		line->index = 0;
+		line->len = 0;
+	}
+	return (ERR_NONE);
+}
+
+static int		get_here_doc(t_redirection **redir, t_s_env *e)
+{
+	t_line		*line;
+	char		*promptsave;
+	int			error;
+	char		*eof;
+
+	if (!(line = get_struct()))
+		return (redirect_error(ERR_MALLOC, "heredoc", e));
+	promptsave = line->prompt;
+	error = ERR_NONE;
+	eof = ft_strndup((char *)(*redir)->arg->token->head, (*redir)->arg->token->len);
+	init_new_buff(line);
+	line->prompt = ft_strjoin(HERE_DOC_PROMPT, DEFAULT_PROMPT);
+	line->lprompt = ft_strlen(line->prompt);
+	line->curr->quoted = 1;
+	define_new_term(&e->save);
+	error = get_here_doc_line(&(*redir)->hdoc, eof, line);
+	term_restore(e->save);
+	line->curr->quoted = 0;
+	ft_strdel(&line->prompt);
+	ft_strdel(&eof);
+	line->prompt = promptsave;
+	line->lprompt = ft_strlen(line->prompt);
+	if (line->tmp[0] == -1)
+		return (ERR_FREE_ALL);
+	return (error);
+}
+
 static int		handle_here_doc(t_redirection **redir, t_s_env *e)
 {
 	static size_t	fnum = 0;
@@ -41,13 +101,16 @@ static int		handle_here_doc(t_redirection **redir, t_s_env *e)
 		return (redirect_error(ERR_MALLOC, (*redir)->arg->cmd[0], e));
 	if (((*redir)->fdarg = open((*redir)->file, mode, 0600)) < 0)
 		return (redirect_open_error((*redir)->file, e));
-	write((*redir)->fdarg, (*redir)->heredoc->head, (*redir)->heredoc->len + 1);
+	if ((*redir)->hdoc)
+		write((*redir)->fdarg, (*redir)->hdoc, ft_strlen((*redir)->hdoc));
 	return (0);
 }
 
 int				redirect_dless(t_redirection **redir, t_s_env *e)
 {
 	(*redir)->fdio = (*redir)->ionumber ? ft_atoi((*redir)->ionumber->head) : 0;
+	if (get_here_doc(redir, e))
+		return (1);
 	if (handle_here_doc(redir, e))
 		return (1);
 	if (((*redir)->fdarg = open((*redir)->file, O_RDONLY)) < 0)
