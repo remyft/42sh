@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 04:08:41 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/08 04:09:15 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/14 18:24:19 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 enum
 {
-	ERR_MALLOC,
+	ERR_MALLOC = 0,
+	ERR_SYNTAX,
 };
 
 #endif
