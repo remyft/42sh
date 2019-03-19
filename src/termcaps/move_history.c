@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 05:00:51 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/18 20:53:15 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/19 17:19:54 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,9 @@ void		down_arrow(t_line *line)
 	int		find;
 
 	find = 0;
-	if (!line->curr->buff_tmp[8193])
-		return ;
 	if (key_complet(line, DOWN))
+		return ;
+	if (!line->curr->buff_tmp[8193])
 		return ;
 	if (line->hist && ft_strcmp(line->hist->content, line->curr->buff))
 	{
