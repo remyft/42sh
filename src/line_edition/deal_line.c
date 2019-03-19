@@ -6,30 +6,13 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 10:57:02 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 05:12:43 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/19 16:32:10 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct.h"
 #include "libft.h"
 #include "shell.h"
-
-void	deal_prompt(t_line *line)
-{
-	free(line->prompt);
-	if (*(line->e_cmpl) & QUOTE)
-		line->prompt = ft_strdup("quote> ");
-	else if (*(line->e_cmpl) & BQUOTE)
-		line->prompt = *(line->e_cmpl) & DQUOTE ?
-			ft_strdup("dquote bquote> ") : ft_strdup("bquote> ");
-	else if (*(line->e_cmpl) & DQUOTE && *(line->e_cmpl) & ~BQUOTE)
-		line->prompt = ft_strdup("dquote> ");
-	else if (*(line->e_cmpl) & HDOC)
-		line->prompt = ft_strdup("heredoc> ");
-	else
-		line->prompt = ft_strdup("$> ");
-	line->lprompt = ft_strlen(line->prompt);
-}
 
 void	reset_line(t_line *line)
 {

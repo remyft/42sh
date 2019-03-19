@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 14:16:30 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/16 15:47:26 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/18 11:58:00 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ void	launch_rc(t_s_env *e, int fd, char *path)
 	count = 1;
 	while (get_next_line(fd, &line) > 0)
 	{
-		free(e->progname);
 		e->progname = ft_strjoin(path, ":");
 		e->progname = ft_strjoinfree(e->progname, ft_itoa(count), 3);
 		launch_new_cmd(&line, e);
 		free(line);
+		free(e->progname);
 		count++;
 	}
 }
@@ -43,7 +43,6 @@ void	get_rc(t_s_env *e)
 		return ;
 	path = ft_strjoin(path, "/");
 	path = ft_strjoinfree(path, RC_NAME, 1);
-	e->progname = ft_strdup(path);
 	if ((fd = open(path, O_RDONLY | O_APPEND | O_CREAT, 0644)) < 0)
 	{
 		e->progname = tmp_progname;
@@ -52,7 +51,6 @@ void	get_rc(t_s_env *e)
 	}
 	launch_rc(e, fd, path);
 	free(path);
-	free(e->progname);
 	e->progname = tmp_progname;
 	close(fd);
 }
