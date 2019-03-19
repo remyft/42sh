@@ -6,14 +6,12 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 21:18:49 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/18 21:43:35 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/19 16:30:11 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_SOURCE_H
 # define BUILTIN_SOURCE_H
-
-# include "shell_env.h"
 
 enum
 {

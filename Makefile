@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/03/17 17:35:31 by rfontain         ###   ########.fr        #
+#    Updated: 2019/03/18 23:20:02 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -259,6 +259,7 @@ SRCS += builtin_alias_error.c				\
 		builtin_setenv.c					\
 		builtin_unalias.c					\
 		builtin_unsetenv.c					\
+		builtin_source.c					\
 
 # LIBRARY
 LIBRARY_DIR = lib/

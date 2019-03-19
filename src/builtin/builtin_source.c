@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 20:58:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/18 22:57:34 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/19 16:29:58 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int		builtin_source(t_execute *exec, t_s_env *e)
 	if ((err = builtin_source_access(path)) != ERR_OK)
 		return (source_error(err, exec->cmd[1], &path));
 	if ((fd = open(path, O_RDONLY)) < 0)
-		return (source_error(ERR_NOT_FOUND, exec->cmd[1], &path));
+		return (source_error(ERR_PERMISSION, exec->cmd[1], &path));
 	launch_rc(e, fd, path);
 	free(path);
 	return (0);
