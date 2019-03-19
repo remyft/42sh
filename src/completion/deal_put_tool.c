@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 16:54:10 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/18 12:53:57 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/19 19:32:57 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ static int	deal_select(t_slct *select, t_cpl_e env, t_line *line)
 			ret_psb(select, ft_strlen(env.chr), 0, line->curr->buff);
 		else
 			ret_psb(select, ft_strlen(env.chr), 0, find_chr_buff(line));
-		free(env.chr);
-		free_select(select);
+		if (env.chr)
+			free(env.chr);
+		if (select)
+			free_select(select);
 		return (1);
 	}
 	if (line->is_putb && line->key)

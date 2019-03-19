@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:38:48 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/18 11:43:46 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/19 19:32:54 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	put_cpl_screen(t_line *line, int nb_ret)
 	}
 }
 
-int			deal_unfind(t_line *line)
+static int	deal_unfind(t_line *line)
 {
 	int		tmp_len;
 

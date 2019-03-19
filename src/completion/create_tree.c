@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 21:15:52 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/19 16:53:27 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/19 17:34:39 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char		*add_escape(char *str, int nb)
 			if (str[i] == '\n')
 			{
 				ft_strcpy(&esc[j], "$'\\n'");
-				j += 4;
+				j += 5;
 			}
 			else
 				esc[j++] = '\\';

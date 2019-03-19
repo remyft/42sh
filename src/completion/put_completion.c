@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:42:34 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/14 15:40:40 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/19 18:54:57 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void		deal_all_put(t_line *line, t_tree *tern, t_slct **select,
 	deal_put(line, *env, *select, tern);
 	if (*select)
 		free_select(*select);
+	*select = NULL;
 	if (env->chr)
 		free(env->chr);
 	tputs(tgetstr("do", NULL), 1, ft_pchar);
@@ -76,6 +77,7 @@ int			end_put(t_line *line, t_cpl_e env, t_slct *select)
 		free(env.chr);
 	if (select)
 		free_select(select);
+	select = NULL;
 	return (0);
 }
 

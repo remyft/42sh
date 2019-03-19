@@ -6,13 +6,14 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 03:37:52 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 03:40:10 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/19 18:28:14 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "put.h"
 #include "shell_lib.h"
 #include "struct.h"
+#include "libft.h"
 
 void		put_branch(t_slct *select, t_cpl_e env, t_line *line, int *car_ret)
 {
@@ -61,7 +62,8 @@ int			have_to_expand(t_line *line)
 
 	space = sh_strrchr(line->curr->buff, ' ');
 	slash = sh_strrchr(line->curr->buff, '/');
-	if (!(dol = sh_strrchr(line->curr->buff, '$')))
+	if (!(dol = sh_strrchr(line->curr->buff, '$')) || (!ft_isalnum(*(dol + 1))
+				&& *(dol + 1) != '{' && *(dol + 1)))
 		return (0);
 	if (!space && dol)
 		return (1);
