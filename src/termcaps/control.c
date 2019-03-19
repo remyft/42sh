@@ -6,11 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/17 19:17:28 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/18 11:36:31 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
+#include "put.h"
 #include "shell.h"
 #include "libft.h"
 #include "shell_term.h"
@@ -24,7 +25,7 @@ void			deal_exit(t_line *line)
 	int		i;
 
 	if (line->curr->prev || line->curr->buff[0])
-		return ;
+		return (get_complet(line));
 	term_restore(line->save);
 	i = -1;
 	while (++i < NSIG)

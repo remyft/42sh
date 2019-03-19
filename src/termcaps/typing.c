@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:57:17 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/14 16:16:17 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/18 18:42:51 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include "shell_term.h"
 #include "put.h"
 #include "libft.h"
-
-#include "stdio.h"
 
 static void	get_to_len(t_line *line, char tchar)
 {
@@ -50,6 +48,7 @@ static void	get_to_buff(t_line *line, int *cp)
 	*cp += 1;
 	if (line->index != line->len)
 		get_to_len(line, tchar);
+	line->curr->buff[line->len] = '\0';
 	if ((line->index + line->lprompt) % line->nb_col == 0)
 	{
 		tputs(tgetstr("do", NULL), 1, ft_pchar);
