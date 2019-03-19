@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/03/19 17:08:23 by rfontain         ###   ########.fr        #
+#    Updated: 2019/03/19 22:04:28 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ DEPS = $(addprefix $(DEPS_DIR), $(SRCS:.c=.d))
 
 RM = /bin/rm -rf
 
-DEBUG := -g3 -fsanitize=address -DDEBUG -g
+#DEBUG := -g3 -fsanitize=address -DDEBUG -g
 
 SHELL := /bin/bash
 
@@ -57,7 +57,6 @@ SRCS += deal_line.c							\
 		reset_line.c						\
 		signal.c							\
 		tools.c								\
-		get_shell_rc.c						\
 
 # COMPLETION
 CMPL_DIR = $(SRCS_DIR)completion/
@@ -257,7 +256,6 @@ SRCS += builtin_alias_error.c				\
 		builtin_setenv.c					\
 		builtin_unalias.c					\
 		builtin_unsetenv.c					\
-		builtin_source.c					\
 
 # LIBRARY
 LIBRARY_DIR = lib/
