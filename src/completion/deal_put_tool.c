@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 16:54:10 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 16:59:22 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/18 12:53:57 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,8 @@ static char	*find_chr_buff(t_line *line)
 	char	*ptr;
 
 	if (have_to_expand(line))
-	{
 		return (*(ptr = sh_strrchr(line->curr->buff, '$') + 1) == '{' ?
 				ptr + 1 : ptr);
-	}
 	return (sh_strchr(ptr = sh_strrchr(line->curr->buff, ' '), '/') ?
 		sh_strrchr(ptr, '/') + 1 : ptr + 1);
 }
@@ -65,6 +63,7 @@ static int	deal_tree(t_line *line, t_tree *tern, t_cpl_e env)
 	get_tree_psb(tern, &psb);
 	if (psb == 1)
 	{
+		tmp = NULL;
 		if ((chr = sh_strrchr(line->curr->buff, ' ')))
 			tmp = sh_strchr(chr, '/') ? sh_strrchr(chr, '/') : chr;
 		if (tern->value != '.')
