@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 14:52:10 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/03 17:06:56 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/18 16:39:23 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static void		print_r(t_command *cmd)
 {
 	t_redirection	*red;
 	t_token			*token;
-	t_hdoc			*hdoc;
 	size_t			i;
 
 	red = cmd->redir;
@@ -44,8 +43,6 @@ static void		print_r(t_command *cmd)
 			while (red->arg->cmd && red->arg->cmd[i])
 				ft_dprintf(2, "\t\t\t      %s\n", red->arg->cmd[i++]);
 		}
-		if ((hdoc = red->heredoc))
-			dprintf(2, "\t\t\t  HDOC %.*s\n", (int)hdoc->len, hdoc->head); //
 		ft_dprintf(2, "\t\t\t---------------------\n");
 		red = red->next;
 	}
@@ -63,8 +60,8 @@ static void		print_command(t_command *cmd)
 	arg = cmd->args;
 	while (arg)
 	{
-		token = arg->token;
-		dprintf(2, "\t\t\tARG %.*s\n", (int)token->len, token->head); //
+		if ((token = arg->token))
+			dprintf(2, "\t\t\tARG %.*s\n", (int)token->len, token->head); //
 		i = 0;
 		while (arg->cmd && arg->cmd[i])
 			ft_dprintf(2, "\t\t\t    %s\n", arg->cmd[i++]);

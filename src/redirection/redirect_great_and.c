@@ -6,12 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:25:09 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/05 00:42:26 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/16 20:13:06 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "redirection.h"
+#include "redirection_errors.h"
 
 static ssize_t	is_a_file_descriptor(char *arg)
 {

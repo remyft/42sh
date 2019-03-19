@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 20:44:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/13 16:59:23 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/18 16:47:10 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int				command_prepare(t_execute *exec, t_s_env *e)
 	int			len;
 
 	ptr = exec->variable;
-	while (ptr && ptr->token->id == ASSIGNMENT_WORD)
+	while (ptr && ptr->token && ptr->token->id == ASSIGNMENT_WORD)
 		ptr = ptr->next;
 	exec->command = ptr;
 	if (exec->variable != exec->command && !exec->command)

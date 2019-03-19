@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/13 16:01:03 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/16 18:49:24 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ enum {
 	WORD,
 	ASSIGNMENT_WORD,
 	NAME,
-	NEWLINE,
 	IO_NUMBER,
 	RESERVED_WORD,
 };
@@ -173,6 +172,15 @@ t_token			*identify_word(t_param *param);
 t_quote			*quote_add(t_quote **head, int type);
 void			quote_remove(t_quote **head, int type);
 int				quote_type(t_quote *head);
+
+t_token			*backslash(t_param *param, int type);
+t_token			*singlequote(t_param *param, int type);
+t_token			*doublequote(t_param *param, int type);
+t_token			*braceopen(t_param *param, int type);
+t_token			*braceclose(t_param *param, int type);
+t_token			*parentheseopen(t_param *param, int type);
+t_token			*parentheseclose(t_param *param, int type);
+t_token			*backquote(t_param *param, int type);
 
 char			*expand_word(t_token *token);
 

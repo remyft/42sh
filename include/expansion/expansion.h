@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 20:20:47 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/10 20:51:11 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/18 20:45:04 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct	s_expansion
 	int			expand;
 }				t_exp;
 
-int				expand_argument(t_argument *arg, t_s_env *e);
+int				expand_argument(t_argument *arg, t_s_env *e, int expand);
 int				expand_loop(t_ret *ret, t_exp *param, int (*end_loop)(t_exp *));
 int				expand_error(int error, t_ret *ret, t_exp *par, t_s_env *e);
 int				expand_end(t_ret *ret, t_argument *arg);

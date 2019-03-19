@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 01:23:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/13 12:32:06 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/16 18:08:10 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 int				command_parse(void *cmd, t_s_env *e)
 {
 	t_execute	exec;
+
 	if (*(int *)cmd == IS_A_PIPE)
 		return (command_pipe(cmd, e, (int[2]){ 0, 0 }));
 	command_debug(cmd);

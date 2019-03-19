@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 18:06:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/23 14:54:24 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/16 20:11:51 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ static void		free_redir(t_redirection **redir)
 	if ((*redir)->fdarg != STDIN_FILENO && (*redir)->fdarg != STDOUT_FILENO
 	&& (*redir)->fdarg != STDERR_FILENO)
 		close((*redir)->fdarg);
-	if ((*redir)->heredoc)
-		free((*redir)->heredoc);
+	if ((*redir)->hdoc)
+		free((*redir)->hdoc);
 	if ((*redir)->file)
 	{
 		unlink((*redir)->file);

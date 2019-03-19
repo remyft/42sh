@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:59:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/13 18:00:04 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/18 18:15:49 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,15 @@ typedef struct	s_argument
 /*
 ** Structure for here documents
 */
-# define NULLHEREDOC	(t_hdoc *)0
+// # define NULLHEREDOC	(t_hdoc *)0
 
-typedef struct	s_hdoc
-{
-	void			*redir;
-	const char		*head;
-	size_t			len;
-	struct s_hdoc	*next;
-}				t_hdoc;
+// typedef struct	s_hdoc
+// {
+// 	void			*redir;
+// 	const char		*head;
+// 	size_t			len;
+// 	struct s_hdoc	*next;
+// }				t_hdoc;
 
 /*
 ** Structure for redirections
@@ -53,8 +53,8 @@ typedef struct	s_redirection
 	t_argument				*arg;
 	int						fdio;
 	int						fdarg;
-	t_hdoc					*heredoc;
 	char					*file;
+	char					*hdoc;
 	struct s_redirection	*next;
 }				t_redirection;
 
@@ -123,13 +123,23 @@ typedef struct	s_main_list
 typedef struct	s_parser_param
 {
 	char			**line;
+	t_token			**token;
 	t_m_list		**list;
 	t_ao_list		**aolist;
 	void			**cmd;
 	t_argument		**arg;
 	t_redirection	**redir;
-	t_hdoc			*heredoc;
 }				t_p_param;
+
+/*
+** Special structure grouping variables when a line is quoted
+*/
+typedef struct	s_new_input
+{
+	char		*linesave;
+	int			type;
+	int			error;
+}				t_n_input;
 
 /*
 ** Structure grouping functions pointers and their return value

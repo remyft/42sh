@@ -6,23 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/12 15:08:09 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/18 17:49:31 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "token_error.h"
 #include "token.h"
-
-static t_token	*check_head(t_token *head)
-{
-	if (head && head->type == UNDEFINED)
-	{
-		free(head);
-		return (NULLTOKEN);
-	}
-	return (head);
-}
 
 static t_token	*get_tokens(t_param *param, t_call *token)
 {
@@ -66,7 +56,7 @@ t_token			*token_loop(t_param *param, int (*ft_end)(int c))
 		param->i++;
 	}
 	debug_tokens(param->head);
-	return (check_head(param->head));
+	return (param->head);
 }
 
 t_token			*tokenise(char *line, t_s_env *e)
