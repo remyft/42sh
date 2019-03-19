@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 17:13:29 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 16:50:23 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/18 18:41:31 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ static int	deal_set(t_line *line, char *ptr, DIR *dir)
 		ft_putchar(line->curr->buff[(line->len)] = c);
 		line->curr->buff[++(line->len)] = '\0';
 	}
+	else
+		line->curr->buff[line->len] = '\0';
 	if (tmp)
 		free(tmp);
 	return (0);
@@ -70,7 +72,6 @@ void		set_complet(t_line *line, int set)
 	line->tmp[0] = deal_set(line, ptr, dir);
 	if (!set)
 		line->tmp[0] = tmp;
-	ft_bzero(line->curr->buff_tmp, ft_strlen(line->curr->buff_tmp));
-	line->curr->buff_tmp[8193] = 0;
+	ft_bzero(line->curr->buff_tmp, 8194);
 	line->index = line->len;
 }
