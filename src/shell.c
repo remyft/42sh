@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/16 15:21:14 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/18 20:07:46 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ int				main(int ac, char **av, char **ep)
 	t_s_env		e;
 
 	line = NULL;
+	tgetent(NULL, getenv("TERM"));
+	tputs(tgetstr("cl", NULL), 1, ft_pchar);
 	init_shell_env(&e, ac, av, ep);
 	init_shell_line(&line, &e);
 	define_new_term(&e.save);
