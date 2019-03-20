@@ -6,13 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 02:17:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/19 18:38:02 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:20:18 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 #include "libft.h"
 #include "shell_lib.h"
+#include "put.h"
 
 char	*replace_tilde(const char *path, const char *replace)
 {

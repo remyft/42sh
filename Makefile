@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/03/20 19:40:25 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/03/20 20:15:59 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -448,12 +448,14 @@ $(DEPS_DIR)%.d: ;
 clean:
 	@$(RM) $(OBJS_DIR)
 	@$(RM) $(DEPS_DIR)
-#	@make -C $(LIBFT_PATH) clean
+	@make -C $(LIBFT_PATH) clean
+	@make -C $(PRINTF_PATH) clean
 	@echo -e "$(RED) Cleaning : $(YELLOW)[ $(RESET)$(NAME)$(YELLOW) ] $(OK)"
 
 fclean: clean
 	@$(RM) $(NAME)
-#	@make -C $(LIBFT_PATH) fclean
+	@make -C $(LIBFT_PATH) fclean
+	@make -C $(PRINTF_PATH) fclean
 	@echo -e "$(RED) Deleting..$(YELLOW) [ $(RESET)$(NAME)$(YELLOW) ] $(OK)"
 
 re: fclean all

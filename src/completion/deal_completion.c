@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:38:48 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/19 19:32:54 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:20:41 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int	deal_unfind(t_line *line)
 	return (1);
 }
 
-int			deal_ret(t_tree *file, t_line *line, int *nb_ret, int put)
+static int	deal_ret(t_tree *file, t_line *line, int *nb_ret, int put)
 {
 	if ((put = put_complet(file, &put, line, nb_ret)) == 1)
 	{

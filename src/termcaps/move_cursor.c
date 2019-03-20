@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:13:27 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/09 15:58:44 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:29:14 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ void	left_arrow(t_line *line)
 	if (*line->e_cmpl & COMPLETION && line->is_putb)
 	{
 		line->key = LEFT;
-		return (get_complet(line));
+		get_complet(line);
+		return ;
 	}
 	if (line->curr->buff_tmp[8193])
 	{
@@ -84,7 +85,8 @@ void	right_arrow(t_line *line)
 	if (*line->e_cmpl & COMPLETION && line->is_putb)
 	{
 		line->key = RIGHT;
-		return (get_complet(line));
+		get_complet(line);
+		return ;
 	}
 	if (line->curr->buff_tmp[8193])
 	{
@@ -94,7 +96,10 @@ void	right_arrow(t_line *line)
 			line->hist = line->hist->prev;
 	}
 	if (line->index == line->len)
-		return (ft_putchar_fd('\a', 2));
+	{
+		ft_putchar_fd('\a', 2);
+		return ;
+	}
 	line->index += 1;
 	if (line->index && (line->index + line->lprompt) % line->nb_col == 0)
 		tputs(tgetstr("do", NULL), 1, ft_pchar);

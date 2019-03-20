@@ -6,12 +6,13 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:24:51 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 04:21:26 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:30:54 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <term.h>
+#include "shell_term.h"
 
 int			ft_pchar(int nb)
 {

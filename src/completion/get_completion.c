@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 03:41:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/20 19:52:07 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:24:03 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static t_slst	*choose_globing(t_line *line, char *ptr)
 	return (tmp);
 }
 
-void			choose_tree(t_line *line)
+static void		choose_tree(t_line *line)
 {
 	char	*ptr;
 	t_slst	*tmp;

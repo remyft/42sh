@@ -6,12 +6,13 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:57:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/17 21:20:36 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:27:25 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "struct.h"
+#include "shell.h"
 
 static void	get_psblty(t_tree *tern, int *nb, int set)
 {

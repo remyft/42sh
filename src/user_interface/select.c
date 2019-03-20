@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 05:18:39 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/14 16:30:35 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:31:29 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	expand_select_left(t_line *line, int diff, int mal)
 				(line->lprompt + line->index) % line->nb_col), 1, ft_pchar);
 }
 
-void		is_in_completion(t_line *line)
+static void	is_in_completion(t_line *line)
 {
 	int		index_tmp;
 

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 21:15:52 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/19 17:34:39 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:19:58 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "shell_lib.h"
 #include <dirent.h>
 
-char		*add_escape(char *str, int nb)
+static char	*add_escape(char *str, int nb)
 {
 	char	*esc;
 	int		i;
