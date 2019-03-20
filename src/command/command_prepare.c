@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 20:44:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/18 14:35:54 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/20 11:16:07 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "command.h"
 #include "command_error.h"
 #include "job_control.h"
+#include "operator_types.h"
 
 static int		modify_public_environment(t_argument *var, t_s_env *e)
 {

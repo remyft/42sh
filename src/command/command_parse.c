@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 01:23:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/13 12:32:06 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 11:12:33 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,18 @@
 #include "command.h"
 #include "job_control.h"
 #include "command_error.h"
+#include "operator_types.h"
 
 int				command_piped(void *cmd, t_s_env *e, int type)
 {
-	command_parse(((t_pipeline *)cmd)->left, e, type);
+	command_parse(((t_pipeline *)cmd)->left, e, type | PIPED);
 	if (*(int *)((t_pipeline *)cmd)->right == IS_A_PIPE)
 	{
-		if (command_piped(((t_pipeline *)cmd)->right, e, IS_A_PIPE))
+		if (command_piped(((t_pipeline *)cmd)->right, e, PIPED))
 			return (1);
 	}
 	else
-		command_parse(((t_pipeline *)cmd)->right, e, 0);
+		command_parse(((t_pipeline *)cmd)->right, e, END_OF_PIPE);
 	return (0);
 }
 
@@ -33,7 +34,7 @@ int				command_parse(void *cmd, t_s_env *e, int type)
 	t_execute	*exec;
 
 	if (*(int *)cmd == IS_A_PIPE)
-		return (command_piped(cmd, e, type | IS_A_PIPE));
+		return (command_piped(cmd, e, type));
 	//command_debug(cmd);
 	if (!((t_command *)cmd)->args)
 		return (0);

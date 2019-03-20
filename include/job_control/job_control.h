@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 14:09:06 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/03/18 18:38:32 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/20 10:55:26 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,13 @@ enum {
 	STATUS_SUSPENDED,
 	STATUS_CONTINUED,
 	STATUS_TERMINATED,
+};
+
+enum {
+	PIPED = 1 << 0,
+	AND = 1 << 1,
+	OR = 1 << 2,
+	END_OF_PIPE = 1 << 3,
 };
 
 # define STR_RUNNING "running"

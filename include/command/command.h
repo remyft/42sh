@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:17:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/10 19:08:25 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/20 11:45:23 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char			**command_group_env(t_argument *var, t_argument *cmd,
 				const char **public, const char **private);
 int				command_path(char **path, char *cmd, char *paths);
 int				command_parse(void *cmd, t_s_env *e, int type);
-int				command_pipe(void *cmd, t_s_env *e, int ppfd[2]);
+int				command_pipe(t_jobs *jobs, t_process *p, t_s_env *e, int ppfd[2]);
 int				command_prepare(t_execute *exec, t_s_env *e, int type);
 int				command_redirect(int fds[3], t_redirection *redir, t_s_env *e);
 int				command_restore_fds(int fds[3]);

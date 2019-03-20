@@ -9,15 +9,23 @@
 	if (p->type == IS_A_PIPE)
 }*/
 
-static void	check_type(t_process *p)
+/*static void	check_type(t_process *p)
 {
-	if (p->type & IS_A_PIPE && p->type & AND_IF_VALUE)
-		printf("Is a pipe and && \n");
-	else if (p->type & IS_A_PIPE)
+	if (p->type & AND && p->type & PIPED)
+		printf(" && and pipe\n");
+	else if (p->type & OR && p->type & PIPED)
+		printf(" || and pipe\n");
+	else if (p->type & PIPED)
 		printf("Is a pipe\n");
-	else
+	else if (p->type & AND)
+		printf(" &&\n");
+	else if (p->type & OR)
+		printf(" OR\n");
+	else if (p->type & END_OF_PIPE)
 		printf("End of pipe\n");
-}
+	else
+		printf("Single command\n");
+}*/
 
 int			command_job(t_jobs *job, t_s_env *e)
 {
@@ -26,9 +34,13 @@ int			command_job(t_jobs *job, t_s_env *e)
 	ret = 0;
 	for (t_process *p = job->process; p; p = p->next)
 	{
-		printf("{%p} with command [%s]\n", p, ((t_execute *)p->exec)->cmd[0]);
-		check_type(p);
-	//	e->ret = command_check(job, p, e);
+		//printf("{%p} with command [%s]\n", p, ((t_execute *)p->exec)->cmd[0]);
+	//	check_type(p);
+		if (p->type & PIPED)
+			command_pipe(job, p, e, (int[2]){ 0, 0});
+		else
+			e->ret = command_check(job, p, e);
+		break ;
 	//	ret = e->ret;
 	//	ret += command_restore_fds(((t_execute *)job->process->exec)->fds);
 	}
