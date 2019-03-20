@@ -6,15 +6,15 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/04 22:53:02 by rfontain          #+#    #+#             */
-/*   Updated: 2018/11/22 22:27:16 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:07:24 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
 
-size_t        ft_strlen(const char *str)
+size_t	ft_strlen(const char *str)
 {
-	int        i;
+	int	i;
 
 	i = 0;
 	while (str[i])
