@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/18 21:33:32 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:02:40 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,9 @@
 # define PASTE			"\xE2\x88\x9A"
 # define CUT			"\xE2\x89\x88"
 # define SELECT_LEFT	"\x1B\x5B\x31\x3B\x32\x44"
-# define SELECT_RIGHT	"\x1B\x5B\x31\x3B\x32\x43" 
+# define SELECT_RIGHT	"\x1B\x5B\x31\x3B\x32\x43"
 # define SELECT_UP		"\x1B\x5B\x31\x3B\x32\x41"
 # define SELECT_DOWN	"\x1B\x5B\x31\x3B\x32\x42"
-
 
 char			*get_line(int fd);
 void			free_tab(char ***tabl);

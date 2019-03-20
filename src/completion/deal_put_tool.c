@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 16:54:10 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/19 20:49:14 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/20 19:51:26 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@ static char	*find_chr_buff(t_line *line)
 	char	*ptr;
 
 	if (have_to_expand(line))
+	{
 		return (*(ptr = sh_strrchr(line->curr->buff, '$') + 1) == '{' ?
 				ptr + 1 : ptr);
+	}
 	return (sh_strchr(ptr = sh_strrchr(line->curr->buff, ' '), '/') ?
-		sh_strrchr(ptr, '/') + 1 : ptr + 1);
+			sh_strrchr(ptr, '/') + 1 : ptr + 1);
 }
 
 static int	deal_select(t_slct *select, t_cpl_e env, t_line *line)
@@ -52,29 +54,33 @@ static int	deal_select(t_slct *select, t_cpl_e env, t_line *line)
 	return (0);
 }
 
+static int	deal_ret_psb(t_line *line, t_tree *tern, t_cpl_e env)
+{
+	char	*tmp;
+	char	*chr;
+
+	tmp = NULL;
+	if ((chr = sh_strrchr(line->curr->buff, ' ')))
+		tmp = sh_strchr(chr, '/') ? sh_strrchr(chr, '/') : chr;
+	if (tern->value != '.')
+		get_tstr(tern, tmp);
+	else
+		tern->left ? get_tstr(tern->left, tmp) : get_tstr(tern->right, tmp);
+	if (env.chr)
+		free(env.chr);
+	return (1);
+}
+
 static int	deal_tree(t_line *line, t_tree *tern, t_cpl_e env)
 {
 	int		tres;
 	int		psb;
-	char	*tmp;
-	char	*chr;
 
 	tres = 0;
 	psb = 0;
 	get_tree_psb(tern, &psb);
 	if (psb == 1)
-	{
-		tmp = NULL;
-		if ((chr = sh_strrchr(line->curr->buff, ' ')))
-			tmp = sh_strchr(chr, '/') ? sh_strrchr(chr, '/') : chr;
-		if (tern->value != '.')
-			get_tstr(tern, tmp);
-		else
-			tern->left ? get_tstr(tern->left, tmp) : get_tstr(tern->right, tmp);
-		if (env.chr)
-			free(env.chr);
-		return (1);
-	}
+		return (deal_ret_psb(line, tern, env));
 	if (line->is_putb && line->key)
 		deal_tree_key(tern, env.nb_col, line->key);
 	get_put(tern, &tres, *env.chr);
