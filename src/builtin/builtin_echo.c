@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 06:26:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/19 21:46:50 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 19:38:03 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,20 @@ static int		echo_error(t_s_env *e)
 	ft_dprintf(STDERR_FILENO, "%s: echo: write error: "
 	"bad file descriptor\n", e->progname);
 	return (1);
+}
+
+static int		builtin_write_end(int n, t_s_env *e)
+{
+	if (n)
+	{
+		tputs(tgetstr("mr", NULL), 1, ft_pchar);
+		tputs("%", 1, ft_pchar);
+		tputs(tgetstr("me", NULL), 1, ft_pchar);
+		tputs("\n", 1, ft_pchar);
+	}
+	else if (ft_dprintf(STDOUT_FILENO, "\n") < 0)
+		return (echo_error(e));
+	return (0);
 }
 
 int				builtin_echo(t_execute *exec, t_s_env *e)
@@ -46,14 +60,5 @@ int				builtin_echo(t_execute *exec, t_s_env *e)
 			return (echo_error(e));
 		else if (exec->cmd[++i] && ft_dprintf(STDOUT_FILENO, " ") < 0)
 			return (echo_error(e));
-	if (!n && ft_dprintf(STDOUT_FILENO, "\n") < 0)
-		return (echo_error(e));
-	else if (n)
-		{
-			tputs(tgetstr("mr", NULL), 1, ft_pchar);
-			tputs("%", 1, ft_pchar);
-			tputs(tgetstr("me", NULL), 1, ft_pchar);
-			tputs("\n", 1, ft_pchar);
-		}
-	return (0);
+	return (builtin_write_end(n, e));
 }

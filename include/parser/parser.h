@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:59:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/19 16:43:58 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 19:41:16 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct	s_redirection
 enum
 {
 	IS_A_COMMAND,
-	IS_A_PIPE,
+	IS_A_PIPE
 };
 
 # define NULLCOMMAND	(t_command *)0

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/16 18:49:24 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 19:41:36 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 enum {
 	UNDEFINED = -1,
 	TOKEN,
-	OPERATOR,
+	OPERATOR
 };
 
 /*
@@ -34,7 +34,7 @@ enum {
 	ASSIGNMENT_WORD,
 	NAME,
 	IO_NUMBER,
-	RESERVED_WORD,
+	RESERVED_WORD
 };
 
 /*
@@ -47,7 +47,7 @@ enum {
 	SINGLE_QUOTE,
 	BRACE,
 	PARENTHESE,
-	BACKQUOTE,
+	BACKQUOTE
 };
 
 # define DEFAULT_PROMPT		"> "

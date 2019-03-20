@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/19 21:20:37 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 19:39:03 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static int	execute_ao_list(t_ao_list *aolist, t_s_env *e)
 {
 	if (!aolist)
 		return (0);
-// dprintf(2,"type : %d\nret: %d\n", aolist->type, e->ret);
 	if (!aolist->type
 	|| (aolist->type == OR_IF_VALUE && e->ret)
 	|| (aolist->type == AND_IF_VALUE && !e->ret))
