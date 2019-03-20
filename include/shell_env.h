@@ -32,9 +32,8 @@ typedef struct	s_process
 {
 	int					pid;
 	int					status;
-	char				**cmd;
+	int					type;
 	void				*exec;
-	//t_execute			*exec;
 	struct s_process	*next;
 }				t_process;
 

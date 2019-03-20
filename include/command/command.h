@@ -45,9 +45,9 @@ char			**command_group_command(t_argument *cmd);
 char			**command_group_env(t_argument *var, t_argument *cmd,
 				const char **public, const char **private);
 int				command_path(char **path, char *cmd, char *paths);
-int				command_parse(void *cmd, t_s_env *e);
+int				command_parse(void *cmd, t_s_env *e, int type);
 int				command_pipe(void *cmd, t_s_env *e, int ppfd[2]);
-int				command_prepare(t_execute *exec, t_s_env *e);
+int				command_prepare(t_execute *exec, t_s_env *e, int type);
 int				command_redirect(int fds[3], t_redirection *redir, t_s_env *e);
 int				command_restore_fds(int fds[3]);
 int				command_save_fds(int fd, int fds[3]);

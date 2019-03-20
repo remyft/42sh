@@ -24,6 +24,7 @@
 # define BUILTIN_SETENV		{ "setenv"  , builtin_setenv }
 # define BUILTIN_UNALIAS	{ "unalias" , builtin_unalias }
 # define BUILTIN_UNSETENV	{ "unsetenv", builtin_unsetenv }
+# define BUILTIN_JOBS		{ "jobs"	, builtin_jobs }
 
 typedef struct	s_builtins
 {
@@ -39,5 +40,6 @@ int				builtin_exit(t_execute *exec, t_s_env *e);
 int				builtin_setenv(t_execute *exec, t_s_env *e);
 int				builtin_unalias(t_execute *exec, t_s_env *e);
 int				builtin_unsetenv(t_execute *exec, t_s_env *e);
+int				builtin_jobs(t_execute *exec, t_s_env *e);
 
 #endif

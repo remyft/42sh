@@ -19,7 +19,7 @@ int				command_check(t_jobs *job, t_process *p, t_s_env *e)
 {
 	static t_builtins	builtins[] = {
 		BUILTIN_ALIAS, BUILTIN_CD, BUILTIN_ECHO, BUILTIN_ENV, BUILTIN_EXIT,
-		BUILTIN_SETENV, BUILTIN_UNALIAS, BUILTIN_UNSETENV,
+		BUILTIN_SETENV, BUILTIN_UNALIAS, BUILTIN_UNSETENV, BUILTIN_JOBS,
 	};
 	size_t				i;
 	int					ret;
@@ -38,20 +38,5 @@ int				command_check(t_jobs *job, t_process *p, t_s_env *e)
 		}
 		ret = command_system(job, p, e);
 	}
-	//command_free(exec, NULL);
 	return (ret);
-}
-
-int			command_job(t_jobs *job, t_s_env *e)
-{
-	int		ret;
-
-	ret = 0;
-	for (t_process *p = job->process; p; p = p->next)
-	{
-		ret = command_check(job, p, e);
-		ret += command_restore_fds(((t_execute *)job->process->exec)->fds);
-	}
-	job_handler(job, e);
-	return (0);
 }

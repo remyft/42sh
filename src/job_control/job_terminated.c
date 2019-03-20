@@ -13,14 +13,15 @@
 #include "shell_lib.h"
 #include "job_control.h"
 #include <errno.h>
+#include <signal.h>
 #include <stdio.h>
 
 void	free_proc(t_process *proc)
 {
 	if (proc)
 	{
-		sh_freetab(&proc->cmd);
-	//	free(proc->cmd);
+		command_free((t_execute *)proc->exec, NULL);
+		proc->exec = NULL;
 		free_proc(proc->next);
 		free(proc);
 	}
@@ -41,26 +42,32 @@ void	remove_job(t_jobs **jobs, int id)
 	free(job);
 }
 
+/*static void	ended(int jobs)
+{
+	(void)jobs;
+	printf("Ended\n");
+}*/
+
 int	jobs_terminated(t_s_env *e)
 {
 	int		status;
+	t_jobs	*jobs;
 	pid_t	pid;
-	t_jobs	*job;
 
-	while ((pid = waitpid(WAIT_ANY, &status, WNOHANG | WUNTRACED | WCONTINUED)) > 0)
+	signal(SIGCHLD, SIG_DFL);
+	while ((pid = waitpid(-1, &status, WNOHANG | WUNTRACED | WCONTINUED)) > 0)
 	{
-		if (!(job = job_by_pid(e, pid)))
-			break ;
-	     if (WIFEXITED(status))
-			proc_update(e,job, pid, status);
+		jobs = job_by_pid(e, pid);
+	    if (WIFEXITED(status))
+			proc_update(e, 0, pid, status);
 		else if (WIFSTOPPED(status))
-			proc_update(e,job, pid, status);
+			proc_update(e, 0, pid, status);
         else if (WIFCONTINUED(status))
-			proc_update(e,job, pid, status);
-		if (job_completed(job))
+			proc_update(e, 0, pid, status);
+		if (job_completed(jobs))
 		{
-			printf("[%d]+ Done [%d]\t\t%s\n", job->id, pid, "Command");
-			remove_job(&e->jobs, job->id);
+			printf("[%d]+ Done [%d]\t\t%s\n", jobs->id, pid, "Command");
+	//		remove_job(&e->jobs, job->id);
 		}
 	}
 	return (1);

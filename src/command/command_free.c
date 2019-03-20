@@ -12,6 +12,7 @@
 
 #include "command.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 void		command_free(t_execute *exec, char *name)
 {
@@ -22,7 +23,8 @@ void		command_free(t_execute *exec, char *name)
 		free(exec->cmd);
 	exec->cmd = NULL;
 	if (name)
-		free(name);
+		;
+	//	free(name);
 	if (exec)
 		free(exec);
 }

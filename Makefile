@@ -172,6 +172,7 @@ SRCS += command_access.c					\
 		command_restore_fds.c				\
 		command_save_fds.c					\
 		command_wait.c						\
+		command_jobs.c						\
 		environment_modify.c				\
 		quote_removal.c						\
 
@@ -261,6 +262,7 @@ SRCS += builtin_alias_error.c				\
 		builtin_setenv.c					\
 		builtin_unalias.c					\
 		builtin_unsetenv.c					\
+		builtin_jobs.c						\
 
 # LIBRARY
 LIBRARY_DIR = lib/

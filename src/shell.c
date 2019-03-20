@@ -80,13 +80,13 @@ static void		shell_loop(t_line *line, t_s_env *e)
 {
 	while (e->shell_loop && line->shell_loop)
 	{
+		jobs_terminated(e);
 		put_prompt(line->prompt);
 		check_path(line, e->public_env);
 		deal_typing(line);
 		if (line->curr->buff[0] && line->tmp[0] != -1
 				&& line->curr->buff[0] != 10)
 			get_new_cmd(line, e);
-			jobs_terminated(e);
 	}
 }
 

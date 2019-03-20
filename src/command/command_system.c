@@ -22,30 +22,22 @@ static void		command_execve(char *name, t_jobs *job, t_process *p, t_s_env *e)
 {
 	pid_t	pid;
 
-	pid = getpid();
-	if (!job->pgid)
-		job->pgid = pid;
-	setpgid(pid, job->pgid);
-	if (!e->async)
-		tcsetpgrp(0, job->pgid);
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGSTOP, SIG_DFL);
 	signal(SIGTTIN, SIG_DFL);
 	signal(SIGTTOU, SIG_DFL);
 	signal(SIGCHLD, SIG_DFL);
+	pid = getpid();
+	if (!job->pgid)
+		job->pgid = pid;
+	setpgid(0, job->pgid);
+	if (!e->async)
+		tcsetpgrp(0, job->pgid);
 	execve(name, ((t_execute *)p->exec)->cmd, ((t_execute *)p->exec)->env);
 	exit(EXIT_FAILURE);
 }
 
-
-static void		command_cleanup(char *name, t_execute *exec)
-{
-	(void)name;
-	(void)exec;
-	ft_strdel(&name);
-	//command_free(exec, NULL);
-}
 
 int				command_system(t_jobs *job, t_process *p, t_s_env *e)
 {
@@ -64,16 +56,13 @@ int				command_system(t_jobs *job, t_process *p, t_s_env *e)
 	else if (!command_redirect(exec->fds, exec->redirection, e))
 	{
 		pid = 0;
-		//if (e->forked || (pid = fork()) == 0)
-		if ((pid = fork()) == 0)
+		if (e->forked || (pid = fork()) == 0)
 			command_execve(name, job, p, e);
-		if (pid > 0)
+		else if (pid > 0)
 			command_process(pid, job, p, e);
 		else if (pid < 0)
 			error = command_error(e->progname, ERR_FORK, exec->cmd, e);
 	}
-	command_cleanup(name, exec);
-	//if (e->forked == 0)
-	//	remove_job(&e->jobs, e->job_id);
+	ft_strdel(&name);
 	return (error);
 }

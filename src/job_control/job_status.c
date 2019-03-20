@@ -12,6 +12,20 @@
 
 #include "job_control.h"
 
+static int	job_finished(t_s_env *e, pid_t pid, int status)
+{
+	t_jobs	*job;
+
+	(void)status;
+	job = job_by_pid(e, pid);
+	for (t_process *p = job->process; p; p = p->next)
+	{
+		if (p->status != STATUS_FINISHED)
+			return (0);
+	}
+	return (1);
+}
+
 static void	job_wait(t_jobs *job, t_s_env *e)
 {
 	(void)e;
@@ -21,21 +35,21 @@ static void	job_wait(t_jobs *job, t_s_env *e)
 	//jobs_terminated(e);
 	do 
 	{
-		pid = waitpid(WAIT_ANY, &status, WUNTRACED);
-		printf("???\n");
+		pid = waitpid(-job->pgid, &status, WUNTRACED);
 	}
 	while (!proc_update(e, job, pid, status)
-			&& !job_completed(job));
-	//	pid = waitpid(WAIT_ANY, &status, WUNTRACED);
+		&& !job_finished(e, pid, status));
 
 }
 
 static void	job_foreground(t_jobs *job, t_s_env *e)
 {
 	tcsetpgrp(0, job->pgid);
+	signal(SIGTTOU, SIG_IGN);
 	job_wait(job, e);
-	tcsetpgrp(0, e->pgid);
-	
+	tcsetpgrp(0, e->pid);
+	signal(SIGTTOU, SIG_DFL);
+	remove_job(&e->jobs, job->id);
 }
 
 static void	job_background(t_jobs *job, t_s_env *e)

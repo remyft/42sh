@@ -41,7 +41,7 @@ static int		command_pipe_left(void *cmd, t_s_env *e, int pfd[2], int *ppfd)
 	close(pfd[0]);
 	dup2(pfd[1], STDOUT_FILENO);
 	close(pfd[1]);
-	command_parse(((t_pipeline *)cmd)->left, &newe);
+	command_parse(((t_pipeline *)cmd)->left, &newe, 0);
 	close(STDOUT_FILENO);
 	sh_freetab(&newe.public_env);
 	sh_freetab(&newe.private_env);
@@ -59,7 +59,7 @@ static int		command_pipe_right(void *cmd, t_s_env *e, int pfd[2])
 	close(pfd[1]);
 	dup2(pfd[0], STDIN_FILENO);
 	close(pfd[0]);
-	command_parse(((t_pipeline *)cmd)->right, &newe);
+	command_parse(((t_pipeline *)cmd)->right, &newe, 0);
 	close(STDIN_FILENO);
 	sh_freetab(&newe.public_env);
 	sh_freetab(&newe.private_env);
@@ -88,6 +88,7 @@ int				command_pipe(void *cmd, t_s_env *e, int ppfd[2])
 		return (command_pipe_error("pipe()", e));
 	if ((pid = fork()) < 0)
 		return (command_pipe_error("fork()", e));
+	//command_parse(((t_pipeline *)cmd)->left, &newe);
 	else if (pid == 0)
 		command_pipe_left(cmd, e, pfd, ppfd);
 	if (ppfd[0])

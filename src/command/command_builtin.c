@@ -20,7 +20,5 @@ int				command_builtin(t_builtin builtin, t_execute *exec, t_s_env *e)
 
 	if (!(ret = command_redirect(exec->fds, exec->redirection, e)))
 		e->ret = builtin(exec, e);
-	command_free(exec, NULL);
-	ret += command_restore_fds(exec->fds);
 	return (ret);
 }

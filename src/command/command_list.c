@@ -56,10 +56,9 @@ static int	execute_ao_list(t_ao_list *aolist, t_s_env *e, t_jobs *job)
 		|| (aolist->type == AND_IF_VALUE && !e->ret))
 	{
 		if (prepare_command(aolist->cmd, e)
-			|| command_parse(aolist->cmd, e))
+			|| command_parse(aolist->cmd, e, aolist->type))
 			return (1);
 	}
-	command_job(job, e);
 	return (execute_ao_list(aolist->next, e, job));
 }
 
@@ -75,5 +74,6 @@ int			execute_list(t_m_list *list, t_s_env *e)
 	job = jobs_prepare(e);
 	if (execute_ao_list(list->aolist, e, job))
 		return (1);
+	command_job(job, e);
 	return (execute_list(list->next, e));
 }
