@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/03/18 20:47:09 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/03/19 21:17:23 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ DEPS = $(addprefix $(DEPS_DIR), $(SRCS:.c=.d))
 
 RM = /bin/rm -rf
 
-DEBUG := -g3 -fsanitize=address -DDEBUG -g
+#DEBUG := -g3 -fsanitize=address -DDEBUG -g
 
 SHELL := /bin/bash
 
@@ -183,6 +183,7 @@ SRCS += expand_debug.c						\
 		expand_dollar_parameter_init.c		\
 		expand_dollar_parameter_value.c		\
 		expand_dollar_parameter.c			\
+		expand_dollar_quote.c				\
 		expand_dollar_special_next.c		\
 		expand_dollar_special.c				\
 		expand_dollar_word_value.c			\
