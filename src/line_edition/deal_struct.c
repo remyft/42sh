@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 08:44:05 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 15:07:28 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/18 20:10:34 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,5 @@ void			free_struct(t_line *line)
 	free(line->prompt);
 	if (line->copy)
 		free(line->copy);
-	if (line->path)
-		free(line->path);
-	if (line->term)
-		free(line->term);
 	free(line);
 }

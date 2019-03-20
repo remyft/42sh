@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 05:00:51 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/14 16:12:31 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/19 17:19:54 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ int			key_complet(t_line *line, int key)
 	}
 	else if (*line->e_cmpl & COMPLETION)
 	{
-		line->curr->buff_tmp[0] = 0;
-		line->curr->buff_tmp[8193] = 0;
+		ft_bzero(line->curr->buff_tmp, 8194);
 		*line->e_cmpl &= ~COMPLETION;
 	}
 	return (0);
@@ -66,14 +65,13 @@ void		is_find(t_line *line, int find, int way, t_hist *tmp)
 	{
 		ft_bzero(line->curr->buff, 8192);
 		ft_strcpy(line->curr->buff, line->curr->buff_tmp);
-		line->curr->buff_tmp[0] = 0;
-		line->curr->buff_tmp[8193] = 0;
+		ft_bzero(line->curr->buff_tmp, 8194);
 		put_new_prompt(line);
 	}
 	else if (way == 0)
 	{
 		line->hist = tmp;
-		if (!tmp->prev)
+		if (!tmp->prev && ft_strcmp(line->curr->buff, tmp->content))
 			ft_bzero(line->curr->buff_tmp, 8194);
 	}
 }
@@ -83,7 +81,7 @@ void		up_arrow(t_line *line)
 	int		find;
 	t_hist	*tmp;
 
-	if (key_complet(line, UP))
+	if (key_complet(line, UP) || !line->hist)
 		return ;
 	if (!line->curr->buff_tmp[8193])
 	{
@@ -109,9 +107,9 @@ void		down_arrow(t_line *line)
 	int		find;
 
 	find = 0;
-	if (!line->curr->buff_tmp[8193])
-		return ;
 	if (key_complet(line, DOWN))
+		return ;
+	if (!line->curr->buff_tmp[8193])
 		return ;
 	if (line->hist && ft_strcmp(line->hist->content, line->curr->buff))
 	{

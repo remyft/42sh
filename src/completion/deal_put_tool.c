@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 16:54:10 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 16:59:22 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/19 20:49:14 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,8 @@ static char	*find_chr_buff(t_line *line)
 	char	*ptr;
 
 	if (have_to_expand(line))
-	{
 		return (*(ptr = sh_strrchr(line->curr->buff, '$') + 1) == '{' ?
 				ptr + 1 : ptr);
-	}
 	return (sh_strchr(ptr = sh_strrchr(line->curr->buff, ' '), '/') ?
 		sh_strrchr(ptr, '/') + 1 : ptr + 1);
 }
@@ -42,7 +40,8 @@ static int	deal_select(t_slct *select, t_cpl_e env, t_line *line)
 		else
 			ret_psb(select, ft_strlen(env.chr), 0, find_chr_buff(line));
 		free(env.chr);
-		free_select(select);
+		if (select)
+			free_select(select);
 		return (1);
 	}
 	if (line->is_putb && line->key)
@@ -65,12 +64,15 @@ static int	deal_tree(t_line *line, t_tree *tern, t_cpl_e env)
 	get_tree_psb(tern, &psb);
 	if (psb == 1)
 	{
+		tmp = NULL;
 		if ((chr = sh_strrchr(line->curr->buff, ' ')))
 			tmp = sh_strchr(chr, '/') ? sh_strrchr(chr, '/') : chr;
 		if (tern->value != '.')
 			get_tstr(tern, tmp);
 		else
 			tern->left ? get_tstr(tern->left, tmp) : get_tstr(tern->right, tmp);
+		if (env.chr)
+			free(env.chr);
 		return (1);
 	}
 	if (line->is_putb && line->key)

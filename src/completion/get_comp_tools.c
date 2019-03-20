@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 17:00:18 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/17 19:19:58 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/18 18:51:45 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,8 @@ static void	get_new_glob(t_line *line, t_slst *tmp, char *ptr)
 			break ;
 		i = -1;
 		while (tmp->str[++i])
-		{
 			*ptr++ = tmp->str[i];
-			line->len++;
-		}
 		*ptr++ = ' ';
-		line->len++;
 		tmp = tmp->next;
 		free(to_free->str);
 		free(to_free);

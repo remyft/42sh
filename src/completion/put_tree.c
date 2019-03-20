@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:34:09 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/13 21:37:12 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/19 18:26:50 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	get_new_file(t_tree *tern, t_cpl_e env, t_line *line)
 {
 	char	*chr;
 	char	*ptr;
+	char	*tmp;
 
 	if (!*((ptr = find_start_pos(line->curr->buff, line))))
 		stercat(line->curr->buff_tmp, env.bru, line->curr->buff);
@@ -41,10 +42,13 @@ static void	get_new_file(t_tree *tern, t_cpl_e env, t_line *line)
 	{
 		if ((chr = ptr) == line->curr->buff)
 			chr += 1;
-		if (sh_strrchr(chr, '$'))
+		if ((tmp = sh_strrchr(chr, '$')))
 		{
+			if (*(tmp + 1) != '\'')
+			{
 			chr = sh_strrchr(chr, '$') + 1;
 			chr = *chr == '{' ? chr + 1 : chr;
+			}
 		}
 		ft_strcpy(chr, env.bru);
 	}

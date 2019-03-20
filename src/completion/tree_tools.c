@@ -6,34 +6,38 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:57:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/05 00:40:26 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/17 21:20:36 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "struct.h"
 
-static void	get_psblty(t_tree *tern, int *nb)
+static void	get_psblty(t_tree *tern, int *nb, int set)
 {
 	if (tern->right)
-		get_psblty(tern->right, nb);
+		get_psblty(tern->right, nb, set);
 	if (tern->left)
-		get_psblty(tern->left, nb);
+		get_psblty(tern->left, nb, set);
 	if (tern->tern_next)
-		get_psblty(tern->tern_next, nb);
+		get_psblty(tern->tern_next, nb, set);
 	if (!tern->tern_next)
+	{
+		if (set)
+			tern->type = -1;
 		*nb += 1;
+	}
 }
 
-void		set_psblty(t_tree *tern)
+void		set_psblty(t_tree *tern, int set)
 {
 	if (tern->right)
-		set_psblty(tern->right);
+		set_psblty(tern->right, set);
 	if (tern->left)
-		set_psblty(tern->left);
+		set_psblty(tern->left, set);
 	if (tern->tern_next)
-		set_psblty(tern->tern_next);
-	get_psblty(tern, &(tern->npsb));
+		set_psblty(tern->tern_next, set);
+	get_psblty(tern, &(tern->npsb), set);
 }
 
 void		*free_tree(t_tree *tern)

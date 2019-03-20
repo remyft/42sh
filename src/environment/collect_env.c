@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 03:05:48 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/01 20:14:12 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/18 20:05:32 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,15 @@ char		**collect_env(char **ep)
 		if (!(env[i] = ft_strdup(ep[i])))
 			break ;
 	env[i + 1] = NULL;
-	tmp = get_env(env, "SHLVL");
-	ntmp = ft_atoi(tmp);
-	free(tmp);
+	tmp = getenv("SHLVL");
+	if (ft_strlen(tmp) >= 10)
+	{
+		ft_putstr("21sh: warning: shell level too high");
+		ft_putendl(" resetting to 1");
+		ntmp = 1;
+	}
+	else
+		ntmp = ft_atoi(tmp);
 	tmp = ft_strjoinfree("SHLVL=", ft_itoa(ntmp + 1), 2);
 	ft_setenv(&env, tmp, 2);
 	free(tmp);

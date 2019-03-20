@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/03/19 21:17:23 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/03/20 16:00:42 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,6 @@ SRCS += deal_line.c							\
 		reset_line.c						\
 		signal.c							\
 		tools.c								\
-		get_shell_rc.c						\
 
 # COMPLETION
 CMPL_DIR = $(SRCS_DIR)completion/

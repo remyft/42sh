@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 02:17:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/17 19:20:48 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/19 18:38:02 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,21 @@ int		str_chrglob(char *str)
 
 void	free_select(t_slct *select)
 {
+	if (!select)
+		return ;
 	if (select->next)
+	{
 		free_select(select->next);
+		select->next = NULL;
+	}
 	if (select->down)
+	{
 		free_select(select->down);
+		select->down = NULL;
+	}
 	if (select)
+	{
 		free(select);
+		select = NULL;
+	}
 }
