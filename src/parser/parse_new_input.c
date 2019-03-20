@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 03:13:50 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/18 18:39:13 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/19 19:38:43 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static char		*get_prompt(t_quote *head)
 	return (ret);
 }
 
-#include "ft_printf.h"
 static t_token	*get_token(t_token *token, char **line, char *oldl, t_s_env *e)
 {
 	t_token		*ret;
