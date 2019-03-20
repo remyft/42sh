@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 05:38:23 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/09 15:59:11 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:17:00 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,8 @@ void			term_restore(struct termios save);
 void			define_new_term(struct termios *save);
 
 void			deal_prompt(t_line *line);
-void			reset_line(t_line *line);
 void			free_buff(t_line *line);
 void			init_new_buff(t_line *line);
-char			*listnjoin(t_line *line);
 
 void			mv_line_up(t_line *line);
 void			mv_line_down(t_line *line);

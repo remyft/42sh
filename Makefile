@@ -6,14 +6,14 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/03/20 20:21:34 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/03/20 20:42:41 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 21sh
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -ansi -pedantic -Wmissing-prototypes
+CFLAGS = -Wall -Wextra -Werror -ansi -Wmissing-prototypes# -pedantic
 
 LIBFT_PATH = libft
 LIBFT_LIB = $(LIBFT_PATH)/libft.a
@@ -121,7 +121,6 @@ SRCS += handle_alias.c						\
 		is_token_next.c						\
 		is_token_valid_name.c				\
 		is_token.c							\
-		remove_line_continuation.c			\
 		quote_functions.c					\
 		quote_handlers1.c					\
 		quote_handlers2.c					\

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/18 20:08:02 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:18:16 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 #include "put.h"
 #include "history.h"
 
-void	set_signal(void)
+void		set_signal(void)
 {
 	signal(SIGINT, &sig_hdlr);
 	signal(SIGQUIT, &sig_hdlr);
 	signal(SIGWINCH, &sig_winch);
 }
 
-void	create_all_tree(t_line *line)
+static void	create_all_tree(t_line *line)
 {
 	free_all_tree(line);
 	if (sh_getnenv("PATH", *line->public_env))
@@ -39,7 +39,7 @@ void	create_all_tree(t_line *line)
 		set_psblty(GET_TREE(line->tree, ENV), 1);
 }
 
-void	init_line(char **env, t_line *line)
+void		init_line(char **env, t_line *line)
 {
 	line->e_cmpl = ft_memalloc(sizeof(t_st));
 	line->path = getenv("PATH");
@@ -60,7 +60,7 @@ void	init_line(char **env, t_line *line)
 	line->shell_loop = 1;
 }
 
-void	deal_key(t_line *line)
+void		deal_key(t_line *line)
 {
 	int				i;
 	static t_fctn	fctn[] = {
@@ -85,7 +85,7 @@ void	deal_key(t_line *line)
 		}
 }
 
-void	check_path(t_line *line, char **env)
+void		check_path(t_line *line, char **env)
 {
 	char	*path;
 

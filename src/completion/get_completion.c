@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 03:41:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/19 19:12:07 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:24:03 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,11 @@ static void		deal_choose_tree(t_line *line, char *ptr)
 		if (search_to_tmp(ptr))
 		{
 			if (!(*line->e_cmpl & COMPLETION))
-				GET_TREE(line->tree, TMP) = free_tree(GET_TREE(line->tree, TMP));
+				GET_TREE(line->tree, TMP) =
+					free_tree(GET_TREE(line->tree, TMP));
 			if (GET_TREE(line->tree, TMP)
-					|| (GET_TREE(line->tree, TMP)
-						= set_tmp(line->curr->buff, 0)))
+					|| (GET_TREE(line->tree, TMP) =
+						set_tmp(line->curr->buff, 0)))
 				deal_complet(GET_TREE(line->tree, TMP), line);
 		}
 		else
@@ -64,7 +65,7 @@ static t_slst	*choose_globing(t_line *line, char *ptr)
 	return (tmp);
 }
 
-void			choose_tree(t_line *line)
+static void		choose_tree(t_line *line)
 {
 	char	*ptr;
 	t_slst	*tmp;

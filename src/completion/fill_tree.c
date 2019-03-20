@@ -6,14 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:45:40 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/21 06:45:10 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:23:28 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "shell.h"
 #include "put.h"
-#include "ft_printf.h"
 
 static int	get_indir(char *toget, int *i, t_tree **ternary)
 {

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 06:50:11 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/07 00:20:57 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:50:24 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "expansion_is.h"
 #include "expansion_action.h"
 #include "expansion_errors.h"
+#include "expansion_dollar.h"
 
 static int		action_percent(t_ret *parameter, t_exp *param)
 {

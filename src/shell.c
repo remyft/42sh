@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/20 16:01:26 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:15:44 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void		get_new_cmd(t_line *line, t_s_env *e)
 {
 	char		*ret;
 
-	ret = listnjoin(line);
+	ret = ft_strdup(line->curr->buff);
 	*(line->e_cmpl) &= ~COMPLETION;
 	launch_new_cmd(&ret, e);
 	if (ret)

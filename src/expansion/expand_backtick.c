@@ -6,13 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 03:51:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/10 20:55:28 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:49:41 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "shell_lib.h"
-#include "expansion.h"
+#include "expansion_loop.h"
 #include "expansion_errors.h"
 
 static size_t	get_line_length(const char *line)

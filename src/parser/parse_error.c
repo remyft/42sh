@@ -6,12 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 18:11:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/16 18:05:28 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:46:14 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "ft_dprintf.h"
+#include "parser.h"
 #include "parser_errors.h"
 #include "token.h"
 

@@ -6,15 +6,16 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 05:00:51 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/19 17:19:54 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:30:16 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 #include "libft.h"
 #include "put.h"
+#include "shell_term.h"
 
-int			find_hist(t_line *line, int way)
+static int	find_hist(t_line *line, int way)
 {
 	size_t	len;
 
@@ -34,7 +35,7 @@ int			find_hist(t_line *line, int way)
 	return (0);
 }
 
-int			key_complet(t_line *line, int key)
+static int	key_complet(t_line *line, int key)
 {
 	if (*line->e_cmpl & COMPLETION && line->is_putb)
 	{
@@ -50,7 +51,7 @@ int			key_complet(t_line *line, int key)
 	return (0);
 }
 
-void		is_find(t_line *line, int find, int way, t_hist *tmp)
+static void	is_find(t_line *line, int find, int way, t_hist *tmp)
 {
 	if (find == 1)
 	{

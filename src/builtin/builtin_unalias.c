@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 00:57:52 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/19 01:44:32 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 21:02:03 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "ft_dprintf.h"
 #include "command.h"
 #include "builtin_unalias.h"
+#include "builtins.h"
 
 static int		unalias_usage(char *cmd)
 {

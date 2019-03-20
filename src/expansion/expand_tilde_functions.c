@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 18:56:52 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/05 18:04:34 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:56:44 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int				expand_tilde_minus(t_ret *ret, t_ret *parame, t_exp *param)
 	return (expand_tilde_user(ret, parame, param));
 }
 
+/*
 int				expand_tilde_directory(t_ret *ret, t_ret *parame, t_exp *param)
 {
 	int			entry;
@@ -55,7 +56,7 @@ int				expand_tilde_directory(t_ret *ret, t_ret *parame, t_exp *param)
 	free(cwd);
 	return (ERR_NONE);
 }
-
+*/
 int				expand_tilde_user(t_ret *ret, t_ret *parame, t_exp *param)
 {
 	struct passwd	*user;

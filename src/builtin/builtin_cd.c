@@ -6,13 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 08:20:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/07 22:25:29 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:59:42 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "shell_env.h"
 #include "builtin_cd.h"
+#include "builtins.h"
 
 static int		cd_args_loop(char *arg, t_cd *cd, t_s_env *e)
 {

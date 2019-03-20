@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   sh_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 13:24:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 13:36:00 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/20 21:03:06 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
+#include "shell_lib.h"
 
 char	*sh_strchr(const char *str, char c)
 {

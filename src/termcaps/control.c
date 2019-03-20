@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/19 17:09:22 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:28:13 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ void			deal_exit(t_line *line)
 	int		i;
 
 	if (line->curr->prev || line->curr->buff[0] || line->curr->quoted)
-		return (get_complet(line));
+	{
+		get_complet(line);
+		return ;
+	}
 	term_restore(line->save);
 	i = -1;
 	while (++i < NSIG)
@@ -43,7 +46,7 @@ static int		ft_cancel(t_line *line)
 	return (-1);
 }
 
-void			cancel_on_completion(t_line *line)
+static void		cancel_on_completion(t_line *line)
 {
 	go_home(line);
 	line->index = ft_strlen(line->curr->buff_tmp);

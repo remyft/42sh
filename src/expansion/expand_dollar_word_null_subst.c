@@ -6,13 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 18:59:44 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/08 16:52:39 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:51:44 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "expansion_action.h"
 #include "expansion_errors.h"
+#include "expansion_word.h"
 
 int				word_null_subst(t_ret *subs, t_ret *para, t_exp *param)
 {

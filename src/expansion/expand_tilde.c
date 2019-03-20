@@ -6,13 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 02:35:19 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/19 19:38:06 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:57:25 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "expansion_tilde.h"
 #include "expansion_errors.h"
+#include "expansion_loop.h"
 
 static int		tilde_end(t_exp *param)
 {

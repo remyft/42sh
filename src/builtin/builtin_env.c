@@ -6,13 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 18:53:23 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/05 17:09:37 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 21:01:56 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "shell_lib.h"
 #include "builtin_env.h"
+#include "builtins.h"
 
 int				builtin_env(t_execute *exec, t_s_env *e)
 {

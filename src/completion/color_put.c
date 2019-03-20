@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 22:59:17 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/17 17:45:40 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:19:27 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ void		deal_type(unsigned int type, t_line *line, char *file)
 	i = -1;
 	while (++i < (int)(sizeof(col) / sizeof(*col)))
 		if (type == ttab[i])
-			return (ft_putstr(col[i]));
+		{
+			ft_putstr(col[i]);
+			return ;
+		}
 	if (type == DT_REG)
 		deal_access(line, file);
 }

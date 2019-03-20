@@ -6,13 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 00:56:12 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/19 17:36:58 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:52:55 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "expansion_dollar.h"
 #include "expansion_errors.h"
+#include "expansion_loop.h"
 
 static int		check_expression(t_exp *param)
 {

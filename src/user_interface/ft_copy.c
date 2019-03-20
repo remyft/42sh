@@ -6,13 +6,14 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 11:36:28 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/14 16:16:44 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:31:13 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "struct.h"
 #include "shell_term.h"
+#include "shell.h"
 
 void		ft_copy(t_line *line)
 {

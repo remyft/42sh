@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 17:39:24 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/14 17:05:16 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:48:27 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ enum
 	ERR_PIPE,
 	ERR_FCNTL,
 	ERR_FORK,
-	ERR_NO_MATCH_FOUND,
+	ERR_NO_MATCH_FOUND
 };
 
 # define ERR_NONE_FUNC				{ ERR_NONE            , err_none_func }

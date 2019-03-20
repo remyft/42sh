@@ -6,12 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 03:54:40 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 15:29:12 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:30:39 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <term.h>
+#include "libft.h"
+#include "shell_term.h"
 
 void		term_restore(struct termios save)
 {

@@ -6,11 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/02 18:44:52 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/21 06:37:21 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 21:02:48 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "shell_lib.h"
 
 char			*sh_getnenv(const char *name, char **env)
 {

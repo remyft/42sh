@@ -6,11 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 11:28:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/02 20:38:50 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 21:02:45 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include "shell_lib.h"
 
 void			sh_freetab(char ***table)
 {

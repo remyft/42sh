@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 15:38:42 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/16 18:13:22 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:39:21 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void			quote_remove(t_quote **head, int type)
 	if (!*head)
 		return ;
 	if ((*head)->next)
-		return (quote_remove(&(*head)->next, type));
-	if ((*head)->type == type)
+		quote_remove(&(*head)->next, type);
+	else if ((*head)->type == type)
 	{
 		free(*head);
 		*head = NULLQUOTE;

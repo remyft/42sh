@@ -6,14 +6,15 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:06:53 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/20 15:43:33 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:47:11 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "ft_dprintf.h"
-#include "command_error.h"
 #include "shell_env.h"
+#include "command_error.h"
+#include "command.h"
 
 int				command_error(char *progname, int err, char **cmd, t_s_env *e)
 {

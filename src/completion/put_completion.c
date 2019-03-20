@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:42:34 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/19 18:54:57 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:24:43 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int			check_put(t_line *line, t_tree *tern, t_slct **select,
 	return (0);
 }
 
-int			end_put(t_line *line, t_cpl_e env, t_slct *select)
+static int	end_put(t_line *line, t_cpl_e env, t_slct *select)
 {
 	if (*line->e_cmpl & COMPLETION)
 		if (line->is_putb <= 1)
