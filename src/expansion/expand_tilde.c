@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 02:35:19 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/18 19:26:57 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/19 19:38:06 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int				expand_tilde(t_exp *param, t_ret *ret)
 	if (ret->w_len != 0)
 		return (param_addchar('~', ret));
 	if ((error = tilde_get_parameter(&parameter, param)) == ERR_NONE)
-	{
 		while (i < sizeof(tilde) / sizeof(tilde[0]))
 		{
 			if (tilde[i].comparaison(parameter.word))
@@ -58,7 +57,6 @@ int				expand_tilde(t_exp *param, t_ret *ret)
 			}
 			i++;
 		}
-	}
 	if (error != ERR_NONE || i == sizeof(tilde) / sizeof(tilde[0]))
 		error = expand_tilde_not(ret, parameter.word);
 	expand_free_t_ret(&parameter, 0);

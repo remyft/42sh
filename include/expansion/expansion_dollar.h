@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/04 00:18:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/10 20:54:12 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/19 17:49:28 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int				expand_dollar_get_action(t_ret *parameter, t_exp *param);
 int				expand_dollar_parameter(t_exp *param, t_ret *ret);
 int				expand_dollar_parameter_init(t_ret *parameter, t_exp *param);
 int				expand_dollar_parameter_value(t_ret *parameter, t_exp *param);
+int				expand_dollar_quote(t_exp *param, t_ret *ret);
 int				expand_dollar_special(t_ret *sub, t_ret *to, t_exp *param);
 int				expand_dollar_subs(t_exp *param, t_ret *ret);
 int				expand_dollar_word_value(t_ret *parameter, t_exp *param);
