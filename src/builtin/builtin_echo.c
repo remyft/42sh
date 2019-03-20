@@ -6,14 +6,15 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 06:26:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/09 07:30:40 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/19 21:46:50 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "libft.h"
 #include "ft_dprintf.h"
 #include "command.h"
 #include "shell_env.h"
+#include "shell_term.h"
 
 static int		echo_error(t_s_env *e)
 {
@@ -47,5 +48,12 @@ int				builtin_echo(t_execute *exec, t_s_env *e)
 			return (echo_error(e));
 	if (!n && ft_dprintf(STDOUT_FILENO, "\n") < 0)
 		return (echo_error(e));
+	else if (n)
+		{
+			tputs(tgetstr("mr", NULL), 1, ft_pchar);
+			tputs("%", 1, ft_pchar);
+			tputs(tgetstr("me", NULL), 1, ft_pchar);
+			tputs("\n", 1, ft_pchar);
+		}
 	return (0);
 }
