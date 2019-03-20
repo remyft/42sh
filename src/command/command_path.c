@@ -6,11 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 19:47:39 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/13 17:01:27 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/19 17:53:17 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "shell_lib.h"
 #include "command_error.h"
 #include "command.h"
 
@@ -38,10 +39,12 @@ int				command_path(char **path, char *cmd, char *paths)
 {
 	char		*ptr;
 
-	if (!cmd || !paths)
+	if (!cmd)
 		return (ERR_NO_SUCH_FILE);
-	if (ft_strrchr(cmd, '/'))
+	if (sh_strrchr(cmd, '/'))
 		return ((*path = ft_strdup(cmd)) ? ERR_OK : ERR_MALLOC);
+	if (!paths)
+		return (ERR_NO_SUCH_FILE);
 	ptr = paths;
 	while (*ptr)
 	{

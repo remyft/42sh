@@ -6,14 +6,14 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/03/19 22:04:28 by rfontain         ###   ########.fr        #
+#    Updated: 2019/03/20 19:40:25 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 21sh
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror #-ansi -pedantic -Wmissing-prototypes
+CFLAGS = -Wall -Wextra -Werror -ansi -pedantic -Wmissing-prototypes
 
 LIBFT_PATH = libft
 LIBFT_LIB = $(LIBFT_PATH)/libft.a
@@ -182,6 +182,7 @@ SRCS += expand_debug.c						\
 		expand_dollar_parameter_init.c		\
 		expand_dollar_parameter_value.c		\
 		expand_dollar_parameter.c			\
+		expand_dollar_quote.c				\
 		expand_dollar_special_next.c		\
 		expand_dollar_special.c				\
 		expand_dollar_word_value.c			\

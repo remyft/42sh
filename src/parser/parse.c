@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 17:00:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/18 18:16:06 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/19 16:44:33 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int		parse_not_handled_yet(t_token **tok, t_p_param *par, t_s_env *e)
 static int		parse_loop(t_token **token, t_p_param *param, t_s_env *e)
 {
 	static t_p_call		type_token[] = {
-		H_ARGUMENT, H_ARGUMENT, H_ARGUMENT, H_IO_NUMBER, H_ARGUMENT,
+		H_ARGUMENT, H_ARGUMENT, H_ARGUMENT, H_IO_NUMBER, H_ERROR,
 	};
 	static t_p_call		type_operator[] = {
 		{ NULL }, H_AO_LIST, H_PIPE, H_OPERATOR, H_ERROR, H_AO_LIST,

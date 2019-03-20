@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:59:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/18 18:15:49 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 19:41:16 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,6 @@ typedef struct	s_argument
 	char				**cmd;
 	struct s_argument	*next;
 }				t_argument;
-
-/*
-** Structure for here documents
-*/
-// # define NULLHEREDOC	(t_hdoc *)0
-
-// typedef struct	s_hdoc
-// {
-// 	void			*redir;
-// 	const char		*head;
-// 	size_t			len;
-// 	struct s_hdoc	*next;
-// }				t_hdoc;
 
 /*
 ** Structure for redirections
@@ -66,7 +53,7 @@ typedef struct	s_redirection
 enum
 {
 	IS_A_COMMAND,
-	IS_A_PIPE,
+	IS_A_PIPE
 };
 
 # define NULLCOMMAND	(t_command *)0

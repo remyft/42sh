@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:21:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/18 16:07:24 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/19 17:28:34 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,23 +66,20 @@ static int		get_here_doc(t_redirection **redir, t_s_env *e)
 	t_line		*line;
 	char		*promptsave;
 	int			error;
-	char		*eof;
 
 	if (!(line = get_struct()))
 		return (redirect_error(ERR_MALLOC, "heredoc", e));
 	promptsave = line->prompt;
 	error = ERR_NONE;
-	eof = ft_strndup((char *)(*redir)->arg->token->head, (*redir)->arg->token->len);
 	init_new_buff(line);
 	line->prompt = ft_strjoin(HERE_DOC_PROMPT, DEFAULT_PROMPT);
 	line->lprompt = ft_strlen(line->prompt);
 	line->curr->quoted = 1;
 	define_new_term(&e->save);
-	error = get_here_doc_line(&(*redir)->hdoc, eof, line);
+	error = get_here_doc_line(&(*redir)->hdoc, (*redir)->arg->cmd[0], line);
 	term_restore(e->save);
 	line->curr->quoted = 0;
 	ft_strdel(&line->prompt);
-	ft_strdel(&eof);
 	line->prompt = promptsave;
 	line->lprompt = ft_strlen(line->prompt);
 	if (line->tmp[0] == -1)

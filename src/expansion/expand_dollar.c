@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 00:56:12 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/10 21:10:03 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/19 17:36:58 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,7 @@ int				expand_dollar(t_exp *param, t_ret *ret)
 	}
 	else if (param->buff[i] == '[')
 		return (expand_arithmetic(param, ret));
+	else if (param->buff[i] == '\'' || param->buff[i] == '"')
+		return (expand_dollar_quote(param, ret));
 	return (expand_dollar_parameter(param, ret));
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 18:30:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/03 20:54:01 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 15:41:58 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ enum
 	ERR_EXEC,
 	ERR_FORK,
 	ERR_BAD_FD,
-	ERR_DUP,
+	ERR_DUP2,
+	ERR_FCNTL,
 };
 
 typedef struct	s_error
@@ -42,6 +43,7 @@ typedef struct	s_error
 # define ERR_EXEC_STR			{ "execution failed"          , 125 }
 # define ERR_FORK_STR			{ "fork() failed"             , 125 }
 # define ERR_BAD_FD_STR			{ "Bad file descriptor"       , 125 }
-# define ERR_DUP_STR			{ "dup2() failed"             , 125 }
+# define ERR_DUP2_STR			{ "dup2() failed"             , 125 }
+# define ERR_FCNTL_STR			{ "fcntl() failed"            , 125 }
 
 #endif

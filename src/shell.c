@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/19 22:05:24 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/20 16:01:26 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,7 @@ void			launch_new_cmd(char **line, t_s_env *e)
 	{
 		if ((tree = parse(line, &tokens, e)) != NULLLIST)
 		{
-			term_restore(e->save);
 			execute_list(tree, e);
-			define_new_term(&e->save);
 			free_m_list(&tree);
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 00:59:23 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/18 20:30:14 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/19 17:32:48 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int				redirection(t_redirection **redir, t_s_env *e)
 	};
 	char			*token;
 
+	if (!(*redir))
+		return (0);
 	(*redir)->fdio = -1;
 	(*redir)->fdarg = -1;
 	if (!(*redir)->arg->cmd || !(*redir)->arg->cmd[0])
