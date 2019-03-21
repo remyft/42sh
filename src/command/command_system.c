@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/20 15:47:39 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/21 19:49:20 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,19 @@ static void		command_execve(char *name, t_execute *exec, t_s_env *e)
 	pid_t		pid;
 
 	pid = 0;
-	term_restore(e->save);
+	if (!e->forked)
+		term_restore(e->save);
 	if (e->forked || (pid = fork()) == 0)
 	{
 		execve(name, exec->cmd, exec->env);
 		exit(EXIT_FAILURE);
 	}
-	if (pid > 0)
+	else if (pid > 0)
 		command_wait(pid, 0, &e->ret);
 	else if (pid < 0)
 		e->ret = command_error(e->progname, ERR_FORK, exec->cmd, e);
-	define_new_term(&e->save);
+	if (!e->forked)
+		define_new_term(&e->save);
 }
 
 static void		command_cleanup(char *name, t_execute *exec)
@@ -58,7 +60,7 @@ int				command_system(t_execute *exec, t_s_env *e)
 	else
 		command_execve(name, exec, e);
 	command_cleanup(name, exec);
-	if (command_restore_fds(exec->fds))
-		command_error(e->progname, ERR_DUP2, NULL, e);
+	if ((error = command_restore_fds(exec->fds)))
+		command_error(e->progname, error, NULL, e);
 	return (ERR_OK);
 }

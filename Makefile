@@ -6,14 +6,14 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/03/20 20:42:41 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/03/21 17:30:21 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 21sh
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -ansi -Wmissing-prototypes# -pedantic
+CFLAGS = -Wall -Wextra -Werror -ansi #-Wmissing-prototypes# -pedantic
 
 LIBFT_PATH = libft
 LIBFT_LIB = $(LIBFT_PATH)/libft.a
