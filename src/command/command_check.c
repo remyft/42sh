@@ -6,12 +6,11 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:02:57 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/19 22:06:31 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/22 16:05:34 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "shell_lib.h"
 #include "builtins.h"
 
 int				command_check(t_execute *exec, t_s_env *e)
@@ -35,6 +34,5 @@ int				command_check(t_execute *exec, t_s_env *e)
 		}
 		ret = command_system(exec, e);
 	}
-	command_free(exec, NULL);
 	return (ret);
 }

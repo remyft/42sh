@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 20:23:05 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/20 20:47:46 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/22 13:52:55 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,8 @@ void			command_wait(pid_t pid, int async, int *ret)
 	if (!async)
 		while ((got = waitpid(pid, ret, 0)) > 0)
 			if (got == pid)
-				return (command_ret(ret));
+			{
+				command_ret(ret);
+				return ;
+			}
 }
