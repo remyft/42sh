@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/20 20:15:44 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/23 19:17:54 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ int				main(int ac, char **av, char **ep)
 	t_line		*line;
 	t_s_env		e;
 
+	if (MAX_SHELL_LEN > 10000 || MAX_SHELL_LEN < 100)
+		return (1);
 	line = NULL;
 	tgetent(NULL, getenv("TERM"));
 	tputs(tgetstr("cl", NULL), 1, ft_pchar);
