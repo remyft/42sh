@@ -6,12 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 05:37:20 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/10 18:31:50 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:57:35 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "expansion.h"
+#include "expansion_is.h"
 
 int				is_valid_name(int c)
 {

@@ -6,11 +6,11 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 10:27:49 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/04 01:19:14 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:51:52 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expansion.h"
+#include "expansion_dollar.h"
 #include "expansion_errors.h"
 
 static void		expand_dollar_quoted(char *quote, char c)

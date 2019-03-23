@@ -6,12 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/01 12:58:15 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/20 15:39:04 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:47:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <fcntl.h>
+#include "command.h"
 
 int				command_save_fds(int fd, int fds[3])
 {

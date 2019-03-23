@@ -6,11 +6,11 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 00:17:27 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/09 19:59:22 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:55:15 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expansion.h"
+#include "expansion_loop.h"
 #include "expansion_errors.h"
 
 int				expand_squote(t_exp *param, t_ret *ret)

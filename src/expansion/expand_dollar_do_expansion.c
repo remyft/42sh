@@ -6,11 +6,11 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 08:56:20 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/30 13:54:44 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:50:12 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expansion.h"
+#include "expansion_dollar.h"
 #include "expansion_action.h"
 
 int				expand_dollar_do_expansion(t_ret *parameter)

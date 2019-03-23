@@ -6,11 +6,11 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 03:52:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/18 19:24:36 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:54:26 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expansion.h"
+#include "expansion_loop.h"
 #include "expansion_errors.h"
 #include "struct.h"
 #include "shell.h"
@@ -18,7 +18,7 @@
 #include "put.h"
 #include "globing.h"
 
-int				get_glob_len(t_slst *glob)
+static int		get_glob_len(t_slst *glob)
 {
 	int	len;
 
@@ -31,7 +31,7 @@ int				get_glob_len(t_slst *glob)
 	return (len);
 }
 
-char			*get_glob_str(t_slst *glob)
+static char		*get_glob_str(t_slst *glob)
 {
 	char	*str;
 	int		i;
@@ -61,7 +61,7 @@ static void		free_exp_glob(t_slst *glob)
 	free(glob);
 }
 
-t_slst			*get_exp_glob(t_ret *ret, char *ptr, char *tmp)
+static t_slst	*get_exp_glob(t_ret *ret, char *ptr, char *tmp)
 {
 	t_line	*line;
 	t_slst	*glob;

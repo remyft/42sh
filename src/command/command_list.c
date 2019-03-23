@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/20 19:39:03 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/22 10:31:19 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static int	prepare_redirect(t_redirection *cmd, t_s_env *e)
 	if (expand_argument(cmd->arg, e, 0))
 		return (1);
 	quote_removal(cmd->arg);
+	redirection(&cmd, e);
 	return (prepare_redirect(cmd->next, e));
 }
 
@@ -48,7 +49,6 @@ static int	execute_ao_list(t_ao_list *aolist, t_s_env *e)
 	|| (aolist->type == OR_IF_VALUE && e->ret)
 	|| (aolist->type == AND_IF_VALUE && !e->ret))
 		if (prepare_command(aolist->cmd, e)
-		|| redirection(&((t_command *)aolist->cmd)->redir, e)
 		|| command_parse(aolist->cmd, e))
 			return (1);
 	return (execute_ao_list(aolist->next, e));

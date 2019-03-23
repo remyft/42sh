@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 05:27:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/21 05:28:46 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:33:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ enum
 	ERR_OK,
 	ERR_MALLOC,
 	ERR_NOT_FOUND,
-	ERR_INVALID_KEY,
+	ERR_INVALID_KEY
 };
 
 int					alias_set(char *key_value, t_alias **alias);

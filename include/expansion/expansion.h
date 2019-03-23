@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 20:20:47 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/18 20:45:04 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/21 19:47:29 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,7 @@ void			expand_free_t_ret(t_ret *ret, int free_ret);
 
 int				expand_arithmetic(t_exp *param, t_ret *ret);
 int				expand_subshell(t_exp *param, t_ret *ret);
-void			expand_subshell_father(int pfd[2], pid_t pid, t_exp *param,
-t_ret *ret);
+void			expand_subshell_father(int pfd[2], t_ret *ret);
 
 void			debug_expansion(char *name, t_ret *ret);
 

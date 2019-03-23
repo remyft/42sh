@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 21:19:06 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/11 16:35:07 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/22 12:21:34 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void		fill_mln(int check_dir, char *str, t_slst **ret)
 		*ret = expand_slst(*ret, str);
 }
 
-void			free_glob(t_slist *glob)
+static void		free_glob(t_slist *glob)
 {
 	if (!glob)
 		return ;

@@ -6,12 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 17:42:21 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/19 19:35:18 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:50:31 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "expansion.h"
+#include "expansion_dollar.h"
 #include "expansion_errors.h"
 
 static int		is_dquote_end(t_exp *param)

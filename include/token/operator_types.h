@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 17:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/24 07:05:29 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:33:32 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ enum
 	GREAT_AND_VALUE,
 	DGREAT_VALUE,
 	AND_DGREAT_VALUE,
-	DLESS_VALUE,
+	DLESS_VALUE
 };
 
 # define OR_IF				"||"

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/15 22:02:33 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/19 03:11:33 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:59:16 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "ft_dprintf.h"
 #include "command.h"
 #include "builtin_alias.h"
+#include "builtins.h"
 
 static void		alias_print_all(char *cmd, t_alias *alias)
 {

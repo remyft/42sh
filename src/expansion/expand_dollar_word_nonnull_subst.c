@@ -6,12 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 19:02:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/08 15:17:03 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:51:29 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "expansion.h"
+#include "expansion_word.h"
 #include "expansion_errors.h"
 #include "expansion_action.h"
 

@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/03/22 18:57:18 by rfontain         ###   ########.fr        #
+#    Updated: 2019/03/22 19:09:17 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,14 @@ NAME = 21sh
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
+CFLAGS += -std=c11 -Wmissing-prototypes -pedantic -pedantic-errors
+CFLAGS += -D_POSIX_C_SOURCE=200809L -D_DARWIN_C_SOURCE
+ifeq ($(DEBUG),yes)
+	CFLAGS += -g3 -O0 -fno-inline -DDEBUG
+endif
+ifeq ($(SAN),yes)
+	CFLAGS += -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
+endif
 
 LIBFT_PATH = libft
 LIBFT_LIB = $(LIBFT_PATH)/libft.a
@@ -33,8 +41,6 @@ DEPS_DIR = .deps/
 DEPS = $(addprefix $(DEPS_DIR), $(SRCS:.c=.d))
 
 RM = /bin/rm -rf
-
-#DEBUG := -g3 -fsanitize=address -DDEBUG -g
 
 SHELL := /bin/bash
 
@@ -121,7 +127,6 @@ SRCS += handle_alias.c						\
 		is_token_next.c						\
 		is_token_valid_name.c				\
 		is_token.c							\
-		remove_line_continuation.c			\
 		quote_functions.c					\
 		quote_handlers1.c					\
 		quote_handlers2.c					\
@@ -347,7 +352,7 @@ $(PRINTF_LIB):
 	@make -C $(PRINTF_PATH)
 
 $(NAME): $(NEWLINE) $(OBJS)
-	@$(CC) $^ -o $@ $(LIBFT_LINK) $(PRINTF_LINK) $(DEBUG)
+	@$(CC) $^ -o $@ $(LIBFT_LINK) $(PRINTF_LINK)
 	@echo -e "\n$(GREEN) Compiling $(YELLOW)[ $(RESET)$(NAME)$(YELLOW) ] $(OK) $(RESET)"
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
@@ -395,31 +400,31 @@ $(OBJS_DIR)%.o: $(TERM_DIR)%.c $(DEPS_DIR)%.d
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(TOKEN_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(TOKEN_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(BUILTIN_DIR) $(DEBUG)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(BUILTIN_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(PARSER_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(PARSER_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(ALIAS_DIR) $(DEBUG)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(ALIAS_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(EXPANSION_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(EXPANSION_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(LIBRARY_DIR) -I$(INC_DIR)/$(ALIAS_DIR) -I$(INC_DIR)/$(COMMAND_DIR) $(DEBUG)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(LIBRARY_DIR) -I$(INC_DIR)/$(ALIAS_DIR) -I$(INC_DIR)/$(COMMAND_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(COMMAND_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(COMMAND_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(COMMAND_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(BUILTIN_DIR) -I$(INC_DIR)/$(LIBRARY_DIR) -I$(INC_DIR)/$(ALIAS_DIR) $(DEBUG)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(COMMAND_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(BUILTIN_DIR) -I$(INC_DIR)/$(LIBRARY_DIR) -I$(INC_DIR)/$(ALIAS_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(REDIRECTION_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(REDIRECTION_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(ALIAS_DIR) $(DEBUG)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(ALIAS_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(BUILTIN_DIR)%.c
@@ -461,7 +466,7 @@ fclean: clean
 re: fclean all
 
 nn:
-	norminette $(SRCS)
+	norminette $(SRCS_DIR)
 	norminette $(INC_DIR)
 
 .PHONY: clean fclean all re

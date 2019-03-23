@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:30:11 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/18 20:15:08 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:58:24 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #endif
 #include "libft.h"
 #include "shell_env.h"
+#include "redirection.h"
 
 int				redirect_open_error(char *filename, t_s_env *e)
 {

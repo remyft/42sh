@@ -6,13 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 23:02:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/22 06:10:13 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:50:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "expansion_special.h"
 #include "expansion_errors.h"
+#include "expansion_dollar.h"
 
 int				expand_dollar_special(t_ret *sub, t_ret *para, t_exp *param)
 {

@@ -6,11 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 19:30:34 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/12 13:04:23 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:35:37 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "token.h"
 
 int			ft_isquote(int c)
 {

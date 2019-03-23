@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 19:49:32 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/19 19:37:23 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:46:55 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "libft.h"
 #include "shell_lib.h"
 #include "command_error.h"
+#include "command.h"
 
 int				command_access(char *path, char *absolute_path)
 {

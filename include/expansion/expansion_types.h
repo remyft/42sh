@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/22 20:23:00 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/12/26 00:34:14 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:48:56 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ enum
 	EXP_NONE,
 	EXP_PARAMETER,
 	EXP_COMMAND,
-	EXP_ARITHMETIC,
+	EXP_ARITHMETIC
 };
 
 # define OP_EXP_BRACE	{ '{', EXP_BRACE }

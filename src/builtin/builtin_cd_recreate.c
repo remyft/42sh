@@ -6,11 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 19:56:32 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/02 19:57:53 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:59:31 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "builtin_cd.h"
 
 static char		*search_back(char *pwd, char *origin)
 {

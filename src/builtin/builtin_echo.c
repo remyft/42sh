@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 06:26:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/20 19:38:03 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:59:51 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "command.h"
 #include "shell_env.h"
 #include "shell_term.h"
+#include "builtins.h"
 
 static int		echo_error(t_s_env *e)
 {

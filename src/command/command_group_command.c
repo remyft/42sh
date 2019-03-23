@@ -6,12 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 19:29:00 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/21 18:18:38 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:47:20 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parser.h"
+#include "command.h"
 
 static char		**alloc_command(t_argument *cmd)
 {

@@ -6,13 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:29:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/20 15:21:13 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:58:06 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "shell_env.h"
 #include "redirection_errors.h"
+#include "redirection.h"
 
 int				redirect_error(int err, char *redirect_arg, t_s_env *e)
 {

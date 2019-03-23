@@ -6,11 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/29 10:22:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/11 20:37:11 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:35:22 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "token.h"
 
 int			ft_isword(int c)
 {

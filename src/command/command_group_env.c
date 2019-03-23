@@ -6,13 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/21 18:14:27 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/23 14:22:31 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:47:27 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "shell_lib.h"
 #include "parser.h"
+#include "command.h"
 
 static size_t	new_env_length(t_argument *var, t_argument *cmd)
 {
