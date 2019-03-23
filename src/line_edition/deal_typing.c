@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 08:55:32 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/19 17:08:50 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/23 17:42:07 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	deal_unselect(t_line *line)
 
 static void	get_read(t_line *line, int *nb_read)
 {
-	if (line->len + (*nb_read = read(0, line->tmp, 10)) < 8192)
+	if (line->len + (*nb_read = read(0, line->tmp, 10)) < MAX_SHELL_LEN)
 		get_typing(line, *nb_read);
 	if (ft_strncmp(line->tmp, "\x1B\x5B\x31\x3B\x32", 5) != 0)
 	{

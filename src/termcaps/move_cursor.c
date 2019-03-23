@@ -6,13 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:13:27 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/20 20:29:14 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/23 18:07:02 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "shell_term.h"
 #include "put.h"
+#include "struct.h"
 
 void	go_home(t_line *line)
 {
@@ -62,10 +63,9 @@ void	left_arrow(t_line *line)
 		get_complet(line);
 		return ;
 	}
-	if (line->curr->buff_tmp[8193])
+	if (line->curr->buff_tmp[MAX_SHELL_LEN + 1])
 	{
-		ft_bzero(line->curr->buff_tmp, ft_strlen(line->curr->buff_tmp));
-		line->curr->buff_tmp[8193] = 0;
+		ft_bzero(line->curr->buff_tmp, MAX_SHELL_LEN + 2);
 		while (line->hist->prev)
 			line->hist = line->hist->prev;
 	}
@@ -88,10 +88,9 @@ void	right_arrow(t_line *line)
 		get_complet(line);
 		return ;
 	}
-	if (line->curr->buff_tmp[8193])
+	if (line->curr->buff_tmp[MAX_SHELL_LEN + 1])
 	{
-		ft_bzero(line->curr->buff_tmp, ft_strlen(line->curr->buff_tmp));
-		line->curr->buff_tmp[8193] = 0;
+		ft_bzero(line->curr->buff_tmp, MAX_SHELL_LEN + 2);
 		while (line->hist->prev)
 			line->hist = line->hist->prev;
 	}

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 05:18:39 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/20 20:31:29 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/23 17:49:27 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	is_in_completion(t_line *line)
 		tputs(tgetstr("rc", NULL), 1, ft_pchar);
 		line->index = index_tmp;
 		*line->e_cmpl &= ~COMPLETION;
-		ft_bzero(line->curr->buff_tmp, 8194);
+		ft_bzero(line->curr->buff_tmp, MAX_SHELL_LEN + 2);
 	}
 }
 

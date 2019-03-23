@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:38:48 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/20 20:20:41 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/23 17:49:51 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "put.h"
 #include "shell_lib.h"
 #include "shell_term.h"
+#include "shell.h"
 
 static void	put_cpl_screen(t_line *line, int nb_ret)
 {
@@ -45,7 +46,7 @@ static int	deal_unfind(t_line *line)
 
 	tmp_len = ft_strlen(line->curr->buff) + line->lprompt;
 	write(2, "\a", 1);
-	ft_bzero(line->curr->buff_tmp, 8194);
+	ft_bzero(line->curr->buff_tmp, MAX_SHELL_LEN + 2);
 	line->is_putb = 0;
 	line->tmp[0] = 0;
 	while (tmp_len >= 0)
@@ -85,10 +86,10 @@ void		deal_complet(t_tree *file, t_line *line)
 	go_end(line);
 	tputs(tgetstr("do", NULL), 1, ft_pchar);
 	tputs(tgoto(tgetstr("ch", NULL), 0, 0), 1, ft_pchar);
-	if (!line->curr->buff_tmp[8193])
+	if (!line->curr->buff_tmp[MAX_SHELL_LEN + 1])
 	{
 		ft_strcpy(line->curr->buff_tmp, line->curr->buff);
-		line->curr->buff_tmp[8193] = 1;
+		line->curr->buff_tmp[MAX_SHELL_LEN + 1] = 1;
 		if (deal_ret(file, line, &nb_ret, 0))
 			return ;
 	}

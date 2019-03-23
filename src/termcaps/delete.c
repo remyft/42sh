@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:51:36 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/14 16:03:48 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/23 17:47:43 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,7 @@ void		deal_dleft(t_line *line)
 	{
 		delete_down();
 		*(line->e_cmpl) &= ~COMPLETION;
-		line->curr->buff_tmp[0] = 0;
-		line->curr->buff_tmp[8193] = 0;
+		ft_bzero(line->curr->buff_tmp, MAX_SHELL_LEN + 2);
 		line->index = line->len;
 	}
 	else

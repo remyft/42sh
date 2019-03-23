@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 05:59:37 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/14 16:22:06 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/23 17:45:27 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	get_paste(t_line *line, int *j)
 	int		i;
 
 	i = 0;
-	if (line->index > 8192)
+	if (line->index > MAX_SHELL_LEN)
 		return (1);
 	tmp = line->curr->buff[line->index + 1];
 	line->curr->buff[line->index + 1] = line->curr->buff[line->index];
@@ -63,7 +63,7 @@ void		ft_paste(t_line *line)
 	if (*line->e_cmpl & COMPLETION)
 		erase_completion(line, index_tmp);
 	*line->e_cmpl &= ~COMPLETION;
-	if (line->len + (len = ft_strlen(line->copy)) > 8192)
+	if (line->len + (len = ft_strlen(line->copy)) > MAX_SHELL_LEN)
 		return ;
 	while (line->copy[j])
 		if (get_paste(line, &j))

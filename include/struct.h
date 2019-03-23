@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/18 14:48:31 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/23 18:17:22 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # define TMP 2
 # define ENV 3
 # define GET_TREE(x, y) x[y]
+
+# define MAX_SHELL_LEN	8192
 
 typedef enum	e_state
 {
@@ -76,8 +78,8 @@ typedef struct	s_history
 
 typedef struct	s_buff
 {
-	char			buff[8193];
-	char			buff_tmp[8194];
+	char			buff[MAX_SHELL_LEN + 1];
+	char			buff_tmp[MAX_SHELL_LEN + 2];
 	int				quoted;
 	struct s_buff	*next;
 	struct s_buff	*prev;

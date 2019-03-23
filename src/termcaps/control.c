@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/20 20:28:13 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/23 17:47:08 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,9 @@ static void		cancel_on_completion(t_line *line)
 	tputs(tgetstr("cr", NULL), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
 	put_prompt(line->prompt);
-	ft_bzero(line->curr->buff, 8192);
+	ft_bzero(line->curr->buff, MAX_SHELL_LEN);
 	ft_strcpy(line->curr->buff, line->curr->buff_tmp);
-	ft_bzero(line->curr->buff_tmp, 8193);
-	line->curr->buff_tmp[8193] = 0;
+	ft_bzero(line->curr->buff_tmp, MAX_SHELL_LEN + 2);
 	ft_putstr(line->curr->buff);
 	deal_reset(line->tree);
 	line->tmp[0] = 3;

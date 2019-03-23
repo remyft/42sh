@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 17:13:29 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/18 18:41:31 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/23 17:46:53 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,6 @@ void		set_complet(t_line *line, int set)
 	line->tmp[0] = deal_set(line, ptr, dir);
 	if (!set)
 		line->tmp[0] = tmp;
-	ft_bzero(line->curr->buff_tmp, 8194);
+	ft_bzero(line->curr->buff_tmp, MAX_SHELL_LEN + 2);
 	line->index = line->len;
 }

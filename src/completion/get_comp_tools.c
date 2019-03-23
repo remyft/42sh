@@ -6,13 +6,14 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 17:00:18 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/18 18:51:45 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/23 17:41:27 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "put.h"
 #include "libft.h"
 #include "shell_term.h"
+#include "shell.h"
 
 int			check_is_file(char *buff, t_line *line)
 {
@@ -65,7 +66,7 @@ static void	get_new_glob(t_line *line, t_slst *tmp, char *ptr)
 	tmp_len = erase_complet(ptr, line);
 	while ((to_free = tmp))
 	{
-		if (line->len + (len = ft_strlen(tmp->str)) + 1 > 8192)
+		if (line->len + (len = ft_strlen(tmp->str)) + 1 > MAX_SHELL_LEN)
 			break ;
 		i = -1;
 		while (tmp->str[++i])

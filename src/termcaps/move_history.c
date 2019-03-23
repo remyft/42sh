@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 05:00:51 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/20 20:30:16 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/23 17:44:59 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	key_complet(t_line *line, int key)
 	}
 	else if (*line->e_cmpl & COMPLETION)
 	{
-		ft_bzero(line->curr->buff_tmp, 8194);
+		ft_bzero(line->curr->buff_tmp, MAX_SHELL_LEN + 2);
 		*line->e_cmpl &= ~COMPLETION;
 	}
 	return (0);
@@ -55,7 +55,7 @@ static void	is_find(t_line *line, int find, int way, t_hist *tmp)
 {
 	if (find == 1)
 	{
-		ft_bzero(line->curr->buff, 8192);
+		ft_bzero(line->curr->buff, MAX_SHELL_LEN);
 		if (line->hist->tmp)
 			ft_strcpy(line->curr->buff, line->hist->tmp);
 		else
@@ -64,16 +64,16 @@ static void	is_find(t_line *line, int find, int way, t_hist *tmp)
 	}
 	else if (find == 2 && way == 1)
 	{
-		ft_bzero(line->curr->buff, 8192);
+		ft_bzero(line->curr->buff, MAX_SHELL_LEN);
 		ft_strcpy(line->curr->buff, line->curr->buff_tmp);
-		ft_bzero(line->curr->buff_tmp, 8194);
+		ft_bzero(line->curr->buff_tmp, MAX_SHELL_LEN + 1);
 		put_new_prompt(line);
 	}
 	else if (way == 0)
 	{
 		line->hist = tmp;
 		if (!tmp->prev && ft_strcmp(line->curr->buff, tmp->content))
-			ft_bzero(line->curr->buff_tmp, 8194);
+			ft_bzero(line->curr->buff_tmp, MAX_SHELL_LEN + 2);
 	}
 }
 
@@ -84,10 +84,10 @@ void		up_arrow(t_line *line)
 
 	if (key_complet(line, UP) || !line->hist)
 		return ;
-	if (!line->curr->buff_tmp[8193])
+	if (!line->curr->buff_tmp[MAX_SHELL_LEN + 1])
 	{
 		ft_strcpy(line->curr->buff_tmp, line->curr->buff);
-		line->curr->buff_tmp[8193] = 1;
+		line->curr->buff_tmp[MAX_SHELL_LEN + 1] = 1;
 	}
 	else
 	{
@@ -110,7 +110,7 @@ void		down_arrow(t_line *line)
 	find = 0;
 	if (key_complet(line, DOWN))
 		return ;
-	if (!line->curr->buff_tmp[8193])
+	if (!line->curr->buff_tmp[MAX_SHELL_LEN + 1])
 		return ;
 	if (line->hist && ft_strcmp(line->hist->content, line->curr->buff))
 	{

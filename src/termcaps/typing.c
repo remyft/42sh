@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:57:17 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/22 14:18:06 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/23 17:49:07 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ void		get_typing(t_line *line, int nb_read)
 		else
 		{
 			line->is_putb -= 1;
-			ft_bzero(line->curr->buff_tmp, 8193);
-			line->curr->buff_tmp[8193] = 0;
+			ft_bzero(line->curr->buff_tmp, MAX_SHELL_LEN + 2);
 			*line->e_cmpl &= ~COMPLETION;
 			line->index = line->len;
 		}
