@@ -50,7 +50,7 @@ int				job_completed(t_jobs *job);
 t_jobs			*job_by_id(int id, t_jobs *jobs);
 t_jobs			*job_by_pid(t_s_env *e, pid_t pid);
 
-t_process		*create_process(t_execute *exec, t_s_env *e);
+int				create_process(t_s_env *e, t_execute *exec, int type);
 int				set_pstatus(t_process *p, int status);
 int				proc_update(t_s_env *e, t_jobs *job, pid_t pid, int status);
 

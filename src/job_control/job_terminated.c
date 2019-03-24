@@ -38,7 +38,7 @@ void	remove_job(t_jobs **jobs, int id)
 		job->next->prev = job->prev;
 	if (job->prev != NULL)
 		job->prev->next = job->next;
-	free_proc(job->process);
+	free_proc(job->m_process->p);
 	free(job);
 }
 
@@ -79,7 +79,7 @@ int	job_completed(t_jobs *job)
 
 	if (!job)
 		return (0);
-	proc = job->process;
+	proc = job->m_process->p;
 	while (proc)
 	{
 		if (proc->status != STATUS_FINISHED)

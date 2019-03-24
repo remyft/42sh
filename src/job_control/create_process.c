@@ -5,11 +5,13 @@
 
 static void insert_process(t_jobs *job, t_process *new)
 {
+	t_m_process	*m_p;
 	t_process	*curr;
 
-	curr = job->process;
+	m_p = job->curr;
+	curr = m_p->p;
 	if (!curr)
-		job->process = new;
+		m_p->p = new;
 	else
 	{
 		while (curr->next != NULL)
@@ -18,15 +20,16 @@ static void insert_process(t_jobs *job, t_process *new)
 	}
 }
 
-t_process		*create_process(t_execute *exec, t_s_env *e)
+int		create_process(t_s_env *e, t_execute *exec, int type)
 {
 	t_jobs		*job;
 	t_process	*new;
 
 	if (!(new = ft_memalloc(sizeof(t_process))))
-		return (NULL);
+		return (0);
+	new->exec = exec;
+	new->type = type;
 	job = job_by_id(e->job_id, e->jobs);
-	(void)exec;
 	insert_process(job, new);
-	return (new);
+	return (1);
 }

@@ -32,17 +32,22 @@ int			command_job(t_jobs *job, t_s_env *e)
 	int		ret;
 
 	ret = 0;
-	for (t_process *p = job->process; p; p = p->next)
+	for (t_m_process *m_p = job->m_process; m_p; m_p = m_p->next)
 	{
-		//printf("{%p} with command [%s]\n", p, ((t_execute *)p->exec)->cmd[0]);
-	//	check_type(p);
-		if (p->type & PIPED)
-			command_pipe(job, p, e, (int[2]){ 0, 0});
-		else
-			e->ret = command_check(job, p, e);
-		break ;
-	//	ret = e->ret;
-	//	ret += command_restore_fds(((t_execute *)job->process->exec)->fds);
+		printf("m_process with process :%p\n", m_p->p);
+		for (t_process *p = m_p->p; p; p = p->next)
+		{
+			printf("{%p} with command [%s]\n", p, ((t_execute *)p->exec)->cmd[0]);
+		//	check_type(p);
+		/*	if (p->type & PIPED)
+				command_pipe(job, p, e, (int[2]){ 0, 0});
+			else
+				e->ret = command_check(job, p, e);
+			break ;
+			*/
+		//	ret = e->ret;
+		//	ret += command_restore_fds(((t_execute *)job->process->exec)->fds);
+		}
 	}
 	job_handler(job, e);
 	return (0);

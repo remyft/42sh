@@ -173,6 +173,7 @@ SRCS += command_access.c					\
 		command_save_fds.c					\
 		command_wait.c						\
 		command_jobs.c						\
+		command_m_process.c					\
 		environment_modify.c				\
 		quote_removal.c						\
 

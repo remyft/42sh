@@ -53,6 +53,7 @@ int				command_restore_fds(int fds[3]);
 int				command_save_fds(int fd, int fds[3]);
 void			command_wait2(pid_t pid, t_execute *exec, t_s_env *e);
 int				command_system(t_jobs *job, t_process *p, t_s_env *e);
+int				command_m_process(t_s_env *e, t_jobs *job, int type);
 void			command_wait(pid_t pid, int async, int *ret);
 void			command_process(pid_t pid, t_jobs *job, t_process *p, t_s_env *e);
 

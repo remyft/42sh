@@ -18,7 +18,7 @@ static int	job_finished(t_s_env *e, pid_t pid, int status)
 
 	(void)status;
 	job = job_by_pid(e, pid);
-	for (t_process *p = job->process; p; p = p->next)
+	for (t_process *p = job->m_process->p; p; p = p->next)
 	{
 		if (p->status != STATUS_FINISHED)
 			return (0);

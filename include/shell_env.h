@@ -37,13 +37,22 @@ typedef struct	s_process
 	struct s_process	*next;
 }				t_process;
 
+typedef struct	s_m_process
+{
+	int					ret;
+	int					type;
+	struct s_process	*p;
+	struct s_m_process	*next;
+}				t_m_process;
+
 
 typedef struct	s_jobs
 {
 	int					id;
 	int					pgid;
 	int					ppid;
-	t_process			*process;
+	t_m_process			*m_process;
+	t_m_process			*curr;
 	struct s_jobs		*prev;
 	struct s_jobs		*next;
 }				t_jobs;

@@ -60,15 +60,15 @@ static int	execute_ao_list(t_ao_list *aolist, t_s_env *e, t_jobs *job)
 {
 	if (!aolist)
 		return (0);
-	//	|| (aolist->type == OR_IF_VALUE && e->ret)
-		//|| (aolist->type == AND_IF_VALUE && !e->ret))
-	//{
-	//if (!aolist->type)
-	//{
-		if (prepare_command(aolist->cmd, e)
+	if (!aolist->type
+		|| (aolist->type == OR_IF_VALUE)
+		|| (aolist->type == AND_IF_VALUE))
+	{
+		if (command_m_process(e, job, aolist->type)
+			|| prepare_command(aolist->cmd, e)
 			|| command_parse(aolist->cmd, e, parse_type(aolist->type)))
 			return (1);
-	//}
+	}
 	return (execute_ao_list(aolist->next, e, job));
 }
 

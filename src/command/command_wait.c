@@ -50,7 +50,7 @@ void			command_wait2(pid_t pid, t_execute *exec, t_s_env *e)
 
 	(void)exec;
 	job = job_by_id(e->job_id, e->jobs);
-	proc = job->process;
+	proc = job->m_process->p;
 	proc->pid = pid;
 	if (job->pgid > 0)
 		setpgid(pid, job->pgid);

@@ -19,7 +19,7 @@ int		proc_update(t_s_env *e, t_jobs *job, pid_t pid, int status)
 	{
 		for (t_jobs *jobs = e->jobs; jobs; jobs = jobs->next)
 		{
-			for (t_process *p = jobs->process; p; p = p->next)
+			for (t_process *p = jobs->m_process->p; p; p = p->next)
 			{
 				if (p->pid == pid)
 				{

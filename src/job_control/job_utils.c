@@ -31,7 +31,7 @@ t_jobs		*job_by_pid(t_s_env *e, pid_t pid)
 	jobs = e->jobs;
 	while (jobs)
 	{
-		curr = jobs->process;
+		curr = jobs->m_process->p;
 		while (curr)
 		{
 			if (curr->pid == pid)

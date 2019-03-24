@@ -2,24 +2,13 @@
 #include "ft_dprintf.h"
 #include "job_control.h"
 
-static int	get_status(t_process *p)
-{
-	while (p)
-	{
-		if (p->status != STATUS_FINISHED)
-			return (0);
-		p = p->next;
-	}
-	return (1);
-}
-
 int		builtin_jobs(t_execute *exec, t_s_env *e)
 {
 	t_jobs		*jobs;
 
 	jobs = e->jobs;
 	(void)exec;
-	while (jobs->next)
+	/*while (jobs->next)
 	{
 		ft_dprintf(STDOUT_FILENO, "[%d]", jobs->id);
 		if (get_status(jobs->process))
@@ -28,6 +17,6 @@ int		builtin_jobs(t_execute *exec, t_s_env *e)
 			ft_dprintf(STDOUT_FILENO, "  %.8s", STR_RUNNING);
 		ft_dprintf(STDOUT_FILENO, "\t%s\n", ((t_execute *)jobs->process->exec)->cmd[0]);
 		jobs = jobs->next;
-	}
+	}*/
 	return (0);
 }
