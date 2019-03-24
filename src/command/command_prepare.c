@@ -47,7 +47,6 @@ static int		modify_public_environment(t_argument *var, t_s_env *e)
 
 int				command_prepare(t_execute *exec, t_s_env *e, int type)
 {
-	t_process			*p;
 	t_argument	*ptr;
 	int			len;
 
@@ -65,8 +64,8 @@ int				command_prepare(t_execute *exec, t_s_env *e, int type)
 	if (!(exec->env = command_group_env(exec->variable, exec->command,
 	(const char **)e->public_env, (const char **)e->private_env)))
 		return (command_error(e->progname, ERR_MALLOC, exec->cmd, e));
-	p = create_process(exec, e);
-	p->exec = exec;
-	p->type = type;
+	create_process(e,exec, type);
+	//p->exec = exec;
+	//p->type = type;
 	return (0);
 }
