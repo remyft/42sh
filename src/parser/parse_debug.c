@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 14:52:10 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/22 15:52:48 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/23 19:10:41 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,10 @@ void			debug_parser(t_m_list *list)
 
 #else
 
-static void		print_redirection(t_command *cmd)
+static void		print_redirection(t_redirection *red, char *tmp, size_t i)
 {
-	t_redirection	*red;
 	t_token			*token;
-	char			*tmp;
-	size_t			i;
 
-	if (!cmd)
-		return ;
-	red = cmd->redir;
-	tmp = NULL;
 	while (red)
 	{
 		if ((token = red->ionumber)
@@ -81,7 +74,7 @@ static void		print_command(t_command *cmd)
 			ft_dprintf(2, "\t\t\t    %s\n", arg->cmd[i++]);
 		arg = arg->next;
 	}
-	print_redirection(cmd);
+	print_redirection(cmd->redir, NULL, 0);
 }
 
 static void		print_pipe(t_pipeline *pipe)

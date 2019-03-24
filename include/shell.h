@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/23 18:14:03 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/23 19:14:36 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@
 # define SELECT_RIGHT	"\x1B\x5B\x31\x3B\x32\x43"
 # define SELECT_UP		"\x1B\x5B\x31\x3B\x32\x41"
 # define SELECT_DOWN	"\x1B\x5B\x31\x3B\x32\x42"
-
 
 char			*get_line(int fd);
 void			free_tab(char ***tabl);
