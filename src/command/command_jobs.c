@@ -49,6 +49,7 @@ int			command_job(t_jobs *job, t_s_env *e)
 		//	ret += command_restore_fds(((t_execute *)job->process->exec)->fds);
 		}
 	}
-	job_handler(job, e);
+	(void)e;
+	//job_handler(job, e);
 	return (0);
 }
