@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 02:17:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/20 20:20:18 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/24 16:58:27 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int		search_to_tmp(char *buff)
 	int		i;
 
 	i = -1;
+	if (!buff)
+		return (0);
 	while (buff[++i])
 		if (buff[i] == '~' || buff[i] == '/')
 			return (1);
