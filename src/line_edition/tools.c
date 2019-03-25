@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/06 05:48:08 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/02 16:08:40 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/24 16:37:42 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ int		get_tab_len(char **tabl)
 	int i;
 
 	i = 0;
-	while (tabl[i])
-		i++;
+	if (tabl)
+		while (tabl[i])
+			i++;
 	return (i);
 }
