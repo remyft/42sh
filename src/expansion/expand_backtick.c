@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 03:51:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/21 19:50:46 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/25 17:17:05 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void		expand_subshell_child(int pfd[2], size_t i, t_exp *param)
 	ft_memcpy(&newe, param->e, sizeof(newe));
 	newe.public_env = sh_tabdup((const char **)param->e->public_env);
 	newe.private_env = sh_tabdup((const char **)param->e->private_env);
-	newe.forked = 1;
+	newe.forked = 0;
 	close(pfd[0]);
 	dup2(pfd[1], STDOUT_FILENO);
 	close(pfd[1]);
@@ -67,7 +67,7 @@ int				expand_backtick(t_exp *param, t_ret *ret)
 	else if (pid == 0)
 		expand_subshell_child(pfd, i, param);
 	else
-		expand_subshell_father(pfd, ret);
+		expand_subshell_father(pfd, pid, ret);
 	param->i = i + 1;
 	return (ERR_NONE);
 }
