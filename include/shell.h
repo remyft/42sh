@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/24 16:45:09 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/25 15:55:30 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,10 @@ char			**collect_env(char **ep, t_s_env *e);
 
 void			launch_rc(t_s_env *e, int fd, char *path);
 void			get_rc(t_s_env *e);
+
+void			launch_new_smd(char **line, t_s_env *e);
+void			init_shell_line(t_line **line, t_s_env *e);
+void			shell_loop(t_line *line, t_s_env *e);
 
 /*
 **	Select, copy, cut and paste

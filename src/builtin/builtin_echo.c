@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 06:26:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/20 20:59:51 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/24 20:57:40 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,7 @@ static int		echo_error(t_s_env *e)
 
 static int		builtin_write_end(int n, t_s_env *e)
 {
-	if (n)
-	{
-		tputs(tgetstr("mr", NULL), 1, ft_pchar);
-		tputs("%", 1, ft_pchar);
-		tputs(tgetstr("me", NULL), 1, ft_pchar);
-		tputs("\n", 1, ft_pchar);
-	}
-	else if (ft_dprintf(STDOUT_FILENO, "\n") < 0)
+	if (!n && ft_dprintf(STDOUT_FILENO, "\n") < 0)
 		return (echo_error(e));
 	return (0);
 }

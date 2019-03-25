@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:43:32 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 16:52:08 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/24 20:44:48 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,9 +137,6 @@ void			save_history(t_line *line, char *buff, t_hist **curr,
 	}
 	index = line->index / line->nb_col - 1;
 	j = ft_strlen(buff) / line->nb_col;
-	while (++index < j)
-		tputs(tgetstr("do", NULL), 1, ft_pchar);
-	tputs(tgetstr("cd", NULL), 2, ft_pchar);
 	get_new_hist(curr, buff, fd);
 	close(fd);
 }

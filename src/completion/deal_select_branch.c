@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:40:31 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/20 20:21:46 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/24 17:23:40 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char		*find_separator(char *buff)
 	i = ft_strlen(buff) - 1;
 	while (i >= 0)
 	{
-		if (ft_strchr(";&| /", buff[i]))
+		if (ft_strchr(";&| /", buff[i]) && (i == 0 || buff[i - 1] != '\\'))
 			return (&buff[i + 1]);
 		i--;
 	}

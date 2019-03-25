@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:24:51 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/20 20:30:54 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/24 18:43:17 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 int			ft_pchar(int nb)
 {
-	return (write(STDOUT_FILENO, &nb, 1));
+	return (write(STDIN_FILENO, &nb, 1));
 }
 
 void		delete_down(void)

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 05:00:51 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/23 17:44:59 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/24 20:45:57 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	is_find(t_line *line, int find, int way, t_hist *tmp)
 	{
 		ft_bzero(line->curr->buff, MAX_SHELL_LEN);
 		ft_strcpy(line->curr->buff, line->curr->buff_tmp);
-		ft_bzero(line->curr->buff_tmp, MAX_SHELL_LEN + 1);
+		ft_bzero(line->curr->buff_tmp, MAX_SHELL_LEN + 2);
 		put_new_prompt(line);
 	}
 	else if (way == 0)
