@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 05:56:14 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/19 22:05:47 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/24 17:24:06 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@ typedef struct	s_builtins
 	char		*name;
 	int			(*handler)(t_execute *, t_s_env *);
 }				t_builtins;
+
+typedef struct	s_errors
+{
+	char		*error;
+	int			ret;
+}				t_errors;
 
 int				builtin_alias(t_execute *exec, t_s_env *e);
 int				builtin_cd(t_execute *exec, t_s_env *e);
