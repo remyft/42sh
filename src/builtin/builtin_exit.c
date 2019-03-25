@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 16:42:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/07 22:35:57 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/24 17:30:44 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,31 +28,32 @@ static int		str_full_digit(const char *s)
 	return (1);
 }
 
-static int		exit_error(int err, const char *cmdname, const char *progname)
+static int		exit_error(int err, const char *cmdname, t_s_env *e)
 {
 	static char	*errors[] = {
 		"too many arguments", "numeric argument required",
 	};
 
-	ft_putstr_fd(progname, STDERR_FILENO);
+	ft_putstr_fd(e->progname, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putstr_fd(cmdname, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putendl_fd(errors[err], STDERR_FILENO);
-	return (1);
+	e->shell_loop = !err;
+	return (err + 1);
 }
 
 int				builtin_exit(t_execute *exec, t_s_env *e)
 {
 	ft_putendl_fd("exit", STDERR_FILENO);
+	e->shell_loop = 0;
 	if (exec->cmd[1])
 	{
 		if (exec->cmd[2])
-			return (exit_error(1, exec->cmd[0], e->progname));
+			return (exit_error(0, exec->cmd[0], e));
 		else if (!str_full_digit(exec->cmd[1]))
-			return (exit_error(1, exec->cmd[0], e->progname));
+			return (exit_error(1, exec->cmd[0], e));
 		e->ret = ft_atoi(exec->cmd[1]);
 	}
-	e->shell_loop = 0;
 	return (e->ret);
 }
