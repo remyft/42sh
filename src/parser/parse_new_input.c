@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 03:13:50 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/19 19:38:43 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/25 15:46:36 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,9 @@ static t_token	*get_token(t_token *token, char **line, char *oldl, t_s_env *e)
 	if ((ret = tokenise(*line + ft_strlen(oldl) - token->len, e)))
 	{
 		ret->prev = token->prev;
-		if (ret->prev)
-			ret->prev->next = ret;
 	}
-	ft_strdel(&oldl);
+	if (token->prev)
+		token->prev->next = ret;
 	return (ret);
 }
 
@@ -79,7 +78,7 @@ static int		get_new_input(t_token *token, t_line **line)
 	(*line)->tmp[0] = 0;
 	while ((*line)->tmp[0] == 0 || ((*line)->tmp[0] == 4))
 		deal_typing(*line);
-	write(1, "\n", 1);
+	write(STDIN_FILENO, "\n", 1);
 	(*line)->curr->quoted = 0;
 	ft_strdel(&(*line)->prompt);
 	(*line)->prompt = promptsave;
@@ -138,6 +137,8 @@ int				parse_new_input(t_token **token, t_p_param *param, t_s_env *e)
 	newt = get_token(*token, param->line, input.linesave, e);
 	if (!(*token)->prev)
 		*param->token = newt;
+	ft_strdel(&input.linesave);
 	free_token(token);
-	return ((*token = newt) ? ERR_NONE : ERR_FREE_ALL);
+	*token = newt;
+	return (ERR_NONE);
 }
