@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:50:33 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/26 13:00:17 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/26 17:56:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void		set_signal(sig_t *signals)
 
 void		reset_signal(sig_t *signals)
 {
-	// signal(SIGINT, signals[SIGINT]);
 	signal(SIGWINCH, signals[SIGWINCH]);
 }
 
