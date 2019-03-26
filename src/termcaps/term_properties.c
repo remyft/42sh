@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 03:54:40 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/26 12:48:52 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/26 17:57:09 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void		term_restore(struct termios *save)
 void		define_new_term(struct termios *save)
 {
 	struct termios	termios;
-	t_line	*line;
+	t_line			*line;
 
 	if (tcgetattr(0, save) != 0)
 	{
