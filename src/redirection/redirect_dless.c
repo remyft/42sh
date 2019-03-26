@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:21:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/26 13:42:02 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/26 17:19:03 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "redirection.h"
 #include "struct.h"
 #include "redirection_errors.h"
+#include "interactive_error.h"
 #include "main_tools.h"
 
 /*
@@ -100,6 +101,8 @@ static int		handle_here_doc(t_redirection **redir, t_s_env *e)
 int				redirect_dless(t_redirection **redir, t_s_env *e)
 {
 	(*redir)->fdio = (*redir)->ionumber ? ft_atoi((*redir)->ionumber->head) : 0;
+	if (!e->interactive)
+		return (interactive_error(ERR_NON_INT_HDOC, (*redir)->arg->cmd[0], e));
 	if (get_here_doc(redir))
 		return (1);
 	if (handle_here_doc(redir, e))

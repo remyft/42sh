@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:29:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/20 20:58:06 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/26 16:48:25 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int				redirect_error(int err, char *redirect_arg, t_s_env *e)
 		NULL,
 		MALLOC_STR,
 		AMBIGOUS_STR,
-		BAD_FD_STR,
+		BAD_FD_STR
 	};
 
 	e->ret = 130;
