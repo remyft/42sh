@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:21:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/26 12:55:26 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/26 13:03:45 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,7 @@ static int		get_here_doc(t_redirection **redir, t_s_env *e)
 	line->prompt = ft_strjoin(HERE_DOC_PROMPT, DEFAULT_PROMPT);
 	line->lprompt = ft_strlen(line->prompt);
 	line->curr->quoted = 1;
-	// define_new_term(&e->save);
 	error = get_here_doc_line(&(*redir)->hdoc, (*redir)->arg->cmd[0], line);
-	// term_restore(&e->save);
 	line->curr->quoted = 0;
 	ft_strdel(&line->prompt);
 	line->prompt = promptsave;
