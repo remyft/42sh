@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/23 18:17:22 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/26 12:42:17 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <term.h>
 # include <string.h>
+# include <signal.h>
 
 # define LEFT 1 << 0
 # define RIGHT 1 << 1
@@ -121,6 +122,7 @@ typedef struct	s_line
 	t_tree			*tree[4];
 	char			***public_env;
 	char			***private_env;
+	sig_t			signals[NSIG];
 }				t_line;
 
 typedef struct	s_str_list

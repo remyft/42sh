@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_term.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 05:38:23 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/20 20:17:00 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/26 12:49:01 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void			deal_dleft(t_line *line);
 void			del_right(t_line *line);
 
 void			get_typing(t_line *line, int nb_read);
-void			term_restore(struct termios save);
+void			term_restore(struct termios *save);
 void			define_new_term(struct termios *save);
 
 void			deal_prompt(t_line *line);

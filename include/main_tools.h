@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:45:53 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 06:33:30 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/26 12:28:41 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	deal_key(t_line *line);
 void	check_path(t_line *line, char **env);
 void	deal_typing(t_line *line);
 
-void	sig_hdlr(int sig);
 void	sig_winch(int sig);
 void	deal_winch(t_line *line);
 

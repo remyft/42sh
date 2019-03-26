@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/23 17:47:08 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/26 12:49:41 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,12 @@
 
 void			deal_exit(t_line *line)
 {
-	int		i;
-
 	if (line->curr->prev || line->curr->buff[0] || line->curr->quoted)
 	{
 		get_complet(line);
 		return ;
 	}
-	term_restore(line->save);
-	i = -1;
-	while (++i < NSIG)
-		signal(i, SIG_DFL);
+	term_restore(&line->save);
 	line->shell_loop = 0;
 }
 

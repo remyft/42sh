@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/25 17:21:49 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/26 12:36:09 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <dirent.h>
+# include <signal.h>
 # include "struct.h"
 # include "shell_env.h"
 
@@ -100,7 +101,8 @@ t_slst			*deal_globing(char *str, t_tree *tree);
 ** Signals
 */
 
-void			set_signal(void);
+void			set_signal(sig_t *signals);
+void			reset_signal(sig_t *signals);
 
 /*
 **	Reset line

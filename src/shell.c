@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/24 20:25:19 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/26 12:49:19 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int				main(int ac, char **av, char **ep)
 	init_shell_line(&line, &e);
 	define_new_term(&e.save);
 	shell_loop(line, &e);
-	term_restore(e.save);
+	term_restore(&e.save);
 	free_shell_env(&e);
 	free_struct(line);
 	return (e.ret);

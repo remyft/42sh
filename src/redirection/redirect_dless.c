@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:21:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/22 16:12:05 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/26 12:55:26 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int		get_here_doc_line(char **hdoc, char *eof, t_line *line)
 	{
 		put_prompt(line->prompt);
 		deal_typing(line);
-		write(1, "\n", 1);
+		write(0, "\n", 1);
 		if (line->tmp[0] == -1 || !ft_strcmp(line->curr->buff, eof))
 			break ;
 		else if (line->tmp[0] != 4)
@@ -75,9 +75,9 @@ static int		get_here_doc(t_redirection **redir, t_s_env *e)
 	line->prompt = ft_strjoin(HERE_DOC_PROMPT, DEFAULT_PROMPT);
 	line->lprompt = ft_strlen(line->prompt);
 	line->curr->quoted = 1;
-	define_new_term(&e->save);
+	// define_new_term(&e->save);
 	error = get_here_doc_line(&(*redir)->hdoc, (*redir)->arg->cmd[0], line);
-	term_restore(e->save);
+	// term_restore(&e->save);
 	line->curr->quoted = 0;
 	ft_strdel(&line->prompt);
 	line->prompt = promptsave;
