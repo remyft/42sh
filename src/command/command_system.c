@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/20 11:57:56 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/29 16:27:57 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 #include "shell_env.h"
 #include "job_control.h"
 #include <sys/ioctl.h>
+#include "ft_dprintf.h"
+#include "signal_intern.h"
 
 static int	dup2_and_close(t_process *p, int from, int to)
 {
@@ -68,12 +70,11 @@ static void		command_execve(char *name, t_jobs *job, t_process *p, t_s_env *e)
 	setpgid(0, job->pgid);
 	if (!e->async)
 		ioctl(e->fd, TIOCSPGRP, &job->pgid);
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-	signal(SIGSTOP, SIG_DFL);
-	signal(SIGTTIN, SIG_DFL);
-	signal(SIGTTOU, SIG_DFL);
-	signal(SIGCHLD, SIG_DFL);
+	if (signal_to_default() == 1)
+	{
+		ft_dprintf(2, "21sh: signal to default with process %d failed\n", pid);
+		exit(EXIT_FAILURE);
+	}
 	command_setup(p);
 	execve(name, ((t_execute *)p->exec)->cmd, ((t_execute *)p->exec)->env);
 	exit(EXIT_FAILURE);

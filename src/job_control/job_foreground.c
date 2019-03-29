@@ -7,6 +7,7 @@
 
 int		job_foreground(t_jobs *job, t_s_env *e, t_m_process *m_p, int cont)
 {
+	printf("--%d\n", -job->pgid);
 	if (cont)
 	{
 		if (kill(-job->pgid, SIGCONT) < 0)
@@ -22,5 +23,5 @@ int		job_foreground(t_jobs *job, t_s_env *e, t_m_process *m_p, int cont)
 		ft_dprintf(2, "job [%d] tcsetpgrp failed\n", job->pgid);
 		return (job_kill(job, e));
 	}
-	return (1);
+	return (0);
 }

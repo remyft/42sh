@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/03/17 17:35:31 by rfontain         ###   ########.fr        #
+#    Updated: 2019/03/29 16:27:17 by dbaffier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -313,6 +313,9 @@ SRCS	+= job_insert.c						\
 		   job_kill.c						\
 		   job_finished.c					\
 
+SIGNAL_DIR	= signal/
+SRCS		+= signal_reset.c				\
+
 
 COL			=	$$(tput cols)/3
 DIRNAME		=	$$(basename $$(pwd))
@@ -437,7 +440,7 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)$(EXPANSION_DIR)%.c $(DEPS_DIR)%.d
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(COMMAND_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(COMMAND_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(COMMAND_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(BUILTIN_DIR) -I$(INC_DIR)/$(LIBRARY_DIR) -I$(INC_DIR)/$(ALIAS_DIR) -I$(INC_DIR)/$(JOB_DIR) $(DEBUG)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(COMMAND_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(BUILTIN_DIR) -I$(INC_DIR)/$(LIBRARY_DIR) -I$(INC_DIR)/$(ALIAS_DIR) -I$(INC_DIR)/$(JOB_DIR) -I$(INC_DIR)/$(SIGNAL_DIR) $(DEBUG)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(REDIRECTION_DIR)%.c
@@ -468,6 +471,12 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)$(JOB_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(JOB_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
 	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(JOB_DIR) -I$(INC_DIR)/$(COMMAND_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(LIBRARY_DIR) $(DEBUG)
+	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
+
+$(OBJS_DIR)%.o: $(SRCS_DIR)$(SIGNAL_DIR)%.c
+$(OBJS_DIR)%.o: $(SRCS_DIR)$(SIGNAL_DIR)%.c $(DEPS_DIR)%.d
+	@$(TSITSI)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(SIGNAL_DIR) $(DEBUG)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(DEPS_DIR)%.d: ;

@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 14:09:06 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/03/20 10:55:26 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/29 14:01:12 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 
 # define JOB_TERMINATED 1
 
-enum {
+enum
+{
 	STATUS_FINISHED = 1,
 	STATUS_RUNNING,
 	STATUS_SUSPENDED,
@@ -27,11 +28,21 @@ enum {
 	STATUS_TERMINATED,
 };
 
-enum {
+enum
+{
 	PIPED = 1 << 0,
 	AND = 1 << 1,
 	OR = 1 << 2,
 	END_OF_PIPE = 1 << 3,
+};
+
+enum
+{
+	FD_PIPE_IN = 0,
+	FD_PIPE_OUT,
+	FD_STDIN,
+	FD_STDOUT,
+	FD_STDERR
 };
 
 # define STR_RUNNING "running"

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/26 16:17:39 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/29 15:51:44 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,33 +47,18 @@ static int	prepare_command(void *cmd, t_s_env *e)
 	return (0);
 }
 
-static int	parse_type(int type)
-{
-	if (type == OR_IF_VALUE)
-		return (OR);
-	else if (type == AND_IF_VALUE)
-		return (AND);
-	return (0);
-}
-
 static int	execute_ao_list(t_ao_list *aolist, t_s_env *e, t_jobs *job)
 {
 	if (!aolist)
 		return (0);
-	//	|| (aolist->type == OR_IF_VALUE && e->ret)
-		//|| (aolist->type == AND_IF_VALUE && !e->ret))
-	//{
-	//if (!aolist->type)
-	//{
-		if (command_m_process(e, job, aolist->type)
-			|| prepare_command(aolist->cmd, e)
-			|| command_parse(aolist->cmd, e, parse_type(aolist->type)))
-			return (1);
-	//}
+	if (command_m_process(e, job, aolist->type)
+		|| prepare_command(aolist->cmd, e)
+		|| command_parse(aolist->cmd, e, aolist->type))
+		return (1);
 	return (execute_ao_list(aolist->next, e, job));
 }
 
-static char		*get_command(t_m_list *list)
+/*static char		*get_command(t_m_list *list)
 {
 	t_ao_list	*ao;
 	t_command	*cmd;
@@ -101,18 +86,14 @@ static char		*get_command(t_m_list *list)
 	tail = arg->token->head + arg->token->len;
 	printf("tail : %s\n", tail);
 	return (ft_strndup((char *)head, tail - head));
-}
+}*/
 
 int			execute_list(t_m_list *list, t_s_env *e)
 {
 	pid_t	pid;
-	char	*s;
+	int		ret;
 	t_jobs	*job;
 
-	s = get_command(list);
-	printf("%s\n", s);
-	sleep(1);
-	exit(1);
 	pid = 0;
 	if (!list)
 		return (0);
@@ -120,6 +101,7 @@ int			execute_list(t_m_list *list, t_s_env *e)
 	job = jobs_prepare(e);
 	if (execute_ao_list(list->aolist, e, job))
 		return (1);
-	command_job(job, e);
+	if ((ret = command_job(job, e)) != 0)
+		return (ret);
 	return (execute_list(list->next, e));
 }

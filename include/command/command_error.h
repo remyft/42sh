@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 18:30:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/03 20:54:01 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/29 16:13:49 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ enum
 	ERR_BAD_FD,
 	ERR_DUP,
 	ERR_PIPE,
+	ERR_SIGNAL,
 };
 
 typedef struct	s_error

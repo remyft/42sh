@@ -1,4 +1,5 @@
 #include "job_control.h"
+#include <stdio.h>
 #include <errno.h>
 
 int		process_set_status(t_process *p, int status)
@@ -37,6 +38,7 @@ int		process_update(t_jobs *job, t_m_process *m_p, pid_t pid, int status)
 	if ((p = process_by_pid(m_p, pid)))
 	{
 		process_set_status(p, status);
+		m_p->ret = p->exit_status;
 		return (0);
 	}
 	return (-1);

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/09 20:40:23 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/29 16:13:02 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,6 @@ typedef struct	s_alias
 	struct s_alias	*prev;
 }				t_alias;
 
-typedef enum		jobs_fds
-{
-	FD_PIPE_IN = 0,
-	FD_PIPE_OUT,
-	FD_STDIN,
-	FD_STDOUT,
-	FD_STDERR
-}					t_jobs_fds;
 
 typedef struct	s_process
 {
