@@ -12,6 +12,7 @@
 
 #include <unistd.h>
 #include <fcntl.h>
+#include <stdio.h>
 
 int				command_save_fds(int fd, int fds[3])
 {

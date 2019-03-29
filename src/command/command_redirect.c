@@ -13,6 +13,7 @@
 #include "libft.h"
 #include "redirection.h"
 #include "command.h"
+#include <stdio.h>
 
 int				command_redirect(int fds[3], t_redirection *redir, t_s_env *e)
 {

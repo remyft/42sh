@@ -29,7 +29,8 @@ static int		env_fork(t_e_opt *opt, t_s_env *e)
 	newe.public_env = opt->public_env;
 	newe.forked = 1;
 	if ((pid = fork()) > 0)
-		command_wait(pid, 0, &e->ret);
+		;
+	//	command_wait(pid, 0, &e->ret);
 	else if (pid == 0)
 	{
 		launch_new_cmd(&opt->cmd, &newe);

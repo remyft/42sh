@@ -64,8 +64,7 @@ int				command_prepare(t_execute *exec, t_s_env *e, int type)
 	if (!(exec->env = command_group_env(exec->variable, exec->command,
 	(const char **)e->public_env, (const char **)e->private_env)))
 		return (command_error(e->progname, ERR_MALLOC, exec->cmd, e));
-	create_process(e,exec, type);
-	//p->exec = exec;
-	//p->type = type;
+	if (!(create_process(e,exec, type)))
+		return (command_error(e->progname, ERR_MALLOC, exec->cmd, e));
 	return (0);
 }

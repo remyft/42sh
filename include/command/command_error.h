@@ -25,6 +25,7 @@ enum
 	ERR_FORK,
 	ERR_BAD_FD,
 	ERR_DUP,
+	ERR_PIPE,
 };
 
 typedef struct	s_error
@@ -43,5 +44,6 @@ typedef struct	s_error
 # define ERR_FORK_STR			{ "fork() failed"             , 125 }
 # define ERR_BAD_FD_STR			{ "Bad file descriptor"       , 125 }
 # define ERR_DUP_STR			{ "dup2() failed"             , 125 }
+# define ERR_PIPE_STR			{ "pipe() failed"			  , 1	}
 
 #endif

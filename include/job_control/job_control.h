@@ -44,6 +44,11 @@ void			job_handler(t_jobs *job, t_s_env *e);
 void			remove_job(t_jobs **jobs, int id);
 
 t_jobs			*job_insert(t_s_env *e);
+int				job_wait(t_jobs *job, t_m_process *m_p);
+int				job_kill(t_jobs *job, t_s_env *e);
+int				job_background(t_jobs *job, t_m_process *m_p);
+int				job_foreground(t_jobs *job, t_s_env *e, t_m_process *m_p, int cont);
+int				job_finished(t_jobs *job, t_m_process *m_p);
 int				jobs_terminated(t_s_env *e);
 int				job_completed(t_jobs *job);
 
@@ -51,7 +56,7 @@ t_jobs			*job_by_id(int id, t_jobs *jobs);
 t_jobs			*job_by_pid(t_s_env *e, pid_t pid);
 
 int				create_process(t_s_env *e, t_execute *exec, int type);
-int				set_pstatus(t_process *p, int status);
+void			process_status(t_jobs *job, t_m_process *m_p, t_process *p);
 int				proc_update(t_s_env *e, t_jobs *job, pid_t pid, int status);
 
 #endif

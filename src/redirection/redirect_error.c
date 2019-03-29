@@ -17,6 +17,7 @@ int				redirect_error(int err, char *redirect_arg, t_s_env *e)
 {
 	static char	*error[] = {
 		"not enought memory", "ambiguous redirect", "Bad file descriptor",
+		"pipe()",
 	};
 
 	ft_putstr_fd(e->progname, STDERR_FILENO);

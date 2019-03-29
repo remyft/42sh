@@ -12,6 +12,7 @@
 
 #include <unistd.h>
 #include "redirection.h"
+#include <stdio.h>
 
 int				command_restore_fds(int fds[3])
 {

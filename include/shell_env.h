@@ -28,11 +28,23 @@ typedef struct	s_alias
 	struct s_alias	*prev;
 }				t_alias;
 
+typedef enum		jobs_fds
+{
+	FD_PIPE_IN = 0,
+	FD_PIPE_OUT,
+	FD_STDIN,
+	FD_STDOUT,
+	FD_STDERR
+}					t_jobs_fds;
+
 typedef struct	s_process
 {
 	int					pid;
 	int					status;
+	int					exit_status;
 	int					type;
+	int					pipe[2];
+	int					fds[3];
 	void				*exec;
 	struct s_process	*next;
 }				t_process;
@@ -71,6 +83,7 @@ typedef struct	s_shell_env
 	int				ret;
 	int				interactive;
 	int				job_id;
+	int				fd;
 	int				pid;
 	int				pgid;
 	struct termios	save;

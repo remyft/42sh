@@ -29,6 +29,11 @@ int		create_process(t_s_env *e, t_execute *exec, int type)
 		return (0);
 	new->exec = exec;
 	new->type = type;
+	new->fds[0] = STDIN_FILENO;
+	new->fds[1] = STDOUT_FILENO;
+	new->fds[2] = STDERR_FILENO;
+	new->pipe[0] = -1;
+	new->pipe[1] = -1;
 	job = job_by_id(e->job_id, e->jobs);
 	insert_process(job, new);
 	return (1);
