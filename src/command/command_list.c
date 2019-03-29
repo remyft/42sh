@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/24 14:36:36 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/26 16:17:39 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,54 @@ static int	execute_ao_list(t_ao_list *aolist, t_s_env *e, t_jobs *job)
 	//{
 	//if (!aolist->type)
 	//{
-		if (prepare_command(aolist->cmd, e)
+		if (command_m_process(e, job, aolist->type)
+			|| prepare_command(aolist->cmd, e)
 			|| command_parse(aolist->cmd, e, parse_type(aolist->type)))
 			return (1);
 	//}
 	return (execute_ao_list(aolist->next, e, job));
 }
 
+static char		*get_command(t_m_list *list)
+{
+	t_ao_list	*ao;
+	t_command	*cmd;
+	t_argument	*arg;
+	const char		*head;
+	const char		*tail;
+
+	if (!list || !list->aolist || !list->aolist->cmd)
+		return (NULL);
+	cmd = (t_command *)list->aolist->cmd;
+	if (cmd->type == IS_A_PIPE)
+		head = ((t_command *)((t_pipeline *)cmd)->left)->args->token->head;
+	else
+		head = cmd->args->token->head;
+	printf("head : %s\n", head);
+	ao = list->aolist;
+	while (ao->next)
+		ao = ao->next;
+	cmd = ao->cmd;
+	while (cmd->type == IS_A_PIPE)
+		cmd = ((t_pipeline *)cmd)->right;
+	arg = cmd->args;
+	while (arg->next)
+		arg = arg->next;
+	tail = arg->token->head + arg->token->len;
+	printf("tail : %s\n", tail);
+	return (ft_strndup((char *)head, tail - head));
+}
+
 int			execute_list(t_m_list *list, t_s_env *e)
 {
 	pid_t	pid;
+	char	*s;
 	t_jobs	*job;
 
+	s = get_command(list);
+	printf("%s\n", s);
+	sleep(1);
+	exit(1);
 	pid = 0;
 	if (!list)
 		return (0);

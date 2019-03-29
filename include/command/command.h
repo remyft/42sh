@@ -38,6 +38,8 @@ int				command_access(char *path, char *absolute_path);
 int				command_builtin(t_builtin builtin, t_execute *exec, t_s_env *e);
 int				command_check(t_jobs *job, t_process *p, t_s_env *e);
 int				command_job(t_jobs *job, t_s_env *e);
+int				command_job_wait(t_jobs *job, t_m_process *m_p, t_s_env *e);
+int				command_pipe_dup(t_jobs *job, t_process *p, t_s_env *e, int *fds);
 int				command_error(char *progname, int err, char **cmd, t_s_env *e);
 void			command_execute(t_execute *exec, t_s_env *e);
 void			command_free(t_execute *exec, char *name);
@@ -46,16 +48,15 @@ char			**command_group_env(t_argument *var, t_argument *cmd,
 				const char **public, const char **private);
 int				command_path(char **path, char *cmd, char *paths);
 int				command_parse(void *cmd, t_s_env *e, int type);
-int				command_pipe(t_jobs *jobs, t_process *p, t_s_env *e, int ppfd[2]);
 int				command_prepare(t_execute *exec, t_s_env *e, int type);
 int				command_redirect(int fds[3], t_redirection *redir, t_s_env *e);
 int				command_restore_fds(int fds[3]);
 int				command_save_fds(int fd, int fds[3]);
-void			command_wait2(pid_t pid, t_execute *exec, t_s_env *e);
 int				command_system(t_jobs *job, t_process *p, t_s_env *e);
 int				command_m_process(t_s_env *e, t_jobs *job, int type);
-void			command_wait(pid_t pid, int async, int *ret);
 void			command_process(pid_t pid, t_jobs *job, t_process *p, t_s_env *e);
+
+void			close_unexpected_fd(int *fds);
 
 void			quote_removal(t_argument *arg);
 void			variable_assignment(t_command *cmd, t_s_env *e);

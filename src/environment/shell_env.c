@@ -18,6 +18,7 @@
 #include "shell_lib.h"
 #include "shell_env.h"
 #include "shell.h"
+#include <sys/ioctl.h>
 
 static char		*get_path(char *prog)
 {
@@ -90,7 +91,6 @@ static char		**build_private_env(char **env)
 
 void			init_job(t_s_env *e)
 {
-	e->interactive = isatty(STDIN_FILENO);
 	if (e->interactive)
 	{
 		while (tcgetpgrp(STDIN_FILENO) != (e->pgid = getpgrp()))
@@ -107,10 +107,26 @@ void			init_job(t_s_env *e)
 			ft_dprintf(2, "%s: setpgid error\n", e->progname);
 			exit(1);
 		}
-		tcsetpgrp(0, e->pgid);
+		ioctl(STDIN_FILENO, TIOCSPGRP, &e->pid);
+	//	tcsetpgrp(0, e->pgid);
 		// maybe save attribute man tcgetattr
 	}
 
+}
+
+void			init_fd(t_s_env *e)
+{
+	char	*tty_name;
+	int		fd;
+
+	if (e->interactive)
+	{
+		tty_name = ttyname(STDIN_FILENO);
+		fd = open(tty_name, O_RDWR);
+	}
+	else
+		fd = STDIN_FILENO;
+	e->fd = fd;
 }
 
 void			init_shell_env(t_s_env *e, int ac, char **av, char **env)
@@ -123,7 +139,11 @@ void			init_shell_env(t_s_env *e, int ac, char **av, char **env)
 	e->public_env = collect_env(env);
 	e->private_env = build_private_env(env);
 	e->ret = 0;
+	//e->pid = getpid();
+	e->interactive = isatty(STDIN_FILENO);
 	e->pid = getpid();
+	e->pgid = getpgrp();
+	init_fd(e);
 	init_job(e);
 	e->shell_loop = 1;
 }

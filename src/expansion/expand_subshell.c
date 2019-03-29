@@ -81,7 +81,9 @@ t_ret *ret)
 	int			i;
 
 	close(pfd[1]);
-	command_wait(pid, 0, &param->e->ret);
+	(void)pid;
+	(void)param;
+	//command_wait(pid, 0, &param->e->ret);
 	while ((i = read(pfd[0], buff, sizeof(buff) - 1)) > 0)
 	{
 		buff[i] = '\0';

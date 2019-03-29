@@ -59,32 +59,20 @@ int	jobs_terminated(t_s_env *e)
 	{
 		jobs = job_by_pid(e, pid);
 	    if (WIFEXITED(status))
-			proc_update(e, 0, pid, status);
+			;
+	//		proc_update(e, 0, pid, status);
 		else if (WIFSTOPPED(status))
-			proc_update(e, 0, pid, status);
+			;
+		//	proc_update(e, 0, pid, status);
         else if (WIFCONTINUED(status))
-			proc_update(e, 0, pid, status);
-		if (job_completed(jobs))
+			;
+			//proc_update(e, 0, pid, status);
+	/*	if (job_completed(jobs))
 		{
 			printf("[%d]+ Done [%d]\t\t%s\n", jobs->id, pid, "Command");
 	//		remove_job(&e->jobs, job->id);
 		}
-	}
-	return (1);
-}
-
-int	job_completed(t_jobs *job)
-{
-	t_process	*proc;
-
-	if (!job)
-		return (0);
-	proc = job->m_process->p;
-	while (proc)
-	{
-		if (proc->status != STATUS_FINISHED)
-			return (0);
-		proc = proc->next;
+		*/
 	}
 	return (1);
 }

@@ -17,32 +17,71 @@
 #include "shell_lib.h"
 #include "shell_env.h"
 #include "job_control.h"
+#include <sys/ioctl.h>
+
+static int	dup2_and_close(t_process *p, int from, int to)
+{
+	if (to != from)
+	{
+		if (to == -1)
+			close(from);
+		else
+		{
+			dup2(to, from);
+			if (!(to == STDERR_FILENO && from == STDOUT_FILENO)
+					&& !(to == STDOUT_FILENO && from == STDERR_FILENO))
+				close(to);
+		}
+	}
+	if (from == STDIN_FILENO)
+	{
+		close(p->pipe[0]);
+		close(p->pipe[1]);
+	}
+	return (1);
+}
+
+static void		command_setup(t_process *p)
+{
+	if (p->fds[2] == STDERR_FILENO)
+	{
+		dup2_and_close(p, STDERR_FILENO, p->fds[2]);
+		dup2_and_close(p, STDOUT_FILENO, p->fds[1]);
+	
+	}
+	else
+	{
+		dup2_and_close(p, STDOUT_FILENO, p->fds[1]);
+		dup2_and_close(p, STDERR_FILENO, p->fds[2]);
+	}
+	dup2_and_close(p, STDIN_FILENO, p->fds[0]);
+}
 
 static void		command_execve(char *name, t_jobs *job, t_process *p, t_s_env *e)
 {
 	pid_t	pid;
 
+	(void)e;
+	pid = getpid();
+	if (!job->pgid)
+		job->pgid = pid;
+	setpgid(0, job->pgid);
+	if (!e->async)
+		ioctl(e->fd, TIOCSPGRP, &job->pgid);
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGSTOP, SIG_DFL);
 	signal(SIGTTIN, SIG_DFL);
 	signal(SIGTTOU, SIG_DFL);
 	signal(SIGCHLD, SIG_DFL);
-	pid = getpid();
-	if (!job->pgid)
-		job->pgid = pid;
-	setpgid(0, job->pgid);
-	if (!e->async)
-		tcsetpgrp(0, job->pgid);
+	command_setup(p);
 	execve(name, ((t_execute *)p->exec)->cmd, ((t_execute *)p->exec)->env);
 	exit(EXIT_FAILURE);
 }
 
-
 int				command_system(t_jobs *job, t_process *p, t_s_env *e)
 {
 	char		*name;
-	pid_t		pid;
 	int			error;
 	t_execute	*exec;
 
@@ -55,13 +94,11 @@ int				command_system(t_jobs *job, t_process *p, t_s_env *e)
 		error = command_error(e->progname, error, exec->cmd, e);
 	else if (!command_redirect(exec->fds, exec->redirection, e))
 	{
-		pid = 0;
-		if (e->forked || (pid = fork()) == 0)
+		if (e->forked || (p->pid = fork()) == 0)
 			command_execve(name, job, p, e);
-		else if (pid > 0)
-			command_process(pid, job, p, e);
-		else if (pid < 0)
+		else if (p->pid < 0)
 			error = command_error(e->progname, ERR_FORK, exec->cmd, e);
+		command_process(p->pid, job, p, e);
 	}
 	ft_strdel(&name);
 	return (error);
