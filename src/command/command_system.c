@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/29 16:27:57 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/30 11:30:25 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,15 @@ static void		command_setup(t_process *p)
 
 static void		command_execve(char *name, t_jobs *job, t_process *p, t_s_env *e)
 {
-	pid_t	pid;
-
-	(void)e;
-	pid = getpid();
-	if (!job->pgid)
-		job->pgid = pid;
-	setpgid(0, job->pgid);
+	p->pid = getpid();
+	if (job->pgid == 0)
+		job->pgid = p->pid;
+	setpgid(p->pid, job->pgid);
 	if (!e->async)
-		ioctl(e->fd, TIOCSPGRP, &job->pgid);
+		ioctl(e->fd, TIOCSPGRP, job->pgid);
 	if (signal_to_default() == 1)
 	{
-		ft_dprintf(2, "21sh: signal to default with process %d failed\n", pid);
+		ft_dprintf(2, "21sh: signal to default with process %d failed\n", p->pid);
 		exit(EXIT_FAILURE);
 	}
 	command_setup(p);

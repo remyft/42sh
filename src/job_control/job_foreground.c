@@ -5,9 +5,8 @@
 #include <sys/ioctl.h>
 #include <stdio.h>
 
-int		job_foreground(t_jobs *job, t_s_env *e, t_m_process *m_p, int cont)
+int		job_foreground(t_jobs *job, t_s_env *e, int cont)
 {
-	printf("--%d\n", -job->pgid);
 	if (cont)
 	{
 		if (kill(-job->pgid, SIGCONT) < 0)
@@ -16,12 +15,18 @@ int		job_foreground(t_jobs *job, t_s_env *e, t_m_process *m_p, int cont)
 			return (job_kill(job, e));
 		}
 	}
+	//kill(m_p->m_pgid, SIGINT);
+	//kill(m_p->m_pgid, SIGTSTP);
+	//kill(m_p->m_pgid, SIGQUIT);
 	ioctl(e->fd, TIOCSPGRP, &job->pgid);
-	job_wait(job, m_p);
+	job_wait(job);
 	if (ioctl(e->fd, TIOCSPGRP, &e->pid) < 0)
 	{
 		ft_dprintf(2, "job [%d] tcsetpgrp failed\n", job->pgid);
 		return (job_kill(job, e));
 	}
+	signal(SIGINT, SIG_IGN);
+	signal(SIGTSTP, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	return (0);
 }

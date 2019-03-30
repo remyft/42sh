@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 20:23:05 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/29 15:50:36 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/30 14:34:03 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 #include "command.h"
 #include "job_control.h"
 
-int		command_job_wait(t_jobs *job, t_m_process *m_p, t_s_env *e)
+int		command_job_wait(t_jobs *job, t_s_env *e)
 {
 	int		status;
 
 	if (!e->interactive)
 	{
 		e->async = 0;
-		job_wait(job, m_p);
+		job_wait(job);
 	}
 	else if (e->async)
-		return (job_background(job, m_p));
+		return (job_background(job, 0));
 	else
-		if ((status = job_foreground(job, e, m_p, 0)) != 0)
+		if ((status = job_foreground(job, e, 0)) != 0)
 			return (status);
 	return (0);
 }

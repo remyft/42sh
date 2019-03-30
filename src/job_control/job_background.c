@@ -1,8 +1,11 @@
 #include "job_control.h"
 
-int		job_background(t_jobs *job, t_m_process *m_p)
+int		job_background(t_jobs *job, int cont)
 {
+	//if (cont == 1)
+		//if (kill(-job->pgid, SIGCONT) < 0)
+			//return (job_kill(job, e));
+	(void)cont;
 	(void)job;
-	(void)m_p;
 	return (1);
 }

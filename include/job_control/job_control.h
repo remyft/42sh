@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 14:09:06 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/03/29 14:01:12 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/30 11:36:42 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,11 @@ void			job_handler(t_jobs *job, t_s_env *e);
 void			remove_job(t_jobs **jobs, int id);
 
 t_jobs			*job_insert(t_s_env *e);
-int				job_wait(t_jobs *job, t_m_process *m_p);
+int				job_wait(t_jobs *job);
 int				job_kill(t_jobs *job, t_s_env *e);
-int				job_background(t_jobs *job, t_m_process *m_p);
-int				job_foreground(t_jobs *job, t_s_env *e, t_m_process *m_p, int cont);
-int				job_finished(t_jobs *job, t_m_process *m_p);
+int				job_background(t_jobs *job, int cont);
+int				job_foreground(t_jobs *job, t_s_env *e, int cont);
+int				job_finished(t_jobs *job);
 int				jobs_terminated(t_s_env *e);
 int				job_completed(t_jobs *job);
 

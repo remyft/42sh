@@ -31,10 +31,14 @@ int			command_job(t_jobs *job, t_s_env *e)
 		if (m_p->type == OR_IF_VALUE && !ret)
 			continue ;
 		launch_m_process(job, m_p, e);
-		if ((ret = command_job_wait(job, m_p, e)) != 0)
+	//	if (!e->async)
+		if ((ret = command_job_wait(job, e)) != 0)
 			return (ret);
 		ret = m_p->ret;
 		command_restore_fds(((t_execute *)m_p->p->exec)->fds);
 	}
+	//if (e->async)
+		//if ((ret = command_job_wait(job, e)) != 0)
+			//return (ret);
 	return (0);
 }

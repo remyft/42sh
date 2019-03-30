@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:17:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/20 11:45:23 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/30 11:33:18 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int				command_access(char *path, char *absolute_path);
 int				command_builtin(t_builtin builtin, t_execute *exec, t_s_env *e);
 int				command_check(t_jobs *job, t_process *p, t_s_env *e);
 int				command_job(t_jobs *job, t_s_env *e);
-int				command_job_wait(t_jobs *job, t_m_process *m_p, t_s_env *e);
+int				command_job_wait(t_jobs *job, t_s_env *e);
 int				command_pipe_dup(t_jobs *job, t_process *p, t_s_env *e, int *fds);
 int				command_error(char *progname, int err, char **cmd, t_s_env *e);
 void			command_execute(t_execute *exec, t_s_env *e);

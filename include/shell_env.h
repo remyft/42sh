@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/29 16:13:02 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/03/30 14:36:15 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,14 @@ typedef struct	s_process
 	int					fds[3];
 	void				*exec;
 	struct s_process	*next;
+	struct s_m_process	*parent;
 }				t_process;
 
 typedef struct	s_m_process
 {
 	int					ret;
 	int					type;
+	int					m_pgid;
 	struct s_process	*p;
 	struct s_m_process	*next;
 }				t_m_process;
@@ -54,7 +56,6 @@ typedef struct	s_jobs
 {
 	int					id;
 	int					pgid;
-	int					ppid;
 	t_m_process			*m_process;
 	t_m_process			*curr;
 	struct s_jobs		*prev;
