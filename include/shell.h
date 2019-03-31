@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/26 12:36:09 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/31 20:34:19 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ void			ft_setenv(char ***env, char *new, int len);
 char			*get_env(char **env, char *to_get);
 char			**collect_env(char **ep, t_s_env *e);
 
-void			launch_rc(t_s_env *e, int fd, char *path);
-void			get_rc(t_s_env *e);
+void			launch_rc(t_s_env *e, int fd);
+void			get_rc(t_s_env *e, char *relative);
 
 void			launch_new_smd(char **line, t_s_env *e);
 void			init_shell_line(t_line **line, t_s_env *e);

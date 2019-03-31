@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/03/26 17:43:48 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/03/31 20:24:47 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -111,6 +111,7 @@ SRCS += ft_copy.c							\
 		ft_paste.c							\
 		line_select.c						\
 		select.c							\
+		get_shell_rc.c						\
 
 # TOKENS
 TOKEN_DIR = token/
