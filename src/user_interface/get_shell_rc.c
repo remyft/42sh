@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 14:16:30 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/31 20:33:54 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/31 21:59:11 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	launch_rc(t_s_env *e, int fd)
 			line = ft_strdup(buff);
 	}
 	launch_new_cmd(&line, e);
-	free(line);
+	ft_strdel(&line);
 }
 
 void	get_rc(t_s_env *e, char *relative)
