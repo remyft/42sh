@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/24 20:10:26 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/24 22:10:45 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/31 18:19:04 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static void		get_cursor_pos(void)
 	ptr++;
 	if (ft_atoi(ptr) == 1)
 		return ;
-	printf("colonne : %d\n", ft_atoi(ptr));
 	tputs(tgetstr("mr", NULL), 1, ft_pchar);
 	tputs("%", 1, ft_pchar);
 	tputs(tgetstr("me", NULL), 1, ft_pchar);
