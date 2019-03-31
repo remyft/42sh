@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 01:23:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/22 18:50:15 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/26 12:50:02 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int				command_parse(void *cmd, t_s_env *e)
 
 	ft_memset(&exec, 0, sizeof(exec));
 	if (!e->forked)
-		term_restore(e->save);
+		term_restore(&e->save);
 	if (*(int *)cmd == IS_A_PIPE)
 		ret = command_pipe(cmd, e, (int[2]){ 0, 0 });
 	else

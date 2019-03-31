@@ -6,16 +6,28 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:50:33 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/23 18:41:52 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/26 17:56:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main_tools.h"
 #include "put.h"
+#include "shell.h"
 
-void		sig_hdlr(int sig)
+static void	sig_hdlr(int sig)
 {
 	(void)sig;
+}
+
+void		set_signal(sig_t *signals)
+{
+	signals[SIGINT] = signal(SIGINT, sig_hdlr);
+	signals[SIGWINCH] = signal(SIGWINCH, &sig_winch);
+}
+
+void		reset_signal(sig_t *signals)
+{
+	signal(SIGWINCH, signals[SIGWINCH]);
 }
 
 static void	deal_put_winch(t_line *line)

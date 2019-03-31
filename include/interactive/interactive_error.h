@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_tools.h                                       :+:      :+:    :+:   */
+/*   interactive_error.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/23 04:45:53 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/26 12:28:41 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/03/26 16:49:40 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/03/26 17:18:51 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_TOOLS_H
-# define MAIN_TOOLS_H
+#ifndef INTERACTIVE_ERROR_H
+# define INTERACTIVE_ERROR_H
 
-# include "libft.h"
-# include "struct.h"
-# include "shell_term.h"
+# include "shell_env.h"
 
-void	init_line(char **env, t_line *line);
-void	deal_key(t_line *line);
-void	check_path(t_line *line, char **env);
-void	deal_typing(t_line *line);
+enum
+{
+	ERR_NON_INT_SUBST = 0,
+	ERR_NON_INT_HDOC
+};
 
-void	sig_winch(int sig);
-void	deal_winch(t_line *line);
+int				interactive_error(int err, char *delimiter, t_s_env *e);
 
 #endif

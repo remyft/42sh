@@ -6,26 +6,32 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 03:54:40 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/22 14:23:15 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/26 17:57:09 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <term.h>
 #include "libft.h"
 #include "shell_term.h"
+#include "shell.h"
 
-void		term_restore(struct termios save)
+void		term_restore(struct termios *save)
 {
-	if (tcsetattr(0, TCSANOW, &save) == -1)
+	t_line	*line;
+
+	if (tcsetattr(0, TCSANOW, save) == -1)
 	{
 		ft_putendl("Fatal error: unable to restore the term attributes.");
 		exit(2);
 	}
+	line = get_struct();
+	reset_signal(line->signals);
 }
 
 void		define_new_term(struct termios *save)
 {
 	struct termios	termios;
+	t_line			*line;
 
 	if (tcgetattr(0, save) != 0)
 	{
@@ -41,4 +47,6 @@ void		define_new_term(struct termios *save)
 		ft_putendl("Fatal error: unable to set the new term attributes.");
 		exit(2);
 	}
+	line = get_struct();
+	set_signal(line->signals);
 }

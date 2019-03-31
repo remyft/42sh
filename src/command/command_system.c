@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/22 16:09:34 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/26 13:22:54 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,14 @@
 static void		command_execve(char *name, t_execute *exec, t_s_env *e)
 {
 	pid_t		pid;
+	size_t		len;
 
 	pid = 0;
 	if (e->forked || (pid = fork()) == 0)
 	{
+		len = sh_tablen((const char **)exec->env);
+		len -= sh_tablen((const char **)e->private_env);
+		exec->env[len] = NULL;
 		execve(name, exec->cmd, exec->env);
 		exit(EXIT_FAILURE);
 	}

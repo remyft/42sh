@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/25 21:38:45 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/31 18:19:41 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,6 @@
 #include "main_tools.h"
 #include "put.h"
 #include "history.h"
-
-void		set_signal(void)
-{
-	signal(SIGINT, &sig_hdlr);
-	signal(SIGQUIT, &sig_hdlr);
-	signal(SIGWINCH, &sig_winch);
-}
 
 static void	create_all_tree(t_line *line)
 {
@@ -49,7 +42,6 @@ void		init_line(char **env, t_line *line)
 	if (line->hist)
 		line->hist = line->hist->begin;
 	tcgetattr(0, &line->save);
-	set_signal();
 	create_all_tree(line);
 	line->prompt = ft_strdup("$> ");
 	line->lprompt = ft_strlen(line->prompt);

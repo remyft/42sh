@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:21:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/22 16:12:05 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/26 17:19:03 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "redirection.h"
 #include "struct.h"
 #include "redirection_errors.h"
+#include "interactive_error.h"
 #include "main_tools.h"
 
 /*
@@ -38,7 +39,7 @@ static int		get_here_doc_line(char **hdoc, char *eof, t_line *line)
 	{
 		put_prompt(line->prompt);
 		deal_typing(line);
-		write(1, "\n", 1);
+		write(STDIN_FILENO, "\n", 1);
 		if (line->tmp[0] == -1 || !ft_strcmp(line->curr->buff, eof))
 			break ;
 		else if (line->tmp[0] != 4)
@@ -58,32 +59,26 @@ static int		get_here_doc_line(char **hdoc, char *eof, t_line *line)
 		line->index = 0;
 		line->len = 0;
 	}
-	return (ERR_NONE);
+	return ((line->tmp[0] == -1) ? ERR_FREE_ALL : ERR_NONE);
 }
 
-static int		get_here_doc(t_redirection **redir, t_s_env *e)
+static int		get_here_doc(t_redirection **redir)
 {
 	t_line		*line;
 	char		*promptsave;
 	int			error;
 
-	if (!(line = get_struct()))
-		return (redirect_error(ERR_MALLOC, "heredoc", e));
+	line = get_struct();
 	promptsave = line->prompt;
-	error = ERR_NONE;
 	init_new_buff(line);
 	line->prompt = ft_strjoin(HERE_DOC_PROMPT, DEFAULT_PROMPT);
 	line->lprompt = ft_strlen(line->prompt);
 	line->curr->quoted = 1;
-	define_new_term(&e->save);
 	error = get_here_doc_line(&(*redir)->hdoc, (*redir)->arg->cmd[0], line);
-	term_restore(e->save);
 	line->curr->quoted = 0;
 	ft_strdel(&line->prompt);
 	line->prompt = promptsave;
 	line->lprompt = ft_strlen(line->prompt);
-	if (line->tmp[0] == -1)
-		return (ERR_FREE_ALL);
 	return (error);
 }
 
@@ -106,7 +101,9 @@ static int		handle_here_doc(t_redirection **redir, t_s_env *e)
 int				redirect_dless(t_redirection **redir, t_s_env *e)
 {
 	(*redir)->fdio = (*redir)->ionumber ? ft_atoi((*redir)->ionumber->head) : 0;
-	if (get_here_doc(redir, e))
+	if (!e->interactive)
+		return (interactive_error(ERR_NON_INT_HDOC, (*redir)->arg->cmd[0], e));
+	if (get_here_doc(redir))
 		return (1);
 	if (handle_here_doc(redir, e))
 		return (1);
