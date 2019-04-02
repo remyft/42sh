@@ -1,35 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_new.c                                        :+:      :+:    :+:   */
+/*   handle_newline.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/22 23:05:54 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/02 18:09:40 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/04/01 20:16:48 by gbourgeo          #+#    #+#             */
+/*   Updated: 2019/04/02 18:11:52 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "token.h"
+#include "operator_types.h"
 
-static int		define_token(int c)
+t_token			*handle_newline(t_param *param, t_call *token)
 {
-	if (!c || (ft_isspace(c)) || c == '#')
-		return (UNDEFINED);
-	if (ft_isoperator(c))
-		return (OPERATOR);
-	return (TOKEN);
-}
-
-t_token			*new_token(const char *buff, size_t pos)
-{
-	t_token		*new;
-
-	new = ft_memalloc(sizeof(*new));
-	if (!new)
-		return (NULLTOKEN);
-	new->type = define_token(buff[pos]);
-	new->head = buff + pos;
-	return (new);
+	if (!param->token->prev)
+		return (param->token);
+	if (param->token->type != UNDEFINED)
+		param->token = token[param->token->type].identifier(param);
+	if (param->token->prev->type != OPERATOR
+	|| param->token->prev->id != NEWLINE_VALUE)
+		param->token->type = OPERATOR;
+	return (param->token);
 }

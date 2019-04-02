@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 17:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/20 20:33:32 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/01 20:33:46 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ enum
 	AND_IF_VALUE,
 	BACKGRND_VALUE,
 	SEMI_VALUE,
+	NEWLINE_VALUE,
 	DSEMI_VALUE,
-	LESS_VALUE,
-	LESSAND_VALUE = 10,
+	LESS_VALUE = 10,
+	LESSAND_VALUE,
 	LESS_GREAT_VALUE,
 	GREAT_VALUE,
 	GREAT_PIPE_VALUE,
@@ -46,6 +47,7 @@ enum
 # define AND_IF				"&&"
 # define BACKGRND			"&"
 # define SEMI				";"
+# define NEWLINE			"\n"
 # define DSEMI				";;"
 # define LESS				"<"
 # define LESS_AND			"<&"
@@ -65,6 +67,7 @@ enum
 # define OP_AND_IF			{ AND_IF,     AND_IF_VALUE }
 # define OP_BACKGRND		{ BACKGRND,   BACKGRND_VALUE }
 # define OP_SEMI			{ SEMI,       SEMI_VALUE }
+# define OP_NEWLINE			{ NEWLINE,    NEWLINE_VALUE }
 # define OP_DSEMI			{ DSEMI,      DSEMI_VALUE }
 # define OP_LESS			{ LESS,       LESS_VALUE }
 # define OP_LESSAND			{ LESS_AND,   LESSAND_VALUE }

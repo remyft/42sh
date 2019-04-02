@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 18:11:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/20 20:46:14 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/02 18:19:51 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int				parse_error(int err, t_token *token, t_s_env *e)
 	if (err == ERR_FREE_ALL)
 		return (0);
 	ft_dprintf(STDERR_FILENO, "%s: %s `", e->progname, errors[err]);
-	if (token == NULLTOKEN)
+	if (token == NULLTOKEN || *token->head == '\n')
 		write(STDERR_FILENO, "\\n", 2);
 	else
 		write(STDERR_FILENO, token->head, token->len);

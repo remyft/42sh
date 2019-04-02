@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/18 17:49:31 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/01 20:15:16 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 static t_token	*get_tokens(t_param *param, t_call *token)
 {
 	static t_func	character[] = {
-		CHAR_QUOTE, CHAR_COMMENT, CHAR_EQUAL,
+		CHAR_QUOTE, CHAR_COMMENT, CHAR_EQUAL, CHAR_NEWLINE,
 		CHAR_MINUS, CHAR_OPERATOR, CHAR_WORD,
 	};
 	size_t			i;
@@ -59,10 +59,12 @@ t_token			*token_loop(t_param *param, int (*ft_end)(int c))
 	return (param->head);
 }
 
-t_token			*tokenise(char *line, t_s_env *e)
+t_token			*tokenise(const char *line, t_s_env *e)
 {
 	t_param		param;
 
+	if (!line)
+		return (NULLTOKEN);
 	ft_memset(&param, 0, sizeof(param));
 	param.e = e;
 	if (!(param.token = new_token(line, 0)))

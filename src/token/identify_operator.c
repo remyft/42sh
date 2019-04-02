@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 00:38:00 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/12 15:07:33 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/02 18:07:57 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ size_t			check_operator(t_token *token, size_t len)
 {
 	static t_ope	ope[] = {
 		OP_OR_IF, OP_PIPE, OP_PIPE_AND, OP_NOT, OP_AND_IF, OP_BACKGRND, OP_SEMI,
-		OP_DSEMI, OP_LESS, OP_LESSAND, OP_LESS_GREAT, OP_GREAT, OP_GREAT_PIPE,
-		OP_AND_GREAT, OP_GREAT_AND, OP_DGREAT, OP_AND_DGREAT, OP_DLESS,
+		OP_NEWLINE, OP_DSEMI, OP_LESS, OP_LESSAND, OP_LESS_GREAT, OP_GREAT,
+		OP_GREAT_PIPE, OP_AND_GREAT, OP_GREAT_AND, OP_DGREAT, OP_AND_DGREAT,
+		OP_DLESS,
 	};
 	size_t			i;
 	size_t			size;
