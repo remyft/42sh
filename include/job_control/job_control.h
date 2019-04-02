@@ -47,17 +47,17 @@ enum
 
 # define STR_RUNNING "running"
 # define STR_SUSPENDED "suspended"
-# define STR_FINISHED "finished"
 # define STR_CONTINUE "continued"
 # define STR_TERMINATED "terminated"
 
 void			job_handler(t_jobs *job, t_s_env *e);
 void			remove_job(t_jobs **jobs, int id);
+void			job_print_status(t_jobs *job);
 
 t_jobs			*job_insert(t_s_env *e);
 int				job_wait(t_jobs *job);
 int				job_kill(t_jobs *job, t_s_env *e);
-int				job_background(t_jobs *job, int cont);
+int				job_background(t_jobs *job, t_s_env *e, int cont);
 int				job_foreground(t_jobs *job, t_s_env *e, int cont);
 int				job_finished(t_jobs *job);
 int				jobs_terminated(t_s_env *e);

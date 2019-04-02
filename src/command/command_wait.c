@@ -11,9 +11,9 @@
 /* ************************************************************************** */
 
 #include "shell_env.h"
-#include <sys/wait.h>
 #include "command.h"
 #include "job_control.h"
+#include <signal.h>
 
 int		command_job_wait(t_jobs *job, t_s_env *e)
 {
@@ -25,7 +25,7 @@ int		command_job_wait(t_jobs *job, t_s_env *e)
 		job_wait(job);
 	}
 	else if (e->async)
-		return (job_background(job, 0));
+		return (job_background(job, e, 0));
 	else
 		if ((status = job_foreground(job, e, 0)) != 0)
 			return (status);

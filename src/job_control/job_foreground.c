@@ -4,9 +4,11 @@
 #include <signal.h>
 #include <sys/ioctl.h>
 #include <stdio.h>
+#include "signal_intern.h"
 
 int		job_foreground(t_jobs *job, t_s_env *e, int cont)
 {
+	sig_to_pgid(job->pgid);
 	if (cont)
 	{
 		if (kill(-job->pgid, SIGCONT) < 0)
@@ -25,8 +27,6 @@ int		job_foreground(t_jobs *job, t_s_env *e, int cont)
 		ft_dprintf(2, "job [%d] tcsetpgrp failed\n", job->pgid);
 		return (job_kill(job, e));
 	}
-	signal(SIGINT, SIG_IGN);
-	signal(SIGTSTP, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	sig_to_pgid(0);
 	return (0);
 }

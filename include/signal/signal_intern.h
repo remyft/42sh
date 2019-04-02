@@ -14,5 +14,6 @@
 # define SIGNAL_INTERN_H
 
 int		signal_to_default(void);
+int		sig_to_pgid(int pgid);
 
 #endif
