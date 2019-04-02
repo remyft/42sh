@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/24 20:10:26 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/31 18:19:04 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/31 21:28:17 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,34 @@
 #include "token.h"
 #include "libft.h"
 #include "shell_term.h"
+
+void			launch_new_cmd(char **line, t_s_env *e)
+{
+	t_token		*tokens;
+	t_m_list	*tree;
+	size_t		i;
+
+	tokens = NULLTOKEN;
+	tree = NULLLIST;
+	i = 0;
+	if (line && *line)
+		while ((*line)[i])
+		{
+			if ((*line)[i] == '\\' && (*line)[i + 1] == '\n')
+				*line = ft_strcpy(&(*line)[i], &(*line)[i + 2]);
+			else
+				i++;
+		}
+	if ((tokens = tokenise(*line, e)) != NULLTOKEN)
+	{
+		if ((tree = parse(line, &tokens, e)) != NULLLIST)
+			execute_list(tree, e);
+		else
+			ft_strdel(line);
+		free_m_list(&tree);
+		free_token(&tokens);
+	}
+}
 
 static void		get_cursor_pos(void)
 {
@@ -40,26 +68,6 @@ static void		get_cursor_pos(void)
 	tputs("%", 1, ft_pchar);
 	tputs(tgetstr("me", NULL), 1, ft_pchar);
 	tputs("\n", 1, ft_pchar);
-}
-
-void			launch_new_cmd(char **line, t_s_env *e)
-{
-	t_token		*tokens;
-	t_m_list	*tree;
-
-	tokens = NULLTOKEN;
-	tree = NULLLIST;
-	if ((tokens = tokenise(*line, e)) != NULLTOKEN)
-	{
-		if ((tree = parse(line, &tokens, e)) != NULLLIST)
-		{
-			execute_list(tree, e);
-			free_m_list(&tree);
-		}
-		else
-			ft_strdel(line);
-		free_token(&tokens);
-	}
 }
 
 static void		get_new_cmd(t_line *line, t_s_env *e)
