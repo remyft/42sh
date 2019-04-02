@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/31 20:34:19 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/02 14:50:14 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ void			get_rc(t_s_env *e, char *relative);
 void			launch_new_smd(char **line, t_s_env *e);
 void			init_shell_line(t_line **line, t_s_env *e);
 void			shell_loop(t_line *line, t_s_env *e);
+
+int				get_cursor_line(void);
+void			deal_scroll(t_line *line, int up, int nb_line);
 
 /*
 **	Select, copy, cut and paste

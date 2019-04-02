@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 14:16:30 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/31 21:59:11 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/02 16:37:44 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ void	get_rc(t_s_env *e, char *relative)
 	tmp_progname = e->progname;
 	if (!relative)
 	{
-	if (!(path = getenv("HOME")))
-		return ;
-	path = ft_strjoin(path, "/");
-	path = ft_strjoinfree(path, RC_NAME, 1);
+		if (!(path = getenv("HOME")))
+			return ;
+		path = ft_strjoin(path, "/");
+		path = ft_strjoinfree(path, RC_NAME, 1);
 	}
 	else
 		path = ft_strdup(relative);

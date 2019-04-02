@@ -6,13 +6,26 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 08:55:32 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/23 17:42:07 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/02 16:35:58 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 #include "main_tools.h"
 #include "put.h"
+
+static void	deal_return(t_line *line, int goal)
+{
+	ft_putstr(&line->curr->buff[line->index]);
+	line->index = line->len;
+	while ((int)line->index > goal)
+	{
+		if ((int)line->index - goal > (int)line->nb_col)
+			mv_line_up(line);
+		else
+			left_arrow(line);
+	}
+}
 
 static void	deal_unselect(t_line *line)
 {
@@ -22,23 +35,18 @@ static void	deal_unselect(t_line *line)
 	if ((size_t)line->slct_beg == line->index)
 	{
 		tputs(tgetstr("cd", NULL), 1, ft_pchar);
-		tputs(tgetstr("sc", NULL), 1, ft_pchar);
-		ft_putstr(&line->curr->buff[line->index]);
-		tputs(tgetstr("rc", NULL), 1, ft_pchar);
+		i = (int)line->index;
+		deal_return(line, line->index);
 		tputs(tgoto(tgetstr("ch", NULL), 0, (line->index
 						+ line->lprompt) % line->nb_col), 1, ft_pchar);
 	}
 	else
 	{
-		tputs(tgetstr("sc", NULL), 1, ft_pchar);
 		tmp = line->index;
 		i = line->slct_end - line->slct_beg + 1;
 		while (--i)
 			left_arrow(line);
-		ft_putstr(&line->curr->buff[line->index]);
-		line->index = tmp;
-		tputs(tgetstr("cd", NULL), 1, ft_pchar);
-		tputs(tgetstr("rc", NULL), 1, ft_pchar);
+		deal_return(line, tmp);
 	}
 }
 

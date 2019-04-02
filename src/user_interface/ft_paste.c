@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 05:59:37 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/31 22:25:49 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/02 16:37:28 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,4 @@ void		ft_paste(t_line *line)
 		while ((int)line->index > j)
 			left_arrow(line);
 	}
-	j = line->index;
 }
