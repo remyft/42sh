@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:57:17 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/23 17:49:07 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/02 15:02:56 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,16 @@ static void	get_to_len(t_line *line, char tchar)
 		tchar = cbis;
 		j++;
 	}
-	tputs(tgetstr("sc", NULL), 1, ft_pchar);
+	j = (int)line->index;
 	ft_putstr(&(line->curr->buff[line->index]));
-	tputs(tgetstr("rc", NULL), 1, ft_pchar);
+	line->index = line->len;
+	while ((int)line->index > j)
+	{
+		if ((int)line->index - j > (int)line->nb_col)
+			mv_line_up(line);
+		else
+			left_arrow(line);
+	}
 }
 
 static void	get_to_buff(t_line *line, int *cp)

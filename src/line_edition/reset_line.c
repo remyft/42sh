@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 03:41:00 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/20 20:18:40 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/02 16:14:34 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ void	put_new_prompt(t_line *line)
 	ft_putstr(line->curr->buff);
 	line->index = ft_strlen(line->curr->buff);
 	line->len = line->index;
+	if ((line->index + line->lprompt) % line->nb_col == 0)
+	{
+		tputs(tgetstr("do", NULL), 1, ft_pchar);
+		tputs(tgetstr("cr", NULL), 1, ft_pchar);
+	}
 }
 
 void	del_all_state(t_line *line)

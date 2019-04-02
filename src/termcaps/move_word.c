@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:54:35 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/07 06:52:55 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/31 22:39:46 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,42 +16,20 @@
 
 void	next_word(t_line *line)
 {
-	int		lenp;
-
-	lenp = line->lprompt;
-	while (line->curr->buff[line->index] != ' ' && line->index < line->len)
-	{
-		if (line->len > line->nb_col)
-			if ((line->index + lenp) % line->nb_col == 0
-				&& line->index < line->len)
-				tputs(tgetstr("do", NULL), 1, ft_pchar);
-		line->index = line->index + 1;
-	}
+	if (line->index == line->len)
+		return ;
+	while (line->index < line->len && line->curr->buff[line->index] != ' ')
+		right_arrow(line);
 	while (line->index < line->len && line->curr->buff[line->index] == ' ')
-		line->index = line->index + 1;
-	tputs(tgoto(tgetstr("ch", NULL), 0,
-				(line->index + lenp) % line->nb_col), 1, ft_pchar);
+		right_arrow(line);
 }
 
 void	prev_word(t_line *line)
 {
-	if (line->index == line->len && line->len != 0)
-		line->index = line->index - 1;
-	else if (ft_isprint(line->curr->buff[line->index])
-			&& line->curr->buff[line->index] != ' ' && line->index > 0)
-		line->index = line->index - 1;
-	while (line->curr->buff[line->index] == ' ')
-		line->index = line->index - 1;
-	while (line->curr->buff[line->index] != ' ' && line->index > 0)
-	{
-		if (line->len > line->nb_col)
-			if ((line->index + line->lprompt) % line->nb_col == 0
-					&& line->index > 0)
-				tputs(tgetstr("up", NULL), 1, ft_pchar);
-		line->index = line->index - 1;
-	}
-	while (line->index > 0 && line->curr->buff[line->index] == ' ')
-		line->index = line->index + 1;
-	tputs(tgoto(tgetstr("ch", NULL), 0,
-				(line->index + line->lprompt) % line->nb_col), 1, ft_pchar);
+	if (line->index == 0)
+		return ;
+	while (line->index > 0 && line->curr->buff[line->index - 1] == ' ')
+		left_arrow(line);
+	while (line->index > 0 && line->curr->buff[line->index - 1] != ' ')
+		left_arrow(line);
 }
