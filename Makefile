@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/03/31 20:24:47 by rfontain         ###   ########.fr        #
+#    Updated: 2019/04/01 20:16:31 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -120,6 +120,7 @@ SRCS += handle_alias.c						\
 		handle_end_of_input.c				\
 		handle_equal.c						\
 		handle_minus.c						\
+		handle_newline.c					\
 		handle_operator.c					\
 		handle_quote.c						\
 		handle_word.c						\
