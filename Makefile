@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/03/31 20:24:47 by rfontain         ###   ########.fr        #
+#    Updated: 2019/04/02 17:35:21 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -262,6 +262,7 @@ SRCS += builtin_alias_error.c				\
 		builtin_env.c						\
 		builtin_exit.c						\
 		builtin_setenv.c					\
+		builtin_source.c					\
 		builtin_unalias.c					\
 		builtin_unsetenv.c					\
 

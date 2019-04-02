@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 20:58:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/31 20:13:54 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/02 17:36:46 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 #include "builtin_source.h"
 #include "ft_dprintf.h"
 #include "shell.h"
+#include "builtins.h"
 
-int		builtin_source_access(char *path)
+static int	builtin_source_access(char *path)
 {
 	struct stat	buf;
 
@@ -33,7 +34,7 @@ int		builtin_source_access(char *path)
 	return (ERR_OK);
 }
 
-int		source_error(int err, char *path, char **absolute)
+static int	source_error(int err, char *path, char **absolute)
 {
 	static char *errors[] = {
 		NULL, "is a directory", "not enough argument",
@@ -50,23 +51,20 @@ int		source_error(int err, char *path, char **absolute)
 	return (1);
 }
 
-int		builtin_source(t_execute *exec, t_s_env *e)
+int			builtin_source(t_execute *exec, t_s_env *e)
 {
 	char	*path;
 	int		fd;
 	int		err;
-	char	*pwd;
 
 	if (!exec->cmd[1])
 		return (source_error(ERR_NOT_ARG, exec->cmd[0], NULL));
 	if (exec->cmd[1][0] != '/')
 	{
-		if (!(pwd = getenv("PWD")))
+		if (!(path = getenv("PWD")))
 			return (source_error(ERR_NOT_FOUND, exec->cmd[1], NULL));
-		if (*(ft_strchr(pwd, 0) - 1) != '/')
-			path = ft_strjoin(pwd, "/");
-		else
-			path = ft_strdup(pwd);
+		path = (*(ft_strchr(path, 0) - 1) != '/') ? ft_strjoin(path, "/")
+			: ft_strdup(path);
 		path = ft_strjoinfree(path, exec->cmd[1], 1);
 	}
 	else
