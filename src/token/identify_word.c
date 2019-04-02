@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 22:30:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/12 15:07:55 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/02 19:15:26 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ t_token			*identify_word(t_param *param)
 			param->token->id = ionumber_type(param->token);
 		else
 			param->token->id = name_type(param->token);
-		if (!(param->token = handle_alias(param, param->e)))
+		if (!(param->token = handle_alias(param, param->e))
+		|| quote_type(param->token->quote) != NO_QUOTE)
 			return (param->token);
 	}
 	if (!(param->token->next = new_token(param->line, param->i)))

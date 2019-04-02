@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 21:08:51 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/12 14:55:38 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/02 19:49:22 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,17 @@
 static int		is_token_a_command(t_token *token)
 {
 	return (token->type == OPERATOR && token->id < LESS_VALUE);
+}
+
+static t_token	*alias_last_token(t_param *param)
+{
+	while (param->token->next)
+	{
+		param->token->aliased = 1;
+		param->token = param->token->next;
+	}
+	param->token->aliased = 1;
+	return (param->token);
 }
 
 t_token			*handle_alias(t_param *param, t_s_env *e)
@@ -34,18 +45,15 @@ t_token			*handle_alias(t_param *param, t_s_env *e)
 		return (param->token);
 	alias->in_use = 1;
 	save = param->token;
-	if ((param->token = tokenise(alias->value, e)))
-	{
-		alias->in_use = 0;
-		if (!param->token)
-			return (save);
-		if (save->prev)
-			save->prev->next = param->token;
-		else
-			param->head = param->token;
-		free(save);
-		while (param->token->next)
-			param->token = param->token->next;
-	}
-	return (param->token);
+	if (!(param->token = tokenise(alias->value, e)))
+		return (param->token);
+	alias->in_use = 0;
+	if (!param->token)
+		return (save);
+	if (save->prev)
+		save->prev->next = param->token;
+	else
+		param->head = param->token;
+	free(save);
+	return (alias_last_token(param));
 }

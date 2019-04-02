@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 03:13:50 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/25 15:46:36 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/02 20:50:22 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,27 +39,17 @@ static char		*get_prompt(t_quote *head)
 	return (ret);
 }
 
-static t_token	*get_token(t_token *token, char **line, char *oldl, t_s_env *e)
+static t_token	*get_token(t_token **token, char **line, char *oldl, t_s_env *e)
 {
-	t_token		*ret;
+	t_token		*save;
+	t_token		*ptr;
 
-	ret = token;
-	if (token)
-		while (token->prev)
-			token = token->prev;
-	while (token)
-	{
-		token->head = *line + (token->head - oldl);
-		token = token->next;
-	}
-	token = ret;
-	if ((ret = tokenise(*line + ft_strlen(oldl) - token->len, e)))
-	{
-		ret->prev = token->prev;
-	}
-	if (token->prev)
-		token->prev->next = ret;
-	return (ret);
+	if (*token)
+		while ((*token)->prev)
+			*token = (*token)->prev;
+	save = *token;
+	*token = tokenise(*line, e);
+	free_token(token);
 }
 
 static int		get_new_input(t_token *token, t_line **line)
@@ -121,7 +111,6 @@ int				parse_new_input(t_token **token, t_p_param *param, t_s_env *e)
 {
 	t_n_input	input;
 	t_line		*line;
-	t_token		*newt;
 
 	input.type = quote_type((*token)->quote);
 	if ((input.error = get_new_input(*token, &line)) != ERR_NONE)
@@ -134,11 +123,10 @@ int				parse_new_input(t_token **token, t_p_param *param, t_s_env *e)
 		ft_strjoinfree(*param->line, line->curr->buff, 1) :
 		ft_strjoin(input.linesave, line->curr->buff)))
 		return (ERR_MALLOC_FAILED);
-	newt = get_token(*token, param->line, input.linesave, e);
-	if (!(*token)->prev)
-		*param->token = newt;
+	*param->token = get_token(token, param->line, input.linesave, e);
 	ft_strdel(&input.linesave);
-	free_token(token);
-	*token = newt;
+	if ((*token = *param->token))
+		while ((*token)->next)
+			*token = (*token)->next;
 	return (ERR_NONE);
 }
