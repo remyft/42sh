@@ -2,15 +2,23 @@
 #include <stdio.h>
 #include <errno.h>
 
-int		process_set_status(t_process *p, int status)
+int		process_set_status(t_jobs *job, t_process *p, int status)
 {
 	p->exit_status = WEXITSTATUS(status);
-	if (WIFEXITED(status))
-		p->status = STATUS_FINISHED;
-	else if (WIFSIGNALED(status))
-		p->status = STATUS_TERMINATED;
-	else if (WSTOPSIG(status))
-		p->status = STATUS_SUSPENDED;
+	if (WIFSTOPPED(status))
+		p->status = WSTOPSIG(status);
+	else
+	{
+		if (WIFEXITED(status) || WIFSIGNALED(status))
+		{
+			p->status = STATUS_FINISHED;
+			if (WIFSIGNALED(status))
+				p->s_signal = WIFSIGNALED(status);
+			if (p->s_signal == SIGINT)
+				job->status = p->s_signal;
+		}
+	}
+	// maybe things to do;
 	return (1);
 }
 
@@ -32,12 +40,11 @@ int		process_update(t_jobs *job, t_m_process *m_p, pid_t pid, int status)
 {
 	t_process	*p;
 
-	(void)job;
 	if (pid <= 0)
 		return (-1);
 	if ((p = process_by_pid(m_p, pid)))
 	{
-		process_set_status(p, status);
+		process_set_status(job, p, status);
 		m_p->ret = p->exit_status;
 		return (0);
 	}

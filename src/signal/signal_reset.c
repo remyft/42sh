@@ -6,11 +6,12 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 16:07:57 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/03/30 10:54:48 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/02 17:48:41 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "signal.h"
+#include <stdio.h>
 
 int		signal_to_default(void)
 {

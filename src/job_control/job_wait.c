@@ -18,8 +18,7 @@ int		job_wait(t_jobs *job)
 			}
 			m_p = m_p->next;
 		}
-		if (job_finished(job))
-				//|| job_stopped(job))
+		if (job_finished(job) || job_stopped(job))
 			break ;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/30 14:36:15 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/02 16:46:28 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct	s_process
 {
 	int					pid;
 	int					status;
+	int					s_signal;
 	int					exit_status;
 	int					type;
 	int					pipe[2];
@@ -56,6 +57,7 @@ typedef struct	s_jobs
 {
 	int					id;
 	int					pgid;
+	int					status;
 	t_m_process			*m_process;
 	t_m_process			*curr;
 	struct s_jobs		*prev;
