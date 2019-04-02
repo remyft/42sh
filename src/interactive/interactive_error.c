@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 16:48:10 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/26 17:44:06 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/31 19:59:54 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@ int				interactive_error(int err, char *delimiter, t_s_env *e)
 		ft_dprintf(STDERR_FILENO, " `%c'\n", get_delimiter(*delimiter));
 	else
 		ft_dprintf(STDERR_FILENO, " (wanted `%s')\n", delimiter);
-	e->ret = 1;
-	return (1);
+	e->ret = 2;
+	return (0);
 }
