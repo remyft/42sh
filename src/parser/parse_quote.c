@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 14:48:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/03 16:16:43 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/03 18:28:03 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,15 @@ static int		get_new_input(t_quote *quote, t_line **line)
 	(*line)->curr->quoted = 1;
 	put_prompt((*line)->prompt);
 	(*line)->tmp[0] = 0;
-	while ((*line)->tmp[0] == 0 || ((*line)->tmp[0] == 4))
+	while ((*line)->tmp[0] == 0 || (*line)->shell_loop)
 		deal_typing(*line);
 	write(STDIN_FILENO, "\n", 1);
+	(*line)->shell_loop = 1;
 	(*line)->curr->quoted = 0;
 	ft_strdel(&(*line)->prompt);
 	(*line)->prompt = promptsave;
 	(*line)->lprompt = ft_strlen((*line)->prompt);
-	if ((*line)->tmp[0] == -1)
+	if ((*line)->tmp[0] == -1 || (*line)->tmp[0] == 4)
 		return (ERR_FREE_ALL);
 	return (ERR_NONE);
 }
