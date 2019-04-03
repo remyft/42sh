@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 04:07:17 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/14 18:31:06 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/03 14:49:38 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 t_token			*token_error(int err, t_param *param)
 {
 	static char	*errors[] = {
-		"allocating memory failed", "syntax error near unexpected token",
+		NULL, "allocating memory failed", "syntax error near unexpected token",
 	};
 
 	ft_dprintf(STDERR_FILENO, "%s: %s", param->e->progname, errors[err]);

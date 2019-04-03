@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:59:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/20 19:41:16 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/03 15:23:25 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,8 @@ int				parse_io_number(t_token **tok, t_p_param *par, t_s_env *e);
 int				parse_argument(t_token **tok, t_p_param *par, t_s_env *e);
 int				parse_newline(t_token **tok, t_p_param *par, t_s_env *e);
 int				parse_async(t_token **tok, t_p_param *par, t_s_env *e);
-int				parse_new_input(t_token **tok, t_p_param *param, t_s_env *e);
+// int				parse_new_input(t_token **tok, t_p_param *param, t_s_env *e);
+int				parse_quote(char **cmdline, t_token **token, t_s_env *e);
 
 void			free_m_list(t_m_list **list);
 
