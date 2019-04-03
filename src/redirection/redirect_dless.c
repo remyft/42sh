@@ -6,16 +6,16 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:21:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/26 17:19:03 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/03 21:23:41 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "ft_dprintf.h"
 #include "parser.h"
 #include "redirection.h"
 #include "struct.h"
 #include "redirection_errors.h"
-#include "interactive_error.h"
 #include "main_tools.h"
 
 /*
@@ -35,24 +35,22 @@
 
 static int		get_here_doc_line(char **hdoc, char *eof, t_line *line)
 {
-	while (1)
+	while (line->shell_loop && line->tmp[0] == 0)
 	{
 		put_prompt(line->prompt);
 		deal_typing(line);
-		write(STDIN_FILENO, "\n", 1);
-		if (line->tmp[0] == -1 || !ft_strcmp(line->curr->buff, eof))
+		if (line->tmp[0] != 4)
+			write(STDIN_FILENO, "\n", 1);
+		if (line->tmp[0] == -1 || !ft_strcmp(line->curr->buff, eof) || line->tmp[0] == 4)
 			break ;
-		else if (line->tmp[0] != 4)
-		{
-			if (*hdoc == NULL)
-				*hdoc = ft_strdup(line->curr->buff);
-			else
-				*hdoc = ft_strjoinfree(*hdoc, line->curr->buff, 1);
-			if (!*hdoc)
-				return (ERR_MALLOC);
-			if (!(*hdoc = ft_strjoinfree(*hdoc, "\n", 1)))
-				return (ERR_MALLOC);
-		}
+		if (*hdoc == NULL)
+			*hdoc = ft_strdup(line->curr->buff);
+		else
+			*hdoc = ft_strjoinfree(*hdoc, line->curr->buff, 1);
+		if (!*hdoc)
+			return (ERR_MALLOC);
+		if (!(*hdoc = ft_strjoinfree(*hdoc, "\n", 1)))
+			return (ERR_MALLOC);
 		ft_strclr(line->curr->buff);
 		ft_strclr(line->tmp);
 		line->beg_buff = line->curr;
@@ -62,7 +60,7 @@ static int		get_here_doc_line(char **hdoc, char *eof, t_line *line)
 	return ((line->tmp[0] == -1) ? ERR_FREE_ALL : ERR_NONE);
 }
 
-static int		get_here_doc(t_redirection **redir)
+static int		get_here_doc(t_redirection **redir, t_s_env *e)
 {
 	t_line		*line;
 	char		*promptsave;
@@ -74,7 +72,12 @@ static int		get_here_doc(t_redirection **redir)
 	line->prompt = ft_strjoin(HERE_DOC_PROMPT, DEFAULT_PROMPT);
 	line->lprompt = ft_strlen(line->prompt);
 	line->curr->quoted = 1;
+	line->tmp[0] = 0;
 	error = get_here_doc_line(&(*redir)->hdoc, (*redir)->arg->cmd[0], line);
+	if (line->tmp[0] == 4)
+		ft_dprintf(STDERR_FILENO, "%s: warning: here-document delimited by "
+		"end-of-file (wanted `%s')\n", e->progname, (*redir)->arg->cmd[0]);
+	line->shell_loop = 1;
 	line->curr->quoted = 0;
 	ft_strdel(&line->prompt);
 	line->prompt = promptsave;
@@ -101,9 +104,7 @@ static int		handle_here_doc(t_redirection **redir, t_s_env *e)
 int				redirect_dless(t_redirection **redir, t_s_env *e)
 {
 	(*redir)->fdio = (*redir)->ionumber ? ft_atoi((*redir)->ionumber->head) : 0;
-	if (!e->interactive)
-		return (interactive_error(ERR_NON_INT_HDOC, (*redir)->arg->cmd[0], e));
-	if (get_here_doc(redir))
+	if (get_here_doc(redir, e))
 		return (1);
 	if (handle_here_doc(redir, e))
 		return (1);
