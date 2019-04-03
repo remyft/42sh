@@ -6,11 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/12 12:24:11 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/18 20:34:22 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/03 17:59:09 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token.h"
+#include "operator_types.h"
 
 /*
 ** The if checks the that '=' character is:
@@ -24,7 +25,8 @@ t_token			*handle_equal(t_param *param, t_call *token)
 	(void)token;
 	if (param->token->type == UNDEFINED)
 		param->token->type = WORD;
-	else if ((!param->token->prev || param->token->prev->id == ASSIGNMENT_WORD)
+	else if ((!param->token->prev || param->token->prev->id == ASSIGNMENT_WORD
+	|| (param->token->prev->type == OPERATOR && param->token->id < LESS_VALUE))
 		&& is_token_valid_name(param))
 		param->token->id = ASSIGNMENT_WORD;
 	return (param->token);
