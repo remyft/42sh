@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 14:48:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/03 16:12:55 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/03 16:16:43 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int				parse_quote(char **cmdline, t_token **token, t_s_env *e)
 		{
 			if ((input.type = quote_type(ptr->quote)) != NO_QUOTE)
 			{
-				if ((input.error = get_new_input(ptr->quote, &line)) != ERR_NONE)
+				if ((input.error = get_new_input(ptr->quote, &line)))
 					return (!parse_error(input.error, NULLTOKEN, e));
 				input.linesave = *cmdline;
 				*cmdline = NULL;

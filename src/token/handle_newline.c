@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 20:16:48 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/02 19:20:40 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/03 16:16:58 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,3 @@ t_token			*handle_newline(t_param *param, t_call *token)
 		param->token->type = OPERATOR;
 	return (param->token);
 }
-
