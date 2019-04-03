@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:21:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/03 21:23:41 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/03 21:47:56 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,12 @@ static int		handle_here_doc(t_redirection **redir, t_s_env *e)
 int				redirect_dless(t_redirection **redir, t_s_env *e)
 {
 	(*redir)->fdio = (*redir)->ionumber ? ft_atoi((*redir)->ionumber->head) : 0;
+	if (!e->interactive)
+	{
+		ft_dprintf(STDERR_FILENO, "%s: warning: here-document delimited by "
+		"end-of-file (wanted `%s')\n", e->progname, (*redir)->arg->cmd[0]);
+		return (1);
+	}
 	if (get_here_doc(redir, e))
 		return (1);
 	if (handle_here_doc(redir, e))
