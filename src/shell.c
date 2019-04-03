@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/18 18:34:51 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/03 18:23:10 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static void		shell_loop(t_line *line, t_s_env *e)
 {
 	while (e->shell_loop && line->shell_loop)
 	{
-		jobs_terminated(e);
+		jobs_remove(&e->jobs, 1);
 		put_prompt(line->prompt);
 		check_path(line, e->public_env);
 		deal_typing(line);

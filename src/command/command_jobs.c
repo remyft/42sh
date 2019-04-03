@@ -32,11 +32,14 @@ int			command_job(t_jobs *job, t_s_env *e)
 			continue ;
 		launch_m_process(job, m_p, e);
 		if ((ret = command_job_wait(job, e)) != 0)
+		{
+			command_restore_fds(((t_execute *)m_p->p->exec)->fds);
 			return (ret);
+		}
 		ret = m_p->ret;
 		command_restore_fds(((t_execute *)m_p->p->exec)->fds);
 	}
-	if (e->async == 0)
-		remove_job(&e->jobs, job->id);
+	//if (e->async == 0)
+		//remove_job(&e->jobs, job->id);
 	return (0);
 }

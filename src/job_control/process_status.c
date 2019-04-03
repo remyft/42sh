@@ -6,19 +6,26 @@ int		process_set_status(t_jobs *job, t_process *p, int status)
 {
 	p->exit_status = WEXITSTATUS(status);
 	if (WIFSTOPPED(status))
-		p->status = WSTOPSIG(status);
+	{
+		p->s_suspended = WSTOPSIG(status);
+		p->status = STATUS_SUSPENDED;
+	}
 	else
 	{
+		p->status = STATUS_FINISHED;
 		if (WIFEXITED(status) || WIFSIGNALED(status))
 		{
-			p->status = STATUS_FINISHED;
 			if (WIFSIGNALED(status))
 				p->s_signal = WIFSIGNALED(status);
 			if (p->s_signal == SIGINT)
 				job->status = p->s_signal;
 		}
 	}
-	// maybe things to do;
+	if (job_suspended(job) && !job_finished(job))
+	{
+		job->status &= ~JOB_FOREGROUND;
+		job->status &= ~JOB_NOTIFIED;
+	}
 	return (1);
 }
 
@@ -61,7 +68,11 @@ void	process_status(t_jobs *job, t_m_process *m_p, t_process *p)
 	if (p->status != STATUS_FINISHED
 			|| p->status != STATUS_SUSPENDED)
 	{
+		printf("ppgid : %d\n", job->pgid);
+		printf("%d\n", p->pid);
+		printf("%s\n", ((t_execute *)p->exec)->cmd[0]);
 		pid = waitpid(p->pid, &status, WUNTRACED);
+		printf("Waitpid done\n");
 		if (pid < 0 && errno == ECHILD)
 			p->status = STATUS_FINISHED;
 		else

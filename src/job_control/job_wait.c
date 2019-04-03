@@ -1,4 +1,5 @@
 #include "job_control.h"
+#include <stdio.h>
 
 int		job_wait(t_jobs *job)
 {
@@ -18,8 +19,9 @@ int		job_wait(t_jobs *job)
 			}
 			m_p = m_p->next;
 		}
-		if (job_finished(job) || job_stopped(job))
+		if (job_finished(job) || job_suspended(job))
 			break ;
 	}
+	job_notify(job);
 	return (0);
 }

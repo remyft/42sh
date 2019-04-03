@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/02 16:46:28 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/03 17:11:55 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct	s_process
 {
 	int					pid;
 	int					status;
+	int					s_suspended;
 	int					s_signal;
 	int					exit_status;
 	int					type;
@@ -40,7 +41,6 @@ typedef struct	s_process
 	int					fds[3];
 	void				*exec;
 	struct s_process	*next;
-	struct s_m_process	*parent;
 }				t_process;
 
 typedef struct	s_m_process

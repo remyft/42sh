@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 15:18:47 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/03/24 14:35:46 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/03 17:45:30 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,63 +16,9 @@
 #include <signal.h>
 #include <stdio.h>
 
-void	free_proc(t_process *proc)
-{
-	if (proc)
-	{
-		command_free((t_execute *)proc->exec, NULL);
-		proc->exec = NULL;
-		free_proc(proc->next);
-		free(proc);
-	}
-}
-
-void	remove_job(t_jobs **jobs, int id)
-{
-	t_jobs		*job;
-
-	job = job_by_id(id, *jobs);
-	if (*jobs == job)
-		*jobs = job->next;
-	if (job->next != NULL)
-		job->next->prev = job->prev;
-	if (job->prev != NULL)
-		job->prev->next = job->next;
-	free_proc(job->m_process->p);
-	free(job);
-}
 
 /*static void	ended(int jobs)
 {
 	(void)jobs;
 	printf("Ended\n");
 }*/
-
-int	jobs_terminated(t_s_env *e)
-{
-	int		status;
-	t_jobs	*jobs;
-	pid_t	pid;
-
-	signal(SIGCHLD, SIG_DFL);
-	while ((pid = waitpid(-1, &status, WNOHANG | WUNTRACED | WCONTINUED)) > 0)
-	{
-		jobs = job_by_pid(e, pid);
-	    if (WIFEXITED(status))
-			;
-	//		proc_update(e, 0, pid, status);
-		else if (WIFSTOPPED(status))
-			;
-		//	proc_update(e, 0, pid, status);
-        else if (WIFCONTINUED(status))
-			;
-			//proc_update(e, 0, pid, status);
-	/*	if (job_completed(jobs))
-		{
-			printf("[%d]+ Done [%d]\t\t%s\n", jobs->id, pid, "Command");
-	//		remove_job(&e->jobs, job->id);
-		}
-		*/
-	}
-	return (1);
-}

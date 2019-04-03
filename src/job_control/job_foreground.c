@@ -9,6 +9,8 @@
 int		job_foreground(t_jobs *job, t_s_env *e, int cont)
 {
 	sig_to_pgid(job->pgid);
+	job->status |= JOB_FOREGROUND;
+	job->status |= JOB_NOTIFIED;
 	if (cont)
 	{
 		if (kill(-job->pgid, SIGCONT) < 0)
@@ -17,9 +19,6 @@ int		job_foreground(t_jobs *job, t_s_env *e, int cont)
 			return (job_kill(job, e));
 		}
 	}
-	//kill(m_p->m_pgid, SIGINT);
-	//kill(m_p->m_pgid, SIGTSTP);
-	//kill(m_p->m_pgid, SIGQUIT);
 	ioctl(e->fd, TIOCSPGRP, &job->pgid);
 	job_wait(job);
 	if (ioctl(e->fd, TIOCSPGRP, &e->pid) < 0)

@@ -1,45 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   job_utils.c                                        :+:      :+:    :+:   */
+/*   job_signaled.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/02 15:17:20 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/03 18:38:32 by dbaffier         ###   ########.fr       */
+/*   Created: 2019/04/03 16:10:02 by dbaffier          #+#    #+#             */
+/*   Updated: 2019/04/03 16:12:47 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "job_control.h"
 
-t_jobs		*job_by_id(int id, t_jobs *jobs)
+int		job_signaled(t_jobs *job)
 {
-	while (jobs)
-	{
-		if (jobs->id == id)
-			return (jobs);
-		jobs = jobs->next;
-	}
-	return (jobs);
-}
+	t_process	*p;
+	t_m_process	*m_p;
 
-t_jobs		*job_by_pid(t_s_env *e, pid_t pid)
-{
-	t_jobs		*jobs;
-	t_process	*curr;
-
-	jobs = e->jobs;
-	while (jobs)
+	m_p = job->m_process;
+	while (m_p)
 	{
-		curr = jobs->m_process->p;
-		while (curr)
+		p = m_p->p;
+		while (p)
 		{
-			if (curr->pid == pid)
-				return (jobs);
-			curr = curr->next;
+			if (p->s_signal > 0)
+				return (p->s_signal);
+			p = p->next;
 		}
-		jobs = jobs->next;
+		m_p = m_p->next;
 	}
-	return (NULL);
+	return (0);
 }
-

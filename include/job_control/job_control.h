@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 14:09:06 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/03/30 11:36:42 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/03 18:09:41 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,17 @@
 
 enum
 {
-	STATUS_FINISHED = 1,
-	STATUS_RUNNING,
-	STATUS_SUSPENDED,
-	STATUS_CONTINUED,
-	STATUS_TERMINATED,
+	STATUS_FINISHED = 1 << 0,
+	STATUS_RUNNING = 1 << 1,
+	STATUS_SUSPENDED = 1 << 2,
+	STATUS_CONTINUED =  1 << 3,
+	STATUS_TERMINATED =  1 << 4,
+};
+
+enum
+{
+	JOB_FOREGROUND = 1 << 0,
+	JOB_NOTIFIED = 1 << 1,
 };
 
 enum
@@ -51,10 +57,8 @@ enum
 # define STR_TERMINATED "terminated"
 
 void			job_handler(t_jobs *job, t_s_env *e);
-void			remove_job(t_jobs **jobs, int id);
 void			job_print_status(t_jobs *job);
 
-t_jobs			*job_insert(t_s_env *e);
 int				job_wait(t_jobs *job);
 int				job_kill(t_jobs *job, t_s_env *e);
 int				job_background(t_jobs *job, t_s_env *e, int cont);
@@ -62,7 +66,12 @@ int				job_foreground(t_jobs *job, t_s_env *e, int cont);
 int				job_finished(t_jobs *job);
 int				jobs_terminated(t_s_env *e);
 int				job_completed(t_jobs *job);
+int				job_suspended(t_jobs *job);
+int				job_signaled(t_jobs *job);
+int				job_notify(t_jobs *job);
+void			jobs_remove(t_jobs **jobs, int n);
 
+t_jobs			*job_insert(t_s_env *e);
 t_jobs			*job_by_id(int id, t_jobs *jobs);
 t_jobs			*job_by_pid(t_s_env *e, pid_t pid);
 

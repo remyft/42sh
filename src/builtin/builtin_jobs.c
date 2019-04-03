@@ -5,18 +5,15 @@
 int		builtin_jobs(t_execute *exec, t_s_env *e)
 {
 	t_jobs		*jobs;
+	t_jobs		*head;
 
 	jobs = e->jobs;
+	head = jobs;
 	(void)exec;
-	/*while (jobs->next)
+	while (jobs && jobs->next != head)
 	{
-		ft_dprintf(STDOUT_FILENO, "[%d]", jobs->id);
-		if (get_status(jobs->process))
-			ft_dprintf(STDOUT_FILENO, "  %.8s", STR_FINISHED);
-		else
-			ft_dprintf(STDOUT_FILENO, "  %.8s", STR_RUNNING);
-		ft_dprintf(STDOUT_FILENO, "\t%s\n", ((t_execute *)jobs->process->exec)->cmd[0]);
+		printf("job [%d] with pid : %d\n", jobs->id, jobs->pgid);
 		jobs = jobs->next;
-	}*/
+	}
 	return (0);
 }

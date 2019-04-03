@@ -1,45 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   job_utils.c                                        :+:      :+:    :+:   */
+/*   job_suspended.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/02 15:17:20 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/03 18:38:32 by dbaffier         ###   ########.fr       */
+/*   Created: 2019/04/03 15:40:39 by dbaffier          #+#    #+#             */
+/*   Updated: 2019/04/03 18:41:16 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "job_control.h"
+#include <stdio.h>
 
-t_jobs		*job_by_id(int id, t_jobs *jobs)
+int		job_suspended(t_jobs *job)
 {
-	while (jobs)
-	{
-		if (jobs->id == id)
-			return (jobs);
-		jobs = jobs->next;
-	}
-	return (jobs);
-}
+	t_process	*p;
+	t_m_process	*m_p;
 
-t_jobs		*job_by_pid(t_s_env *e, pid_t pid)
-{
-	t_jobs		*jobs;
-	t_process	*curr;
-
-	jobs = e->jobs;
-	while (jobs)
+	m_p = job->m_process;
+	while (m_p)
 	{
-		curr = jobs->m_process->p;
-		while (curr)
+		p = m_p->p;
+		while (p)
 		{
-			if (curr->pid == pid)
-				return (jobs);
-			curr = curr->next;
+			if (p->status != STATUS_SUSPENDED)
+				return (0);
+			p = p->next;
+			dprintf(2, "five\n");
 		}
-		jobs = jobs->next;
+		dprintf(2, "six\n");
+		m_p = m_p->next;
 	}
-	return (NULL);
+	return (1);
 }
-
