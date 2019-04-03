@@ -6,12 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 18:35:27 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/16 18:01:35 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/03 21:14:49 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_ERRORS_H
 # define PARSER_ERRORS_H
+
+# include "token.h"
 
 enum
 {
@@ -23,14 +25,25 @@ enum
 	ERR_MALLOC_FAILED,
 	ERR_TOKENIZATION,
 	ERR_SIGNAL,
+	ERR_MISSING_QUOTE
 };
 
-# define NONE_STR				NULL
-# define UNEXPECTED_TOKEN_STR	"syntax error near unexpected token"
-# define MISSING_PARAMETER_STR	"syntax error: missing token"
-# define NOT_HANDLED_YET_STR	"syntax error near unhandled token"
-# define MALLOC_FAILED_STR		"syntax error: malloc failed"
-# define TOKENIZATION_STR		"syntax error: tokenisation failed near"
-# define SIGNAL_STR				"signal failed near"
+# define UNEXPECTED_STR	"syntax error near unexpected token"
+# define PARAMETER_STR	"syntax error: missing token"
+# define HANDLED_STR	"syntax error near unhandled token"
+# define MALLOC_STR		"syntax error: malloc failed"
+# define TOKENIZE_STR	"syntax error: tokenisation failed near"
+# define SIGNAL_STR		"signal failed near"
+# define QUOTE_STR		"unexpected EOF while looking for matching"
+
+typedef struct	s_error
+{
+	const char	*str;
+	void		(*handler)(const char *, t_token *, t_s_env *);
+}				t_err;
+
+void			default_err(const char *, t_token *, t_s_env *);
+void			missing_quote_err(const char *, t_token *, t_s_env *);
+void			eof_err(const char *, t_token *, t_s_env *);
 
 #endif
