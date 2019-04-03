@@ -6,32 +6,25 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 14:16:30 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/02 16:37:44 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/03 20:53:46 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "shell.h"
 #include "shell_env.h"
+#include "shell_lib.h"
 
 void	launch_rc(t_s_env *e, int fd)
 {
-	int		nb_read;
 	char	*line;
-	char	buff[1024];
 
-	line = NULL;
-	ft_bzero(buff, 1024);
-	while ((nb_read = read(fd, buff, 1023)) > 0)
+	line = sh_get_file(fd);
+	if (line)
 	{
-		buff[nb_read] = '\0';
-		if (line)
-			line = ft_strjoinfree(line, buff, 1);
-		else
-			line = ft_strdup(buff);
+		launch_new_cmd(&line, e);
+		ft_strdel(&line);
 	}
-	launch_new_cmd(&line, e);
-	ft_strdel(&line);
 }
 
 void	get_rc(t_s_env *e, char *relative)
@@ -50,7 +43,7 @@ void	get_rc(t_s_env *e, char *relative)
 	}
 	else
 		path = ft_strdup(relative);
-	if ((fd = open(path, O_RDONLY, 0644)) < 0)
+	if ((fd = open(path, O_RDONLY | O_CREAT, 0644)) < 0)
 	{
 		free(path);
 		return ;

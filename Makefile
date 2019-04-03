@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/04/03 15:29:59 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/04/03 20:56:06 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -276,6 +276,7 @@ LIBRARY_DIR = lib/
 SRCS += sh_is_escapable.c					\
 		sh_freestr.c						\
 		sh_freetab.c						\
+		sh_get_file.c						\
 		sh_getnenv.c						\
 		sh_getnenvaddr.c					\
 		sh_newenv.c							\
@@ -390,7 +391,7 @@ $(OBJS_DIR)%.o: $(CMPL_DIR)%.c $(DEPS_DIR)%.d
 $(OBJS_DIR)%.o: $(USER_DIR)%.c
 $(OBJS_DIR)%.o: $(USER_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(LIBRARY_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(BUIL_DIR)%.c
@@ -402,7 +403,7 @@ $(OBJS_DIR)%.o: $(BUIL_DIR)%.c $(DEPS_DIR)%.d
 $(OBJS_DIR)%.o: $(TERM_DIR)%.c
 $(OBJS_DIR)%.o: $(TERM_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(LIBRARY_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(TOKEN_DIR)%.c

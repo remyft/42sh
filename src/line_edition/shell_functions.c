@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/24 20:10:26 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/03 18:40:01 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/03 19:20:10 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void			launch_new_cmd(char **line, t_s_env *e)
 		while ((*line)[i])
 		{
 			if ((*line)[i] == '\\' && (*line)[i + 1] == '\n')
-				*line = ft_strcpy(&(*line)[i], &(*line)[i + 2]);
+				ft_strcpy(&(*line)[i], &(*line)[i + 2]);
 			else
 				i++;
 		}
