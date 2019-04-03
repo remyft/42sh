@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/26 12:49:41 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/03 18:28:01 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,12 @@
 
 void			deal_exit(t_line *line)
 {
-	if (line->curr->prev || line->curr->buff[0] || line->curr->quoted)
+	if (line->curr->quoted)
+	{
+		line->shell_loop = 0;
+		return ;
+	}
+	if (line->curr->buff[0])
 	{
 		get_complet(line);
 		return ;
