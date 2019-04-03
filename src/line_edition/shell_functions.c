@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/24 20:10:26 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/03 15:45:28 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/03 18:10:57 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,13 @@ void			launch_new_cmd(char **line, t_s_env *e)
 		}
 	if ((tokens = tokenise(*line, e)) != NULLTOKEN)
 	{
-		parse_quote(line, &tokens, e);
-		if ((tree = parse(line, &tokens, e)) != NULLLIST)
-			execute_list(tree, e);
-		else
-			ft_strdel(line);
+		if (!parse_quote(line, &tokens, e))
+		{
+			if ((tree = parse(line, &tokens, e)) != NULLLIST)
+				execute_list(tree, e);
+			else
+				ft_strdel(line);
+		}
 		free_m_list(&tree);
 		free_token(&tokens);
 	}
