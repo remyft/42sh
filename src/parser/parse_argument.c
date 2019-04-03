@@ -6,12 +6,11 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/20 20:44:47 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/03 16:10:24 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/03 21:23:03 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "interactive_error.h"
 #include "parser_errors.h"
 #include "parser.h"
 

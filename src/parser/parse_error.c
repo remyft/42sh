@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 18:11:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/02 18:19:51 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/03 21:15:02 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,57 @@
 #include "parser_errors.h"
 #include "token.h"
 
-int				parse_error(int err, t_token *token, t_s_env *e)
+void			default_err(const char *err, t_token *token, t_s_env *e)
 {
-	static char	*errors[] = {
-		NONE_STR,
-		UNEXPECTED_TOKEN_STR,
-		MISSING_PARAMETER_STR,
-		NOT_HANDLED_YET_STR,
-		MALLOC_FAILED_STR,
-		TOKENIZATION_STR,
-		SIGNAL_STR,
-	};
-
-	e->ret = 130;
-	if (err == ERR_FREE_ALL)
-		return (0);
-	ft_dprintf(STDERR_FILENO, "%s: %s `", e->progname, errors[err]);
+	ft_dprintf(STDERR_FILENO, "%s: %s `", e->progname, err);
 	if (token == NULLTOKEN || *token->head == '\n')
 		write(STDERR_FILENO, "\\n", 2);
 	else
 		write(STDERR_FILENO, token->head, token->len);
 	ft_dprintf(STDERR_FILENO, "'\n");
+}
+
+static char		get_delimiter(int type)
+{
+	if (type == BACKSLASH)
+		return ('\\');
+	if (type == DOUBLE_QUOTE)
+		return ('"');
+	if (type == SINGLE_QUOTE)
+		return ('\'');
+	if (type == BRACE)
+		return ('}');
+	if (type == PARENTHESE)
+		return (')');
+	if (type == BACKQUOTE)
+		return ('`');
+	return ('?');
+}
+
+void			missing_quote_err(const char *err, t_token *token, t_s_env *e)
+{
+	ft_dprintf(STDERR_FILENO, "%s: %s `%c'\n", e->progname, err,
+	get_delimiter(quote_type(token->quote)));
+}
+
+
+int				parse_error(int err, t_token *token, t_s_env *e)
+{
+	static t_err	errors[] = {
+		{ NULL, NULL },
+		{ UNEXPECTED_STR, default_err },
+		{ PARAMETER_STR , default_err },
+		{ HANDLED_STR   , default_err },
+		{ MALLOC_STR    , default_err },
+		{ TOKENIZE_STR  , default_err },
+		{ SIGNAL_STR    , default_err },
+		{ QUOTE_STR     , missing_quote_err },
+	};
+
+	e->ret = 130;
+	if (err == ERR_FREE_ALL)
+		return (0);
+	errors[err].handler(errors[err].str, token, e);
 	e->ret = 2;
 	return (0);
 }
