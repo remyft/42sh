@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/24 20:10:26 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/03 18:10:57 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/03 18:40:01 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ void			launch_new_cmd(char **line, t_s_env *e)
 				execute_list(tree, e);
 			else
 				ft_strdel(line);
+			free_m_list(&tree);
 		}
-		free_m_list(&tree);
 		free_token(&tokens);
 	}
 }
