@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 14:48:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/03 21:23:15 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/03 21:45:11 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,28 +96,40 @@ static int		old_input_type(t_token *token, t_line *line, t_n_input *input)
 	return (ERR_NONE);
 }
 
+static int		tokenise_quote(t_token *token, t_line *line, t_n_input *input,
+char **cmdline)
+{
+	if (old_input_type(token, line, input)
+	|| !(*cmdline = ft_strjoin(input->linesave, line->curr->buff)))
+		return (ERR_MALLOC_FAILED);
+	free_token(input->token);
+	*input->token = tokenise((const char *)*cmdline, input->e);
+	ft_strdel(&input->linesave);
+	return (ERR_NONE);
+}
+
 int				parse_quote(char **cmdline, t_token **token, t_s_env *e)
 {
 	t_n_input	input;
 	t_token		*ptr;
 	t_line		*line;
 
+	input.e = e;
+	input.token = token;
 	if (cmdline && (ptr = *token))
 		while (ptr)
 		{
 			if ((input.type = quote_type(ptr->quote)) != NO_QUOTE)
 			{
+				if (!e->interactive)
+					return (!parse_error(ERR_MISSING_QUOTE, ptr, e));
 				if ((input.error = get_new_input(ptr->quote, &line)))
-					return (!parse_error(input.error, *token, e));
+					return (!parse_error(input.error, ptr, e));
 				input.linesave = *cmdline;
 				*cmdline = NULL;
-				if (old_input_type(ptr, line, &input)
-				|| !(*cmdline = ft_strjoin(input.linesave, line->curr->buff)))
-					return (!parse_error(ERR_MALLOC_FAILED, ptr, e));
-				free_token(token);
-				*token = tokenise((const char *)*cmdline, e);
-				ft_strdel(&input.linesave);
-				ptr = *token;
+				if ((input.error = tokenise_quote(ptr, line, &input, cmdline)))
+					return (!parse_error(input.error, NULLTOKEN, e));
+				ptr = *input.token;
 			}
 			else
 				ptr = ptr->next;

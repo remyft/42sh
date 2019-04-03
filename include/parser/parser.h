@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:59:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/03 16:17:33 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/03 21:37:55 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,8 @@ typedef struct	s_parser_param
 */
 typedef struct	s_new_input
 {
+	t_s_env		*e;
+	t_token		**token;
 	char		*linesave;
 	int			type;
 	int			error;
