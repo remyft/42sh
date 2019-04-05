@@ -1,12 +1,14 @@
 #include "shell_env.h"
 #include "job_control.h"
+#include <stdio.h>
 
-void			command_process(pid_t pid, t_jobs *job, t_process *p, t_s_env *e)
+void			command_process(pid_t pid, t_jobs *job, t_process *p)
 {
-	if (e->interactive)
+	if (job->pgid == 0)
+		job->pgid = pid;
+	if (setpgid(p->pid, job->pgid) < 0)
 	{
-		if (!job->pgid)
-			job->pgid = pid;
-		setpgid(p->pid, job->pgid);
+		dprintf(2, "Setpgid failed %s\n", __func__);
+		// error
 	}
 }

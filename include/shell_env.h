@@ -57,6 +57,7 @@ typedef struct	s_jobs
 {
 	int					id;
 	int					pgid;
+	int					foreground;
 	int					status;
 	t_m_process			*m_process;
 	t_m_process			*curr;
@@ -74,10 +75,9 @@ typedef struct	s_shell_env
 	char			**private_env;
 	t_alias			*alias_list;
 	t_jobs			*jobs;
-	int				async;
+	int				job_id;
 	int				ret;
 	int				interactive;
-	int				job_id;
 	int				fd;
 	int				pid;
 	int				pgid;

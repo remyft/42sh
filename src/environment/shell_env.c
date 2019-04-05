@@ -100,7 +100,7 @@ void			init_job(t_s_env *e)
 		signal (SIGTSTP, SIG_IGN);
 		signal (SIGTTIN, SIG_IGN);
 		signal (SIGTTOU, SIG_IGN);
-		signal (SIGCHLD, SIG_IGN);
+		signal (SIGCHLD, SIG_DFL);
 		e->pgid = getpid();
 		if (setpgid(e->pgid, e->pgid) < 0)
 		{

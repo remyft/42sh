@@ -47,6 +47,11 @@ int		process_update(t_jobs *job, t_m_process *m_p, pid_t pid, int status)
 {
 	t_process	*p;
 
+	if (errno == ECHILD)
+	{
+		errno = 0;
+		return (-1);
+	}
 	if (pid <= 0)
 		return (-1);
 	if ((p = process_by_pid(m_p, pid)))
@@ -61,18 +66,13 @@ int		process_update(t_jobs *job, t_m_process *m_p, pid_t pid, int status)
 void	process_status(t_jobs *job, t_m_process *m_p, t_process *p)
 {
 	int		status;
-	int		errno;
 	pid_t	pid;
 
-	errno = 0;
 	if (p->status != STATUS_FINISHED
-			|| p->status != STATUS_SUSPENDED)
+			&& p->status != STATUS_SUSPENDED)
 	{
-		printf("ppgid : %d\n", job->pgid);
-		printf("%d\n", p->pid);
-		printf("%s\n", ((t_execute *)p->exec)->cmd[0]);
+		errno = 0;
 		pid = waitpid(p->pid, &status, WUNTRACED);
-		printf("Waitpid done\n");
 		if (pid < 0 && errno == ECHILD)
 			p->status = STATUS_FINISHED;
 		else

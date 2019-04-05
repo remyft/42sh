@@ -27,9 +27,7 @@ int		job_suspended(t_jobs *job)
 			if (p->status != STATUS_SUSPENDED)
 				return (0);
 			p = p->next;
-			dprintf(2, "five\n");
 		}
-		dprintf(2, "six\n");
 		m_p = m_p->next;
 	}
 	return (1);

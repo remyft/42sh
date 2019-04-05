@@ -54,7 +54,7 @@ int				command_restore_fds(int fds[3]);
 int				command_save_fds(int fd, int fds[3]);
 int				command_system(t_jobs *job, t_process *p, t_s_env *e);
 int				command_m_process(t_s_env *e, t_jobs *job, int type);
-void			command_process(pid_t pid, t_jobs *job, t_process *p, t_s_env *e);
+void			command_process(pid_t pid, t_jobs *job, t_process *p);
 
 void			close_unexpected_fd(int *fds);
 

@@ -14,6 +14,7 @@
 #include "command.h"
 #include "job_control.h"
 #include <signal.h>
+#include <stdio.h>
 
 int		command_job_wait(t_jobs *job, t_s_env *e)
 {
@@ -21,10 +22,10 @@ int		command_job_wait(t_jobs *job, t_s_env *e)
 
 	if (!e->interactive)
 	{
-		e->async = 0;
+		job->foreground = 0;
 		job_wait(job);
 	}
-	else if (e->async)
+	else if (job->foreground == 1)
 		return (job_background(job, e, 0));
 	else
 		if ((status = job_foreground(job, e, 0)) != 0)

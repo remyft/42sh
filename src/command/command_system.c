@@ -65,7 +65,7 @@ static void		command_execve(char *name, t_jobs *job, t_process *p, t_s_env *e)
 	if (job->pgid == 0)
 		job->pgid = p->pid;
 	setpgid(p->pid, job->pgid);
-	if (!e->async)
+	if (job->foreground == 0)
 		ioctl(e->fd, TIOCSPGRP, job->pgid);
 	if (signal_to_default() == 1)
 	{
@@ -96,7 +96,8 @@ int				command_system(t_jobs *job, t_process *p, t_s_env *e)
 			command_execve(name, job, p, e);
 		else if (p->pid < 0)
 			error = command_error(e->progname, ERR_FORK, exec->cmd, e);
-		command_process(p->pid, job, p, e);
+		else if (e->interactive)
+			command_process(p->pid, job, p);
 	}
 	ft_strdel(&name);
 	return (error);

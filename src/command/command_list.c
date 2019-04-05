@@ -88,17 +88,17 @@ static int	execute_ao_list(t_ao_list *aolist, t_s_env *e, t_jobs *job)
 	return (ft_strndup((char *)head, tail - head));
 }*/
 
+#include <stdio.h>
+
 int			execute_list(t_m_list *list, t_s_env *e)
 {
-	pid_t	pid;
 	int		ret;
 	t_jobs	*job;
 
-	pid = 0;
 	if (!list)
 		return (0);
-	e->async = list->async;
 	job = jobs_prepare(e);
+	job->foreground = list->async;
 	if (execute_ao_list(list->aolist, e, job))
 		return (1);
 	if ((ret = command_job(job, e)) != 0)

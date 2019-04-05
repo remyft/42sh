@@ -21,6 +21,8 @@ int		job_foreground(t_jobs *job, t_s_env *e, int cont)
 	}
 	ioctl(e->fd, TIOCSPGRP, &job->pgid);
 	job_wait(job);
+	if (job_finished(job) == 0 && tcgetattr(e->fd, &e->save) != 0)
+		dprintf(2, "Error make tcgetattr\n");
 	if (ioctl(e->fd, TIOCSPGRP, &e->pid) < 0)
 	{
 		ft_dprintf(2, "job [%d] tcsetpgrp failed\n", job->pgid);

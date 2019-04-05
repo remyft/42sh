@@ -27,7 +27,6 @@ void	free_proc(t_process *proc)
 
 void	remove_job(t_jobs **job)
 {
-	printf("Removing jobs\n");
 	if ((*job)->next != NULL)
 		(*job)->next->prev = (*job)->prev;
 	if ((*job)->prev != NULL)
@@ -42,17 +41,16 @@ void	remove_job(t_jobs **job)
 
 void	jobs_remove(t_jobs **jobs, int n)
 {
-	t_jobs	*save;
 	t_jobs	*curr;
+	t_jobs	*save;
 
-	curr = *jobs;
-	while (curr)
+	if (!jobs || !*jobs)
+		return ;
+	save = (*jobs)->next;
+	while ((curr = save) && curr != *jobs)
 	{
-		save = curr->next;
+		save = save->next;
 		if (n == 0 || curr->status & JOB_NOTIFIED)
 			remove_job(&curr);
-		if (save == 0)
-			*jobs = 0;
-		curr = save;
 	}
 }

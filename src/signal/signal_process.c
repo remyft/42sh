@@ -2,7 +2,7 @@
 
 static void	sig_p_stop(int sig)
 {
-	static int s_pid;
+	static int s_pid = 0;
 
 	if (sig < 0)
 		s_pid = sig;
@@ -15,7 +15,7 @@ static void	sig_p_stop(int sig)
 
 static void	sig_p_sigint(int sig)
 {
-	static int s_pid;
+	static int s_pid = 0;
 
 	if (sig < 0)
 		s_pid = sig;
@@ -28,7 +28,7 @@ static void	sig_p_sigint(int sig)
 
 static void	sig_p_quit(int sig)
 {
-	static int s_pid;
+	static int s_pid = 0;
 
 	if (sig < 0)
 		s_pid = sig;
@@ -41,8 +41,8 @@ static void	sig_p_quit(int sig)
 
 int		sig_to_pgid(int pgid)
 {
-	sig_p_stop(-pgid);
 	sig_p_sigint(-pgid);
+	sig_p_stop(-pgid);
 	sig_p_quit(-pgid);
 	if (pgid != 0)
 	{
