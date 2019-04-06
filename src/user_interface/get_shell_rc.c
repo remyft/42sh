@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 14:16:30 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/04 18:55:20 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/06 20:29:19 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "shell.h"
 #include "shell_env.h"
 #include "shell_lib.h"
+#include "builtins.h"
 
 void	launch_rc(t_s_env *e, int fd)
 {
@@ -31,28 +32,23 @@ void	launch_rc(t_s_env *e, int fd)
 
 void	get_rc(t_s_env *e, char *relative)
 {
-	char	*path;
-	int		fd;
-	char	*tmp_progname;
+	t_execute	exec;
 
-	tmp_progname = e->progname;
+	exec.cmd = ft_memalloc(sizeof(char**) * 2);
+	exec.cmd[0] = e->av[1];
 	if (!relative)
 	{
-		if (!(path = getenv("HOME")))
+		if (!(exec.cmd[1] = getenv("HOME")))
+		{
+			free(exec.cmd);
 			return ;
-		path = ft_strjoin(path, "/");
-		path = ft_strjoinfree(path, RC_NAME, 1);
+		}
+		exec.cmd[1] = ft_strjoin(exec.cmd[1], "/");
+		exec.cmd[1] = ft_strjoinfree(exec.cmd[1], RC_NAME, 1);
 	}
 	else
-		path = ft_strdup(relative);
-	if ((fd = open(path, O_RDONLY | O_CREAT, 0644)) < 0)
-	{
-		free(path);
-		return ;
-	}
-	e->progname = path;
-	launch_rc(e, fd);
-	free(path);
-	e->progname = tmp_progname;
-	close(fd);
+		exec.cmd[1] = ft_strdup(relative);
+	builtin_source((t_execute*)&exec, e);
+	free(exec.cmd[1]);
+	free(exec.cmd);
 }
