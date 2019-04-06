@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/04/03 21:28:16 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/04/06 15:24:44 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ ifeq ($(DEBUG),yes)
 	CFLAGS += -g3 -O0 -fno-inline -DDEBUG
 endif
 ifeq ($(SAN),yes)
-	CFLAGS += -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
+	SANITIZE := -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
 endif
 
 LIBFT_PATH = libft
@@ -357,7 +357,7 @@ $(PRINTF_LIB):
 	@make -C $(PRINTF_PATH)
 
 $(NAME): $(NEWLINE) $(OBJS)
-	@$(CC) $^ -o $@ $(LIBFT_LINK) $(PRINTF_LINK)
+	@$(CC) $^ -o $@ $(LIBFT_LINK) $(PRINTF_LINK) $(SANITIZE)
 	@echo -e "\n$(GREEN) Compiling $(YELLOW)[ $(RESET)$(NAME)$(YELLOW) ] $(OK) $(RESET)"
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
