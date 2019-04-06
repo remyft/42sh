@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/02 19:38:40 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/04 20:18:14 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ typedef struct	s_token
 	size_t			len;
 	int				type;
 	int				id;
-	int				aliased;
+	const char		*alias;
+	size_t			alen;
 	t_quote			*quote;
 	struct s_token	*next;
 	struct s_token	*prev;
@@ -156,6 +157,7 @@ t_token			*tokenise(const char *line, t_s_env *e);
 t_token			*token_loop(t_param *param, int (*ft_end)(int));
 t_token			*new_token(const char *buff, size_t pos);
 void			free_token(t_token **token);
+void			free_quote(t_quote **quote);
 t_token			*token_error(int err, t_param *param);
 
 t_token			*handle_alias(t_param *param, t_s_env *e);

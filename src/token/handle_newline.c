@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 20:16:48 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/03 18:45:34 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/04 20:52:11 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ t_token			*handle_newline(t_param *param, t_call *token)
 		param->token = token[param->token->type].identifier(param);
 		if (!(param->token = exec_line(param)))
 			free_token(&param->head);
+		param->i--;
 		return (param->token);
 	}
 	if (param->token->prev->type != OPERATOR

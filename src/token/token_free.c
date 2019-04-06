@@ -6,13 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 18:24:38 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/02 19:12:07 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/04 19:52:34 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token.h"
 
-static void		free_quote(t_quote **quote)
+void			free_quote(t_quote **quote)
 {
 	if (*quote == NULLQUOTE)
 		return ;

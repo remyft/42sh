@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 22:30:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/02 19:15:26 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/06 16:30:12 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,13 @@ static int		name_type(t_token *token)
 
 t_token			*identify_word(t_param *param)
 {
-	param->token->len = param->line + param->i - param->token->head;
+	if (!param->token->alias)
+		param->token->len = param->line + param->i - param->token->head;
+	else
+	{
+		param->token->len = ft_strlen(param->token->head);
+		param->token->alen = param->line + param->i - param->token->alias;
+	}
 	if (ft_isquote(*param->token->head))
 		param->token->id = WORD;
 	else if (param->token->id == WORD

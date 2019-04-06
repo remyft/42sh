@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/01 20:15:16 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/04 20:51:11 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@ t_token			*token_loop(t_param *param, int (*ft_end)(int c))
 
 	while (param->token)
 	{
-		if (ft_isnull(param->line[param->i])
-		|| ft_end(param->line[param->i]))
+		if (ft_isnull(param->line[param->i]) || ft_end(param->line[param->i]))
 			param->token = handle_end_of_input(param, token);
 		else if (quote_type(param->token->quote) == BACKSLASH)
 			quote_remove(&param->token->quote, BACKSLASH);
