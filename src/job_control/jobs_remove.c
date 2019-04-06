@@ -34,7 +34,7 @@ void	remove_job(t_jobs **job)
 	free_proc((*job)->m_process->p);
 	free((*job)->m_process);
 	free(*job);
-	ft_memset(*job, 0, sizeof(**job));
+	*job = NULL;
 }
 
 #include <stdio.h>
@@ -47,10 +47,18 @@ void	jobs_remove(t_jobs **jobs, int n)
 	if (!jobs || !*jobs)
 		return ;
 	save = (*jobs)->next;
-	while ((curr = save) && curr != *jobs)
+	if (save == NULL)
 	{
-		save = save->next;
-		if (n == 0 || curr->status & JOB_NOTIFIED)
-			remove_job(&curr);
+		if (n == 0 || ((*jobs)->status & JOB_NOTIFIED))
+			remove_job(jobs);
+	}
+	else
+	{
+		while ((curr = save) && curr != *jobs)
+		{
+			save = save->next;
+			if (n == 0 || curr->status & JOB_NOTIFIED)
+				remove_job(&curr);
+		}
 	}
 }

@@ -11,7 +11,24 @@
 /* ************************************************************************** */
 
 #include "job_control.h"
+#include "ft_printf.h"
 #include <signal.h>
+
+static char	*proc_translate_status(int status)
+{
+	if (status == STATUS_FINISHED)
+		return (STR_TERMINATED);
+	if (status == STATUS_RUNNING)
+		return (STR_RUNNING);
+	if (status == STATUS_SUSPENDED)
+		return (STR_SUSPENDED);
+	return (STR_RUNNING);
+}
+
+static void	job_show_status(t_jobs *job)
+{
+		ft_printf("[%d]+  %-22s command\n", job->id, proc_translate_status(job->m_process->p->status));
+}
 
 int		job_notify(t_jobs *job)
 {
@@ -23,7 +40,7 @@ int		job_notify(t_jobs *job)
 		if (sig != SIGINT && sig != SIGQUIT && sig != SIGPIPE)
 		{
 			write(1, "\n", 1);
-			job_print_status(job);
+			job_show_status(job);
 		}
 	}
 	return (1);

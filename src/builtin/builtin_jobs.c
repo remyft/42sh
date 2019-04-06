@@ -10,7 +10,8 @@ int		builtin_jobs(t_execute *exec, t_s_env *e)
 	jobs = e->jobs;
 	head = jobs;
 	(void)exec;
-	while (jobs && jobs->next != head)
+	while (jobs && jobs->next && jobs->next->next != head)
+	//while (jobs && jobs->next != head)
 	{
 		printf("job [%d] with pid : %d\n", jobs->id, jobs->pgid);
 		jobs = jobs->next;
