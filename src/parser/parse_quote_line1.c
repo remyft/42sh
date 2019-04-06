@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 18:16:10 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/06 18:46:16 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/06 18:57:42 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,3 @@ int				braced_line(t_token *token, t_line *line, t_n_input *input)
 	}
 	return (ERR_NONE);
 }
-
