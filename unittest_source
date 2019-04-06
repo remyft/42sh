@@ -1,0 +1,52 @@
+echo "------------------------------------------------"
+echo "TESTING SOURCE"
+echo "------------------------------------------------"
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo "CREATING TEST"
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo "echo 'echo BEFORE ALIAS' > test"
+echo 'echo BEFORE\ ALIAS' > test
+echo "echo ls >> test"
+echo ls >> test
+echo "echo \"alias ls='ls -G'\" >> test"
+echo "alias ls='ls -G'" >> test
+echo "echo 'echo AFTER ALIAS' >> test"
+echo 'echo AFTER\ ALIAS' >> test
+echo "echo "ls" >> test"
+echo "ls" >> test
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+echo "Simple source : source test"
+source test
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+echo "Source with no argument : source"
+source
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+echo "Source a non-existent file : source exitepas"
+source existepas
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+echo "Source a directory : source src"
+source src
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+chmod 000 test
+echo "Source a file with no permission : source test"
+source test
+chmod 777 test
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+rm test
+
+echo "------------------------------------------------"
+echo "EXITING..."
+echo "------------------------------------------------"
