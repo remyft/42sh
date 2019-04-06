@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/07 22:38:14 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/19 18:55:24 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/04 19:53:15 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,6 @@ int				expand_argument(t_argument *arg, t_s_env *e, int expand)
 	if (expand_end(&ret, arg))
 		return (expand_error(ERR_MALLOC, &ret, &param, e));
 	expand_free_t_ret(&ret, 0);
+	free_quote(&param.quote);
 	return (expand_argument(arg->next, e, expand));
 }
