@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 17:17:32 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/03 19:12:27 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/06 09:56:11 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ void	free_proc(t_process *proc)
 	}
 }
 
-#include <stdio.h>
-
 void	remove_job(t_jobs **job)
 {
 	if ((*job)->next != NULL)
@@ -36,8 +34,6 @@ void	remove_job(t_jobs **job)
 	free(*job);
 	*job = NULL;
 }
-
-#include <stdio.h>
 
 void	jobs_remove(t_jobs **jobs, int n)
 {

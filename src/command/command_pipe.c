@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/09 06:58:04 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/03 18:47:00 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/06 13:40:46 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ int		command_pipe_dup(t_jobs *job, t_process *p, t_s_env *e, int *fds)
 		fds[FD_STDOUT] = p->fds[1];
 	p->pipe[0] = fds[0];
 	p->pipe[1] = fds[1];
-	//if (!p->next)
-		//fds[FD_STDIN] = p->fds[0];
 	if (p->fds[0] == STDIN_FILENO)
 		p->fds[0] = fds[FD_STDIN];
 	if (p->fds[1] == STDOUT_FILENO)

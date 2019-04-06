@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 16:08:47 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/03 18:42:49 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/06 13:51:01 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static char	*proc_translate_status(int status)
 		return (STR_RUNNING);
 	if (status == STATUS_SUSPENDED)
 		return (STR_SUSPENDED);
+	if (status == STATUS_STOPPED)
+		return (STR_STOPPED);
 	return (STR_RUNNING);
 }
 

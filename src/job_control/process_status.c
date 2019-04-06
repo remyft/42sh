@@ -12,11 +12,12 @@ int		process_set_status(t_jobs *job, t_process *p, int status)
 	}
 	else
 	{
-		p->status = STATUS_FINISHED;
+		p->status = STATUS_STOPPED;
 		if (WIFEXITED(status) || WIFSIGNALED(status))
 		{
+			p->status = STATUS_FINISHED;
 			if (WIFSIGNALED(status))
-				p->s_signal = WIFSIGNALED(status);
+				p->s_signal = WTERMSIG(status);
 			if (p->s_signal == SIGINT)
 				job->status = p->s_signal;
 		}

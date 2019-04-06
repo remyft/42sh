@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 00:07:32 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/09 21:13:43 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/06 10:37:49 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ static char		**build_private_env(char **env)
 	return (ret);
 }
 
-#include <stdio.h>
-
 void			init_job(t_s_env *e)
 {
 	if (e->interactive)
@@ -139,7 +137,6 @@ void			init_shell_env(t_s_env *e, int ac, char **av, char **env)
 	e->public_env = collect_env(env);
 	e->private_env = build_private_env(env);
 	e->ret = 0;
-	//e->pid = getpid();
 	e->interactive = isatty(STDIN_FILENO);
 	e->pid = getpid();
 	e->pgid = getpgrp();

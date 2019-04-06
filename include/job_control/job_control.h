@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 14:09:06 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/03 18:09:41 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/06 10:11:28 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ enum
 	STATUS_RUNNING = 1 << 1,
 	STATUS_SUSPENDED = 1 << 2,
 	STATUS_CONTINUED =  1 << 3,
-	STATUS_TERMINATED =  1 << 4,
+	STATUS_STOPPED = 1 << 4,
+	STATUS_TERMINATED =  1 << 5,
 };
 
 enum
@@ -54,6 +55,7 @@ enum
 # define STR_RUNNING "running"
 # define STR_SUSPENDED "suspended"
 # define STR_CONTINUE "continued"
+# define STR_STOPPED "stopped"
 # define STR_TERMINATED "terminated"
 
 void			job_handler(t_jobs *job, t_s_env *e);

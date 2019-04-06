@@ -5,11 +5,21 @@
 #include "operator_types.h"
 #include <stdio.h>
 
+static void	set_fds(int *fds, int size)
+{
+	int		i;
+
+	i = -1;
+	while (++i < size)
+		fds[i] = -1;
+}
+
 static void	launch_m_process(t_jobs *job, t_m_process *m_p, t_s_env *e)
 {
 	int			fds[5];
 	t_process	*curr;
 
+	set_fds(fds, 5);
 	curr = m_p->p;
 	while (curr)
 	{

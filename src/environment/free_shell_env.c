@@ -6,11 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 14:23:24 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/23 14:34:16 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/06 10:39:09 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <unistd.h>
 #include "shell_lib.h"
 #include "shell_env.h"
 
@@ -28,6 +29,8 @@ static void		free_aliases(t_alias *alias)
 
 void			free_shell_env(t_s_env *e)
 {
+	if (e->interactive)
+		close(e->fd);
 	if (e->progpath)
 		free(e->progpath);
 	sh_freetab(&e->public_env);

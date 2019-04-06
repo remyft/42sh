@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/03 18:47:51 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/06 13:44:05 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,23 @@ static int	dup2_and_close(t_process *p, int from, int to)
 {
 	if (to != from)
 	{
-		if (to == -1)
+		if (to == -1 && from > 0)
 			close(from);
 		else
 		{
 			dup2(to, from);
 			if (!(to == STDERR_FILENO && from == STDOUT_FILENO)
 					&& !(to == STDOUT_FILENO && from == STDERR_FILENO))
-				close(to);
+				if (to > 3 && to != -1)
+					close(to);
 		}
 	}
 	if (from == STDIN_FILENO)
 	{
-		close(p->pipe[0]);
-		close(p->pipe[1]);
+		if (p->pipe[0] != -1)
+			close(p->pipe[0]);
+		if (p->pipe[1] != -1)
+			close(p->pipe[1]);
 	}
 	return (1);
 }
@@ -66,7 +69,7 @@ static void		command_execve(char *name, t_jobs *job, t_process *p, t_s_env *e)
 		job->pgid = p->pid;
 	setpgid(p->pid, job->pgid);
 	if (job->foreground == 0)
-		ioctl(e->fd, TIOCSPGRP, job->pgid);
+		ioctl(e->fd, TIOCSPGRP, &job->pgid);
 	if (signal_to_default() == 1)
 	{
 		ft_dprintf(2, "21sh: signal to default with process %d failed\n", p->pid);

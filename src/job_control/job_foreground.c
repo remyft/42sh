@@ -19,7 +19,8 @@ int		job_foreground(t_jobs *job, t_s_env *e, int cont)
 			return (job_kill(job, e));
 		}
 	}
-	ioctl(e->fd, TIOCSPGRP, &job->pgid);
+	if (ioctl(e->fd, TIOCSPGRP, &job->pgid) < 0)
+		printf("Error ioctl\n");
 	job_wait(job);
 	if (job_finished(job) == 0 && tcgetattr(e->fd, &e->save) != 0)
 		dprintf(2, "Error make tcgetattr\n");
