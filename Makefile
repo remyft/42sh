@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/04/06 15:24:44 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/04/06 18:33:48 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -152,6 +152,8 @@ SRCS += parse_async.c						\
 		parse_new_functions.c				\
 		parse_operator.c					\
 		parse_pipe.c						\
+		parse_quote_line2.c					\
+		parse_quote_line1.c					\
 		parse_quote.c						\
 		parse.c								\
 

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 18:11:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/04 16:54:11 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/06 18:10:14 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ static char		get_delimiter(int type)
 		return ('"');
 	if (type == SINGLE_QUOTE)
 		return ('\'');
-	if (type == BRACE)
+	if (type == BRACE || type == D_BRACE)
 		return ('}');
-	if (type == PARENTHESE)
+	if (type == PARENTHESE || type == D_PARENTHESE)
 		return (')');
 	if (type == BACKQUOTE)
 		return ('`');

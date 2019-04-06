@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 14:48:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/04 20:48:40 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/06 18:47:01 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static char		*get_new_prompt(t_quote *head)
 {
 	static char	*prompt[] = {
 		DEFAULT_PROMPT, BACKSLASH_PROMPT, DQUOTE_PROMPT, SQUOTE_PROMPT,
-		BRACE_PROMPT, PARENTHESE_PROMPT, BACKQUOTE_PROMPT, HERE_DOC_PROMPT,
+		BRACE_PROMPT, D_BRACE_PROMPT, PARENTHESE_PROMPT, D_PARENTHESE_PROMPT,
+		BACKQUOTE_PROMPT, HERE_DOC_PROMPT,
 	};
 	char		*ret;
 	int			i;
@@ -68,44 +69,15 @@ static int		get_new_input(t_quote *quote, t_line **line)
 	return (ERR_NONE);
 }
 
-static int		old_input_type(t_token *token, t_line *line, t_n_input *input,
-char **cmdline)
-{
-	if (input->type == BACKSLASH)
-	{
-		input->linesave[ft_strlen(input->linesave) - 1] = '\0';
-		token->len--;
-	}
-	else if (input->type == PARENTHESE)
-	{
-		if (*line->curr->buff
-		&& token->head < *cmdline + 2
-		&& ft_strncmp(token->head + token->len - 2, "$(", 2)
-		&& line->curr->buff[0] != ')')
-			if (!(input->linesave = ft_strjoinfree(input->linesave, ";", 1)))
-				return (ERR_MALLOC_FAILED);
-	}
-	else if (input->type == BACKQUOTE)
-	{
-		if (*line->curr->buff
-		&& token->head[token->len - 1] != '`'
-		&& line->curr->buff[0] != '`')
-			if (!(input->linesave = ft_strjoinfree(input->linesave, ";", 1)))
-				return (ERR_MALLOC_FAILED);
-	}
-	else if (token->alen
-	&& !(input->linesave = ft_strjoinfree(input->linesave, " ", 1)))
-		return (ERR_MALLOC_FAILED);
-	else if (!token->alen
-	&& !(input->linesave = ft_strjoinfree(input->linesave, "\n", 1)))
-		return (ERR_MALLOC_FAILED);
-	return (ERR_NONE);
-}
-
 static int		tokenise_quote(t_token *token, t_line *line, t_n_input *input,
 char **cmdline)
 {
-	if (old_input_type(token, line, input, cmdline)
+	static int	(*handler[])(t_token *, t_line *, t_n_input *) = {
+		aliased_line, bslashed_line, dquoted_line, squoted_line, braced_line,
+		dbraced_line, parenthed_line, dparenthed_line, backquoted_line,
+	};
+
+	if (handler[input->type](token, line, input)
 	|| !(*cmdline = ft_strjoin(input->linesave, line->curr->buff)))
 		return (ERR_MALLOC_FAILED);
 	free_token(input->token);

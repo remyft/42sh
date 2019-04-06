@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/04 20:18:14 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/06 18:23:34 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <stdio.h>
+# include "quote.h"
 # include "shell_env.h"
 
 /*
@@ -36,39 +37,6 @@ enum {
 	IO_NUMBER,
 	RESERVED_WORD
 };
-
-/*
-** Enumeration for \, ', ", (, `.
-*/
-enum {
-	NO_QUOTE = 0,
-	BACKSLASH,
-	DOUBLE_QUOTE,
-	SINGLE_QUOTE,
-	BRACE,
-	PARENTHESE,
-	BACKQUOTE
-};
-
-# define DEFAULT_PROMPT		"> "
-# define BACKSLASH_PROMPT	""
-# define DQUOTE_PROMPT		"dquote"
-# define SQUOTE_PROMPT		"quote"
-# define BRACE_PROMPT		"braceparam"
-# define PARENTHESE_PROMPT	"cmdsubst"
-# define BACKQUOTE_PROMPT	"bquote"
-# define HERE_DOC_PROMPT	"heredoc"
-
-/*
-** Quote main structure
-*/
-# define NULLQUOTE	(t_quote *)0
-
-typedef struct	s_quote
-{
-	int				type;
-	struct s_quote	*next;
-}				t_quote;
 
 /*
 ** Structure for TOKENS

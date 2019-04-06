@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 22:30:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/06 16:30:12 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/06 18:55:33 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,10 @@ t_token			*identify_word(t_param *param)
 			param->token->id = ionumber_type(param->token);
 		else
 			param->token->id = name_type(param->token);
-		if (!(param->token = handle_alias(param, param->e))
-		|| quote_type(param->token->quote) != NO_QUOTE)
+		if (!(param->token = handle_alias(param, param->e)))
 			return (param->token);
+		if (quote_type(param->token->quote) != NO_QUOTE)
+			return (token_error(ERR_INVALID_KEY, param));
 	}
 	if (!(param->token->next = new_token(param->line, param->i)))
 		return (token_error(ERR_MALLOC, param));

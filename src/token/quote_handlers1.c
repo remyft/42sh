@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 18:09:52 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/16 18:13:14 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/06 18:13:32 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ t_token			*braceopen(t_param *param, int type)
 {
 	if (quote_type(param->token->quote) == SINGLE_QUOTE)
 		return (param->token);
+	if (param->i && *(param->line + param->i - 1) == '$')
+		type = D_BRACE;
 	if (!quote_add(&param->token->quote, type))
 		return (token_error(ERR_MALLOC, param));
 	return (param->token);
@@ -64,8 +66,12 @@ t_token			*braceopen(t_param *param, int type)
 
 t_token			*braceclose(t_param *param, int type)
 {
+	int			qtype;
+
+	qtype = quote_type(param->token->quote);
 	if (!param->token->quote)
 		return (param->token);
-	quote_remove(&param->token->quote, type);
+	if (qtype == type || qtype == D_BRACE)
+		quote_remove(&param->token->quote, qtype);
 	return (param->token);
 }
