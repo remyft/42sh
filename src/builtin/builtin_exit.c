@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 16:42:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/24 17:30:44 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/06 21:50:20 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int				builtin_exit(t_execute *exec, t_s_env *e)
 			return (exit_error(0, exec->cmd[0], e));
 		else if (!str_full_digit(exec->cmd[1]))
 			return (exit_error(1, exec->cmd[0], e));
-		e->ret = ft_atoi(exec->cmd[1]);
+		e->ret = (unsigned char)ft_atoi(exec->cmd[1]);
 	}
 	return (e->ret);
 }
