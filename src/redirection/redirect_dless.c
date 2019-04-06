@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:21:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/03 21:47:56 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/04 16:53:33 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ static int		get_here_doc_line(char **hdoc, char *eof, t_line *line)
 		deal_typing(line);
 		if (line->tmp[0] != 4)
 			write(STDIN_FILENO, "\n", 1);
-		if (line->tmp[0] == -1 || !ft_strcmp(line->curr->buff, eof) || line->tmp[0] == 4)
+		if (line->tmp[0] == -1 || !ft_strcmp(line->curr->buff, eof)
+		|| line->tmp[0] == 4)
 			break ;
 		if (*hdoc == NULL)
 			*hdoc = ft_strdup(line->curr->buff);
