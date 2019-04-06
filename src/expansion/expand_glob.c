@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 03:52:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/20 20:54:26 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/04 19:32:37 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ int				expand_glob(t_exp *param, t_ret *ret)
 	t_slst	*glob;
 
 	ptr = ft_strndup((char *)param->buff + param->i, (int)param->buff_len);
+	if ((tmp = ft_strchr(ptr, ' ')))
+		*tmp = '\0';
 	tmp = ptr;
 	if (ret->word != NULL)
 		ptr = ft_strjoin(ret->word, ptr);

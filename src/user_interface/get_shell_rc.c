@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 14:16:30 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/03 20:53:46 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/04 18:55:20 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ void	launch_rc(t_s_env *e, int fd)
 {
 	char	*line;
 
+	e->interactive = 0;
 	line = sh_get_file(fd);
 	if (line)
 	{
 		launch_new_cmd(&line, e);
 		ft_strdel(&line);
 	}
+	e->interactive = 1;
 }
 
 void	get_rc(t_s_env *e, char *relative)

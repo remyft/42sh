@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:13:27 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/02 16:36:47 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/04 19:11:55 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ void	go_end(t_line *line)
 		line->index += line->nb_col;
 		deal_scroll(line, 0, (int)line->nb_line);
 	}
-	if ((line->len + line->lprompt) % line->nb_col == 0)
+	if ((line->len + line->lprompt) % line->nb_col == 0
+			|| (line->index + line->lprompt) % line->nb_col
+				> (line->len + line->lprompt) % line->nb_col)
 		tputs(tgetstr("do", NULL), 1, ft_pchar);
 	tputs(tgoto(tgetstr("ch", NULL), 0,
 				(line->len + line->lprompt) % line->nb_col), 1, ft_pchar);
