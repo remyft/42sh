@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:17:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/22 14:36:46 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/06 19:24:11 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 
 typedef struct	s_execute
 {
+	char			**cmd;
 	t_argument		*variable;
 	t_argument		*command;
 	t_redirection	*redirection;
-	char			**cmd;
 	char			**env;
 	int				fds[3];
 }				t_execute;
