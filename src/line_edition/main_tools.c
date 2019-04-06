@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/31 18:19:41 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/06 18:49:13 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ void		deal_key(t_line *line)
 	while (++i < (int)(sizeof(fctn) / sizeof(*fctn)))
 		if (ft_strcmp(line->tmp, fctn[i].key) == 0)
 		{
-			fctn[i].f(line);
+			if (line->term || i == 0 || i == 1)
+				fctn[i].f(line);
 			return ;
 		}
 }
