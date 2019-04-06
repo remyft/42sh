@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/02 18:26:19 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/04 19:30:50 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ int				main(int ac, char **av, char **ep)
 	if (MAX_SHELL_LEN > 10000 || MAX_SHELL_LEN < 100)
 		return (1);
 	line = NULL;
-	tgetent(NULL, getenv("TERM"));
-	tputs(tgetstr("cl", NULL), 1, ft_pchar);
 	init_shell_env(&e, ac, av, ep);
 	init_shell_line(&line, &e);
 	define_new_term(&e.save);
