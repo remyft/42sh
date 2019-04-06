@@ -1,0 +1,53 @@
+PATHCD=$(pwd)
+echo $PATHCD
+
+echo "TESTING CD"
+
+echo -n "Current path : " && pwd
+
+echo "Simple cd"
+cd && echo -n "pwd: " && pwd
+
+echo -n "CD $PATHCD/libft : " && cd $PATHCD/libft && pwd
+
+echo -n "CD - : pwd : " && cd -
+cd $PATHCD
+
+echo "CD /wrong/path :"
+cd /wrong/path
+
+echo "CD /path/to/file :"
+cd ~/.bashrc
+
+echo "CD libft/../.."
+echo -n "current pwd: " && pwd ; cd libft/../.. ; echo -n "new pwd: " && pwd
+cd $PATHCD
+
+echo "CD /.."
+cd /.. ; echo "pwd: $PWD"
+cd $PATHCD
+
+echo "CD /../../.././.././.."
+cd /../../.././.././.. ; echo -n "pwd: " && pwd
+cd $PATHCD
+
+echo "CD ././././././././././////"
+cd ././././././././././//// ; echo -n "pwd: " && pwd
+cd $PATHCD
+
+echo "CD /////////"
+cd ///////// ; echo -n "pwd: " && pwd
+cd $PATHCD
+
+echo "CD -- -"
+cd -- - ; echo -n "pwd: " && pwd
+cd $PATHCD
+
+echo "CD -- --"
+cd -- -- ; echo -n "pwd: " && pwd
+
+echo "CD -- -- --"
+cd -- -- --; echo "(see zsh for double argument in cd)"
+
+echo
+echo -n "Exiting... " && exit

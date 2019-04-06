@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/04/06 20:59:57 by rfontain         ###   ########.fr        #
+#    Updated: 2019/04/06 21:57:44 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -390,12 +390,6 @@ $(OBJS_DIR)%.o: $(USER_DIR)%.c
 $(OBJS_DIR)%.o: $(USER_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
 	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(LIBRARY_DIR) -I$(INC_DIR)/$(BUILTIN_DIR) -I$(INC_DIR)/$(COMMAND_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR)
-	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
-
-$(OBJS_DIR)%.o: $(BUIL_DIR)%.c
-$(OBJS_DIR)%.o: $(BUIL_DIR)%.c $(DEPS_DIR)%.d
-	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(TERM_DIR)%.c

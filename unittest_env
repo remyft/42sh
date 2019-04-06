@@ -1,0 +1,6 @@
+echo "TESTING ENV"
+echo "Simple env :"
+env
+echo "Diff env and /usr/bin/env :"
+env > /tmp/test_env && /usr/bin/env > /tmp/test_bin_env && diff /tmp/test_env /tmp/test_bin_env
+echo OK
