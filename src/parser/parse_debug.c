@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 14:52:10 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/23 19:10:41 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/04 17:35:40 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,8 @@ static void		print_redirection(t_redirection *red, char *tmp, size_t i)
 	}
 }
 
-static void		print_command(t_command *cmd)
+static void		print_command(t_command *cmd, t_argument *arg)
 {
-	t_argument	*arg;
 	t_token		*token;
 	char		*tmp;
 	size_t		i;
@@ -67,11 +66,16 @@ static void		print_command(t_command *cmd)
 	{
 		if ((token = arg->token)
 		&& (tmp = ft_strndup((char *)token->head, token->len)))
-			ft_dprintf(2, "\t\t\tARG %s\n", tmp);
+			ft_dprintf(2, "\t\t\tARG [%s", tmp);
+		ft_strdel(&tmp);
+		if ((token = arg->token) && token->alias
+		&& (tmp = ft_strndup((char *)token->alias, token->alen)))
+			ft_dprintf(2, "%s", tmp);
+		ft_dprintf(2, "]\n");
 		ft_strdel(&tmp);
 		i = 0;
 		while (arg->cmd && arg->cmd[i])
-			ft_dprintf(2, "\t\t\t    %s\n", arg->cmd[i++]);
+			ft_dprintf(2, "\t\t\t    [%s]\n", arg->cmd[i++]);
 		arg = arg->next;
 	}
 	print_redirection(cmd->redir, NULL, 0);
@@ -84,10 +88,10 @@ static void		print_pipe(t_pipeline *pipe)
 	ft_dprintf(2, "\tPIPED COMMAND\n");
 	ft_dprintf(2, "\t\tPIPE LEFT\n");
 	(pipe->left && *(int *)pipe->left == IS_A_COMMAND) ?
-		print_command(pipe->left) : print_pipe(pipe->left);
+		print_command(pipe->left, NULL) : print_pipe(pipe->left);
 	ft_dprintf(2, "\t\tPIPE RIGHT\n");
 	(pipe->right && *(int *)pipe->right == IS_A_COMMAND) ?
-		print_command(pipe->right) : print_pipe(pipe->right);
+		print_command(pipe->right, NULL) : print_pipe(pipe->right);
 }
 
 void			debug_parser(t_m_list *list)
@@ -108,7 +112,7 @@ void			debug_parser(t_m_list *list)
 			else if (ao->type == AND_IF_VALUE)
 				ft_dprintf(2, "\tAND COMMAND\n");
 			(ao->cmd && *(int *)ao->cmd == IS_A_COMMAND) ?
-				print_command(ao->cmd) : print_pipe(ao->cmd);
+				print_command(ao->cmd, NULL) : print_pipe(ao->cmd);
 			ao = ao->next;
 		}
 		ptr = ptr->next;

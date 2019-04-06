@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 14:48:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/03 21:45:11 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/04 20:48:40 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ static int		get_new_input(t_quote *quote, t_line **line)
 	return (ERR_NONE);
 }
 
-static int		old_input_type(t_token *token, t_line *line, t_n_input *input)
+static int		old_input_type(t_token *token, t_line *line, t_n_input *input,
+char **cmdline)
 {
 	if (input->type == BACKSLASH)
 	{
@@ -78,6 +79,7 @@ static int		old_input_type(t_token *token, t_line *line, t_n_input *input)
 	else if (input->type == PARENTHESE)
 	{
 		if (*line->curr->buff
+		&& token->head < *cmdline + 2
 		&& ft_strncmp(token->head + token->len - 2, "$(", 2)
 		&& line->curr->buff[0] != ')')
 			if (!(input->linesave = ft_strjoinfree(input->linesave, ";", 1)))
@@ -91,7 +93,11 @@ static int		old_input_type(t_token *token, t_line *line, t_n_input *input)
 			if (!(input->linesave = ft_strjoinfree(input->linesave, ";", 1)))
 				return (ERR_MALLOC_FAILED);
 	}
-	else if (!(input->linesave = ft_strjoinfree(input->linesave, "\n", 1)))
+	else if (token->alen
+	&& !(input->linesave = ft_strjoinfree(input->linesave, " ", 1)))
+		return (ERR_MALLOC_FAILED);
+	else if (!token->alen
+	&& !(input->linesave = ft_strjoinfree(input->linesave, "\n", 1)))
 		return (ERR_MALLOC_FAILED);
 	return (ERR_NONE);
 }
@@ -99,7 +105,7 @@ static int		old_input_type(t_token *token, t_line *line, t_n_input *input)
 static int		tokenise_quote(t_token *token, t_line *line, t_n_input *input,
 char **cmdline)
 {
-	if (old_input_type(token, line, input)
+	if (old_input_type(token, line, input, cmdline)
 	|| !(*cmdline = ft_strjoin(input->linesave, line->curr->buff)))
 		return (ERR_MALLOC_FAILED);
 	free_token(input->token);

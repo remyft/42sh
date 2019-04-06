@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 18:11:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/03 21:15:02 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/04 16:54:11 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,17 @@ void			missing_quote_err(const char *err, t_token *token, t_s_env *e)
 	get_delimiter(quote_type(token->quote)));
 }
 
-
 int				parse_error(int err, t_token *token, t_s_env *e)
 {
 	static t_err	errors[] = {
 		{ NULL, NULL },
 		{ UNEXPECTED_STR, default_err },
-		{ PARAMETER_STR , default_err },
-		{ HANDLED_STR   , default_err },
-		{ MALLOC_STR    , default_err },
-		{ TOKENIZE_STR  , default_err },
-		{ SIGNAL_STR    , default_err },
-		{ QUOTE_STR     , missing_quote_err },
+		{ PARAMETER_STR, default_err },
+		{ HANDLED_STR, default_err },
+		{ MALLOC_STR, default_err },
+		{ TOKENIZE_STR, default_err },
+		{ SIGNAL_STR, default_err },
+		{ QUOTE_STR, missing_quote_err },
 	};
 
 	e->ret = 130;
