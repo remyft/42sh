@@ -1,0 +1,45 @@
+PATHCD=$(pwd)
+echo $PATHCD
+
+echo "TESTING CD"
+
+echo -n "Current path : " && pwd
+
+echo -n "Simple cd : " && cd && pwd
+
+echo -n "CD $PATHCD/libft : " && cd $PATHCD/libft && pwd
+
+echo -n "CD - : " && cd -
+cd $PATHCD
+
+echo "CD /wrong/path :"
+cd /wrong/path
+
+echo "CD /path/to/file :"
+cd ~/.bashrc
+
+echo "CD libft/../.."
+pwd ; cd libft/../.. ; pwd
+cd $PATHCD
+
+echo "CD /.."
+cd /.. ; echo $PWD
+cd $PATHCD
+
+echo "CD /../../.././.././.."
+pwd ; cd /../../.././.././.. ; pwd
+cd $PATHCD
+
+echo "CD ././././././././././////"
+pwd ; cd ././././././././././//// ; pwd
+cd $PATHCD
+
+echo
+echo -n "Exiting... " && exit
+echo
+echo "TESTING ENV"
+echo "Simple env :"
+env
+echo "Diff env and /usr/bin/env :"
+env > /tmp/test_env && /usr/bin/env > /tmp/test_bin_env && diff /tmp/test_env /tmp/test_bin_env
+echo OK
