@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/03 17:11:55 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/07 15:33:10 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct	s_process
 	int					s_suspended;
 	int					s_signal;
 	int					exit_status;
+	int					forked;
 	int					type;
 	int					pipe[2];
 	int					fds[3];

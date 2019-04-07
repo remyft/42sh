@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:02:57 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/06 13:43:45 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/07 16:55:27 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,13 @@ int				command_check(t_jobs *job, t_process *p, t_s_env *e)
 	{
 		while (i < sizeof(builtins) / sizeof(builtins[0]))
 		{
-			if (!ft_strcmp(builtins[i].name, exec->cmd[0]))
-				return (command_builtin(builtins[i].handler, exec, e));
+			if (!ft_strcmp(builtins[i].name, exec->cmd[0]) && !p->next)
+			{
+				if (p->pid == 0)
+					return (command_builtin(builtins[i].handler, exec, e));
+				else
+					exit(command_builtin(builtins[i].handler, exec, e));
+			}
 			i++;
 		}
 		ret = command_system(job, p, e);

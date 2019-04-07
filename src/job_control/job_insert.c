@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 21:33:49 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/03 18:27:50 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/07 15:53:20 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_jobs	*job_insert(t_s_env *e)
 	if (!(job = ft_memalloc(sizeof(t_jobs))))
 		return (0);
 	job->id = 1;
+	job->pgid = e->pid;
 	if (!e->jobs)
 		e->jobs = job;
 	else

@@ -10,10 +10,10 @@ int		job_kill(t_jobs *job, t_s_env *e)
 		kill(-job->pgid, SIGTERM);
 		kill(-job->pgid, SIGCONT);
 	}
-	//job->notified = 1;
-	if (ioctl(e->fd, TIOCSPGRP, &job->pgid) < 0)
+	job->status |= JOB_NOTIFIED;
+	if (ioctl(e->fd, TIOCSPGRP, &e->pid) < 0)
 	{
-		ft_dprintf(2, "job [%d] tcsetpgrp failed\n", job->pgid);
+		ft_dprintf(2, "job [%d] tcsetpgrp failed\n", e->pid);
 		return (1);
 	}
 	return (0);

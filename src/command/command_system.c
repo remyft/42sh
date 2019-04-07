@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/06 13:44:05 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/07 17:06:17 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,9 @@ int				command_system(t_jobs *job, t_process *p, t_s_env *e)
 		else if (p->pid < 0)
 			error = command_error(e->progname, ERR_FORK, exec->cmd, e);
 		else if (e->interactive)
-			command_process(p->pid, job, p);
+			command_process(p->pid, e->pid, job, p);
 	}
 	ft_strdel(&name);
+	//return (1);
 	return (error);
 }
