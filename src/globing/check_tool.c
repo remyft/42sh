@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 23:32:32 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/03 21:28:30 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/07 14:26:19 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ static int	brack_norm(char **src, char **targ)
 	{
 		if (**src == '-')
 		{
-			while (tmp < *(*src + 1) && tmp != **targ)
+			while (tmp <= *(*src + 1) && tmp != **targ)
 				tmp++;
 			if (tmp == **targ)
 				*targ += 1;
-			if (tmp < *(*src + 1))
+			if (tmp <= *(*src + 1))
 				break ;
 		}
 		tmp = **src;
