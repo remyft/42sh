@@ -1,53 +1,138 @@
 PATHCD=$(pwd)
-echo $PATHCD
 
 echo "TESTING CD"
 
 echo -n "Current path : " && pwd
 
-echo "Simple cd"
+echo -e "\nSimple cd"
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
 cd && echo -n "pwd: " && pwd
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
 
-echo -n "CD $PATHCD/libft : " && cd $PATHCD/libft && pwd
+echo -e "\nCD $PATHCD/libft :"
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
+cd $PATHCD/libft && pwd
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
 
-echo -n "CD - : pwd : " && cd -
-cd $PATHCD
-
-echo "CD /wrong/path :"
+echo -e "\nCD /wrong/path :"
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
 cd /wrong/path
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
 
-echo "CD /path/to/file :"
+echo -e "\nCD /path/to/file :"
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
 cd ~/.bashrc
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
 
-echo "CD libft/../.."
-echo -n "current pwd: " && pwd ; cd libft/../.. ; echo -n "new pwd: " && pwd
+echo -e "\nCD libft/../.."
+echo -n "current pwd: " && pwd
+cd libft/../..
+echo -n "new pwd: " && pwd
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
 cd $PATHCD
 
-echo "CD /.."
-cd /.. ; echo "pwd: $PWD"
+echo -e "\nCD /.."
+echo -n "current pwd: " && pwd
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
+cd /..
+echo -n "new pwd: " && pwd
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
 cd $PATHCD
 
-echo "CD /../../.././.././.."
-cd /../../.././.././.. ; echo -n "pwd: " && pwd
+echo -e "\nCD /../../.././.././.."
+echo -n "current pwd: " && pwd
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
+cd /../../.././.././..
+echo -n "new pwd: " && pwd
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
 cd $PATHCD
 
-echo "CD ././././././././././////"
-cd ././././././././././//// ; echo -n "pwd: " && pwd
+echo -e "\nCD ././././././././././////"
+echo -n "current pwd: " && pwd
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
+cd ././././././././././////
+echo -n "new pwd: " && pwd
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
 cd $PATHCD
 
-echo "CD /////////"
-cd ///////// ; echo -n "pwd: " && pwd
+echo -e "\nCD /////////"
+cd /////////
+echo -n "pwd: " && pwd
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
 cd $PATHCD
 
-echo "CD -- -"
-cd -- - ; echo -n "pwd: " && pwd
+echo -e "\nCD -- -"
+cd -- -
+echo -n "pwd: " && pwd
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
 cd $PATHCD
 
-echo "CD -- --"
+echo -e "\nCD -- --"
 cd -- -- ; echo -n "pwd: " && pwd
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
 
-echo "CD -- -- --"
+echo -e "\nCD -- -- --"
 cd -- -- --; echo "(see zsh for double argument in cd)"
+
+echo -e "\nCD /tmp && cd tmp Users"
+cd /tmp && cd tmp Users
+echo -n "pwd: " && pwd
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
+
+echo -e "\nCD /tmp && cd tmp User"
+cd /tmp && cd tmp User
+echo -n "pwd: " && pwd
+
+echo -e "\nCD -:"
+echo -n "curr pwd: " && pwd
+echo -n "cd -: " && cd -
+cd $PATHCD
+
+echo -e "\nCD /tmp && unsetenv OLDPWD && cd -"
+cd /tmp
+echo -n "curr pwd: " && pwd
+unsetenv OLDPWD
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
+cd -
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
+cd $PATHCD
+
+echo -e "\nOLDPWD= cd -"
+echo -n "curr pwd: " && pwd
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
+OLDPWD= cd -
+echo -n "new pwd: " && pwd
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
+cd $PATHCD
+
+echo -e "\nREMOVED directory"
+mkdir -p /tmp/test/test
+cd /tmp/test/test
+echo -n "curr pwd: " && pwd
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
+rm -rf /tmp/test
+cd .
+cd ..
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
+cd $PATHCD
+echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
+
+echo -e "\nINVALID OPTION"
+cd -o
+cd -u
+
+echo -e "\nHOME NOT DEFINED"
+echo -n "current pwd: " && pwd
+HOMETMP=$HOME
+unsetenv HOME
+cd ~
+HOME=$HOMETMP
+echo -n "new pwd: " && pwd
+
+echo -e "\nBAD FILE DESCRIPTOR"
+echo -n "current pwd: " && pwd
+cd - >&-
+echo -n "new pwd: " && pwd
 
 echo
 echo -n "Exiting... " && exit
