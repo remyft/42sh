@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 06:26:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/06 21:54:37 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/07 16:07:50 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ int				builtin_echo(t_execute *exec, t_s_env *e)
 		else
 			i++;
 	while (exec->cmd[i])
-		if (builtin_echo_write(exec->cmd[i], opt))
+		if (builtin_echo_write(exec->cmd[i], opt)
+		|| (exec->cmd[i + 1] && ft_dprintf(STDOUT_FILENO, " ") < 0))
 			return (echo_error(e));
 		else
 			i++;
