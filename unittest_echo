@@ -3,22 +3,26 @@ echo "TESTING ECHO"
 echo "------------------------------------------------"
 
 echo "Simple echo :"
-echo
+echo 
+echo "ret : $?"
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "Echo Salut les amis :"
-echo Salut les amis
+echo Salut les amis 
+echo "ret : $?"
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "Echo -e Comment\nca\nva\n? :"
 echo -e "Comment\nca\nva\n?"
+echo "ret : $?"
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "Echo -n Aurevoir les amis :"
-echo -n Aurevoir les amis
+echo -n Aurevoir les amis 
+echo "ret : $?"
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
