@@ -1,53 +1,83 @@
-PATHCD=$(pwd)
-echo $PATHCD
-
+echo "------------------------------------------------"
 echo "TESTING CD"
+echo "------------------------------------------------"
+
+PATHCD=$(pwd)
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo -n "Current path : " && pwd
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "Simple cd"
 cd && echo -n "pwd: " && pwd
 
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
 echo -n "CD $PATHCD/libft : " && cd $PATHCD/libft && pwd
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo -n "CD - : pwd : " && cd -
 cd $PATHCD
 
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
 echo "CD /wrong/path :"
 cd /wrong/path
 
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
 echo "CD /path/to/file :"
 cd ~/.bashrc
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "CD libft/../.."
 echo -n "current pwd: " && pwd ; cd libft/../.. ; echo -n "new pwd: " && pwd
 cd $PATHCD
 
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
 echo "CD /.."
 cd /.. ; echo "pwd: $PWD"
 cd $PATHCD
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "CD /../../.././.././.."
 cd /../../.././.././.. ; echo -n "pwd: " && pwd
 cd $PATHCD
 
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
 echo "CD ././././././././././////"
 cd ././././././././././//// ; echo -n "pwd: " && pwd
 cd $PATHCD
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "CD /////////"
 cd ///////// ; echo -n "pwd: " && pwd
 cd $PATHCD
 
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
 echo "CD -- -"
 cd -- - ; echo -n "pwd: " && pwd
 cd $PATHCD
 
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
 echo "CD -- --"
 cd -- -- ; echo -n "pwd: " && pwd
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "CD -- -- --"
 cd -- -- --; echo "(see zsh for double argument in cd)"
 
-echo
-echo -n "Exiting... " && exit
+echo "------------------------------------------------"
+echo "EXITING CD"
+echo "------------------------------------------------"
