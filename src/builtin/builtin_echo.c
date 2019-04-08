@@ -21,20 +21,36 @@ static int		echo_error(t_s_env *e)
 	return (1);
 }
 
+static char		builtin_echo_escaped(char c)
+{
+	static int	table[] = {
+		0x07, 0x08, 0x00, 0x00, 0x1B, 0x0C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x0A, 0x0A, 0x0A, 0x0A, 0x0D, 0x0A, 0x09, 0x00, 0x0B, 0x00, 0x00,
+		0x00, 0x00,
+	};
+
+	if (c >= 'a' && c <= 'z')
+		return ((char)table[c]);
+	return (0x00);
+}
+
 static int		builtin_echo_write(char *arg, int opt)
 {
-	size_t		i;
-	char		c;
+	size_t			i;
+	unsigned char	c;
 
 	i = 0;
 	if (opt & ECHO_OPT_E)
 	{
 		while (arg[i])
 		{
-			if (arg[i] == '\\' && arg[i + 1] == 'n' && ++i)
-				c = '\n';
-			else
-				c = arg[i];
+			if (arg[i] == '\\')
+			{
+				if (!(c = builtin_echo_escaped(arg[i + 1])))
+					c = '\\';
+				else
+					i++;
+			}
 			if (ft_dprintf(STDOUT_FILENO, "%c", c) < 0)
 				return (1);
 			i++;
