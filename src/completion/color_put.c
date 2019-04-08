@@ -13,6 +13,9 @@
 #include "put.h"
 #include "libft.h"
 #include "shell_lib.h"
+#ifdef __linux
+# define __USE_MISC
+#endif
 #include "dirent.h"
 
 static void	deal_access(t_line *line, char *file)

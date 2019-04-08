@@ -86,9 +86,7 @@ int			put_complet(t_tree *tern, int *put, t_line *line, int *nb_ret)
 	t_slct	*select;
 	t_cpl_e	env;
 	int		ret;
-	int		bsn;
 
-	bsn = 0;
 	env.chr = NULL;
 	env.bru[0] = 0;
 	select = NULL;
