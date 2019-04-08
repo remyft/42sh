@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/04/03 17:41:25 by dbaffier         ###   ########.fr        #
+#    Updated: 2019/04/08 14:56:09 by dbaffier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -316,6 +316,7 @@ SRCS	+= job_insert.c						\
 		   job_suspended.c					\
 		   job_signaled.c					\
 		   job_notify.c						\
+		   jobs_notify_ended.c				\
 		   jobs_remove.c					\
 
 SIGNAL_DIR	= signal/

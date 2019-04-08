@@ -1,43 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   job_utils.c                                        :+:      :+:    :+:   */
+/*   jobs_notify_ended.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/02 15:17:20 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/08 15:08:38 by dbaffier         ###   ########.fr       */
+/*   Created: 2019/04/08 14:13:22 by dbaffier          #+#    #+#             */
+/*   Updated: 2019/04/08 16:09:29 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "job_control.h"
+#include <stdio.h>
 
-t_jobs		*job_by_id(int id, t_jobs *jobs)
+int		jobs_notify_ended(t_jobs *jobs)
 {
-	while (jobs)
+	int			status;
+	t_jobs		*job;
+	t_process	*p;
+	pid_t		pid;
+
+	(void)jobs;
+	while ((pid = waitpid(WAIT_ANY, &status, WNOHANG)) > 0)
 	{
-		if (jobs->id == id)
-			return (jobs);
-		jobs = jobs->next;
+		job = job_by_pid(jobs, pid);
+		p = process_by_pid(job->m_process, pid);
+		process_set_status(job, p, status);
+		job_notify(job);
+		if (job_finished(job))
+			printf("[%d]   %-22s command\n", job->id, "done");
 	}
-	return (jobs);
+	return (1);
 }
-
-t_jobs		*job_by_pid(t_jobs *jobs, pid_t pid)
-{
-	t_process	*curr;
-
-	while (jobs)
-	{
-		curr = jobs->m_process->p;
-		while (curr)
-		{
-			if (curr->pid == pid)
-				return (jobs);
-			curr = curr->next;
-		}
-		jobs = jobs->next;
-	}
-	return (NULL);
-}
-

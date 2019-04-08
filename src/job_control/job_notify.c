@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 16:08:47 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/06 13:51:01 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/08 16:09:29 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "ft_printf.h"
 #include <signal.h>
 
-static char	*proc_translate_status(int status)
+char	*process_translate_status(int status)
 {
 	if (status == STATUS_FINISHED)
 		return (STR_TERMINATED);
@@ -27,9 +27,10 @@ static char	*proc_translate_status(int status)
 	return (STR_RUNNING);
 }
 
-static void	job_show_status(t_jobs *job)
+void	job_show_status(t_jobs *job)
 {
-		ft_printf("[%d]+  %-22s command\n", job->id, proc_translate_status(job->m_process->p->status));
+		ft_printf("[%d]+  %-22s command\n", job->id,
+				process_translate_status(job->m_process->p->status));
 }
 
 int		job_notify(t_jobs *job)

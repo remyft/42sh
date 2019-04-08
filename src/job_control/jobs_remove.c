@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 17:17:32 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/06 09:56:11 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/08 16:09:28 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	remove_job(t_jobs **job)
 	*job = NULL;
 }
 
+#include <stdio.h>
+
 void	jobs_remove(t_jobs **jobs, int n)
 {
 	t_jobs	*curr;
@@ -46,7 +48,10 @@ void	jobs_remove(t_jobs **jobs, int n)
 	if (save == NULL)
 	{
 		if (n == 0 || ((*jobs)->status & JOB_NOTIFIED))
+		{
+			printf("Removing job %d\n", (*jobs)->id);
 			remove_job(jobs);
+		}
 	}
 	else
 	{
@@ -54,7 +59,10 @@ void	jobs_remove(t_jobs **jobs, int n)
 		{
 			save = save->next;
 			if (n == 0 || curr->status & JOB_NOTIFIED)
+			{
+				printf("Removing job %d\n", curr->id);
 				remove_job(&curr);
+			}
 		}
 	}
 }

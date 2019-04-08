@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 14:09:06 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/07 16:51:54 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/08 16:09:28 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,18 +66,25 @@ int				job_kill(t_jobs *job, t_s_env *e);
 int				job_background(t_jobs *job, t_s_env *e, int cont);
 int				job_foreground(t_jobs *job, t_s_env *e, int cont);
 int				job_finished(t_jobs *job);
+int				jobs_notify_ended(t_jobs *jobs);
 int				jobs_terminated(t_s_env *e);
 int				job_completed(t_jobs *job);
 int				job_suspended(t_jobs *job);
 int				job_signaled(t_jobs *job);
 int				job_notify(t_jobs *job);
+void			job_show_status(t_jobs *job);
 void			jobs_remove(t_jobs **jobs, int n);
 
 t_jobs			*job_insert(t_s_env *e);
 t_jobs			*job_by_id(int id, t_jobs *jobs);
-t_jobs			*job_by_pid(t_s_env *e, pid_t pid);
+t_jobs			*job_by_pid(t_jobs *jobs, pid_t pid);
+
+t_process		*process_by_pid(t_m_process *m_p, pid_t pid);
 
 int				create_process(t_s_env *e, t_execute *exec, int type);
+int				process_set_status(t_jobs *jobs, t_process *p, int status);
+
+char			*process_translate_status(int status);
 void			process_status(t_jobs *job, t_m_process *m_p, t_process *p);
 int				proc_update(t_s_env *e, t_jobs *job, pid_t pid, int status);
 
