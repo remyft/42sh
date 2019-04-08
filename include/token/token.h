@@ -35,7 +35,8 @@ enum {
 	ASSIGNMENT_WORD,
 	NAME,
 	IO_NUMBER,
-	RESERVED_WORD
+	RESERVED_WORD,
+	COMMENT
 };
 
 /*
@@ -126,10 +127,11 @@ t_token			*token_loop(t_param *param, int (*ft_end)(int));
 t_token			*new_token(const char *buff, size_t pos);
 void			free_token(t_token **token);
 void			free_quote(t_quote **quote);
+void			clean_end_token(t_token **token, t_token **head);
 t_token			*token_error(int err, t_param *param);
 
 t_token			*handle_alias(t_param *param, t_s_env *e);
-t_token			*handle_comment(t_param *param, t_call *tokens);
+t_token			*handle_comment(t_param *param, t_call *token);
 t_token			*handle_equal(t_param *param, t_call *token);
 t_token			*handle_end_of_input(t_param *param, t_call *token);
 t_token			*handle_minus(t_param *param, t_call *token);
