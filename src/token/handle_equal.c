@@ -22,9 +22,10 @@
 
 t_token			*handle_equal(t_param *param, t_call *token)
 {
-	(void)token;
 	if (param->token->type == UNDEFINED)
-		param->token->type = WORD;
+		param->token->type = TOKEN;
+	else if (param->token->type != TOKEN)
+		param->token = token[param->token->type].identifier(param);
 	else if ((!param->token->prev || param->token->prev->id == ASSIGNMENT_WORD
 	|| (param->token->prev->type == OPERATOR && param->token->id < LESS_VALUE))
 		&& is_token_valid_name(param))
