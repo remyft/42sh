@@ -43,14 +43,12 @@ static void	get_to_len(t_line *line, char tchar)
 static void	get_to_buff(t_line *line, int *cp)
 {
 	char	tchar;
-	int		j;
 
 	tchar = line->curr->buff[line->index + 1];
 	if (line->index != line->len)
 		line->curr->buff[line->index + 1] = line->curr->buff[line->index];
 	line->curr->buff[line->index++] = line->tmp[*cp];
 	line->len++;
-	j = 1;
 	ft_putchar(line->tmp[*cp]);
 	*cp += 1;
 	if (line->index != line->len)

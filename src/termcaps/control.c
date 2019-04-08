@@ -16,10 +16,6 @@
 #include "libft.h"
 #include "shell_term.h"
 
-#ifdef __linux__
-# define NSIG _NSIG
-#endif
-
 void			deal_exit(t_line *line)
 {
 	if (line->curr->quoted)

@@ -16,6 +16,12 @@
 # include <term.h>
 # include <string.h>
 # include <signal.h>
+# ifdef __linux
+//#  define __USE_MISC
+#  define NSIG _NSIG
+typedef __sighandler_t sig_t;
+# endif
+
 
 # define LEFT 1 << 0
 # define RIGHT 1 << 1

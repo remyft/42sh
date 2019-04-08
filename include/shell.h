@@ -13,6 +13,11 @@
 #ifndef SHELL_H
 # define SHELL_H
 
+# ifdef __linux
+#  define __USE_MISC
+//typedef __sighandler_t sig_t;
+# endif
+
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <dirent.h>

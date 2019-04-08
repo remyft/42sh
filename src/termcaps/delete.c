@@ -51,9 +51,6 @@ static void	del_left_tool(t_line *line)
 
 static void	del_left(t_line *line)
 {
-	int		j;
-
-	j = 0;
 	line->len = ft_strlen(line->curr->buff);
 	if (line->index && (line->index + line->lprompt) % line->nb_col == 0)
 		tputs(tgetstr("up", NULL), 1, ft_pchar);

@@ -19,11 +19,9 @@
 static void		get_lines(t_hist **begin, int fd)
 {
 	char	*line;
-	char	*beg;
 	char	*chr;
 
 	line = sh_get_file(fd);
-	beg = line;
 	if (line)
 	{
 		if (!(*begin = ft_memalloc(sizeof(t_hist))))
@@ -122,9 +120,7 @@ static void		get_new_hist(t_hist **curr, char *buff, int fd)
 void			save_history(t_line *line, char *buff, t_hist **curr,
 		char **env)
 {
-	int		j;
 	int		fd;
-	int		index;
 	char	*path;
 
 	if (!(path = get_env(env, "HOME")))
@@ -136,8 +132,7 @@ void			save_history(t_line *line, char *buff, t_hist **curr,
 		fd = open(path, O_RDWR | O_APPEND | O_CREAT, 0644);
 		free(path);
 	}
-	index = line->index / line->nb_col - 1;
-	j = ft_strlen(buff) / line->nb_col;
 	get_new_hist(curr, buff, fd);
 	close(fd);
+	(void)line;
 }

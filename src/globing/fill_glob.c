@@ -13,6 +13,10 @@
 #include "shell.h"
 #include "libft.h"
 #include "globing.h"
+#ifdef __linux
+# define __USE_MISC
+# define DT_DIR 4
+#endif
 
 static void	get_new_str(t_slist **glob, char *prev)
 {
