@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/07 17:06:17 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/09 17:31:38 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ static void		command_execve(char *name, t_jobs *job, t_process *p, t_s_env *e)
 		exit(EXIT_FAILURE);
 	}
 	command_setup(p);
+	command_check(job, p, e);
 	execve(name, ((t_execute *)p->exec)->cmd, ((t_execute *)p->exec)->env);
 	exit(EXIT_FAILURE);
 }
@@ -103,6 +104,5 @@ int				command_system(t_jobs *job, t_process *p, t_s_env *e)
 			command_process(p->pid, e->pid, job, p);
 	}
 	ft_strdel(&name);
-	//return (1);
 	return (error);
 }

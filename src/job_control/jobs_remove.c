@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 17:17:32 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/08 16:09:28 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/09 16:18:03 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,20 @@ void	free_proc(t_process *proc)
 	}
 }
 
-void	remove_job(t_jobs **job)
+void	remove_job(t_jobs **job, t_jobs *node)
 {
-	if ((*job)->next != NULL)
-		(*job)->next->prev = (*job)->prev;
-	if ((*job)->prev != NULL)
-		(*job)->prev->next = (*job)->next;
-	free_proc((*job)->m_process->p);
-	free((*job)->m_process);
-	free(*job);
-	*job = NULL;
-	ft_memdel((void **)job);
+	if (*job == NULL || node == NULL)
+		return ;
+	if (*job == node)
+		*job = node->next;
+	if (node->next != NULL)
+		node->next->prev = node->prev;
+	if (node->prev != NULL)
+		node->prev->next = node->next;
+	free_proc(node->m_process->p);
+	free(node->m_process);
+	free(node);
+	node = NULL;
 }
 
 #include <stdio.h>
@@ -45,25 +48,17 @@ void	jobs_remove(t_jobs **jobs, int n)
 
 	if (!jobs || !*jobs)
 		return ;
-	save = (*jobs)->next;
-	if (save == NULL)
+	curr = *jobs;
+	while (curr)
 	{
-		if (n == 0 || ((*jobs)->status & JOB_NOTIFIED))
+		save = curr->prev;
+		if (n == 0 || (curr->status & JOB_NOTIFIED))
 		{
-			printf("Removing job %d\n", (*jobs)->id);
-			remove_job(jobs);
+			printf("Removing jobs %d\n", curr->id);
+			remove_job(jobs, curr);
+			curr = save;
 		}
-	}
-	else
-	{
-		while ((curr = save) && curr != *jobs)
-		{
-			save = save->next;
-			if (n == 0 || curr->status & JOB_NOTIFIED)
-			{
-				printf("Removing job %d\n", curr->id);
-				remove_job(&curr);
-			}
-		}
+		else
+			curr = curr->next;
 	}
 }

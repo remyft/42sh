@@ -73,6 +73,7 @@ void	process_status(t_jobs *job, t_m_process *m_p, t_process *p)
 			&& p->status != STATUS_SUSPENDED)
 	{
 		errno = 0;
+		printf("waiting pid %d\n", p->pid);
 		pid = waitpid(p->pid, &status, WUNTRACED);
 		if (pid < 0 && errno == ECHILD)
 			p->status = STATUS_FINISHED;
