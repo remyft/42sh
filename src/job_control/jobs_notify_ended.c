@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 14:13:22 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/08 16:09:29 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/09 15:27:28 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int		jobs_notify_ended(t_jobs *jobs)
 	t_process	*p;
 	pid_t		pid;
 
-	(void)jobs;
 	while ((pid = waitpid(WAIT_ANY, &status, WNOHANG)) > 0)
 	{
 		job = job_by_pid(jobs, pid);
@@ -28,7 +27,10 @@ int		jobs_notify_ended(t_jobs *jobs)
 		process_set_status(job, p, status);
 		job_notify(job);
 		if (job_finished(job))
+		{
+			job->status |= JOB_NOTIFIED;
 			printf("[%d]   %-22s command\n", job->id, "done");
+		}
 	}
 	return (1);
 }

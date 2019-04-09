@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/08 14:13:44 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/09 17:24:38 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,13 @@ static void		init_shell_line(t_line **line, t_s_env *e)
 	(*line)->beg_buff = (*line)->curr;
 }
 
+#include <stdio.h>
+
 static void		shell_loop(t_line *line, t_s_env *e)
 {
 	while (e->shell_loop && line->shell_loop)
 	{
-		jobs_remove(&e->jobs, 1);
+	//	jobs_remove(&e->jobs, 1);
 		put_prompt(line->prompt);
 		check_path(line, e->public_env);
 		deal_typing(line);

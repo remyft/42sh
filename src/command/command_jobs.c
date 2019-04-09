@@ -17,15 +17,15 @@ static void	set_fds(int *fds, int size)
 static int launch_m_process(t_jobs *job, t_m_process *m_p, t_s_env *e)
 {
 	int			fds[5];
-	//int			ret;
+	int			ret;
 	t_process	*curr;
 
 	set_fds(fds, 5);
 	curr = m_p->p;
 	while (curr)
 	{
-		command_pipe_dup(job, curr, e, fds);
-	//		return (job_kill(job, e));
+		if ((ret = command_pipe_dup(job, curr, e, fds)) != 0)
+			return (ret);
 		close_unexpected_fd(fds);
 		fds[FD_STDIN] = fds[FD_PIPE_IN];
 		m_p->ret = curr->exit_status;
