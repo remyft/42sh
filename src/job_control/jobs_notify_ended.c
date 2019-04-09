@@ -28,7 +28,10 @@ int		jobs_notify_ended(t_jobs *jobs)
 		process_set_status(job, p, status);
 		job_notify(job);
 		if (job_finished(job))
+		{
+			job->status |= JOB_NOTIFIED;
 			printf("[%d]   %-22s command\n", job->id, "done");
+		}
 	}
 	return (1);
 }

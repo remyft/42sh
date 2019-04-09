@@ -33,6 +33,7 @@ void	remove_job(t_jobs **job)
 	free((*job)->m_process);
 	free(*job);
 	*job = NULL;
+	ft_memdel((void **)job);
 }
 
 #include <stdio.h>
