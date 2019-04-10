@@ -16,6 +16,30 @@
 #include "job_control.h"
 #include <stdio.h>
 
+int				command_builtin_forked(t_jobs *job, t_process *p, t_s_env *e)
+{
+	static t_builtins	builtins[] = {
+		BUILTIN_ALIAS, BUILTIN_CD, BUILTIN_ECHO, BUILTIN_ENV, BUILTIN_EXIT,
+		BUILTIN_SETENV, BUILTIN_UNALIAS, BUILTIN_UNSETENV, BUILTIN_JOBS,
+	};
+	size_t				i;
+	t_execute			*exec;
+	
+	i = 0;
+	(void)job;
+	exec = (t_execute *)p->exec;
+	if (exec->cmd && exec->cmd[0])
+	{
+		while (i < sizeof(builtins) / sizeof(builtins[0]))
+		{
+			if (!ft_strcmp(builtins[i].name, exec->cmd[0]))
+				exit(command_builtin(builtins[i].handler, exec, e));
+			i++;
+		}
+	}
+	return (1);
+}
+
 int				command_check(t_jobs *job, t_process *p, t_s_env *e)
 {
 	static t_builtins	builtins[] = {
@@ -36,17 +60,11 @@ int				command_check(t_jobs *job, t_process *p, t_s_env *e)
 			if (!ft_strcmp(builtins[i].name, exec->cmd[0]) && !p->next)
 			{
 				if (p->pid == 0 && job->foreground == 0)
-				{
-					job->status |= JOB_BUILTIN;
 					return (command_builtin(builtins[i].handler, exec, e));
-				}
-				else if (job->foreground == 0)
-					exit(command_builtin(builtins[i].handler, exec, e));
 			}
 			i++;
 		}
-		if (p->pid != 0)
-			ret = command_system(job, p, e);
+		ret = command_system(job, p, e);
 	}
 	return (ret);
 }

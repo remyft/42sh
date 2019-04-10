@@ -25,8 +25,6 @@ int		command_job_wait(t_jobs *job, t_s_env *e)
 		job->foreground = 0;
 		job_wait(job);
 	}
-	else if (job->status & JOB_BUILTIN)
-		return (0);
 	else if (job->foreground == 1)
 		return (job_background(job, e, 0));
 	else

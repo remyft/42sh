@@ -76,7 +76,7 @@ static void		command_execve(char *name, t_jobs *job, t_process *p, t_s_env *e)
 		exit(EXIT_FAILURE);
 	}
 	command_setup(p);
-	command_check(job, p, e);
+	command_builtin_forked(job, p, e);
 	execve(name, ((t_execute *)p->exec)->cmd, ((t_execute *)p->exec)->env);
 	exit(EXIT_FAILURE);
 }
