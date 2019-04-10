@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strequ.c                                        :+:      :+:    :+:   */
+/*   builtin_jobs.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/06 07:03:20 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/10 17:06:25 by dbaffier         ###   ########.fr       */
+/*   Created: 2019/04/10 16:52:47 by dbaffier          #+#    #+#             */
+/*   Updated: 2019/04/10 17:48:30 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#ifndef BUILTIN_JOBS_H
+# define BUILTIN_JOBS_H
 
-int		ft_strequ(char const *s1, char const *s2)
+enum
 {
-	int i;
+	JOB_OPT_L = 1,
+	JOB_OPT_P,
+	JOB_OPT_H,
+	JOB_OPT_IO,
+	JOB_NO_OPT,
+};
 
-	if (s1 == NULL || s2 == NULL)
-		return (0);
-	i = 0;
-	while (s1[i] == s2[i] && s1[i])
-		i++;
-	if (s1[i] == s2[i])
-		return (1);
-	return (0);
-}
+
+#endif

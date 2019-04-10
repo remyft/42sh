@@ -53,5 +53,6 @@ int			command_job(t_jobs *job, t_s_env *e)
 		ret = m_p->ret;
 		command_restore_fds(((t_execute *)m_p->p->exec)->fds);
 	}
+	jobs_notify_ended(e->jobs);
 	return (0);
 }

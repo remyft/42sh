@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:02:57 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/09 17:39:10 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/10 14:54:17 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int				command_builtin_forked(t_jobs *job, t_process *p, t_s_env *e)
 		while (i < sizeof(builtins) / sizeof(builtins[0]))
 		{
 			if (!ft_strcmp(builtins[i].name, exec->cmd[0]))
-				exit(command_builtin(builtins[i].handler, exec, e));
+				exit(command_builtin(builtins[i].handler, job, p, e));
 			i++;
 		}
 	}
@@ -60,7 +60,7 @@ int				command_check(t_jobs *job, t_process *p, t_s_env *e)
 			if (!ft_strcmp(builtins[i].name, exec->cmd[0]) && !p->next)
 			{
 				if (p->pid == 0 && job->foreground == 0)
-					return (command_builtin(builtins[i].handler, exec, e));
+					return (command_builtin(builtins[i].handler, job, p, e));
 			}
 			i++;
 		}

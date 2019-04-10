@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/09 17:31:38 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/10 15:03:00 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,7 @@ int				command_system(t_jobs *job, t_process *p, t_s_env *e)
 			command_process(p->pid, e->pid, job, p);
 	}
 	ft_strdel(&name);
+	if (error != 0)
+		job->status |= JOB_NOTIFIED;
 	return (error);
 }

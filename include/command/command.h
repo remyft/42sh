@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:17:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/07 15:55:14 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/10 14:52:11 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef int		(*t_builtin)(t_execute *, t_s_env *);
 
 int				execute_list(t_m_list *list, t_s_env *e);
 int				command_access(char *path, char *absolute_path);
-int				command_builtin(t_builtin builtin, t_execute *exec, t_s_env *e);
+int				command_builtin(t_builtin builtin, t_jobs *job, t_process *p, t_s_env *e);
 int				command_builtin_forked(t_jobs *job, t_process *p, t_s_env *e);
 int				command_check(t_jobs *job, t_process *p, t_s_env *e);
 int				command_job(t_jobs *job, t_s_env *e);

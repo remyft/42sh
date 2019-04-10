@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 20:23:05 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/09 17:30:30 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/10 16:43:11 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int		command_job_wait(t_jobs *job, t_s_env *e)
 		job->foreground = 0;
 		job_wait(job);
 	}
+	else if (job->status & JOB_BUILTIN_INTERN)
+		return (0);
 	else if (job->foreground == 1)
 		return (job_background(job, e, 0));
 	else

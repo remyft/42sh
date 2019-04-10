@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 16:08:47 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/08 16:09:29 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/10 14:56:04 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*process_translate_status(int status)
 
 void	job_show_status(t_jobs *job)
 {
-		ft_printf("[%d]+  %-22s command\n", job->id,
+		ft_printf("\n[%d]+  %-22s command\n", job->id,
 				process_translate_status(job->m_process->p->status));
 }
 
