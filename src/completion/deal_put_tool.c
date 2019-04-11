@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 16:54:10 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/20 19:51:26 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/11 16:50:33 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ static char	*find_chr_buff(t_line *line)
 		return (*(ptr = sh_strrchr(line->curr->buff, '$') + 1) == '{' ?
 				ptr + 1 : ptr);
 	}
-	return (sh_strchr(ptr = sh_strrchr(line->curr->buff, ' '), '/') ?
+	if (!(ptr = sh_strrchr(line->curr->buff, ' ')))
+		ptr = line->curr->buff;
+	return (sh_strchr(ptr, '/') ?
 			sh_strrchr(ptr, '/') + 1 : ptr + 1);
 }
 

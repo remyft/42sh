@@ -121,19 +121,22 @@ echo "(see zsh for double argument in cd)"
 echo "ret $?"
 echo -n "\$PWD: $PWD - \$OLDPWD: $OLDPWD - pwd: " && pwd
 
-echo -e "\nCD -- -- --"
-cd -- -- --; echo "(see zsh for double argument in cd)"
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-echo -e "\nCD /tmp && cd tmp Users"
+echo -e "CD /tmp && cd tmp Users"
 cd /tmp && cd tmp Users
 echo -n "pwd: " && pwd
 echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
 
-echo -e "\nCD /tmp && cd tmp User"
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+echo -e "CD /tmp && cd tmp User"
 cd /tmp && cd tmp User
 echo -n "pwd: " && pwd
 
-echo -e "\nCD -:"
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+echo -e "CD -:"
 echo -n "curr pwd: " && pwd
 echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
 cd -
@@ -141,8 +144,10 @@ echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
 echo -n "new pwd: " && pwd
 cd $PATHCD
 
-echo -e "\nOLDPWD UNDEFINED"
-echo "(cd /tmp && unsetenv OLDPWD && cd -)"
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+echo -e "OLDPWD UNDEFINED"
+echo -e "(CD /tmp && unsetenv OLDPWD && cd -)"
 cd /tmp
 unsetenv OLDPWD
 echo -n "curr pwd: " && pwd
@@ -154,6 +159,9 @@ cd $PATHCD
 
 echo -e "\nOLDPWD DEFINED BUT EMPTY"
 echo "(OLDPWD= cd -)"
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+echo -e "\nOLDPWD= cd -"
 echo -n "curr pwd: " && pwd
 echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
 OLDPWD= cd -
@@ -161,7 +169,9 @@ echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
 echo -n "new pwd: " && pwd
 cd $PATHCD
 
-echo -e "\nREMOVED DIRECTORY"
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+echo -e "REMOVED DIRECTORY"
 mkdir -p /tmp/test/test
 cd /tmp/test/test
 echo -n "curr pwd: " && pwd
@@ -174,6 +184,8 @@ cd $PATHCD
 echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
 echo -n "new pwd: " && pwd
 
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
 echo -e "\nINVALID OPTION"
 echo -n "curr pwd: " && pwd
 echo -e "\$PWD: $PWD - \$OLDPWD: $OLDPWD\n"
@@ -181,6 +193,8 @@ echo -n "cd -o: " && cd -o
 echo -n "cd -u: " && cd -u
 echo -e "\n\$PWD: $PWD - \$OLDPWD: $OLDPWD"
 echo -n "new pwd: " && pwd
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo -e "\nHOME NOT DEFINED"
 echo -n "current pwd: " && pwd
@@ -190,10 +204,14 @@ echo -n "cd ~: " && cd ~
 HOME=$HOMETMP
 echo -n "new pwd: " && pwd
 
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
 echo -e "\nBAD FILE DESCRIPTOR"
 echo -n "current pwd: " && pwd
 cd - >&-
 echo -n "new pwd: " && pwd
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo
 echo -n "Exiting... " && exit
