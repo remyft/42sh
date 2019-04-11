@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:38:48 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/23 17:49:51 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/11 17:55:59 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	put_cpl_screen(t_line *line, int nb_ret)
 		iter -= line->nb_col;
 	}
 	tputs(tgoto(tgetstr("ch", NULL), 0, 0), 1, ft_pchar);
-	put_prompt(line->prompt);
+	put_prompt(line->prompt, line->ret);
 	ft_putstr(line->curr->buff);
 	if ((line->len + line->lprompt) % line->nb_col == 0)
 	{
@@ -54,7 +54,7 @@ static int	deal_unfind(t_line *line)
 		tputs(tgetstr("up", NULL), 1, ft_pchar);
 		tmp_len -= line->nb_col;
 	}
-	put_prompt(line->prompt);
+	put_prompt(line->prompt, line->ret);
 	ft_putstr(line->curr->buff);
 	if ((line->len + line->lprompt) % line->nb_col == 0)
 	{

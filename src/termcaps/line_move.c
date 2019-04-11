@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/30 16:59:39 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/02 16:49:26 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/11 17:57:51 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void		deal_scroll(t_line *line, int up, int nb_line)
 		tputs(tgetstr("sc", NULL), 1, ft_pchar);
 		tputs(tgetstr("cr", NULL), 1, ft_pchar);
 		if (up && line->index + line->lprompt <= line->nb_col)
-			put_prompt(line->prompt);
+			put_prompt(line->prompt, line->ret);
 		ft_putbuff_len(line);
 		tputs(tgetstr("rc", NULL), 1, ft_pchar);
 	}
