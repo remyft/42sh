@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 06:26:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/07 16:07:50 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/08 19:00:46 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,28 +21,28 @@ static int		echo_error(t_s_env *e)
 	return (1);
 }
 
-static char		builtin_echo_escaped(char c)
+static char		builtin_echo_escaped(int c)
 {
-	static int	table[] = {
+	static char	table[] = {
 		0x07, 0x08, 0x00, 0x00, 0x1B, 0x0C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 		0x00, 0x0A, 0x0A, 0x0A, 0x0A, 0x0D, 0x0A, 0x09, 0x00, 0x0B, 0x00, 0x00,
 		0x00, 0x00,
 	};
 
 	if (c >= 'a' && c <= 'z')
-		return ((char)table[c]);
-	return (0x00);
+		return (table[c - 'a']);
+	return (0);
 }
 
 static int		builtin_echo_write(char *arg, int opt)
 {
-	size_t			i;
-	unsigned char	c;
+	size_t		i;
+	char		c;
 
 	i = 0;
 	if (opt & ECHO_OPT_E)
 	{
-		while (arg[i])
+		while ((c = arg[i]))
 		{
 			if (arg[i] == '\\')
 			{
