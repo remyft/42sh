@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 19:36:53 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/03 20:37:04 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/08 20:25:16 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,12 @@ int				env_error(int err, char *c, t_e_opt *opt, t_s_env *e)
 		if (err == ERR_ILLEGAL_OPT || err == ERR_NEED_ARG)
 		{
 			ft_dprintf(STDERR_FILENO, " -- %c\nusage: env ", c[opt->j]);
-			ft_dprintf(STDERR_FILENO, "[-iv] [-P utilpath] [-u name]\n\t");
-			ft_dprintf(STDERR_FILENO, "[name=value ...] [utility [args ...]]");
+			ft_dprintf(STDERR_FILENO, "[-iv] [-P utilpath] [-u name]\n       ");
+			ft_dprintf(STDERR_FILENO, "    [name=value ...]");
+			ft_dprintf(STDERR_FILENO, " [utility [argument ...]]");
 		}
-		else if (err != ERR_WRITE)
-			ft_dprintf(STDERR_FILENO, ": %s", c);
+		// else if (err != ERR_WRITE)
+		// 	ft_dprintf(STDERR_FILENO, ": %s", c);
 	}
 	ft_dprintf(STDERR_FILENO, "\n");
 	env_free_opt(opt);

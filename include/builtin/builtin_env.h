@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 18:54:19 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/20 20:33:53 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/08 20:40:00 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ typedef struct	s_env_opt
 	int			options;
 	int			verbosity;
 	char		*path;
-	char		**env;
 	char		*cmd;
 	size_t		i;
 	size_t		j;
