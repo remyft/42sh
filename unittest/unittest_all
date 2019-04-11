@@ -1,0 +1,42 @@
+echo "------------------------------------------------"
+echo "TESTING ALL UNITTEST"
+echo "------------------------------------------------"
+
+mkdir result_unittest
+
+./21sh unittest/unittest_echo
+./21sh unittest/unittest_echo > result_unittest/echo_21sh 2>&1
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+./21sh unittest/unittest_env
+./21sh unittest/unittest_env > result_unittest/env_21sh 2>&1
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+./21sh unittest/unittest_setenv
+./21sh unittest/unittest_setenv > result_unittest/setenv_21sh 2>&1
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+./21sh unittest/unittest_exit
+./21sh unittest/unittest_exit > result_unittest/exit_21sh 2>&1
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+./21sh unittest/unittest_cd
+./21sh unittest/unittest_cd > result_unittest/cd_21sh 2>&1
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+./21sh unittest/unittest_source
+./21sh unittest/unittest_source > result_unittest/source_21sh 2>&1
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+./21sh unittest/unittest_globbing
+./21sh unittest/unittest_globbing > result_unittest/globbing_21sh 2>&1
+
+echo "------------------------------------------------"
+echo "EXITING..."
+echo "------------------------------------------------"
