@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/26 13:22:54 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/08 21:15:38 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ int				command_system(t_execute *exec, t_s_env *e)
 	int			error;
 
 	name = NULL;
-	if ((error = command_path(&name, exec->cmd[0],
+	if ((error = command_redirect(exec->fds, exec->redirection)))
+		command_error(e->progname, error, NULL, e);
+	else if ((error = command_path(&name, exec->cmd[0],
 	sh_getnenv("PATH", exec->env))))
 		command_error(e->progname, error, exec->cmd, e);
 	else if ((error = command_access(name, exec->cmd[0])))
 		command_error(e->progname, error, exec->cmd, e);
-	else if ((error = command_redirect(exec->fds, exec->redirection)))
-		command_error(e->progname, error, NULL, e);
 	else
 		command_execve(name, exec, e);
 	if (name)
