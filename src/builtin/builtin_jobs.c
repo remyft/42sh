@@ -1,52 +1,62 @@
 #include "shell_env.h"
 #include "ft_dprintf.h"
 #include "ft_printf.h"
+#include "builtin_jobs.h"
 #include "job_control.h"
 
-static void	print_opt_error(char *s)
+static int	jobs_opts_loop(char *arg, int *opts, t_s_env *e)
 {
-	ft_dprintf(2, "42sh: jobs: %.2s: invalid option\n", s);
-}
-
-static void	print_opt_p(t_jobs *jobs, t_execute *exec)
-{
-	while (jobs)
-	{
-		if ((t_execute *)jobs->m_process->p->exec == exec)
-			;
-		else
-			ft_printf("%d\n", jobs->pgid);
-		jobs = jobs->next;
-	}
-}
-
-int		print_jobs(t_jobs *jobs, t_execute *exec, t_s_env *e)
-{
-	int		i;
+	(void)e;
+	size_t		i;
 
 	i = 1;
-	(void)e;
-	while (exec->cmd[i] && exec->cmd[i][0] == '-')
+	while (arg[i])
 	{
-		if (ft_strequ(exec->cmd[i], "--help"))
-			ft_printf("--help\n");
-	//		print_help();
-		else if (!ft_strcmp(exec->cmd[i], "-l"))
-			ft_printf("-l\n");
-		else if (!ft_strcmp(exec->cmd[i], "-p"))
-			print_opt_p(jobs, exec);
-		else
+		if (arg[i] == 'l')
 		{
-			ft_printf("enter\n");
-			print_opt_error(exec->cmd[i]);
+			*opts &= ~JOB_OPT_P;
+			*opts |= JOB_OPT_L;
 		}
+		else if (arg[i] == 'p')
+		{
+			*opts &= ~JOB_OPT_L;
+			*opts |= JOB_OPT_P;
+		}
+		else
+			return (jobs_error(ERR_INVALID_OPTION, &arg[i], e));
 		i++;
 	}
-	return (1);
+	return (0);
+}
+
+int		jobs_opts(char **args, int *opts, t_s_env *e)
+{
+	size_t	i;
+
+	i = 1;
+	while (args[i] && args[i][0] == '-')
+	{
+		if (!ft_strcmp(args[i], "--help"))
+			ft_printf("--help\n");
+		if (!ft_strcmp(args[i], "--"))
+			return (i + 1);
+		if (jobs_opts_loop(args[i], opts, e))
+			return (0);
+		i++;
+	}
+	return (i);
 }
 
 int		builtin_jobs(t_execute *exec, t_s_env *e)
 {
-	print_jobs(e->jobs, exec, e);
-	return (0);
+	int		opts;
+	int		i;
+
+	opts = 0;
+	if (!(i = jobs_opts(exec->cmd, &opts, e)))
+		return (1);
+	if (!exec->cmd[i])
+		return (jobs_no_arg(e->jobs, exec, &opts));
+	else
+		return (jobs_spe_arg(exec, e, i, &opts));
 }

@@ -1,19 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_intern.h                                    :+:      :+:    :+:   */
+/*   builtin_jobs_opt_l.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/29 16:24:36 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/11 17:38:39 by dbaffier         ###   ########.fr       */
+/*   Created: 2019/04/11 15:19:44 by dbaffier          #+#    #+#             */
+/*   Updated: 2019/04/11 16:09:32 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIGNAL_INTERN_H
-# define SIGNAL_INTERN_H
-
-int		signal_to_default(void);
-int		sig_to_pgid(int pgid);
-
-#endif
+#include "job_control.h

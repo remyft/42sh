@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/04/08 14:56:09 by dbaffier         ###   ########.fr        #
+#    Updated: 2019/04/11 16:58:55 by dbaffier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -265,6 +265,12 @@ SRCS += builtin_alias_error.c				\
 		builtin_unalias.c					\
 		builtin_unsetenv.c					\
 		builtin_jobs.c						\
+		builtin_jobs_error.c				\
+		builtin_jobs_no_arg.c				\
+		builtin_jobs_expansions.c			\
+		builtin_jobs_no_arg.c				\
+		builtin_jobs_opt_p.c				\
+		builtin_jobs_no_opt.c				\
 
 # LIBRARY
 LIBRARY_DIR = lib/
@@ -318,6 +324,7 @@ SRCS	+= job_insert.c						\
 		   job_notify.c						\
 		   jobs_notify_ended.c				\
 		   jobs_remove.c					\
+		   jobs_is_curr.c					\
 
 SIGNAL_DIR	= signal/
 SRCS		+= signal_reset.c				\

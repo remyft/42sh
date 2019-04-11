@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_intern.h                                    :+:      :+:    :+:   */
+/*   builtin_jobs_opt_p.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/29 16:24:36 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/11 17:38:39 by dbaffier         ###   ########.fr       */
+/*   Created: 2019/04/11 16:09:58 by dbaffier          #+#    #+#             */
+/*   Updated: 2019/04/11 16:24:36 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIGNAL_INTERN_H
-# define SIGNAL_INTERN_H
+#include "builtin_jobs.h"
+#include "job_control.h"
+#include "ft_printf.h"
 
-int		signal_to_default(void);
-int		sig_to_pgid(int pgid);
-
-#endif
+void		job_opt_p(const t_jobs *job)
+{
+	ft_printf("%d\n", job->pgid);
+}

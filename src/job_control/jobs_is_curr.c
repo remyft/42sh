@@ -1,19 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_intern.h                                    :+:      :+:    :+:   */
+/*   jobs_is_curr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/29 16:24:36 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/11 17:38:39 by dbaffier         ###   ########.fr       */
+/*   Created: 2019/04/11 16:23:01 by dbaffier          #+#    #+#             */
+/*   Updated: 2019/04/11 16:31:22 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIGNAL_INTERN_H
-# define SIGNAL_INTERN_H
+#include "job_control.h"
+#include <stdio.h>
 
-int		signal_to_default(void);
-int		sig_to_pgid(int pgid);
+int		job_is_curr(t_jobs *job, t_execute *exec)
+{
+	t_m_process		*m_p;
+	t_process		*p;
 
-#endif
+	m_p = job->m_process;
+	while (m_p)
+	{
+		p = m_p->p;
+		while (p)
+		{
+			if (p->exec == exec)
+				return (1);
+			p = p->next;
+		}
+		m_p = m_p->next;
+	}
+	return (0);
+}

@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 14:09:06 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/10 17:48:31 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/11 17:32:25 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ enum
 	JOB_FOREGROUND = 1 << 0,
 	JOB_NOTIFIED = 1 << 1,
 	JOB_BUILTIN_INTERN = 1 << 2,
+	JOB_MINUS = 1 << 3,
+	JOB_LAST = 1 << 4,
 };
 
 enum
@@ -73,6 +75,7 @@ int				job_completed(t_jobs *job);
 int				job_suspended(t_jobs *job);
 int				job_signaled(t_jobs *job);
 int				job_notify(t_jobs *job);
+int				job_is_curr(t_jobs *job, t_execute *exec);
 void			job_show_status(t_jobs *job);
 void			jobs_remove(t_jobs **jobs, int n);
 
