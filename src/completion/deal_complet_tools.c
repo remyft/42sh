@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 02:17:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/24 16:58:27 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/11 16:47:46 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ int		str_chrglob(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '*' || str[i] == '[' || str[i] == '?')
+		if ((str[i] == '*' || str[i] == '[' || str[i] == '?')
+				&& (i == 0 || str[i - 1] != '\\'))
 			return (1);
 		i++;
 	}

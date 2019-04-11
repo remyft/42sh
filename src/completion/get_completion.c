@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 03:41:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/23 18:42:40 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/11 16:52:57 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static void		deal_choose_tree(t_line *line, char *ptr)
 		deal_complet(GET_TREE(line->tree, ENV), line);
 	else if (check_is_file(line->curr->buff, line))
 	{
+		if (!ptr)
+			ptr = line->curr->buff;
 		if (search_to_tmp(ptr))
 		{
 			if (!(*line->e_cmpl & COMPLETION))
