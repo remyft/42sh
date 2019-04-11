@@ -6,17 +6,20 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/06 05:48:08 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/24 16:37:42 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/11 17:41:00 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 #include "libft.h"
 
-void	put_prompt(char *prompt)
+void	put_prompt(char *prompt, int col)
 {
 	ft_putstr_fd(RESET, STDERR_FILENO);
-	ft_putstr_fd(RED, STDERR_FILENO);
+	if (col)
+		ft_putstr_fd(RED, STDERR_FILENO);
+	else
+		ft_putstr_fd(GREEN, STDERR_FILENO);
 	ft_putstr_fd(prompt, STDERR_FILENO);
 	ft_putstr_fd(RESET, STDERR_FILENO);
 }

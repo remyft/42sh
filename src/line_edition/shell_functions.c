@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/24 20:10:26 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/06 16:17:35 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/11 17:55:37 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,13 @@ void			shell_loop(t_line *line, t_s_env *e)
 {
 	tputs(tgetstr("cr", NULL), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
+	e->ret = 0;
 	while (e->shell_loop && line->shell_loop)
 	{
-		put_prompt(line->prompt);
+		if (line->tmp[0] == -1)
+			e->ret = 1;
+		line->ret = e->ret;
+		put_prompt(line->prompt, line->ret);
 		check_path(line, e->public_env);
 		deal_typing(line);
 		write(1, "\n", 1);

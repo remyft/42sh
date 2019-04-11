@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 03:52:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/07 14:58:45 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/11 17:52:32 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ int				expand_glob(t_exp *param, t_ret *ret)
 	if (ptr != tmp)
 		free(ptr);
 	free(tmp);
+	if (!glob)
+		param->e->ret = 1;
 	if (!glob)
 		return (ERR_NO_MATCH_FOUND);
 	ptr = get_glob_str(glob);

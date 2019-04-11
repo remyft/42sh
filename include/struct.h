@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/26 12:42:17 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/11 17:55:09 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ typedef struct	s_line
 	char			***public_env;
 	char			***private_env;
 	sig_t			signals[NSIG];
+	int				ret;
 }				t_line;
 
 typedef struct	s_str_list

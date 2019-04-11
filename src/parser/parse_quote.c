@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 14:48:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/06 18:47:01 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/11 17:56:56 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "parser.h"
 #include "parser_errors.h"
 #include "main_tools.h"
+#include "shell.h"
 
 static char		*get_new_prompt(t_quote *head)
 {
@@ -52,7 +53,7 @@ static int		get_new_input(t_quote *quote, t_line **line)
 		return (ERR_MALLOC_FAILED);
 	(*line)->lprompt = ft_strlen((*line)->prompt);
 	(*line)->curr->quoted = 1;
-	put_prompt((*line)->prompt);
+	put_prompt((*line)->prompt, (*line)->ret);
 	(*line)->tmp[0] = 0;
 	while ((*line)->shell_loop && (*line)->tmp[0] == 0)
 		deal_typing(*line);

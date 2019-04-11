@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/02 14:50:14 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/11 17:40:58 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void			put_new_prompt(t_line *line);
 void			del_all_state(t_line *line);
 void			reset_hist(t_line *line);
 
-void			put_prompt(char *prompt);
+void			put_prompt(char *prompt, int col);
 
 char			*remove_line_continuation(char *line);
 

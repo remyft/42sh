@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 05:38:23 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/26 12:49:01 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/11 17:41:18 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void			prev_word(t_line *line);
 
 int				ft_pchar(int nb);
 void			delete_down(void);
-void			put_prompt(char *prompt);
 
 void			up_arrow(t_line *line);
 void			down_arrow(t_line *line);

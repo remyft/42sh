@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:21:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/04 16:53:33 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/11 17:57:15 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "struct.h"
 #include "redirection_errors.h"
 #include "main_tools.h"
+#include "shell.h"
 
 /*
 ** Anime must watch (@ touche speciale agrum)
@@ -37,7 +38,7 @@ static int		get_here_doc_line(char **hdoc, char *eof, t_line *line)
 {
 	while (line->shell_loop && line->tmp[0] == 0)
 	{
-		put_prompt(line->prompt);
+		put_prompt(line->prompt, line->ret);
 		deal_typing(line);
 		if (line->tmp[0] != 4)
 			write(STDIN_FILENO, "\n", 1);
