@@ -10,11 +10,24 @@ echo -n "Current path : " && pwd
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-echo "CD ONLY"
+echo "CD , HOME defined"
 echo -n "\$PWD: $PWD - \$OLDPWD: $OLDPWD - pwd: " && pwd
 cd
 echo "ret $?"
 echo -n "\$PWD: $PWD - \$OLDPWD: $OLDPWD - pwd: " && pwd
+cd $PATHCD
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+echo "CD , HOME not defined"
+echo -n "\$PWD: $PWD - \$OLDPWD: $OLDPWD - pwd: " && pwd
+HOMESAVE=$HOME
+unsetenv HOME
+cd
+echo "ret $?"
+echo -n "\$PWD: $PWD - \$OLDPWD: $OLDPWD - pwd: " && pwd
+HOME=$HOMESAVE
+cd $PATHCD
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
