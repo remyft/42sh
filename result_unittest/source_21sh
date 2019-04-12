@@ -1,0 +1,61 @@
+------------------------------------------------
+totoING SOURCE
+------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+CREATING TOTO
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+echo 'echo BEFORE ALIAS' > toto
+echo ls >> toto
+echo "alias ls='ls -Gl'" >> toto
+echo 'echo AFTER ALIAS' >> toto
+echo ls >> toto
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Simple source : source toto
+BEFORE ALIAS
+21sh
+Makefile
+TODO
+auteur
+ft_printf
+include
+libft
+objs
+result_unittest
+src
+toto
+unittest
+AFTER ALIAS
+total 432
+-rwxr-xr-x    1 rfontain  2018_paris  191036 Apr 11 17:58 21sh
+-rw-r--r--    1 rfontain  2018_paris   15299 Apr  6 22:00 Makefile
+-rw-r--r--    1 rfontain  2018_paris     696 Feb  7 03:51 TODO
+-rw-r--r--    1 rfontain  2018_paris      18 Mar  3 12:44 auteur
+drwxr-xr-x    7 rfontain  2018_paris     238 Apr 11 16:16 ft_printf
+drwxr-xr-x   18 rfontain  2018_paris     612 Apr 11 18:11 include
+drwxr-xr-x    6 rfontain  2018_paris     204 Apr  8 18:59 libft
+drwxr-xr-x  218 rfontain  2018_paris    7412 Apr 11 17:58 objs
+drwxr-xr-x    8 rfontain  2018_paris     272 Apr 11 18:14 result_unittest
+drwxr-xr-x   16 rfontain  2018_paris     544 Apr  6 21:59 src
+-rw-r--r--    1 rfontain  2018_paris      61 Apr 11 18:14 toto
+drwxr-xr-x   10 rfontain  2018_paris     340 Apr 11 18:14 unittest
+ret : 0
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Source with no argument : source
+source: not enough argument
+ret : 1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Source a non-existent file : source exitepas
+source: existepas: no such file or directory
+ret : 1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Source a directory : source src
+source: src: is a directory
+ret : 1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Source a file with no permission : chmod 000 toto ; source toto
+source: toto: permission denied
+ret : 1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------------------
+EXITING SOURCE...
+------------------------------------------------
