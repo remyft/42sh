@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/24 20:10:26 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/11 17:55:37 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/11 18:51:13 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void			shell_loop(t_line *line, t_s_env *e)
 	while (e->shell_loop && line->shell_loop)
 	{
 		if (line->tmp[0] == -1)
-			e->ret = 1;
+			e->ret = 130;
 		line->ret = e->ret;
 		put_prompt(line->prompt, line->ret);
 		check_path(line, e->public_env);
