@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 01:15:20 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/11 18:36:44 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/11 19:12:25 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,21 @@ static int		env_get_command(char **cmd, t_e_opt *opt)
 
 static int		env_setenv(char **cmd, t_e_opt *opt)
 {
-	sh_puttab((const char **)cmd);
-	sh_puttab((const char **)opt->cmd);
-	return (0);
+	char		*ptr;
+
+	while (*cmd && (ptr = ft_strchr(*cmd, '=')))
+	{
+		if (opt->options & BUILTIN_OPT_V
+		&& ft_dprintf(STDERR_FILENO, "#%s setenv:    %s\n",
+		opt->cmdname, *cmd) < 0)
+			return (ERR_WRITE);
+		*ptr = '\0';
+		if (sh_setenv(*cmd, ptr + 1, &opt->public_env))
+			return (ERR_MALLOC);
+		++cmd;
+		++opt->i;
+	}
+	return (ERR_OK);
 }
 
 int				env_exec(t_execute *exec, t_e_opt *opt, t_s_env *e)
@@ -112,6 +124,9 @@ int				env_exec(t_execute *exec, t_e_opt *opt, t_s_env *e)
 	}
 	if ((error = env_setenv(exec->cmd + opt->i, opt)) != ERR_OK)
 		return (error);
+	if (!exec->cmd[opt->i])
+		return (sh_puttab((const char **)opt->public_env) < 0 ?
+		env_error(ERR_WRITE, exec->cmd[opt->i], opt, e) : ERR_OK);
 	if ((error = env_prepare_command(exec->cmd + opt->i, opt, STDERR_FILENO)))
 		return (error);
 	if (opt->options & BUILTIN_OPT_V
