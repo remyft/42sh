@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:50:33 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/11 17:56:31 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/12 16:58:03 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	sig_hdlr(int sig)
 void		set_signal(sig_t *signals)
 {
 	signals[SIGINT] = signal(SIGINT, sig_hdlr);
-	signals[SIGWINCH] = signal(SIGWINCH, &sig_winch);
+	signals[SIGWINCH] = signal(SIGWINCH, sig_winch);
 }
 
 void		reset_signal(sig_t *signals)
