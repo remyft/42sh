@@ -84,32 +84,32 @@ cd -- -- --; echo "(see zsh for double argument in cd)"
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-echo -e "\nCD -- -- --"
+echo -e "CD -- -- --"
 cd -- -- --; echo "(see zsh for double argument in cd)"
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-echo -e "\nCD /tmp && cd tmp Users"
+echo -e "CD /tmp && cd tmp Users"
 cd /tmp && cd tmp Users
 echo -n "pwd: " && pwd
 echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-echo -e "\nCD /tmp && cd tmp User"
+echo -e "CD /tmp && cd tmp User"
 cd /tmp && cd tmp User
 echo -n "pwd: " && pwd
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-echo -e "\nCD -:"
+echo -e "CD -:"
 echo -n "curr pwd: " && pwd
 echo -n "cd -: " && cd -
 cd $PATHCD
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-echo -e "\nCD /tmp && unsetenv OLDPWD && cd -"
+echo -e "CD /tmp && unsetenv OLDPWD && cd -"
 cd /tmp
 echo -n "curr pwd: " && pwd
 unsetenv OLDPWD
@@ -120,7 +120,7 @@ cd $PATHCD
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-echo -e "\nOLDPWD= cd -"
+echo -e "OLDPWD= cd -"
 echo -n "curr pwd: " && pwd
 echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
 OLDPWD= cd -
@@ -130,7 +130,7 @@ cd $PATHCD
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-echo -e "\nREMOVED directory"
+echo -e "REMOVED directory"
 mkdir -p /tmp/test/test
 cd /tmp/test/test
 echo -n "curr pwd: " && pwd
@@ -144,13 +144,13 @@ echo "\$PWD: $PWD - \$OLDPWD: $OLDPWD"
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-echo -e "\nINVALID OPTION"
+echo -e "INVALID OPTION"
 cd -o
 cd -u
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-echo -e "\nHOME NOT DEFINED"
+echo -e "HOME NOT DEFINED"
 echo -n "current pwd: " && pwd
 HOMETMP=$HOME
 unsetenv HOME
@@ -160,12 +160,12 @@ echo -n "new pwd: " && pwd
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-echo -e "\nBAD FILE DESCRIPTOR"
+echo -e "BAD FILE DESCRIPTOR"
 echo -n "current pwd: " && pwd
 cd - >&-
 echo -n "new pwd: " && pwd
 
-echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-echo
-echo -n "Exiting... " && exit
+echo "------------------------------------------------"
+echo "EXITING CD..."
+echo "------------------------------------------------"

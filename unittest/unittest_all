@@ -37,6 +37,15 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 ./21sh unittest/unittest_globbing
 ./21sh unittest/unittest_globbing > result_unittest/globbing_21sh 2>&1
 
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+./21sh unittest/unittest_operator
+./21sh unittest/unittest_operator > result_unittest/operator_21sh 2>&1
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+./21sh unittest/unittest_separator
+./21sh unittest/unittest_separator > result_unittest/separator_21sh 2>&1
 echo "------------------------------------------------"
 echo "EXITING..."
 echo "------------------------------------------------"
