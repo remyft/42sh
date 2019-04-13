@@ -17,6 +17,10 @@ ls -l | cat -e | wc -l | cat -e
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
+echo "ls -l | cat -e > tmp | ls | cat -e > tmp2 ; cat tmp ; cat tmp2"
+ls -l | cat -e > tmp | ls | cat -e > tmp2 ; cat tmp ; cat tmp2
+rm tmp tmp2
+
 echo "------------------------------------------------"
 echo "EXITING PIPE..."
 echo "------------------------------------------------"

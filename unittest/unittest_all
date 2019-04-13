@@ -19,6 +19,11 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
+./21sh unittest/unittest_unsetenv
+./21sh unittest/unittest_unsetenv > result_unittest/unsetenv_21sh 2>&1
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
 ./21sh unittest/unittest_exit
 ./21sh unittest/unittest_exit > result_unittest/exit_21sh 2>&1
 
@@ -46,6 +51,19 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 ./21sh unittest/unittest_separator
 ./21sh unittest/unittest_separator > result_unittest/separator_21sh 2>&1
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+./21sh unittest/unittest_redirection
+./21sh unittest/unittest_redirection > result_unittest/redirection_21sh 2>&1
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+./21sh unittest/unittest_pipe
+./21sh unittest/unittest_pipe > result_unittest/pipe_21sh 2>&1
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo "------------------------------------------------"
 echo "EXITING..."
 echo "------------------------------------------------"
