@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:28:32 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/16 20:13:18 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/13 18:24:37 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int				redirect_less_and(t_redirection **redir, t_s_env *e)
 		(*redir)->fdio |= CLOSE_FD_ON_EXEC;
 		return (0);
 	}
-	if ((i = is_a_file_descriptor((*redir)->arg->cmd[0])))
+	if ((i = is_a_file_descriptor((*redir)->arg->cmd[0])) >= 0)
 	{
 		(*redir)->fdarg = ft_atoi((*redir)->arg->cmd[0]);
 		if ((*redir)->arg->cmd[0][i] == '-')

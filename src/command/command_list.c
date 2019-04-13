@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/26 13:41:25 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/13 19:13:57 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,8 @@ static int	execute_ao_list(t_ao_list *aolist, t_s_env *e)
 	if (!aolist->type
 	|| (aolist->type == OR_IF_VALUE && e->ret)
 	|| (aolist->type == AND_IF_VALUE && !e->ret))
-		if (prepare_command(aolist->cmd, e)
-		|| command_parse(aolist->cmd, e))
-			return (1);
+		if (!prepare_command(aolist->cmd, e))
+			command_parse(aolist->cmd, e);
 	return (execute_ao_list(aolist->next, e));
 }
 
