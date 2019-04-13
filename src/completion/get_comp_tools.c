@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 17:00:18 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/11 16:50:37 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/12 19:57:26 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int			check_is_file(char *buff, t_line *line)
 	int		i;
 
 	i = line->len - 1;
-	while (i >= 0 && !ft_strchr("&;| ./", buff[i]))
+	while (i >= 0 && !ft_strchr("&;| /", buff[i]))
 		i--;
 	while (i >= 0 && (buff[i] == ' ' || buff[i] == '\t' || buff[i] == '\\'))
 		i--;
