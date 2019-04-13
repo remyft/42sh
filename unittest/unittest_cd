@@ -10,23 +10,34 @@ echo -n "Current path : " && pwd
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-echo "CD , HOME defined"
-echo -n "\$PWD: $PWD - \$OLDPWD: $OLDPWD - pwd: " && pwd
-cd
-echo "ret $?"
-echo -n "\$PWD: $PWD - \$OLDPWD: $OLDPWD - pwd: " && pwd
-cd $PATHCD
-
-echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-
 echo "CD , HOME not defined"
-echo -n "\$PWD: $PWD - \$OLDPWD: $OLDPWD - pwd: " && pwd
 HOMESAVE=$HOME
-unsetenv HOME
+unset HOME
+echo -n "\$HOME=$HOME \$PWD=$PWD - \$OLDPWD=$OLDPWD - pwd: " && pwd
 cd
 echo "ret $?"
 echo -n "\$PWD: $PWD - \$OLDPWD: $OLDPWD - pwd: " && pwd
 HOME=$HOMESAVE
+cd $PATHCD
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+echo "CD , HOME empty"
+HOMESAVE=$HOME HOME=
+echo -n "\$HOME=$HOME \$PWD: $PWD - \$OLDPWD: $OLDPWD - pwd: " && pwd
+cd
+echo "ret $?"
+echo -n "\$PWD: $PWD - \$OLDPWD: $OLDPWD - pwd: " && pwd
+HOME=$HOMESAVE
+cd $PATHCD
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+echo "CD , HOME defined"
+echo -n "\$HOME=$HOME \$PWD: $PWD - \$OLDPWD: $OLDPWD - pwd: " && pwd
+cd
+echo "ret $?"
+echo -n "\$PWD: $PWD - \$OLDPWD: $OLDPWD - pwd: " && pwd
 cd $PATHCD
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
