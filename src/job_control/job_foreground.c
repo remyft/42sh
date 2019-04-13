@@ -9,7 +9,6 @@
 int		job_foreground(t_jobs *job, t_s_env *e, int cont)
 {
 	sig_to_pgid(job->pgid);
-	printf("Enter\n");
 	job->status |= JOB_FOREGROUND;
 	job->status |= JOB_NOTIFIED;
 	if (cont)

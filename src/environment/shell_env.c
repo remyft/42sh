@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 00:07:32 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/11 17:42:51 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/12 10:10:46 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,6 @@ void			init_job(t_s_env *e)
 			exit(1);
 		}
 		ioctl(STDIN_FILENO, TIOCSPGRP, &e->pid);
-	//	tcsetpgrp(0, e->pgid);
-		// maybe save attribute man tcgetattr
 	}
 
 }

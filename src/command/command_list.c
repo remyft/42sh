@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/10 16:32:23 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/12 16:46:38 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ static int	prepare_command(void *cmd, t_s_env *e)
 	quote_removal(((t_command *)cmd)->args);
 	return (0);
 }
+
+#include <stdio.h>
 
 static int	execute_ao_list(t_ao_list *aolist, t_s_env *e, t_jobs *job)
 {
@@ -87,8 +89,6 @@ static int	execute_ao_list(t_ao_list *aolist, t_s_env *e, t_jobs *job)
 	printf("tail : %s\n", tail);
 	return (ft_strndup((char *)head, tail - head));
 }*/
-
-#include <stdio.h>
 
 int			execute_list(t_m_list *list, t_s_env *e)
 {
