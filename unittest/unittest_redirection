@@ -159,6 +159,11 @@ echo "cat tmp :"
 cat tmp
 rm tmp
 
+echo ">>& NO ARG"
+echo "ls >>& libft" > tmp
+./21sh tmp
+rm tmp
+
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "<< NO ARG"
@@ -166,17 +171,8 @@ echo "ls <<" > tmp
 ./21sh tmp
 rm tmp
 
-echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-
-echo ">>& NO ARG"
-echo "ls >>&" > tmp
-./21sh tmp
-rm tmp
-
-echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-
-echo "<<& NO ARG"
-echo "ls <<&" > tmp
+echo "<<- NO ARG"
+echo "ls <<-" > tmp
 ./21sh tmp
 rm tmp
 
