@@ -6,17 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/11 17:40:58 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/13 18:29:08 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SHELL_H
 # define SHELL_H
-
-# ifdef __linux
-#  define __USE_MISC
-//typedef __sighandler_t sig_t;
-# endif
 
 # include <sys/types.h>
 # include <sys/stat.h>
