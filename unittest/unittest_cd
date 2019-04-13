@@ -10,9 +10,9 @@ echo -n "Current path : " && pwd
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-echo "CD , HOME not defined"
+echo "CD , HOME NOT DEFINED"
 HOMESAVE=$HOME
-unset HOME
+unsetenv HOME
 echo -n "\$HOME=$HOME \$PWD=$PWD - \$OLDPWD=$OLDPWD - pwd: " && pwd
 cd
 echo "ret $?"
@@ -22,7 +22,7 @@ cd $PATHCD
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-echo "CD , HOME empty"
+echo "CD , HOME EMPTY"
 HOMESAVE=$HOME HOME=
 echo -n "\$HOME=$HOME \$PWD: $PWD - \$OLDPWD: $OLDPWD - pwd: " && pwd
 cd
@@ -33,7 +33,7 @@ cd $PATHCD
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-echo "CD , HOME defined"
+echo "CD , HOME DEFINED"
 echo -n "\$HOME=$HOME \$PWD: $PWD - \$OLDPWD: $OLDPWD - pwd: " && pwd
 cd
 echo "ret $?"
@@ -48,6 +48,24 @@ echo -n "\$PWD: $PWD - \$OLDPWD: $OLDPWD - pwd: " && pwd
 cd $PATHCD/libft
 echo "ret $?"
 echo -n "\$PWD: $PWD - \$OLDPWD: $OLDPWD - pwd: " && pwd
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+echo "CD ././././././././././////"
+echo -n "\$PWD: $PWD - \$OLDPWD: $OLDPWD - pwd: " && pwd
+cd ././././././././././////
+echo "ret $?"
+echo -n "\$PWD: $PWD - \$OLDPWD: $OLDPWD - pwd: " && pwd
+cd $PATHCD
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+echo "CD ../../.././.././.."
+echo -n "\$PWD: $PWD - \$OLDPWD: $OLDPWD - pwd: " && pwd
+cd ../../.././.././..
+echo "ret $?"
+echo -n "\$PWD: $PWD - \$OLDPWD: $OLDPWD - pwd: " && pwd
+cd $PATHCD
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
@@ -97,15 +115,6 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo "CD /../../.././.././.."
 echo -n "\$PWD: $PWD - \$OLDPWD: $OLDPWD - pwd: " && pwd
 cd /../../.././.././..
-echo "ret $?"
-echo -n "\$PWD: $PWD - \$OLDPWD: $OLDPWD - pwd: " && pwd
-cd $PATHCD
-
-echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-
-echo "CD ././././././././././////"
-echo -n "\$PWD: $PWD - \$OLDPWD: $OLDPWD - pwd: " && pwd
-cd ././././././././././////
 echo "ret $?"
 echo -n "\$PWD: $PWD - \$OLDPWD: $OLDPWD - pwd: " && pwd
 cd $PATHCD
