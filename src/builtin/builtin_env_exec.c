@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 01:15:20 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/11 19:12:25 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/12 17:23:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,10 @@ int				env_exec(t_execute *exec, t_e_opt *opt, t_s_env *e)
 	}
 	if ((error = env_setenv(exec->cmd + opt->i, opt)) != ERR_OK)
 		return (error);
-	if (!exec->cmd[opt->i])
-		return (sh_puttab((const char **)opt->public_env) < 0 ?
-		env_error(ERR_WRITE, exec->cmd[opt->i], opt, e) : ERR_OK);
+	if (!exec->cmd[opt->i] && sh_puttab((const char **)opt->public_env) < 0)
+		return (env_error(ERR_WRITE, exec->cmd[opt->i], opt, e));
+	else if (!exec->cmd[opt->i])
+		return (ERR_OK);
 	if ((error = env_prepare_command(exec->cmd + opt->i, opt, STDERR_FILENO)))
 		return (error);
 	if (opt->options & BUILTIN_OPT_V
