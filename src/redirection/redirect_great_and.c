@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:25:09 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/16 20:13:06 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/13 18:50:57 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int				redirect_great_and(t_redirection **redir, t_s_env *e)
 	}
 	else if ((*redir)->fdio != 1)
 		return (redirect_error(ERR_AMBIGUOUS, (*redir)->arg->cmd[0], e));
+	else if (access((*redir)->arg->cmd[0], F_OK) == 0)
+		return (redirect_error(ERR_EXISTING, (*redir)->arg->cmd[0], e));
 	else if (((*redir)->fdarg = open((*redir)->arg->cmd[0], mode, 0644)) < 0)
 		return (redirect_open_error((*redir)->arg->cmd[0], e));
 	if (fcntl(GET_FD((*redir)->fdarg), F_GETFD) < 0)

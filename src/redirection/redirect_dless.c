@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:21:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/11 17:57:15 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/13 19:21:45 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ static int		get_here_doc(t_redirection **redir, t_s_env *e)
 	line->curr->quoted = 1;
 	line->tmp[0] = 0;
 	error = get_here_doc_line(&(*redir)->hdoc, (*redir)->arg->cmd[0], line);
-	if (line->tmp[0] == 4)
+	if (line->tmp[0] != -1
+	&& ft_strcmp(line->curr->buff, (*redir)->arg->cmd[0]))
 		ft_dprintf(STDERR_FILENO, "%s: warning: here-document delimited by "
 		"end-of-file (wanted `%s')\n", e->progname, (*redir)->arg->cmd[0]);
 	line->shell_loop = 1;
@@ -105,13 +106,13 @@ static int		handle_here_doc(t_redirection **redir, t_s_env *e)
 
 int				redirect_dless(t_redirection **redir, t_s_env *e)
 {
-	(*redir)->fdio = (*redir)->ionumber ? ft_atoi((*redir)->ionumber->head) : 0;
 	if (!e->interactive)
 	{
 		ft_dprintf(STDERR_FILENO, "%s: warning: here-document delimited by "
 		"end-of-file (wanted `%s')\n", e->progname, (*redir)->arg->cmd[0]);
 		return (1);
 	}
+	(*redir)->fdio = (*redir)->ionumber ? ft_atoi((*redir)->ionumber->head) : 0;
 	if (get_here_doc(redir, e))
 		return (1);
 	if (handle_here_doc(redir, e))
