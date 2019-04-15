@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 21:08:51 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/06 16:17:59 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 02:19:05 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_token			*handle_alias(t_param *param, t_s_env *e)
 		return (param->token);
 	alias->in_use = 1;
 	save = param->token;
-	param->token = tokenise(alias->value, e);
+	param->token = tokenise(&alias->value, e);
 	alias->in_use = 0;
 	if (save->prev)
 		save->prev->next = param->token;

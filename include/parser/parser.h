@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:59:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/06 18:34:53 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 00:42:29 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "token.h"
 # include "shell_env.h"
-# include "main_tools.h"
 
 /*
 ** Structure for arguments
@@ -165,15 +164,5 @@ int				parse_quote(char **cmdline, t_token **token, t_s_env *e);
 void			free_m_list(t_m_list **list);
 
 void			debug_parser(t_m_list *list);
-
-int				aliased_line(t_token *token, t_line *line, t_n_input *input);
-int				bslashed_line(t_token *token, t_line *line, t_n_input *input);
-int				dquoted_line(t_token *token, t_line *line, t_n_input *input);
-int				squoted_line(t_token *token, t_line *line, t_n_input *input);
-int				braced_line(t_token *token, t_line *line, t_n_input *input);
-int				dbraced_line(t_token *token, t_line *line, t_n_input *input);
-int				parenthed_line(t_token *token, t_line *line, t_n_input *input);
-int				dparenthed_line(t_token *token, t_line *line, t_n_input *input);
-int				backquoted_line(t_token *token, t_line *line, t_n_input *input);
 
 #endif

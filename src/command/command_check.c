@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:02:57 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/12 17:13:29 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 04:07:10 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int				command_check(t_execute *exec, t_s_env *e)
 	ret = 0;
 	if (exec->cmd && exec->cmd[0])
 	{
-		sh_setenv("_", exec->cmd[0], &e->public_env);
 		while (i < sizeof(builtins) / sizeof(builtins[0]))
 		{
 			if (!ft_strcmp(builtins[i].name, exec->cmd[0]))

@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/04/06 21:57:44 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/04/15 04:13:29 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -133,6 +133,9 @@ SRCS += handle_alias.c						\
 		quote_functions.c					\
 		quote_handlers1.c					\
 		quote_handlers2.c					\
+		quote_line.c						\
+		quote_line_handlers1.c				\
+		quote_line_handlers2.c				\
 		token_debug.c						\
 		token_error.c						\
 		token_free.c						\
@@ -152,9 +155,6 @@ SRCS += parse_async.c						\
 		parse_new_functions.c				\
 		parse_operator.c					\
 		parse_pipe.c						\
-		parse_quote_line2.c					\
-		parse_quote_line1.c					\
-		parse_quote.c						\
 		parse.c								\
 
 # COMMAND

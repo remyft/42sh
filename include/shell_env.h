@@ -6,14 +6,18 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/26 16:36:46 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 18:04:32 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SHELL_ENV_H
 # define SHELL_ENV_H
 
+# ifdef __linux
+#  include <sys/types.h>
+# endif
 # include <term.h>
+# include <stdlib.h>
 
 # define IFS_DEFAULT	" \t\n"
 
@@ -41,7 +45,7 @@ typedef struct	s_shell_env
 	int				pid;
 	struct termios	save;
 	int				shell_loop;
-	int				interactive;
+	size_t			interactive;
 	int				forked;
 }				t_s_env;
 
