@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:50:33 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/15 19:44:41 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 20:43:17 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,7 @@ static void	deal_put_winch(t_line *line)
 		tputs(tgetstr("cr", NULL), 1, ft_pchar);
 	}
 	if (*line->e_cmpl & COMPLETION)
-	{
-		if (line->is_putb < 2)
-			*line->e_cmpl &= ~COMPLETION;
 		get_complet(line);
-	}
 }
 
 void		sig_winch(int sig)
