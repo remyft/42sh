@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:21:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/15 03:33:04 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 19:50:27 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int		get_here_doc_line(char **hdoc, char *eof, t_line *line)
 {
 	while (line->shell_loop && line->tmp[0] == 0)
 	{
-		put_prompt(line->prompt, line->ret);
+		put_prompt(line->prompt, *line->ret);
 		deal_typing(line);
 		if (line->tmp[0] != 4)
 			write(STDIN_FILENO, "\n", 1);

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/31 23:11:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/22 15:59:34 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 19:47:53 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int				command_builtin(t_builtin builtin, t_execute *exec, t_s_env *e)
 	if ((error = command_redirect(exec->fds, exec->redirection)) != ERR_OK)
 		command_error(e->progname, error, NULL, e);
 	else
-		e->ret = builtin(exec, e);
+		*e->ret = builtin(exec, e);
 	if ((error = command_restore_fds(exec->fds)) != ERR_OK)
 		command_error(e->progname, error, NULL, e);
 	return (ERR_OK);

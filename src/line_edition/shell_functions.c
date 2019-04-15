@@ -6,44 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/24 20:10:26 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/15 02:17:15 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 20:35:02 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "shell.h"
 #include "history.h"
-#include "command.h"
 #include "main_tools.h"
-#include "parser.h"
-#include "token.h"
-#include "libft.h"
-#include "shell_term.h"
-
-void			launch_new_cmd(char **line, t_s_env *e)
-{
-	t_token		*tokens;
-	t_m_list	*tree;
-	size_t		i;
-
-	tokens = NULLTOKEN;
-	tree = NULLLIST;
-	i = 0;
-	if (line && *line)
-		while ((*line)[i])
-		{
-			if ((*line)[i] == '\\' && (*line)[i + 1] == '\n')
-				ft_strcpy(&(*line)[i], &(*line)[i + 2]);
-			else
-				i++;
-		}
-	if ((tokens = tokenise(line, e)) != NULLTOKEN)
-	{
-		if ((tree = parse(line, &tokens, e)) != NULLLIST)
-			execute_list(tree, e);
-		free_m_list(&tree);
-		free_token(&tokens);
-	}
-}
 
 static void		get_cursor_pos(void)
 {
@@ -109,13 +79,11 @@ void			shell_loop(t_line *line, t_s_env *e)
 {
 	tputs(tgetstr("cr", NULL), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
-	e->ret = 0;
 	while (e->shell_loop && line->shell_loop)
 	{
 		if (line->tmp[0] == -1)
-			e->ret = 130;
-		line->ret = e->ret;
-		put_prompt(line->prompt, line->ret);
+			*e->ret = 130;
+		put_prompt(line->prompt, *line->ret);
 		check_path(line, e->public_env);
 		deal_typing(line);
 		write(1, "\n", 1);

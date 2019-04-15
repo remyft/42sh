@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/08 21:15:38 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 19:48:19 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ static void		command_execve(char *name, t_execute *exec, t_s_env *e)
 		exit(EXIT_FAILURE);
 	}
 	else if (pid > 0)
-		command_wait(pid, 0, &e->ret);
+		command_wait(pid, 0, e->ret);
 	else if (pid < 0)
-		e->ret = command_error(e->progname, ERR_FORK, exec->cmd, e);
+		*e->ret = command_error(e->progname, ERR_FORK, exec->cmd, e);
 }
 
 int				command_system(t_execute *exec, t_s_env *e)

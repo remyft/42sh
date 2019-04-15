@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/04 19:30:50 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/15 20:37:10 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,16 @@ int				main(int ac, char **av, char **ep)
 {
 	t_line		*line;
 	t_s_env		e;
+	int			ret;
 
 	if (MAX_SHELL_LEN > 10000 || MAX_SHELL_LEN < 100)
 		return (1);
+	ret = 0;
 	line = NULL;
 	init_shell_env(&e, ac, av, ep);
+	e.ret = &ret;
 	init_shell_line(&line, &e);
+	line->ret = &ret;
 	define_new_term(&e.save);
 	if (!av[1])
 	{
@@ -36,5 +40,5 @@ int				main(int ac, char **av, char **ep)
 	term_restore(&e.save);
 	free_shell_env(&e);
 	free_struct(line);
-	return (e.ret);
+	return (ret);
 }

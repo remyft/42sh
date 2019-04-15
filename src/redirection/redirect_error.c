@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:29:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/13 18:11:00 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 19:50:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int				redirect_error(int err, char *redirect_arg, t_s_env *e)
 		BAD_FD_STR
 	};
 
-	e->ret = 130;
+	*e->ret = 130;
 	if (err == ERR_FREE_ALL)
 		return (1);
 	ft_putstr_fd(e->progname, STDERR_FILENO);
@@ -33,6 +33,6 @@ int				redirect_error(int err, char *redirect_arg, t_s_env *e)
 	ft_putstr_fd(redirect_arg, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putendl_fd(error[err], STDERR_FILENO);
-	e->ret = 2;
+	*e->ret = 2;
 	return (1);
 }

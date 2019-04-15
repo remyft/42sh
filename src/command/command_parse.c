@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 01:23:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/03 17:32:24 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 20:37:18 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ int				command_parse(void *cmd, t_s_env *e)
 
 	ft_memset(&exec, 0, sizeof(exec));
 	ret = 0;
-	if (!e->forked)
-		term_restore(&e->save);
 	if (*(int *)cmd == IS_A_PIPE)
 		ret = command_pipe(cmd, e, (int[2]){ 0, 0 });
 	else
@@ -36,8 +34,6 @@ int				command_parse(void *cmd, t_s_env *e)
 			ret = command_prepare(&exec, e);
 		}
 	}
-	if (!e->forked)
-		define_new_term(&e->save);
 	command_free(&exec, NULL);
 	return (ret);
 }

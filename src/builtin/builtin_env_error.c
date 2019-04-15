@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 19:36:53 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/12 17:21:02 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 19:50:51 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,6 @@ int				env_error(int err, char *c, t_e_opt *opt, t_s_env *e)
 	}
 	ft_dprintf(STDERR_FILENO, "\n");
 	env_free_opt(opt);
-	e->ret = values[err];
+	*e->ret = values[err];
 	return (values[err]);
 }

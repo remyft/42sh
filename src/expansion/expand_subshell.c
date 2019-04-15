@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 20:24:31 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/26 16:41:10 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 19:49:49 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void		expand_subshell_child(int pfd[2], size_t i, t_exp *param)
 	sh_freetab(&newe.public_env);
 	sh_freetab(&newe.private_env);
 	sh_freestr(&line);
-	exit(newe.ret);
+	exit(*newe.ret);
 }
 
 void			expand_subshell_father(int pfd[2], pid_t pid, t_ret *ret)

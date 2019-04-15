@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 18:53:23 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/11 19:13:21 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 19:51:20 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,5 @@ int				builtin_env(t_execute *exec, t_s_env *e)
 	}
 	else if (sh_puttab((const char **)e->public_env) < 0)
 		return (env_error(ERR_WRITE, NULL, &opt, e));
-	return (e->ret);
+	return (*e->ret);
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/15 18:38:39 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/15 19:43:09 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,6 @@
 
 # ifdef __linux
 #  define NSIG _NSIG
-
-typedef __sighandler_t	sig_t;
-
 # endif
 
 # define LEFT 1 << 0
@@ -121,7 +118,7 @@ typedef struct	s_line
 	char			***public_env;
 	char			***private_env;
 	sig_t			signals[NSIG];
-	int				ret;
+	int				*ret;
 }				t_line;
 
 typedef struct	s_str_list

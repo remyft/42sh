@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 18:35:27 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/15 03:23:29 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 19:54:11 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ enum
 # define HANDLED_STR		"syntax error near unhandled token"
 # define MALLOC_STR			"syntax error: malloc failed"
 # define SIGNAL_STR			"syntax error: signal failed"
-# define QUOTE_STR			"syntax error: unexpected EOF"
+# define QUOTE_STR			"syntax error: unexpected end of file"
 
 typedef struct	s_error
 {

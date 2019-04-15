@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 23:02:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/22 06:10:21 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 19:49:17 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int				special_return(t_ret *subs, t_ret *para, t_exp *param)
 	char	*nbr;
 	int		error;
 
-	nbr = ft_itoa(param->e->ret);
+	nbr = ft_itoa(*param->e->ret);
 	error = param_addstr(nbr, subs);
 	if (nbr)
 		free(nbr);

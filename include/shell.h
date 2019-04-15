@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/13 18:29:08 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 20:34:20 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "struct.h"
 # include "shell_env.h"
 
+# define SHELL_NAME		"21sh"
 # define RC_NAME		".21shrc"
 # define CANCEL			"\x3"
 # define EXIT			"\x4"
@@ -116,8 +117,6 @@ void			del_all_state(t_line *line);
 void			reset_hist(t_line *line);
 
 void			put_prompt(char *prompt, int col);
-
-char			*remove_line_continuation(char *line);
 
 void			free_buff(t_line *line);
 t_line			*get_struct(void);

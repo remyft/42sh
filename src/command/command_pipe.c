@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/09 06:58:04 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/21 20:05:55 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 19:48:43 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int		command_pipe_left(void *cmd, t_s_env *e, int pfd[2], int *ppfd)
 	close(STDOUT_FILENO);
 	sh_freetab(&newe.public_env);
 	sh_freetab(&newe.private_env);
-	exit(newe.ret);
+	exit(*newe.ret);
 }
 
 static int		command_pipe_right(void *cmd, t_s_env *e, int pfd[2])
@@ -63,7 +63,7 @@ static int		command_pipe_right(void *cmd, t_s_env *e, int pfd[2])
 	close(STDIN_FILENO);
 	sh_freetab(&newe.public_env);
 	sh_freetab(&newe.private_env);
-	exit(newe.ret);
+	exit(*newe.ret);
 }
 
 static int		command_last_pipe(int pfd[2], t_pipeline *cmd, t_s_env *e)
@@ -75,7 +75,7 @@ static int		command_last_pipe(int pfd[2], t_pipeline *cmd, t_s_env *e)
 	else if (pid == 0)
 		command_pipe_right(cmd, e, pfd);
 	close(pfd[0]);
-	command_wait(pid, 0, &e->ret);
+	command_wait(pid, 0, e->ret);
 	return (0);
 }
 

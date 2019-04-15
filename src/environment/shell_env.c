@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 00:07:32 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/15 03:32:05 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 20:13:10 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ void			init_shell_env(t_s_env *e, int ac, char **av, char **env)
 	e->av = av;
 	e->progpath = get_path(av[0]);
 	e->progname = (ft_strrchr(av[0], '/')) ? ft_strrchr(av[0], '/') + 1 : av[0];
+	if (!e->progname || !*e->progname)
+		e->progname = SHELL_NAME;
 	e->public_env = collect_env(env, e);
 	e->public_env = check_env(e->public_env);
 	e->private_env = build_private_env();

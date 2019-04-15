@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 03:41:00 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/11 17:56:17 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/15 19:43:44 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	put_new_prompt(t_line *line)
 	go_home(line);
 	tputs(tgetstr("cr", NULL), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
-	put_prompt(line->prompt, line->ret);
+	put_prompt(line->prompt, *line->ret);
 	ft_putstr(line->curr->buff);
 	line->index = ft_strlen(line->curr->buff);
 	line->len = line->index;
