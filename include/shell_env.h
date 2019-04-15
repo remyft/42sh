@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/15 03:38:45 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 18:04:32 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #  include <sys/types.h>
 # endif
 # include <term.h>
+# include <stdlib.h>
 
 # define IFS_DEFAULT	" \t\n"
 

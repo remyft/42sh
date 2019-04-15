@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/14 20:52:48 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 18:38:39 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,12 @@
 # include <term.h>
 # include <string.h>
 # include <signal.h>
+
 # ifdef __linux
 #  define NSIG _NSIG
-typedef __sighandler_t sig_t;
+
+typedef __sighandler_t	sig_t;
+
 # endif
 
 # define LEFT 1 << 0
@@ -38,15 +41,6 @@ typedef __sighandler_t sig_t;
 typedef enum	e_state
 {
 	COMPLETION = 1 << 0,
-	QUOTE = 1 << 1,
-	DQUOTE = 1 << 2,
-	BQUOTE = 1 << 3,
-	WT_NHDOC = 1 << 4,
-	WT_SPACE = 1 << 5,
-	WT_HDOC = 1 << 6,
-	UN_HDOC = 1 << 7,
-	HDOC = 1 << 8,
-	NSTATE = 1 << 9
 }				t_st;
 
 typedef struct	s_tree

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 18:10:04 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/15 03:36:21 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 17:50:36 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ t_token			*parentheseclose(t_param *param, int type)
 	qtype = quote_type(param->token->quote);
 	if (!param->token->quote)
 		return (param->token);
-		// return (token_error(ERR_SYNTAX, param));
 	if (qtype == type || qtype == D_PARENTHESE)
 		quote_remove(&param->token->quote, qtype);
 	return (param->token);
