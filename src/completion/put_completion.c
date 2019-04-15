@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:42:34 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/23 17:41:51 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/15 20:39:06 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int			check_put(t_line *line, t_tree *tern, t_slct **select,
 	else
 		get_psb(*select, ft_strlen(env->chr), 0, &psb);
 	psb *= env->lenm;
-	if (psb > (int)(line->nb_col * line->nb_line))
+	if (psb > (int)(line->nb_col * (line->nb_line - 3)))
 	{
 		deal_all_put(line, tern, select, env);
 		return (1);
