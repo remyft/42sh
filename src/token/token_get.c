@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/04 20:51:11 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 04:02:57 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 static t_token	*get_tokens(t_param *param, t_call *token)
 {
 	static t_func	character[] = {
-		CHAR_QUOTE, CHAR_COMMENT, CHAR_EQUAL, CHAR_NEWLINE,
+		CHAR_QUOTE, CHAR_NEWLINE, CHAR_COMMENT, CHAR_EQUAL,
 		CHAR_MINUS, CHAR_OPERATOR, CHAR_WORD,
 	};
 	size_t			i;
 	size_t			size;
 
 	i = 0;
-	size = (param->token->quote) ? 1 : sizeof(character) / sizeof(character[0]);
+	size = (param->token->quote) ? 2 : sizeof(character) / sizeof(character[0]);
 	if (param->token->type == UNDEFINED)
 		param->token->head = param->line + param->i;
 	while (i < size)
@@ -38,7 +38,7 @@ static t_token	*get_tokens(t_param *param, t_call *token)
 	return (param->token);
 }
 
-t_token			*token_loop(t_param *param, int (*ft_end)(int c))
+void			token_loop(t_param *param, int (*ft_end)(int c))
 {
 	static t_call	token[] = {
 		ID_TOKEN, ID_OPERATOR,
@@ -55,10 +55,9 @@ t_token			*token_loop(t_param *param, int (*ft_end)(int c))
 		param->i++;
 	}
 	debug_tokens(param->head);
-	return (param->head);
 }
 
-t_token			*tokenise(const char *line, t_s_env *e)
+t_token			*tokenise(char **line, t_s_env *e)
 {
 	t_param		param;
 
@@ -66,10 +65,13 @@ t_token			*tokenise(const char *line, t_s_env *e)
 		return (NULLTOKEN);
 	ft_memset(&param, 0, sizeof(param));
 	param.e = e;
-	if (!(param.token = new_token(line, 0)))
+	if (!(param.token = new_token(*line, 0)))
 		return (token_error(ERR_MALLOC, &param));
-	param.line = line;
+	param.line = *line;
 	param.i = 0;
 	param.head = param.token;
-	return (token_loop(&param, ft_isnull));
+	token_loop(&param, ft_isnull);
+	if (!e->interactive)
+		*line = param.line;
+	return (param.head);
 }

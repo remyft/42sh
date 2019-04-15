@@ -6,20 +6,21 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 15:38:42 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/20 20:39:21 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/14 23:53:28 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "token.h"
 
-t_quote			*quote_add(t_quote **head, int type)
+t_quote			*quote_add(t_quote **head, int type, size_t line)
 {
 	if (*head)
-		(*head)->next = quote_add(&(*head)->next, type);
+		(*head)->next = quote_add(&(*head)->next, type, line);
 	else if ((*head = ft_memalloc(sizeof(**head))))
 	{
 		(*head)->type = type;
+		(*head)->line = line;
 		return (*head);
 	}
 	if (*head && !(*head)->next)
@@ -50,4 +51,13 @@ int				quote_type(t_quote *head)
 	if (head->next)
 		return (quote_type(head->next));
 	return (head->type);
+}
+
+t_quote			*quote_get(t_quote *head)
+{
+	if (!head)
+		return (NULLQUOTE);
+	if (head->next)
+		return (quote_get(head->next));
+	return (head);
 }

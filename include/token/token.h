@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/06 18:23:34 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 03:33:50 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdio.h>
 # include "quote.h"
 # include "shell_env.h"
+# include "main_tools.h"
 
 /*
 ** Token Types
@@ -68,7 +69,7 @@ typedef struct	s_param
 	t_token		*head;
 	t_token		*token;
 	size_t		i;
-	const char	*line;
+	char		*line;
 }				t_param;
 
 /*
@@ -122,9 +123,9 @@ typedef struct	s_func
 /*
 ** Functions
 */
-t_token			*tokenise(const char *line, t_s_env *e);
-t_token			*token_loop(t_param *param, int (*ft_end)(int));
-t_token			*new_token(const char *buff, size_t pos);
+t_token			*tokenise(char **line, t_s_env *e);
+void			token_loop(t_param *param, int (*ft_end)(int));
+t_token			*new_token(char *buff, size_t pos);
 void			free_token(t_token **token);
 void			free_quote(t_quote **quote);
 void			clean_end_token(t_token **token, t_token **head);
@@ -144,9 +145,21 @@ size_t			check_operator(t_token *token, size_t len);
 t_token			*identify_operator(t_param *param);
 t_token			*identify_word(t_param *param);
 
-t_quote			*quote_add(t_quote **head, int type);
+t_quote			*quote_add(t_quote **head, int type, size_t line);
 void			quote_remove(t_quote **head, int type);
 int				quote_type(t_quote *head);
+t_quote			*quote_get(t_quote *head);
+t_token			*quote_line(t_param *param);
+
+int				aliased_line(t_param *param, t_line *line);
+int				bslashed_line(t_param *param, t_line *line);
+int				dquoted_line(t_param *param, t_line *line);
+int				squoted_line(t_param *param, t_line *line);
+int				braced_line(t_param *param, t_line *line);
+int				dbraced_line(t_param *param, t_line *line);
+int				parenthed_line(t_param *param, t_line *line);
+int				dparenthed_line(t_param *param, t_line *line);
+int				backquoted_line(t_param *param, t_line *line);
 
 t_token			*backslash(t_param *param, int type);
 t_token			*singlequote(t_param *param, int type);

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 20:16:48 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/04 20:52:11 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 03:33:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,14 @@ static t_token	*exec_line(t_param *param)
 
 t_token			*handle_newline(t_param *param, t_call *token)
 {
+	if (param->e->interactive)
+		++param->e->interactive;
 	if (param->token->type == UNDEFINED && !param->token->prev)
 		return (param->token);
 	if (param->token->type != UNDEFINED)
 	{
+		if (quote_type(param->token->quote) != NO_QUOTE)
+			return (param->token);
 		param->token = token[param->token->type].identifier(param);
 		if (!(param->token = exec_line(param)))
 			free_token(&param->head);

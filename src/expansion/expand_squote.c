@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 00:17:27 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/04 19:48:20 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/14 23:24:23 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int				expand_squote(t_exp *param, t_ret *ret)
 	i = param->i;
 	if (quote_type(param->quote) != DOUBLE_QUOTE)
 	{
-		if (!quote_add(&param->quote, SINGLE_QUOTE))
+		if (!quote_add(&param->quote, SINGLE_QUOTE, 0))
 			return (ERR_MALLOC);
 		while (param->i - i < param->buff_len
 		&& (error = param_addchar(param->buff[param->i++], ret)) == ERR_NONE)

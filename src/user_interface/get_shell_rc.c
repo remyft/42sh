@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_shell_rc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 14:16:30 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/06 20:29:19 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/15 04:03:04 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,17 @@
 void	launch_rc(t_s_env *e, int fd)
 {
 	char	*line;
+	size_t	save;
 
-	e->interactive = 0;
+	save = e->interactive;
+	e->interactive = 1;
 	line = sh_get_file(fd);
 	if (line)
 	{
 		launch_new_cmd(&line, e);
 		ft_strdel(&line);
 	}
-	e->interactive = 1;
+	e->interactive = save;
 }
 
 void	get_rc(t_s_env *e, char *relative)

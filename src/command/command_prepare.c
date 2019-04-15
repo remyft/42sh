@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 20:44:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/12 15:50:07 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/15 04:07:22 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int				command_prepare(t_execute *exec, t_s_env *e)
 		return (modify_public_environment(exec->variable, e));
 	if (!(exec->cmd = command_group_command(exec->command)))
 		return (command_error(e->progname, ERR_MALLOC, NULL, e));
+	sh_setenv("_", exec->cmd[0], &e->public_env);
 	if (!(exec->env = command_group_env(exec->variable, exec->command,
 	(const char **)e->public_env, (const char **)e->private_env)))
 		return (command_error(e->progname, ERR_MALLOC, exec->cmd, e));

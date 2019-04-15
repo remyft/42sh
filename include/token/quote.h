@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 17:50:09 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/06 18:23:13 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/14 23:20:10 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ enum {
 typedef struct	s_quote
 {
 	int				type;
+	int				line;
 	struct s_quote	*next;
 }				t_quote;
 
