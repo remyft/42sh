@@ -2,11 +2,14 @@ echo "------------------------------------------------"
 echo "TESTING ENV"
 echo "------------------------------------------------"
 
+ENV_ORIGIN=/tmp/env_original
+ENV_SAVE=/tmp/env_save
+
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo -e "ENV NO ARGUMENTS"
 env
 echo "ret: $?"
-env > /tmp/env_original
+env > $ENV_ORIGIN
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo -e "ENV OPTIONS"
@@ -79,10 +82,9 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo -e "ENV ERRORS"
 env -Z
 echo "ret: $?"
-env > /tmp/env_save
-diff /tmp/env_original /tmp/env_save
+env > $ENV_SAVE
+diff $ENV_ORIGIN $ENV_SAVE
 
-
-
-rm -f /tmp/env_save
+rm -f $ENV_ORIGIN
+rm -f $ENV_SAVE
 echo OK
