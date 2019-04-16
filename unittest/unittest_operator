@@ -27,25 +27,25 @@ echo BEGIN && ls && ls existepas && echo END
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "&& ls"
-echo "&& ls" > tmp
+echo "&& ls" >| tmp
 ./21sh tmp
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "ls &&"
-echo "ls &&" > tmp
+echo "ls &&" >| tmp
 ./21sh tmp
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "ls ; && ls"
-echo "ls ; && ls" > tmp
+echo "ls ; && ls" >| tmp
 ./21sh tmp
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "ls ; ls &&"
-echo "ls ; ls &&" > tmp
+echo "ls ; ls &&" >| tmp
 ./21sh tmp
 
 echo "------------------------------------------------"
@@ -73,25 +73,25 @@ ls existepas || cd existepas || echo LAST
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "|| ls"
-echo "|| ls" > tmp
+echo "|| ls" >| tmp
 ./21sh tmp
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "ls ||"
-echo "ls ||" > tmp
+echo "ls ||" >| tmp
 ./21sh tmp
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "ls ; || ls"
-echo "ls ; || ls" > tmp
+echo "ls ; || ls" >| tmp
 ./21sh tmp
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "ls ; ls ||"
-echo "ls ; ls ||" > tmp
+echo "ls ; ls ||" >| tmp
 ./21sh tmp
 
 echo "------------------------------------------------"
@@ -119,25 +119,25 @@ ls existepas || ls existepas && echo THIRD
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "ls && ls ||"
-echo "ls && ls ||" > tmp
+echo "ls && ls ||" >| tmp
 ./21sh tmp
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "ls || ls &&"
-echo "ls || ls &&" > tmp
+echo "ls || ls &&" >| tmp
 ./21sh tmp
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "ls && || ls"
-echo "ls && || ls" > tmp
+echo "ls && || ls" >| tmp
 ./21sh tmp
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "ls || && ls"
-echo "ls || && ls" > tmp
+echo "ls || && ls" >| tmp
 ./21sh tmp
 
 rm tmp

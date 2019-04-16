@@ -1,0 +1,96 @@
+echo "------------------------------------------------"
+echo "TESTING ALL UNITTEST"
+echo "------------------------------------------------"
+
+TMP_DIR=/tmp/result_unittest
+
+rm -rf $TMP_DIR
+mkdir $TMP_DIR
+
+#./21sh unittest/unittest_echo
+./21sh unittest/unittest_echo > $TMP_DIR/echo_21sh 2>&1
+bash unittest/unittest_echo > $TMP_DIR/echo_bash 2>&1
+diff $TMP_DIR/echo_21sh $TMP_DIR/echo_bash
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+#./21sh unittest/unittest_env
+./21sh unittest/unittest_env > $TMP_DIR/env_21sh 2>&1
+bash unittest/unittest_env > $TMP_DIR/env_bash 2>&1
+diff $TMP_DIR/env_21sh $TMP_DIR/env_bash
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+#./21sh unittest/unittest_setenv
+./21sh unittest/unittest_setenv > $TMP_DIR/setenv_21sh 2>&1
+csh unittest/unittest_setenv > $TMP_DIR/setenv_csh 2>&1
+diff $TMP_DIR/setenv_21sh $TMP_DIR/setenv_c	sh
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+#./21sh unittest/unittest_unsetenv
+./21sh unittest/unittest_unsetenv > $TMP_DIR/unsetenv_21sh 2>&1
+bash unittest/unittest_unsetenv > $TMP_DIR/unsetenv_bash 2>&1
+diff $TMP_DIR/unsetenv_21sh $TMP_DIR/unsetenv_bash
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+#./21sh unittest/unittest_exit
+./21sh unittest/unittest_exit > $TMP_DIR/exit_21sh 2>&1
+bash unittest/unittest_exit > $TMP_DIR/exit_bash 2>&1
+diff $TMP_DIR/exit_21sh $TMP_DIR/exit_bash
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+#./21sh unittest/unittest_cd
+./21sh unittest/unittest_cd > $TMP_DIR/cd_21sh 2>&1
+bash unittest/unittest_cd > $TMP_DIR/cd_bash 2>&1
+diff $TMP_DIR/cd_21sh $TMP_DIR/cd_bash
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+#./21sh unittest/unittest_source
+./21sh unittest/unittest_source > $TMP_DIR/source_21sh 2>&1
+bash unittest/unittest_source > $TMP_DIR/source_bash 2>&1
+diff $TMP_DIR/source_21sh $TMP_DIR/source_bash
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+#./21sh unittest/unittest_globbing
+./21sh unittest/unittest_globbing > $TMP_DIR/globbing_21sh 2>&1
+bash unittest/unittest_globbing > $TMP_DIR/globbing_bash 2>&1
+diff $TMP_DIR/globbing_21sh $TMP_DIR/globbing_bash
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+#./21sh unittest/unittest_operator
+./21sh unittest/unittest_operator > $TMP_DIR/operator_21sh 2>&1
+bash unittest/unittest_operator > $TMP_DIR/operator_bash 2>&1
+diff $TMP_DIR/operator_21sh $TMP_DIR/operator_bash 
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+#./21sh unittest/unittest_separator
+./21sh unittest/unittest_separator > $TMP_DIR/separator_21sh 2>&1
+bash unittest/unittest_separator > $TMP_DIR/separator_bash 2>&1
+diff $TMP_DIR/separator_21sh $TMP_DIR/separator_bash
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+#./21sh unittest/unittest_redirection
+./21sh unittest/unittest_redirection > $TMP_DIR/redirection_21sh 2>&1
+bash unittest/unittest_redirection > $TMP_DIR/redirection_bash 2>&1
+diff $TMP_DIR/redirection_21sh $TMP_DIR/redirection_bash
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+#./21sh unittest/unittest_pipe
+./21sh unittest/unittest_pipe > $TMP_DIR/pipe_21sh 2>&1
+bash unittest/unittest_pipe > $TMP_DIR/pipe_bash 2>&1
+diff $TMP_DIR/pipe_21sh $TMP_DIR/pipe_bash
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo "------------------------------------------------"
+echo "EXITING..."
+echo "------------------------------------------------"
