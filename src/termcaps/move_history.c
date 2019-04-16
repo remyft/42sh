@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 05:00:51 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/24 20:45:57 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/16 18:59:07 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	find_hist(t_line *line, int way)
 	len = ft_strlen(line->curr->buff_tmp);
 	while (line->hist)
 	{
-		if (line->hist->c_size > len)
+		if (line->hist->c_size > len && line->hist->c_size < MAX_SHELL_LEN)
 			if (ft_strstr(line->hist->content, line->curr->buff_tmp) ==
 					line->hist->content && (line->hist->tmp ?
 						ft_strcmp(line->curr->buff, line->hist->tmp) :
