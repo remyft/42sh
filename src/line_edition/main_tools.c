@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/06 18:49:13 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/16 18:21:14 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ void		check_path(t_line *line, char **env)
 {
 	char	*path;
 
-	path = getenv("PATH");
-	if (path && line->path && ft_strcmp(path, line->path) != 0)
+	path = sh_getnenv("PATH", env);
+	if ((path && line->path && ft_strcmp(path, line->path) != 0) || !path)
 	{
 		free_tree(line->tree[0]);
 		line->tree[0] = create_bin_tree(env);

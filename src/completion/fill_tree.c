@@ -6,13 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:45:40 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/20 20:23:28 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/16 18:26:25 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "shell.h"
 #include "put.h"
+#include "shell_lib.h"
 
 static int	get_indir(char *toget, int *i, t_tree **ternary)
 {
@@ -42,8 +43,11 @@ void		fill_tree_bin(char **env, t_tree **ternary)
 {
 	char			*toget;
 	int				i;
+	static char		*builtins[] = {
+		"alias", "cd", "echo", "env", "exit", "setenv", "source", "unalias",
+		"unsetenv", NULL };
 
-	toget = get_env(env, "PATH");
+	toget = sh_getnenv("PATH", env);
 	if (!(*ternary = ft_memalloc(sizeof(t_tree))))
 	{
 		*ternary = NULL;
@@ -51,10 +55,14 @@ void		fill_tree_bin(char **env, t_tree **ternary)
 	}
 	(*ternary)->value = -1;
 	i = 0;
-	while (1)
-		if (get_indir(toget, &i, ternary))
-			break ;
-	free(toget);
+	if (toget)
+		while (1)
+			if (get_indir(toget, &i, ternary))
+				break ;
+	i = -1;
+	while (builtins[++i])
+		feed_tree(builtins[i], -1, ternary, 0);
+
 }
 
 void		fill_tree_env(char **env, t_tree **ternary)

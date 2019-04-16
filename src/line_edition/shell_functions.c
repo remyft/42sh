@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/24 20:10:26 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/15 20:35:02 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/16 19:57:21 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ static void		get_new_cmd(t_line *line, t_s_env *e)
 {
 	char		*ret;
 
+	go_end(line);
+	tputs(tgetstr("cr", NULL), 1, ft_pchar);
+	tputs(tgetstr("cd", NULL), 1, ft_pchar);
 	ret = ft_strdup(line->curr->buff);
 	*(line->e_cmpl) &= ~COMPLETION;
 	launch_new_cmd(&ret, e);
