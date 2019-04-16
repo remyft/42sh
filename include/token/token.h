@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/15 03:33:50 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/16 21:14:26 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define TOKEN_H
 
 # include <stdlib.h>
-# include <stdio.h>
 # include "quote.h"
 # include "shell_env.h"
 # include "main_tools.h"
