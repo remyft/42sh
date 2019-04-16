@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 02:35:19 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/20 20:57:25 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/16 17:41:46 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@
 
 static int		tilde_end(t_exp *param)
 {
-	return (param->buff[param->i] != '/' || param->quote);
+	return ((param->buff[param->i] != '/'
+	&& param->buff[param->i] != ':')
+	|| param->quote);
 }
 
 static int		tilde_get_parameter(t_ret *parameter, t_exp *param)
