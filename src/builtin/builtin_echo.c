@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 06:26:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/08 19:00:46 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/16 20:10:16 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@
 
 static int		echo_error(t_s_env *e)
 {
-	ft_dprintf(STDERR_FILENO, "%s: echo: write error: "
-	"bad file descriptor\n", e->progname);
+	ft_dprintf(STDERR_FILENO, "%s: ", e->progname);
+	if (e->interactive)
+		ft_dprintf(STDERR_FILENO, "line %ld: ", e->interactive);
+	ft_dprintf(STDERR_FILENO, "echo: write error: bad file descriptor\n");
 	return (1);
 }
 

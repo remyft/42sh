@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/15 22:02:33 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/04 16:44:59 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/16 20:04:01 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int				builtin_alias(t_execute *exec, t_s_env *e)
 			error = alias_set(exec->cmd[i], &e->alias_list);
 		if (error)
 		{
-			ret = alias_error(error, exec->cmd[0], exec->cmd[i], e->progname);
+			ret = alias_error(error, exec->cmd[0], exec->cmd[i], e);
 			error = 0;
 		}
 		i++;

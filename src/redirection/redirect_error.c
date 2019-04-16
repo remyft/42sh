@@ -6,11 +6,11 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:29:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/15 19:50:39 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/16 20:38:54 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_dprintf.h"
 #include "shell_env.h"
 #include "redirection_errors.h"
 #include "redirection.h"
@@ -28,11 +28,10 @@ int				redirect_error(int err, char *redirect_arg, t_s_env *e)
 	*e->ret = 130;
 	if (err == ERR_FREE_ALL)
 		return (1);
-	ft_putstr_fd(e->progname, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd(redirect_arg, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putendl_fd(error[err], STDERR_FILENO);
+	ft_dprintf(STDERR_FILENO, "%s: ", e->progname);
+	if (e->interactive)
+		ft_dprintf(STDERR_FILENO, "line %ld: ", e->interactive);
+	ft_dprintf(STDERR_FILENO, "%s: %s\n", redirect_arg, error[err]);
 	*e->ret = 2;
 	return (1);
 }

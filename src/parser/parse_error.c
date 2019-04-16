@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 18:11:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/15 19:47:39 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/16 20:54:14 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@
 
 static void		near_err(const char *err, t_token *token, t_s_env *e)
 {
-	ft_dprintf(STDERR_FILENO, "%s: %s `", e->progname, err);
+	ft_dprintf(STDERR_FILENO, "%s: ", e->progname);
+	if (e->interactive)
+		ft_dprintf(STDERR_FILENO, "line %ld: ", e->interactive);
+	ft_dprintf(STDERR_FILENO, "%s `", err);
 	if (token == NULLTOKEN || *token->head == '\n')
 		write(STDERR_FILENO, "\\n", 2);
 	else

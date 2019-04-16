@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 10:20:55 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/07 23:53:25 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/16 20:05:21 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,14 @@ int				cd_dir_error(char *newpwd, char *entry, t_s_env *e)
 	size_t		err;
 	struct stat	buffer;
 
+	ft_dprintf(STDERR_FILENO, "%s: ", e->progname);
+	if (e->interactive)
+		ft_dprintf(STDERR_FILENO, "line %ld: ", e->interactive);
 	if (stat(newpwd, &buffer) < 0)
 		err = (lstat(newpwd, &buffer) < 0) ? 1 : 0;
 	else
 		err = (!S_ISDIR(buffer.st_mode)) ? 2 : 3;
-	ft_dprintf(STDERR_FILENO, "%s: cd: %s: %s\n", e->progname,
-		!ft_strcmp(entry, "-") ? newpwd : entry,
-		errors[err]);
+	ft_dprintf(STDERR_FILENO, "cd: %s: %s\n",
+		!ft_strcmp(entry, "-") ? newpwd : entry, errors[err]);
 	return (1);
 }

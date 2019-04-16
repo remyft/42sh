@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 00:57:52 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/25 17:52:42 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/16 20:27:00 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,17 @@
 
 static int		unalias_usage(char *cmd)
 {
-	ft_dprintf(STDERR_FILENO, "Usage: %s [-a] name [name [...]]\n", cmd);
+	ft_dprintf(STDERR_FILENO, "%s: usage: %s [-a] name [name [...]]\n",
+	cmd, cmd);
 	return (2);
 }
 
-static int		unalias_error(char *cmd, char *alias, const char *prog)
+static int		unalias_error(char *cmd, char *alias, t_s_env *e)
 {
-	ft_dprintf(STDERR_FILENO, "%s: %s: %s : not found\n", prog, cmd, alias);
+	ft_dprintf(STDERR_FILENO, "%s: ", e->progname);
+	if (e->interactive)
+		ft_dprintf(STDERR_FILENO, "line %ld: ", e->interactive);
+	ft_dprintf(STDERR_FILENO, "%s: %s : not found\n", cmd, alias);
 	return (1);
 }
 
@@ -84,7 +88,7 @@ int				builtin_unalias(t_execute *exec, t_s_env *e)
 		while (exec->cmd[i])
 		{
 			if (unalias_alias(exec->cmd[i], &e->alias_list))
-				ret |= unalias_error(exec->cmd[0], exec->cmd[i], e->progname);
+				ret |= unalias_error(exec->cmd[0], exec->cmd[i], e);
 			i++;
 		}
 	return (ret);

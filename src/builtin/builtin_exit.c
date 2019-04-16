@@ -6,11 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 16:42:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/15 19:51:33 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/16 20:16:50 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "ft_dprintf.h"
 #include "builtins.h"
 
 static int		str_full_digit(const char *s)
@@ -34,11 +35,10 @@ static int		exit_error(int err, const char *cmdname, t_s_env *e)
 		"too many arguments", "numeric argument required",
 	};
 
-	ft_putstr_fd(e->progname, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd(cmdname, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putendl_fd(errors[err], STDERR_FILENO);
+	ft_dprintf(STDERR_FILENO, "%s: ", e->progname);
+	if (e->interactive)
+		ft_dprintf(STDERR_FILENO, "line %ld: ", e->interactive);
+	ft_dprintf(STDERR_FILENO, "%s: %s\n", cmdname, errors[err]);
 	e->shell_loop = !err;
 	return (err + 1);
 }
