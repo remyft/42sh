@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 20:16:48 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/16 21:06:17 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/16 21:11:20 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,11 @@ t_token			*handle_newline(t_param *param, t_call *token)
 	{
 		if (quote_type(param->token->quote) != NO_QUOTE)
 			return (param->token);
+		--param->e->interactive;
 		param->token = token[param->token->type].identifier(param);
 		if (!(param->token = exec_line(param)))
 			free_token(&param->head);
+		++param->e->interactive;
 		param->i--;
 		return (param->token);
 	}
