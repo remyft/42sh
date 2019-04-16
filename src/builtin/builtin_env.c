@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 18:53:23 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/15 19:51:20 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/16 17:45:51 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int				builtin_env(t_execute *exec, t_s_env *e)
 	int			error;
 
 	ft_memset(&opt, 0, sizeof(opt));
-	e->ret = 0;
+	*e->ret = 0;
 	if (exec->cmd[1])
 	{
 		opt.cmdname = exec->cmd[0];
