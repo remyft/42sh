@@ -39,8 +39,6 @@ void	remove_job(t_jobs **job, t_jobs *node)
 	node = NULL;
 }
 
-#include <stdio.h>
-
 void	jobs_remove(t_jobs **jobs, int n)
 {
 	t_jobs	*curr;

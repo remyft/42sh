@@ -271,6 +271,7 @@ SRCS += builtin_alias_error.c				\
 		builtin_jobs_no_arg.c				\
 		builtin_jobs_opt_p.c				\
 		builtin_jobs_no_opt.c				\
+		builtin_jobs_opt_l.c				\
 
 # LIBRARY
 LIBRARY_DIR = lib/
@@ -325,10 +326,12 @@ SRCS	+= job_insert.c						\
 		   jobs_notify_ended.c				\
 		   jobs_remove.c					\
 		   jobs_is_curr.c					\
+		   process_translate.c				\
 
 SIGNAL_DIR	= signal/
 SRCS		+= signal_reset.c				\
 			   signal_process.c				\
+			   sig_err.c					\
 
 
 COL			=	$$(tput cols)/3
@@ -466,7 +469,7 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)$(REDIRECTION_DIR)%.c $(DEPS_DIR)%.d
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(BUILTIN_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(BUILTIN_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(BUILTIN_DIR) -I $(INC_DIR)/$(COMMAND_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(LIBRARY_DIR) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(ALIAS_DIR) -I$(INC_DIR)/$(JOB_DIR)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(BUILTIN_DIR) -I $(INC_DIR)/$(COMMAND_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(LIBRARY_DIR) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(ALIAS_DIR) -I$(INC_DIR)/$(JOB_DIR) -I$(INC_DIR)/$(SIGNAL_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(LIBRARY_DIR)%.c
@@ -490,7 +493,7 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)$(JOB_DIR)%.c $(DEPS_DIR)%.d
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(SIGNAL_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(SIGNAL_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(SIGNAL_DIR) $(DEBUG)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(SIGNAL_DIR) $(DEBUG)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(DEPS_DIR)%.d: ;

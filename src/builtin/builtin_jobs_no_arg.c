@@ -23,8 +23,7 @@ int		jobs_no_arg(const t_jobs *jobs, t_execute *exec, const int *opts)
 		else if (*opts & JOB_OPT_P)
 			job_opt_p(jobs);
 		else if (*opts & JOB_OPT_L)
-			;
-			//jobs_opt_l(jobs);
+			job_opt_l(jobs);
 		else
 			job_no_opt(jobs);
 		jobs = jobs->next;
@@ -47,18 +46,12 @@ int		jobs_spe_arg(t_execute *exec, t_s_env *e, int i, const int *opts)
 			jobs_error(2, cmd[i], e);
 			err = 1;
 		}
-		if (curr && *opts & JOB_OPT_P)
+		else if (curr && *opts & JOB_OPT_P)
 			job_opt_p(curr);
 		else if (*opts & JOB_OPT_L)
-			;
-			//jobs_opt_l(curr);
+			job_opt_l(curr);
 		else
-			;
-	//		jobs_no_opt(curr);
-		if (curr)
-			printf("Job %p with id [%d]\n", curr, curr->id);
-		else
-			printf("NULL\n");
+			job_no_opt(curr);
 		i++;
 	}
 	return (err);

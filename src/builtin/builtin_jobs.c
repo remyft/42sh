@@ -6,7 +6,6 @@
 
 static int	jobs_opts_loop(char *arg, int *opts, t_s_env *e)
 {
-	(void)e;
 	size_t		i;
 
 	i = 1;

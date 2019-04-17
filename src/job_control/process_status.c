@@ -8,7 +8,7 @@ int		process_set_status(t_jobs *job, t_process *p, int status)
 	if (WIFSTOPPED(status))
 	{
 		p->s_suspended = WSTOPSIG(status);
-		p->status = STATUS_SUSPENDED;
+		p->status = STATUS_STOPPED;
 	}
 	else
 	{
@@ -18,8 +18,6 @@ int		process_set_status(t_jobs *job, t_process *p, int status)
 			p->status = STATUS_FINISHED;
 			if (WIFSIGNALED(status))
 				p->s_signal = WTERMSIG(status);
-			if (p->s_signal == SIGINT)
-				job->status = p->s_signal;
 		}
 	}
 	if (job_suspended(job) && !job_finished(job))

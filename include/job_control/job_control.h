@@ -59,7 +59,7 @@ enum
 # define STR_SUSPENDED "suspended"
 # define STR_CONTINUE "continued"
 # define STR_STOPPED "stopped"
-# define STR_TERMINATED "terminated"
+# define STR_TERMINATED "done"
 
 void			job_handler(t_jobs *job, t_s_env *e);
 void			job_print_status(t_jobs *job);

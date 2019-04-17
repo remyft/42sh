@@ -26,9 +26,7 @@ int		jobs_notify_ended(t_jobs *jobs)
 		job = job_by_pid(jobs, pid);
 		p = process_by_pid(job->m_process, pid);
 		process_set_status(job, p, status);
-		printf("Setting status\n");
 		job_notify(job);
-		printf("Enter\n");
 		if (job_finished(job))
 		{
 			job->status |= JOB_NOTIFIED;

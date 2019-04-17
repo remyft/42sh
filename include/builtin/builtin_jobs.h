@@ -34,8 +34,11 @@ t_jobs	*jobs_expansions(const char *arg, t_execute *exec, t_s_env *e);
 int		jobs_error(int err, char *arg, t_s_env *e);
 int		jobs_no_arg(const t_jobs *jobs, t_execute *exec, const int *opts);
 int		jobs_spe_arg(t_execute *exec, t_s_env *e, int i, const int *opts);
+int		jobs_evaluate_ended_status(t_m_process *m_p);
+int		jobs_evaluate_sig(t_m_process *m_p);
 
+void	job_opt_l(const t_jobs *job);
 void	job_opt_p(const t_jobs *job);
-void	job_no_opt(const t_jobs *curr);
+void	job_no_opt(const t_jobs *job);
 
 #endif

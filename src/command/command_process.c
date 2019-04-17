@@ -4,6 +4,7 @@
 
 void			command_process(pid_t pid, pid_t s_pid, t_jobs *job, t_process *p)
 {
+	p->status = STATUS_RUNNING;
 	if (job->pgid == 0 || job->pgid == s_pid)
 		job->pgid = pid;
 	if (setpgid(p->pid, job->pgid) < 0)

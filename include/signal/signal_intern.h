@@ -16,4 +16,6 @@
 int		signal_to_default(void);
 int		sig_to_pgid(int pgid);
 
+char	*sig_err_translate(int sig);
+
 #endif

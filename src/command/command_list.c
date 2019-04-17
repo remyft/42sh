@@ -60,7 +60,7 @@ static int	execute_ao_list(t_ao_list *aolist, t_s_env *e, t_jobs *job)
 	return (execute_ao_list(aolist->next, e, job));
 }
 
-/*static char		*get_command(t_m_list *list)
+static char		*get_command(t_m_list *list)
 {
 	t_ao_list	*ao;
 	t_command	*cmd;
@@ -75,7 +75,6 @@ static int	execute_ao_list(t_ao_list *aolist, t_s_env *e, t_jobs *job)
 		head = ((t_command *)((t_pipeline *)cmd)->left)->args->token->head;
 	else
 		head = cmd->args->token->head;
-	printf("head : %s\n", head);
 	ao = list->aolist;
 	while (ao->next)
 		ao = ao->next;
@@ -86,9 +85,8 @@ static int	execute_ao_list(t_ao_list *aolist, t_s_env *e, t_jobs *job)
 	while (arg->next)
 		arg = arg->next;
 	tail = arg->token->head + arg->token->len;
-	printf("tail : %s\n", tail);
 	return (ft_strndup((char *)head, tail - head));
-}*/
+}
 
 int			execute_list(t_m_list *list, t_s_env *e)
 {
@@ -98,6 +96,7 @@ int			execute_list(t_m_list *list, t_s_env *e)
 	if (!list)
 		return (0);
 	job = jobs_prepare(e);
+	job->cmd_name = get_command(list);
 	job->foreground = list->async;
 	if (execute_ao_list(list->aolist, e, job))
 		return (1);

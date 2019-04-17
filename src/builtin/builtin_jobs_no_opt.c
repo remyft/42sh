@@ -13,8 +13,27 @@
 #include "job_control.h"
 #include "builtin_jobs.h"
 #include "ft_printf.h"
+#include "signal_intern.h"
 
-int		jobs_evaluate_status(t_m_process *m_p)
+int		jobs_evaluate_sig(t_m_process *m_p)
+{
+	t_process	*p;
+
+	while (m_p)
+	{
+		p = m_p->p;
+		while (p)
+		{
+			if (p->s_signal > 0)
+				return (p->s_signal);
+			p = p->next;
+		}
+		m_p = m_p->next;
+	}
+	return (0);
+}
+
+int		jobs_evaluate_ended_status(t_m_process *m_p)
 {
 	t_process	*p;
 
@@ -32,25 +51,21 @@ int		jobs_evaluate_status(t_m_process *m_p)
 	return (STATUS_FINISHED);
 }
 
-void	job_no_opt(const t_jobs *curr)
+void	job_no_opt(const t_jobs *job)
 {
-	int		status;
+	int			status;
 
-	ft_printf("[%d]", curr->id);
-	if (curr->status & JOB_LAST)
+	ft_printf("[%d]", job->id);
+	if (job->status & JOB_LAST)
 		ft_printf("+  ");
-	else if (curr->status & JOB_MINUS)
+	else if (job->status & JOB_MINUS)
 		ft_printf("-  ");
 	else
 		ft_printf("   ");
-	//printf("proc status : %d\n", curr->m_process->p->status);
-	//printf("proc sig : %d\n", curr->m_process->p->s_signal);
-	//printf("job status : %d\n", curr->status);
-	if ((status = jobs_evaluate_status(curr->m_process)))
-		ft_printf("%-22\n", process_translate_status(status));
-	else
-		ft_printf("%-22\n", process_translate_ended(status));
-
-	ft_printf("%d\n", status);
+	if ((status = jobs_evaluate_sig(job->m_process)))
+		ft_printf("%-22s", sig_err_translate(status));
+	else if ((status = jobs_evaluate_ended_status(job->m_process)))
+		ft_printf("%-22s", process_translate_status(status));
+	ft_printf("%s", job->cmd_name);
 	ft_printf("\n");
 }

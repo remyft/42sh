@@ -14,22 +14,9 @@
 #include "ft_printf.h"
 #include <signal.h>
 
-char	*process_translate_status(int status)
-{
-	if (status == STATUS_FINISHED)
-		return (STR_TERMINATED);
-	if (status == STATUS_RUNNING)
-		return (STR_RUNNING);
-	if (status == STATUS_SUSPENDED)
-		return (STR_SUSPENDED);
-	if (status == STATUS_STOPPED)
-		return (STR_STOPPED);
-	return (STR_RUNNING);
-}
-
 void	job_show_status(t_jobs *job)
 {
-		ft_printf("\n[%d]+  %-22s command\n", job->id,
+		ft_printf("[%d]+  %-22s command\n", job->id,
 				process_translate_status(job->m_process->p->status));
 }
 
