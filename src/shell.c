@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/12 10:23:15 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/17 10:43:42 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ static void		shell_loop(t_line *line, t_s_env *e)
 				&& line->curr->buff[0] != 10)
 		{
 			get_new_cmd(line, e);
-			jobs_notify_ended(e->jobs);
+			printf("%d\n", getpid());
+	//		jobs_notify_ended(e->jobs);
 		}
 	}
 }

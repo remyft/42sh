@@ -17,6 +17,7 @@ int		job_background(t_jobs *job, t_s_env *e, int cont)
 	}
 	else
 		job->status |= JOB_LAST;
-	ft_printf("[%d] %d\n", job->id, job->pgid);
+	if (job->notify == 0)
+		ft_printf("[%d] %d\n", job->id, job->pgid);
 	return (0);
 }
