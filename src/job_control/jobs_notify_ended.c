@@ -6,13 +6,13 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 14:13:22 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/17 10:41:08 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/18 10:40:46 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "job_control.h"
 #include "signal_intern.h"
-#include <stdio.h>
+#include "builtin_jobs.h"
 
 int		jobs_notify_ended(t_jobs *jobs)
 {
@@ -24,13 +24,22 @@ int		jobs_notify_ended(t_jobs *jobs)
 	while ((pid = waitpid(WAIT_ANY, &status, WCONTINUED | WUNTRACED | WNOHANG)) > 0)
 	{
 		job = job_by_pid(jobs, pid);
-		p = process_by_pid(job->m_process, pid);
-		process_set_status(job, p, status);
+		if (job->status & JOB_FORKED)
+		{
+			job->job_forked = job->m_process->p;
+			process_set_status(job, (t_process *)job->job_forked, status);
+		}
+		else
+		{
+			p = process_by_pid(job->m_process, pid);
+			process_set_status(job, p, status);
+		}
 		job_notify(job);
 		if (job_finished(job))
 		{
 			job->status |= JOB_NOTIFIED;
-			printf("[%d]   %-22s command\n", job->id, "done");
+			job_no_opt(job);
+	//		printf("[%d]   %-22s %s\n", job->id, "done", job->cmd_name);
 		}
 	}
 	return (1);

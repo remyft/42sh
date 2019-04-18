@@ -39,7 +39,7 @@ t_process	*process_by_pid(t_m_process *m_p, pid_t pid)
 			return (p);
 		p = p->next;
 	}
-	return (NULL);
+	return (m_p->p);
 }
 
 int		process_update(t_jobs *job, t_m_process *m_p, pid_t pid, int status)

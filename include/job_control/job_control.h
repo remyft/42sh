@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 14:09:06 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/12 17:21:26 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/18 09:37:55 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ enum
 	JOB_BUILTIN_INTERN = 1 << 2,
 	JOB_MINUS = 1 << 3,
 	JOB_LAST = 1 << 4,
+	JOB_FORKED = 1 << 5,
 };
 
 enum

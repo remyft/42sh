@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 15:17:20 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/11 14:47:52 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/18 09:13:23 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ t_jobs		*job_by_pid(t_jobs *jobs, pid_t pid)
 
 	while (jobs)
 	{
+		if (pid == jobs->pgid)
+			return (jobs);
 		curr = jobs->m_process->p;
 		while (curr)
 		{

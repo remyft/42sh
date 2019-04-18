@@ -22,6 +22,6 @@ int		job_wait(t_jobs *job)
 		if (job_finished(job) || job_suspended(job))
 			break ;
 	}
-	job_notify(job);
-	return (0);
+	//job_notify(job);
+	return (job_notify(job));
 }

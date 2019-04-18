@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 16:08:47 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/12 16:53:05 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/18 10:58:10 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,5 @@ int		job_notify(t_jobs *job)
 			job_show_status(job);
 		}
 	}
-	return (1);
+	return (sig);
 }

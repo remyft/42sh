@@ -46,14 +46,10 @@ int		command_launch_mp_b(t_jobs *job, t_s_env *e)
 		if (m_p->type == OR_IF_VALUE && !ret)
 			continue ;
 		if ((ret = launch_m_process(job, m_p, e)) != 0)
-		{
-			dprintf(2, "lauch error\n");
 			return (ret);
-		}
 		job->notify = 1;
 		if ((ret = command_job_wait(job, e)) != 0)
 		{
-			dprintf(2, "Wait error\n");
 			command_restore_fds(((t_execute *)m_p->p->exec)->fds);
 			return (ret);
 		}
@@ -69,6 +65,7 @@ int		command_mprocess_background(t_jobs *job, t_s_env *e)
 	int			error;
 
 	error = 0;
+	job->status |= JOB_FORKED;
 	if ((job->pgid = fork()) == 0)
 	{
 		error = command_launch_mp_b(job, e);
@@ -76,7 +73,6 @@ int		command_mprocess_background(t_jobs *job, t_s_env *e)
 	}
 	else if (job->pgid < 0)
 		error = command_error(e->progname, ERR_FORK, NULL, e);
-	printf("There\n");
 	command_job_wait(job, e);
 	return (error);
 }
@@ -102,6 +98,6 @@ int			command_job(t_jobs *job, t_s_env *e)
 		ret = m_p->ret;
 		command_restore_fds(((t_execute *)m_p->p->exec)->fds);
 	}
-	//jobs_notify_ended(e->jobs);
+	jobs_notify_ended(e->jobs);
 	return (0);
 }

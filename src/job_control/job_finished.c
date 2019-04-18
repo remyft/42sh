@@ -1,11 +1,21 @@
 #include "job_control.h"
 #include <stdio.h>
 
-int		job_finished(t_jobs *job)
+static int	job_forked_finished(t_jobs *job)
+{
+	t_process	*p;
+
+	p = (t_process *)job->job_forked;
+	return (p->status != STATUS_FINISHED ? 0 : 1);
+}
+
+int			job_finished(t_jobs *job)
 {
 	t_process	*p;
 	t_m_process	*m_p;
 
+	if (job->status & JOB_FORKED)
+		return (job_forked_finished(job));
 	m_p = job->m_process;
 	while (m_p)
 	{

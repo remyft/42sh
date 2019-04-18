@@ -6,17 +6,27 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 16:10:02 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/06 10:05:41 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/18 10:58:06 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "job_control.h"
 
-int		job_signaled(t_jobs *job)
+static int	job_forked_sig(t_jobs *job)
+{
+	if (((t_process *)job->job_forked)->s_signal > 0)
+		return (((t_process *)job->job_forked)->s_signal);
+	else
+		return (0);
+}
+
+int			job_signaled(t_jobs *job)
 {
 	t_process	*p;
 	t_m_process	*m_p;
 
+	if (job->status & JOB_FORKED)
+		return (job_forked_sig(job));
 	m_p = job->m_process;
 	while (m_p)
 	{
