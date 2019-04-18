@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 17:42:21 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/20 20:50:31 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/18 15:13:27 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ static int		expand_dollar_squote(t_exp *param, t_ret *ret)
 			return (ERR_MALLOC);
 		else
 			param->i++;
+	if (param_addchar(param->buff[param->i], ret))
+		return (ERR_MALLOC);
 	return (ERR_NONE);
 }
 
