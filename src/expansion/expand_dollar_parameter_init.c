@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 22:07:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/13 12:40:08 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/17 18:55:07 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,22 +47,22 @@ int				expand_dollar_parameter_init(t_ret *parameter, t_exp *param)
 
 	error = ERR_NONE;
 	ft_memset(&ret, 0, sizeof(ret));
-	if (param_addchar(param->buff[param->i++], parameter))
-		return (ERR_MALLOC);
-	if ((parameter->brace = param->buff[param->i] == '{')
+	if (param_addchar(param->buff[param->i++], parameter)
+	|| ((parameter->brace = param->buff[param->i] == '{')
 		&& param_addchar(param->buff[param->i++], parameter))
+	|| ((parameter->hash = param->buff[param->i] == '#')
+		&& param_addchar(param->buff[param->i++], parameter)))
 		return (ERR_MALLOC);
-	if ((parameter->hash = param->buff[param->i] == '#')
-		&& param_addchar(param->buff[param->i++], parameter))
-		return (ERR_MALLOC);
+	ret.brace = parameter->brace;
 	end_func = get_func(parameter->brace, ft_isdigit(param->buff[param->i]));
-	if ((error = expand_loop(&ret, param, end_func)))
-		return (error);
-	param_addstr(ret.word, parameter);
+	if ((error = expand_loop(&ret, param, end_func)) == ERR_NONE)
+	{
+		param_addstr(ret.word, parameter);
+		if (is_expand_null(parameter)
+			&& is_special(param->buff[param->i])
+			&& param_addchar(param->buff[param->i++], parameter))
+			error = ERR_MALLOC;
+	}
 	expand_free_t_ret(&ret, 0);
-	if (is_expand_null(parameter)
-		&& is_special(param->buff[param->i])
-		&& param_addchar(param->buff[param->i++], parameter))
-		return (ERR_MALLOC);
-	return (ERR_NONE);
+	return (error);
 }

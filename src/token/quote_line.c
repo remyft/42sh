@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 23:38:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/15 19:47:12 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/18 14:25:09 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,12 @@ static int		get_new_line(t_quote *quote, t_line *line)
 		return (ERR_MALLOC);
 	line->lprompt = ft_strlen(line->prompt);
 	line->curr->quoted = 1;
-	put_prompt(line->prompt, *line->ret);
 	line->tmp[0] = 0;
+	put_prompt(line->prompt, *line->ret);
 	while (line->shell_loop && line->tmp[0] == 0)
 		deal_typing(line);
-	write(STDIN_FILENO, "\n", 1);
+	if (line->tmp[0] != 4)
+		write(STDIN_FILENO, "\n", 1);
 	line->shell_loop = 1;
 	line->curr->quoted = 0;
 	ft_strdel(&line->prompt);

@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/04/15 20:33:42 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/04/17 19:20:23 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -125,6 +125,7 @@ SRCS += handle_alias.c						\
 		handle_operator.c					\
 		handle_quote.c						\
 		handle_word.c						\
+		hdoc_functions.c					\
 		identify_operator.c					\
 		identify_word.c						\
 		is_alias_valid_name.c				\

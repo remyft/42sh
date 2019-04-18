@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:21:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/15 19:50:27 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/17 18:02:35 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int		get_here_doc_line(char **hdoc, char *eof, t_line *line)
 		line->index = 0;
 		line->len = 0;
 	}
-	return ((line->tmp[0] == -1) ? ERR_FREE_ALL : ERR_NONE);
+	return (ERR_NONE);
 }
 
 static int		get_here_doc(t_redirection **redir, t_s_env *e)
@@ -75,7 +75,11 @@ static int		get_here_doc(t_redirection **redir, t_s_env *e)
 	line->lprompt = ft_strlen(line->prompt);
 	line->curr->quoted = 1;
 	line->tmp[0] = 0;
+	if (!e->forked && !e->interactive)
+		define_new_term(&e->save);
 	error = get_here_doc_line(&(*redir)->hdoc, (*redir)->arg->cmd[0], line);
+	if (!e->forked && !e->interactive)
+		term_restore(&e->save);
 	if (line->tmp[0] != -1
 	&& ft_strcmp(line->curr->buff, (*redir)->arg->cmd[0]))
 		ft_dprintf(STDERR_FILENO, "%s: warning: here-document delimited by "
@@ -85,7 +89,9 @@ static int		get_here_doc(t_redirection **redir, t_s_env *e)
 	ft_strdel(&line->prompt);
 	line->prompt = promptsave;
 	line->lprompt = ft_strlen(line->prompt);
-	return (error);
+	if (line->tmp[0] == -1)
+		return (ERR_FREE_ALL);
+	return (ERR_NONE);
 }
 
 static int		handle_here_doc(t_redirection **redir, t_s_env *e)

@@ -34,3 +34,17 @@ CHANGE
 FINIR
 - open file des Redirections
 - check if command is a builtin
+
+
+TEST DE PUTE:
+1:
+touch \' && $(ls)
+-> (see output)
+
+2:
+in ~/.21shrc write:
+source ~/.21shrc
+
+3:
+alias a='echo " coucou '
+-> execute/launch a

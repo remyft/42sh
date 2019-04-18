@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 03:51:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/16 23:04:19 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/18 14:48:40 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,15 @@ static size_t	get_line_length(const char *line)
 	return (i);
 }
 
+static void		backtick_backslash(char *line)
+{
+	if (line)
+		while (*line)
+			if (*line++ == '\\'
+			&& (*(line) == '$' || *(line) == '`' || *(line) == '\\'))
+				ft_strcpy(line - 1, line);
+}
+
 static void		expand_subshell_child(int pfd[2], size_t i, t_exp *param)
 {
 	t_s_env		newe;
@@ -39,12 +48,13 @@ static void		expand_subshell_child(int pfd[2], size_t i, t_exp *param)
 	ft_memcpy(&newe, param->e, sizeof(newe));
 	newe.public_env = sh_tabdup((const char **)param->e->public_env);
 	newe.private_env = sh_tabdup((const char **)param->e->private_env);
-	newe.forked = 1;
-	newe.interactive = 0;
+	newe.forked = 0;
+	newe.interactive = 1;
 	close(pfd[0]);
 	dup2(pfd[1], STDOUT_FILENO);
 	close(pfd[1]);
 	line = ft_strndup((char *)param->buff + param->i + 1, i - param->i);
+	backtick_backslash(line);
 	if (line)
 		launch_new_cmd(&line, &newe);
 	close(STDOUT_FILENO);

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 20:16:48 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/16 21:11:20 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/18 13:51:05 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,20 @@
 #include "operator_types.h"
 #include "parser.h"
 #include "command.h"
+
+// static void		get_hdoc(t_param *param)
+// {
+// 	size_t		i;
+// 	t_token		*eof;
+
+// 	i = ++param->i;
+// 	eof = (t_token *)param->hdoc->token;
+// 	if (!eof->next)
+// 		return ; // return warning here ?
+// 	while (param->line[i] && param->line[i] != '\n')
+// 		i++;
+// 	if (eof->len == i - param->i && !ft_strncmp())
+// }
 
 static t_token	*exec_line(t_param *param)
 {
@@ -48,6 +62,8 @@ t_token			*handle_newline(t_param *param, t_call *token)
 			return (param->token);
 		--param->e->interactive;
 		param->token = token[param->token->type].identifier(param);
+		// if (param->hdoc)
+		// 	get_hdoc(param);
 		if (!(param->token = exec_line(param)))
 			free_token(&param->head);
 		++param->e->interactive;

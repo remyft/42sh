@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 18:34:08 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/15 02:06:07 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/18 14:23:04 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int				dparenthed_line(t_param *param, t_line *line)
 {
 	char		*add;
 
+	add = "";
 	if (*line->curr->buff
 	&& ft_strncmp(param->token->head + param->token->len - 2, "$(", 2)
 	&& line->curr->buff[0] != ')')
@@ -58,10 +59,12 @@ int				backquoted_line(t_param *param, t_line *line)
 {
 	char		*add;
 
+	add = "";
 	if (*line->curr->buff && param->token->head[param->token->len - 1] != '`'
 	&& line->curr->buff[0] != '`')
 		add = ";";
 	if (!(param->line = ft_strjoin(add, line->curr->buff)))
 		return (ERR_MALLOC);
+	param->i--;
 	return (ERR_NONE);
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/16 21:14:26 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/17 19:19:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct	s_param
 	t_s_env		*e;
 	t_token		*head;
 	t_token		*token;
+	t_hdoc		*hdoc;
 	size_t		i;
 	char		*line;
 }				t_param;
@@ -144,10 +145,6 @@ size_t			check_operator(t_token *token, size_t len);
 t_token			*identify_operator(t_param *param);
 t_token			*identify_word(t_param *param);
 
-t_quote			*quote_add(t_quote **head, int type, size_t line);
-void			quote_remove(t_quote **head, int type);
-int				quote_type(t_quote *head);
-t_quote			*quote_get(t_quote *head);
 t_token			*quote_line(t_param *param);
 
 int				aliased_line(t_param *param, t_line *line);
