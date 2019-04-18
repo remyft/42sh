@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 20:58:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/16 20:30:25 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/16 23:11:23 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ static int	source_error(int err, char **cmd, t_s_env *e)
 	ft_dprintf(STDERR_FILENO, "%s: ", e->progname);
 	if (e->interactive)
 		ft_dprintf(STDERR_FILENO, "line %ld: ", e->interactive);
-	ft_dprintf(STDERR_FILENO, "%s: ", cmd[0]);
 	if (err != ERR_NOT_ARG)
 		ft_dprintf(STDERR_FILENO, "%s: ", cmd[1]);
 	ft_dprintf(STDERR_FILENO, "%s\n", errors[err]);

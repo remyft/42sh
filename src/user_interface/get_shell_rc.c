@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 14:16:30 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/15 04:03:04 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/16 23:33:30 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "shell_lib.h"
 #include "builtins.h"
 
-void	launch_rc(t_s_env *e, int fd)
+void		launch_rc(t_s_env *e, int fd)
 {
 	char	*line;
 	size_t	save;
@@ -32,7 +32,25 @@ void	launch_rc(t_s_env *e, int fd)
 	e->interactive = save;
 }
 
-void	get_rc(t_s_env *e, char *relative)
+static int	get_shell_rc(t_execute *exec)
+{
+	if (!(exec->cmd[1] = getenv("HOME")))
+	{
+		free(exec->cmd);
+		return (1);
+	}
+	exec->cmd[1] = ft_strjoin(exec->cmd[1], "/");
+	exec->cmd[1] = ft_strjoinfree(exec->cmd[1], RC_NAME, 1);
+	if (access(exec->cmd[1], F_OK))
+	{
+		free(exec->cmd[1]);
+		free(exec->cmd);
+		return (1);
+	}
+	return (0);
+}
+
+void		get_rc(t_s_env *e, char *relative)
 {
 	t_execute	exec;
 
@@ -40,17 +58,13 @@ void	get_rc(t_s_env *e, char *relative)
 	exec.cmd[0] = e->av[1];
 	if (!relative)
 	{
-		if (!(exec.cmd[1] = getenv("HOME")))
-		{
-			free(exec.cmd);
+		if (get_shell_rc(&exec))
 			return ;
-		}
-		exec.cmd[1] = ft_strjoin(exec.cmd[1], "/");
-		exec.cmd[1] = ft_strjoinfree(exec.cmd[1], RC_NAME, 1);
 	}
 	else
 		exec.cmd[1] = ft_strdup(relative);
 	builtin_source((t_execute*)&exec, e);
+	e->interactive = e->ac != 1;
 	free(exec.cmd[1]);
 	free(exec.cmd);
 }
