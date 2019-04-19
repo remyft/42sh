@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 15:40:39 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/18 10:06:56 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/19 09:34:45 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		job_suspended(t_jobs *job)
 		p = m_p->p;
 		while (p)
 		{
-			if (p->status != STATUS_SUSPENDED)
+			if (p->status != STATUS_STOPPED)
 				return (0);
 			p = p->next;
 		}

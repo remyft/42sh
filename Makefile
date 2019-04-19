@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/04/18 10:10:41 by dbaffier         ###   ########.fr        #
+#    Updated: 2019/04/19 13:50:47 by dbaffier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -273,6 +273,10 @@ SRCS += builtin_alias_error.c				\
 		builtin_jobs_opt_p.c				\
 		builtin_jobs_no_opt.c				\
 		builtin_jobs_opt_l.c				\
+		builtin_fg.c						\
+		builtin_fg_error.c					\
+		builtin_bg.c						\
+		builtin_bg_error.c					\
 
 # LIBRARY
 LIBRARY_DIR = lib/

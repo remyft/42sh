@@ -67,8 +67,8 @@ void	process_status(t_jobs *job, t_m_process *m_p, t_process *p)
 	int		status;
 	pid_t	pid;
 
-	if (p->status != STATUS_FINISHED
-			&& p->status != STATUS_SUSPENDED)
+	if (p->status != STATUS_FINISHED)
+	//		&& p->status != STATUS_STOPPED)
 	{
 		errno = 0;
 		pid = waitpid(p->pid, &status, WUNTRACED);

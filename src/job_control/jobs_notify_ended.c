@@ -6,13 +6,21 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 14:13:22 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/18 10:40:46 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/19 09:21:02 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "job_control.h"
 #include "signal_intern.h"
 #include "builtin_jobs.h"
+#include <stdio.h>
+
+int		jobs_notify_forked(t_jobs *job)
+{
+	(void)job;
+	//job->job_forked->status  =
+	return (1);
+}
 
 int		jobs_notify_ended(t_jobs *jobs)
 {

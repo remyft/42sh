@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 05:56:14 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/10 16:52:19 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/19 13:49:23 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # define BUILTIN_UNALIAS	{ "unalias" , builtin_unalias }
 # define BUILTIN_UNSETENV	{ "unsetenv", builtin_unsetenv }
 # define BUILTIN_JOBS		{ "jobs"	, builtin_jobs }
+# define BUILTIN_FG			{ "fg"		, builtin_fg }
+# define BUILTIN_BG			{ "bg"		, builtin_bg }
 
 typedef struct	s_builtins
 {
@@ -41,5 +43,7 @@ int				builtin_setenv(t_execute *exec, t_s_env *e);
 int				builtin_unalias(t_execute *exec, t_s_env *e);
 int				builtin_unsetenv(t_execute *exec, t_s_env *e);
 int				builtin_jobs(t_execute *exec, t_s_env *e);
+int				builtin_fg(t_execute *exec, t_s_env *e);
+int				builtin_bg(t_execute *exec, t_s_env *e);
 
 #endif

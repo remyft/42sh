@@ -15,6 +15,7 @@ int		job_foreground(t_jobs *job, t_s_env *e, int cont)
 	job->status |= JOB_NOTIFIED;
 	if (cont)
 	{
+		printf("Resume %d\n", job->pgid);
 		if (kill(-job->pgid, SIGCONT) < 0)
 		{
 			ft_dprintf(2, "failed to continue job [%d]\n", job->pgid);

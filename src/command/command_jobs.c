@@ -27,13 +27,26 @@ static int launch_m_process(t_jobs *job, t_m_process *m_p, t_s_env *e)
 	while (curr)
 	{
 		if ((ret = command_pipe_dup(job, curr, e, fds)) != 0)
+		{
+			close_unexpected_fd(fds);
+			fds[FD_STDIN] = fds[FD_PIPE_IN];
 			return (ret);
+		}
 		close_unexpected_fd(fds);
 		fds[FD_STDIN] = fds[FD_PIPE_IN];
 		m_p->ret = curr->exit_status;
 		curr = curr->next;
 	}
 	return (0);
+}
+
+#include "job_control.h"
+
+int		command_test_wait(t_jobs *job, t_m_process *m_p, t_s_env *e)
+{
+	(void)e;
+	(void)m_p;
+	return (job_wait(job));
 }
 
 int		command_launch_mp_b(t_jobs *job, t_s_env *e)
@@ -48,7 +61,8 @@ int		command_launch_mp_b(t_jobs *job, t_s_env *e)
 		if ((ret = launch_m_process(job, m_p, e)) != 0)
 			return (ret);
 		job->notify = 1;
-		if ((ret = command_job_wait(job, e)) != 0)
+	//	if ((ret = command_job_wait(job, e)) != 0)
+		if ((ret = command_test_wait(job, m_p, e)) != 0)
 		{
 			command_restore_fds(((t_execute *)m_p->p->exec)->fds);
 			return (ret);
@@ -65,14 +79,15 @@ int		command_mprocess_background(t_jobs *job, t_s_env *e)
 	int			error;
 
 	error = 0;
-	job->status |= JOB_FORKED;
 	if ((job->pgid = fork()) == 0)
 	{
-		exit(command_launch_mp_b(job, e));
+		error = command_launch_mp_b(job, e);
+		exit(EXIT_FAILURE);
 	}
 	else if (job->pgid < 0)
 		error = command_error(e->progname, ERR_FORK, NULL, e);
 	command_job_wait(job, e);
+	job->status |= JOB_FORKED;
 	return (error);
 }
 
@@ -97,6 +112,5 @@ int			command_job(t_jobs *job, t_s_env *e)
 		ret = m_p->ret;
 		command_restore_fds(((t_execute *)m_p->p->exec)->fds);
 	}
-	//jobs_notify_ended(e->jobs);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:02:57 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/18 10:18:27 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/19 13:50:29 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int				command_builtin_forked(t_jobs *job, t_process *p, t_s_env *e)
 	static t_builtins	builtins[] = {
 		BUILTIN_ALIAS, BUILTIN_CD, BUILTIN_ECHO, BUILTIN_ENV, BUILTIN_EXIT,
 		BUILTIN_SETENV, BUILTIN_UNALIAS, BUILTIN_UNSETENV, BUILTIN_JOBS,
+		BUILTIN_FG, BUILTIN_BG,
 	};
 	size_t				i;
 	t_execute			*exec;
@@ -45,6 +46,7 @@ int				command_check(t_jobs *job, t_process *p, t_s_env *e)
 	static t_builtins	builtins[] = {
 		BUILTIN_ALIAS, BUILTIN_CD, BUILTIN_ECHO, BUILTIN_ENV, BUILTIN_EXIT,
 		BUILTIN_SETENV, BUILTIN_UNALIAS, BUILTIN_UNSETENV, BUILTIN_JOBS,
+		BUILTIN_FG, BUILTIN_BG,
 	};
 	size_t				i;
 	int					ret;
