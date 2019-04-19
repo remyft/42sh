@@ -36,6 +36,15 @@ static int launch_m_process(t_jobs *job, t_m_process *m_p, t_s_env *e)
 	return (0);
 }
 
+#include "job_control.h"
+
+int		command_test_wait(t_jobs *job, t_m_process *m_p, t_s_env *e)
+{
+	(void)e;
+	(void)m_p;
+	return (job_wait(job));
+}
+
 int		command_launch_mp_b(t_jobs *job, t_s_env *e)
 {
 	int		ret;
@@ -48,7 +57,8 @@ int		command_launch_mp_b(t_jobs *job, t_s_env *e)
 		if ((ret = launch_m_process(job, m_p, e)) != 0)
 			return (ret);
 		job->notify = 1;
-		if ((ret = command_job_wait(job, e)) != 0)
+	//	if ((ret = command_job_wait(job, e)) != 0)
+		if ((ret = command_test_wait(job, m_p, e)) != 0)
 		{
 			command_restore_fds(((t_execute *)m_p->p->exec)->fds);
 			return (ret);
@@ -65,9 +75,9 @@ int		command_mprocess_background(t_jobs *job, t_s_env *e)
 	int			error;
 
 	error = 0;
-	job->status |= JOB_FORKED;
 	if ((job->pgid = fork()) == 0)
 	{
+		job->status |= JOB_FORKED;
 		error = command_launch_mp_b(job, e);
 		exit(0);
 	}
