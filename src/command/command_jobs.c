@@ -68,8 +68,7 @@ int		command_mprocess_background(t_jobs *job, t_s_env *e)
 	job->status |= JOB_FORKED;
 	if ((job->pgid = fork()) == 0)
 	{
-		error = command_launch_mp_b(job, e);
-		exit(0);
+		exit(command_launch_mp_b(job, e));
 	}
 	else if (job->pgid < 0)
 		error = command_error(e->progname, ERR_FORK, NULL, e);
@@ -98,6 +97,6 @@ int			command_job(t_jobs *job, t_s_env *e)
 		ret = m_p->ret;
 		command_restore_fds(((t_execute *)m_p->p->exec)->fds);
 	}
-	jobs_notify_ended(e->jobs);
+	//jobs_notify_ended(e->jobs);
 	return (0);
 }
