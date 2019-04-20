@@ -28,6 +28,7 @@ int		job_foreground(t_jobs *job, t_s_env *e, int cont)
 		return (job_kill(job, e));
 	}
 	status = job_wait(job);
+	printf("after wait[%d]\n", status);
 	if (job_finished(job) == 0 && tcgetattr(e->fd, &e->save) != 0)
 		dprintf(2, "Error make tcgetattr\n");
 	if (ioctl(e->fd, TIOCSPGRP, &e->pid) < 0)
@@ -36,5 +37,6 @@ int		job_foreground(t_jobs *job, t_s_env *e, int cont)
 		return (job_kill(job, e));
 	}
 	sig_to_pgid(0);
+	// RETURN VALUE 128 + sig , if sig > 0 ???
 	return (status);
 }

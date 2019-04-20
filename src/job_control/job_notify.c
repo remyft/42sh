@@ -6,32 +6,43 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 16:08:47 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/19 09:38:06 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/20 10:29:38 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "job_control.h"
 #include "ft_printf.h"
-#include <signal.h>
+#include "signal_intern.h"
 
-void	job_show_status(t_jobs *job)
+void	job_show_status(t_jobs *job, int sig)
 {
+	if (sig > 0)
+		ft_printf("%s: %d\n", sig_err_translate(sig), sig);
+	else
 		ft_printf("[%d]+  %-22s command\n", job->id,
 				process_translate_status(job->m_process->p->status));
 }
 
-int		job_notify(t_jobs *job)
+int		job_notify(t_jobs *job, t_m_process *m_p)
 {
 	int		sig;
+	int		s_suspended;
 
-	sig = job_signaled(job);
-	if (sig || (job_suspended(job) && !job_finished(job)))
+	sig = 0;
+	if ((s_suspended = job_sig_suspended(job, m_p)) > 0)
 	{
-		if (sig != SIGINT && sig != SIGQUIT && sig != SIGPIPE)
-		{
-			write(1, "\n", 1);
-			job_show_status(job);
-		}
+		write(1, "\n", 1);
+		job_show_status(job, sig);
+		return (s_suspended);
 	}
-	return (sig);
+	else
+	{
+		sig = job_signaled(job);
+		if (sig || (job_suspended(job, m_p) && !job_finished(job)))
+		{
+			if (sig != SIGINT && sig != SIGQUIT && sig != SIGPIPE)
+				job_show_status(job, sig);
+		}
+		return (sig);
+	}
 }

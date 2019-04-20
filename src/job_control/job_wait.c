@@ -17,11 +17,11 @@ int		job_wait(t_jobs *job)
 				process_status(job, m_p, p);
 				p = p->next;
 			}
+			if (job_suspended(job, m_p))
+				return (job_notify(job, m_p));
 			m_p = m_p->next;
 		}
-		if (job_finished(job) || job_suspended(job))
-			break ;
+		if (job_finished(job))
+			return (job_notify(job, job->m_process));
 	}
-	//job_notify(job);
-	return (job_notify(job));
 }

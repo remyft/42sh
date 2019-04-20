@@ -28,8 +28,9 @@ static int launch_m_process(t_jobs *job, t_m_process *m_p, t_s_env *e)
 	{
 		if ((ret = command_pipe_dup(job, curr, e, fds)) != 0)
 		{
-			close_unexpected_fd(fds);
-			fds[FD_STDIN] = fds[FD_PIPE_IN];
+			//close_unexpected_fd(fds);
+		//	fds[FD_STDIN] = fds[FD_PIPE_IN];
+	//		dprintf(2, "%d\n", ret);
 			return (ret);
 		}
 		close_unexpected_fd(fds);

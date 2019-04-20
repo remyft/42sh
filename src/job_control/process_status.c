@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <errno.h>
 
-int		process_set_status(t_jobs *job, t_process *p, int status)
+int		process_set_status(t_jobs *job, t_process *p, int status, t_m_process *m_p)
 {
 	p->exit_status = WEXITSTATUS(status);
 	if (WIFSTOPPED(status))
@@ -20,7 +20,7 @@ int		process_set_status(t_jobs *job, t_process *p, int status)
 				p->s_signal = WTERMSIG(status);
 		}
 	}
-	if (job_suspended(job) && !job_finished(job))
+	if (job_suspended(job, m_p) && !job_finished(job))
 	{
 		job->status &= ~JOB_FOREGROUND;
 		job->status &= ~JOB_NOTIFIED;
@@ -55,7 +55,7 @@ int		process_update(t_jobs *job, t_m_process *m_p, pid_t pid, int status)
 		return (-1);
 	if ((p = process_by_pid(m_p, pid)))
 	{
-		process_set_status(job, p, status);
+		process_set_status(job, p, status, m_p);
 		m_p->ret = p->exit_status;
 		return (0);
 	}
@@ -67,8 +67,10 @@ void	process_status(t_jobs *job, t_m_process *m_p, t_process *p)
 	int		status;
 	pid_t	pid;
 
+	//printf("%d\n", p->status);
+	//printf("%d\n", STATUS_STOPPED);
 	if (p->status != STATUS_FINISHED)
-	//		&& p->status != STATUS_STOPPED)
+		//	&& p->status != STATUS_STOPPED)
 	{
 		errno = 0;
 		pid = waitpid(p->pid, &status, WUNTRACED);
