@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 23:42:06 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/18 14:57:31 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/18 19:56:22 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,19 @@ void			clean_end_token(t_token **token, t_token **head)
 
 t_token			*handle_end_of_input(t_param *param, t_call *token)
 {
-	param->token->len = param->line + param->i - param->token->head;
+	if (!param->token->alias)
+		param->token->len = param->line + param->i - param->token->head;
+	else
+		param->token->alen = param->line + param->i - param->token->head;
 	if (param->token->type != UNDEFINED)
 	{
 		if (quote_type(param->token->quote) != NO_QUOTE)
 		{
 			if (!param->e->interactive)
-				return ((param->token = quote_line(param)));
+			{
+				param->token = quote_line(param);
+				return (param->token);
+			}
 			else
 				token_error(ERR_EOF, param);
 		}
@@ -47,5 +53,5 @@ t_token			*handle_end_of_input(t_param *param, t_call *token)
 			param->token = token[param->token->type].identifier(param);
 	}
 	clean_end_token(&param->token, &param->head);
-	return (NULLTOKEN);
+	return (param->token);
 }

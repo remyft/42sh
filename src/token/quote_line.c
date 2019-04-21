@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 23:38:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/18 14:25:09 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/18 20:10:57 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int		get_new_line(t_quote *quote, t_line *line)
 		return (ERR_EOF);
 	return (ERR_NONE);
 }
-
+#include <stdio.h>
 static int		tokenise_quote(t_param *param, t_line *line)
 {
 	static int	(*handler[])(t_param *, t_line *) = {
@@ -81,17 +81,26 @@ static int		tokenise_quote(t_param *param, t_line *line)
 		return (error);
 	if (!(param->line = ft_strjoinfree(old, (char *)param->line, 2)))
 		return (ERR_MALLOC);
+	// if ((param->token = param->head))
+	// 	while (param->token)
+	// 	{
+	// 		if (param->token->alias)
+	// 			param->token->alias = param->line + (param->token->alias - old);
+	// 		else
+	// 			param->token->head = param->line + (param->token->head - old);
+	// 		if (!param->token->next)
+	// 			break ;
+	// 		param->token = param->token->next;
+	// 	}
+printf("line [%s]\n", param->line);
+	free_token(&param->head);
+	param->head = tokenise(&param->line, param->e);
 	if ((param->token = param->head))
-		while (param->token)
-		{
-			if (param->token->alias)
-				param->token->alias = param->line + (param->token->alias - old);
-			else
-				param->token->head = param->line + (param->token->head - old);
-			if (!param->token->next)
-				break ;
+		while (param->token->next)
 			param->token = param->token->next;
-		}
+printf("IN 4\n");
+debug_tokens(param->head);
+printf("OUT 4\n");
 	ft_strdel(&old);
 	return (ERR_NONE);
 }

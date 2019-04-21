@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 21:08:51 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/15 02:19:05 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/18 20:09:37 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,14 @@ static int		is_token_a_command(t_token *token)
 static void		alias_new_tokens(t_param *param, t_token *save)
 {
 	while (param->token->next)
+	{
+		// param->token->alias = "";
 		param->token = param->token->next;
+	}
 	if (param->token->quote)
 	{
-		param->token->alen = param->line + param->i - save->head;
 		param->token->alias = param->line + param->i;
+		param->token->alen = param->line + param->i - save->head;
 	}
 }
 
