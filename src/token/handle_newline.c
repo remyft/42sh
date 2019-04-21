@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 20:16:48 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/18 13:51:05 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/21 17:08:43 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,27 @@
 #include "parser.h"
 #include "command.h"
 
-// static void		get_hdoc(t_param *param)
-// {
-// 	size_t		i;
-// 	t_token		*eof;
+static void		get_hdoc(t_param *param)
+{
+	size_t		i;
+	t_token		*eof;
 
-// 	i = ++param->i;
-// 	eof = (t_token *)param->hdoc->token;
-// 	if (!eof->next)
-// 		return ; // return warning here ?
-// 	while (param->line[i] && param->line[i] != '\n')
-// 		i++;
-// 	if (eof->len == i - param->i && !ft_strncmp())
-// }
+	i = ++param->i;
+	eof = (t_token *)param->hdoc->token;
+	if (!eof->next)
+		return ; // return error here ?
+	param->hdoc->head = param->line + param->i;
+	while (param->line[i])
+	{
+		while (param->line[i] && param->line[i] != '\n')
+			i++;
+		if (eof->next->len == i - param->i
+		&& !ft_strncmp(eof->next->head, &param->line[param->i], eof->next->len))
+			break ;
+		param->hdoc->len += i - param->i + 1;
+		param->i = ++i;
+	}
+}
 
 static t_token	*exec_line(t_param *param)
 {
@@ -62,8 +70,8 @@ t_token			*handle_newline(t_param *param, t_call *token)
 			return (param->token);
 		--param->e->interactive;
 		param->token = token[param->token->type].identifier(param);
-		// if (param->hdoc)
-		// 	get_hdoc(param);
+		if (param->hdoc)
+			get_hdoc(param);
 		if (!(param->token = exec_line(param)))
 			free_token(&param->head);
 		++param->e->interactive;

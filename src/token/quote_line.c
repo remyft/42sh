@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 23:38:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/18 14:25:09 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/21 17:23:19 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,18 @@ static int		get_new_line(t_quote *quote, t_line *line)
 	return (ERR_NONE);
 }
 
-static int		tokenise_quote(t_param *param, t_line *line)
+static int		tokenise_quote(t_param *param, t_quote *quote, t_line *line)
 {
 	static int	(*handler[])(t_param *, t_line *) = {
 		aliased_line, bslashed_line, dquoted_line, squoted_line, braced_line,
 		dbraced_line, parenthed_line, dparenthed_line, backquoted_line,
+		heredoc_line,
 	};
 	char		*old;
 	int			error;
 
 	old = (char *)param->line;
-	if ((error = handler[quote_type(param->token->quote)](param, line)))
+	if ((error = handler[quote_type(quote)](param, line)))
 		return (error);
 	if (!(param->line = ft_strjoinfree(old, (char *)param->line, 2)))
 		return (ERR_MALLOC);
@@ -102,8 +103,17 @@ t_token			*quote_line(t_param *param)
 	int			error;
 
 	line = get_struct();
-	if ((error = get_new_line(param->token->quote, line)) != ERR_NONE
-	|| (error = tokenise_quote(param, line)) != ERR_NONE)
-		return (token_error(error, param));
+	if (quote_type(param->token->quote) != NO_QUOTE)
+	{
+		if ((error = get_new_line(param->token->quote, line)) != ERR_NONE
+		|| (error = tokenise_quote(param, param->token->quote, line)) != ERR_NONE)
+			return (token_error(error, param));
+	}
+	else
+	{
+		if ((error = get_new_line(param->hdoc, line)) != ERR_NONE
+		|| (error = tokenise_quote(param, param->hdoc, line)) != ERR_NONE)
+			return (token_error(error, param));
+	}
 	return (param->token);
 }

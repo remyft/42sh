@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 17:50:09 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/17 19:21:28 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/21 17:14:58 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 /*
 ** Enumeration for QUOTES \, ', ", {, $(, (, `
+** And here-documents
 */
 enum {
 	NO_QUOTE = 0,
@@ -25,7 +26,8 @@ enum {
 	D_BRACE = 5,
 	PARENTHESE,
 	D_PARENTHESE,
-	BACKQUOTE
+	BACKQUOTE,
+	HEREDOCUMENT
 };
 
 # define DEFAULT_PROMPT			"> "
@@ -58,9 +60,11 @@ typedef struct	s_quote
 
 typedef struct	s_hdoc
 {
-	void			*token;
-	char			*value;
+	int				type;
 	size_t			line;
+	void			*token;
+	char			*head;
+	size_t			len;
 	struct s_hdoc	*next;
 }				t_hdoc;
 
