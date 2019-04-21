@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 23:42:06 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/18 19:56:22 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/21 20:36:00 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_token			*handle_end_of_input(t_param *param, t_call *token)
 		param->token->alen = param->line + param->i - param->token->head;
 	if (param->token->type != UNDEFINED)
 	{
-		if (quote_type(param->token->quote) != NO_QUOTE)
+		if (quote_type(param->token->quote) != NO_QUOTE || param->hdoc)
 		{
 			if (!param->e->interactive)
 			{

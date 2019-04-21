@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/17 19:19:39 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/21 17:20:35 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,7 @@ int				dbraced_line(t_param *param, t_line *line);
 int				parenthed_line(t_param *param, t_line *line);
 int				dparenthed_line(t_param *param, t_line *line);
 int				backquoted_line(t_param *param, t_line *line);
+int				heredoc_line(t_param *param, t_line *line);
 
 t_token			*backslash(t_param *param, int type);
 t_token			*singlequote(t_param *param, int type);

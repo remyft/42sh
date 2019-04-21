@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 18:34:08 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/18 14:23:04 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/21 17:20:17 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,10 @@ int				backquoted_line(t_param *param, t_line *line)
 	if (!(param->line = ft_strjoin(add, line->curr->buff)))
 		return (ERR_MALLOC);
 	param->i--;
+	return (ERR_NONE);
+}
+
+int				heredoc_line(t_param *param, t_line *line)
+{
 	return (ERR_NONE);
 }
