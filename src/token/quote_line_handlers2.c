@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 18:34:08 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/21 17:20:17 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/21 20:39:06 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,7 @@ int				backquoted_line(t_param *param, t_line *line)
 
 int				heredoc_line(t_param *param, t_line *line)
 {
+	(void)param;
+	(void)line;
 	return (ERR_NONE);
 }
