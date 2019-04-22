@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 20:16:48 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/21 17:08:43 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/22 02:01:58 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,39 +16,45 @@
 #include "parser.h"
 #include "command.h"
 
-static void		get_hdoc(t_param *param)
+static void		get_hdoc(t_param *param, size_t start)
 {
 	size_t		i;
+	t_token		*token;
 	t_token		*eof;
 
-	i = ++param->i;
-	eof = (t_token *)param->hdoc->token;
-	if (!eof->next)
-		return ; // return error here ?
-	param->hdoc->head = param->line + param->i;
+	i = start;
+	token = (t_token *)param->hdoc->token;
+	eof = token->next;
 	while (param->line[i])
 	{
+		param->e->interactive++;
 		while (param->line[i] && param->line[i] != '\n')
 			i++;
-		if (eof->next->len == i - param->i
-		&& !ft_strncmp(eof->next->head, &param->line[param->i], eof->next->len))
+		if (eof->len == i - param->i
+		&& !ft_strncmp(eof->head, param->line + param->i, eof->len))
 			break ;
-		param->hdoc->len += i - param->i + 1;
-		param->i = ++i;
+		param->i = (param->line[i]) ? ++i : i;
 	}
+	if (!param->line[i]
+	&& ft_strncmp(eof->head, param->line + param->i, eof->len))
+		token_error(ERR_HEREDOC_EOF, param);
+	hdoc_remove(&param->hdoc);
+	token->hdocline = param->line + start;
+	token->hdoclen = param->i - start;
+	param->i = i;
 }
 
 static t_token	*exec_line(t_param *param)
 {
 	t_m_list	*tree;
 
-	param->line[param->i] = '\0';
-	debug_tokens(param->head);
 	if (!(tree = parse((char **)&param->line, &param->head, param->e)))
 		return (NULLTOKEN);
 	execute_list(tree, param->e);
 	free_m_list(&tree);
 	free_token(&param->head);
+	if (!param->line[param->i])
+		return (NULLTOKEN);
 	if (!(param->token = new_token(param->line + param->i + 1, 0)))
 		return (token_error(ERR_MALLOC, param));
 	param->line = param->line + param->i + 1;
@@ -71,9 +77,8 @@ t_token			*handle_newline(t_param *param, t_call *token)
 		--param->e->interactive;
 		param->token = token[param->token->type].identifier(param);
 		if (param->hdoc)
-			get_hdoc(param);
-		if (!(param->token = exec_line(param)))
-			free_token(&param->head);
+			get_hdoc(param, ++param->i);
+		param->token = exec_line(param);
 		++param->e->interactive;
 		param->i--;
 		return (param->token);

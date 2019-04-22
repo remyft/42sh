@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 17:50:09 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/21 17:14:58 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/21 23:03:13 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,8 @@ typedef struct	s_hdoc
 {
 	int				type;
 	size_t			line;
-	void			*token;
-	char			*head;
-	size_t			len;
 	struct s_hdoc	*next;
+	void			*token;
 }				t_hdoc;
 
 t_quote			*quote_add(t_quote **head, int type, size_t line);

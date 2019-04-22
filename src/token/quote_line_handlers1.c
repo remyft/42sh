@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 18:16:10 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/21 20:50:33 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/22 01:47:06 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,16 @@
 int				aliased_line(t_param *param, t_line *line)
 {
 	char		*add;
+	char		*newl;
 
 	add = "";
 	if (param->token->alias)
 		add = " ";
 	else if (!param->token->alias)
 		add = "\n";
-	if (!(param->line = ft_strjoin(add, line->curr->buff)))
+	if (!(newl = ft_strjoin(add, line->curr->buff)))
+		return (ERR_MALLOC);
+	if (!(param->line = ft_strjoinfree(param->line, newl, 3)))
 		return (ERR_MALLOC);
 	return (ERR_NONE);
 }
@@ -35,7 +38,7 @@ int				bslashed_line(t_param *param, t_line *line)
 		param->token->type = UNDEFINED;
 	param->i -= 2;
 	quote_remove(&param->token->quote, BACKSLASH);
-	if (!(param->line = ft_strdup(line->curr->buff)))
+	if (!(param->line = ft_strjoinfree(param->line, line->curr->buff, 1)))
 		return (ERR_MALLOC);
 	return (ERR_NONE);
 }
@@ -43,13 +46,16 @@ int				bslashed_line(t_param *param, t_line *line)
 int				dquoted_line(t_param *param, t_line *line)
 {
 	char		*add;
+	char		*newl;
 
 	add = "";
 	if (param->token->alias)
 		add = " ";
 	else if (!param->token->alias)
 		add = "\n";
-	if (!(param->line = ft_strjoin(add, line->curr->buff)))
+	if (!(newl = ft_strjoin(add, line->curr->buff)))
+		return (ERR_MALLOC);
+	if (!(param->line = ft_strjoinfree(param->line, newl, 3)))
 		return (ERR_MALLOC);
 	return (ERR_NONE);
 }
@@ -57,13 +63,16 @@ int				dquoted_line(t_param *param, t_line *line)
 int				squoted_line(t_param *param, t_line *line)
 {
 	char		*add;
+	char		*newl;
 
 	add = "";
 	if (param->token->alias)
 		add = " ";
 	else if (!param->token->alias)
 		add = "\n";
-	if (!(param->line = ft_strjoin(add, line->curr->buff)))
+	if (!(newl = ft_strjoin(add, line->curr->buff)))
+		return (ERR_MALLOC);
+	if (!(param->line = ft_strjoinfree(param->line, newl, 3)))
 		return (ERR_MALLOC);
 	return (ERR_NONE);
 }
@@ -71,13 +80,16 @@ int				squoted_line(t_param *param, t_line *line)
 int				braced_line(t_param *param, t_line *line)
 {
 	char		*add;
+	char		*newl;
 
 	add = "";
 	if (param->token->alias)
 		add = " ";
 	else if (!param->token->alias)
 		add = "\n";
-	if (!(param->line = ft_strjoin(add, line->curr->buff)))
+	if (!(newl = ft_strjoin(add, line->curr->buff)))
+		return (ERR_MALLOC);
+	if (!(param->line = ft_strjoinfree(param->line, newl, 3)))
 		return (ERR_MALLOC);
 	return (ERR_NONE);
 }

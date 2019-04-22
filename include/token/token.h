@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/21 17:20:35 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/22 02:06:19 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ typedef struct	s_token
 	const char		*alias;
 	size_t			alen;
 	t_quote			*quote;
+	const char		*hdocline;
+	size_t			hdoclen;
+	int				hdocfree;
 	struct s_token	*next;
 	struct s_token	*prev;
 }				t_token;
@@ -128,6 +131,7 @@ void			token_loop(t_param *param, int (*ft_end)(int));
 t_token			*new_token(char *buff, size_t pos);
 void			free_token(t_token **token);
 void			free_quote(t_quote **quote);
+void			free_hdoc(t_hdoc **hdoc);
 void			clean_end_token(t_token **token, t_token **head);
 t_token			*token_error(int err, t_param *param);
 

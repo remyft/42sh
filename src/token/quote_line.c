@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 23:38:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/21 20:57:25 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/22 02:33:55 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "token_error.h"
 #include "shell.h"
 
-static char		*get_new_prompt(t_quote *head)
+static char		*get_new_prompt(t_quote *quote)
 {
 	static char	*prompt[] = {
 		DEFAULT_PROMPT, BACKSLASH_PROMPT, DQUOTE_PROMPT, SQUOTE_PROMPT,
@@ -25,21 +25,22 @@ static char		*get_new_prompt(t_quote *head)
 	int			i;
 
 	ret = NULL;
-	while (head)
+	while (quote)
 	{
-		if (ret && !(ret = ft_strjoinfree(ret, " ", 1)))
+		if (ret && quote->type != BACKSLASH
+		&& !(ret = ft_strjoinfree(ret, " ", 1)))
 			return (NULL);
-		i = head->type;
+		i = quote->type;
 		if (!(ret = (ret) ?
 			ft_strjoinfree(ret, prompt[i], 1) : ft_strdup(prompt[i])))
 			return (NULL);
-		head = head->next;
+		quote = quote->next;
 	}
 	ret = (ret) ? ft_strjoinfree(ret, prompt[0], 1) : ft_strdup(prompt[0]);
 	return (ret);
 }
 
-static int		get_new_line(void *quote, t_line *line)
+static int		get_new_line(void *quote, int type, t_line *line)
 {
 	char		*promptsave;
 
@@ -63,7 +64,7 @@ static int		get_new_line(void *quote, t_line *line)
 	if (line->tmp[0] == -1)
 		return (ERR_FREE_ALL);
 	if (line->tmp[0] == 4)
-		return (ERR_EOF);
+		return ((type == HEREDOCUMENT) ? ERR_HEREDOC_EOF : ERR_MATCHING_EOF);
 	return (ERR_NONE);
 }
 
@@ -75,14 +76,14 @@ static int		tokenise_quote(t_param *param, void *quote, t_line *line)
 		heredoc_line,
 	};
 	char		*old;
+	int			type;
 	int			error;
 
 	old = (char *)param->line;
-	if ((error = handler[quote_type((t_quote *)quote)](param, line)))
+	type = quote_type((t_quote *)quote);
+	if ((error = handler[type](param, line)))
 		return (error);
-	if (!(param->line = ft_strjoinfree(old, (char *)param->line, 3)))
-		return (ERR_MALLOC);
-	if ((param->token = param->head))
+	if (type != HEREDOCUMENT && (param->token = param->head))
 		while (param->token)
 		{
 			if (param->token->alias)
@@ -99,18 +100,20 @@ static int		tokenise_quote(t_param *param, void *quote, t_line *line)
 t_token			*quote_line(t_param *param)
 {
 	t_line		*line;
+	int			type;
 	int			error;
 
 	line = get_struct();
-	if (quote_type(param->token->quote) != NO_QUOTE)
+	type = quote_type(param->token->quote);
+	if (type != NO_QUOTE)
 	{
-		if ((error = get_new_line(param->token->quote, line)) != ERR_NONE
-		|| (error = tokenise_quote(param, param->token->quote, line)) != ERR_NONE)
+		if ((error = get_new_line(param->token->quote, type, line)) != ERR_NONE
+		|| (error = tokenise_quote(param, param->token->quote, line)))
 			return (token_error(error, param));
 	}
 	else
 	{
-		if ((error = get_new_line(param->hdoc, line)) != ERR_NONE
+		if ((error = get_new_line(param->hdoc, HEREDOCUMENT, line)) != ERR_NONE
 		|| (error = tokenise_quote(param, param->hdoc, line)) != ERR_NONE)
 			return (token_error(error, param));
 	}

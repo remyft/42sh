@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 19:07:19 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/21 17:15:02 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/22 01:08:08 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,11 @@ t_hdoc			*hdoc_add(t_hdoc **head, void *token, size_t line)
 
 void			hdoc_remove(t_hdoc **head)
 {
+	t_hdoc		*next;
+
 	if (!*head)
 		return ;
-	if ((*head)->next)
-		hdoc_remove(&(*head)->next);
-	else
-	{
-		free(*head);
-		*head = NULLHDOC;
-	}
+	next = (*head)->next;
+	free(*head);
+	*head = next;
 }
