@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 18:26:14 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/23 19:43:04 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ t_token			*tokenise(char **line, t_s_env *e)
 	token_loop(&param, ft_isnull);
 	if (!e->filein)
 		*line = param.line;
+	free_hdoc(&param.hdoc);
 	debug_tokens(param.head);
 	return (param.head);
 }
