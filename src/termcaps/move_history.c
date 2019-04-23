@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 05:00:51 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/16 18:59:07 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/22 23:33:39 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	find_hist(t_line *line, int way)
 	len = ft_strlen(line->curr->buff_tmp);
 	while (line->hist)
 	{
-		if (line->hist->c_size > len && line->hist->c_size < MAX_SHELL_LEN)
+		if (line->hist->c_size > len && line->hist->c_size < MALLOC_MAX)
 			if (ft_strstr(line->hist->content, line->curr->buff_tmp) ==
 					line->hist->content && (line->hist->tmp ?
 						ft_strcmp(line->curr->buff, line->hist->tmp) :
@@ -45,7 +45,8 @@ static int	key_complet(t_line *line, int key)
 	}
 	else if (*line->e_cmpl & COMPLETION)
 	{
-		ft_bzero(line->curr->buff_tmp, MAX_SHELL_LEN + 2);
+		free(line->curr->buff_tmp);
+		line->curr->buff_tmp = NULL;
 		*line->e_cmpl &= ~COMPLETION;
 	}
 	return (0);
@@ -55,25 +56,25 @@ static void	is_find(t_line *line, int find, int way, t_hist *tmp)
 {
 	if (find == 1)
 	{
-		ft_bzero(line->curr->buff, MAX_SHELL_LEN);
 		if (line->hist->tmp)
-			ft_strcpy(line->curr->buff, line->hist->tmp);
+			get_tmp_buff(&line->curr->buff, &line->hist->tmp, 0);
 		else
-			ft_strcpy(line->curr->buff, line->hist->content);
+			get_tmp_buff(&line->curr->buff, &line->hist->content, 0);
 		put_new_prompt(line);
 	}
 	else if (find == 2 && way == 1)
 	{
-		ft_bzero(line->curr->buff, MAX_SHELL_LEN);
-		ft_strcpy(line->curr->buff, line->curr->buff_tmp);
-		ft_bzero(line->curr->buff_tmp, MAX_SHELL_LEN + 2);
+		get_tmp_buff(&line->curr->buff, &line->curr->buff_tmp, 1);
 		put_new_prompt(line);
 	}
 	else if (way == 0)
 	{
 		line->hist = tmp;
 		if (!tmp->prev && ft_strcmp(line->curr->buff, tmp->content))
-			ft_bzero(line->curr->buff_tmp, MAX_SHELL_LEN + 2);
+		{
+			free(line->curr->buff_tmp);
+			line->curr->buff_tmp = NULL;
+		}
 	}
 }
 
@@ -84,11 +85,8 @@ void		up_arrow(t_line *line)
 
 	if (key_complet(line, UP) || !line->hist)
 		return ;
-	if (!line->curr->buff_tmp[MAX_SHELL_LEN + 1])
-	{
-		ft_strcpy(line->curr->buff_tmp, line->curr->buff);
-		line->curr->buff_tmp[MAX_SHELL_LEN + 1] = 1;
-	}
+	if (!line->curr->buff_tmp)
+		line->curr->buff_tmp = ft_strdup(line->curr->buff);
 	else
 	{
 		if (line->hist && ft_strcmp(line->hist->content, line->curr->buff))
@@ -110,7 +108,7 @@ void		down_arrow(t_line *line)
 	find = 0;
 	if (key_complet(line, DOWN))
 		return ;
-	if (!line->curr->buff_tmp[MAX_SHELL_LEN + 1])
+	if (!line->curr->buff_tmp)
 		return ;
 	if (line->hist && ft_strcmp(line->hist->content, line->curr->buff))
 	{
