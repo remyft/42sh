@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 23:42:06 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/22 00:49:33 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/23 11:25:22 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_token			*handle_end_of_input(t_param *param, t_call *token)
 	{
 		if (quote_type(param->token->quote) != NO_QUOTE || param->hdoc)
 		{
-			if (!param->e->interactive)
+			if (!param->e->filein)
 			{
 				param->token = quote_line(param);
 				return (param->token);

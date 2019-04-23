@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 20:16:48 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/22 02:01:58 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/23 11:25:34 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void		get_hdoc(t_param *param, size_t start)
 	eof = token->next;
 	while (param->line[i])
 	{
-		param->e->interactive++;
+		param->e->filein++;
 		while (param->line[i] && param->line[i] != '\n')
 			i++;
 		if (eof->len == i - param->i
@@ -66,20 +66,20 @@ static t_token	*exec_line(t_param *param)
 
 t_token			*handle_newline(t_param *param, t_call *token)
 {
-	if (param->e->interactive)
-		++param->e->interactive;
+	if (param->e->filein)
+		++param->e->filein;
 	if (param->token->type == UNDEFINED && !param->token->prev)
 		return (param->token);
 	if (param->token->type != UNDEFINED)
 	{
 		if (quote_type(param->token->quote) != NO_QUOTE)
 			return (param->token);
-		--param->e->interactive;
+		--param->e->filein;
 		param->token = token[param->token->type].identifier(param);
 		if (param->hdoc)
 			get_hdoc(param, ++param->i);
 		param->token = exec_line(param);
-		++param->e->interactive;
+		++param->e->filein;
 		param->i--;
 		return (param->token);
 	}

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 18:10:04 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/15 17:50:36 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/23 11:26:51 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_token			*parentheseopen(t_param *param, int type)
 		return (param->token);
 	if (param->i && *(param->line + param->i - 1) == '$')
 		type = D_PARENTHESE;
-	if (!quote_add(&param->token->quote, type, param->e->interactive))
+	if (!quote_add(&param->token->quote, type, param->e->filein))
 		return (token_error(ERR_MALLOC, param));
 	return (param->token);
 }
@@ -45,7 +45,7 @@ t_token			*backquote(t_param *param, int type)
 		return (param->token);
 	if (qtype == BACKQUOTE)
 		quote_remove(&param->token->quote, type);
-	else if (!quote_add(&param->token->quote, type, param->e->interactive))
+	else if (!quote_add(&param->token->quote, type, param->e->filein))
 		return (NULLTOKEN);
 	return (param->token);
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 02:33:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/16 21:02:25 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/23 11:28:02 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int				expand_error(int error, t_ret *ret, t_exp *par, t_s_env *e)
 	if (error == err[i].error)
 	{
 		ft_dprintf(STDERR_FILENO, "%s: ", e->progname);
-		if (e->interactive)
-			ft_dprintf(STDERR_FILENO, "line %ld: ", e->interactive);
+		if (e->filein)
+			ft_dprintf(STDERR_FILENO, "line %ld: ", e->filein);
 		err[i].handler(ret, par);
 	}
 	expand_free_t_ret(ret, 0);
