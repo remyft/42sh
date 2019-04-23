@@ -6,13 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/21 23:17:57 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/23 15:48:14 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 #include "shell_env.h"
 #include "shell_term.h"
+#include "main_tools.h"
 
 int				main(int ac, char **av, char **ep)
 {
@@ -37,6 +38,7 @@ int				main(int ac, char **av, char **ep)
 	else
 		get_rc(&e, av[1]);
 	term_restore(&e.save);
+	check_mod_path(&e, line, 1);
 	free_shell_env(&e);
 	free_struct(line);
 	return (ret);
