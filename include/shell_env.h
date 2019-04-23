@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/21 16:37:37 by tsisadag         ###   ########.fr       */
+/*   Updated: 2019/04/23 11:23:55 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct	s_shell_env
 	int				pid;
 	struct termios	save;
 	int				shell_loop;
-	size_t			interactive;
+	size_t			filein;
 	int				forked;
 }				t_s_env;
 

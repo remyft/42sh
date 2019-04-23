@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 00:07:32 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/22 02:30:20 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/23 11:24:25 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,5 +119,5 @@ void			init_shell_env(t_s_env *e, int ac, char **av, char **env)
 		return ;
 	e->pid = getpid();
 	e->shell_loop = 1;
-	e->interactive = ac != 1;
+	e->filein = ac != 1;
 }
