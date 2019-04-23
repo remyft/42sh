@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/15 19:48:19 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/23 13:04:00 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void		command_execve(char *name, t_execute *exec, t_s_env *e)
 		len -= sh_tablen((const char **)e->private_env);
 		exec->env[len] = NULL;
 		execve(name, exec->cmd, exec->env);
-		exit(EXIT_FAILURE);
+		exit(0);
 	}
 	else if (pid > 0)
 		command_wait(pid, 0, e->ret);

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 20:23:05 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/15 17:50:06 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/23 13:04:14 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include "command.h"
 
+#include <stdio.h>
 static void		command_ret(int *ret)
 {
 	if (!ret)
