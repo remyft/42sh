@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 23:42:06 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 18:25:52 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/23 19:30:59 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_token			*handle_end_of_input(t_param *param, t_call *token)
 			else if (param->hdoc)
 				token_error(ERR_HEREDOC_EOF, param);
 			else
-				token_error(ERR_MATCHING_EOF, param);
+				param->token = token_error(ERR_MATCHING_EOF, param);
 		}
 		else
 			param->token = token[param->token->type].identifier(param);
