@@ -6,7 +6,7 @@
 /*   By: tsisadag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 16:22:25 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/04/21 16:41:34 by tsisadag         ###   ########.fr       */
+/*   Updated: 2019/04/22 18:07:32 by tsisadag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int			builtin_export(t_execute *exec, t_s_env *e)
 		return ((ret > 0) ? 1 : 0);
 	}
 	if (ret != 2)
-	   	export_print(e->exported_env, e->public_env);
+		export_print(e->exported_env, e->public_env);
 	free(export);
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: tsisadag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 18:34:19 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/03/09 19:10:48 by tsisadag         ###   ########.fr       */
+/*   Updated: 2019/04/22 18:06:56 by tsisadag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,13 @@
 #include "builtin_export.h"
 #include "shell_lib.h"
 
+/*
+** adding local should check if its in exported
+** adding public should check if its exported
+*/
+
 int		exec_export(char *arg, t_s_env **e)
 {
-	//adding local should check if its in exported
-	//adding public should check if its exported
 	if (!valid_id(arg))
 		return (1);
 	if (!is_local(arg, (*e)->private_env) &&
