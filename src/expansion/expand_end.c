@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/06 22:29:26 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/21 21:09:54 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/22 03:46:36 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int				expand_end(t_ret *ret, t_argument *arg)
 	while (ptr)
 	{
 		alias = NULL;
-		if (arg->token->alias
+		if (arg->token->alias && arg->token->alen
 		&& (alias = ft_strndup((char *)arg->token->alias, arg->token->alen)))
 			ptr->word = ft_strjoinfree(ptr->word, alias, 3);
 		arg->cmd[len++] = ptr->word;

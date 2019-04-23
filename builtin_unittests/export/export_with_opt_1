@@ -1,0 +1,2 @@
+export -p ad lkdsjp weof sdl
+echo "ret: $?"

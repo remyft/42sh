@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/20 23:26:00 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 15:50:42 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/23 16:32:38 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int				builtin_unsetenv(t_execute *exec, t_s_env *e)
 	if (!exec->cmd[i])
 	{
 		ft_dprintf(STDERR_FILENO, "%s: ", e->progname);
-		if (e->interactive)
-			ft_dprintf(STDERR_FILENO, "line %ld: ", e->interactive);
+		if (e->filein)
+			ft_dprintf(STDERR_FILENO, "line %ld: ", e->filein);
 		ft_dprintf(STDERR_FILENO, "%s: missing argument\n", exec->cmd[0]);
 		return (1);
 	}

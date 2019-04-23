@@ -1,0 +1,8 @@
+export lulu
+echo "ret: $?"
+export
+echo "ret: $?"
+set
+echo "ret: $?"
+env
+echo "ret: $?"

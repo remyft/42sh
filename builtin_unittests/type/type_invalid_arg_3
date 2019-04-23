@@ -1,0 +1,2 @@
+type ksdjfsd ls
+echo "ret: $?"
