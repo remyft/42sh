@@ -1,0 +1,47 @@
+type -a ls
+echo "ret: $?" 
+
+type -a echo
+echo "ret: $?" 
+
+type -a cat 
+echo "ret: $?"
+
+type -a kill
+echo "ret: $?"
+
+type -a kdsj
+echo "ret: $?"
+
+type -a cd
+echo "ret: $?"
+
+type -a alias
+echo "ret: $?"
+
+type -a set
+echo "ret: $?"
+
+type -a unset
+echo "ret: $?"
+
+type -a env
+echo "ret: $?"
+
+type -a export
+echo "ret: $?"
+
+type -a !
+echo "ret: $?"
+
+type -a ]
+echo "ret: $?"
+
+type -a [
+echo "ret: $?"
+
+type -a {
+echo "ret: $?"
+
+type -a }
+echo "ret: $?"

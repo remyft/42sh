@@ -1,0 +1,11 @@
+type -da
+echo "ret: $?"
+
+type -da lsdkf
+echo "ret: $?"
+
+type -da ls 
+echo "ret: $?"
+
+type -da ls kdfj
+echo "ret: $?"
