@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 02:35:19 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 12:54:38 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/23 18:26:40 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int		tilde_end(t_exp *param)
 	&& param->buff[param->i] != ':')
 	|| param->quote);
 }
-#include <stdio.h>
+
 static int		tilde_get_parameter(t_ret *parameter, t_exp *param)
 {
 	int			error;

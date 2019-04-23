@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 04:07:17 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 11:26:59 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/23 18:01:54 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ t_token			*token_error(int err, t_param *param)
 {
 	static t_error	errors[] = {
 		{ NULL, NULL }, ERR_MALLOC_FUNC, ERR_MATCHING_FUNC, ERR_HEREDOC_FUNC,
-		ERR_ALIAS_FUNC,
 	};
 
 	if (err > ERR_NONE)

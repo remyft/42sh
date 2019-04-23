@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 11:27:10 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/23 18:26:14 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,9 @@ void			token_loop(t_param *param, int (*ft_end)(int c))
 
 	while (param->token)
 	{
-		if (ft_isnull(param->line[param->i]) || ft_end(param->line[param->i]))
+		if (ft_isnull(param->line[param->i])
+		|| ft_end(param->line[param->i]))
 			param->token = handle_end_of_input(param, token);
-		else if (quote_type(param->token->quote) == BACKSLASH)
-			quote_remove(&param->token->quote, BACKSLASH);
 		else
 			param->token = get_tokens(param, token);
 		param->i++;
@@ -67,7 +66,6 @@ t_token			*tokenise(char **line, t_s_env *e)
 	if (!(param.token = new_token(*line, 0)))
 		return (token_error(ERR_MALLOC, &param));
 	param.line = *line;
-	param.i = 0;
 	param.head = param.token;
 	token_loop(&param, ft_isnull);
 	if (!e->filein)
