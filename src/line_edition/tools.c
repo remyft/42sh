@@ -6,12 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/06 05:48:08 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/11 17:41:00 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/21 21:28:02 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 #include "libft.h"
+#include "shell_lib.h"
 
 void	put_prompt(char *prompt, int col)
 {
@@ -61,7 +62,7 @@ char	**ft_ralloc(char ***env, int len)
 	int		i;
 	int		max;
 
-	max = get_tab_len(*env);
+	max = sh_tablen((const char **)*env);
 	if (!(tmp = (char**)malloc(sizeof(char*) * (max + len + 1))))
 		return (NULL);
 	i = -1;
@@ -72,13 +73,18 @@ char	**ft_ralloc(char ***env, int len)
 	return (tmp);
 }
 
-int		get_tab_len(char **tabl)
+void	get_tmp_buff(char **buff, char **buff_tmp, int to_free)
 {
-	int i;
+	size_t	len;
 
-	i = 0;
-	if (tabl)
-		while (tabl[i])
-			i++;
-	return (i);
+	len = ft_strlen(*buff_tmp);
+	free(*buff);
+	*buff = ft_memalloc(sizeof(char)
+			* (MAX_SHELL_LEN * ((len / MAX_SHELL_LEN) + 1)));
+	ft_strcpy(*buff, *buff_tmp);
+	if (to_free)
+	{
+		free(*buff_tmp);
+		*buff_tmp = NULL;
+	}
 }
