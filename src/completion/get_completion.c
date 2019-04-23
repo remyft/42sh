@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 03:41:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/11 16:52:57 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/21 20:56:48 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,11 @@ static void		choose_tree(t_line *line)
 void			get_complet(t_line *line)
 {
 	if (!(*line->e_cmpl & COMPLETION)
-			&& line->curr->buff_tmp[MAX_SHELL_LEN + 1])
-		ft_bzero(line->curr->buff_tmp, MAX_SHELL_LEN + 2);
+			&& line->curr->buff_tmp)
+	{
+		free(line->curr->buff_tmp);
+		line->curr->buff_tmp = NULL;
+	}
 	if (!inprint(line->curr->buff))
 		return ;
 	choose_tree(line);

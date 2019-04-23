@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:13:27 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/15 20:36:37 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/22 23:58:28 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 void	go_home(t_line *line)
 {
+	tputs(tgetstr("vi", NULL), 1, ft_pchar);
 	while ((int)line->index + (int)line->lprompt - (int)line->nb_col >= 0)
 	{
 		line->index -= line->nb_col;
@@ -24,6 +25,7 @@ void	go_home(t_line *line)
 	}
 	tputs(tgoto(tgetstr("ch", NULL), 0, line->lprompt), 1, ft_pchar);
 	line->index = 0;
+	tputs(tgetstr("ve", NULL), 1, ft_pchar);
 }
 
 void	deal_home(t_line *line)
@@ -45,6 +47,7 @@ void	go_end(t_line *line)
 {
 	if (line->index == line->len)
 		return ;
+	tputs(tgetstr("vi", NULL), 1, ft_pchar);
 	while (line->index + line->nb_col <= line->len)
 	{
 		line->index += line->nb_col;
@@ -57,6 +60,7 @@ void	go_end(t_line *line)
 	tputs(tgoto(tgetstr("ch", NULL), 0,
 				(line->len + line->lprompt) % line->nb_col), 1, ft_pchar);
 	line->index = line->len;
+	tputs(tgetstr("ve", NULL), 1, ft_pchar);
 }
 
 void	left_arrow(t_line *line)
@@ -67,9 +71,10 @@ void	left_arrow(t_line *line)
 		get_complet(line);
 		return ;
 	}
-	if (line->curr->buff_tmp[MAX_SHELL_LEN + 1])
+	if (line->curr->buff_tmp)
 	{
-		ft_bzero(line->curr->buff_tmp, MAX_SHELL_LEN + 2);
+		free(line->curr->buff_tmp);
+		line->curr->buff_tmp = NULL;
 		while (line->hist->prev)
 			line->hist = line->hist->prev;
 	}
@@ -92,9 +97,10 @@ void	right_arrow(t_line *line)
 		get_complet(line);
 		return ;
 	}
-	if (line->curr->buff_tmp[MAX_SHELL_LEN + 1])
+	if (line->curr->buff_tmp)
 	{
-		ft_bzero(line->curr->buff_tmp, MAX_SHELL_LEN + 2);
+		free(line->curr->buff_tmp);
+		line->curr->buff_tmp = NULL;
 		while (line->hist->prev)
 			line->hist = line->hist->prev;
 	}

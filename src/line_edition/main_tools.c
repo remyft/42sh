@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/16 18:21:14 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/23 01:46:25 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,13 @@ static void	create_all_tree(t_line *line)
 		set_psblty(GET_TREE(line->tree, ENV), 1);
 }
 
-void		init_line(char **env, t_line *line)
+int			init_line(char **env, t_line *line)
 {
-	line->e_cmpl = ft_memalloc(sizeof(t_st));
-	line->path = getenv("PATH");
+	if (!(line->e_cmpl = ft_memalloc(sizeof(t_st))))
+		return (1);
+	if (!(line->curr->buff = ft_memalloc(sizeof(char) * MAX_SHELL_LEN)))
+		return (1);
+	line->path = sh_getnenv("PATH", env);
 	line->term = getenv("TERM");
 	tgetent(NULL, line->term);
 	create_hist(&(line->hist), env);
@@ -50,6 +53,7 @@ void		init_line(char **env, t_line *line)
 	line->slct_beg = -1;
 	line->slct_end = -1;
 	line->shell_loop = 1;
+	return (0);
 }
 
 void		deal_key(t_line *line)
@@ -78,12 +82,14 @@ void		deal_key(t_line *line)
 		}
 }
 
-void		check_path(t_line *line, char **env)
+void		check_path(char **env)
 {
 	char	*path;
+	t_line	*line;
 
+	line = get_struct();
 	path = sh_getnenv("PATH", env);
-	if ((path && line->path && ft_strcmp(path, line->path) != 0) || !path)
+	if ((path && ft_strcmp(path, line->path) != 0) || !path)
 	{
 		free_tree(line->tree[0]);
 		line->tree[0] = create_bin_tree(env);

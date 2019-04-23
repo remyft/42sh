@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 17:00:18 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/12 19:57:26 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/22 20:33:45 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void		set_new_glob(t_line *line, t_slst *tmp, char *ptr)
 		while (tmp->prev)
 			tmp = tmp->prev;
 		get_new_glob(line, tmp, ptr);
+		tputs(tgetstr("cd", NULL), 1, ft_pchar);
 		ft_putstr(line->curr->buff);
 		line->len = ft_strlen(line->curr->buff);
 		line->index = line->len;

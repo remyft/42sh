@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:50:35 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/14 15:48:48 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/22 20:29:55 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_tree			*set_tmp(char *buff, int glob);
 int				str_chrglob(char *str);
 char			*replace_tilde(const char *path, const char *replace);
 
-char			*find_start_pos(char *buff, t_line *line);
+char			*find_start_pos(char *buff);
 
 /*
 **	Tree creation
