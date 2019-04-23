@@ -6,12 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:27:38 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/05 19:51:07 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/22 20:02:11 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "redirection.h"
+#include <stdio.h>
 
 int				redirect_great(t_redirection **redir, t_s_env *e)
 {

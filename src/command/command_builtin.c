@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/31 23:11:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/10 14:54:19 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/22 20:11:23 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int				command_builtin(t_builtin builtin, t_jobs *job, t_process *p, t_s_env *e)
 	exec = (t_execute *)p->exec;
 	if (!(ret = command_redirect(exec->fds, exec->redirection, e)))
 		e->ret = builtin(exec, e);
+	command_restore_fds(((t_execute *)p->exec)->fds);
 	job->status |= JOB_NOTIFIED; 
 	return (ret);
 }

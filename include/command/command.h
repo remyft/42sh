@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:17:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/17 09:48:27 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/22 19:41:34 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int				command_redirect(int fds[3], t_redirection *redir, t_s_env *e);
 int				command_restore_fds(int fds[3]);
 int				command_save_fds(int fd, int fds[3]);
 int				command_system(t_jobs *job, t_process *p, t_s_env *e);
+int				command_rd(t_s_env *e, t_jobs *job, void *cmd);
 int				command_m_process(t_s_env *e, t_jobs *job, int type);
 int				command_mprocess_background(t_jobs *job, t_s_env *e);
 void			command_process(pid_t pid, pid_t s_pid, t_jobs *job, t_process *p);
@@ -69,5 +70,7 @@ int				isvalidname(char *str, size_t n);
 t_jobs			*jobs_prepare(t_s_env *e);
 
 void			command_debug(t_command *cmd);
+
+int				redirect_prepare(t_redirection *cmd, t_s_env *e);
 
 #endif

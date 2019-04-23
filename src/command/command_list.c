@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/20 13:24:24 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 08:48:52 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 #include "command.h"
 #include "operator_types.h"
 #include "expansion.h"
+#include <stdio.h>
 #include "redirection.h"
 
-static int	redirect_prepare(t_redirection *cmd, t_s_env *e)
+int	redirect_prepare(t_redirection *cmd, t_s_env *e)
 {
 	if (!cmd)
 		return (0);
@@ -33,28 +34,26 @@ static int	redirect_prepare(t_redirection *cmd, t_s_env *e)
 	return (redirect_prepare(cmd->next, e));
 }
 
-static int	prepare_command(void *cmd, t_s_env *e)
+static int	prepare_command(void *cmd, t_s_env *e, t_jobs *job)
 {
 	if (!cmd)
 		return (0);
 	if (*(int *)cmd == IS_A_PIPE)
-		return (prepare_command(((t_pipeline *)cmd)->left, e)
-			|| prepare_command(((t_pipeline *)cmd)->right, e));
-	else if (expand_argument(((t_command *)cmd)->args, e)
-		|| redirect_prepare(((t_command *)cmd)->redir, e))
+		return (prepare_command(((t_pipeline *)cmd)->left, e, job)
+			|| prepare_command(((t_pipeline *)cmd)->right, e, job));
+	else if ((expand_argument(((t_command *)cmd)->args, e)
+		|| redirect_prepare(((t_command *)cmd)->redir, e)))
 		return (1);
 	quote_removal(((t_command *)cmd)->args);
 	return (0);
 }
-
-#include <stdio.h>
 
 static int	execute_ao_list(t_ao_list *aolist, t_s_env *e, t_jobs *job)
 {
 	if (!aolist)
 		return (0);
 	if (command_m_process(e, job, aolist->type)
-		|| prepare_command(aolist->cmd, e)
+		|| prepare_command(aolist->cmd, e, job)
 		|| command_parse(aolist->cmd, e, aolist->type))
 		return (1);
 	return (execute_ao_list(aolist->next, e, job));
