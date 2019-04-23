@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 03:41:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/14 18:06:36 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/21 20:56:48 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,19 @@
 
 static void		deal_choose_tree(t_line *line, char *ptr)
 {
+	if (!line->term)
+		return ;
 	if (have_to_expand(line))
 		deal_complet(GET_TREE(line->tree, ENV), line);
 	else if (check_is_file(line->curr->buff, line))
 	{
+		if (!ptr)
+			ptr = line->curr->buff;
 		if (search_to_tmp(ptr))
 		{
+			if (!(*line->e_cmpl & COMPLETION))
+				GET_TREE(line->tree, TMP) =
+					free_tree(GET_TREE(line->tree, TMP));
 			if (GET_TREE(line->tree, TMP)
 					|| (GET_TREE(line->tree, TMP) =
 						set_tmp(line->curr->buff, 0)))
@@ -60,7 +67,7 @@ static t_slst	*choose_globing(t_line *line, char *ptr)
 	return (tmp);
 }
 
-void			choose_tree(t_line *line)
+static void		choose_tree(t_line *line)
 {
 	char	*ptr;
 	t_slst	*tmp;
@@ -80,8 +87,12 @@ void			choose_tree(t_line *line)
 
 void			get_complet(t_line *line)
 {
-	if (!(*line->e_cmpl & COMPLETION) && line->curr->buff_tmp[8193])
-		ft_bzero(line->curr->buff_tmp, 8194);
+	if (!(*line->e_cmpl & COMPLETION)
+			&& line->curr->buff_tmp)
+	{
+		free(line->curr->buff_tmp);
+		line->curr->buff_tmp = NULL;
+	}
 	if (!inprint(line->curr->buff))
 		return ;
 	choose_tree(line);

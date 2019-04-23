@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 14:23:24 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/06 10:39:09 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 09:43:59 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ void			free_shell_env(t_s_env *e)
 		free(e->progpath);
 	sh_freetab(&e->public_env);
 	sh_freetab(&e->private_env);
+	sh_freetab(&e->exported_env);
 	free_aliases(e->alias_list);
 }

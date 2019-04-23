@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 22:09:04 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/10 21:01:38 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/16 20:59:20 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,36 +15,35 @@
 #include "expansion.h"
 #include "expansion_errors.h"
 
-void			err_none_func(t_ret *ret, t_exp *par, t_s_env *e)
+void			err_none_func(t_ret *ret, t_exp *par)
 {
 	(void)ret;
 	(void)par;
-	ft_dprintf(STDERR_FILENO, "%s: %s\n", e->progname, ERR_NONE_STR);
+	ft_dprintf(STDERR_FILENO, "%s\n", ERR_NONE_STR);
 }
 
-void			err_syntax_func(t_ret *ret, t_exp *par, t_s_env *e)
+void			err_syntax_func(t_ret *ret, t_exp *par)
 {
 	(void)ret;
-	ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", e->progname, par->buff,
-		ERR_SYNTAX_STR);
+	ft_dprintf(STDERR_FILENO, "%s: %s\n", par->buff, ERR_SYNTAX_STR);
 }
 
-void			err_modifier_func(t_ret *ret, t_exp *par, t_s_env *e)
+void			err_modifier_func(t_ret *ret, t_exp *par)
 {
 	(void)ret;
 	(void)par;
-	ft_dprintf(STDERR_FILENO, "%s: %s\n", e->progname, ERR_MODIFIER_STR);
+	ft_dprintf(STDERR_FILENO, "%s\n", ERR_MODIFIER_STR);
 }
 
-void			err_unhandled_func(t_ret *ret, t_exp *par, t_s_env *e)
+void			err_unhandled_func(t_ret *ret, t_exp *par)
 {
-	ft_dprintf(STDERR_FILENO, "%s: `%s': %s %s\n", e->progname,
+	ft_dprintf(STDERR_FILENO, "`%s': %s %s\n",
 		par->buff, ret->word, ERR_UNHANDLED_STR);
 }
 
-void			err_malloc_func(t_ret *ret, t_exp *par, t_s_env *e)
+void			err_malloc_func(t_ret *ret, t_exp *par)
 {
 	(void)ret;
 	(void)par;
-	ft_dprintf(STDERR_FILENO, "%s: %s\n", e->progname, ERR_MALLOC_STR);
+	ft_dprintf(STDERR_FILENO, "%s: %s\n", ERR_MALLOC_STR);
 }

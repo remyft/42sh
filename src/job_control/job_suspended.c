@@ -6,14 +6,14 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 15:40:39 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/20 10:30:52 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 11:33:58 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "job_control.h"
 #include <stdio.h>
 
-int		job_forked_suspended(t_jobs *job)
+static int	job_forked_suspended(t_jobs *job)
 {
 	t_process	*p;
 
@@ -21,7 +21,7 @@ int		job_forked_suspended(t_jobs *job)
 	return ((p->status != STATUS_SUSPENDED ? 0 : 1));
 }
 
-int		job_sig_suspended(t_jobs *job, t_m_process *m_p)
+int			job_sig_suspended(t_jobs *job, t_m_process *m_p)
 {
 	t_process	*p;
 
@@ -36,7 +36,7 @@ int		job_sig_suspended(t_jobs *job, t_m_process *m_p)
 	return (0);
 }
 
-int		job_suspended(t_jobs *job, t_m_process *m_p)
+int			job_suspended(t_jobs *job, t_m_process *m_p)
 {
 	t_process	*p;
 
@@ -51,4 +51,3 @@ int		job_suspended(t_jobs *job, t_m_process *m_p)
 	}
 	return (1);
 }
-

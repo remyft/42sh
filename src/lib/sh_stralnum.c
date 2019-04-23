@@ -6,11 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 11:14:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/27 14:05:40 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 21:03:03 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "shell_lib.h"
 
 int				sh_stralnum(const char *str)
 {

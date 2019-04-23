@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 09:51:00 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/28 13:52:04 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 09:02:54 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 void			sh_freestr(char **str);
 void			sh_freetab(char ***table);
+char			*sh_get_file(int fd);
 char			*sh_getnenv(const char *name, char **env);
 char			**sh_getnenvaddr(const char *name, char **env);
 int				sh_is_escapable(char c);

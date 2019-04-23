@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 19:13:49 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/13 12:10:48 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/06 15:07:51 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ void			debug_tokens(t_token *tokens)
 	{
 		ft_dprintf(2, "type: %d id: %d\nbuff: [", ptr->type, ptr->id);
 		write(2, ptr->head, ptr->len);
-		ft_dprintf(2, "] %ld", ptr->len);
+		if (ptr->alias)
+			write(2, ptr->alias, ptr->alen);
+		ft_dprintf(2, "] %ld %ld", ptr->len, ptr->alen);
 		if ((quote = ptr->quote))
 			ft_dprintf(2, "\nQuoted:");
 		while (quote)

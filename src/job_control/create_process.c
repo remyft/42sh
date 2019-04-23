@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create_process.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/23 11:39:19 by dbaffier          #+#    #+#             */
+/*   Updated: 2019/04/23 11:39:50 by dbaffier         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "job_control.h"
 #include "shell_env.h"
 #include "shell_lib.h"
 
-
-static void insert_process(t_jobs *job, t_process *new)
+static void	insert_process(t_jobs *job, t_process *new)
 {
 	t_m_process	*m_p;
 	t_process	*curr;
@@ -20,7 +31,7 @@ static void insert_process(t_jobs *job, t_process *new)
 	}
 }
 
-int		create_process(t_s_env *e, t_execute *exec, int type)
+int			create_process(t_s_env *e, t_execute *exec, int type)
 {
 	t_jobs		*job;
 	t_process	*new;

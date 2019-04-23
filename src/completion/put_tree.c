@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:34:09 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/13 21:37:12 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/22 20:29:59 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 #include "shell_lib.h"
 #include "shell_term.h"
 
-char		*find_start_pos(char *buff, t_line *line)
+char		*find_start_pos(char *buff)
 {
 	int		i;
 
-	i = line->len - 1;
+	i = ft_strlen(buff) - 1;
 	while (i > 0)
 	{
 		if (ft_strchr("&|; /", buff[i]) && buff[i - 1] != '\\')
@@ -34,25 +34,26 @@ static void	get_new_file(t_tree *tern, t_cpl_e env, t_line *line)
 {
 	char	*chr;
 	char	*ptr;
+	char	*tmp;
 
-	if (!*((ptr = find_start_pos(line->curr->buff, line))))
+	if (!*((ptr = find_start_pos(line->curr->buff))))
 		stercat(line->curr->buff_tmp, env.bru, line->curr->buff);
 	else if (!ft_strchr(ptr, '/'))
 	{
 		if ((chr = ptr) == line->curr->buff)
 			chr += 1;
-		if (sh_strrchr(chr, '$'))
+		if ((tmp = sh_strrchr(chr, '$')))
 		{
-			chr = sh_strrchr(chr, '$') + 1;
-			chr = *chr == '{' ? chr + 1 : chr;
+			if (*(tmp + 1) != '\'')
+			{
+				chr = sh_strrchr(chr, '$') + 1;
+				chr = *chr == '{' ? chr + 1 : chr;
+			}
 		}
 		ft_strcpy(chr, env.bru);
 	}
 	else
-	{
-		chr = sh_strrchr(line->curr->buff, '/') + 1;
-		ft_strcpy(chr, env.bru);
-	}
+		ft_strcpy(sh_strrchr(line->curr->buff, '/') + 1, env.bru);
 	ft_strncat(line->curr->buff, (char*)&(tern->value), 1);
 }
 

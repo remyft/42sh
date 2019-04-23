@@ -6,35 +6,41 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 03:05:48 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/01 20:14:12 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/21 21:09:17 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "ft_dprintf.h"
 #include "shell.h"
 #include "shell_lib.h"
 
-char		**collect_env(char **ep)
+char		**collect_env(char **ep, t_s_env *e)
 {
 	char	**env;
 	char	*tmp;
-	int		ntmp;
 	int		i;
 
-	i = -1;
-	if (!ep || !ep[0]
-			|| !(env = ft_memalloc(sizeof(char*) * (get_tab_len(ep) + 2))))
-		return (NULL);
-	while (ep[++i])
+	i = 0;
+	if (!(env = ft_memalloc(sizeof(char*)
+					* (sh_tablen((const char **)ep) + 1))) || !ep)
+		return (env);
+	while (ep[i])
+	{
 		if (!(env[i] = ft_strdup(ep[i])))
-			break ;
-	env[i + 1] = NULL;
-	tmp = get_env(env, "SHLVL");
-	ntmp = ft_atoi(tmp);
-	free(tmp);
-	tmp = ft_strjoinfree("SHLVL=", ft_itoa(ntmp + 1), 2);
-	ft_setenv(&env, tmp, 2);
-	free(tmp);
+			exit(2);
+		else
+			i++;
+	}
+	if (!(tmp = sh_getnenv("SHLVL", ep)))
+		return (env);
+	if (ft_strlen(tmp) >= 10)
+		ft_dprintf(STDERR_FILENO, "%s: warning: shell level too high \
+		resetting to 1\n", e->progname);
+	if (!(tmp = ft_itoa((ft_strlen(tmp) >= 10) ? 1 : ft_atoi(tmp) + 1))
+	|| (sh_setenv("SHLVL", tmp, &env)))
+		exit(2);
+	ft_strdel(&tmp);
 	return (env);
 }
 

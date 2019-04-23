@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:57:17 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/14 16:16:17 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/21 21:05:00 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include "shell_term.h"
 #include "put.h"
 #include "libft.h"
-
-#include "stdio.h"
 
 static void	get_to_len(t_line *line, char tchar)
 {
@@ -30,26 +28,32 @@ static void	get_to_len(t_line *line, char tchar)
 		tchar = cbis;
 		j++;
 	}
-	tputs(tgetstr("sc", NULL), 1, ft_pchar);
+	j = (int)line->index;
 	ft_putstr(&(line->curr->buff[line->index]));
-	tputs(tgetstr("rc", NULL), 1, ft_pchar);
+	line->index = line->len;
+	while ((int)line->index > j)
+	{
+		if ((int)line->index - j > (int)line->nb_col)
+			mv_line_up(line);
+		else
+			left_arrow(line);
+	}
 }
 
 static void	get_to_buff(t_line *line, int *cp)
 {
 	char	tchar;
-	int		j;
 
 	tchar = line->curr->buff[line->index + 1];
 	if (line->index != line->len)
 		line->curr->buff[line->index + 1] = line->curr->buff[line->index];
 	line->curr->buff[line->index++] = line->tmp[*cp];
 	line->len++;
-	j = 1;
 	ft_putchar(line->tmp[*cp]);
 	*cp += 1;
 	if (line->index != line->len)
 		get_to_len(line, tchar);
+	line->curr->buff[line->len] = '\0';
 	if ((line->index + line->lprompt) % line->nb_col == 0)
 	{
 		tputs(tgetstr("do", NULL), 1, ft_pchar);
@@ -70,8 +74,8 @@ void		get_typing(t_line *line, int nb_read)
 		else
 		{
 			line->is_putb -= 1;
-			ft_bzero(line->curr->buff_tmp, 8193);
-			line->curr->buff_tmp[8193] = 0;
+			free(line->curr->buff_tmp);
+			line->curr->buff_tmp = NULL;
 			*line->e_cmpl &= ~COMPLETION;
 			line->index = line->len;
 		}

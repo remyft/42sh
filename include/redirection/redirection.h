@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 01:00:11 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/22 20:00:57 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 09:03:15 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,6 @@
 
 # define CLOSE_FD_ON_EXEC	(1 << 16)
 # define GET_FD(x)			(x & ~CLOSE_FD_ON_EXEC)
-
-enum
-{
-	ERR_MALLOC,
-	ERR_AMBIGUOUS,
-	ERR_BAD_FD,
-};
 
 int				redirection(t_redirection **redir, t_s_env *e);
 int				redirect_open_error(char *filename, t_s_env *e);

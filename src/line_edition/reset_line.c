@@ -6,22 +6,28 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 03:41:00 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/17 19:17:34 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/15 19:43:44 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell_term.h"
 #include "libft.h"
+#include "shell.h"
 
 void	put_new_prompt(t_line *line)
 {
 	go_home(line);
 	tputs(tgetstr("cr", NULL), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
-	put_prompt(line->prompt);
+	put_prompt(line->prompt, *line->ret);
 	ft_putstr(line->curr->buff);
 	line->index = ft_strlen(line->curr->buff);
 	line->len = line->index;
+	if ((line->index + line->lprompt) % line->nb_col == 0)
+	{
+		tputs(tgetstr("do", NULL), 1, ft_pchar);
+		tputs(tgetstr("cr", NULL), 1, ft_pchar);
+	}
 }
 
 void	del_all_state(t_line *line)

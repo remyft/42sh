@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 18:30:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/29 16:13:49 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 09:02:44 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ enum
 	ERR_DUP,
 	ERR_PIPE,
 	ERR_SIGNAL,
+	ERR_DUP2,
+	ERR_FCNTL,
 };
 
 typedef struct	s_error
@@ -46,5 +48,7 @@ typedef struct	s_error
 # define ERR_BAD_FD_STR			{ "Bad file descriptor"       , 125 }
 # define ERR_DUP_STR			{ "dup2() failed"             , 125 }
 # define ERR_PIPE_STR			{ "pipe() failed"			  , 1	}
+# define ERR_DUP2_STR			{ "dup2() failed"             , 125 }
+# define ERR_FCNTL_STR			{ "fcntl() failed"            , 125 }
 
 #endif

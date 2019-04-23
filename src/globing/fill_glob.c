@@ -6,15 +6,19 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 23:31:38 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/13 17:01:25 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/07 16:51:59 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 #include "libft.h"
 #include "globing.h"
+#ifdef __linux
+# define __USE_MISC
+# define DT_DIR 4
+#endif
 
-void	get_new_str(t_slist **glob, char *prev)
+static void	get_new_str(t_slist **glob, char *prev)
 {
 	int		tlen;
 	t_tree	*tmp;
@@ -43,7 +47,7 @@ void	get_new_str(t_slist **glob, char *prev)
 	}
 }
 
-int		get_new_glob(t_tree *tree, t_slist **glob)
+static int	get_new_glob(t_tree *tree, t_slist **glob)
 {
 	if (*glob)
 	{
@@ -67,7 +71,7 @@ int		get_new_glob(t_tree *tree, t_slist **glob)
 	return (1);
 }
 
-void	deal_rec(char *str, t_slist **glob, t_stint *sti)
+static void	deal_rec(char *str, t_slist **glob, t_stint *sti)
 {
 	t_tree *tmp;
 
@@ -82,7 +86,7 @@ void	deal_rec(char *str, t_slist **glob, t_stint *sti)
 	free_tree(tmp);
 }
 
-void	deal_error_glob(t_slist **glob)
+static void	deal_error_glob(t_slist **glob)
 {
 	if ((*glob)->prev)
 	{
@@ -97,7 +101,7 @@ void	deal_error_glob(t_slist **glob)
 	}
 }
 
-void	get_new_mln(t_tree *tree, char *str, t_slist **glob, t_stint sti)
+void		get_new_mln(t_tree *tree, char *str, t_slist **glob, t_stint sti)
 {
 	DIR			*dir;
 	t_stint		si_tmp;
@@ -110,7 +114,10 @@ void	get_new_mln(t_tree *tree, char *str, t_slist **glob, t_stint sti)
 		return ;
 	get_new_str(glob, sti.str);
 	if (!(*glob)->str)
-		return (deal_error_glob(glob));
+	{
+		deal_error_glob(glob);
+		return ;
+	}
 	si_tmp.str = ft_strdup((*glob)->str);
 	si_tmp.nb = sti.nb;
 	if ((dir = opendir((*glob)->str)) && ((*str == '/' && *(str + 1))

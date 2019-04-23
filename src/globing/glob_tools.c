@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   glob_tools.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 23:31:28 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/14 23:31:29 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/22 12:20:55 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "globing.h"
 
 void	ft_nstrstr(char *str, char *to_find, int *nb)
 {

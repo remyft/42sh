@@ -6,11 +6,11 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 03:52:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/14 18:16:39 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/15 19:49:32 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expansion.h"
+#include "expansion_loop.h"
 #include "expansion_errors.h"
 #include "struct.h"
 #include "shell.h"
@@ -18,7 +18,7 @@
 #include "put.h"
 #include "globing.h"
 
-int				get_glob_len(t_slst *glob)
+static int		get_glob_len(t_slst *glob)
 {
 	int	len;
 
@@ -31,7 +31,7 @@ int				get_glob_len(t_slst *glob)
 	return (len);
 }
 
-char			*get_glob_str(t_slst *glob)
+static char		*get_glob_str(t_slst *glob)
 {
 	char	*str;
 	int		i;
@@ -61,7 +61,7 @@ static void		free_exp_glob(t_slst *glob)
 	free(glob);
 }
 
-t_slst			*get_exp_glob(t_ret *ret, char *ptr, char *tmp)
+static t_slst	*get_exp_glob(t_ret *ret, char *ptr, char *tmp)
 {
 	t_line	*line;
 	t_slst	*glob;
@@ -86,7 +86,8 @@ int				expand_glob(t_exp *param, t_ret *ret)
 	char	*tmp;
 	t_slst	*glob;
 
-	ptr = ft_strndup((char *)param->buff + param->i, (int)param->buff_len);
+	ptr = ft_strndup((char *)param->buff + param->i,
+		(int)(param->buff_len - param->i));
 	tmp = ptr;
 	if (ret->word != NULL)
 		ptr = ft_strjoin(ret->word, ptr);
@@ -94,6 +95,8 @@ int				expand_glob(t_exp *param, t_ret *ret)
 	if (ptr != tmp)
 		free(ptr);
 	free(tmp);
+	if (!glob)
+		*param->e->ret = 1;
 	if (!glob)
 		return (ERR_NO_MATCH_FOUND);
 	ptr = get_glob_str(glob);

@@ -6,16 +6,16 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:10:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 08:47:39 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 09:33:17 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "redirection.h"
 #include "command.h"
-#include <stdio.h>
+#include "command_error.h"
 
-int				command_redirect(int fds[3], t_redirection *redir, t_s_env *e)
+int				command_redirect(int fds[3], t_redirection *redir)
 {
 	int			fdarg;
 	int			fdio;
@@ -26,14 +26,14 @@ int				command_redirect(int fds[3], t_redirection *redir, t_s_env *e)
 		fdarg = GET_FD(redir->fdarg);
 		fdio = GET_FD(redir->fdio);
 		if (command_save_fds(fdarg, fds) || command_save_fds(fdio, fds))
-			return (redirect_error(1, "fcntl()", e));
+			return (ERR_FCNTL);
 		if (fdarg > 0 && dup2(fdarg, fdio) < 0)
-			return (redirect_error(0, "dup2()", e));
+			return (ERR_DUP2);
 		if (redir->fdio != fdio)
 			close(fdio);
 		if (fdarg > 0 && redir->fdarg != fdarg)
 			close(fdarg);
 		redir = redir->next;
 	}
-	return (0);
+	return (ERR_OK);
 }

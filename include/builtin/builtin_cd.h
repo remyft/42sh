@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 08:54:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/11 10:42:08 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 09:01:00 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ enum
 	ERR_NOT_IN_PWD,
 	ERR_GETCWD,
 	ERR_NAME_TOO_LONG,
-	ERR_WRITE,
+	ERR_WRITE
 };
 
 typedef struct	s_cd

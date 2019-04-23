@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:43:32 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 16:52:08 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/03 20:59:11 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,32 @@
 #include "libft.h"
 #include "shell_term.h"
 #include "history.h"
+#include "shell_lib.h"
 
-static void		get_old_hist(t_hist **begin, int fd, int continu)
+static void		get_lines(t_hist **begin, int fd)
 {
-	t_hist	*curr;
+	char	*line;
+	char	*chr;
 
-	while (continu)
+	line = sh_get_file(fd);
+	if (line)
 	{
-		if (!(curr = ft_memalloc(sizeof(t_hist))))
+		if (!(*begin = ft_memalloc(sizeof(t_hist))))
 			return ;
-		if (*begin)
+		(*begin)->content = strdup_until(line, '\n');
+		(*begin)->c_size = ft_strlen((*begin)->content);
+		chr = line;
+		while ((chr = ft_strchr(chr, '\n')))
 		{
-			curr->next = *begin;
-			(*begin)->prev = curr;
-			curr->begin = *begin;
+			chr += 1;
+			if (!((*begin)->prev = ft_memalloc(sizeof(t_hist))))
+				break ;
+			(*begin)->prev->next = (*begin);
+			(*begin)->prev->content = strdup_until(chr, '\n');
+			(*begin)->prev->c_size = ft_strlen((*begin)->prev->content);
+			(*begin) = (*begin)->prev;
 		}
-		continu = get_next_line(fd, &(curr->content));
-		if (curr->content)
-			curr->c_size = ft_strlen(curr->content);
-		if (!continu)
-		{
-			free(curr->content);
-			free(curr);
-			if (*begin)
-				(*begin)->prev = NULL;
-		}
-		else
-			*begin = curr;
+		free(line);
 	}
 }
 
@@ -59,7 +58,7 @@ void			create_hist(t_hist **begin, char **env)
 		fd = open(path, O_RDWR | O_APPEND | O_CREAT, 0644);
 		free(path);
 	}
-	get_old_hist(begin, fd, 1);
+	get_lines(begin, fd);
 	curr = *begin;
 	while (curr)
 	{
@@ -121,9 +120,7 @@ static void		get_new_hist(t_hist **curr, char *buff, int fd)
 void			save_history(t_line *line, char *buff, t_hist **curr,
 		char **env)
 {
-	int		j;
 	int		fd;
-	int		index;
 	char	*path;
 
 	if (!(path = get_env(env, "HOME")))
@@ -135,11 +132,7 @@ void			save_history(t_line *line, char *buff, t_hist **curr,
 		fd = open(path, O_RDWR | O_APPEND | O_CREAT, 0644);
 		free(path);
 	}
-	index = line->index / line->nb_col - 1;
-	j = ft_strlen(buff) / line->nb_col;
-	while (++index < j)
-		tputs(tgetstr("do", NULL), 1, ft_pchar);
-	tputs(tgetstr("cd", NULL), 2, ft_pchar);
 	get_new_hist(curr, buff, fd);
 	close(fd);
+	(void)line;
 }

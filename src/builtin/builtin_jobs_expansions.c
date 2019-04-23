@@ -6,21 +6,14 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 11:20:18 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/19 12:46:34 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 10:02:59 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "job_control.h"
 #include "builtin_jobs.h"
 
-/*
-%% = current
-%+ = current
-%- = last
-%[id]
-id
-*/
-t_jobs		*jobs_get_current(t_jobs *jobs, t_execute *exec)
+static t_jobs		*jobs_get_current(t_jobs *jobs, t_execute *exec)
 {
 	while (jobs)
 	{
@@ -34,7 +27,7 @@ t_jobs		*jobs_get_current(t_jobs *jobs, t_execute *exec)
 	return (NULL);
 }
 
-t_jobs		*jobs_get_prev(t_jobs *jobs)
+static t_jobs		*jobs_get_prev(t_jobs *jobs)
 {
 	while (jobs)
 	{
@@ -45,7 +38,7 @@ t_jobs		*jobs_get_prev(t_jobs *jobs)
 	return (NULL);
 }
 
-t_jobs		*jobs_get_arg(t_jobs *jobs, const char *arg, t_execute *exec)
+static t_jobs		*jobs_get_arg(t_jobs *jobs, const char *arg, t_execute *exec)
 {
 	int		id;
 

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/15 23:01:04 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/19 03:12:35 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/25 17:52:17 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,20 @@ static int		alias_set_key_value(char *key, char *value, t_alias **alias)
 
 	ptr = *alias;
 	if (!ptr)
-		return ((*alias = alias_new(key, value, *alias)) == NULLALIAS);
+		return (!(*alias = alias_new(key, value, *alias, *alias)));
 	while (ptr)
 	{
 		if (ft_strcmp(key, ptr->key) < 0)
 		{
 			if (!ptr->prev)
-				return ((*alias = alias_new(key, value, ptr)) == NULLALIAS);
-			return ((ptr = alias_new(key, value, ptr)) == NULLALIAS);
+				return (!(*alias = alias_new(key, value, ptr->prev, ptr)));
+			return (!(ptr = alias_new(key, value, ptr->prev, ptr)));
 		}
 		if (!ptr->next)
 			break ;
 		ptr = ptr->next;
 	}
-	return ((ptr->next = alias_new(key, value, ptr->next)) == NULLALIAS);
+	return (!(ptr->next = alias_new(key, value, ptr, ptr->next)));
 }
 
 int				alias_set(char *key, t_alias **alias)

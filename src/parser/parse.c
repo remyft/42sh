@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 17:00:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/13 18:00:14 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/02 18:12:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,11 @@ static int		parse_not_handled_yet(t_token **tok, t_p_param *par, t_s_env *e)
 static int		parse_loop(t_token **token, t_p_param *param, t_s_env *e)
 {
 	static t_p_call		type_token[] = {
-		H_ARGUMENT, H_ARGUMENT, H_ARGUMENT, H_NEWLINE, H_IO_NUMBER,
-		H_ARGUMENT,
+		H_ARGUMENT, H_ARGUMENT, H_ARGUMENT, H_IO_NUMBER, H_ERROR,
 	};
 	static t_p_call		type_operator[] = {
 		{ NULL }, H_AO_LIST, H_PIPE, H_OPERATOR, H_ERROR, H_AO_LIST,
-		H_ASYNC, H_LIST, H_ERROR, H_OPERATOR, H_OPERATOR, H_OPERATOR,
+		H_ASYNC, H_LIST, H_LIST, H_ERROR, H_OPERATOR, H_OPERATOR, H_OPERATOR,
 		H_OPERATOR, H_OPERATOR, H_OPERATOR, H_OPERATOR, H_OPERATOR,
 		H_OPERATOR, H_OPERATOR, H_OPERATOR, H_OPERATOR,
 	};
@@ -45,7 +44,8 @@ static int		parse_loop(t_token **token, t_p_param *param, t_s_env *e)
 		&& call[ptr->type].type[ptr->id].handler
 		&& !call[ptr->type].type[ptr->id].handler(&ptr, param, e))
 			return (0);
-		ptr = ptr->next;
+		if (ptr)
+			ptr = ptr->next;
 	}
 	return (1);
 }
@@ -58,6 +58,7 @@ t_m_list		*parse(char **line, t_token **token, t_s_env *e)
 	list = NULLLIST;
 	ft_memset(&param, 0, sizeof(param));
 	param.line = line;
+	param.token = token;
 	if (!new_tree(*token, &param, &list))
 		parse_error(ERR_MALLOC_FAILED, NULLTOKEN, e);
 	else if (!parse_loop(token, &param, e))

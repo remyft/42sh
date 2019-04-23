@@ -6,13 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 00:56:12 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/07 17:36:05 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 09:47:03 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "expansion_dollar.h"
 #include "expansion_errors.h"
+#include "expansion_loop.h"
 
 static int		check_expression(t_exp *param)
 {
@@ -45,5 +46,7 @@ int				expand_dollar(t_exp *param, t_ret *ret)
 	}
 	else if (param->buff[i] == '[')
 		return (expand_arithmetic(param, ret));
+	else if (param->buff[i] == '\'' || param->buff[i] == '"')
+		return (expand_dollar_quote(param, ret));
 	return (expand_dollar_parameter(param, ret));
 }

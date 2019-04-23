@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signal_process.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/23 11:40:12 by dbaffier          #+#    #+#             */
+/*   Updated: 2019/04/23 11:40:57 by dbaffier         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <signal.h>
+#include "signal_intern.h"
 
 static void	sig_p_stop(int sig)
 {
@@ -39,7 +52,7 @@ static void	sig_p_quit(int sig)
 	}
 }
 
-int		sig_to_pgid(int pgid)
+int			sig_to_pgid(int pgid)
 {
 	sig_p_sigint(-pgid);
 	sig_p_stop(-pgid);

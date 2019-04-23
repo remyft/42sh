@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 18:54:19 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/03 20:35:43 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/11 19:10:38 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ enum
 	ERR_NEED_ARG,
 	ERR_NOT_FOUND,
 	ERR_WRITE,
-	ERR_FORK,
+	ERR_FORK
 };
 
 # define MALLOC_STR				"not enought memory"
@@ -49,7 +49,7 @@ enum
 	BUILTIN_OPT_P = (1 << 2),
 	BUILTIN_OPT_U = (1 << 3),
 	BUILTIN_OPT_V = (1 << 4),
-	BUILTIN_OPT_END = (1 << 5),
+	BUILTIN_OPT_END = (1 << 5)
 };
 
 /*
@@ -63,7 +63,6 @@ typedef struct	s_env_opt
 	int			options;
 	int			verbosity;
 	char		*path;
-	char		**env;
 	char		*cmd;
 	size_t		i;
 	size_t		j;

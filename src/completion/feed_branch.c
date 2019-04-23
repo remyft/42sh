@@ -6,12 +6,13 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 02:06:53 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/03 23:49:47 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:22:11 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "struct.h"
+#include "put.h"
 
 static void	create_new_branch(t_tree **tern, t_tree *prev, char *str, int lvl)
 {

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 21:08:51 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/12 14:55:38 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/21 21:14:36 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,23 @@
 static int		is_token_a_command(t_token *token)
 {
 	return (token->type == OPERATOR && token->id < LESS_VALUE);
+}
+
+static void		alias_new_tokens(t_param *param, t_token *save)
+{
+	while (param->token->next)
+	{
+		param->token->alias = "";
+		param->token->alen = 0;
+		param->token = param->token->next;
+	}
+	param->token->alias = "";
+	param->token->alen = 0;
+	if (param->token->quote)
+	{
+		param->token->alias = param->line + param->i;
+		param->token->alen = param->line + param->i - save->head;
+	}
 }
 
 t_token			*handle_alias(t_param *param, t_s_env *e)
@@ -34,18 +51,14 @@ t_token			*handle_alias(t_param *param, t_s_env *e)
 		return (param->token);
 	alias->in_use = 1;
 	save = param->token;
-	if ((param->token = tokenise(alias->value, e)))
-	{
-		alias->in_use = 0;
-		if (!param->token)
-			return (save);
-		if (save->prev)
-			save->prev->next = param->token;
-		else
-			param->head = param->token;
-		free(save);
-		while (param->token->next)
-			param->token = param->token->next;
-	}
+	param->token = tokenise(&alias->value, e);
+	alias->in_use = 0;
+	if (save->prev)
+		save->prev->next = param->token;
+	else
+		param->head = param->token;
+	if (param->token)
+		alias_new_tokens(param, save);
+	free(save);
 	return (param->token);
 }

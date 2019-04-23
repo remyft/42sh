@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 18:56:52 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/05 18:04:34 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/21 19:52:32 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,6 @@ int				expand_tilde_minus(t_ret *ret, t_ret *parame, t_exp *param)
 	|| (tilde_digit(parame->word + 1) && !ft_atoi(parame->word + 1)))
 		return (param_addstr(sh_getnenv("OLDPWD", param->e->public_env), ret));
 	return (expand_tilde_user(ret, parame, param));
-}
-
-int				expand_tilde_directory(t_ret *ret, t_ret *parame, t_exp *param)
-{
-	int			entry;
-	char		*cwd;
-
-	(void)param;
-	entry = ft_atoi(parame->word);
-	if (entry != 0)
-		return (ERR_DIRECTORY_STACK);
-	if (!(cwd = getcwd(NULL, 0)))
-		return (ERR_MALLOC);
-	if (param_addstr(cwd, ret))
-		return (ERR_MALLOC);
-	free(cwd);
-	return (ERR_NONE);
 }
 
 int				expand_tilde_user(t_ret *ret, t_ret *parame, t_exp *param)

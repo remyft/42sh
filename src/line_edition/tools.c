@@ -3,20 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/06 05:48:08 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/02 16:08:40 by gbourgeo         ###   ########.fr       */
+/*   Created: 2019/04/23 07:14:04 by rfontain          #+#    #+#             */
+/*   Updated: 2019/04/23 07:42:09 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 #include "libft.h"
+#include "shell_lib.h"
 
-void	put_prompt(char *prompt)
+void	put_prompt(char *prompt, int col)
 {
 	ft_putstr_fd(RESET, STDERR_FILENO);
-	ft_putstr_fd(RED, STDERR_FILENO);
+	if (col)
+		ft_putstr_fd(RED, STDERR_FILENO);
+	else
+		ft_putstr_fd(GREEN, STDERR_FILENO);
 	ft_putstr_fd(prompt, STDERR_FILENO);
 	ft_putstr_fd(RESET, STDERR_FILENO);
 }
@@ -58,7 +62,7 @@ char	**ft_ralloc(char ***env, int len)
 	int		i;
 	int		max;
 
-	max = get_tab_len(*env);
+	max = sh_tablen((const char **)*env);
 	if (!(tmp = (char**)malloc(sizeof(char*) * (max + len + 1))))
 		return (NULL);
 	i = -1;
@@ -69,12 +73,21 @@ char	**ft_ralloc(char ***env, int len)
 	return (tmp);
 }
 
-int		get_tab_len(char **tabl)
+void	get_tmp_buff(char **buff, char **buff_tmp, int to_free)
 {
-	int i;
+	size_t	len;
+	size_t	max_len;
 
-	i = 0;
-	while (tabl[i])
-		i++;
-	return (i);
+	max_len = MAX_SHELL_LEN;
+	len = ft_strlen(*buff_tmp);
+	free(*buff);
+	if (!(*buff = ft_memalloc(sizeof(char)
+					* (max_len * (len / max_len + 1)) + 1)))
+		return ;
+	ft_strcpy(*buff, *buff_tmp);
+	if (to_free)
+	{
+		free(*buff_tmp);
+		*buff_tmp = NULL;
+	}
 }

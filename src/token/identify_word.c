@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 22:30:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/12 15:07:55 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/06 18:55:33 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,13 @@ static int		name_type(t_token *token)
 
 t_token			*identify_word(t_param *param)
 {
-	param->token->len = param->line + param->i - param->token->head;
+	if (!param->token->alias)
+		param->token->len = param->line + param->i - param->token->head;
+	else
+	{
+		param->token->len = ft_strlen(param->token->head);
+		param->token->alen = param->line + param->i - param->token->alias;
+	}
 	if (ft_isquote(*param->token->head))
 		param->token->id = WORD;
 	else if (param->token->id == WORD
@@ -77,6 +83,8 @@ t_token			*identify_word(t_param *param)
 			param->token->id = name_type(param->token);
 		if (!(param->token = handle_alias(param, param->e)))
 			return (param->token);
+		if (quote_type(param->token->quote) != NO_QUOTE)
+			return (token_error(ERR_INVALID_KEY, param));
 	}
 	if (!(param->token->next = new_token(param->line, param->i)))
 		return (token_error(ERR_MALLOC, param));

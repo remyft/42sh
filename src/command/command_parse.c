@@ -6,17 +6,19 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 01:23:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/22 19:35:17 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 10:20:32 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "main_tools.h"
+#include "shell.h"
 #include "command.h"
 #include "job_control.h"
 #include "command_error.h"
 #include "operator_types.h"
 
-int				command_piped(void *cmd, t_s_env *e, int type)
+static int		command_piped(void *cmd, t_s_env *e, int type)
 {
 	command_parse(((t_pipeline *)cmd)->left, e, type | PIPED);
 	if (*(int *)((t_pipeline *)cmd)->right == IS_A_PIPE)
@@ -31,17 +33,26 @@ int				command_piped(void *cmd, t_s_env *e, int type)
 
 int				command_parse(void *cmd, t_s_env *e, int type)
 {
+	int			ret;
 	t_execute	*exec;
 
+	exec = NULL;
+	ret = 0;
 	if (*(int *)cmd == IS_A_PIPE)
-		return (command_piped(cmd, e, type));
-	//command_debug(cmd);
-	if (!((t_command *)cmd)->args)
-		return (0);
-	if (!(exec = ft_memalloc(sizeof(t_execute))))
-		return (0);
-	exec->async = ((t_command *)cmd)->async;
-	exec->variable = ((t_command *)cmd)->args;
-	exec->redirection = ((t_command *)cmd)->redir;
-	return (command_prepare(exec, e, type));
+		ret = command_piped(cmd, e, type);
+	else
+	{
+		//command_debug(cmd);
+		if (((t_command *)cmd)->args)
+		{
+			if (!(exec = ft_memalloc(sizeof(t_execute))))
+				return (0);
+			exec->async = ((t_command *)cmd)->async;
+			exec->variable = ((t_command *)cmd)->args;
+			exec->redirection = ((t_command *)cmd)->redir;
+			ret = command_prepare(exec, e, type);
+		}
+
+	}
+	return (ret);
 }

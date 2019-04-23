@@ -6,13 +6,26 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 08:55:32 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/18 18:22:07 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 09:47:20 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 #include "main_tools.h"
 #include "put.h"
+
+static void	deal_return(t_line *line, int goal)
+{
+	ft_putstr(&line->curr->buff[line->index]);
+	line->index = line->len;
+	while ((int)line->index > goal)
+	{
+		if ((int)line->index - goal > (int)line->nb_col)
+			mv_line_up(line);
+		else
+			left_arrow(line);
+	}
+}
 
 static void	deal_unselect(t_line *line)
 {
@@ -22,29 +35,51 @@ static void	deal_unselect(t_line *line)
 	if ((size_t)line->slct_beg == line->index)
 	{
 		tputs(tgetstr("cd", NULL), 1, ft_pchar);
-		tputs(tgetstr("sc", NULL), 1, ft_pchar);
-		ft_putstr(&line->curr->buff[line->index]);
-		tputs(tgetstr("rc", NULL), 1, ft_pchar);
+		i = (int)line->index;
+		deal_return(line, line->index);
 		tputs(tgoto(tgetstr("ch", NULL), 0, (line->index
 						+ line->lprompt) % line->nb_col), 1, ft_pchar);
 	}
 	else
 	{
-		tputs(tgetstr("sc", NULL), 1, ft_pchar);
 		tmp = line->index;
 		i = line->slct_end - line->slct_beg + 1;
 		while (--i)
 			left_arrow(line);
-		ft_putstr(&line->curr->buff[line->index]);
-		line->index = tmp;
-		tputs(tgetstr("cd", NULL), 1, ft_pchar);
-		tputs(tgetstr("rc", NULL), 1, ft_pchar);
+		deal_return(line, tmp);
 	}
+}
+
+int			get_buff_realloc(t_line *line, int nb_read)
+{
+	char	*tmp;
+	size_t	max_len;
+
+	max_len = MAX_SHELL_LEN;
+	tmp = ft_strdup(line->curr->buff);
+	free(line->curr->buff);
+	if (!(line->curr->buff = ft_memalloc(sizeof(char)
+					* (max_len * ((line->len + nb_read) / max_len + 1)) + 1)))
+	{
+		free(tmp);
+		line->shell_loop = 0;
+		return (1);
+	}
+	ft_strcpy(line->curr->buff, tmp);
+	free(tmp);
+	return (0);
 }
 
 static void	get_read(t_line *line, int *nb_read)
 {
-	if (line->len + (*nb_read = read(0, line->tmp, 10)) < 8192)
+	if ((line->len % MAX_SHELL_LEN) > ((*nb_read = read(0, line->tmp, 10)) +
+			line->len) % MAX_SHELL_LEN
+				&& line->len + *nb_read < MALLOC_MAX)
+	{
+		if (get_buff_realloc(line, *nb_read))
+			return ;
+	}
+	if (line->len + *nb_read < MALLOC_MAX)
 		get_typing(line, *nb_read);
 	if (ft_strncmp(line->tmp, "\x1B\x5B\x31\x3B\x32", 5) != 0)
 	{
@@ -83,5 +118,4 @@ void		deal_typing(t_line *line)
 		if (*(line->e_cmpl) & COMPLETION && line->tmp[0] == 10)
 			set_complet(line, 1);
 	}
-	write(1, "\n", 1);
 }

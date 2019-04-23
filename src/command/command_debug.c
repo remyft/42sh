@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 05:00:02 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/27 23:19:59 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/18 16:41:37 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ static void		print_args(t_argument **arg, int id)
 {
 	size_t			i;
 
-	while (*arg && (id || (*arg)->token->id == ASSIGNMENT_WORD))
+	while (*arg && (*arg)->token
+	&& (id || (*arg)->token->id == ASSIGNMENT_WORD))
 	{
 		i = 0;
 		if ((*arg)->cmd)

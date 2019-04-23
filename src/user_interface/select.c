@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 05:18:39 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/14 16:30:35 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/02 15:13:54 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ static void	expand_select_left(t_line *line, int diff, int mal)
 	tputs(tgetstr("me", NULL), 1, ft_pchar);
 	if (line->index
 			&& (line->index + line->lprompt) % line->nb_col == line->nb_col - 1)
-		tputs(tgetstr("up", NULL), 1, ft_pchar);
+		deal_scroll(line, 1, 1);
 	tputs(tgoto(tgetstr("ch", NULL), 0,
 				(line->lprompt + line->index) % line->nb_col), 1, ft_pchar);
 }
 
-void		is_in_completion(t_line *line)
+static void	is_in_completion(t_line *line)
 {
 	int		index_tmp;
 
@@ -48,7 +48,7 @@ void		is_in_completion(t_line *line)
 		tputs(tgetstr("rc", NULL), 1, ft_pchar);
 		line->index = index_tmp;
 		*line->e_cmpl &= ~COMPLETION;
-		ft_bzero(line->curr->buff_tmp, 8194);
+		ft_bzero(line->curr->buff_tmp, MAX_SHELL_LEN + 2);
 	}
 }
 
@@ -71,7 +71,7 @@ void		select_left(t_line *line)
 			if (line->index
 					&& (line->index + line->lprompt) % line->nb_col ==
 					line->nb_col - 1)
-				tputs(tgetstr("up", NULL), 1, ft_pchar);
+				deal_scroll(line, 1, 1);
 			tputs(tgoto(tgetstr("ch", NULL), 0,
 						(line->lprompt + line->index) % line->nb_col), 1,
 					ft_pchar);
@@ -87,7 +87,7 @@ static void	expand_select_right(t_line *line, int diff)
 	ft_putchar(line->curr->buff[line->index - 1]);
 	tputs(tgetstr("me", NULL), 1, ft_pchar);
 	if (line->index && (line->index + line->lprompt) % line->nb_col == 0)
-		tputs(tgetstr("do", NULL), 1, ft_pchar);
+		deal_scroll(line, 0, line->nb_line);
 	tputs(tgoto(tgetstr("ch", NULL), 0,
 				(line->lprompt + line->index) % line->nb_col), 1, ft_pchar);
 }
@@ -112,7 +112,7 @@ void		select_right(t_line *line)
 			line->index += 1;
 			if (line->index && (line->index + line->lprompt) % line->nb_col ==
 					0)
-				tputs(tgetstr("do", NULL), 1, ft_pchar);
+				deal_scroll(line, 0, line->nb_line);
 			tputs(tgoto(tgetstr("ch", NULL), 0,
 						(line->lprompt + line->index) % line->nb_col), 1,
 					ft_pchar);

@@ -1,17 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   job_print.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/23 11:37:33 by dbaffier          #+#    #+#             */
+/*   Updated: 2019/04/23 11:37:40 by dbaffier         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "job_control.h"
 #include "ft_printf.h"
-
-
-
-void		proc_print_status(t_jobs *job, t_process *p, char c)
-{
-	if (job->pgid == p->pid)
-		ft_printf("[%d]\t%c ", job->id, c);
-	else
-		ft_putstr("   \t  ");
-	ft_printf("%d\t", p->pid);
-
-}
 
 void		job_print_status(t_jobs *job)
 {

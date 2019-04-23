@@ -6,13 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 00:02:03 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 08:47:32 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 09:33:25 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "redirection.h"
-#include <stdio.h>
+#include "command.h"
 
 int				command_restore_fds(int fds[3])
 {

@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:40:31 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/13 21:24:45 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/15 20:31:19 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "shell_lib.h"
 #include "shell_term.h"
 
-int			check_select(t_tree *tern, t_cpl_e *env, t_slct **select)
+static int	check_select(t_tree *tern, t_cpl_e *env, t_slct **select)
 {
 	int		lenm;
 
@@ -29,7 +29,7 @@ int			check_select(t_tree *tern, t_cpl_e *env, t_slct **select)
 	return (lenm);
 }
 
-int			deal_expand(t_line *line, t_tree *tern, t_cpl_e *env,
+static int	deal_expand(t_line *line, t_tree *tern, t_cpl_e *env,
 		t_slct **select)
 {
 	int		lenm;
@@ -57,14 +57,14 @@ char		*find_separator(char *buff)
 	i = ft_strlen(buff) - 1;
 	while (i >= 0)
 	{
-		if (ft_strchr(";&| /", buff[i]))
+		if (ft_strchr(";&| /", buff[i]) && (i == 0 || buff[i - 1] != '\\'))
 			return (&buff[i + 1]);
 		i--;
 	}
 	return (buff);
 }
 
-int			get_select_tool(t_line *line, t_tree *tern, t_cpl_e *env,
+static int	get_select_tool(t_line *line, t_tree *tern, t_cpl_e *env,
 		t_slct **select)
 {
 	int		lenm;

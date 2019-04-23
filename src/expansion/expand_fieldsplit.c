@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/05 15:31:37 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/14 18:01:24 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/16 23:34:22 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char		*check_word(char *str, const char *ifs, t_ret *ret)
 			if (param_addchar(*str++, ret))
 				return (NULL);
 		}
-		else if (quote == 0 && ft_strchr(ifs, *str))
+		if (quote == 0 && ft_strchr(ifs, *str))
 			return (str);
 		if (param_addchar(*str, ret))
 			return (NULL);

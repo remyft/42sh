@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 11:01:36 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/11 10:53:33 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 09:04:29 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int				cd_write_in_pwd(t_execute *exec, t_s_env *e, size_t i)
 
 	if ((ret = cd_get_new_pwd(exec->cmd[i], new_pwd, exec->env)) != ERR_NO_ERR)
 		return (cd_error(ret, exec->cmd[i], e));
-	if (chdir(new_pwd) < 0)
+	if (*new_pwd && chdir(new_pwd) < 0)
 		return (cd_dir_error(new_pwd, exec->cmd[i], e));
 	if (exec->cmd[i - 1][0] == '-' &&
 		exec->cmd[i - 1][ft_strlen(exec->cmd[i - 1]) - 1] == 'P')

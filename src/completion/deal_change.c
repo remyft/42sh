@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 20:16:45 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/14 15:24:24 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/22 20:30:24 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,11 @@ static int	deal_change(t_slct *select, t_tree *tern, t_cpl_e *env)
 void		change_buff(t_slct *select, t_cpl_e *env, t_line *line,
 		t_tree *tern)
 {
-	if (!(env->ptr = sh_strrchr(line->curr->buff, '/')))
-		env->ptr = find_start_pos(line->curr->buff, line);
+	char	*ptr;
+
+	ptr = sh_strrchr(line->curr->buff, ' ');
+	if (!ptr || !(env->ptr = sh_strrchr(ptr, '/')))
+		env->ptr = find_start_pos(line->curr->buff);
 	if (ft_strchr("&;|/ ", *env->ptr))
 		env->ptr += 1;
 	if (deal_change(select, tern, env))

@@ -6,19 +6,20 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 13:38:06 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/19 14:16:53 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 10:04:34 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "job_control.h"
 #include "builtin_jobs.h"
+#include "builtins.h"
 
-int		bg(const t_jobs *jobs, t_s_env *e)
+static int		bg(const t_jobs *jobs, t_s_env *e)
 {
 	return (job_background((t_jobs *)jobs, e, 1));
 }
 
-int		bg_no_arg(t_s_env *e, t_execute *exec)
+static int		bg_no_arg(t_s_env *e, t_execute *exec)
 {
 	t_jobs		*jobs;
 	
@@ -34,7 +35,7 @@ int		bg_no_arg(t_s_env *e, t_execute *exec)
 	return (1);
 }
 
-int		bg_spe_arg(t_s_env *e, t_execute *exec, int i)
+static int		bg_spe_arg(t_s_env *e, t_execute *exec, int i)
 {
 	int		err;
 	char	**cmd;
@@ -47,7 +48,7 @@ int		bg_spe_arg(t_s_env *e, t_execute *exec, int i)
 	return (bg(curr, e));
 }
 
-int		bg_opts(char **arg, t_s_env *e)
+static int		bg_opts(char **arg, t_s_env *e)
 {
 	if (arg[1] && arg[1][0] == '-')
 		return (bg_error(ERR_INVALID_OPTION, &arg[1][1], e));

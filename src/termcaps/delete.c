@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:51:36 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/14 16:03:48 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/21 21:02:20 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,6 @@ static void	del_left_tool(t_line *line)
 
 static void	del_left(t_line *line)
 {
-	int		j;
-
-	j = 0;
 	line->len = ft_strlen(line->curr->buff);
 	if (line->index && (line->index + line->lprompt) % line->nb_col == 0)
 		tputs(tgetstr("up", NULL), 1, ft_pchar);
@@ -80,8 +77,8 @@ void		deal_dleft(t_line *line)
 	{
 		delete_down();
 		*(line->e_cmpl) &= ~COMPLETION;
-		line->curr->buff_tmp[0] = 0;
-		line->curr->buff_tmp[8193] = 0;
+		free(line->curr->buff_tmp);
+		line->curr->buff_tmp = NULL;
 		line->index = line->len;
 	}
 	else

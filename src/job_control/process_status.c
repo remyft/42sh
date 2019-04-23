@@ -1,8 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   process_status.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/23 11:15:24 by dbaffier          #+#    #+#             */
+/*   Updated: 2019/04/23 11:15:52 by dbaffier         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "job_control.h"
 #include <stdio.h>
 #include <errno.h>
 
-int		process_set_status(t_jobs *job, t_process *p, int status, t_m_process *m_p)
+int			process_set_status(t_jobs *job, t_process *p,
+		int status, t_m_process *m_p)
 {
 	p->exit_status = WEXITSTATUS(status);
 	if (WIFSTOPPED(status))
@@ -42,7 +55,8 @@ t_process	*process_by_pid(t_m_process *m_p, pid_t pid)
 	return (m_p->p);
 }
 
-int		process_update(t_jobs *job, t_m_process *m_p, pid_t pid, int status)
+static int	process_update(t_jobs *job, t_m_process *m_p,
+		pid_t pid, int status)
 {
 	t_process	*p;
 
@@ -62,15 +76,12 @@ int		process_update(t_jobs *job, t_m_process *m_p, pid_t pid, int status)
 	return (-1);
 }
 
-void	process_status(t_jobs *job, t_m_process *m_p, t_process *p)
+void		process_status(t_jobs *job, t_m_process *m_p, t_process *p)
 {
 	int		status;
 	pid_t	pid;
 
-	//printf("%d\n", p->status);
-	//printf("%d\n", STATUS_STOPPED);
 	if (p->status != STATUS_FINISHED)
-		//	&& p->status != STATUS_STOPPED)
 	{
 		errno = 0;
 		pid = waitpid(p->pid, &status, WUNTRACED);
@@ -80,4 +91,3 @@ void	process_status(t_jobs *job, t_m_process *m_p, t_process *p)
 			process_update(job, m_p, pid, status);
 	}
 }
-

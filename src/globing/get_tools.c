@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 21:19:12 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/27 13:52:30 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/07 14:24:50 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	rev_brack(t_tree *tree, char *tget, t_slist **glob, t_stint sti)
 		else if (*(tget + 1) == '-')
 		{
 			tmp = *tget;
-			while (tmp < *(tget + 2))
+			while (tmp <= *(tget + 2))
 			{
 				if (tmp == tree->value)
 					return ;
@@ -54,7 +54,7 @@ static void	norm_brack(t_tree *tree, char *tget, t_slist **glob, t_stint sti)
 			get_glob(tree->tern_next, tget + 1, glob, sti);
 		}
 		else if (*tget == '-')
-			while (++tmp < *(tget + 1))
+			while (++tmp <= *(tget + 1))
 				if (tmp == tree->value)
 				{
 					while (*tget && *tget != ']')
@@ -98,7 +98,7 @@ void		glob_slash(t_tree *tree, char **tget, t_slist **glob, t_stint *sti)
 {
 	if (**tget == '/' && sti->nb & IS_SLASH)
 		sti->nb |= IS_REC;
-	while (*(*tget + 1) == '/')
+	while (**tget && *(*tget + 1) == '/')
 		*tget += 1;
 	get_new_mln(tree, *tget, glob, *sti);
 }

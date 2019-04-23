@@ -6,20 +6,21 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 09:06:34 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/19 13:50:52 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 10:03:56 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "job_control.h"
 #include "builtin_jobs.h"
+#include "builtins.h"
 
-int		fg(const t_jobs *jobs, t_s_env *e)
+static int		fg(const t_jobs *jobs, t_s_env *e)
 {
 	return (job_foreground((t_jobs *)jobs, e, 1));
 }
 
 
-int		fg_no_arg(t_s_env *e, t_execute *exec)
+static int		fg_no_arg(t_s_env *e, t_execute *exec)
 {
 	t_jobs		*jobs;
 
@@ -35,7 +36,7 @@ int		fg_no_arg(t_s_env *e, t_execute *exec)
 	return (0);
 }
 
-int		fg_spe_arg(t_s_env *e, t_execute *exec, int i)
+static int		fg_spe_arg(t_s_env *e, t_execute *exec, int i)
 {
 	int		err;
 	char	**cmd;
@@ -48,7 +49,7 @@ int		fg_spe_arg(t_s_env *e, t_execute *exec, int i)
 	return (fg(curr, e));
 }
 
-int		fg_opts(char **arg, t_s_env *e)
+static int		fg_opts(char **arg, t_s_env *e)
 {
 	if (arg[1] && arg[1][0] == '-')
 		return (fg_error(ERR_INVALID_OPTION, &arg[1][1], e));

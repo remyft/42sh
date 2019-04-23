@@ -6,10 +6,11 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/31 23:11:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/22 20:11:23 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 09:56:15 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "shell_lib.h"
 #include "command.h"
 #include "command_error.h"
 #include "shell_lib.h"
@@ -17,14 +18,17 @@
 
 int				command_builtin(t_builtin builtin, t_jobs *job, t_process *p, t_s_env *e)
 {
-	int			ret;
+	int			error;
 	t_execute	*exec;
 
 	job->status |= JOB_BUILTIN_INTERN;
 	exec = (t_execute *)p->exec;
-	if (!(ret = command_redirect(exec->fds, exec->redirection, e)))
-		e->ret = builtin(exec, e);
-	command_restore_fds(((t_execute *)p->exec)->fds);
+	if ((error = command_redirect(exec->fds, exec->redirection)) != ERR_OK)
+		command_error(e->progname, error, NULL, e);
+	else
+		*e->ret = builtin(exec, e);
+	if ((error = command_restore_fds(exec->fds)) != ERR_OK)
+		command_error(e->progname, error, NULL, e);
 	job->status |= JOB_NOTIFIED; 
-	return (ret);
+	return (ERR_OK);
 }

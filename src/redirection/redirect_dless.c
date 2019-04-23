@@ -6,14 +6,18 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:21:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/27 23:10:01 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/23 07:50:59 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "ft_dprintf.h"
 #include "parser.h"
 #include "redirection.h"
 #include "struct.h"
+#include "redirection_errors.h"
+#include "main_tools.h"
+#include "shell.h"
 
 /*
 ** Anime must watch (@ touche speciale agrum)
@@ -34,6 +38,7 @@ static int		handle_here_doc(t_redirection **redir, t_s_env *e)
 {
 	static size_t	fnum = 0;
 	int				mode;
+	t_token			*operator;
 
 	mode = O_CREAT | O_TRUNC | O_WRONLY;
 	if (!((*redir)->file = ft_strjoinfree("/tmp/.21sh_tmpfile_",
@@ -41,7 +46,13 @@ static int		handle_here_doc(t_redirection **redir, t_s_env *e)
 		return (redirect_error(ERR_MALLOC, (*redir)->arg->cmd[0], e));
 	if (((*redir)->fdarg = open((*redir)->file, mode, 0600)) < 0)
 		return (redirect_open_error((*redir)->file, e));
-	write((*redir)->fdarg, (*redir)->heredoc->head, (*redir)->heredoc->len + 1);
+	operator = (*redir)->token;
+	if (operator->hdocline)
+	{
+		write((*redir)->fdarg, operator->hdocline, operator->hdoclen);
+		if (operator->hdocline[operator->hdoclen - 1] != '\n')
+			write((*redir)->fdarg, "\n", 1);
+	}
 	return (0);
 }
 

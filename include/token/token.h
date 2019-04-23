@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/13 16:01:03 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/23 09:03:58 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 # define TOKEN_H
 
 # include <stdlib.h>
-//# include <stdio.h>
+# include "quote.h"
 # include "shell_env.h"
+# include "main_tools.h"
 
 /*
 ** Token Types
@@ -23,7 +24,7 @@
 enum {
 	UNDEFINED = -1,
 	TOKEN,
-	OPERATOR,
+	OPERATOR
 };
 
 /*
@@ -33,43 +34,10 @@ enum {
 	WORD,
 	ASSIGNMENT_WORD,
 	NAME,
-	NEWLINE,
 	IO_NUMBER,
 	RESERVED_WORD,
+	COMMENT
 };
-
-/*
-** Enumeration for \, ', ", (, `.
-*/
-enum {
-	NO_QUOTE = 0,
-	BACKSLASH,
-	DOUBLE_QUOTE,
-	SINGLE_QUOTE,
-	BRACE,
-	PARENTHESE,
-	BACKQUOTE,
-};
-
-# define DEFAULT_PROMPT		"> "
-# define BACKSLASH_PROMPT	""
-# define DQUOTE_PROMPT		"dquote"
-# define SQUOTE_PROMPT		"quote"
-# define BRACE_PROMPT		"braceparam"
-# define PARENTHESE_PROMPT	"cmdsubst"
-# define BACKQUOTE_PROMPT	"bquote"
-# define HERE_DOC_PROMPT	"heredoc"
-
-/*
-** Quote main structure
-*/
-# define NULLQUOTE	(t_quote *)0
-
-typedef struct	s_quote
-{
-	int				type;
-	struct s_quote	*next;
-}				t_quote;
 
 /*
 ** Structure for TOKENS
@@ -82,7 +50,12 @@ typedef struct	s_token
 	size_t			len;
 	int				type;
 	int				id;
+	const char		*alias;
+	size_t			alen;
 	t_quote			*quote;
+	const char		*hdocline;
+	size_t			hdoclen;
+	int				hdocfree;
 	struct s_token	*next;
 	struct s_token	*prev;
 }				t_token;
@@ -97,6 +70,7 @@ typedef struct	s_param
 	t_s_env		*e;
 	t_token		*head;
 	t_token		*token;
+	t_hdoc		*hdoc;
 	size_t		i;
 	char		*line;
 }				t_param;
@@ -139,6 +113,7 @@ typedef struct	s_call
 # define CHAR_COMMENT		{ ft_iscomment,  handle_comment }
 # define CHAR_EQUAL			{ ft_isequal,    handle_equal }
 # define CHAR_MINUS			{ ft_isminus,    handle_minus }
+# define CHAR_NEWLINE		{ ft_isnewline,  handle_newline }
 # define CHAR_OPERATOR		{ ft_isoperator, handle_operator }
 # define CHAR_WORD			{ ft_isword,     handle_word }
 
@@ -151,17 +126,21 @@ typedef struct	s_func
 /*
 ** Functions
 */
-t_token			*tokenise(char *line, t_s_env *e);
-t_token			*token_loop(t_param *param, int (*ft_end)(int));
-t_token			*new_token(const char *buff, size_t pos);
+t_token			*tokenise(char **line, t_s_env *e);
+void			token_loop(t_param *param, int (*ft_end)(int));
+t_token			*new_token(char *buff, size_t pos);
 void			free_token(t_token **token);
+void			free_quote(t_quote **quote);
+void			free_hdoc(t_hdoc **hdoc);
+void			clean_end_token(t_token **token, t_token **head);
 t_token			*token_error(int err, t_param *param);
 
 t_token			*handle_alias(t_param *param, t_s_env *e);
-t_token			*handle_comment(t_param *param, t_call *tokens);
+t_token			*handle_comment(t_param *param, t_call *token);
 t_token			*handle_equal(t_param *param, t_call *token);
 t_token			*handle_end_of_input(t_param *param, t_call *token);
 t_token			*handle_minus(t_param *param, t_call *token);
+t_token			*handle_newline(t_param *param, t_call *token);
 t_token			*handle_operator(t_param *param, t_call *token);
 t_token			*handle_quote(t_param *param, t_call *token);
 t_token			*handle_word(t_param *param, t_call *token);
@@ -170,9 +149,27 @@ size_t			check_operator(t_token *token, size_t len);
 t_token			*identify_operator(t_param *param);
 t_token			*identify_word(t_param *param);
 
-t_quote			*quote_add(t_quote **head, int type);
-void			quote_remove(t_quote **head, int type);
-int				quote_type(t_quote *head);
+t_token			*quote_line(t_param *param);
+
+int				aliased_line(t_param *param, t_line *line);
+int				bslashed_line(t_param *param, t_line *line);
+int				dquoted_line(t_param *param, t_line *line);
+int				squoted_line(t_param *param, t_line *line);
+int				braced_line(t_param *param, t_line *line);
+int				dbraced_line(t_param *param, t_line *line);
+int				parenthed_line(t_param *param, t_line *line);
+int				dparenthed_line(t_param *param, t_line *line);
+int				backquoted_line(t_param *param, t_line *line);
+int				heredoc_line(t_param *param, t_line *line);
+
+t_token			*backslash(t_param *param, int type);
+t_token			*singlequote(t_param *param, int type);
+t_token			*doublequote(t_param *param, int type);
+t_token			*braceopen(t_param *param, int type);
+t_token			*braceclose(t_param *param, int type);
+t_token			*parentheseopen(t_param *param, int type);
+t_token			*parentheseclose(t_param *param, int type);
+t_token			*backquote(t_param *param, int type);
 
 char			*expand_word(t_token *token);
 
@@ -181,10 +178,11 @@ int				ft_iscomment(int c);
 int				ft_isequal(int c);
 int				ft_isname(int c);
 int				ft_isminus(int c);
+int				ft_isnewline(int c);
+int				ft_isnull(int c);
 int				ft_isoperator(int c);
 int				ft_isquote(int c);
 int				ft_isword(int c);
-int				ft_isnull(int c);
 
 int				is_token_valid_name(t_param *param);
 int				is_alias_valid_name(const char *alias, size_t len);

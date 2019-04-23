@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 00:07:32 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/19 09:21:50 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 11:00:39 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,42 +49,61 @@ static char		*get_path(char *prog)
 	return (pwd);
 }
 
-static void		get_bin_paths(char **table, size_t *size)
-{
-	int			fd;
-	char		*line;
-	int			ret;
-
-	line = NULL;
-	if ((fd = open("/etc/paths", O_RDONLY)) < 0)
-		return ;
-	while ((ret = get_next_line(fd, &line)) > 0)
-	{
-		if (!table[*size])
-			table[*size] = line;
-		else if (!(table[*size] = ft_strjoinfree(table[*size], ":", 1))
-			|| !(table[*size] = ft_strjoinfree(table[*size], line, 3)))
-			return ;
-	}
-	close(fd);
-	++(*size);
-}
-
-static char		**build_private_env(char **env)
+static char		**build_private_env(void)
 {
 	char		**ret;
 	size_t		size;
 
-	size = 3;
+	size = 2;
 	if ((ret = ft_memalloc(sizeof(*ret) * size)) != NULL)
 	{
 		size = 0;
 		if ((ret[size] = ft_strjoin("IFS=", IFS_DEFAULT)) != NULL)
 			size++;
-		if (!sh_getnenv("PATH", env))
-			get_bin_paths(ret, &size);
 	}
 	return (ret);
+}
+
+static char		*get_bin_paths(void)
+{
+	int			fd;
+	char		*line;
+	char		*paths;
+	int			ret;
+
+	paths = NULL;
+	if ((fd = open("/etc/paths", O_RDONLY)) >= 0)
+	{
+		while ((ret = get_next_line(fd, &line)) > 0)
+		{
+			if (!paths)
+				paths = line;
+			else if ((!(paths = ft_strjoinfree(paths, ":", 1))
+			|| !(paths = ft_strjoinfree(paths, line, 3))))
+				break ;
+		}
+		close(fd);
+	}
+	return (paths);
+}
+
+static char		**check_env(char **env)
+{
+	char		*path;
+
+	path = NULL;
+	if (!sh_getnenv("PATH", env))
+		if (!(path = get_bin_paths()) || sh_setenv("PATH", path, &env))
+			exit(2);
+	ft_strdel(&path);
+	if (!sh_getnenv("PWD", env))
+		if (!(path = getcwd(NULL, 0)) || sh_setenv("PWD", path, &env))
+			exit(2);
+	ft_strdel(&path);
+	if (!sh_getnenv("SHLVL", env))
+		if (sh_setenv("SHLVL", "1", &env))
+			exit(2);
+	return (env);
 }
 
 void			init_job(t_s_env *e)
@@ -107,7 +126,6 @@ void			init_job(t_s_env *e)
 		}
 		ioctl(STDIN_FILENO, TIOCSPGRP, &e->pid);
 	}
-
 }
 
 void			init_fd(t_s_env *e)
@@ -132,13 +150,19 @@ void			init_shell_env(t_s_env *e, int ac, char **av, char **env)
 	e->av = av;
 	e->progpath = get_path(av[0]);
 	e->progname = (ft_strrchr(av[0], '/')) ? ft_strrchr(av[0], '/') + 1 : av[0];
-	e->public_env = collect_env(env);
-	e->private_env = build_private_env(env);
 	e->ret = 0;
 	e->interactive = isatty(STDIN_FILENO);
+	if (!e->progname || !*e->progname)
+		e->progname = SHELL_NAME;
+	e->public_env = collect_env(env, e);
+	e->public_env = check_env(e->public_env);
+	e->private_env = build_private_env();
+	if (!(e->exported_env = ft_memalloc(sizeof(char **))))
+		return ;
 	e->pid = getpid();
 	e->pgid = getpgrp();
 	init_fd(e);
 	init_job(e);
 	e->shell_loop = 1;
+	e->interactive = ac != 1;
 }

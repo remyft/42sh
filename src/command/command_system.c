@@ -6,15 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 08:55:53 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 10:10:14 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/wait.h>
-#include "libft.h"
+#include <unistd.h>
+#include "shell_lib.h"
 #include "command.h"
 #include "command_error.h"
-#include "shell_lib.h"
 #include "shell_env.h"
 #include "job_control.h"
 #include <sys/ioctl.h>
@@ -81,6 +80,27 @@ static void		command_execve(char *name, t_jobs *job, t_process *p, t_s_env *e)
 	exit(EXIT_FAILURE);
 }
 
+static void		command_exec_job(char *name, t_jobs *job, t_process *p, t_s_env *e)
+{
+	pid_t		pid;
+	size_t		len;
+	t_execute	*exec;
+
+	pid = 0;
+	exec = (t_execute *)p->exec;
+	if (e->forked || (pid = fork()) == 0)
+	{
+		len = sh_tablen((const char **)exec->env);
+		len -= sh_tablen((const char **)e->private_env);
+		exec->env[len] = NULL;
+		command_execve(name, job, p, e);
+	}
+	else if (pid < 0)
+		*e->ret = command_error(e->progname, ERR_FORK, exec->cmd, e);
+	else if (e->interactive)
+		command_process(p->pid, e->pid, job, p);
+}
+
 int				command_system(t_jobs *job, t_process *p, t_s_env *e)
 {
 	char		*name;
@@ -89,23 +109,19 @@ int				command_system(t_jobs *job, t_process *p, t_s_env *e)
 
 	name = NULL;
 	exec = (t_execute *)p->exec;
-	if ((error = command_path(&name, exec->cmd[0],
-				sh_getnenv("PATH", exec->env))) != ERR_OK)
-		error = command_error(e->progname, error, exec->cmd, e);
-	else if ((error = command_access(name, exec->cmd[0])) != ERR_OK)
-		error = command_error(e->progname, error, exec->cmd, e);
-	if (!command_redirect(exec->fds, exec->redirection, e))
-	{
-		if (e->forked || (p->pid = fork()) == 0)
-			command_execve(name, job, p, e);
-		else if (p->pid < 0)
-			error = command_error(e->progname, ERR_FORK, exec->cmd, e);
-		else if (e->interactive)
-			command_process(p->pid, e->pid, job, p);
-	}
+	if ((error = command_redirect(exec->fds, exec->redirection)))
+		command_error(e->progname, error, NULL, e);
+	else if ((error = command_path(&name, exec->cmd[0],
+	sh_getnenv("PATH", exec->env))))
+		command_error(e->progname, error, exec->cmd, e);
+	else if ((error = command_access(name, exec->cmd[0])))
+		command_error(e->progname, error, exec->cmd, e);
+	else
+		command_exec_job(name, job, p, e);
 	ft_strdel(&name);
 	if (error != 0)
 		job->status |= JOB_NOTIFIED;
-	command_restore_fds(((t_execute *)p->exec)->fds);
-	return (error);
+	if ((error = command_restore_fds(exec->fds)))
+		command_error(e->progname, error, NULL, e);
+	return (ERR_OK);
 }

@@ -6,13 +6,16 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 22:59:17 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/17 17:45:40 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/03/24 17:12:10 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "put.h"
 #include "libft.h"
 #include "shell_lib.h"
+#ifdef __linux
+# define __USE_MISC
+#endif
 #include "dirent.h"
 
 static void	deal_access(t_line *line, char *file)
@@ -21,7 +24,10 @@ static void	deal_access(t_line *line, char *file)
 	char	*stmp;
 	char	*ptr;
 
-	stmp = sh_strrchr(line->curr->buff, ' ') + 1;
+	if (!(stmp = sh_strrchr(line->curr->buff, ' ')))
+		return ;
+	else
+		stmp += 1;
 	if ((ptr = ft_strrchr(stmp, '/')) && ft_strchr(line->curr->buff, '~'))
 	{
 		tmp = replace_tilde(stmp, getenv("HOME"));
@@ -47,7 +53,10 @@ void		deal_type(unsigned int type, t_line *line, char *file)
 	i = -1;
 	while (++i < (int)(sizeof(col) / sizeof(*col)))
 		if (type == ttab[i])
-			return (ft_putstr(col[i]));
+		{
+			ft_putstr(col[i]);
+			return ;
+		}
 	if (type == DT_REG)
 		deal_access(line, file);
 }

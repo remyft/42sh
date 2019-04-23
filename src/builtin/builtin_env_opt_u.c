@@ -6,12 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 14:34:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/03 19:14:01 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/09 16:21:37 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include "ft_printf.h"
+#include "ft_dprintf.h"
 #include "shell_lib.h"
 #include "builtin_env.h"
 
@@ -26,9 +26,10 @@ int			env_opt_u(char **cmd, t_e_opt *opt)
 		&cmd[opt->i][opt->j + 1] : cmd[++(opt->i)];
 	if (opt->options & BUILTIN_OPT_V)
 	{
-		if (ft_printf("#%s unset:\t%s\n", opt->cmdname, var) < 0)
+		if (ft_dprintf(STDERR_FILENO, "#%s unset:\t%s\n",
+		opt->cmdname, var) < 0)
 			return (ERR_WRITE);
 	}
-	sh_unsetenv(var, opt->env);
+	sh_unsetenv(var, opt->public_env);
 	return (ERR_OK);
 }

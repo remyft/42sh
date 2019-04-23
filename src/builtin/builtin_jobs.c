@@ -3,6 +3,7 @@
 #include "ft_printf.h"
 #include "builtin_jobs.h"
 #include "job_control.h"
+#include "builtins.h"
 
 static int	jobs_opts_loop(char *arg, int *opts, t_s_env *e)
 {
@@ -28,7 +29,7 @@ static int	jobs_opts_loop(char *arg, int *opts, t_s_env *e)
 	return (0);
 }
 
-int		jobs_opts(char **args, int *opts, t_s_env *e)
+static int		jobs_opts(char **args, int *opts, t_s_env *e)
 {
 	size_t	i;
 

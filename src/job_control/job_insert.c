@@ -6,13 +6,13 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 21:33:49 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/12 15:44:02 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 11:38:52 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "job_control.h"
 
-void	add_job(t_jobs *jobs, t_jobs *new)
+static void	add_job(t_jobs *jobs, t_jobs *new)
 {
 	if (jobs == NULL || new == NULL)
 		return ;
@@ -23,9 +23,8 @@ void	add_job(t_jobs *jobs, t_jobs *new)
 	new->prev = jobs;
 }
 
-t_jobs	*job_insert(t_s_env *e)
+t_jobs		*job_insert(t_s_env *e)
 {
-
 	t_jobs		*job;
 	int			id;
 
@@ -42,4 +41,3 @@ t_jobs	*job_insert(t_s_env *e)
 	e->job_id = job->id;
 	return (job);
 }
-

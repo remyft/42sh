@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 15:19:44 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/18 10:08:34 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 11:42:16 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include "ft_printf.h"
 #include "builtin_jobs.h"
 #include "signal_intern.h"
-void	job_opt_l_print(const t_jobs *job, const t_process *p)
+
+static void	job_opt_l_print(const t_jobs *job, const t_process *p)
 {
 	ft_printf("[%d]", job->id);
 	if (job->status & JOB_LAST)

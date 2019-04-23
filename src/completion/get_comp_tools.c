@@ -6,24 +6,25 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 17:00:18 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/17 19:19:58 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/22 20:33:45 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "put.h"
 #include "libft.h"
 #include "shell_term.h"
+#include "shell.h"
 
 int			check_is_file(char *buff, t_line *line)
 {
 	int		i;
 
 	i = line->len - 1;
-	while (i >= 0 && !ft_strchr("&;| ", buff[i]))
+	while (i >= 0 && !ft_strchr("&;| /", buff[i]))
 		i--;
-	while (i >= 0 && (buff[i] == ' ' || buff[i] == '\t'))
+	while (i >= 0 && (buff[i] == ' ' || buff[i] == '\t' || buff[i] == '\\'))
 		i--;
-	if (i == -1 || ft_strchr(";&|", buff[i]))
+	if ((i == -1 || ft_strchr(";&|", buff[i])) && !ft_strchr("./", buff[0]))
 		return (0);
 	return (1);
 }
@@ -65,16 +66,12 @@ static void	get_new_glob(t_line *line, t_slst *tmp, char *ptr)
 	tmp_len = erase_complet(ptr, line);
 	while ((to_free = tmp))
 	{
-		if (line->len + (len = ft_strlen(tmp->str)) + 1 > 8192)
+		if (line->len + (len = ft_strlen(tmp->str)) + 1 > MAX_SHELL_LEN)
 			break ;
 		i = -1;
 		while (tmp->str[++i])
-		{
 			*ptr++ = tmp->str[i];
-			line->len++;
-		}
 		*ptr++ = ' ';
-		line->len++;
 		tmp = tmp->next;
 		free(to_free->str);
 		free(to_free);
@@ -89,6 +86,7 @@ void		set_new_glob(t_line *line, t_slst *tmp, char *ptr)
 		while (tmp->prev)
 			tmp = tmp->prev;
 		get_new_glob(line, tmp, ptr);
+		tputs(tgetstr("cd", NULL), 1, ft_pchar);
 		ft_putstr(line->curr->buff);
 		line->len = ft_strlen(line->curr->buff);
 		line->index = line->len;

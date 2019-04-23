@@ -6,14 +6,22 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/04/22 19:37:43 by dbaffier         ###   ########.fr        #
+#    Updated: 2019/04/23 09:19:40 by dbaffier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 21sh
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror #-ansi -pedantic -Wmissing-prototypes
+CFLAGS = -Wall -Wextra -Werror
+CFLAGS += -std=c11 -Wmissing-prototypes -pedantic -pedantic-errors
+CFLAGS += -D_POSIX_C_SOURCE=200809L -D_DARWIN_C_SOURCE
+ifeq ($(DEBUG),yes)
+	CFLAGS += -g3 -O0 -fno-inline -DDEBUG
+endif
+ifeq ($(SAN),yes)
+	SANITIZE := -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
+endif
 
 LIBFT_PATH = libft
 LIBFT_LIB = $(LIBFT_PATH)/libft.a
@@ -36,8 +44,6 @@ DEBUG = -DJOBS_DEBUG
 
 RM = /bin/rm -rf
 
-#DEBUG := -g3 -fsanitize=address -DDEBUG -g
-
 SHELL := /bin/bash
 
 # SHELL
@@ -51,21 +57,21 @@ SRCS += collect_env.c						\
 		shell_env.c							\
 
 # LINE EDITION
-#		deal_hdoc.c							
-#		create_hdoc.c						
 LINE_DIR = $(SRCS_DIR)line_edition/
 SRCS += deal_line.c							\
 		deal_typing.c						\
 		deal_struct.c						\
+		launch_new_cmd.c					\
 		main_tools.c						\
 		reset_line.c						\
 		signal.c							\
 		tools.c								\
-		get_shell_rc.c						\
+		shell_functions.c					\
 
 # COMPLETION
 CMPL_DIR = $(SRCS_DIR)completion/
-SRCS += completion_key.c					\
+SRCS += check_modif_path.c					\
+		completion_key.c					\
 		color_put.c							\
 		create_tree.c						\
 		cpl_select_key.c					\
@@ -109,26 +115,32 @@ SRCS += ft_copy.c							\
 		ft_paste.c							\
 		line_select.c						\
 		select.c							\
+		get_shell_rc.c						\
 
 # TOKENS
-#expand_word.c
 TOKEN_DIR = token/
 SRCS += handle_alias.c						\
 		handle_comment.c					\
 		handle_end_of_input.c				\
 		handle_equal.c						\
 		handle_minus.c						\
+		handle_newline.c					\
 		handle_operator.c					\
 		handle_quote.c						\
 		handle_word.c						\
+		hdoc_functions.c					\
 		identify_operator.c					\
 		identify_word.c						\
 		is_alias_valid_name.c				\
 		is_token_next.c						\
 		is_token_valid_name.c				\
 		is_token.c							\
-		remove_line_continuation.c			\
-		quote_funcs.c						\
+		quote_functions.c					\
+		quote_handlers1.c					\
+		quote_handlers2.c					\
+		quote_line.c						\
+		quote_line_handlers1.c				\
+		quote_line_handlers2.c				\
 		token_debug.c						\
 		token_error.c						\
 		token_free.c						\
@@ -146,8 +158,6 @@ SRCS += parse_async.c						\
 		parse_io_number.c					\
 		parse_list.c						\
 		parse_new_functions.c				\
-		parse_new_input.c					\
-		parse_newline.c						\
 		parse_operator.c					\
 		parse_pipe.c						\
 		parse.c								\
@@ -192,6 +202,7 @@ SRCS += expand_debug.c						\
 		expand_dollar_parameter_init.c		\
 		expand_dollar_parameter_value.c		\
 		expand_dollar_parameter.c			\
+		expand_dollar_quote.c				\
 		expand_dollar_special_next.c		\
 		expand_dollar_special.c				\
 		expand_dollar_word_value.c			\
@@ -264,6 +275,7 @@ SRCS += builtin_alias_error.c				\
 		builtin_env.c						\
 		builtin_exit.c						\
 		builtin_setenv.c					\
+		builtin_source.c					\
 		builtin_unalias.c					\
 		builtin_unsetenv.c					\
 		builtin_jobs.c						\
@@ -278,12 +290,24 @@ SRCS += builtin_alias_error.c				\
 		builtin_fg_error.c					\
 		builtin_bg.c						\
 		builtin_bg_error.c					\
+		builtin_type.c						\
+		builtin_type_handle_options.c		\
+		builtin_type_check.c				\
+		builtin_export.c					\
+		builtin_export_check.c				\
+		builtin_export_check_2.c			\
+		builtin_export_exec.c				\
+		builtin_export_tools.c				\
+		builtin_export_change_env.c			\
+		builtin_set.c						\
+		builtin_unset.c						\
 
 # LIBRARY
 LIBRARY_DIR = lib/
 SRCS += sh_is_escapable.c					\
 		sh_freestr.c						\
 		sh_freetab.c						\
+		sh_get_file.c						\
 		sh_getnenv.c						\
 		sh_getnenvaddr.c					\
 		sh_newenv.c							\
@@ -397,7 +421,7 @@ $(PRINTF_LIB):
 	@make -C $(PRINTF_PATH)
 
 $(NAME): $(NEWLINE) $(OBJS)
-	@$(CC) $^ -o $@ $(LIBFT_LINK) $(PRINTF_LINK) $(DEBUG)
+	@$(CC) $^ -o $@ $(LIBFT_LINK) $(PRINTF_LINK) $(SANITIZE)
 	@echo -e "\n$(GREEN) Compiling $(YELLOW)[ $(RESET)$(NAME)$(YELLOW) ] $(OK) $(RESET)"
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
@@ -415,7 +439,7 @@ $(OBJS_DIR)%.o: $(ENV_DIR)%.c $(DEPS_DIR)%.d
 $(OBJS_DIR)%.o: $(LINE_DIR)%.c
 $(OBJS_DIR)%.o: $(LINE_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(LIBRARY_DIR) -I$(INC_DIR)/$(JOB_DIR)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(LIBRARY_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(COMMAND_DIR) -I$(INC_DIR)/$(JOB_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(CMPL_DIR)%.c
@@ -427,49 +451,43 @@ $(OBJS_DIR)%.o: $(CMPL_DIR)%.c $(DEPS_DIR)%.d
 $(OBJS_DIR)%.o: $(USER_DIR)%.c
 $(OBJS_DIR)%.o: $(USER_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
-	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
-
-$(OBJS_DIR)%.o: $(BUIL_DIR)%.c
-$(OBJS_DIR)%.o: $(BUIL_DIR)%.c $(DEPS_DIR)%.d
-	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(LIBRARY_DIR) -I$(INC_DIR)/$(BUILTIN_DIR) -I$(INC_DIR)/$(COMMAND_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(TERM_DIR)%.c
 $(OBJS_DIR)%.o: $(TERM_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(LIBRARY_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(TOKEN_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(TOKEN_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(BUILTIN_DIR) -I$(INC_DIR)/$(JOB_DIR) $(DEBUG)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I $(INC_DIR)/$(COMMAND_DIR) -I$(INC_DIR)/$(BUILTIN_DIR) -I$(INC_DIR)/$(JOB_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(PARSER_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(PARSER_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(ALIAS_DIR) -I$(INC_DIR)/$(JOB_DIR) $(DEBUG)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(ALIAS_DIR) -I$(INC_DIR)/$(INTERACTIVE_DIR) -I$(INC_DIR)/$(JOB_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(EXPANSION_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(EXPANSION_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(LIBRARY_DIR) -I$(INC_DIR)/$(ALIAS_DIR) -I$(INC_DIR)/$(JOB_DIR) -I$(INC_DIR)/$(COMMAND_DIR) $(DEBUG)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(LIBRARY_DIR) -I$(INC_DIR)/$(ALIAS_DIR) -I$(INC_DIR)/$(COMMAND_DIR) -I$(INC_DIR)/$(JOB_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(COMMAND_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(COMMAND_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(COMMAND_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(BUILTIN_DIR) -I$(INC_DIR)/$(LIBRARY_DIR) -I$(INC_DIR)/$(ALIAS_DIR) -I$(INC_DIR)/$(JOB_DIR) -I$(INC_DIR)/$(SIGNAL_DIR) $(DEBUG)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(COMMAND_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(EXPANSION_DIR) -I$(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(BUILTIN_DIR) -I$(INC_DIR)/$(LIBRARY_DIR) -I$(INC_DIR)/$(ALIAS_DIR) -I$(INC_DIR)/$(JOB_DIR) -I$(INC_DIR)/$(SIGNAL_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(REDIRECTION_DIR)%.c
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(REDIRECTION_DIR)%.c $(DEPS_DIR)%.d
 	@$(TSITSI)
-	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(ALIAS_DIR) -I$(INC_DIR)/$(JOB_DIR) $(DEBUG)
+	@$(CC) -MT $@ -MMD -MP -MF $(DEPS_DIR)$*.Td $(CFLAGS) -o $@ -c $< $(INCS) -I$(INC_DIR)/$(REDIRECTION_DIR) -I$(INC_DIR)/$(PARSER_DIR) -I$(INC_DIR)/$(TOKEN_DIR) -I$(INC_DIR)/$(ALIAS_DIR) -I$(INC_DIR)/$(INTERACTIVE_DIR) -I$(INC_DIR)/$(JOB_DIR)
 	@mv -f $(DEPS_DIR)$*.Td $(DEPS_DIR)$*.d && touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)$(BUILTIN_DIR)%.c
@@ -510,12 +528,14 @@ $(DEPS_DIR)%.d: ;
 clean:
 	@$(RM) $(OBJS_DIR)
 	@$(RM) $(DEPS_DIR)
-#	@make -C $(LIBFT_PATH) clean
+	@make -C $(LIBFT_PATH) clean
+	@make -C $(PRINTF_PATH) clean
 	@echo -e "$(RED) Cleaning : $(YELLOW)[ $(RESET)$(NAME)$(YELLOW) ] $(OK)"
 
 fclean: clean
 	@$(RM) $(NAME)
-#	@make -C $(LIBFT_PATH) fclean
+	@make -C $(LIBFT_PATH) fclean
+	@make -C $(PRINTF_PATH) fclean
 	@echo -e "$(RED) Deleting..$(YELLOW) [ $(RESET)$(NAME)$(YELLOW) ] $(OK)"
 
 re: fclean all
@@ -524,7 +544,7 @@ debug: DEBUG += -g3 -fsanitize=address -DDEBUG -g
 debug: re
 
 nn:
-	norminette $(SRCS)
+	norminette $(SRCS_DIR)
 	norminette $(INC_DIR)
 
 .PHONY: clean fclean all re

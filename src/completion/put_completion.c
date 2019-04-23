@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:42:34 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/14 15:40:40 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/15 20:41:09 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,14 @@ void		deal_all_put(t_line *line, t_tree *tern, t_slct **select,
 	deal_put(line, *env, *select, tern);
 	if (*select)
 		free_select(*select);
+	*select = NULL;
 	if (env->chr)
 		free(env->chr);
 	tputs(tgetstr("do", NULL), 1, ft_pchar);
 	tputs(tgetstr("do", NULL), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
+	line->is_putb = 0;
+	*line->e_cmpl &= ~COMPLETION;
 }
 
 int			check_put(t_line *line, t_tree *tern, t_slct **select,
@@ -58,7 +61,7 @@ int			check_put(t_line *line, t_tree *tern, t_slct **select,
 	else
 		get_psb(*select, ft_strlen(env->chr), 0, &psb);
 	psb *= env->lenm;
-	if (psb > (int)(line->nb_col * line->nb_line))
+	if (psb > (int)(line->nb_col * (line->nb_line - 3)))
 	{
 		deal_all_put(line, tern, select, env);
 		return (1);
@@ -66,7 +69,7 @@ int			check_put(t_line *line, t_tree *tern, t_slct **select,
 	return (0);
 }
 
-int			end_put(t_line *line, t_cpl_e env, t_slct *select)
+static int	end_put(t_line *line, t_cpl_e env, t_slct *select)
 {
 	if (*line->e_cmpl & COMPLETION)
 		if (line->is_putb <= 1)
@@ -76,6 +79,7 @@ int			end_put(t_line *line, t_cpl_e env, t_slct *select)
 		free(env.chr);
 	if (select)
 		free_select(select);
+	select = NULL;
 	return (0);
 }
 
@@ -84,15 +88,13 @@ int			put_complet(t_tree *tern, int *put, t_line *line, int *nb_ret)
 	t_slct	*select;
 	t_cpl_e	env;
 	int		ret;
-	int		bsn;
 
-	bsn = 0;
 	env.chr = NULL;
 	env.bru[0] = 0;
 	select = NULL;
 	env.nb_ret = nb_ret;
 	if ((env.lenm = get_select(line, tern, &env, &select)) == -1
-			|| env.lenm + line->len > 8192)
+			|| env.lenm + line->len > MAX_SHELL_LEN)
 		return (-1);
 	init_cpl(&env, line, put, nb_ret);
 	if ((env.lenm + line->lprompt + line->len) % line->nb_col

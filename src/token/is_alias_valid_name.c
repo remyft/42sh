@@ -6,11 +6,12 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 02:47:34 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/19 03:12:48 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:34:43 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "token.h"
 
 int				is_alias_valid_name(const char *alias, size_t len)
 {

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/15 23:16:22 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/02/17 04:30:32 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/25 17:47:50 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "shell_env.h"
 #include "builtin_alias.h"
 
-t_alias			*alias_new(char *key, char *value, t_alias *alias)
+t_alias			*alias_new(char *key, char *value, t_alias *prev, t_alias *next)
 {
 	t_alias		*new;
 
@@ -31,13 +31,11 @@ t_alias			*alias_new(char *key, char *value, t_alias *alias)
 		free(new->key);
 		return (NULLALIAS);
 	}
-	if (alias)
-	{
-		new->next = alias;
-		new->prev = alias->prev;
-		alias->prev = new;
-		if (new->prev)
-			new->prev->next = new;
-	}
+	new->next = next;
+	new->prev = prev;
+	if (next)
+		next->prev = new;
+	if (prev)
+		prev->next = new;
 	return (new);
 }

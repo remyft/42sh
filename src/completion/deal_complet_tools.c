@@ -6,13 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 02:17:24 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/17 19:20:48 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/11 16:47:46 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 #include "libft.h"
 #include "shell_lib.h"
+#include "put.h"
 
 char	*replace_tilde(const char *path, const char *replace)
 {
@@ -43,6 +44,8 @@ int		search_to_tmp(char *buff)
 	int		i;
 
 	i = -1;
+	if (!buff)
+		return (0);
 	while (buff[++i])
 		if (buff[i] == '~' || buff[i] == '/')
 			return (1);
@@ -69,7 +72,8 @@ int		str_chrglob(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '*' || str[i] == '[' || str[i] == '?')
+		if ((str[i] == '*' || str[i] == '[' || str[i] == '?')
+				&& (i == 0 || str[i - 1] != '\\'))
 			return (1);
 		i++;
 	}
@@ -78,10 +82,21 @@ int		str_chrglob(char *str)
 
 void	free_select(t_slct *select)
 {
+	if (!select)
+		return ;
 	if (select->next)
+	{
 		free_select(select->next);
+		select->next = NULL;
+	}
 	if (select->down)
+	{
 		free_select(select->down);
+		select->down = NULL;
+	}
 	if (select)
+	{
 		free(select);
+		select = NULL;
+	}
 }

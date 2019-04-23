@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 17:13:29 by rfontain          #+#    #+#             */
-/*   Updated: 2019/02/08 16:50:23 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/21 21:00:05 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@
 #include "shell_lib.h"
 #include "shell_term.h"
 
-static char	get_char(char *ptr, DIR *dir)
+static char	get_char(char *ptr, DIR *dir, char *buff)
 {
 	char	c;
 
-	if (ptr && (dir = opendir(ptr + 1)))
+	if (ptr && ptr != buff)
+		ptr++;
+	if (ptr && (dir = opendir(ptr)))
 		c = '/';
 	else
 		c = ' ';
@@ -44,12 +46,14 @@ static int	deal_set(t_line *line, char *ptr, DIR *dir)
 		tmp = ptr;
 	}
 	line->tree[2] = free_tree(line->tree[2]);
-	c = get_char(ptr, dir);
+	c = get_char(ptr, dir, line->curr->buff);
 	if (line->tmp[0] != ' ')
 	{
 		ft_putchar(line->curr->buff[(line->len)] = c);
 		line->curr->buff[++(line->len)] = '\0';
 	}
+	else
+		line->curr->buff[line->len] = '\0';
 	if (tmp)
 		free(tmp);
 	return (0);
@@ -66,11 +70,12 @@ void		set_complet(t_line *line, int set)
 	tmp = line->tmp[0];
 	*(line->e_cmpl) &= ~COMPLETION;
 	line->is_putb = 0;
-	ptr = sh_strrchr(line->curr->buff, ' ');
+	if (!(ptr = sh_strrchr(line->curr->buff, ' ')))
+		ptr = line->curr->buff;
 	line->tmp[0] = deal_set(line, ptr, dir);
 	if (!set)
 		line->tmp[0] = tmp;
-	ft_bzero(line->curr->buff_tmp, ft_strlen(line->curr->buff_tmp));
-	line->curr->buff_tmp[8193] = 0;
+	free(line->curr->buff_tmp);
+	line->curr->buff_tmp = NULL;
 	line->index = line->len;
 }

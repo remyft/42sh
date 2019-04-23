@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 22:43:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/11 18:04:57 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:33:59 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ enum
 	IN_VALUE,
 	THEN_VALUE,
 	UNTIL_VALUE,
-	WHILE_VALUE,
+	WHILE_VALUE
 };
 
 # define BANG			"!"

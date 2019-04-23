@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 20:24:31 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/07 17:06:03 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 10:01:38 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ static void		expand_subshell_child(int pfd[2], size_t i, t_exp *param)
 	newe.public_env = sh_tabdup((const char **)param->e->public_env);
 	newe.private_env = sh_tabdup((const char **)param->e->private_env);
 	newe.forked = 0;
+	newe.interactive = 1;
 	close(pfd[0]);
 	dup2(pfd[1], STDOUT_FILENO);
 	close(pfd[1]);
@@ -71,19 +72,18 @@ static void		expand_subshell_child(int pfd[2], size_t i, t_exp *param)
 	sh_freetab(&newe.public_env);
 	sh_freetab(&newe.private_env);
 	sh_freestr(&line);
-	exit(newe.ret);
+	exit(*newe.ret);
 }
 
-void			expand_subshell_father(int pfd[2], pid_t pid, t_exp *param,
-t_ret *ret)
+void			expand_subshell_father(int pfd[2], pid_t pid, t_ret *ret)
 {
 	char		buff[1024];
 	int			i;
 
 	close(pfd[1]);
 	(void)pid;
-	(void)param;
 	//command_wait(pid, 0, &param->e->ret);
+	//command_wait(pid, 0, NULL);
 	while ((i = read(pfd[0], buff, sizeof(buff) - 1)) > 0)
 	{
 		buff[i] = '\0';
@@ -93,7 +93,12 @@ t_ret *ret)
 			ret->substitute = ft_strjoinfree(ret->substitute, buff, 1);
 	}
 	close(pfd[0]);
-	i = 0;
+	if (ret->substitute && *ret->substitute)
+	{
+		i = ft_strlen(ret->substitute) - 1;
+		while (ret->substitute[i] == '\n')
+			ret->substitute[i--] = '\0';
+	}
 	param_addstr(ret->substitute, ret);
 	ret->freeable = 1;
 }
@@ -112,7 +117,7 @@ int				expand_subshell(t_exp *param, t_ret *ret)
 	else if (pid == 0)
 		expand_subshell_child(pfd, i, param);
 	else
-		expand_subshell_father(pfd, pid, param, ret);
+		expand_subshell_father(pfd, pid, ret);
 	param->i = i;
 	return (ERR_NONE);
 }

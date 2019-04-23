@@ -6,14 +6,18 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/22 19:54:25 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 10:25:29 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SHELL_ENV_H
 # define SHELL_ENV_H
 
+# ifdef __linux
+#  include <sys/types.h>
+# endif
 # include <term.h>
+# include <stdlib.h>
 
 # define IFS_DEFAULT	" \t\n"
 
@@ -83,19 +87,23 @@ typedef struct	s_shell_env
 	char			*progname;
 	char			**public_env;
 	char			**private_env;
+	char			**exported_env;
 	t_alias			*alias_list;
 	t_jobs			*jobs;
 	int				job_id;
-	int				ret;
 	int				interactive;
 	int				fd;
+	int				*ret;
 	int				pid;
 	int				pgid;
 	struct termios	save;
 	int				shell_loop;
+	//size_t			interactive;
 	int				forked;
 }				t_s_env;
 
+void			init_job(t_s_env *e);
+void			init_fd(t_s_env *e);
 void			init_shell_env(t_s_env *e, int ac, char **av, char **env);
 void			free_shell_env(t_s_env *e);
 void			launch_new_cmd(char **line, t_s_env *e);

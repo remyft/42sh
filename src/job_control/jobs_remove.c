@@ -6,13 +6,13 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 17:17:32 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/18 17:03:12 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 11:32:02 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "job_control.h"
 
-void	free_proc(t_process *proc)
+static void		free_proc(t_process *proc)
 {
 	if (proc)
 	{
@@ -23,7 +23,7 @@ void	free_proc(t_process *proc)
 	}
 }
 
-void	remove_job(t_jobs **job, t_jobs *node)
+static void		remove_job(t_jobs **job, t_jobs *node)
 {
 	if (*job == NULL || node == NULL)
 		return ;
@@ -39,7 +39,7 @@ void	remove_job(t_jobs **job, t_jobs *node)
 	node = NULL;
 }
 
-void	jobs_remove(t_jobs **jobs, int n)
+void			jobs_remove(t_jobs **jobs, int n)
 {
 	t_jobs	*curr;
 	t_jobs	*save;

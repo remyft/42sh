@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/11 16:17:52 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/23 01:46:25 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,7 @@
 #include "put.h"
 #include "history.h"
 
-void	set_signal(void)
-{
-	signal(SIGINT, &sig_hdlr);
-	signal(SIGQUIT, &sig_hdlr);
-	signal(SIGWINCH, &sig_winch);
-}
-
-void	create_all_tree(t_line *line)
+static void	create_all_tree(t_line *line)
 {
 	free_all_tree(line);
 	if (sh_getnenv("PATH", *line->public_env))
@@ -36,21 +29,22 @@ void	create_all_tree(t_line *line)
 	fill_tree_env(*line->public_env, &GET_TREE(line->tree, ENV));
 	fill_tree_env(*line->private_env, &GET_TREE(line->tree, ENV));
 	if (GET_TREE(line->tree, ENV))
-		set_psblty(GET_TREE(line->tree, ENV));
+		set_psblty(GET_TREE(line->tree, ENV), 1);
 }
 
-void	init_line(char **env, t_line *line)
+int			init_line(char **env, t_line *line)
 {
-	line->e_cmpl = ft_memalloc(sizeof(t_st));
-	line->path = get_env(env, "PATH");
-	line->term = get_env(env, "TERM");
+	if (!(line->e_cmpl = ft_memalloc(sizeof(t_st))))
+		return (1);
+	if (!(line->curr->buff = ft_memalloc(sizeof(char) * MAX_SHELL_LEN)))
+		return (1);
+	line->path = sh_getnenv("PATH", env);
+	line->term = getenv("TERM");
 	tgetent(NULL, line->term);
 	create_hist(&(line->hist), env);
 	if (line->hist)
 		line->hist = line->hist->begin;
 	tcgetattr(0, &line->save);
-	set_signal();
-	tputs(tgetstr("cl", NULL), 1, ft_pchar);
 	create_all_tree(line);
 	line->prompt = ft_strdup("$> ");
 	line->lprompt = ft_strlen(line->prompt);
@@ -59,48 +53,46 @@ void	init_line(char **env, t_line *line)
 	line->slct_beg = -1;
 	line->slct_end = -1;
 	line->shell_loop = 1;
+	return (0);
 }
 
-void	deal_key(t_line *line)
+void		deal_key(t_line *line)
 {
 	int				i;
 	static t_fctn	fctn[] = {
-		{ "\x3", &deal_cancel }, { "\x4", &deal_exit },
-		{ "\x9", &get_complet }, { "\xB", &ft_clear },
-		{ "\x7F", &deal_dleft }, { "\x1B\x5B\x41", &up_arrow },
-		{ "\x1B\x5B\x42", &down_arrow }, { "\x1B\x5B\x43", &right_arrow },
-		{ "\x1B\x5B\x44", &left_arrow }, { "\x1B\x5B\x46", &go_end },
-		{ "\x1B\x5B\x48", &deal_home }, { "\x1B\x5B\x33\x7E", &del_right },
-		{ "\x1B\x5B\x31\x3B\x32\x44", &select_left},
-		{ "\x1B\x5B\x31\x3B\x32\x43", &select_right},
-		{ "\x17", &next_word }, { "\x2", &prev_word },
-		{ "\xC3\xA7", &ft_copy }, { "\xE2\x88\x9A", &ft_paste },
-		{ "\xE2\x89\x88", &ft_cut }, { "\x1B\x1B\x5B\x41", &mv_line_up},
-		{ "\x1B\x1B\x5B\x42", &mv_line_down},
-		{ "\x1B\x5B\x31\x3B\x32\x41", &select_up},
-		{ "\x1B\x5B\x31\x3B\x32\x42", &select_down} };
+		{ CANCEL, &deal_cancel }, { EXIT, &deal_exit },
+		{ GET_COMPLETION, &get_complet }, { CLEAR, &ft_clear },
+		{ DELETE_LEFT, &deal_dleft }, { UP_ARROW, &up_arrow },
+		{ DOWN_ARROW, &down_arrow }, { RIGHT_ARROW, &right_arrow },
+		{ LEFT_ARROW, &left_arrow }, { GO_END, &go_end },
+		{ GO_HOME, &deal_home }, { DELETE_RIGHT, &del_right },
+		{ SELECT_LEFT, &select_left}, { SELECT_RIGHT, &select_right},
+		{ SELECT_UP, &select_up}, { SELECT_DOWN, &select_down},
+		{ NEXT_WORD, &next_word }, { PREV_WORD, &prev_word },
+		{ COPY, &ft_copy }, { PASTE, &ft_paste }, { CUT, &ft_cut },
+		{ MOVE_UP, &mv_line_up}, { MOVE_DOWN, &mv_line_down} };
 
 	i = -1;
 	while (++i < (int)(sizeof(fctn) / sizeof(*fctn)))
 		if (ft_strcmp(line->tmp, fctn[i].key) == 0)
 		{
-			fctn[i].f(line);
+			if (line->term || i == 0 || i == 1)
+				fctn[i].f(line);
 			return ;
 		}
 }
 
-void	check_path(t_line *line, char **env)
+void		check_path(char **env)
 {
 	char	*path;
+	t_line	*line;
 
-	path = get_env(env, "PATH");
-	if (path && line->path && ft_strcmp(path, line->path) != 0)
+	line = get_struct();
+	path = sh_getnenv("PATH", env);
+	if ((path && ft_strcmp(path, line->path) != 0) || !path)
 	{
 		free_tree(line->tree[0]);
 		line->tree[0] = create_bin_tree(env);
-		free(line->path);
 		line->path = path;
 	}
-	else
-		free(path);
 }

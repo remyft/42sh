@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 21:15:52 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/14 14:48:28 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/16 18:19:50 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "shell_lib.h"
 #include <dirent.h>
 
-char		*add_escape(char *str, int nb)
+static char	*add_escape(char *str, int nb)
 {
 	char	*esc;
 	int		i;
@@ -29,8 +29,17 @@ char		*add_escape(char *str, int nb)
 	while (str[++i])
 	{
 		if (sh_is_escapable(str[i]))
-			esc[j++] = '\\';
-		esc[j++] = str[i];
+		{
+			if (str[i] == '\n')
+			{
+				ft_strcpy(&esc[j], "$'\\n'");
+				j += 5;
+			}
+			else
+				esc[j++] = '\\';
+		}
+		if (str[i] != '\n')
+			esc[j++] = str[i];
 	}
 	return (esc);
 }
@@ -43,7 +52,9 @@ t_tree		*create_bin_tree(char **env)
 		return (NULL);
 	ternary = NULL;
 	fill_tree_bin(env, &ternary);
-	set_psblty(ternary);
+	if (!ternary)
+		return (NULL);
+	set_psblty(ternary, 1);
 	return (ternary);
 }
 
@@ -55,7 +66,9 @@ t_tree		*create_env_tree(char **env)
 		return (NULL);
 	ternary = NULL;
 	fill_tree_env(env, &ternary);
-	set_psblty(ternary);
+	if (!ternary)
+		return (NULL);
+	set_psblty(ternary, 1);
 	return (ternary);
 }
 
@@ -99,7 +112,7 @@ t_tree		*create_file_tree(char *path, char *beg, t_tree *tern)
 	}
 	while ((indir = readdir(dir)))
 		feed_file_tree(indir, beg, &tern);
-	set_psblty(tern);
+	set_psblty(tern, 0);
 	closedir(dir);
 	return (tern);
 }

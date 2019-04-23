@@ -36,16 +36,14 @@ static int launch_m_process(t_jobs *job, t_m_process *m_p, t_s_env *e)
 	return (0);
 }
 
-#include "job_control.h"
-
-int		command_test_wait(t_jobs *job, t_m_process *m_p, t_s_env *e)
+static int		command_test_wait(t_jobs *job, t_m_process *m_p, t_s_env *e)
 {
 	(void)e;
 	(void)m_p;
 	return (job_wait(job));
 }
 
-int		command_launch_mp_b(t_jobs *job, t_s_env *e)
+static int		command_launch_mp_b(t_jobs *job, t_s_env *e)
 {
 	int		ret;
 

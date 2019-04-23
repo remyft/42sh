@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2019/03/17 19:27:30 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/23 07:51:22 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,16 @@
 
 # include <term.h>
 # include <string.h>
+# include <signal.h>
+# include <unistd.h>
+
+# ifdef __linux
+#  define NSIG _NSIG
+
+/*
+** typedef __sighandler_t	sig_t;
+*/
+# endif
 
 # define LEFT 1 << 0
 # define RIGHT 1 << 1
@@ -28,19 +38,18 @@
 # define ENV 3
 # define GET_TREE(x, y) x[y]
 
+# define MAX_SHELL_LEN	8192
+
 typedef enum	e_state
 {
 	COMPLETION = 1 << 0,
-	QUOTE = 1 << 1,
-	DQUOTE = 1 << 2,
-	BQUOTE = 1 << 3,
-	WT_NHDOC = 1 << 4,
-	WT_SPACE = 1 << 5,
-	WT_HDOC = 1 << 6,
-	UN_HDOC = 1 << 7,
-	HDOC = 1 << 8,
-	NSTATE = 1 << 9
 }				t_st;
+
+typedef struct	s_stamp
+{
+	time_t			time;
+	struct s_stamp	*next;
+}				t_stamp;
 
 typedef struct	s_tree
 {
@@ -76,10 +85,11 @@ typedef struct	s_history
 
 typedef struct	s_buff
 {
-	char			buff[8193];
-	char			buff_tmp[8194];
-	struct s_buff	*next;
-	struct s_buff	*prev;
+	char			*buff;
+	char			*buff_tmp;
+	size_t			len;
+	size_t			tmp_len;
+	int				quoted;
 }				t_buff;
 
 typedef struct	s_state
@@ -112,12 +122,13 @@ typedef struct	s_line
 	char			*path;
 	char			*term;
 	t_buff			*curr;
-	t_buff			*beg_buff;
 	t_hist			*hist;
 	t_st			*e_cmpl;
 	t_tree			*tree[4];
 	char			***public_env;
 	char			***private_env;
+	sig_t			signals[NSIG];
+	int				*ret;
 }				t_line;
 
 typedef struct	s_str_list

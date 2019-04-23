@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:59:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/22 20:04:35 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 09:03:07 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,6 @@ typedef struct	s_argument
 }				t_argument;
 
 /*
-** Structure for here documents
-*/
-# define NULLHEREDOC	(t_hdoc *)0
-
-typedef struct	s_hdoc
-{
-	void			*redir;
-	const char		*head;
-	size_t			len;
-	struct s_hdoc	*next;
-}				t_hdoc;
-
-/*
 ** Structure for redirections
 */
 # define NULLREDIR		(t_redirection *)0
@@ -53,7 +40,6 @@ typedef struct	s_redirection
 	t_argument				*arg;
 	int						fdio;
 	int						fdarg;
-	t_hdoc					*heredoc;
 	char					*file;
 	struct s_redirection	*next;
 }				t_redirection;
@@ -66,7 +52,7 @@ typedef struct	s_redirection
 enum
 {
 	IS_A_COMMAND,
-	IS_A_PIPE,
+	IS_A_PIPE
 };
 
 # define NULLCOMMAND	(t_command *)0
@@ -124,13 +110,25 @@ typedef struct	s_main_list
 typedef struct	s_parser_param
 {
 	char			**line;
+	t_token			**token;
 	t_m_list		**list;
 	t_ao_list		**aolist;
 	void			**cmd;
 	t_argument		**arg;
 	t_redirection	**redir;
-	t_hdoc			*heredoc;
 }				t_p_param;
+
+/*
+** Special structure grouping variables when a line is quoted
+*/
+typedef struct	s_new_input
+{
+	t_s_env		*e;
+	t_token		**token;
+	char		*linesave;
+	int			type;
+	int			error;
+}				t_n_input;
 
 /*
 ** Structure grouping functions pointers and their return value
@@ -161,7 +159,7 @@ int				parse_io_number(t_token **tok, t_p_param *par, t_s_env *e);
 int				parse_argument(t_token **tok, t_p_param *par, t_s_env *e);
 int				parse_newline(t_token **tok, t_p_param *par, t_s_env *e);
 int				parse_async(t_token **tok, t_p_param *par, t_s_env *e);
-int				parse_new_input(t_token **tok, t_p_param *param, t_s_env *e);
+int				parse_quote(char **cmdline, t_token **token, t_s_env *e);
 
 void			free_m_list(t_m_list **list);
 

@@ -6,17 +6,20 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 02:35:19 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/09 19:16:37 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/16 17:41:46 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "expansion_tilde.h"
 #include "expansion_errors.h"
+#include "expansion_loop.h"
 
 static int		tilde_end(t_exp *param)
 {
-	return (param->buff[param->i] != '/' || param->quote);
+	return ((param->buff[param->i] != '/'
+	&& param->buff[param->i] != ':')
+	|| param->quote);
 }
 
 static int		tilde_get_parameter(t_ret *parameter, t_exp *param)
@@ -47,18 +50,17 @@ int				expand_tilde(t_exp *param, t_ret *ret)
 	i = 0;
 	if (ret->w_len != 0)
 		return (param_addchar('~', ret));
-	if ((error = tilde_get_parameter(&parameter, param)) != ERR_NONE)
-		return (error);
-	while (i < sizeof(tilde) / sizeof(tilde[0]))
-	{
-		if (tilde[i].comparaison(parameter.word))
+	if ((error = tilde_get_parameter(&parameter, param)) == ERR_NONE)
+		while (i < sizeof(tilde) / sizeof(tilde[0]))
 		{
-			error = tilde[i].handler(ret, &parameter, param);
-			break ;
+			if (tilde[i].comparaison(parameter.word))
+			{
+				error = tilde[i].handler(ret, &parameter, param);
+				break ;
+			}
+			i++;
 		}
-		i++;
-	}
-	if (i == sizeof(tilde) / sizeof(tilde[0]))
+	if (error != ERR_NONE || i == sizeof(tilde) / sizeof(tilde[0]))
 		error = expand_tilde_not(ret, parameter.word);
 	expand_free_t_ret(&parameter, 0);
 	return (error);

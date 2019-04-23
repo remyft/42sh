@@ -6,13 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 18:24:38 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/12 14:51:20 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/22 02:07:56 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token.h"
 
-static void		free_quote(t_quote **quote)
+void			free_quote(t_quote **quote)
 {
 	if (*quote == NULLQUOTE)
 		return ;
@@ -27,6 +27,17 @@ void			free_token(t_token **token)
 		return ;
 	free_token(&(*token)->next);
 	free_quote(&(*token)->quote);
+	if ((*token)->hdocfree)
+		free((void *)(*token)->hdocline);
 	free(*token);
 	*token = NULLTOKEN;
+}
+
+void			free_hdoc(t_hdoc **hdoc)
+{
+	if (!*hdoc)
+		return ;
+	free_hdoc(&(*hdoc)->next);
+	free(*hdoc);
+	*hdoc = NULLHDOC;
 }

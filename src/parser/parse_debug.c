@@ -6,10 +6,11 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 14:52:10 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/03 17:06:56 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/22 02:30:51 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "ft_dprintf.h"
 #include "parser.h"
 #include "operator_types.h"
@@ -23,54 +24,61 @@ void			debug_parser(t_m_list *list)
 
 #else
 
-static void		print_r(t_command *cmd)
+static void		print_redirection(t_redirection *red, char *tmp, size_t i)
 {
-	t_redirection	*red;
 	t_token			*token;
-	t_hdoc			*hdoc;
-	size_t			i;
 
-	red = cmd->redir;
 	while (red)
 	{
-		if ((token = red->ionumber))
-			dprintf(2, "\t\t\tIONUMBER %.*s\n", (int)token->len, token->head);//
-		if ((token = red->token))
-			dprintf(2, "\t\t\tREDIR %.*s\n", (int)token->len, token->head); //
+		if ((token = red->ionumber)
+		&& (tmp = ft_strndup((char *)token->head, token->len)))
+			ft_dprintf(2, "\t\t\tIONUMBER %s\n", tmp);
+		ft_strdel(&tmp);
+		if ((token = red->token)
+		&& (tmp = ft_strndup((char *)token->head, token->len)))
+			ft_dprintf(2, "\t\t\tREDIR %s\n", tmp);
+		ft_strdel(&tmp);
 		if (red->arg && (token = red->arg->token))
 		{
-			dprintf(2, "\t\t\t  ARG %.*s\n", (int)token->len, token->head); //
+			tmp = ft_strndup((char *)token->head, token->len);
+			ft_dprintf(2, "\t\t\t  ARG %s\n", tmp);
+			ft_strdel(&tmp);
 			i = 0;
 			while (red->arg->cmd && red->arg->cmd[i])
 				ft_dprintf(2, "\t\t\t      %s\n", red->arg->cmd[i++]);
 		}
-		if ((hdoc = red->heredoc))
-			dprintf(2, "\t\t\t  HDOC %.*s\n", (int)hdoc->len, hdoc->head); //
 		ft_dprintf(2, "\t\t\t---------------------\n");
 		red = red->next;
 	}
 }
 
-static void		print_command(t_command *cmd)
+static void		print_command(t_command *cmd, t_argument *arg)
 {
-	t_argument	*arg;
 	t_token		*token;
+	char		*tmp;
 	size_t		i;
 
 	if (!cmd)
 		return ;
-	ft_dprintf(2, "\t\t%s COMMAND\n");
+	ft_dprintf(2, "\t\tCOMMAND\n");
 	arg = cmd->args;
 	while (arg)
 	{
-		token = arg->token;
-		dprintf(2, "\t\t\tARG %.*s\n", (int)token->len, token->head); //
+		if ((token = arg->token)
+		&& (tmp = ft_strndup((char *)token->head, token->len)))
+			ft_dprintf(2, "\t\t\tARG [%s", tmp);
+		ft_strdel(&tmp);
+		if ((token = arg->token) && token->alias
+		&& (tmp = ft_strndup((char *)token->alias, token->alen)))
+			ft_dprintf(2, "%s", tmp);
+		ft_dprintf(2, "]\n");
+		ft_strdel(&tmp);
 		i = 0;
 		while (arg->cmd && arg->cmd[i])
-			ft_dprintf(2, "\t\t\t    %s\n", arg->cmd[i++]);
+			ft_dprintf(2, "\t\t\t    [%s]\n", arg->cmd[i++]);
 		arg = arg->next;
 	}
-	print_r(cmd);
+	print_redirection(cmd->redir, NULL, 0);
 }
 
 static void		print_pipe(t_pipeline *pipe)
@@ -79,11 +87,11 @@ static void		print_pipe(t_pipeline *pipe)
 		return ;
 	ft_dprintf(2, "\tPIPED COMMAND\n");
 	ft_dprintf(2, "\t\tPIPE LEFT\n");
-	pipe->left && *(int *)pipe->left == IS_A_COMMAND ?
-		print_command(pipe->left) : print_pipe(pipe->left);
+	(pipe->left && *(int *)pipe->left == IS_A_COMMAND) ?
+		print_command(pipe->left, NULL) : print_pipe(pipe->left);
 	ft_dprintf(2, "\t\tPIPE RIGHT\n");
-	pipe->right && *(int *)pipe->right == IS_A_COMMAND ?
-		print_command(pipe->right) : print_pipe(pipe->right);
+	(pipe->right && *(int *)pipe->right == IS_A_COMMAND) ?
+		print_command(pipe->right, NULL) : print_pipe(pipe->right);
 }
 
 void			debug_parser(t_m_list *list)
@@ -103,8 +111,8 @@ void			debug_parser(t_m_list *list)
 				ft_dprintf(2, "\tOR COMMAND\n");
 			else if (ao->type == AND_IF_VALUE)
 				ft_dprintf(2, "\tAND COMMAND\n");
-			ao->cmd && *(int *)ao->cmd == IS_A_COMMAND ?
-				print_command(ao->cmd) : print_pipe(ao->cmd);
+			(ao->cmd && *(int *)ao->cmd == IS_A_COMMAND) ?
+				print_command(ao->cmd, NULL) : print_pipe(ao->cmd);
 			ao = ao->next;
 		}
 		ptr = ptr->next;

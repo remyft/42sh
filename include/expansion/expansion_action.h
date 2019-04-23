@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 05:45:30 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/01/19 23:31:45 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/03/20 20:48:31 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ enum
 	REMOVE_SMALLEST_SUFFIX_PATTERN = (1 << 5),
 	REMOVE_LARGEST_SUFFIX_PATTERN = (1 << 6),
 	REMOVE_SMALLEST_PREFIX_PATTERN = (1 << 7),
-	REMOVE_LARGEST_PREFIX_PATTERN = (1 << 8),
+	REMOVE_LARGEST_PREFIX_PATTERN = (1 << 8)
 };
 
 typedef struct	s_action
