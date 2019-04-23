@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/04/23 01:00:28 by rfontain         ###   ########.fr        #
+#    Updated: 2019/04/23 07:51:43 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -126,6 +126,7 @@ SRCS += handle_alias.c						\
 		handle_operator.c					\
 		handle_quote.c						\
 		handle_word.c						\
+		hdoc_functions.c					\
 		identify_operator.c					\
 		identify_word.c						\
 		is_alias_valid_name.c				\
@@ -270,6 +271,17 @@ SRCS += builtin_alias_error.c				\
 		builtin_source.c					\
 		builtin_unalias.c					\
 		builtin_unsetenv.c					\
+		builtin_type.c						\
+		builtin_type_handle_options.c		\
+		builtin_type_check.c				\
+		builtin_export.c					\
+		builtin_export_check.c				\
+		builtin_export_check_2.c			\
+		builtin_export_exec.c				\
+		builtin_export_tools.c				\
+		builtin_export_change_env.c			\
+		builtin_set.c						\
+		builtin_unset.c						\
 
 # LIBRARY
 LIBRARY_DIR = lib/

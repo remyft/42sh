@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:20:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/15 04:02:57 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/21 23:52:25 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void			token_loop(t_param *param, int (*ft_end)(int c))
 			param->token = get_tokens(param, token);
 		param->i++;
 	}
-	debug_tokens(param->head);
 }
 
 t_token			*tokenise(char **line, t_s_env *e)
@@ -73,5 +72,6 @@ t_token			*tokenise(char **line, t_s_env *e)
 	token_loop(&param, ft_isnull);
 	if (!e->interactive)
 		*line = param.line;
+	debug_tokens(param.head);
 	return (param.head);
 }

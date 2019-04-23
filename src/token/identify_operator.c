@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 00:38:00 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/02 18:07:57 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/21 21:20:21 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,8 @@ t_token			*identify_operator(t_param *param)
 	if (!(param->token->next = new_token(param->line, param->i)))
 		return (token_error(ERR_MALLOC, param));
 	param->token->next->prev = param->token;
+	if (param->token->id == DLESS_VALUE)
+		if (!hdoc_add(&param->hdoc, param->token, param->e->interactive))
+			return (token_error(ERR_MALLOC, param));
 	return (param->token->next);
 }
