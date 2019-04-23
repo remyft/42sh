@@ -6,14 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/15 20:37:10 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/21 23:17:57 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 #include "shell_env.h"
 #include "shell_term.h"
-#include <stdlib.h>
 
 int				main(int ac, char **av, char **ep)
 {

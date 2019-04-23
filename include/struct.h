@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/15 19:43:09 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/23 06:08:24 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <term.h>
 # include <string.h>
 # include <signal.h>
+# include <unistd.h>
 
 # ifdef __linux
 #  define NSIG _NSIG
@@ -39,6 +40,12 @@ typedef enum	e_state
 {
 	COMPLETION = 1 << 0,
 }				t_st;
+
+typedef struct	s_stamp
+{
+	time_t			time;
+	struct s_stamp	*next;
+}				t_stamp;
 
 typedef struct	s_tree
 {
@@ -74,11 +81,11 @@ typedef struct	s_history
 
 typedef struct	s_buff
 {
-	char			buff[MAX_SHELL_LEN + 1];
-	char			buff_tmp[MAX_SHELL_LEN + 2];
+	char			*buff;
+	char			*buff_tmp;
+	size_t			len;
+	size_t			tmp_len;
 	int				quoted;
-	struct s_buff	*next;
-	struct s_buff	*prev;
 }				t_buff;
 
 typedef struct	s_state
@@ -111,7 +118,6 @@ typedef struct	s_line
 	char			*path;
 	char			*term;
 	t_buff			*curr;
-	t_buff			*beg_buff;
 	t_hist			*hist;
 	t_st			*e_cmpl;
 	t_tree			*tree[4];

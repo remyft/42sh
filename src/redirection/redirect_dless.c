@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:21:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/15 19:50:27 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/18 19:46:59 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ static int		get_here_doc_line(char **hdoc, char *eof, t_line *line)
 			return (ERR_MALLOC);
 		ft_strclr(line->curr->buff);
 		ft_strclr(line->tmp);
-		line->beg_buff = line->curr;
 		line->index = 0;
 		line->len = 0;
 	}

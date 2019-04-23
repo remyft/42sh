@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/04/15 20:33:42 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/04/23 01:00:28 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,7 +68,8 @@ SRCS += deal_line.c							\
 
 # COMPLETION
 CMPL_DIR = $(SRCS_DIR)completion/
-SRCS += completion_key.c					\
+SRCS += check_modif_path.c					\
+		completion_key.c					\
 		color_put.c							\
 		create_tree.c						\
 		cpl_select_key.c					\
