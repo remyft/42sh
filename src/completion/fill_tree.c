@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:45:40 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/23 06:32:04 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/23 07:13:33 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "put.h"
 #include "shell_lib.h"
 
-#include "stdio.h"
 static int	check_path_access(char *path, char *name)
 {
 	char		*tmp;

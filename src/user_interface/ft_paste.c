@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 05:59:37 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/22 23:38:58 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/23 07:47:50 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void		ft_paste(t_line *line)
 	int		index_tmp;
 	int		j;
 	int		len;
-	char	*tmp;
 
 	if (!line->copy || line->len + (len = ft_strlen(line->copy)) > MALLOC_MAX)
 		return ;
@@ -63,28 +62,17 @@ void		ft_paste(t_line *line)
 		erase_completion(line, index_tmp);
 	*line->e_cmpl &= ~COMPLETION;
 	if ((line->len / MAX_SHELL_LEN) < (line->len + len) / MAX_SHELL_LEN)
-	{
-		tmp = ft_strdup(line->curr->buff);
-		free(line->curr->buff);
-		if (!(line->curr->buff = ft_memalloc(sizeof(char) * (MAX_SHELL_LEN * ((line->len + len) / MAX_SHELL_LEN + 1)) + 1)))
-		{
-			free(tmp);
-			line->shell_loop = 0;
+		if (get_buff_realloc(line, len))
 			return ;
-		}
-		ft_strcpy(line->curr->buff, tmp);
-		free(tmp);
-	}
 	while (line->copy[j])
 		if (get_paste(line, &j))
 			break ;
 	line->len += len;
 	ft_putstr(&line->curr->buff[index_tmp]);
-	if (line->index != line->len)
-	{
-		j = line->index;
-		line->index = line->len;
-		while ((int)line->index > j)
-			left_arrow(line);
-	}
+	if (line->index == line->len)
+		return ;
+	j = line->index;
+	line->index = line->len;
+	while ((int)line->index > j)
+		left_arrow(line);
 }

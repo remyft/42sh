@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/23 07:01:40 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/23 07:45:40 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void			shell_loop(t_line *line, t_s_env *e);
 
 int				get_cursor_line(void);
 void			deal_scroll(t_line *line, int up, int nb_line);
+
+int				get_buff_realloc(t_line *line, int nb_read);
 
 /*
 **	Select, copy, cut and paste

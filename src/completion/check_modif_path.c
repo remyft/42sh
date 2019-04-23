@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 01:00:40 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/23 06:38:04 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/23 07:11:38 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,8 @@ static int	get_timestamp(t_stamp *tstmp, char *path)
 	while (path)
 	{
 		tmp = strdup_until(path, ':');
-		if (!access(tmp, R_OK) && stat(tmp, &sb) != -1)
-		{
-			tstmp->time = sb.st_mtime;
+		if (!access(tmp, R_OK) && stat(tmp, &sb) != -1
+				&& (tstmp->time = sb.st_mtime))
 			if (ft_strchr(path, ':'))
 			{
 				if (!(tstmp->next = ft_memalloc(sizeof(t_stamp))))
@@ -59,10 +58,8 @@ static int	get_timestamp(t_stamp *tstmp, char *path)
 				}
 				tstmp = tstmp->next;
 			}
-		}
 		free(tmp);
-		path = ft_strchr(path, ':');
-		if (path)
+		if ((path = ft_strchr(path, ':')))
 			path++;
 	}
 	return (0);
@@ -73,9 +70,7 @@ void		check_mod_path(char **env, t_line *line)
 	static t_stamp	*tstmp = NULL;
 	t_stamp			*curr;
 	char			*path;
-	int				i;
 
-	i = -1;
 	path = sh_getnenv("PATH", env);
 	if (!tstmp)
 		if (get_timestamp((tstmp = ft_memalloc(sizeof(t_stamp))), path))

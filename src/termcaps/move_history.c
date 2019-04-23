@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 05:00:51 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/22 23:33:39 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/23 07:33:50 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,10 @@ static void	is_find(t_line *line, int find, int way, t_hist *tmp)
 			get_tmp_buff(&line->curr->buff, &line->hist->tmp, 0);
 		else
 			get_tmp_buff(&line->curr->buff, &line->hist->content, 0);
-		put_new_prompt(line);
+		if (!line->curr->buff)
+			line->shell_loop = 0;
+		if (line->curr->buff)
+			put_new_prompt(line);
 	}
 	else if (find == 2 && way == 1)
 	{

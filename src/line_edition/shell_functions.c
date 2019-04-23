@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/24 20:10:26 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/23 06:09:46 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/23 07:44:08 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,3 @@ void			shell_loop(t_line *line, t_s_env *e)
 			check_mod_path(e->public_env, line);
 	}
 }
-

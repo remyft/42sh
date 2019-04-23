@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/06 05:48:08 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/21 21:28:02 by rfontain         ###   ########.fr       */
+/*   Created: 2019/04/23 07:14:04 by rfontain          #+#    #+#             */
+/*   Updated: 2019/04/23 07:42:09 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,14 @@ char	**ft_ralloc(char ***env, int len)
 void	get_tmp_buff(char **buff, char **buff_tmp, int to_free)
 {
 	size_t	len;
+	size_t	max_len;
 
+	max_len = MAX_SHELL_LEN;
 	len = ft_strlen(*buff_tmp);
 	free(*buff);
-	*buff = ft_memalloc(sizeof(char)
-			* (MAX_SHELL_LEN * ((len / MAX_SHELL_LEN) + 1)));
+	if (!(*buff = ft_memalloc(sizeof(char)
+					* (max_len * (len / max_len + 1)) + 1)))
+		return ;
 	ft_strcpy(*buff, *buff_tmp);
 	if (to_free)
 	{
