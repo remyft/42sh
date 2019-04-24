@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 22:30:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/24 14:00:33 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/24 14:26:05 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static int		identify_alias(t_param *param)
 	if ((!prev
 	|| (prev->type == OPERATOR && prev->id < LESS_VALUE)
 	|| (prev->type == TOKEN && prev->alias
-		&& ft_isspace(prev->head[ft_strlen(prev->head) - 1])
+		&& ft_isspace(prev->alias->value[ft_strlen(prev->alias->value) - 1])
 		&& quote_type(prev->quote) == NO_QUOTE))
 	&& is_alias_valid_name(token->head, token->len)
 	&& (param->token = handle_alias(param, param->e))
@@ -84,10 +84,10 @@ static int		identify_alias(t_param *param)
 
 t_token			*identify_word(t_param *param)
 {
-	if (!param->token->alias)
+	if (!param->token->oldhd)
 		param->token->len = param->line + param->i - param->token->head;
 	else
-		param->token->alen = param->line + param->i - param->token->alias;
+		param->token->oldlen = param->line + param->i - param->token->oldhd;
 	if (ft_isquote(*param->token->head))
 		param->token->id = WORD;
 	else if (param->token->id == WORD
