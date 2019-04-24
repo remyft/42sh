@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 23:38:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/22 02:33:55 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/24 14:18:02 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ static int		tokenise_quote(t_param *param, void *quote, t_line *line)
 	if (type != HEREDOCUMENT && (param->token = param->head))
 		while (param->token)
 		{
-			if (param->token->alias)
-				param->token->alias = param->line + (param->token->alias - old);
+			if (param->token->oldhd)
+				param->token->oldhd = param->line + (param->token->oldhd - old);
 			else
 				param->token->head = param->line + (param->token->head - old);
 			if (!param->token->next)

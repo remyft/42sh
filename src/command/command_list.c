@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/18 14:41:16 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/24 13:44:10 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static int	prepare_redirect(t_redirection *cmd, t_s_env *e)
 	if (expand_argument(cmd->arg, e, 0))
 		return (1);
 	quote_removal(cmd->arg);
-	if (redirection(&cmd, e))
-		return (1);
+	// if (redirection(&cmd, e))
+	// 	return (1);
 	return (prepare_redirect(cmd->next, e));
 }
 

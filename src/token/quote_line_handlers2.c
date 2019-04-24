@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 18:34:08 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/22 02:28:44 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/24 14:19:42 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,7 @@ int				dbraced_line(t_param *param, t_line *line)
 	char		*add;
 	char		*newl;
 
-	add = "";
-	if (param->token->alias)
-		add = " ";
-	else if (!param->token->alias)
-		add = "\n";
+	add = (param->token->oldhd) ? " " : "\n";
 	if (!(newl = ft_strjoin(add, line->curr->buff)))
 		return (ERR_MALLOC);
 	if (!(param->line = ft_strjoinfree(param->line, newl, 3)))

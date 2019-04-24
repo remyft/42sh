@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 23:42:06 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 11:25:22 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/24 14:18:38 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,22 @@ void			clean_end_token(t_token **token, t_token **head)
 	*token = NULLTOKEN;
 }
 
+static int		check_hdoc(t_hdoc *hdoc)
+{
+	return (hdoc && ((t_token *)hdoc->token)->next
+	&& ((t_token *)hdoc->token)->next->type == TOKEN);
+}
+
 t_token			*handle_end_of_input(t_param *param, t_call *token)
 {
-	if (!param->token->alias)
-		param->token->len = param->line + param->i - param->token->head;
+	if (param->token->oldhd)
+		param->token->oldlen = param->line + param->i - param->token->oldhd;
 	else
-		param->token->alen = param->line + param->i - param->token->head;
+		param->token->len = param->line + param->i - param->token->head;
 	if (param->token->type != UNDEFINED)
 	{
-		if (quote_type(param->token->quote) != NO_QUOTE || param->hdoc)
+		if (param->e->checkquote && (quote_type(param->token->quote) != NO_QUOTE
+			|| check_hdoc(param->hdoc)))
 		{
 			if (!param->e->filein)
 			{
@@ -49,10 +56,11 @@ t_token			*handle_end_of_input(t_param *param, t_call *token)
 			else if (param->hdoc)
 				token_error(ERR_HEREDOC_EOF, param);
 			else
-				token_error(ERR_MATCHING_EOF, param);
+				param->token = token_error(ERR_MATCHING_EOF, param);
 		}
 		else
 			param->token = token[param->token->type].identifier(param);
+		param->i--;
 	}
 	clean_end_token(&param->token, &param->head);
 	return (param->token);

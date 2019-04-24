@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:24:35 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/22 02:06:19 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/24 14:22:56 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,9 @@ typedef struct	s_token
 	size_t			len;
 	int				type;
 	int				id;
-	const char		*alias;
-	size_t			alen;
+	const char		*oldhd;
+	size_t			oldlen;
+	t_alias			*alias;
 	t_quote			*quote;
 	const char		*hdocline;
 	size_t			hdoclen;
