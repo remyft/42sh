@@ -1,0 +1,27 @@
+echo "----------------------------------------------------------------------------------------"
+echo "                              TESTING UNSET"
+echo "----------------------------------------------------------------------------------------"
+
+EX_FILE=../../21sh
+CMD = UNSET
+
+echo "\n\n"
+echo "$CMD IN 21SH"
+$EX_FILE unset_invalid_args 2>&1 > out1
+echo "$CMD IN BASH"
+bash unset_invalid_args 2>&1 > out2
+echo "DIFF"
+diff out1 out2
+
+rm out1 out2
+
+echo "\n\n"
+echo "$CMD IN 21SH"
+$EX_FILE unset_with_args 2>&1 > out1
+echo "$CMD IN BASH"
+bash unset_with_args 2>&1 > out2
+echo "DIFF"
+diff out1 out2
+
+rm out1 out2
+
