@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/24 20:10:26 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/23 07:44:08 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/23 15:49:06 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,6 @@ void			shell_loop(t_line *line, t_s_env *e)
 				&& line->curr->buff[0] != 10)
 			get_new_cmd(line, e);
 		if (line->path)
-			check_mod_path(e->public_env, line);
+			check_mod_path(e, line, 0);
 	}
 }

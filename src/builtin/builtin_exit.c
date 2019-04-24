@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 16:42:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 11:40:58 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/23 17:26:55 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ static int		exit_error(int err, const char *cmdname, t_s_env *e)
 
 int				builtin_exit(t_execute *exec, t_s_env *e)
 {
-	ft_putendl_fd("exit", STDERR_FILENO);
+	if (!e->forked)
+		ft_putendl_fd("exit", STDERR_FILENO);
 	e->shell_loop = 0;
 	if (exec->cmd[1])
 	{

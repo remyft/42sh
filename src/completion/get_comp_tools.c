@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 17:00:18 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/22 20:33:45 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/23 14:12:49 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "libft.h"
 #include "shell_term.h"
 #include "shell.h"
+#include "shell_lib.h"
 
 int			check_is_file(char *buff, t_line *line)
 {
@@ -56,22 +57,23 @@ static void	finish_glob(t_line *line, t_slst **tmp, int nb_line)
 	tputs(tgoto(tgetstr("ch", NULL), 0, line->lprompt), 1, ft_pchar);
 }
 
-static void	get_new_glob(t_line *line, t_slst *tmp, char *ptr)
+static void	get_new_glob(t_line *line, t_slst *tmp, int pos)
 {
 	int		i;
 	t_slst	*to_free;
 	int		tmp_len;
 	int		len;
 
-	tmp_len = erase_complet(ptr, line);
+	tmp_len = erase_complet(&line->curr->buff[pos], line);
+	line->len = (size_t)pos;
 	while ((to_free = tmp))
 	{
-		if (line->len + (len = ft_strlen(tmp->str)) + 1 > MAX_SHELL_LEN)
-			break ;
+		if (line->len / MAX_SHELL_LEN < line->len + (len = ft_strlen(tmp->str)) / MAX_SHELL_LEN)
+			get_buff_realloc(line, len);
 		i = -1;
 		while (tmp->str[++i])
-			*ptr++ = tmp->str[i];
-		*ptr++ = ' ';
+			line->curr->buff[line->len++] = tmp->str[i];
+		line->curr->buff[line->len++] = ' ';
 		tmp = tmp->next;
 		free(to_free->str);
 		free(to_free);
@@ -79,13 +81,13 @@ static void	get_new_glob(t_line *line, t_slst *tmp, char *ptr)
 	finish_glob(line, &tmp, (tmp_len / line->nb_col));
 }
 
-void		set_new_glob(t_line *line, t_slst *tmp, char *ptr)
+void		set_new_glob(t_line *line, t_slst *tmp, int	pos)
 {
 	if (tmp)
 	{
 		while (tmp->prev)
 			tmp = tmp->prev;
-		get_new_glob(line, tmp, ptr);
+		get_new_glob(line, tmp, pos);
 		tputs(tgetstr("cd", NULL), 1, ft_pchar);
 		ft_putstr(line->curr->buff);
 		line->len = ft_strlen(line->curr->buff);

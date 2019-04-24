@@ -6,7 +6,7 @@
 /*   By: tsisadag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 20:28:26 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/03/12 17:18:48 by tsisadag         ###   ########.fr       */
+/*   Updated: 2019/04/22 18:25:54 by tsisadag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,6 @@ int		has_invalid_id_unset(char *arg)
 	return (1);
 }
 
-void	exec_unset(char *arg, t_s_env **e)
-{
-	exec_unset_check(arg, &e);
-}
-
 void	exec_unset_check(char *arg, t_s_env ***e)
 {
 	if (is_local(arg, (**e)->private_env))
@@ -80,9 +75,9 @@ void	exec_unset_check(char *arg, t_s_env ***e)
 
 void	delete_public(char *arg, t_s_env ****e, int i, int j)
 {
-	char    **clone;
-	char    *tmp1;
-	char    *tmp2;
+	char	**clone;
+	char	*tmp1;
+	char	*tmp2;
 
 	clone = ft_memalloc(sizeof(char **) *
 			(count_strarr((***e)->public_env)));

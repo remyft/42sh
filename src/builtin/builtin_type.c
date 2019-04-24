@@ -6,7 +6,7 @@
 /*   By: tsisadag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 17:52:23 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/03/04 20:13:02 by tsisadag         ###   ########.fr       */
+/*   Updated: 2019/04/22 12:17:12 by tsisadag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int		exec_type(char *arg, t_type *type, t_s_env *e)
 		sh_freetab(&paths);
 		return (0);
 	}
-	ft_dprintf(2, "21sh: type: %s: not found\n", arg);
+	ft_dprintf(2, "42sh: type: %s: not found\n", arg);
 	sh_freetab(&paths);
 	return (ret);
 }
