@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 20:44:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 10:19:45 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 11:54:34 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static int		modify_public_environment(t_argument *var, t_s_env *e)
 	}
 	return (0);
 }
-#include <stdio.h>
 
 int				command_prepare(t_execute *exec, t_s_env *e, int type)
 {

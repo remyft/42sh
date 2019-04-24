@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 10:10:14 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 13:09:37 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	dup2_and_close(t_process *p, int from, int to)
 {
 	if (to != from)
 	{
-		if (to == -1 && from > 0)
+		if (to == -1)
 			close(from);
 		else
 		{
@@ -37,9 +37,9 @@ static int	dup2_and_close(t_process *p, int from, int to)
 	}
 	if (from == STDIN_FILENO)
 	{
-		if (p->pipe[0] != -1)
+	//	if (p->pipe[0] != -1)
 			close(p->pipe[0]);
-		if (p->pipe[1] != -1)
+	//	if (p->pipe[1] != -1)
 			close(p->pipe[1]);
 	}
 	return (1);
@@ -47,7 +47,7 @@ static int	dup2_and_close(t_process *p, int from, int to)
 
 static void		command_setup(t_process *p)
 {
-	if (p->fds[2] == STDERR_FILENO)
+	if (p->fds[1] == STDERR_FILENO)
 	{
 		dup2_and_close(p, STDERR_FILENO, p->fds[2]);
 		dup2_and_close(p, STDOUT_FILENO, p->fds[1]);
@@ -82,20 +82,18 @@ static void		command_execve(char *name, t_jobs *job, t_process *p, t_s_env *e)
 
 static void		command_exec_job(char *name, t_jobs *job, t_process *p, t_s_env *e)
 {
-	pid_t		pid;
 	size_t		len;
 	t_execute	*exec;
 
-	pid = 0;
 	exec = (t_execute *)p->exec;
-	if (e->forked || (pid = fork()) == 0)
+	if (e->forked || (p->pid = fork()) == 0)
 	{
 		len = sh_tablen((const char **)exec->env);
 		len -= sh_tablen((const char **)e->private_env);
 		exec->env[len] = NULL;
 		command_execve(name, job, p, e);
 	}
-	else if (pid < 0)
+	else if (p->pid < 0)
 		*e->ret = command_error(e->progname, ERR_FORK, exec->cmd, e);
 	else if (e->interactive)
 		command_process(p->pid, e->pid, job, p);

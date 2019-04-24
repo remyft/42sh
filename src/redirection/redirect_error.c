@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:29:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 09:47:45 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 11:43:36 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int				redirect_error(int err, char *redirect_arg, t_s_env *e)
 	if (err == ERR_FREE_ALL)
 		return (1);
 	ft_dprintf(STDERR_FILENO, "%s: ", e->progname);
-	if (e->interactive)
-		ft_dprintf(STDERR_FILENO, "line %ld: ", e->interactive);
+	if (e->filein)
+		ft_dprintf(STDERR_FILENO, "line %ld: ", e->filein);
 	ft_dprintf(STDERR_FILENO, "%s: %s\n", redirect_arg, error[err]);
 	*e->ret = 2;
 	return (1);

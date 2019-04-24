@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:36:31 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/23 11:36:40 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 11:51:54 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,15 @@ static int	job_fg_cont(t_jobs *job, t_s_env *e, int cont)
 			return (job_kill(job, e));
 		}
 	}
+	return (0);
 }
 
 int			job_foreground(t_jobs *job, t_s_env *e, int cont)
 {
 	int		status;
 
-	job_fg_cont(job, e, cont);
+	if ((status = job_fg_cont(job, e, cont)) != 0)
+			return (status);
 	if (ioctl(e->fd, TIOCSPGRP, &job->pgid) < 0)
 	{
 		ft_dprintf(2, "job [%d] tcsetpgrp failed\n", job->pgid);

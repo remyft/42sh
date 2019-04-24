@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 16:42:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 09:05:50 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 11:44:30 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ static int		exit_error(int err, const char *cmdname, t_s_env *e)
 	};
 
 	ft_dprintf(STDERR_FILENO, "%s: ", e->progname);
-	if (e->interactive)
-		ft_dprintf(STDERR_FILENO, "line %ld: ", e->interactive);
+	if (e->filein)
+		ft_dprintf(STDERR_FILENO, "line %ld: ", e->filein);
 	ft_dprintf(STDERR_FILENO, "%s: %s\n", cmdname, errors[err]);
 	e->shell_loop = !err;
 	return (err + 1);

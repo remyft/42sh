@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 14:13:22 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/23 11:33:13 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 11:49:11 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,11 @@ static t_m_process	*m_proc_by_pid(t_m_process *begin, pid_t pid)
 	return (begin);
 }
 
-static void			jobs_status_set(t_jobs *job, t_process *p, int status, pid_t pid)
+static void			jobs_status_set(t_jobs *job, int status, pid_t pid)
 {
+	t_process	*p;
+
+	p = NULL;
 	if (job->status & JOB_FORKED)
 	{
 		job->job_forked = job->m_process->p;
@@ -64,13 +67,12 @@ int					jobs_notify_ended(t_jobs *jobs)
 {
 	int			status;
 	t_jobs		*job;
-	t_process	*p;
 	pid_t		pid;
 
 	while ((pid = waitpid(WAIT_ANY, &status, WCONTINUED | WUNTRACED | WNOHANG)) > 0)
 	{
 		job = job_by_pid(jobs, pid);
-		job_status_set(job, p, status, pid_t pid);
+		jobs_status_set(job, status, pid);
 		if (job_finished(job))
 		{
 			job->status |= JOB_NOTIFIED;

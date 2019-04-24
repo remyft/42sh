@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 09:37:46 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 09:05:57 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 11:44:23 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static int		setenv_error(int err, char *cmd_name, t_s_env *e)
 	};
 
 	ft_dprintf(STDERR_FILENO, "%s: ", e->progname);
-	if (e->interactive)
-		ft_dprintf(STDERR_FILENO, "line %ld: ", e->interactive);
+	if (e->filein)
+		ft_dprintf(STDERR_FILENO, "line %ld: ", e->filein);
 	ft_dprintf(STDERR_FILENO, "%s: %s\n", cmd_name, errors[err]);
 	return (1);
 }

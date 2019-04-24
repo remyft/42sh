@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:02:57 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 10:16:19 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 12:24:48 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,8 @@ int				command_check(t_jobs *job, t_process *p, t_s_env *e)
 	i = 0;
 	ret = 0;
 	exec = (t_execute *)p->exec;
-	sh_puttab((const char **)exec->cmd);
 	if (exec->cmd && exec->cmd[0])
 	{
-		printf("Entering command check\n");
 		while (i < sizeof(builtins) / sizeof(builtins[0]))
 		{
 			if (!ft_strcmp(builtins[i].name, exec->cmd[0]) && !p->next)
@@ -83,7 +81,6 @@ int				command_check(t_jobs *job, t_process *p, t_s_env *e)
 			}
 			i++;
 		}
-		printf("Launching command_system \n");
 		ret = command_system(job, p, e);
 		if ((len = sh_tablen((const char **)exec->cmd)))
 			len--;

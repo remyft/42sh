@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 10:20:55 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 09:04:23 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 11:44:44 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ int				cd_dir_error(char *newpwd, char *entry, t_s_env *e)
 	struct stat	buffer;
 
 	ft_dprintf(STDERR_FILENO, "%s: ", e->progname);
-	if (e->interactive)
-		ft_dprintf(STDERR_FILENO, "line %ld: ", e->interactive);
+	if (e->filein)
+		ft_dprintf(STDERR_FILENO, "line %ld: ", e->filein);
 	if (stat(newpwd, &buffer) < 0)
 		err = (lstat(newpwd, &buffer) < 0) ? 1 : 0;
 	else

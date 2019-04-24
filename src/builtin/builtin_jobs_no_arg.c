@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 11:02:15 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/19 12:46:20 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/23 12:01:26 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		jobs_no_arg(const t_jobs *jobs, t_execute *exec, const int *opts)
 			job_no_opt(jobs);
 		jobs = jobs->next;
 	}
-	return (1);
+	return (0);
 }
 
 int		jobs_spe_arg(t_execute *exec, t_s_env *e, int i, const int *opts)
