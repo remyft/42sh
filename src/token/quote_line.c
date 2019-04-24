@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 23:38:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/24 14:18:02 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/24 15:58:13 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ t_token			*quote_line(t_param *param)
 		|| (error = tokenise_quote(param, param->token->quote, line)))
 			return (token_error(error, param));
 	}
-	else
+	else if (param->hdoc)
 	{
 		if ((error = get_new_line(param->hdoc, HEREDOCUMENT, line)) != ERR_NONE
 		|| (error = tokenise_quote(param, param->hdoc, line)) != ERR_NONE)
