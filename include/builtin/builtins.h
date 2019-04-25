@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 05:56:14 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 10:02:30 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/25 20:28:52 by tsisadag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define BUILTIN_EXPORT     { "export"  , builtin_export }
 # define BUILTIN_SET        { "set"     , builtin_set }
 # define BUILTIN_UNSET      { "unset"   , builtin_unset }
+# define BUILTIN_TEST		{ "test"   , builtin_test }
 
 typedef struct	s_builtins
 {
@@ -61,5 +62,6 @@ int				builtin_type(t_execute *exec, t_s_env *e);
 int				builtin_export(t_execute *exec, t_s_env *e);
 int				builtin_set(t_execute *exec, t_s_env *e);
 int				builtin_unset(t_execute *exec, t_s_env *e);
+int				builtin_test(t_execute *exec, t_s_env *e);
 
 #endif
