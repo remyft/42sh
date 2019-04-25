@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 09:45:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/10 20:40:24 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/24 17:52:47 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,22 @@
 #include "expansion_action.h"
 #include "expansion_errors.h"
 
+/*
+** %
+*/
+#include<stdio.h>
 int				word_small_suffix(t_ret *subs, t_ret *para, t_exp *param)
 {
+printf("param [%s] [%s] subs [%s] [%s]\n", para->word, para->substitute, subs->word, subs->substitute);
 	(void)subs;
 	(void)para;
 	(void)param;
 	return (0);
 }
 
+/*
+** %%
+*/
 int				word_large_suffix(t_ret *subs, t_ret *para, t_exp *param)
 {
 	(void)subs;
@@ -33,6 +41,9 @@ int				word_large_suffix(t_ret *subs, t_ret *para, t_exp *param)
 	return (0);
 }
 
+/*
+** #
+*/
 int				word_small_prefix(t_ret *subs, t_ret *para, t_exp *param)
 {
 	(void)subs;
@@ -41,6 +52,9 @@ int				word_small_prefix(t_ret *subs, t_ret *para, t_exp *param)
 	return (0);
 }
 
+/*
+** ##
+*/
 int				word_large_prefix(t_ret *subs, t_ret *para, t_exp *param)
 {
 	(void)subs;

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 17:39:24 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/16 20:58:39 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/25 16:06:31 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define EXPANSION_ERRORS_H
 
 # define ERR_NONE_STR				"???"
-# define ERR_SYNTAX_STR				"bad substitution."
+# define ERR_SYNTAX_STR				"bad substitution"
 # define ERR_MODIFIER_STR			"unrecognized modifier."
 # define ERR_UNHANDLED_STR			"pattern not handled yet."
 # define ERR_MALLOC_STR				"malloc error."

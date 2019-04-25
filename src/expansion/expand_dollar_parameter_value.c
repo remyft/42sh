@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 04:42:31 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/10 20:39:29 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/25 16:06:49 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ static int		expand_argc(t_ret *subs, t_ret *para, t_exp *param)
 	char		*nbr;
 	int			error;
 
-	nbr = ft_itoa(param->e->ac - 1);
+	if (param->e->filein)
+		nbr = ft_itoa(param->e->ac - 2);
+	else
+		nbr = ft_itoa(param->e->ac - 1);
 	error = param_addstr(nbr, subs);
 	if (nbr)
 		free(nbr);
@@ -36,17 +39,12 @@ static int		expand_argc(t_ret *subs, t_ret *para, t_exp *param)
 
 static int		expand_argv(t_ret *subs, t_ret *para, t_exp *param)
 {
-	char		*word;
 	int			nb;
 
-	word = &para->word[para->brace + para->hash + 1];
-	if (para->brace)
-		while (*word)
-			if (!ft_isdigit(*word++))
-				return (ERR_SYNTAX);
-	word = &para->word[para->brace + para->hash + 1];
-	nb = ft_atoi(word);
-	subs->word = (nb < param->e->ac) ? param->e->av[nb] : NULL;
+	nb = para->word[para->brace + para->hash + para->i] - '0';
+	if (param->e->filein)
+		nb++;
+	subs->word = (nb >= 0 && nb < param->e->ac) ? param->e->av[nb] : NULL;
 	para->substitute = subs->word;
 	para->freeable = 0;
 	return (ERR_NONE);
@@ -55,17 +53,26 @@ static int		expand_argv(t_ret *subs, t_ret *para, t_exp *param)
 static int		expand_env(t_ret *subs, t_ret *para, t_exp *param)
 {
 	char		*word;
+	char		*pos;
+	char		c;
 
-	word = &para->word[para->brace + para->hash + 1];
+	word = &para->word[para->brace + para->hash + para->i];
+	pos = word;
+	c = *pos;
 	if (para->brace)
-		while (*word)
-			if (!is_valid_name(*word++))
-				return (ERR_SYNTAX);
-	word = &para->word[para->brace + para->hash + 1];
+	{
+		while (*pos && is_valid_name(*pos))
+			pos++;
+		if (pos == word)
+			return (ERR_SYNTAX);
+		c = *pos;
+		*pos = '\0';
+	}
 	if (!(subs->word = sh_getnenv(word, param->e->public_env)))
 		subs->word = sh_getnenv(word, param->e->private_env);
 	para->substitute = subs->word;
 	para->freeable = 0;
+	// *pos = c;
 	return (ERR_NONE);
 }
 
@@ -73,7 +80,8 @@ int				expand_dollar_parameter_value(t_ret *parameter, t_exp *param)
 {
 	static t_dollar	dollar[] = {
 		{ is_special, expand_dollar_special },
-		{ ft_isdigit, expand_argv }, { is_valid_name, expand_env },
+		{ ft_isdigit, expand_argv },
+		{ is_valid_name, expand_env },
 	};
 	size_t			i;
 	t_ret			substitute;
@@ -81,7 +89,8 @@ int				expand_dollar_parameter_value(t_ret *parameter, t_exp *param)
 
 	i = 0;
 	ft_memset(&substitute, 0, sizeof(substitute));
-	word = &parameter->word[parameter->brace + parameter->hash + 1];
+	parameter->i = 1;
+	word = &parameter->word[parameter->brace + parameter->hash + parameter->i];
 	if (!*word && !parameter->hash)
 		return (ERR_SYNTAX);
 	if (is_expand_null(parameter))
