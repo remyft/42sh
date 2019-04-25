@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 23:02:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/20 20:50:39 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/25 14:44:01 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int				expand_dollar_special(t_ret *sub, t_ret *para, t_exp *param)
 
 	i = 0;
 	word = &para->word[para->brace + para->hash + 1];
+	if (word[1] && !ft_strchr(":-=?+%#", word[1]))
+		return (ERR_SYNTAX);
 	while (i < sizeof(special) / sizeof(special[0]))
 	{
 		if (word[0] == special[i].value)
@@ -45,7 +47,7 @@ int				special_argv(t_ret *subs, t_ret *para, t_exp *param)
 {
 	size_t	j;
 
-	j = 1;
+	j = (param->e->filein) ? 2 : 1;
 	while (param->e->av[j])
 	{
 		if (param_addstr(param->e->av[j], subs))
@@ -63,7 +65,7 @@ int				special_argvs(t_ret *subs, t_ret *para, t_exp *param)
 {
 	size_t	j;
 
-	j = 1;
+	j = (param->e->filein) ? 2 : 1;
 	while (param->e->av[j])
 	{
 		if (param_addstr(param->e->av[j], subs)
