@@ -3,41 +3,54 @@
 /*                                                        :::      ::::::::   */
 /*   command_wait.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/27 20:23:05 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/15 17:50:06 by rfontain         ###   ########.fr       */
+/*   Created: 2019/04/23 09:43:12 by dbaffier          #+#    #+#             */
+/*   Updated: 2019/04/25 16:31:02 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "shell_env.h"
+#include "job_control.h"
+#include <signal.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include "command.h"
+#include <stdio.h>
 
-static void		command_ret(int *ret)
+int		command_ret(int status)
 {
-	if (!ret)
-		return ;
-	if (WIFEXITED(*ret))
-		*ret = WEXITSTATUS(*ret);
-	else if (WIFSIGNALED(*ret))
-	{
-		*ret = WTERMSIG(*ret) + 128;
-		write(1, "\n", 1);
-	}
-	else if (WIFSTOPPED(*ret))
-		*ret = WTERMSIG(*ret) + 128;
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (WIFSTOPPED(status))
+		return (WSTOPSIG(status) + 128);
+	else if (WIFSIGNALED(status))
+		return (WTERMSIG(status) + 128);
+	return (0);
 }
 
-void			command_wait(pid_t pid, int async, int *ret)
+int		command_job_wait(t_jobs *job, t_s_env *e)
 {
-	pid_t		got;
+	int		status;
 
-	if (!async)
-		while ((got = waitpid(pid, ret, 0)) > 0)
-			if (got == pid)
-			{
-				command_ret(ret);
-				return ;
-			}
+	if (!e->interactive)
+	{
+		job->foreground = 0;
+		job_wait(job, e);
+	}
+	//else if (job->status & JOB_FORKED)
+		//return (job_wait(job));
+	else if (job->status & JOB_BUILTIN_INTERN)
+	{
+		job->status &= ~JOB_BUILTIN_INTERN;
+		return (0);
+	}
+	else if (job->foreground == 1)
+		return (job_background(job, e, 0));
+	else
+	{
+		if ((status = job_foreground(job, e, 0)) != 0)
+			return (status);
+	}
+	return (0);
 }

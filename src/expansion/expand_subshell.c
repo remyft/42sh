@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 20:24:31 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 11:28:24 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/25 14:06:40 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "command.h"
 #include "expansion.h"
 #include "expansion_errors.h"
+#include <sys/ioctl.h>
 
 static void		line_quotes(char *quote, char c, char val)
 {
@@ -60,8 +61,8 @@ static void		expand_subshell_child(int pfd[2], size_t i, t_exp *param)
 	ft_memcpy(&newe, param->e, sizeof(newe));
 	newe.public_env = sh_tabdup((const char **)param->e->public_env);
 	newe.private_env = sh_tabdup((const char **)param->e->private_env);
-	newe.forked = 0;
-	newe.filein = 1;
+	newe.forked = 1;
+	newe.filein = 0;
 	close(pfd[0]);
 	dup2(pfd[1], STDOUT_FILENO);
 	close(pfd[1]);
@@ -75,13 +76,18 @@ static void		expand_subshell_child(int pfd[2], size_t i, t_exp *param)
 	exit(*newe.ret);
 }
 
-void			expand_subshell_father(int pfd[2], pid_t pid, t_ret *ret)
+int				expand_subshell_father(int pfd[2], pid_t pid, t_ret *ret)
 {
 	char		buff[1024];
 	int			i;
+	int			value;
 
+	value = 0;
 	close(pfd[1]);
-	command_wait(pid, 0, NULL);
+	(void)pid;
+	waitpid(pid, &value, 0);
+	//command_wait(pid, 0, &param->e->ret);
+	//command_wait(pid, 0, NULL);
 	while ((i = read(pfd[0], buff, sizeof(buff) - 1)) > 0)
 	{
 		buff[i] = '\0';
@@ -99,6 +105,7 @@ void			expand_subshell_father(int pfd[2], pid_t pid, t_ret *ret)
 	}
 	param_addstr(ret->substitute, ret);
 	ret->freeable = 1;
+	return (value);
 }
 
 int				expand_subshell(t_exp *param, t_ret *ret)
@@ -113,9 +120,16 @@ int				expand_subshell(t_exp *param, t_ret *ret)
 	if ((pid = fork()) < 0)
 		return (ERR_FORK);
 	else if (pid == 0)
+	{
+		ioctl(param->e->fd, TIOCSPGRP, &pid);
 		expand_subshell_child(pfd, i, param);
+	}
 	else
-		expand_subshell_father(pfd, pid, ret);
+	{
+		ioctl(param->e->fd, TIOCSPGRP, &pid);
+		*param->e->ret = expand_subshell_father(pfd, pid, ret);
+		ioctl(param->e->fd, TIOCSPGRP, &param->e->pid);
+	}
 	param->i = i;
 	return (ERR_NONE);
 }

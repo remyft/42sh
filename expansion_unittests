@@ -1,0 +1,50 @@
+echo '***************************************************************'
+echo '                    EXPAND DOLLAR UNITTESTS                    '
+echo '***************************************************************'
+
+echo 'EXPAND DOLLAR WITH NO BRACE'
+echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+echo $/$
+echo $PATH
+echo coucou-$SHLVL-coucou
+echo "NOVAR->$NOTAGOODVAR"
+ls $PATH
+ls "$PATH"
+echo -e '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n'
+
+echo 'EXPAND DOLLAR SPECIAL CHARACTERS : @*#?-$!0'
+echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+echo @=$@
+echo "@"="$@"
+echo @@=$@@
+echo '*'=$*
+echo "\"*\""="$*"
+echo '*'/=$*/
+echo #=$#
+echo ##=$##
+echo '?'=$?
+echo '??'=$??
+echo -=$-
+echo --=$--
+echo $=$$
+echo '$$'=$$$
+echo '!'=$!
+echo '!!'=$!!
+echo '0'=$0
+echo '00'=$00
+echo '01'=$01
+
+ls $@
+ls "$@"
+ls $*
+ls "$*"
+echo -e '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n'
+
+echo 'EXPAND DOLLAR PARAMETER ${...}'
+echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+echo ${}
+echo ${ }
+echo "${PATH}"
+echo coucou-${SHLVL}-coucou
+echo "NOVAR->${NOTAGOODVAR}"
+echo one"${NOTAGOODVAR}"two

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/24 20:10:26 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/23 15:49:06 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/24 18:06:08 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "shell_lib.h"
 #include "history.h"
 #include "main_tools.h"
+#include "job_control.h"
 
 static void		get_cursor_pos(void)
 {
@@ -84,6 +85,7 @@ void			shell_loop(t_line *line, t_s_env *e)
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
 	while (e->shell_loop && line->shell_loop)
 	{
+		jobs_remove(&e->jobs, 1);
 		if (line->tmp[0] == -1)
 			*e->ret = 130;
 		put_prompt(line->prompt, *line->ret);
@@ -91,7 +93,10 @@ void			shell_loop(t_line *line, t_s_env *e)
 		write(1, "\n", 1);
 		if (line->curr->buff && line->curr->buff[0] && line->tmp[0] != -1
 				&& line->curr->buff[0] != 10)
+		{
 			get_new_cmd(line, e);
+			jobs_notify_ended(e->jobs);
+		}
 		if (line->path)
 			check_mod_path(e, line, 0);
 	}

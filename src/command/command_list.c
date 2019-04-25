@@ -6,69 +6,98 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/18 14:41:16 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/25 16:08:35 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "job_control.h"
 #include "command.h"
 #include "operator_types.h"
 #include "expansion.h"
+#include <stdio.h>
 #include "redirection.h"
 
-static int	prepare_redirect(t_redirection *cmd, t_s_env *e)
+static int	prepare_redirect(t_redirection *cmd, t_s_env *e, t_jobs *job)
 {
 	if (!cmd)
 		return (0);
 	if (expand_argument(cmd->arg, e, 0))
 		return (1);
 	quote_removal(cmd->arg);
-	if (redirection(&cmd, e))
+	if (job->foreground == 0 && redirection(&cmd, e))
+	{
+		job->rd_ok = -1;
 		return (1);
-	return (prepare_redirect(cmd->next, e));
+	}
+	return (prepare_redirect(cmd->next, e, job));
 }
 
-static int	prepare_command(void *cmd, t_s_env *e)
+static int	prepare_command(void *cmd, t_s_env *e, t_jobs *job)
 {
 	if (!cmd)
 		return (0);
 	if (*(int *)cmd == IS_A_PIPE)
-		return (prepare_command(((t_pipeline *)cmd)->left, e)
-		|| prepare_command(((t_pipeline *)cmd)->right, e));
-	else if (expand_argument(((t_command *)cmd)->args, e, 1)
-	|| prepare_redirect(((t_command *)cmd)->redir, e))
+		return (prepare_command(((t_pipeline *)cmd)->left, e, job)
+			|| prepare_command(((t_pipeline *)cmd)->right, e, job));
+	else if ((expand_argument(((t_command *)cmd)->args, e, 1)
+		|| prepare_redirect(((t_command *)cmd)->redir, e, job)))
 		return (1);
 	quote_removal(((t_command *)cmd)->args);
 	return (0);
 }
 
-static int	execute_ao_list(t_ao_list *aolist, t_s_env *e)
+static int	execute_ao_list(t_ao_list *aolist, t_s_env *e, t_jobs *job)
 {
 	if (!aolist)
 		return (0);
-	if (!aolist->type
-	|| (aolist->type == OR_IF_VALUE && *e->ret)
-	|| (aolist->type == AND_IF_VALUE && !*e->ret))
-		if (!prepare_command(aolist->cmd, e))
-			command_parse(aolist->cmd, e);
-	return (execute_ao_list(aolist->next, e));
+	if (!command_m_process(e, job, aolist->type)
+		&& !prepare_command(aolist->cmd, e, job))
+		command_parse(aolist->cmd, e, aolist->type);
+	return (execute_ao_list(aolist->next, e, job));
+}
+
+static char		*get_command(t_m_list *list)
+{
+	t_ao_list	*ao;
+	t_command	*cmd;
+	t_argument	*arg;
+	const char		*head;
+	const char		*tail;
+
+	if (!list || !list->aolist || !list->aolist->cmd)
+		return (NULL);
+	cmd = (t_command *)list->aolist->cmd;
+	if (cmd->type == IS_A_PIPE)
+		head = ((t_command *)((t_pipeline *)cmd)->left)->args->token->head;
+	else
+		head = cmd->args->token->head;
+	ao = list->aolist;
+	while (ao->next)
+		ao = ao->next;
+	cmd = ao->cmd;
+	while (cmd->type == IS_A_PIPE)
+		cmd = ((t_pipeline *)cmd)->right;
+	arg = cmd->args;
+	while (arg->next)
+		arg = arg->next;
+	tail = arg->token->head + arg->token->len;
+	return (ft_strndup((char *)head, tail - head));
 }
 
 int			execute_list(t_m_list *list, t_s_env *e)
 {
-	pid_t	pid;
+	int		ret;
+	t_jobs	*job;
 
-	pid = 0;
 	if (!list)
 		return (0);
-	if (list->async)
-	{
-		if ((pid = fork()) < 0)
-			return (1);
-		if (pid == 0)
-			exit(execute_ao_list(list->aolist, e));
-	}
-	else if (execute_ao_list(list->aolist, e))
+	job = jobs_prepare(e);
+	job->cmd_name = get_command(list);
+	job->foreground = list->async;
+	if (execute_ao_list(list->aolist, e, job))
 		return (1);
+	if (!job->rd_ok && (ret = command_job(job, e)) != 0)
+		return (ret);
 	return (execute_list(list->next, e));
 }

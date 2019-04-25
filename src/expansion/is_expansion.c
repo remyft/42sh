@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 05:37:20 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/20 20:57:35 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/25 16:12:03 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int				is_special(int c)
 
 int				is_brace_end(t_exp *param)
 {
-	return (param->buff[param->i] != '}' || param->quote);
+	return (param->buff[param->i] != '}'/* || param->quote*/);
 }
 
 int				is_expand_null(t_ret *ret)

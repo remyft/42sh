@@ -6,13 +6,15 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:46:11 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/23 15:48:14 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/25 14:42:35 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 #include "shell_env.h"
 #include "shell_term.h"
+#include "token.h"
+#include "job_control.h"
 #include "main_tools.h"
 
 int				main(int ac, char **av, char **ep)

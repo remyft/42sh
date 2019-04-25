@@ -6,13 +6,14 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 16:42:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 11:40:58 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/25 14:42:24 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_dprintf.h"
 #include "builtins.h"
+#include "job_control.h"
 
 static int		str_full_digit(const char *s)
 {
@@ -43,9 +44,35 @@ static int		exit_error(int err, const char *cmdname, t_s_env *e)
 	return (err + 1);
 }
 
+static int		job_on(t_jobs *jobs, t_execute *exec)
+{
+	while (jobs)
+	{
+		if (job_is_curr(jobs, exec))
+			;
+		if (jobs->status & JOB_LAST)
+		{
+			if (jobs->last_exit)
+				return (0);
+			if (job_suspended(jobs, jobs->m_process)
+					&& jobs->foreground == 0)
+			{
+				jobs->last_exit = 1;
+				ft_dprintf(2, "There are stopped jobs.\n");
+				return (1);
+			}
+		}
+		jobs = jobs->next;
+	}
+	return (0);
+}
+
 int				builtin_exit(t_execute *exec, t_s_env *e)
 {
-	ft_putendl_fd("exit", STDERR_FILENO);
+	if (!e->forked)
+		ft_putendl_fd("exit", STDERR_FILENO);
+	if (job_on(e->jobs, exec))
+		return (1);
 	e->shell_loop = 0;
 	if (exec->cmd[1])
 	{
