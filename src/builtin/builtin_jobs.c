@@ -32,6 +32,7 @@ static int	jobs_opts_loop(char *arg, int *opts, t_s_env *e)
 static int		jobs_opts(char **args, int *opts, t_s_env *e)
 {
 	size_t	i;
+	int		stat;
 
 	i = 1;
 	while (args[i] && args[i][0] == '-')

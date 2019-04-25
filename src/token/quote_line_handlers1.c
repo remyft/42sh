@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 18:16:10 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 18:01:14 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/24 14:19:05 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int				aliased_line(t_param *param, t_line *line)
 	char		*add;
 	char		*newl;
 
-	add = (param->token->alias) ? " " : "\n";
+	add = (param->token->oldhd) ? " " : "\n";
 	if (!(newl = ft_strjoin(add, line->curr->buff)))
 		return (ERR_MALLOC);
 	if (!(param->line = ft_strjoinfree(param->line, newl, 3)))
@@ -29,8 +29,8 @@ int				aliased_line(t_param *param, t_line *line)
 int				bslashed_line(t_param *param, t_line *line)
 {
 	((char *)param->line)[ft_strlen(param->line) - 1] = '\0';
-	if ((param->token->alias && --param->token->alen <= 0)
-	|| (!param->token->alias && --param->token->len <= 0))
+	if ((param->token->oldhd && --param->token->oldlen <= 0)
+	|| (!param->token->oldhd && --param->token->len <= 0))
 		param->token->type = UNDEFINED;
 	param->i -= 2;
 	quote_remove(&param->token->quote, BACKSLASH);
@@ -44,7 +44,7 @@ int				dquoted_line(t_param *param, t_line *line)
 	char		*add;
 	char		*newl;
 
-	add = (param->token->alias) ? " " : "\n";
+	add = (param->token->oldhd) ? " " : "\n";
 	if (!(newl = ft_strjoin(add, line->curr->buff)))
 		return (ERR_MALLOC);
 	if (!(param->line = ft_strjoinfree(param->line, newl, 3)))
@@ -58,7 +58,7 @@ int				squoted_line(t_param *param, t_line *line)
 	char		*add;
 	char		*newl;
 
-	add = (param->token->alias) ? " " : "\n";
+	add = (param->token->oldhd) ? " " : "\n";
 	if (!(newl = ft_strjoin(add, line->curr->buff)))
 		return (ERR_MALLOC);
 	if (!(param->line = ft_strjoinfree(param->line, newl, 3)))
@@ -72,7 +72,7 @@ int				braced_line(t_param *param, t_line *line)
 	char		*add;
 	char		*newl;
 
-	add = (param->token->alias) ? " " : "\n";
+	add = (param->token->oldhd) ? " " : "\n";
 	if (!(newl = ft_strjoin(add, line->curr->buff)))
 		return (ERR_MALLOC);
 	if (!(param->line = ft_strjoinfree(param->line, newl, 3)))

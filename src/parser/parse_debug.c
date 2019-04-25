@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 14:52:10 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/22 02:30:51 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/24 15:50:05 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ static void		print_command(t_command *cmd, t_argument *arg)
 		&& (tmp = ft_strndup((char *)token->head, token->len)))
 			ft_dprintf(2, "\t\t\tARG [%s", tmp);
 		ft_strdel(&tmp);
-		if ((token = arg->token) && token->alias
-		&& (tmp = ft_strndup((char *)token->alias, token->alen)))
+		if ((token = arg->token) && token->oldhd
+		&& (tmp = ft_strndup((char *)token->oldhd, token->oldlen)))
 			ft_dprintf(2, "%s", tmp);
 		ft_dprintf(2, "]\n");
 		ft_strdel(&tmp);

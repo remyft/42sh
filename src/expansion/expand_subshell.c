@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 20:24:31 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/24 10:13:33 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/25 14:06:40 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "command.h"
 #include "expansion.h"
 #include "expansion_errors.h"
+#include <sys/ioctl.h>
 
 static void		line_quotes(char *quote, char c, char val)
 {
@@ -84,9 +85,9 @@ int				expand_subshell_father(int pfd[2], pid_t pid, t_ret *ret)
 	value = 0;
 	close(pfd[1]);
 	(void)pid;
+	waitpid(pid, &value, 0);
 	//command_wait(pid, 0, &param->e->ret);
 	//command_wait(pid, 0, NULL);
-	//command_wait(pid, 0, &value);
 	while ((i = read(pfd[0], buff, sizeof(buff) - 1)) > 0)
 	{
 		buff[i] = '\0';
@@ -119,9 +120,16 @@ int				expand_subshell(t_exp *param, t_ret *ret)
 	if ((pid = fork()) < 0)
 		return (ERR_FORK);
 	else if (pid == 0)
+	{
+		ioctl(param->e->fd, TIOCSPGRP, &pid);
 		expand_subshell_child(pfd, i, param);
+	}
 	else
+	{
+		ioctl(param->e->fd, TIOCSPGRP, &pid);
 		*param->e->ret = expand_subshell_father(pfd, pid, ret);
+		ioctl(param->e->fd, TIOCSPGRP, &param->e->pid);
+	}
 	param->i = i;
 	return (ERR_NONE);
 }

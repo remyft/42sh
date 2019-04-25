@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:17:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/24 11:56:58 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/25 10:22:14 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int				command_rd(t_s_env *e, t_jobs *job, void *cmd);
 int				command_m_process(t_s_env *e, t_jobs *job, int type);
 int				command_mprocess_background(t_jobs *job, t_s_env *e);
 int				command_redirect_test(t_process *p);
+int				command_is_builtin(t_process *p);
 void			command_process(pid_t pid, pid_t s_pid, t_jobs *job, t_process *p);
 
 void			close_unexpected_fd(int *fds);

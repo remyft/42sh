@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/24 17:39:30 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/25 16:02:25 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,10 @@ typedef struct	s_jobs
 	int					foreground;
 	int					status;
 	int					sig;
+	int					exit_r;
 	int					last_exit;
 	int					notify;
+	int					rd_ok;
 	char				*cmd_name;
 	t_m_process			*m_process;
 	t_m_process			*curr;

@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 16:08:47 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/24 18:09:30 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/25 11:04:19 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,7 @@
 void	job_show_status(t_jobs *job, int sig)
 {
 	if (sig > 0)
-	{
-		ft_printf("hey\n");
 		ft_printf("%s: %d\n", sig_err_translate(sig), sig);
-	}
 	else
 		ft_printf("[%d]+  %-22s command\n", job->id,
 			process_translate_status(job->m_process->p->status));

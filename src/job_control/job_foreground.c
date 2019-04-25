@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:36:31 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/24 18:06:18 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/25 16:08:34 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ static void	job_give_status(t_jobs *job)
 		job->status |= JOB_LAST;
 }
 
+#include <stdio.h>
+
 int			job_foreground(t_jobs *job, t_s_env *e, int cont)
 {
 	int		status;
@@ -57,7 +59,7 @@ int			job_foreground(t_jobs *job, t_s_env *e, int cont)
 	job_give_status(job);
 	if ((status = job_fg_cont(job, e, cont)) != 0)
 			return (status);
-	if (ioctl(e->fd, TIOCSPGRP, &job->pgid) < 0)
+	if (job->pgid && ioctl(e->fd, TIOCSPGRP, &job->pgid) < 0)
 	{
 		ft_dprintf(2, "job [%d] tcsetpgrp failed\n", job->pgid);
 		return (job_kill(job, e));
@@ -72,5 +74,5 @@ int			job_foreground(t_jobs *job, t_s_env *e, int cont)
 	}
 	sig_to_pgid(0);
 	// RETURN VALUE 128 + sig , if sig > 0 ???
-	return (status);
+	return (*e->ret);
 }

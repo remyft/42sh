@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:39:19 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/24 15:21:25 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/25 10:25:15 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void	insert_process(t_jobs *job, t_process *new)
 	{
 		while (curr->next != NULL)
 			curr = curr->next;
+		new->pid = -1;
 		curr->next = new;
 	}
 }

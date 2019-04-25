@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 23:42:06 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 19:30:59 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/24 15:41:51 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ static int		check_hdoc(t_hdoc *hdoc)
 
 t_token			*handle_end_of_input(t_param *param, t_call *token)
 {
-	if (!param->token->alias)
-		param->token->len = param->line + param->i - param->token->head;
+	if (param->token->oldhd)
+		param->token->oldlen = param->line + param->i - param->token->oldhd;
 	else
-		param->token->alen = param->line + param->i - param->token->alias;
+		param->token->len = param->line + param->i - param->token->head;
 	if (param->token->type != UNDEFINED)
 	{
 		if (param->e->checkquote && (quote_type(param->token->quote) != NO_QUOTE

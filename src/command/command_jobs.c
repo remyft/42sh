@@ -23,6 +23,7 @@ static int launch_m_process(t_jobs *job, t_m_process *m_p, t_s_env *e)
 
 	set_fds(fds, 5);
 	curr = m_p->p;
+	ret = 0;
 	job->pgid = 0;
 	while (curr)
 	{
@@ -83,18 +84,19 @@ int			command_job(t_jobs *job, t_s_env *e)
 {
 	int		ret;
 
-	ret = 0;
+
 	if (job->m_process->next && job->foreground == 1)
 		return (command_mprocess_background(job, e));
 	for (t_m_process *m_p = job->m_process; m_p; m_p = m_p->next)
 	{
-		if (m_p->type == OR_IF_VALUE && !ret)
+		if (m_p->type == OR_IF_VALUE && *e->ret == 0)
 			continue ;
-		if ((ret = launch_m_process(job, m_p, e)) != 0)
+		else if (m_p->type == AND_IF_VALUE && *e->ret != 0)
+			continue ;
+		if ((ret = launch_m_process(job, m_p, e)) != 0 
+				&& m_p->p->next == NULL)
 			return (ret);
-		if ((ret = command_job_wait(job, e)) != 0)
-			return (ret);
-		ret = m_p->ret;
+		command_job_wait(job, e);
 	}
 	return (0);
 }
