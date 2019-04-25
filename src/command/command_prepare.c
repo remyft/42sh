@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 20:44:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/25 08:54:34 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/25 16:32:57 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static int		modify_public_environment(t_argument *var, t_s_env *e)
 		i = 0;
 		while (var->cmd[i])
 		{
-			equal = ft_strchr(var->cmd[i], '=');
+			if (!(equal = ft_strchr(var->cmd[i], '=')))
+				return (0);
 			*equal = '\0';
 			if ((ptr = sh_getnenvaddr(var->cmd[i], e->public_env))
 				|| (ptr = sh_getnenvaddr(var->cmd[i], e->private_env)))

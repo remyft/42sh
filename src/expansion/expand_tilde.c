@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 02:35:19 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 18:26:40 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/25 14:28:11 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static int		tilde_get_parameter(t_ret *parameter, t_exp *param)
 	int			error;
 
 	error = ERR_NONE;
-	ft_memset(parameter, 0, sizeof(*parameter));
 	param_addchar('~', parameter);
 	param->i++;
 	if ((error = expand_loop(parameter, param, tilde_end)) != ERR_NONE)
@@ -48,6 +47,7 @@ int				expand_tilde(t_exp *param, t_ret *ret)
 	int				error;
 
 	i = 0;
+	ft_memset(&parameter, 0, sizeof(parameter));
 	if (ret->w_len != 0)
 		return (param_addchar('~', ret));
 	if ((error = tilde_get_parameter(&parameter, param)) == ERR_NONE)
