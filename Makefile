@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/04/25 21:36:41 by tsisadag         ###   ########.fr        #
+#    Updated: 2019/04/26 00:02:59 by tsisadag         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -304,6 +304,8 @@ SRCS += builtin_alias_error.c				\
 		builtin_test_operators_1.c			\
 		builtin_test_operators_2.c			\
 		builtin_test_operators_3.c			\
+		builtin_test_operators_4.c			\
+		builtin_test_operators_5.c			\
 
 # LIBRARY
 LIBRARY_DIR = lib/
