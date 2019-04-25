@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/04/26 00:02:59 by tsisadag         ###   ########.fr        #
+#    Updated: 2019/04/26 01:37:31 by tsisadag         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,6 +99,7 @@ SRCS += check_modif_path.c					\
 TERM_DIR = $(SRCS_DIR)termcaps/
 SRCS += control.c							\
 		delete.c							\
+		delete_tools.c						\
 		history.c							\
 		line_move.c							\
 		move_cursor.c						\

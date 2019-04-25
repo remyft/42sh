@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:57:17 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/21 21:05:00 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/25 23:17:46 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,39 @@
 #include "shell_term.h"
 #include "put.h"
 #include "libft.h"
+
+static void	ft_putbuff_len(t_line *line)
+{
+	int		i;
+
+	i = line->index;
+	while ((i + line->lprompt) % line->nb_col != 0 && i > 0)
+		i--;
+	write(0, &line->curr->buff[i - line->nb_col + line->lprompt], line->nb_col);
+}
+
+static void	get_to_left(t_line *line)
+{
+	if (line->index > 0)
+		line->index -= 1;
+	else
+		write(2, "\a", 1);
+	if (line->index
+			&& (line->index + line->lprompt) % line->nb_col == 0)
+	{
+		if (get_cursor_line() == 1)
+		{
+			tputs(tgetstr("sr", NULL), 1, ft_pchar);
+			tputs(tgetstr("cr", NULL), 1, ft_pchar);
+			if (line->index + line->lprompt <= line->nb_col)
+				put_prompt(line->prompt, *line->ret);
+			ft_putbuff_len(line);
+		}
+		tputs(tgetstr("up", NULL), 1, ft_pchar);
+	}
+	tputs(tgoto(tgetstr("ch", NULL), 0,
+				(line->index + line->lprompt) % line->nb_col), 1, ft_pchar);
+}
 
 static void	get_to_len(t_line *line, char tchar)
 {
@@ -36,7 +69,7 @@ static void	get_to_len(t_line *line, char tchar)
 		if ((int)line->index - j > (int)line->nb_col)
 			mv_line_up(line);
 		else
-			left_arrow(line);
+			get_to_left(line);
 	}
 }
 

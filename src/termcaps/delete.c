@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:51:36 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/21 21:02:20 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/25 23:16:08 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,17 @@
 #include "libft.h"
 #include "shell_term.h"
 
-void		del_lines(t_line *line)
-{
-	int		i;
-	int		j;
-
-	i = (line->index + line->lprompt) / line->nb_col - 1;
-	j = (line->len + line->lprompt) / line->nb_col;
-	tputs(tgetstr("sc", NULL), 1, ft_pchar);
-	while (++i < j)
-	{
-		tputs(tgetstr("do", NULL), 1, ft_pchar);
-		tputs(tgetstr("cr", NULL), 1, ft_pchar);
-		tputs(tgetstr("dl", NULL), 1, ft_pchar);
-	}
-	tputs(tgetstr("rc", NULL), 1, ft_pchar);
-}
-
 static void	del_left_tool(t_line *line)
 {
-	if ((line->index + line->lprompt) % line->nb_col == line->nb_col - 1)
+	if ((line->index + line->lprompt) % line->nb_col == line->nb_col - 1
+			&& line->index == line->len)
 	{
 		tputs(tgetstr("sc", NULL), 1, ft_pchar);
 		ft_putchar(' ');
 		tputs(tgetstr("rc", NULL), 1, ft_pchar);
 	}
 	if (line->len + line->lprompt > line->nb_col - 1)
-	{
 		del_lines(line);
-		tputs(tgetstr("sc", NULL), 1, ft_pchar);
-		line->index < line->len ?
-			ft_putstr(&(line->curr->buff[line->index])) : ft_putstr("");
-		tputs(tgetstr("rc", NULL), 1, ft_pchar);
-	}
 }
 
 static void	del_left(t_line *line)
@@ -101,12 +79,7 @@ void		del_right(t_line *line)
 		while (line->index + ++j < line->len)
 			line->curr->buff[line->index + j] =
 				line->curr->buff[line->index + j + 1];
-		tputs(tgetstr("dc", NULL), 1, ft_pchar);
-		del_lines(line);
-		tputs(tgetstr("sc", NULL), 1, ft_pchar);
-		line->index < line->len ?
-			ft_putstr(&(line->curr->buff)[line->index]) : ft_putstr("");
-		tputs(tgetstr("rc", NULL), 1, ft_pchar);
 		line->len = line->len > line->index ? line->len - 1 : line->index;
+		del_lines(line);
 	}
 }

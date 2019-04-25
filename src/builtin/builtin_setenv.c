@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 09:37:46 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/24 10:01:07 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/25 23:40:39 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "shell_lib.h"
 #include "builtin_setenv.h"
 #include "main_tools.h"
+#include "shell.h"
 
 static int		setenv_error(int err, char *cmd_name, t_s_env *e)
 {
@@ -54,5 +55,6 @@ int				builtin_setenv(t_execute *exec, t_s_env *e)
 		return (setenv_error(ERR_MALLOC_ERROR, exec->cmd[0], e));
 	if (ft_strcmp(exec->cmd[1], "PATH") == 0)
 		check_path(e);
+	get_tree_env();
 	return (0);
 }

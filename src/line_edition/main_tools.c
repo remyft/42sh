@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/23 16:02:55 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/25 23:36:02 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,7 @@ static void	create_all_tree(t_line *line)
 		GET_TREE(line->tree, BIN) = create_bin_tree(*line->private_env);
 	GET_TREE(line->tree, FILES) = create_file_tree(".", NULL, NULL);
 	GET_TREE(line->tree, TMP) = NULL;
-	fill_tree_env(*line->public_env, &GET_TREE(line->tree, ENV));
-	fill_tree_env(*line->private_env, &GET_TREE(line->tree, ENV));
-	if (GET_TREE(line->tree, ENV))
-		set_psblty(GET_TREE(line->tree, ENV), 1);
+	get_tree_env();
 }
 
 int			init_line(char **env, t_line *line)
