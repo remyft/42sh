@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 22:30:29 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 17:59:49 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/24 14:26:05 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,31 @@ static int		name_type(t_token *token)
 	return (NAME);
 }
 
-static int		is_token_a_command(t_token *token)
+static int		identify_alias(t_param *param)
 {
-	return (!token || (token->type == OPERATOR && token->id < LESS_VALUE));
+	t_token		*token;
+	t_token		*prev;
+
+	token = param->token;
+	prev = param->token->prev;
+	if ((!prev
+	|| (prev->type == OPERATOR && prev->id < LESS_VALUE)
+	|| (prev->type == TOKEN && prev->alias
+		&& ft_isspace(prev->alias->value[ft_strlen(prev->alias->value) - 1])
+		&& quote_type(prev->quote) == NO_QUOTE))
+	&& is_alias_valid_name(token->head, token->len)
+	&& (param->token = handle_alias(param, param->e))
+	&& quote_type(param->token->quote) != NO_QUOTE)
+		return (1);
+	return (0);
 }
 
 t_token			*identify_word(t_param *param)
 {
-	if (!param->token->alias)
+	if (!param->token->oldhd)
 		param->token->len = param->line + param->i - param->token->head;
 	else
-		param->token->alen = param->line + param->i - param->token->alias;
+		param->token->oldlen = param->line + param->i - param->token->oldhd;
 	if (ft_isquote(*param->token->head))
 		param->token->id = WORD;
 	else if (param->token->id == WORD
@@ -83,10 +97,7 @@ t_token			*identify_word(t_param *param)
 			param->token->id = ionumber_type(param->token);
 		else
 			param->token->id = name_type(param->token);
-		if (is_token_a_command(param->token->prev)
-		&& is_alias_valid_name(param->token->head, param->token->len)
-		&& (param->token = handle_alias(param, param->e))
-		&& quote_type(param->token->quote) != NO_QUOTE)
+		if (identify_alias(param))
 			return (param->token);
 	}
 	if (!(param->token->next = new_token(param->line, param->i)))

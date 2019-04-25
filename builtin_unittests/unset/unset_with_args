@@ -1,0 +1,41 @@
+unset $PWD
+echo "ret: $?"
+env
+echo "ret: $?"
+set
+echo "ret: $?"
+export
+echo "ret: $?"
+
+dd=ff
+echo "ret: $?"
+unset dd
+echo "ret: $?"
+env
+echo "ret: $?"
+set
+echo "ret: $?"
+export
+echo "ret: $?"
+
+export gg
+echo "ret: $?"
+unset dd
+echo "ret: $?"
+env
+echo "ret: $?"
+set
+echo "ret: $?"
+export
+echo "ret: $?"
+
+setenv koko=kuku
+echo "ret: $?"
+unset dd
+echo "ret: $?"
+env
+echo "ret: $?"
+set
+echo "ret: $?"
+export
+echo "ret: $?"
