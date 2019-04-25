@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 05:59:37 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/23 07:47:50 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/25 23:20:33 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,22 @@ static void	erase_completion(t_line *line, int index_tmp)
 	line->index = index_tmp;
 }
 
+static void	handle_index(t_line *line)
+{
+	int		j;
+
+	j = line->index;
+	line->index = line->len;
+	while ((int)line->index > j)
+		left_arrow(line);
+	if (line->index == line->len
+			&& (line->len + line->lprompt) % line->nb_col == 0)
+	{
+		tputs(tgetstr("do", NULL), 1, ft_pchar);
+		tputs(tgetstr("cd", NULL), 1, ft_pchar);
+	}
+}
+
 void		ft_paste(t_line *line)
 {
 	int		index_tmp;
@@ -69,10 +85,5 @@ void		ft_paste(t_line *line)
 			break ;
 	line->len += len;
 	ft_putstr(&line->curr->buff[index_tmp]);
-	if (line->index == line->len)
-		return ;
-	j = line->index;
-	line->index = line->len;
-	while ((int)line->index > j)
-		left_arrow(line);
+	handle_index(line);
 }

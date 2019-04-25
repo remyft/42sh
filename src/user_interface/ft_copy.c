@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 11:36:28 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/23 00:58:47 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/25 23:18:16 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "struct.h"
 #include "shell_term.h"
 #include "shell.h"
+
+#include "stdio.h"
 
 void		ft_copy(t_line *line)
 {
