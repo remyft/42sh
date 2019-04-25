@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:02:57 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/25 11:16:15 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/25 18:26:11 by tsisadag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int				command_is_builtin(t_process *p)
 		BUILTIN_ALIAS, BUILTIN_CD, BUILTIN_ECHO, BUILTIN_ENV, BUILTIN_EXIT,
 		BUILTIN_SETENV, BUILTIN_UNALIAS, BUILTIN_UNSETENV, BUILTIN_JOBS,
 		BUILTIN_FG, BUILTIN_BG, BUILTIN_TYPE, BUILTIN_EXPORT, BUILTIN_SET,
-		BUILTIN_UNSET,
+		BUILTIN_UNSET, BUILTIN_TEST,
 	};
 	size_t				i;
 	t_execute			*exec;
@@ -87,7 +87,7 @@ int				command_check(t_jobs *job, t_process *p, t_s_env *e)
 		BUILTIN_ALIAS, BUILTIN_CD, BUILTIN_ECHO, BUILTIN_ENV, BUILTIN_EXIT,
 		BUILTIN_SETENV, BUILTIN_UNALIAS, BUILTIN_UNSETENV, BUILTIN_JOBS,
 		BUILTIN_FG, BUILTIN_BG, BUILTIN_TYPE, BUILTIN_EXPORT, BUILTIN_SET,
-		BUILTIN_UNSET,
+		BUILTIN_UNSET, BUILTIN_TEST
 	};
 	size_t				i;
 	int					ret;
