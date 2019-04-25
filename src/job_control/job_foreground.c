@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:36:31 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/23 11:51:54 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/24 18:06:18 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,25 @@ static int	job_fg_cont(t_jobs *job, t_s_env *e, int cont)
 	return (0);
 }
 
+static void	job_give_status(t_jobs *job)
+{
+	if (job->prev)
+	{
+		job->status |= JOB_LAST;
+		job->prev->status &= ~JOB_LAST;
+		job->prev->status |= JOB_MINUS;
+		if (job->prev->prev)
+			job->prev->prev->status &= ~JOB_MINUS;
+	}
+	else
+		job->status |= JOB_LAST;
+}
+
 int			job_foreground(t_jobs *job, t_s_env *e, int cont)
 {
 	int		status;
 
+	job_give_status(job);
 	if ((status = job_fg_cont(job, e, cont)) != 0)
 			return (status);
 	if (ioctl(e->fd, TIOCSPGRP, &job->pgid) < 0)
@@ -47,7 +62,7 @@ int			job_foreground(t_jobs *job, t_s_env *e, int cont)
 		ft_dprintf(2, "job [%d] tcsetpgrp failed\n", job->pgid);
 		return (job_kill(job, e));
 	}
-	status = job_wait(job);
+	status = job_wait(job, e);
 	if (job_finished(job) == 0 && tcgetattr(e->fd, &e->save) != 0)
 		dprintf(2, "Error make tcgetattr\n");
 	if (ioctl(e->fd, TIOCSPGRP, &e->pid) < 0)

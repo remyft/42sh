@@ -1,0 +1,8 @@
+export lala=
+echo "ret: $?"
+export
+echo "ret: $?"
+set
+echo "ret: $?"
+env
+echo "ret: $?"

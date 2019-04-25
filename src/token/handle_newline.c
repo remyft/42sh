@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 20:16:48 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 11:25:34 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/23 17:59:07 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static t_token	*exec_line(t_param *param)
 {
 	t_m_list	*tree;
 
-	if (!(tree = parse((char **)&param->line, &param->head, param->e)))
+	if (!(tree = parse((char **)param->line, &param->head, param->e)))
 		return (NULLTOKEN);
 	execute_list(tree, param->e);
 	free_m_list(&tree);

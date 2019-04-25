@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 01:00:40 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/23 07:11:38 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/23 15:59:28 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ static int	cmp_t_stamp(t_stamp *tstmp, t_stamp *curr)
 	return (1);
 }
 
-static void	free_t_stamp(t_stamp *tstmp)
+static void	free_t_stamp(t_stamp *tstmp, int to_free)
 {
-	if (!tstmp)
+	if (!tstmp || !to_free)
 		return ;
-	free_t_stamp(tstmp->next);
+	free_t_stamp(tstmp->next, 1);
 	free(tstmp);
 }
 
@@ -65,30 +65,40 @@ static int	get_timestamp(t_stamp *tstmp, char *path)
 	return (0);
 }
 
-void		check_mod_path(char **env, t_line *line)
+void		fill_alias_tree(t_alias *alias, t_line *line)
+{
+	while (alias)
+	{
+		feed_tree(alias->key, -1, &GET_TREE(line->tree, BIN), 0);
+		alias = alias->next;
+	}
+}
+
+void		check_mod_path(t_s_env *e, t_line *line, int to_free)
 {
 	static t_stamp	*tstmp = NULL;
 	t_stamp			*curr;
 	char			*path;
 
-	path = sh_getnenv("PATH", env);
+	path = sh_getnenv("PATH", e->public_env);
 	if (!tstmp)
 		if (get_timestamp((tstmp = ft_memalloc(sizeof(t_stamp))), path))
 		{
-			free_t_stamp(tstmp);
+			free_t_stamp(tstmp, 1);
 			tstmp = NULL;
 			return ;
 		}
 	if (get_timestamp((curr = ft_memalloc(sizeof(t_stamp))), path))
 	{
-		free_t_stamp(curr);
+		free_t_stamp(curr, 1);
 		return ;
 	}
 	if (cmp_t_stamp(tstmp, curr))
 	{
 		free_tree(GET_TREE(line->tree, BIN));
-		GET_TREE(line->tree, BIN) = create_bin_tree(env);
+		GET_TREE(line->tree, BIN) = create_bin_tree(e->public_env);
+		fill_alias_tree(e->alias_list, line);
 	}
-	free_t_stamp(tstmp);
-	tstmp = curr;
+	free_t_stamp(tstmp, 1);
+	free_t_stamp((tstmp = curr), to_free);
 }

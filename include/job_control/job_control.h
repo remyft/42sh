@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 14:09:06 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/20 10:31:18 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/24 18:03:59 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ enum
 void			job_handler(t_jobs *job, t_s_env *e);
 void			job_print_status(t_jobs *job);
 
-int				job_wait(t_jobs *job);
+int				job_wait(t_jobs *job, t_s_env *e);
 int				job_kill(t_jobs *job, t_s_env *e);
 int				job_background(t_jobs *job, t_s_env *e, int cont);
 int				job_foreground(t_jobs *job, t_s_env *e, int cont);
@@ -91,7 +91,7 @@ int				create_process(t_s_env *e, t_execute *exec, int type);
 int				process_set_status(t_jobs *jobs, t_process *p, int status, t_m_process *m_p);
 
 char			*process_translate_status(int status);
-void			process_status(t_jobs *job, t_m_process *m_p, t_process *p);
+void			process_status(t_jobs *job, t_m_process *m_p, t_process *p, t_s_env *e);
 int				proc_update(t_s_env *e, t_jobs *job, pid_t pid, int status);
 
 #endif

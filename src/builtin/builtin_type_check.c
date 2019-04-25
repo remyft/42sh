@@ -6,7 +6,7 @@
 /*   By: tsisadag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 18:59:02 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/03/04 20:08:49 by tsisadag         ###   ########.fr       */
+/*   Updated: 2019/04/22 16:17:21 by tsisadag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int		is_builtin(char *arg, t_type *type)
 			|| ft_strcmp(arg, "env") == 0 || ft_strcmp(arg, "exit") == 0
 			|| ft_strcmp(arg, "setenv") == 0 || ft_strcmp(arg, "unalias") == 0
 			|| ft_strcmp(arg, "unsetenv") == 0 || ft_strcmp(arg, "type") == 0
-			|| ft_strcmp(arg, "alias") == 0)
+			|| ft_strcmp(arg, "alias") == 0 || ft_strcmp(arg, "set") == 0
+			|| ft_strcmp(arg, "unset") == 0 || ft_strcmp(arg, "export") == 0)
 	{
 		if (type->opt_p || type->opt_bigp)
 			return (0);
@@ -91,7 +92,6 @@ int		is_file(char *arg, char **paths, t_type *type, int ret)
 				return (0);
 			if (!type->opt_a || (type->opt_a && paths[i + 1] != NULL))
 			{
-				printf("1\n");
 				free(tmp2);
 				return (0);
 			}
@@ -110,10 +110,10 @@ int		is_file_2(t_type *type, int ret, char **tmp2, char *arg)
 		return (0);
 	}
 	if (type->opt_bigp || type->opt_p)
-		ft_printf("%s\n", tmp2);
+		ft_printf("%s\n", *tmp2);
 	else if (type->opt_t)
 		ft_printf("file\n");
 	else
-		ft_printf("%s is %s\n", arg, tmp2);
+		ft_printf("%s is %s\n", arg, *tmp2);
 	return (1);
 }

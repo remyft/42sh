@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 09:43:12 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/23 12:24:47 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/24 17:29:51 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,17 @@
 #include "command.h"
 #include <stdio.h>
 
+int		command_ret(int status)
+{
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (WIFSTOPPED(status))
+		return (WSTOPSIG(status) + 128);
+	else if (WIFSIGNALED(status))
+		return (WTERMSIG(status) + 128);
+	return (0);
+}
+
 int		command_job_wait(t_jobs *job, t_s_env *e)
 {
 	int		status;
@@ -25,7 +36,7 @@ int		command_job_wait(t_jobs *job, t_s_env *e)
 	if (!e->interactive)
 	{
 		job->foreground = 0;
-		job_wait(job);
+		job_wait(job, e);
 	}
 	//else if (job->status & JOB_FORKED)
 		//return (job_wait(job));

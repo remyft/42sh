@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:15:24 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/23 11:15:52 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/24 17:55:05 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static int	process_update(t_jobs *job, t_m_process *m_p,
 	return (-1);
 }
 
-void		process_status(t_jobs *job, t_m_process *m_p, t_process *p)
+void		process_status(t_jobs *job, t_m_process *m_p, t_process *p, t_s_env *e)
 {
 	int		status;
 	pid_t	pid;
@@ -89,5 +89,6 @@ void		process_status(t_jobs *job, t_m_process *m_p, t_process *p)
 			p->status = STATUS_FINISHED;
 		else
 			process_update(job, m_p, pid, status);
+		*e->ret = command_ret(status);
 	}
 }

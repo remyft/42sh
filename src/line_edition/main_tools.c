@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/23 01:46:25 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/23 16:02:55 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,17 +82,18 @@ void		deal_key(t_line *line)
 		}
 }
 
-void		check_path(char **env)
+void		check_path(t_s_env *e)
 {
 	char	*path;
 	t_line	*line;
 
 	line = get_struct();
-	path = sh_getnenv("PATH", env);
+	path = sh_getnenv("PATH", e->public_env);
 	if ((path && ft_strcmp(path, line->path) != 0) || !path)
 	{
 		free_tree(line->tree[0]);
-		line->tree[0] = create_bin_tree(env);
+		line->tree[0] = create_bin_tree(e->public_env);
+		fill_alias_tree(e->alias_list, line);
 		line->path = path;
 	}
 }

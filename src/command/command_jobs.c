@@ -38,9 +38,8 @@ static int launch_m_process(t_jobs *job, t_m_process *m_p, t_s_env *e)
 
 static int		command_test_wait(t_jobs *job, t_m_process *m_p, t_s_env *e)
 {
-	(void)e;
 	(void)m_p;
-	return (job_wait(job));
+	return (job_wait(job, e));
 }
 
 static int		command_launch_mp_b(t_jobs *job, t_s_env *e)
@@ -55,14 +54,9 @@ static int		command_launch_mp_b(t_jobs *job, t_s_env *e)
 		if ((ret = launch_m_process(job, m_p, e)) != 0)
 			return (ret);
 		job->notify = 1;
-	//	if ((ret = command_job_wait(job, e)) != 0)
 		if ((ret = command_test_wait(job, m_p, e)) != 0)
-		{
-		//	command_restore_fds(((t_execute *)m_p->p->exec)->fds);
 			return (ret);
-		}
 		ret = m_p->ret;
-	//	command_restore_fds(((t_execute *)m_p->p->exec)->fds);
 	}
 	//jobs_notify_ended(e->jobs);
 	return (0);

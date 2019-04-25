@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 16:08:47 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/23 08:43:24 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/24 18:09:30 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,19 @@
 
 void	job_show_status(t_jobs *job, int sig)
 {
-	printf("There\n");
 	if (sig > 0)
+	{
+		ft_printf("hey\n");
 		ft_printf("%s: %d\n", sig_err_translate(sig), sig);
+	}
 	else
 		ft_printf("[%d]+  %-22s command\n", job->id,
 			process_translate_status(job->m_process->p->status));
+}
+
+static void	job_suspended_status(t_jobs *job, int sig)
+{
+	ft_printf("[%d]+  %-22s %s\n", job->id, sig_err_translate(sig), job->cmd_name);
 }
 
 int		job_notify(t_jobs *job, t_m_process *m_p)
@@ -35,8 +42,8 @@ int		job_notify(t_jobs *job, t_m_process *m_p)
 	if ((s_suspended = job_sig_suspended(job, m_p)) > 0)
 	{
 		write(1, "\n", 1);
-		job_show_status(job, sig);
-		return (s_suspended);
+		job_suspended_status(job, s_suspended);
+		return (s_suspended + 128);
 	}
 	else
 	{

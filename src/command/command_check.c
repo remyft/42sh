@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:02:57 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 12:24:48 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/24 17:15:57 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "shell_lib.h"
 #include "builtins.h"
 #include "job_control.h"
+#include "redirection.h"
 #include <stdio.h>
 
 static int		command_check_builtin(int (*handler)(t_execute *, t_s_env *), t_jobs *job, t_process *p, t_s_env *e)

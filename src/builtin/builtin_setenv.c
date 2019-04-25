@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 09:37:46 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 11:44:23 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/24 10:01:07 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,6 @@ int				builtin_setenv(t_execute *exec, t_s_env *e)
 	if (sh_setenv(exec->cmd[1], exec->cmd[2], &e->public_env))
 		return (setenv_error(ERR_MALLOC_ERROR, exec->cmd[0], e));
 	if (ft_strcmp(exec->cmd[1], "PATH") == 0)
-		check_path(e->public_env);
+		check_path(e);
 	return (0);
 }

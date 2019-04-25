@@ -1,0 +1,190 @@
+echo "----------------------------------------------------------------------------------------"
+echo "                              TESTING TYPE NO ARGUMENTS"
+echo "----------------------------------------------------------------------------------------"
+
+EX_FILE=../../21sh
+CMD = TYPE
+
+echo "\n\n"
+echo "$CMD IN 21SH"
+$EX_FILE type_no_arg 2>&1 > out1
+echo "$CMD IN BASH"
+bash type_no_arg 2>&1 > out2
+echo "DIFF"
+diff out1 out2
+
+rm out1 out2
+
+echo "----------------------------------------------------------------------------------------"
+echo "                              TESTING $CMD WITH OPTION"
+echo "----------------------------------------------------------------------------------------"
+
+echo "\n\n"
+echo ">>>>> type_with_opt_0"
+echo "$CMD IN 21SH"
+$EX_FILE type_with_opt_0 2>&1 > out1
+echo "$CMD IN BASH"
+bash type_with_opt_0 2>&1 > out2
+echo "DIFF"
+diff out1 out2
+rm out1 out2
+
+echo "\n\n"
+echo ">>>>> type_with_opt_1"
+echo "$CMD IN 21SH"
+$EX_FILE type_with_opt_1 2>&1 > out1
+echo "$CMD IN BASH"
+bash type_with_opt_1 2>&1 > out2
+echo "DIFF"
+diff out1 out2
+rm out1 out2
+
+echo "\n\n"
+echo ">>>>> type_with_opt_2"
+echo "$CMD IN 21SH"
+$EX_FILE type_with_opt_2 2>&1 > out1
+echo "$CMD IN BASH"
+bash type_with_opt_2 2>&1 > out2
+echo "DIFF"
+diff out1 out2
+rm out1 out2
+
+echo "\n\n"
+echo ">>>>> type_with_opt_3"
+echo "$CMD IN 21SH"
+$EX_FILE type_with_opt_3 2>&1 > out1
+echo "$CMD IN BASH"
+bash type_with_opt_3 2>&1 > out2
+echo "DIFF"
+diff out1 out2
+rm out1 out2
+
+echo "\n\n"
+echo ">>>>> type_with_opt_4"
+echo "$CMD IN 21SH"
+$EX_FILE type_with_opt_4 2>&1 > out1
+echo "$CMD IN BASH"
+bash type_with_opt_4 2>&1 > out2
+echo "DIFF"
+diff out1 out2
+rm out1 out2
+
+echo "\n\n"
+echo ">>>>> type_with_opt_5"
+echo "$CMD IN 21SH"
+$EX_FILE type_with_opt_5 2>&1 > out1
+echo "$CMD IN BASH"
+bash type_with_opt_5 2>&1 > out2
+echo "DIFF"
+diff out1 out2
+rm out1 out2
+
+echo "\n\n"
+echo ">>>>> type_with_opt_6"
+echo "$CMD IN 21SH"
+$EX_FILE type_with_opt_6 2>&1 > out1
+echo "$CMD IN BASH"
+bash type_with_opt_6 2>&1 > out2
+echo "DIFF"
+diff out1 out2
+rm out1 out2
+
+echo "\n\n"
+echo ">>>>> type_with_opt_7"
+echo "$CMD IN 21SH"
+$EX_FILE type_with_opt_7 2>&1 > out1
+echo "$CMD IN BASH"
+bash type_with_opt_7 2>&1 > out2
+echo "DIFF"
+diff out1 out2
+rm out1 out2
+
+echo "\n\n"
+echo ">>>>> type_with_opt_8"
+echo "$CMD IN 21SH"
+$EX_FILE type_with_opt_8 2>&1 > out1
+echo "$CMD IN BASH"
+bash type_with_opt_8 2>&1 > out2
+echo "DIFF"
+diff out1 out2
+rm out1 out2
+
+echo "----------------------------------------------------------------------------------------"
+echo "                              TESTING $CMD WITH INVALID OPTION"
+echo "----------------------------------------------------------------------------------------"
+
+echo "\n\n"
+echo ">>>>> type_invalid_opt_0"
+echo "$CMD IN 21SH"
+$EX_FILE type_invalid_opt_0 2>&1 > out1
+echo "$CMD IN BASH"
+bash type_invalid_opt_0 2>&1 > out2
+echo "DIFF"
+diff out1 out2
+rm out1 out2
+
+echo "\n\n"
+echo ">>>>> type_invalid_opt_1"
+echo "$CMD IN 21SH"
+$EX_FILE type_invalid_opt_1 2>&1 > out1
+echo "$CMD IN BASH"
+bash type_invalid_opt_1 2>&1 > out2
+echo "DIFF"
+diff out1 out2
+rm out1 out2
+
+echo "----------------------------------------------------------------------------------------"
+echo "                              TESTING $CMD WITH ARGUMENTS"
+echo "----------------------------------------------------------------------------------------"
+
+echo "\n\n"
+echo ">>>>> type_invalid_org_0"
+echo "$CMD IN 21SH"
+$EX_FILE type_invalid_arg_0 2>&1 > out1
+echo "$CMD IN BASH"
+bash type_invalid_arg_0 2>&1 > out2
+echo "DIFF"
+diff out1 out2
+rm out1 out2
+
+echo "\n\n"
+echo ">>>>> type_invalid_org_1"
+echo "$CMD IN 21SH"
+$EX_FILE type_invalid_arg_1 2>&1 > out1
+echo "$CMD IN BASH"
+bash type_invalid_arg_1 2>&1 > out2
+echo "DIFF"
+diff out1 out2
+rm out1 out2
+
+echo "\n\n"
+echo ">>>>> type_invalid_org_2"
+echo "$CMD IN 21SH"
+$EX_FILE type_invalid_arg_2 2>&1 > out1
+echo "$CMD IN BASH"
+bash type_invalid_arg_2 2>&1 > out2
+echo "DIFF"
+diff out1 out2
+rm out1 out2
+
+echo "\n\n"
+echo ">>>>> type_invalid_org_3"
+echo "$CMD IN 21SH"
+$EX_FILE type_invalid_arg_3 2>&1 > out1
+echo "$CMD IN BASH"
+bash type_invalid_arg_3 2>&1 > out2
+echo "DIFF"
+diff out1 out2
+rm out1 out2
+ 
+echo "----------------------------------------------------------------------------------------"
+
+echo "\n\n"
+echo ">>>>> type_with_org_0"
+echo "$CMD IN 21SH"
+$EX_FILE type_with_arg_0 2>&1 > out1
+echo "$CMD IN BASH"
+bash type_with_arg_0 2>&1 > out2
+echo "DIFF"
+diff out1 out2
+rm out1 out2

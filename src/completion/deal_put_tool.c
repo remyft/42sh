@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 16:54:10 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/15 20:37:19 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/23 16:08:31 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	deal_select(t_slct *select, t_cpl_e env, t_line *line)
 	psb = 0;
 	tres = 0;
 	get_psb(select, ft_strlen(env.chr), 0, &psb);
-	if (psb == 1)
+	if (psb <= 1)
 	{
 		if (!ft_strcmp(env.chr, line->curr->buff_tmp))
 			ret_psb(select, ft_strlen(env.chr), 0, line->curr->buff);

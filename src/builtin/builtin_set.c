@@ -6,7 +6,7 @@
 /*   By: tsisadag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 20:01:54 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/03/09 20:40:12 by tsisadag         ###   ########.fr       */
+/*   Updated: 2019/04/22 18:24:59 by tsisadag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "builtin_export.h"
 #include "shell_lib.h"
 #include "builtin_set.h"
+#include "builtin_unset.h"
 
 int		builtin_set(t_execute *exec, t_s_env *e)
 {
@@ -34,4 +35,9 @@ int		builtin_set(t_execute *exec, t_s_env *e)
 		sh_freetab(&sorted);
 	}
 	return (0);
+}
+
+void	exec_unset(char *arg, t_s_env **e)
+{
+	exec_unset_check(arg, &e);
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 11:45:42 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/24 17:39:30 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,6 @@ typedef struct	s_alias
 	struct s_alias	*next;
 	struct s_alias	*prev;
 }				t_alias;
-
-typedef struct	s_prd
-{
-	void			*rd;
-	struct s_prd	*next;
-}				t_prd;
 
 typedef struct	s_process
 {
@@ -69,12 +63,14 @@ typedef struct	s_jobs
 	int					pgid;
 	int					foreground;
 	int					status;
+	int					sig;
+	int					last_exit;
 	int					notify;
 	char				*cmd_name;
 	t_m_process			*m_process;
 	t_m_process			*curr;
 	t_process			*job_forked;
-	t_prd				*rd;
+	void				*r;
 	struct s_jobs		*prev;
 	struct s_jobs		*next;
 }				t_jobs;
@@ -99,6 +95,7 @@ typedef struct	s_shell_env
 	struct termios	save;
 	int				shell_loop;
 	size_t			filein;
+	int				checkquote;
 	int				forked;
 }				t_s_env;
 

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 12:22:18 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/24 17:28:28 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,19 @@
 #include <stdio.h>
 #include "redirection.h"
 
-static int	prepare_redirect(t_redirection *cmd, t_s_env *e)
+static int	prepare_redirect(t_redirection *cmd, t_s_env *e, t_jobs *job)
 {
 	if (!cmd)
 		return (0);
 	if (expand_argument(cmd->arg, e, 0))
 		return (1);
 	quote_removal(cmd->arg);
-	if (redirection(&cmd, e))
-		return (1);
-	return (prepare_redirect(cmd->next, e));
+	if (job->foreground == 0)
+	{
+		if (redirection(&cmd, e))
+			return (1);
+	}
+	return (prepare_redirect(cmd->next, e, job));
 }
 
 static int	prepare_command(void *cmd, t_s_env *e, t_jobs *job)
@@ -38,7 +41,7 @@ static int	prepare_command(void *cmd, t_s_env *e, t_jobs *job)
 		return (prepare_command(((t_pipeline *)cmd)->left, e, job)
 			|| prepare_command(((t_pipeline *)cmd)->right, e, job));
 	else if ((expand_argument(((t_command *)cmd)->args, e, 1)
-		|| prepare_redirect(((t_command *)cmd)->redir, e)))
+		|| prepare_redirect(((t_command *)cmd)->redir, e, job)))
 		return (1);
 	quote_removal(((t_command *)cmd)->args);
 	return (0);

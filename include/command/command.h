@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:17:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 09:59:12 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/24 11:56:58 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int				command_path(char **path, char *cmd, char *paths);
 int				command_parse(void *cmd, t_s_env *e, int type);
 int				command_pipe(void *cmd, t_s_env *e, int ppfd[2]);
 int				command_prepare(t_execute *exec, t_s_env *e, int type);
+int				command_ret(int status);
 int				command_redirect(int fds[3], t_redirection *redir);
 int				command_restore_fds(int fds[3]);
 int				command_save_fds(int fd, int fds[3]);
@@ -58,6 +59,7 @@ int				command_system(t_jobs *job, t_process *p, t_s_env *e);
 int				command_rd(t_s_env *e, t_jobs *job, void *cmd);
 int				command_m_process(t_s_env *e, t_jobs *job, int type);
 int				command_mprocess_background(t_jobs *job, t_s_env *e);
+int				command_redirect_test(t_process *p);
 void			command_process(pid_t pid, pid_t s_pid, t_jobs *job, t_process *p);
 
 void			close_unexpected_fd(int *fds);

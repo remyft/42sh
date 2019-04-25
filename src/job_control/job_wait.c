@@ -6,14 +6,14 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:33:20 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/23 11:33:23 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/24 18:06:25 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "job_control.h"
 #include <stdio.h>
 
-int		job_wait(t_jobs *job)
+int		job_wait(t_jobs *job, t_s_env *e)
 {
 	t_m_process	*m_p;
 	t_process	*p;
@@ -26,7 +26,7 @@ int		job_wait(t_jobs *job)
 			p = m_p->p;
 			while (p)
 			{
-				process_status(job, m_p, p);
+				process_status(job, m_p, p, e);
 				p = p->next;
 			}
 			if (job_suspended(job, m_p))

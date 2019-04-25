@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 04:08:41 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/22 00:50:50 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/23 19:37:25 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,15 @@ enum
 	ERR_MALLOC,
 	ERR_MATCHING_EOF,
 	ERR_HEREDOC_EOF,
-	ERR_ALIAS
 };
 
 # define ERR_MALLOC_STR		"allocating memory failed"
 # define ERR_MATCHING_STR	"unexpected EOF while looking for matching"
 # define ERR_HEREDOC_STR	"warning: here-document delimited by end-of-file"
-# define ERR_ALIAS_STR		"alias error near unexpected quote"
 
 # define ERR_MALLOC_FUNC	{ err_malloc, ERR_MALLOC_STR }
 # define ERR_MATCHING_FUNC	{ err_matching, ERR_MATCHING_STR }
 # define ERR_HEREDOC_FUNC	{ err_heredoc, ERR_HEREDOC_STR }
-# define ERR_ALIAS_FUNC		{ err_matching, ERR_ALIAS_STR }
 
 typedef struct	s_error
 {

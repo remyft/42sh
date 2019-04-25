@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:39:19 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/23 11:39:50 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/24 15:21:25 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ int			create_process(t_s_env *e, t_execute *exec, int type)
 	new->pipe[1] = -1;
 	job = job_by_id(e->job_id, e->jobs);
 	insert_process(job, new);
+	//insert_redir(job, exec->redirection);
 	return (1);
 }

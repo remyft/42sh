@@ -6,11 +6,12 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 16:10:02 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/23 11:34:18 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/24 11:56:40 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "job_control.h"
+#include <stdio.h>
 
 static int	job_forked_sig(t_jobs *job)
 {
