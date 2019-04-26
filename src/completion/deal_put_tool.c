@@ -6,12 +6,13 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 16:54:10 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/23 16:08:31 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/26 15:42:19 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "put.h"
 #include "shell_lib.h"
+#include "shell_term.h"
 #include "libft.h"
 
 static char	*find_chr_buff(t_line *line)
@@ -25,9 +26,9 @@ static char	*find_chr_buff(t_line *line)
 	}
 	if (!(ptr = sh_strrchr(line->curr->buff, ' ')))
 		ptr = line->curr->buff;
-	return (sh_strchr(ptr, '/') ?
-			sh_strrchr(ptr, '/') + 1 : ptr + 1);
+	return (find_start_pos(ptr));
 }
+
 
 static int	deal_select(t_slct *select, t_cpl_e env, t_line *line)
 {

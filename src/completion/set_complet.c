@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 17:13:29 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/25 23:09:03 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/26 18:40:13 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static int	deal_set(t_line *line, char *ptr, DIR *dir)
 	return (0);
 }
 
+
 void		set_complet(t_line *line, int set)
 {
 	DIR		*dir;
@@ -70,8 +71,7 @@ void		set_complet(t_line *line, int set)
 	tmp = line->tmp[0];
 	*(line->e_cmpl) &= ~COMPLETION;
 	line->is_putb = 0;
-	if (!(ptr = sh_strrchr(line->curr->buff, ' ')))
-		ptr = line->curr->buff;
+	ptr = find_start_pos(line->curr->buff);
 	line->tmp[0] = deal_set(line, ptr, dir);
 	if (!set)
 		line->tmp[0] = tmp;
