@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/25 16:06:16 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/25 16:50:34 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ static void		command_execve(char *name, t_jobs *job, t_process *p, t_s_env *e)
 		ioctl(e->fd, TIOCSPGRP, &job->pgid);
 	if (signal_to_default() == 1)
 	{
-		ft_dprintf(2, "21sh: signal to default with process %d failed\n", p->pid);
+		ft_dprintf(2, "%s: signal to default with process %d failed\n",
+		e->progname, p->pid);
 		exit(EXIT_FAILURE);
 	}
 	command_setup(p);
@@ -136,7 +137,6 @@ int				command_system(t_jobs *job, t_process *p, t_s_env *e)
 	else
 		command_exec_job(name, job, p, e);
 	ft_strdel(&name);
-	printf("%d\n", error);
 	if (status != 0)
 		job->status |= JOB_NOTIFIED;
 	if ((error = command_restore_fds(exec->fds)))

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 20:44:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/25 16:32:57 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/25 23:19:09 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "job_control.h"
 #include "operator_types.h"
 
-static int		modify_public_environment(t_argument *var, t_s_env *e)
+static int		modify_public_env(t_argument *var, t_argument **cmd, t_s_env *e)
 {
 	char		**ptr;
 	char		*equal;
@@ -26,10 +26,14 @@ static int		modify_public_environment(t_argument *var, t_s_env *e)
 	while (var)
 	{
 		i = 0;
+// sh_puttab((const char **)var->cmd);
 		while (var->cmd[i])
 		{
 			if (!(equal = ft_strchr(var->cmd[i], '=')))
-				return (0);
+			{
+				*cmd = var;
+				return (-1);
+			}
 			*equal = '\0';
 			if ((ptr = sh_getnenvaddr(var->cmd[i], e->public_env))
 				|| (ptr = sh_getnenvaddr(var->cmd[i], e->private_env)))
@@ -49,13 +53,17 @@ static int		modify_public_environment(t_argument *var, t_s_env *e)
 int				command_prepare(t_execute *exec, t_s_env *e, int type)
 {
 	t_argument	*ptr;
+	int			ret;
 
 	ptr = exec->variable;
 	while (ptr && ptr->token && ptr->token->id == ASSIGNMENT_WORD)
 		ptr = ptr->next;
 	exec->command = ptr;
 	if (exec->variable != exec->command && !exec->command)
-		return (modify_public_environment(exec->variable, e));
+	{
+		if ((ret = modify_public_env(exec->variable, &exec->command, e)) >= 0)
+			return (ret);
+	}
 	if (!(exec->cmd = command_group_command(exec->command)))
 		return (command_error(e->progname, ERR_MALLOC, NULL, e));
 	sh_setenv("_", exec->cmd[0], &e->public_env);

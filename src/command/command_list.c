@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/25 16:08:35 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/25 20:17:47 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,25 @@ static char		*get_command(t_m_list *list)
 		return (NULL);
 	cmd = (t_command *)list->aolist->cmd;
 	if (cmd->type == IS_A_PIPE)
+	{
+		if (!((t_command *)((t_pipeline *)cmd)->left)->args)
+			return (NULL);
 		head = ((t_command *)((t_pipeline *)cmd)->left)->args->token->head;
+	}
 	else
+	{
+		if (!cmd->args || !cmd->args->token)
+			return (NULL);
 		head = cmd->args->token->head;
+	}
 	ao = list->aolist;
 	while (ao->next)
 		ao = ao->next;
 	cmd = ao->cmd;
 	while (cmd->type == IS_A_PIPE)
 		cmd = ((t_pipeline *)cmd)->right;
-	arg = cmd->args;
+	if (!(arg = cmd->args))
+		return (NULL);
 	while (arg->next)
 		arg = arg->next;
 	tail = arg->token->head + arg->token->len;
