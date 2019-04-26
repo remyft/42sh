@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:59:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 09:03:07 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/25 21:24:24 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct	s_redirection
 	t_token					*ionumber;
 	t_token					*token;
 	t_argument				*arg;
+	int						async;
 	int						fdio;
 	int						fdarg;
 	char					*file;

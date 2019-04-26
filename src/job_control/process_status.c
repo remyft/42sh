@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:15:24 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/25 08:38:14 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/26 00:38:12 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void		process_status(t_jobs *job, t_m_process *m_p, t_process *p, t_s_env *e)
 	int		status;
 	pid_t	pid;
 
+	status = 0;
 	if (p->status != STATUS_FINISHED)
 	{
 		errno = 0;

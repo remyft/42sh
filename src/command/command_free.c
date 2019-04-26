@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 15:24:52 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 09:20:32 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/25 17:25:19 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ void		command_free(t_execute *exec, char *name)
 		free(exec->cmd);
 	exec->cmd = NULL;
 	if (name)
-		;
-	//	free(name);
+		free(name);
 	if (exec)
 		free(exec);
 }

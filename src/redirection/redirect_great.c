@@ -6,13 +6,16 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:27:38 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/24 14:11:02 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/26 00:28:39 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "redirection.h"
 #include "redirection_errors.h"
+#include <sys/stat.h>
+#include <stdio.h>
+#include <errno.h>
 
 /*
 ** Lines of code for bash 5.0.7 compliance :
@@ -24,10 +27,13 @@
 
 int				redirect_great(t_redirection **redir, t_s_env *e)
 {
+	int			errno;
 	int			mode;
 
-	mode = O_CREAT | O_TRUNC | O_WRONLY;
+	mode = O_CREAT | O_TRUNC | O_RDWR;
 	(*redir)->fdio = (*redir)->ionumber ? ft_atoi((*redir)->ionumber->head) : 1;
+	if ((*redir)->async == 1)
+		close(STDOUT_FILENO);
 	if (((*redir)->fdarg = open((*redir)->arg->cmd[0], mode, 0644)) < 0)
 		return (redirect_open_error((*redir)->arg->cmd[0], e));
 	return (0);

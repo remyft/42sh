@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 20:24:31 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/25 14:06:40 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/25 23:23:43 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ int				expand_subshell_father(int pfd[2], pid_t pid, t_ret *ret)
 
 	value = 0;
 	close(pfd[1]);
-	(void)pid;
 	waitpid(pid, &value, 0);
 	//command_wait(pid, 0, &param->e->ret);
 	//command_wait(pid, 0, NULL);

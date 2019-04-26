@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 11:02:15 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/25 14:36:26 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/26 01:12:01 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,12 @@ int		jobs_spe_arg(t_execute *exec, t_s_env *e, int i, const int *opts)
 		else if (*opts & JOB_OPT_L)
 			job_opt_l(curr);
 		else
-			job_no_opt(curr);
+		{
+			if (jobs_notify_ended(e->jobs))
+				;
+			else
+				job_no_opt(curr);
+		}
 		i++;
 	}
 	return (err);
