@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/04/25 17:15:10 by dbaffier         ###   ########.fr        #
+#    Updated: 2019/04/26 09:26:34 by dbaffier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,6 +99,7 @@ SRCS += check_modif_path.c					\
 TERM_DIR = $(SRCS_DIR)termcaps/
 SRCS += control.c							\
 		delete.c							\
+		delete_tools.c						\
 		history.c							\
 		line_move.c							\
 		move_cursor.c						\
@@ -301,6 +302,12 @@ SRCS += builtin_alias_error.c				\
 		builtin_export_change_env.c			\
 		builtin_set.c						\
 		builtin_unset.c						\
+		builtin_test.c						\
+		builtin_test_operators_1.c			\
+		builtin_test_operators_2.c			\
+		builtin_test_operators_3.c			\
+		builtin_test_operators_4.c			\
+		builtin_test_operators_5.c			\
 
 # LIBRARY
 LIBRARY_DIR = lib/

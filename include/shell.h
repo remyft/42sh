@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/23 09:52:57 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/25 23:40:55 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ void			free_all_tree(t_line *line);
 
 void			reset_put(t_tree *tern);
 void			deal_reset(t_tree **tree);
+
+void			get_tree_env(void);
 
 /*
 ** Globing

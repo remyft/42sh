@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:54:35 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/23 13:38:41 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/25 23:11:15 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	deal_erase_complet(t_line *line)
 	line->index = index;
 }
 
-void	next_word(t_line *line)
+void		next_word(t_line *line)
 {
 	if (line->index == line->len)
 		return ;
@@ -43,7 +43,7 @@ void	next_word(t_line *line)
 	tputs(tgetstr("ve", NULL), 1, ft_pchar);
 }
 
-void	prev_word(t_line *line)
+void		prev_word(t_line *line)
 {
 	if (line->index == 0)
 		return ;

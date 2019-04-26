@@ -6,7 +6,7 @@
 /*   By: tsisadag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 18:28:31 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/04/21 18:32:18 by tsisadag         ###   ########.fr       */
+/*   Updated: 2019/04/26 01:20:40 by tsisadag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		has_invalid_id(char *arg)
 	int i;
 
 	i = 0;
-	while (arg[i])
+	while (arg[i] && arg[i] != '=')
 	{
 		if (!ft_isalnum(arg[i]) && arg[i] != '=' && arg[i] != '_')
 			return (0);

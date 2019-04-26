@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 08:55:32 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/23 09:47:20 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/25 23:40:17 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,12 @@
 static void	deal_return(t_line *line, int goal)
 {
 	ft_putstr(&line->curr->buff[line->index]);
+	if ((line->len + line->lprompt) % line->nb_col == 0)
+		tputs(tgetstr("do", NULL), 1, ft_pchar);
 	line->index = line->len;
 	while ((int)line->index > goal)
 	{
+		line->key = LEFT;
 		if ((int)line->index - goal > (int)line->nb_col)
 			mv_line_up(line);
 		else
@@ -47,6 +50,8 @@ static void	deal_unselect(t_line *line)
 		while (--i)
 			left_arrow(line);
 		deal_return(line, tmp);
+		if ((line->index + line->lprompt) % line->nb_col == 0)
+			tputs(tgetstr("do", NULL), 1, ft_pchar);
 	}
 }
 

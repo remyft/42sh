@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/26 00:35:51 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/26 10:27:30 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int				command_system(t_jobs *job, t_process *p, t_s_env *e)
 	status = ERR_OK;
 	exec = (t_execute *)p->exec;
 	if ((error = command_redirect(exec->fds, exec->redirection)))
-		command_error(e->progname, error, NULL, e);
+		status = command_error(e->progname, error, NULL, e);
 	//if ((error = command_redirect_test(p)))
 	//	command_error(e->progname, error, NULL, e);
 	if (command_is_builtin(p))
