@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 02:33:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/25 16:23:44 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/25 16:48:34 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int				expand_error(int error, t_ret *ret, t_exp *par, t_s_env *e)
 			ft_dprintf(STDERR_FILENO, "line %ld: ", e->filein);
 		err[i].handler(ret, par);
 	}
+	e->err_exp = 1;
 	expand_free_t_ret(ret, 0);
 	return (1);
 }

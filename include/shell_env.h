@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/25 16:02:25 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/25 16:49:35 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ typedef struct	s_jobs
 	int					exit_r;
 	int					last_exit;
 	int					notify;
-	int					rd_ok;
 	char				*cmd_name;
 	t_m_process			*m_process;
 	t_m_process			*curr;
@@ -89,6 +88,7 @@ typedef struct	s_shell_env
 	t_alias			*alias_list;
 	t_jobs			*jobs;
 	int				job_id;
+	int				err_exp;
 	int				interactive;
 	int				fd;
 	int				*ret;

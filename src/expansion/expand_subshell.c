@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 20:24:31 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/25 14:06:40 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/26 10:20:39 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ static size_t	get_line_length(const char *line)
 	return (i);
 }
 
+#include <stdio.h>
+
 static void		expand_subshell_child(int pfd[2], size_t i, t_exp *param)
 {
 	t_s_env		newe;
@@ -61,7 +63,7 @@ static void		expand_subshell_child(int pfd[2], size_t i, t_exp *param)
 	ft_memcpy(&newe, param->e, sizeof(newe));
 	newe.public_env = sh_tabdup((const char **)param->e->public_env);
 	newe.private_env = sh_tabdup((const char **)param->e->private_env);
-	newe.forked = 1;
+	newe.forked = 0;
 	newe.filein = 0;
 	close(pfd[0]);
 	dup2(pfd[1], STDOUT_FILENO);
@@ -84,7 +86,6 @@ int				expand_subshell_father(int pfd[2], pid_t pid, t_ret *ret)
 
 	value = 0;
 	close(pfd[1]);
-	(void)pid;
 	waitpid(pid, &value, 0);
 	//command_wait(pid, 0, &param->e->ret);
 	//command_wait(pid, 0, NULL);
@@ -105,7 +106,7 @@ int				expand_subshell_father(int pfd[2], pid_t pid, t_ret *ret)
 	}
 	param_addstr(ret->substitute, ret);
 	ret->freeable = 1;
-	return (value);
+	return (command_ret(value));
 }
 
 int				expand_subshell(t_exp *param, t_ret *ret)

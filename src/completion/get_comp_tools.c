@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 17:00:18 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/23 14:12:49 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/25 23:10:45 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ static void	get_new_glob(t_line *line, t_slst *tmp, int pos)
 	line->len = (size_t)pos;
 	while ((to_free = tmp))
 	{
-		if (line->len / MAX_SHELL_LEN < line->len + (len = ft_strlen(tmp->str)) / MAX_SHELL_LEN)
+		if (line->len / MAX_SHELL_LEN < line->len
+				+ (len = ft_strlen(tmp->str)) / MAX_SHELL_LEN)
 			get_buff_realloc(line, len);
 		i = -1;
 		while (tmp->str[++i])
@@ -81,7 +82,7 @@ static void	get_new_glob(t_line *line, t_slst *tmp, int pos)
 	finish_glob(line, &tmp, (tmp_len / line->nb_col));
 }
 
-void		set_new_glob(t_line *line, t_slst *tmp, int	pos)
+void		set_new_glob(t_line *line, t_slst *tmp, int pos)
 {
 	if (tmp)
 	{

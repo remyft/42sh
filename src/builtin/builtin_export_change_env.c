@@ -6,7 +6,7 @@
 /*   By: tsisadag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 18:08:03 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/03/09 19:51:02 by tsisadag         ###   ########.fr       */
+/*   Updated: 2019/04/25 23:34:29 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,8 @@ void	change_public(char *arg, t_s_env ****e)
 		{
 			free((***e)->public_env[i]);
 			(***e)->public_env[i] = ft_strdup(arg);
+			if (ft_strncmp("PATH", arg, 4) == 0 && arg[4] == '=')
+				check_path(***e);
 			free(tmp1);
 			free(tmp2);
 			return ;

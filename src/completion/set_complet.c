@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 17:13:29 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/21 21:00:05 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/25 23:09:03 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	deal_set(t_line *line, char *ptr, DIR *dir)
 	}
 	line->tree[2] = free_tree(line->tree[2]);
 	c = get_char(ptr, dir, line->curr->buff);
-	if (line->tmp[0] != ' ')
+	if (line->tmp[0] != ' ' && line->tmp[0] != '/')
 	{
 		ft_putchar(line->curr->buff[(line->len)] = c);
 		line->curr->buff[++(line->len)] = '\0';

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/09 06:58:04 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/25 11:25:42 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/26 10:11:19 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,21 @@ void		close_unexpected_fd(int *fds)
 {
 	if (fds[2] != STDIN_FILENO && fds[2] != STDOUT_FILENO
 			&& fds[2] != STDERR_FILENO)
-		close(fds[2]);
+		if (fds[2] != -1)
+			close(fds[2]);
 	if (fds[3] != STDIN_FILENO && fds[3] != STDOUT_FILENO
 			&& fds[3] != STDERR_FILENO)
-		close(fds[3]);
+		if (fds[3] != -1)
+			close(fds[3]);
 	if (fds[4] != STDIN_FILENO && fds[4] != STDOUT_FILENO
 			&& fds[4] != STDERR_FILENO)
-		close(fds[4]);
+		if (fds[4] != -1)
+			close(fds[4]);
 }
 
 int		command_pipe_dup(t_jobs *job, t_process *p, t_s_env *e, int *fds)
 {
+	//command_redirect(exec->fds, exec->redirection);
 	fds[FD_STDERR] = p->fds[2];
 	if (p->next)
 	{

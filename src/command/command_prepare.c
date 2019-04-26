@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 20:44:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/25 23:19:09 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/26 10:34:11 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,17 @@
 #include "command.h"
 #include "command_error.h"
 #include "job_control.h"
+#include <stdio.h>
 #include "operator_types.h"
 
-static int		modify_public_env(t_argument *var, t_argument **cmd, t_s_env *e)
+static int		modify_public_environment(t_execute *exec, t_s_env *e)
 {
+	t_argument	*var;
 	char		**ptr;
 	char		*equal;
 	size_t		i;
 
+	var = exec->variable;
 	while (var)
 	{
 		i = 0;
@@ -31,7 +34,7 @@ static int		modify_public_env(t_argument *var, t_argument **cmd, t_s_env *e)
 		{
 			if (!(equal = ft_strchr(var->cmd[i], '=')))
 			{
-				*cmd = var;
+				exec->command = var;
 				return (-1);
 			}
 			*equal = '\0';
@@ -47,6 +50,7 @@ static int		modify_public_env(t_argument *var, t_argument **cmd, t_s_env *e)
 		}
 		var = var->next;
 	}
+	free(exec);
 	return (0);
 }
 
@@ -61,12 +65,13 @@ int				command_prepare(t_execute *exec, t_s_env *e, int type)
 	exec->command = ptr;
 	if (exec->variable != exec->command && !exec->command)
 	{
-		if ((ret = modify_public_env(exec->variable, &exec->command, e)) >= 0)
+		if ((ret = modify_public_env(exec, e)) >= 0)
 			return (ret);
 	}
 	if (!(exec->cmd = command_group_command(exec->command)))
 		return (command_error(e->progname, ERR_MALLOC, NULL, e));
-	sh_setenv("_", exec->cmd[0], &e->public_env);
+	if (!e->forked)
+		sh_setenv("_", exec->cmd[0], &e->public_env);
 	if (!(exec->env = command_group_env(exec->variable, exec->command,
 	(const char **)e->public_env, (const char **)e->private_env)))
 		return (command_error(e->progname, ERR_MALLOC, exec->cmd, e));

@@ -6,7 +6,7 @@
 /*   By: tsisadag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 21:32:56 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/04/25 22:55:30 by tsisadag         ###   ########.fr       */
+/*   Updated: 2019/04/26 00:45:08 by tsisadag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "builtins.h"
 #include "builtin_test.h"
 
-int     operator_s(char *arg)
+int		operator_s(char *arg)
 {
 	struct stat st;
 
@@ -26,7 +26,7 @@ int     operator_s(char *arg)
 	return (1);
 }
 
-int     operator_u(char *arg)
+int		operator_u(char *arg)
 {
 	struct stat st;
 
@@ -38,7 +38,7 @@ int     operator_u(char *arg)
 	return (1);
 }
 
-int     operator_w(char *arg)
+int		operator_w(char *arg)
 {
 	struct stat st;
 
@@ -50,7 +50,7 @@ int     operator_w(char *arg)
 	return (1);
 }
 
-int     operator_x(char *arg)
+int		operator_x(char *arg)
 {
 	struct stat st;
 
@@ -62,7 +62,7 @@ int     operator_x(char *arg)
 	return (1);
 }
 
-int     operator_z(char *arg)
+int		operator_z(char *arg)
 {
 	if (arg[0] == '\0')
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/25 16:50:34 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/26 10:33:07 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,46 +21,6 @@
 #include "signal_intern.h"
 #include "redirection.h"
 
-static int	dup2_and_close(t_process *p, int from, int to)
-{
-	if (to != from)
-	{
-		if (to == -1 && from > 0)
-			close(from);
-		else
-		{
-			dup2(to, from);
-			if (!(to == STDERR_FILENO && from == STDOUT_FILENO)
-					&& !(to == STDOUT_FILENO && from == STDERR_FILENO))
-				if (to > 3 && to != -1)
-					close(to);
-		}
-	}
-	if (from == STDIN_FILENO)
-	{
-		if (p->pipe[0] != -1)
-			close(p->pipe[0]);
-		if (p->pipe[1] != -1)
-			close(p->pipe[1]);
-	}
-	return (1);
-}
-
-static void		command_setup(t_process *p)
-{
-	if (p->fds[1] == STDERR_FILENO)
-	{
-		dup2_and_close(p, STDERR_FILENO, p->fds[2]);
-		dup2_and_close(p, STDOUT_FILENO, p->fds[1]);
-	
-	}
-	else
-	{
-		dup2_and_close(p, STDOUT_FILENO, p->fds[1]);
-		dup2_and_close(p, STDERR_FILENO, p->fds[2]);
-	}
-	dup2_and_close(p, STDIN_FILENO, p->fds[0]);
-}
 
 static void		command_execve(char *name, t_jobs *job, t_process *p, t_s_env *e)
 {
@@ -94,17 +54,7 @@ static void		command_exec_job(char *name, t_jobs *job, t_process *p, t_s_env *e)
 		len -= sh_tablen((const char **)e->private_env);
 		exec->env[len] = NULL;
 		if (job->foreground)
-		{
-			t_redirection *r;
-			
-			r = ((t_execute *)p->exec)->redirection;
-			while (r)
-			{
-				if (redirection(&r, e))
-					exit(1);
-				r = r->next;
-			}
-		}
+			command_rd_forked(((t_execute *)p->exec)->redirection, e);
 		command_execve(name, job, p, e);
 	}
 	else if (p->pid < 0)
@@ -112,6 +62,8 @@ static void		command_exec_job(char *name, t_jobs *job, t_process *p, t_s_env *e)
 	else if (e->interactive)
 		command_process(p->pid, e->pid, job, p);
 }
+
+#include <stdio.h>
 
 int				command_system(t_jobs *job, t_process *p, t_s_env *e)
 {
@@ -123,10 +75,10 @@ int				command_system(t_jobs *job, t_process *p, t_s_env *e)
 	name = NULL;
 	status = ERR_OK;
 	exec = (t_execute *)p->exec;
-	//if ((error = command_redirect_test(p)))
-		//command_error(e->progname, error, NULL, e);
 	if ((error = command_redirect(exec->fds, exec->redirection)))
-		command_error(e->progname, error, NULL, e);
+		status = command_error(e->progname, error, NULL, e);
+	//if ((error = command_redirect_test(p)))
+	//	command_error(e->progname, error, NULL, e);
 	if (command_is_builtin(p))
 		command_exec_job(name, job, p, e);
 	else if ((error = command_path(&name, exec->cmd[0],

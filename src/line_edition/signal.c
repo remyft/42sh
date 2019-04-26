@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:50:33 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/15 20:43:17 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/25 18:21:38 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,7 @@ static void	deal_put_winch(t_line *line)
 	ft_putstr(line->curr->buff);
 	line->index = line->len;
 	while (line->index > index)
-	{
 		left_arrow(line);
-		line->index--;
-	}
 	if ((line->index + line->lprompt) % line->nb_col == 0)
 	{
 		tputs(tgetstr("do", NULL), 1, ft_pchar);

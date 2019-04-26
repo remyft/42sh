@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/25 20:17:47 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/26 10:31:18 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,9 @@ static int	prepare_redirect(t_redirection *cmd, t_s_env *e, t_jobs *job)
 	if (expand_argument(cmd->arg, e, 0))
 		return (1);
 	quote_removal(cmd->arg);
+	cmd->async = job->foreground;
 	if (job->foreground == 0 && redirection(&cmd, e))
-	{
-		job->rd_ok = -1;
 		return (1);
-	}
 	return (prepare_redirect(cmd->next, e, job));
 }
 
@@ -106,7 +104,7 @@ int			execute_list(t_m_list *list, t_s_env *e)
 	job->foreground = list->async;
 	if (execute_ao_list(list->aolist, e, job))
 		return (1);
-	if (!job->rd_ok && (ret = command_job(job, e)) != 0)
+	if (!e->err_exp && (ret = command_job(job, e)) != 0)
 		return (ret);
 	return (execute_list(list->next, e));
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/30 16:59:39 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/15 19:46:47 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/25 23:10:52 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ int			get_cursor_line(void)
 static void	ft_putbuff_len(t_line *line)
 {
 	int		i;
+	int		len;
 
 	i = line->index;
 	while ((i + line->lprompt) % line->nb_col != 0 && i > 0)
 		i--;
+	len = i > 0 ? line->nb_col : line->nb_col - line->lprompt;
 	write(0, &line->curr->buff[i], line->nb_col);
 }
 
@@ -49,8 +51,10 @@ void		deal_scroll(t_line *line, int up, int nb_line)
 		tputs(tgetstr(up ? "sr" : "sf", NULL), 1, ft_pchar);
 		tputs(tgetstr("sc", NULL), 1, ft_pchar);
 		tputs(tgetstr("cr", NULL), 1, ft_pchar);
-		if (up && line->index + line->lprompt <= line->nb_col)
+		if (up && line->index + line->lprompt < line->nb_col)
+		{
 			put_prompt(line->prompt, *line->ret);
+		}
 		ft_putbuff_len(line);
 		tputs(tgetstr("rc", NULL), 1, ft_pchar);
 	}

@@ -6,7 +6,7 @@
 /*   By: tsisadag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 16:22:25 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/04/22 18:07:32 by tsisadag         ###   ########.fr       */
+/*   Updated: 2019/04/25 16:55:16 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include "builtin_export.h"
 #include "shell_lib.h"
 #include "builtin_type.h"
+#include "put.h"
+#include "shell.h"
 
 /*
 **	export name[=word]...
@@ -36,6 +38,19 @@
 **	names is not a valid shell variable name.
 */
 
+void		get_tree_env(void)
+{
+	t_line	*line;
+
+	line = get_struct();
+	free_tree(GET_TREE(line->tree, ENV));
+	GET_TREE(line->tree, ENV) = NULL;
+	fill_tree_env(*line->public_env, &GET_TREE(line->tree, ENV));
+	fill_tree_env(*line->private_env, &GET_TREE(line->tree, ENV));
+	if (GET_TREE(line->tree, ENV))
+		set_psblty(GET_TREE(line->tree, ENV), 1);
+}
+
 int			builtin_export(t_execute *exec, t_s_env *e)
 {
 	int			i;
@@ -55,6 +70,7 @@ int			builtin_export(t_execute *exec, t_s_env *e)
 	{
 		while (exec->cmd[++i])
 			ret += exec_export(exec->cmd[i], &e);
+		get_tree_env();
 		free(export);
 		return ((ret > 0) ? 1 : 0);
 	}
