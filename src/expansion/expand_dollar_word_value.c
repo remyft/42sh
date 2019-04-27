@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 09:45:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/24 17:52:47 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/26 02:51:59 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,15 @@ int				word_large_prefix(t_ret *subs, t_ret *para, t_exp *param)
 	return (0);
 }
 
+
+static void set_new_t_exp(t_exp *newp, t_exp *param, t_ret *par)
+{
+	ft_memset(newp, 0, sizeof(*newp));
+	newp->e = param->e;
+	newp->buff = par->head + par->i;
+	newp->buff_len = (param->buff + param->buff_len) - (par->head + par->i);
+}
+
 int				expand_dollar_word_value(t_ret *parameter, t_exp *param)
 {
 	static t_word	word[] = {
@@ -73,13 +82,15 @@ int				expand_dollar_word_value(t_ret *parameter, t_exp *param)
 	size_t			i;
 	t_ret			subs;
 	int				error;
+	t_exp			newp;
 
 	i = 0;
 	ft_memset(&subs, 0, sizeof(subs));
-	param->expand = expand_dollar_do_expansion(parameter);
-	if ((error = expand_loop(&subs, param, is_brace_end)) == ERR_NONE)
+	set_new_t_exp(&newp, param, parameter);
+	newp.expand = expand_dollar_do_expansion(parameter);
+	if ((error = expand_loop(&subs, &newp, is_brace_end)) == ERR_NONE)
 	{
-		++param->i;
+		i = 0;
 		while (i < sizeof(word) / sizeof(word[0]))
 		{
 			if (parameter->action & word[i].action)

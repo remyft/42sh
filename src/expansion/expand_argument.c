@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/07 22:38:14 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/25 08:41:36 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/26 18:19:56 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static int		token_end(t_exp *param)
 {
 	return (param->i < param->buff_len);
 }
+#include <stdio.h>
 
 int				expand_argument(t_argument *arg, t_s_env *e, int expand)
 {
@@ -35,11 +36,14 @@ int				expand_argument(t_argument *arg, t_s_env *e, int expand)
 	param.buff = arg->token->head;
 	param.buff_len = arg->token->len;
 	param.expand = expand;
+// printf("START [%s] [%s] BUFF [%.*s] [%ld-%ld] [%c]\n", ret.word, ret.substitute, (int)param.buff_len, param.buff, param.i, param.buff_len, param.buff[param.i]);
 	if ((error = expand_loop(&ret, &param, token_end)) != ERR_NONE)
 		return (expand_error(error, &ret, &param, e));
+// printf("END [%s] [%s] BUFF [%.*s] [%ld-%ld] [%c]\n", ret.word, ret.substitute, (int)param.buff_len, param.buff, param.i, param.buff_len, param.buff[param.i]);
 	if (expand_end(&ret, arg))
 		return (expand_error(ERR_MALLOC, &ret, &param, e));
 	expand_free_t_ret(&ret, 0);
 	free_quote(&param.quote);
+// printf("ARGS:\n");sh_puttab((const char **)arg->cmd);
 	return (expand_argument(arg->next, e, expand));
 }
