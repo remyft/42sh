@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 18:09:52 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 18:00:57 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/26 10:45:40 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ t_token			*braceopen(t_param *param, int type)
 		return (param->token);
 	if (param->i && *(param->line + param->i - 1) == '$')
 		type = D_BRACE;
+	else
+		return (param->token);
 	if (!quote_add(&param->token->quote, type, param->e->filein))
 		return (token_error(ERR_MALLOC, param));
 	return (param->token);
