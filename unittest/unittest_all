@@ -63,6 +63,11 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 ./21sh unittest/unittest_pipe > result_unittest/pipe_21sh 2>&1
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+./21sh unittest/unittest_test
+./21sh unittest/unittest_test > result_unittest/test_21sh 2>&1
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo "------------------------------------------------"
 echo "EXITING..."
