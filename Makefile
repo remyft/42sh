@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/04/27 15:47:24 by dbaffier         ###   ########.fr        #
+#    Updated: 2019/04/27 16:09:41 by dbaffier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -187,7 +187,6 @@ SRCS += command_access.c					\
 		command_dup.c						\
 		command_process.c					\
 		command_m_process.c					\
-		command_mprocess_background.c		\
 		environment_modify.c				\
 		quote_removal.c						\
 
