@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 16:57:39 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/25 23:29:05 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/27 16:01:45 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "redirection.h"
 #include "shell_env.h"
 
-static int	dup2_and_close(t_process *p, int from, int to)
+static int		dup2_and_close(t_process *p, int from, int to)
 {
 	if (to != from)
 	{
@@ -45,7 +45,6 @@ void			command_setup(t_process *p)
 	{
 		dup2_and_close(p, STDERR_FILENO, p->fds[2]);
 		dup2_and_close(p, STDOUT_FILENO, p->fds[1]);
-	
 	}
 	else
 	{

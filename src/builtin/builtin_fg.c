@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 09:06:34 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/23 10:03:56 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/26 12:25:22 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #include "builtin_jobs.h"
 #include "builtins.h"
 
-static int		fg(const t_jobs *jobs, t_s_env *e)
+static int		fg(const t_jobs *jobs, t_m_process *m_p, t_s_env *e)
 {
-	return (job_foreground((t_jobs *)jobs, e, 1));
+	return (job_foreground((t_jobs *)jobs, m_p, e, 1));
 }
 
 
@@ -30,7 +30,7 @@ static int		fg_no_arg(t_s_env *e, t_execute *exec)
 		if (job_is_curr((t_jobs *)jobs, exec))
 			;
 		else
-			return (fg(jobs, e));
+			return (fg(jobs, jobs->m_process, e));
 		jobs = jobs->next;
 	}
 	return (0);
@@ -46,7 +46,7 @@ static int		fg_spe_arg(t_s_env *e, t_execute *exec, int i)
 	cmd = exec->cmd;
 	if (!(curr = jobs_expansions(cmd[i], exec, e)))
 		return (fg_error(2, cmd[i], e));
-	return (fg(curr, e));
+	return (fg(curr, curr->m_process, e));
 }
 
 static int		fg_opts(char **arg, t_s_env *e)

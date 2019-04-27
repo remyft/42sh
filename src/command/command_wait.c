@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 09:43:12 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/26 10:05:24 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/27 15:54:04 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <unistd.h>
 #include "command.h"
 #include <stdio.h>
+#include "signal_intern.h"
 
 int		command_ret(int status)
 {
@@ -29,27 +30,25 @@ int		command_ret(int status)
 	return (0);
 }
 
-int		command_job_wait(t_jobs *job, t_s_env *e)
+int		command_job_wait(t_jobs *job, t_m_process *m_p, t_s_env *e)
 {
 	int		status;
 
 	if (!e->interactive)
 	{
 		job->foreground = 0;
-		job_wait(job, e);
+		job_wait(job, m_p, e);
 	}
-	//else if (job->status & JOB_FORKED)
-		//return (job_wait(job));
 	else if (job->status & JOB_BUILTIN_INTERN)
 	{
 		job->status &= ~JOB_BUILTIN_INTERN;
 		return (0);
 	}
 	else if (job->foreground == 1)
-		return (job_background(job, e, 0));
+		return (job_background(job, m_p, e, 0));
 	else
 	{
-		if ((status = job_foreground(job, e, 0)) != 0)
+		if ((status = job_foreground(job, m_p, e, 0)) != 0)
 			return (status);
 	}
 	return (0);

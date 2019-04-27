@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/04/26 09:26:34 by dbaffier         ###   ########.fr        #
+#    Updated: 2019/04/27 15:47:24 by dbaffier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -362,6 +362,7 @@ SRCS	+= job_insert.c						\
 		   jobs_remove.c					\
 		   jobs_is_curr.c					\
 		   process_translate.c				\
+		   job_update.c						\
 
 SIGNAL_DIR	= signal/
 SRCS		+= signal_reset.c				\

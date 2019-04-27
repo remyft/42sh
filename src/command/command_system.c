@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/26 10:27:30 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/27 15:53:51 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,27 +21,21 @@
 #include "signal_intern.h"
 #include "redirection.h"
 
-
-static void		command_execve(char *name, t_jobs *job, t_process *p, t_s_env *e)
+static void		command_execve(char *name, t_jobs *job,
+		t_process *p, t_s_env *e)
 {
 	p->pid = getpid();
 	if (job->pgid == 0)
 		job->pgid = p->pid;
 	setpgid(p->pid, job->pgid);
-	if (job->foreground == 0)
-		ioctl(e->fd, TIOCSPGRP, &job->pgid);
-	if (signal_to_default() == 1)
-	{
-		ft_dprintf(2, "21sh: signal to default with process %d failed\n", p->pid);
-		exit(EXIT_FAILURE);
-	}
 	command_setup(p);
 	command_builtin_forked(job, p, e);
 	execve(name, ((t_execute *)p->exec)->cmd, ((t_execute *)p->exec)->env);
 	exit(0);
 }
 
-static void		command_exec_job(char *name, t_jobs *job, t_process *p, t_s_env *e)
+static void		command_exec_job(char *name, t_jobs *job,
+		t_process *p, t_s_env *e)
 {
 	size_t		len;
 	t_execute	*exec;
@@ -49,6 +43,8 @@ static void		command_exec_job(char *name, t_jobs *job, t_process *p, t_s_env *e)
 	exec = (t_execute *)p->exec;
 	if (e->forked || (p->pid = fork()) == 0)
 	{
+		if (signal_to_default() == 1)
+			exit(EXIT_FAILURE);
 		len = sh_tablen((const char **)exec->env);
 		len -= sh_tablen((const char **)e->private_env);
 		exec->env[len] = NULL;
@@ -62,8 +58,6 @@ static void		command_exec_job(char *name, t_jobs *job, t_process *p, t_s_env *e)
 		command_process(p->pid, e->pid, job, p);
 }
 
-#include <stdio.h>
-
 int				command_system(t_jobs *job, t_process *p, t_s_env *e)
 {
 	char		*name;
@@ -76,8 +70,6 @@ int				command_system(t_jobs *job, t_process *p, t_s_env *e)
 	exec = (t_execute *)p->exec;
 	if ((error = command_redirect(exec->fds, exec->redirection)))
 		status = command_error(e->progname, error, NULL, e);
-	//if ((error = command_redirect_test(p)))
-	//	command_error(e->progname, error, NULL, e);
 	if (command_is_builtin(p))
 		command_exec_job(name, job, p, e);
 	else if ((error = command_path(&name, exec->cmd[0],

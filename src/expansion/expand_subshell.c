@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 20:24:31 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/26 10:20:39 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/27 15:52:07 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ static size_t	get_line_length(const char *line)
 	return (i);
 }
 
-#include <stdio.h>
-
 static void		expand_subshell_child(int pfd[2], size_t i, t_exp *param)
 {
 	t_s_env		newe;
@@ -87,8 +85,6 @@ int				expand_subshell_father(int pfd[2], pid_t pid, t_ret *ret)
 	value = 0;
 	close(pfd[1]);
 	waitpid(pid, &value, 0);
-	//command_wait(pid, 0, &param->e->ret);
-	//command_wait(pid, 0, NULL);
 	while ((i = read(pfd[0], buff, sizeof(buff) - 1)) > 0)
 	{
 		buff[i] = '\0';

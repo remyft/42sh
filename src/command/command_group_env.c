@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/21 18:14:27 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/26 01:25:22 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/27 16:02:00 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static size_t	new_env_fill(char **new_env, const char **env)
 		}
 	return (i);
 }
-#include <stdio.h>
 
 char			**command_group_env(t_argument *var, t_argument *cmd,
 const char **public, const char **private)

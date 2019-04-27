@@ -53,6 +53,7 @@ int		builtin_jobs(t_execute *exec, t_s_env *e)
 	int		i;
 
 	opts = 0;
+	e->g_notif = 1;
 	if (!(i = jobs_opts(exec->cmd, &opts, e)))
 		return (1);
 	if (!exec->cmd[i])

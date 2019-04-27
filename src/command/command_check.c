@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:02:57 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/26 10:27:25 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/27 16:05:39 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 #include "redirection.h"
 #include <stdio.h>
 
-static int		command_check_builtin(int (*handler)(t_execute *, t_s_env *), t_jobs *job, t_process *p, t_s_env *e)
+static int		command_check_builtin(int (*handler)(t_execute *, t_s_env *),
+		t_jobs *job, t_process *p, t_s_env *e)
 {
 	int			ret;
 	int			len;
@@ -41,7 +42,7 @@ int				command_builtin_forked(t_jobs *job, t_process *p, t_s_env *e)
 	};
 	size_t				i;
 	t_execute			*exec;
-	
+
 	i = 0;
 	exec = (t_execute *)p->exec;
 	if (exec->cmd && exec->cmd[0])
@@ -103,10 +104,8 @@ int				command_check(t_jobs *job, t_process *p, t_s_env *e)
 		while (i < sizeof(builtins) / sizeof(builtins[0]))
 		{
 			if (!ft_strcmp(builtins[i].name, exec->cmd[0]) && !p->next)
-			{
 				if (p->pid == 0 && job->foreground == 0)
 					return (command_check_builtin(builtins[i].handler, job, p, e));
-			}
 			i++;
 		}
 		ret = command_system(job, p, e);

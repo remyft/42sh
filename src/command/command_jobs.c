@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   command_jobs.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/27 15:57:35 by dbaffier          #+#    #+#             */
+/*   Updated: 2019/04/27 16:00:19 by dbaffier         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "shell_lib.h"
 #include "job_control.h"
@@ -6,7 +18,7 @@
 #include "command_error.h"
 #include <stdio.h>
 
-static void	set_fds(int *fds, int size)
+static void		set_fds(int *fds, int size)
 {
 	int		i;
 
@@ -15,7 +27,7 @@ static void	set_fds(int *fds, int size)
 		fds[i] = -1;
 }
 
-static int launch_m_process(t_jobs *job, t_m_process *m_p, t_s_env *e)
+static int		launch_m_process(t_jobs *job, t_m_process *m_p, t_s_env *e)
 {
 	int			fds[5];
 	int			ret;
@@ -37,33 +49,31 @@ static int launch_m_process(t_jobs *job, t_m_process *m_p, t_s_env *e)
 	return (0);
 }
 
-static int		command_test_wait(t_jobs *job, t_m_process *m_p, t_s_env *e)
-{
-	(void)m_p;
-	return (job_wait(job, e));
-}
-
 static int		command_launch_mp_b(t_jobs *job, t_s_env *e)
 {
-	int		ret;
+	int			ret;
+	t_m_process	*m_p;
 
 	ret = 0;
-	for (t_m_process *m_p = job->m_process; m_p; m_p = m_p->next)
+	m_p = job->m_process;
+	while (m_p)
 	{
-		if (m_p->type == OR_IF_VALUE && !ret)
+		if (m_p->type == OR_IF_VALUE && *e->ret == 0)
+			continue ;
+		else if (m_p->type == AND_IF_VALUE && *e->ret != 0)
 			continue ;
 		if ((ret = launch_m_process(job, m_p, e)) != 0)
 			return (ret);
 		job->notify = 1;
-		if ((ret = command_test_wait(job, m_p, e)) != 0)
+		if ((ret = job_wait(job, m_p, e)) != 0)
 			return (ret);
 		ret = m_p->ret;
+		m_p = m_p->next;
 	}
-	//jobs_notify_ended(e->jobs);
 	return (0);
 }
 
-int		command_mprocess_background(t_jobs *job, t_s_env *e)
+int				command_mprocess_background(t_jobs *job, t_s_env *e)
 {
 	int			error;
 
@@ -75,28 +85,30 @@ int		command_mprocess_background(t_jobs *job, t_s_env *e)
 	}
 	else if (job->pgid < 0)
 		error = command_error(e->progname, ERR_FORK, NULL, e);
-	command_job_wait(job, e);
+	command_job_wait(job, job->m_process, e);
 	job->status |= JOB_FORKED;
 	return (error);
 }
 
-int			command_job(t_jobs *job, t_s_env *e)
+int				command_job(t_jobs *job, t_s_env *e)
 {
-	int		ret;
-
+	t_m_process	*m_p;
+	int			ret;
 
 	if (job->m_process->next && job->foreground == 1)
 		return (command_mprocess_background(job, e));
-	for (t_m_process *m_p = job->m_process; m_p; m_p = m_p->next)
+	m_p = job->m_process;
+	while (m_p)
 	{
 		if (m_p->type == OR_IF_VALUE && *e->ret == 0)
 			continue ;
 		else if (m_p->type == AND_IF_VALUE && *e->ret != 0)
 			continue ;
-		if ((ret = launch_m_process(job, m_p, e)) != 0 
+		if ((ret = launch_m_process(job, m_p, e)) != 0
 				&& m_p->p->next == NULL)
 			return (ret);
-		command_job_wait(job, e);
+		command_job_wait(job, m_p, e);
+		m_p = m_p->next;
 	}
 	return (0);
 }
