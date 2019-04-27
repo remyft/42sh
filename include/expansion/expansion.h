@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 20:20:47 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/25 14:09:06 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/25 18:07:43 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct	s_ret
 	char			*word;
 	size_t			w_len;
 	size_t			w_max;
+	const char		*head;
 	size_t			i;
 	int				brace;
 	int				hash;

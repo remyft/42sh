@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 23:02:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/15 19:49:17 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/26 20:08:25 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,51 +14,54 @@
 #include "expansion_special.h"
 #include "expansion_errors.h"
 
-int				special_return(t_ret *subs, t_ret *para, t_exp *param)
+int				special_return(t_ret *para, t_exp *param)
 {
+	t_ret	sub;
 	char	*nbr;
 	int		error;
 
+	ft_memset(&sub, 0, sizeof(sub));
 	nbr = ft_itoa(*param->e->ret);
-	error = param_addstr(nbr, subs);
+	error = param_addstr(nbr, &sub);
 	if (nbr)
 		free(nbr);
 	if (error)
-		return (special_error(error, subs->word));
+		return (special_error(error, sub.word));
 	para->freeable = 1;
-	para->substitute = subs->word;
+	para->substitute = sub.word;
 	return (ERR_NONE);
 }
 
-int				special_option(t_ret *subs, t_ret *para, t_exp *param)
+int				special_option(t_ret *para, t_exp *param)
 {
-	(void)subs;
 	(void)para;
 	(void)param;
 	return (ERR_NONE);
 }
 
-int				special_pid(t_ret *subs, t_ret *para, t_exp *param)
+int				special_pid(t_ret *para, t_exp *param)
 {
+	t_ret	sub;
 	char	*nbr;
 	int		error;
 
 	(void)param;
+	ft_memset(&sub, 0, sizeof(sub));
 	nbr = ft_itoa(getpid());
-	error = param_addstr(nbr, subs);
+	error = param_addstr(nbr, &sub);
 	if (nbr)
 		free(nbr);
 	if (error)
-		return (special_error(error, subs->word));
+		return (special_error(error, sub.word));
 	para->freeable = 1;
-	para->substitute = subs->word;
+	para->substitute = sub.word;
 	return (ERR_NONE);
 }
 
-int				special_jobs(t_ret *subs, t_ret *para, t_exp *param)
+int				special_jobs(t_ret *para, t_exp *param)
 {
-	(void)subs;
 	(void)para;
 	(void)param;
+	// param->e->
 	return (ERR_NONE);
 }

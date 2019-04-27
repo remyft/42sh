@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 02:33:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/25 16:48:34 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/26 18:37:43 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,13 @@ int				expand_error(int error, t_ret *ret, t_exp *par, t_s_env *e)
 		ERR_GIVEN_FUNC, ERR_NO_SUCH_USER_FUNC, ERR_AMBIGUOUS_FUNC,
 		ERR_PIPE_FUNC, ERR_FCNTL_FUNC, ERR_FORK_FUNC, ERR_NO_MATCH_FUNC,
 	};
-	size_t			i;
 
-	i = 0;
-	while (i < sizeof(err) / sizeof(err[0]) && error != err[i].error)
-		i++;
-	if (error == err[i].error)
+	if (error > 0 && error < (int)(sizeof(err) / sizeof(err[0])))
 	{
 		ft_dprintf(STDERR_FILENO, "%s: ", e->progname);
 		if (e->filein)
 			ft_dprintf(STDERR_FILENO, "line %ld: ", e->filein);
-		err[i].handler(ret, par);
+		err[error].handler(ret, par);
 	}
 	e->err_exp = 1;
 	expand_free_t_ret(ret, 0);
