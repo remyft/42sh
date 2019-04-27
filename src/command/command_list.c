@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/26 10:31:18 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/26 18:51:29 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,6 @@ int			execute_list(t_m_list *list, t_s_env *e)
 		return (1);
 	if (!e->err_exp && (ret = command_job(job, e)) != 0)
 		return (ret);
+	e->err_exp = 0;
 	return (execute_list(list->next, e));
 }
