@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 15:49:44 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/27 15:50:45 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/27 18:05:33 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void				update_jobs(const t_jobs *jobs)
 	{
 		job = job_by_pid((t_jobs *)jobs, pid);
 		jobs_status_set((t_jobs *)job, status, pid);
-		job->status |= JOB_NOTIFIED;
+		if (job_finished(job, job->m_process))
+			job->status |= JOB_NOTIFIED;
 	}
 }
 
