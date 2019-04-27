@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 15:57:35 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/27 16:00:19 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/27 18:00:10 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,15 @@ static int		command_launch_mp_b(t_jobs *job, t_s_env *e)
 	while (m_p)
 	{
 		if (m_p->type == OR_IF_VALUE && *e->ret == 0)
+		{
+			m_p = m_p->next;
 			continue ;
+		}
 		else if (m_p->type == AND_IF_VALUE && *e->ret != 0)
+		{
+			m_p = m_p->next;
 			continue ;
+		}
 		if ((ret = launch_m_process(job, m_p, e)) != 0)
 			return (ret);
 		job->notify = 1;
@@ -101,9 +107,15 @@ int				command_job(t_jobs *job, t_s_env *e)
 	while (m_p)
 	{
 		if (m_p->type == OR_IF_VALUE && *e->ret == 0)
+		{
+			m_p = m_p->next;
 			continue ;
+		}
 		else if (m_p->type == AND_IF_VALUE && *e->ret != 0)
+		{
+			m_p = m_p->next;
 			continue ;
+		}
 		if ((ret = launch_m_process(job, m_p, e)) != 0
 				&& m_p->p->next == NULL)
 			return (ret);

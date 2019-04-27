@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/27 13:59:27 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/27 18:04:10 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct	s_shell_env
 	t_alias			*alias_list;
 	t_jobs			*jobs;
 	int				job_id;
+	int				bg_val;
 	int				err_exp;
 	int				g_notif;
 	int				interactive;

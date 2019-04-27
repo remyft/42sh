@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/27 16:05:16 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/27 17:55:51 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int				execute_list(t_m_list *list, t_s_env *e)
 	int		ret;
 	t_jobs	*job;
 
-	if (!list)
+	if (!list || e->shell_loop == 0)
 		return (0);
 	job = jobs_prepare(e);
 	job->status |= JOB_CURR;
@@ -99,5 +99,6 @@ int				execute_list(t_m_list *list, t_s_env *e)
 		return (1);
 	if (!e->err_exp && (ret = command_job(job, e)) != 0)
 		return (ret);
+	e->err_exp = 0;
 	return (execute_list(list->next, e));
 }
