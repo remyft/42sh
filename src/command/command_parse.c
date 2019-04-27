@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 01:23:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/26 10:31:24 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/27 17:20:16 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ static int		command_piped(void *cmd, t_s_env *e, int type)
 		command_parse(((t_pipeline *)cmd)->right, e, END_OF_PIPE);
 	return (0);
 }
-
-#include <stdio.h>
 
 int				command_parse(void *cmd, t_s_env *e, int type)
 {

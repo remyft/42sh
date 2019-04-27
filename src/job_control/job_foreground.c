@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:36:31 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/26 10:18:50 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/27 15:41:30 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ static int	job_fg_cont(t_jobs *job, t_s_env *e, int cont)
 	job->status |= JOB_NOTIFIED;
 	if (cont)
 	{
+		tcsetattr(0, TCSADRAIN, &job->save);
 		job->notify = 1;
-		printf("Resume %d\n", job->pgid);
 		if (kill(-job->pgid, SIGCONT) < 0)
 		{
 			ft_dprintf(2, "failed to continue job [%d]\n", job->pgid);
@@ -50,29 +50,25 @@ static void	job_give_status(t_jobs *job)
 		job->status |= JOB_LAST;
 }
 
-#include <stdio.h>
-
-int			job_foreground(t_jobs *job, t_s_env *e, int cont)
+int			job_foreground(t_jobs *job, t_m_process *m_p, t_s_env *e, int cont)
 {
 	int		status;
 
 	job_give_status(job);
 	if ((status = job_fg_cont(job, e, cont)) != 0)
-			return (status);
+		return (status);
 	if (job->pgid && ioctl(e->fd, TIOCSPGRP, &job->pgid) < 0)
 	{
 		ft_dprintf(2, "job [%d] tcsetpgrp failed\n", job->pgid);
 		return (job_kill(job, e));
 	}
-	status = job_wait(job, e);
-	if (job_finished(job) == 0 && tcgetattr(e->fd, &e->save) != 0)
-		dprintf(2, "Error make tcgetattr\n");
+	status = job_wait(job, m_p, e);
 	if (ioctl(e->fd, TIOCSPGRP, &e->pid) < 0)
 	{
 		ft_dprintf(2, "job [%d] tcsetpgrp failed\n", job->pgid);
 		return (job_kill(job, e));
 	}
+	tcsetattr(0, TCSADRAIN, &e->save);
 	sig_to_pgid(0);
-	// RETURN VALUE 128 + sig , if sig > 0 ???
 	return (*e->ret);
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/26 18:51:29 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/27 17:20:12 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <stdio.h>
 #include "redirection.h"
 
-static int	prepare_redirect(t_redirection *cmd, t_s_env *e, t_jobs *job)
+static int		prepare_redirect(t_redirection *cmd, t_s_env *e, t_jobs *job)
 {
 	if (!cmd)
 		return (0);
@@ -31,7 +31,7 @@ static int	prepare_redirect(t_redirection *cmd, t_s_env *e, t_jobs *job)
 	return (prepare_redirect(cmd->next, e, job));
 }
 
-static int	prepare_command(void *cmd, t_s_env *e, t_jobs *job)
+static int		prepare_command(void *cmd, t_s_env *e, t_jobs *job)
 {
 	if (!cmd)
 		return (0);
@@ -45,7 +45,8 @@ static int	prepare_command(void *cmd, t_s_env *e, t_jobs *job)
 	return (0);
 }
 
-static int	execute_ao_list(t_ao_list *aolist, t_s_env *e, t_jobs *job)
+static int		execute_ao_list(t_ao_list *aolist,
+		t_s_env *e, t_jobs *job)
 {
 	if (!aolist)
 		return (0);
@@ -57,9 +58,9 @@ static int	execute_ao_list(t_ao_list *aolist, t_s_env *e, t_jobs *job)
 
 static char		*get_command(t_m_list *list)
 {
-	t_ao_list	*ao;
-	t_command	*cmd;
-	t_argument	*arg;
+	t_ao_list		*ao;
+	t_command		*cmd;
+	t_argument		*arg;
 	const char		*head;
 	const char		*tail;
 
@@ -92,7 +93,7 @@ static char		*get_command(t_m_list *list)
 	return (ft_strndup((char *)head, tail - head));
 }
 
-int			execute_list(t_m_list *list, t_s_env *e)
+int				execute_list(t_m_list *list, t_s_env *e)
 {
 	int		ret;
 	t_jobs	*job;
@@ -100,6 +101,7 @@ int			execute_list(t_m_list *list, t_s_env *e)
 	if (!list)
 		return (0);
 	job = jobs_prepare(e);
+	job->status |= JOB_CURR;
 	job->cmd_name = get_command(list);
 	job->foreground = list->async;
 	if (execute_ao_list(list->aolist, e, job))

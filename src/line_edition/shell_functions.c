@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/24 20:10:26 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/26 00:54:22 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/27 14:10:30 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,8 @@ void			shell_loop(t_line *line, t_s_env *e)
 		write(1, "\n", 1);
 		if (line->curr->buff && line->curr->buff[0] && line->tmp[0] != -1
 				&& line->curr->buff[0] != 10)
-		{
 			get_new_cmd(line, e);
-			jobs_notify_ended(e->jobs);
-		}
+		jobs_notify_ended(e->jobs, e);
 		if (line->path)
 			check_mod_path(e, line, 0);
 	}

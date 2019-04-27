@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:38:57 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/24 17:16:48 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/26 17:35:39 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 #include "ft_printf.h"
 #include <signal.h>
 
-int		job_background(t_jobs *job, t_s_env *e, int cont)
+int		job_background(t_jobs *job, t_m_process *m_p, t_s_env *e, int cont)
 {
+	(void)m_p;
 	if (cont == 1)
 	{
 		job->foreground = 1;

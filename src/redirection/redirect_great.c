@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:27:38 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/26 00:28:39 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/26 12:25:25 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int				redirect_great(t_redirection **redir, t_s_env *e)
 	int			errno;
 	int			mode;
 
-	mode = O_CREAT | O_TRUNC | O_RDWR;
+	mode = O_CREAT | O_TRUNC | O_WRONLY;
 	(*redir)->fdio = (*redir)->ionumber ? ft_atoi((*redir)->ionumber->head) : 1;
 	if ((*redir)->async == 1)
 		close(STDOUT_FILENO);

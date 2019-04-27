@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 14:09:06 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/24 18:03:59 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/27 15:47:51 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ enum
 	JOB_MINUS = 1 << 3,
 	JOB_LAST = 1 << 4,
 	JOB_FORKED = 1 << 5,
+	JOB_CURR = 1 << 6,
 };
 
 enum
@@ -65,12 +66,12 @@ enum
 void			job_handler(t_jobs *job, t_s_env *e);
 void			job_print_status(t_jobs *job);
 
-int				job_wait(t_jobs *job, t_s_env *e);
+int				job_wait(t_jobs *job, t_m_process *m_p, t_s_env *e);
 int				job_kill(t_jobs *job, t_s_env *e);
-int				job_background(t_jobs *job, t_s_env *e, int cont);
-int				job_foreground(t_jobs *job, t_s_env *e, int cont);
-int				job_finished(t_jobs *job);
-int				jobs_notify_ended(t_jobs *jobs);
+int				job_background(t_jobs *job, t_m_process *m_p, t_s_env *e, int cont);
+int				job_foreground(t_jobs *job, t_m_process *m_p, t_s_env *e, int cont);
+int				job_finished(t_jobs *job, t_m_process *m_p);
+int				jobs_notify_ended(t_jobs *jobs, t_s_env *e);
 int				jobs_terminated(t_s_env *e);
 int				job_completed(t_jobs *job);
 int				job_suspended(t_jobs *job, t_m_process *m_p);
@@ -78,8 +79,11 @@ int				job_sig_suspended(t_jobs *job, t_m_process *m_p);
 int				job_signaled(t_jobs *job);
 int				job_notify(t_jobs *job, t_m_process *m_p);
 int				job_is_curr(t_jobs *job, t_execute *exec);
+int				jobs_notify(t_jobs *jobs, t_m_process *m_p);
+int				job_ch_suspended(t_jobs *jobs);
 void			job_show_status(t_jobs *job, int sig);
 void			jobs_remove(t_jobs **jobs, int n);
+void			update_jobs(const t_jobs *jobs);
 
 t_jobs			*job_insert(t_s_env *e);
 t_jobs			*job_by_id(int id, t_jobs *jobs);
