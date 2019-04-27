@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 09:06:34 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/26 12:25:22 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/27 18:03:14 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int		builtin_fg(t_execute *exec, t_s_env *e)
 	int		err;
 	int		i;
 
+	if (!e->interactive)
+		return (fg_error(2, "current", e));
 	i = 1;
 	if ((err = fg_opts(exec->cmd, e)) != 0)
 		return (err);

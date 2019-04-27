@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/27 17:20:12 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/27 18:53:52 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int				execute_list(t_m_list *list, t_s_env *e)
 	int		ret;
 	t_jobs	*job;
 
-	if (!list)
+	if (!list || e->shell_loop == 0)
 		return (0);
 	job = jobs_prepare(e);
 	job->status |= JOB_CURR;
