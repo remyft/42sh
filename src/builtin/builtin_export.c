@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 16:22:25 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/04/28 18:38:07 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/28 20:17:21 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,10 @@ void		get_tree_env(void)
 	line = get_struct();
 	free_tree(GET_TREE(line->tree, ENV));
 	GET_TREE(line->tree, ENV) = NULL;
-	fill_tree_env(*line->public_env, &GET_TREE(line->tree, ENV));
-	fill_tree_env(*line->private_env, &GET_TREE(line->tree, ENV));
+	if (line->public_env && *line->public_env)
+		fill_tree_env(*line->public_env, &GET_TREE(line->tree, ENV));
+	if (line->private_env && *line->private_env)
+		fill_tree_env(*line->private_env, &GET_TREE(line->tree, ENV));
 	if (GET_TREE(line->tree, ENV))
 		set_psblty(GET_TREE(line->tree, ENV), 1);
 }
