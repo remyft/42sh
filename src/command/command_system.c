@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/27 18:01:56 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/27 18:53:40 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static void		command_execve(char *name, t_jobs *job,
 	if (job->pgid == 0)
 		job->pgid = p->pid;
 	setpgid(p->pid, job->pgid);
+	if (signal_to_default() == 1)
+		exit(EXIT_FAILURE);
 	command_setup(p);
 	command_builtin_forked(job, p, e);
 	execve(name, ((t_execute *)p->exec)->cmd, ((t_execute *)p->exec)->env);

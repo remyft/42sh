@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/27 21:08:36 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/27 22:28:47 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "command.h"
 #include "operator_types.h"
 #include "expansion.h"
-#include <stdio.h>
 #include "redirection.h"
 
 static int		prepare_redirect(t_redirection *cmd, t_s_env *e, t_jobs *job)
@@ -68,16 +67,25 @@ static char		*get_command(t_m_list *list)
 		return (NULL);
 	cmd = (t_command *)list->aolist->cmd;
 	if (cmd->type == IS_A_PIPE)
+	{
+		if (!((t_command *)((t_pipeline *)cmd)->left)->args)
+			return (NULL);
 		head = ((t_command *)((t_pipeline *)cmd)->left)->args->token->head;
+	}
 	else
+	{
+		if (!cmd->args || !cmd->args->token)
+			return (NULL);
 		head = cmd->args->token->head;
+	}
 	ao = list->aolist;
 	while (ao->next)
 		ao = ao->next;
 	cmd = ao->cmd;
 	while (cmd->type == IS_A_PIPE)
 		cmd = ((t_pipeline *)cmd)->right;
-	arg = cmd->args;
+	if (!(arg = cmd->args))
+		return (NULL);
 	while (arg->next)
 		arg = arg->next;
 	tail = arg->token->head + arg->token->len;
@@ -86,7 +94,6 @@ static char		*get_command(t_m_list *list)
 
 int				execute_list(t_m_list *list, t_s_env *e)
 {
-	int		ret;
 	t_jobs	*job;
 
 	if (!list || e->shell_loop == 0)
@@ -97,8 +104,9 @@ int				execute_list(t_m_list *list, t_s_env *e)
 	job->foreground = list->async;
 	if (execute_ao_list(list->aolist, e, job))
 		return (1);
-	if (!e->err_exp && (ret = command_job(job, e)) != 0)
-		return (ret);
+	if (!e->err_exp)
+		command_job(job, e);
 	e->err_exp = 0;
+	jobs_notify_ended(e->jobs, e);
 	return (execute_list(list->next, e));
 }

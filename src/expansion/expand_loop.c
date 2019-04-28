@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/02 12:00:40 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/25 09:07:42 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/26 18:50:44 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,21 @@
 #include "expansion_loop.h"
 #include "expansion_errors.h"
 
+#include <stdio.h>
 static int		expand_rules(t_e_character *charact, t_exp *param, t_ret **ret)
 {
 	int			error;
 
+// printf("RULES [%s] [%s] BUFF [%.*s] [%ld-%ld] [%c]\n", (*ret)->word, (*ret)->substitute, (int)param->buff_len, param->buff, param->i, param->buff_len, param->buff[param->i]);
 	if ((error = charact->handler(param, *ret)) != ERR_NONE)
 		return (error);
+// printf("B");
 	if (quote_type(param->quote))
 		return (error);
+// printf("C");
 	if (param->expand)
 		return (expand_fieldsplit(ret, param->e));
+// printf("D");
 	return (error);
 }
 

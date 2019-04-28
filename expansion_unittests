@@ -6,38 +6,43 @@ echo 'EXPAND DOLLAR WITH NO BRACE'
 echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
 echo $/$
 echo $\$
-echo $PATH
-echo coucou-$SHLVL-coucou
-echo "NOVAR->$NOTAGOODVAR"
+echo $PATH $#PATH
+echo "$PATH" "$#PATH"
+echo coucou-$SHLVL-coucou coucou-$#SHLVL-coucou
+echo "NOVAR->$NOTAGOODVAR" "NOVAR->$#NOTAGOODVAR"
 ls $PATH
 ls "$PATH"
 echo -e '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n'
 
 echo 'EXPAND DOLLAR SPECIAL CHARACTERS : @*#?-$!0'
 echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
-echo @=$@
-ls $@
-echo "\"@\""="$@"
-ls "abc$@def"
-echo @@=$@@
-echo '*'=$*
-ls $*
-echo "\"*\""="$*"
-ls "abc$*def"
-echo '*'/=$*/
-echo #=$#
-echo ##=$##
-echo '?'=$?
-echo '??'=$??
-echo -=$-
-echo --=$--
-echo $=$$
-echo '$$'=$$$
-echo '!'=$!
-echo '!!'=$!!
-echo '0'=$0
-echo '00'=$0000
-echo '01'=$0001
+echo '$@'=$@ 
+echo 'ls abc$@def :'
+ls abc$@def
+echo 'abc"$@"def'=abc"$@"def
+echo 'ls abc"$@"def :'
+ls abc"$@"def
+echo '$@@'=$@@
+echo '$*'=$*
+echo 'ls abc$*def :'
+ls abc$*def
+echo '"$*"'="$*"
+echo 'ls abc"$*"def :'
+ls abc"$*"def
+echo '$*/'=$*/
+echo '$#'=$#
+echo '$##'=$##
+echo '$?'=$?
+echo '$??'=$??
+echo '$-'=$-
+echo '$--'=$--
+echo '$$'=$$
+echo '$$$'=$$$
+echo '$!'=$!
+echo '$!!'=$!!
+echo '$0'=$0
+echo '$0000'=$0000
+echo '$0001'=$0001
 echo -e '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n'
 
 echo 'EXPAND DOLLAR PARAMETER ${...}'
@@ -46,34 +51,42 @@ echo ${}
 echo "${}"
 echo ${ }
 echo "${ }"
-ls ${PATH}
+echo ${PATH} ${#PATH}
+ls ${PATH} ${#PATH}
 ls "${PATH}"
 echo coucou-${SHLVL}-coucou
-echo "NOVAR->${NOTAGOODVAR}"
+echo "NOVAR->${NOTAGOODVAR} !"
 echo one"${NOTAGOODVAR}"two
 
-echo @=${@}
-ls ${@}
-echo "@"="${@}"
-ls "${@}"
-echo @@=${@@}
-echo '*'=${*}
+echo '${@}'=${@}
+echo 'ls abc${@}def :'
+ls abc${@}def
+echo '"${@}"'="${@}"
+echo 'ls abc"${@}"def :'
+ls abc"${@}"def
+echo '${@@}'=${@@}
+
+echo '${*}'=${*}
+echo 'ls abc${*}def :'
 ls abc${*}def
-echo "\"*\""="${*}"
+echo '"${*}"'="${*}"
+echo 'ls abc"${*}"def :'
 ls abc"${*}"def
-echo #=${#}
-echo ##=${##}
-echo '?'=${?}
-echo '??'=${??}
-echo -=${-}
-echo --=${--}
-echo \$=${$}
-echo '$$'=${$$}
-echo '!'=${!}
-echo '!!'=${!!}
-echo '0'=${0}
-echo '00'=${00000}
-echo '01'=${00001}
+echo '${**}'=${**}
+
+echo '${#}'=${#}
+echo '${##}'=${##}
+echo '${?}'=${?}
+echo '${??}'=${??}
+echo '${-}'=${-}
+echo '${--}'=${--}
+echo '${$}'=${$}
+echo '${$$}'=${$$}
+echo '${!}'=${!}
+echo '${!!}'=${!!}
+echo '${0}'=${0}
+echo '${00000}'=${00000}
+echo '${00001}'=${00001}
 echo -e '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n'
 
 echo 'EXPAND DOLLAR PARAMETER WITH MODIFIERS ${...:-...}'
@@ -139,10 +152,11 @@ echo '--------------------------'
 echo LS-${PWD?$SHLVL}-LS
 echo LS-${NULLVAR?$SHLVL}-LS
 echo LS-${PWDS?$SHLVL}-LS
-echo '$NULLVAR='$NULLVAR
+echo '$NULLVAR'=$NULLVAR
 NULLVAR=
 
 echo
 echo 'TEST ERRORS'
 echo '--------------------------'
+
 echo LS-${$PWD:-$SHLVL}-LS

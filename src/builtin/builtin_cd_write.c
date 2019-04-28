@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 11:01:36 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/23 09:04:29 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/26 12:40:20 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "shell_lib.h"
 #include "builtin_cd.h"
 
-static int		cd_get_path(char *pwd, char *cmd)
+int				cd_get_path(char *pwd, char *cmd)
 {
 	if (*cmd == '/')
 		ft_strncpy(pwd, cmd, MAXPATHLEN);

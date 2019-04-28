@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 17:39:24 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/25 16:06:31 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/26 18:32:36 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,35 +38,34 @@ enum
 	ERR_MODIFIER,
 	ERR_UNHANDLED,
 	ERR_MALLOC,
-	ERR_NO_ENV,
+	ERR_NO_ENV = 5,
 	ERR_DIRECTORY_STACK,
 	ERR_GIVEN,
 	ERR_NO_SUCH_USER,
 	ERR_AMBIGUOUS,
-	ERR_PIPE,
+	ERR_PIPE = 10,
 	ERR_FCNTL,
 	ERR_FORK,
 	ERR_NO_MATCH_FOUND
 };
 
-# define ERR_NONE_FUNC				{ ERR_NONE            , err_none_func }
-# define ERR_SYNTAX_FUNC			{ ERR_SYNTAX          , err_syntax_func }
-# define ERR_MODIFIER_FUNC			{ ERR_MODIFIER        , err_modifier_func }
-# define ERR_UNHANDLED_FUNC			{ ERR_UNHANDLED       , err_unhandled_func }
-# define ERR_MALLOC_FUNC			{ ERR_MALLOC          , err_malloc_func }
-# define ERR_NO_ENV_FUNC			{ ERR_NO_ENV          , err_no_env_func }
-# define ERR_DIRECTORY_STACK_FUNC	{ ERR_DIRECTORY_STACK , err_directory_func }
-# define ERR_GIVEN_FUNC				{ ERR_GIVEN           , err_given_func }
-# define ERR_NO_SUCH_USER_FUNC		{ ERR_NO_SUCH_USER    , err_no_user_func }
-# define ERR_AMBIGUOUS_FUNC			{ ERR_AMBIGUOUS       , err_ambigous_func }
-# define ERR_PIPE_FUNC				{ ERR_PIPE            , err_pipe_func }
-# define ERR_FCNTL_FUNC				{ ERR_FCNTL           , err_fcntl_func }
-# define ERR_FORK_FUNC				{ ERR_FORK            , err_fork_func }
-# define ERR_NO_MATCH_FUNC			{ ERR_NO_MATCH_FOUND  , err_no_match_func }
+# define ERR_NONE_FUNC				{ err_none_func }
+# define ERR_SYNTAX_FUNC			{ err_syntax_func }
+# define ERR_MODIFIER_FUNC			{ err_modifier_func }
+# define ERR_UNHANDLED_FUNC			{ err_unhandled_func }
+# define ERR_MALLOC_FUNC			{ err_malloc_func }
+# define ERR_NO_ENV_FUNC			{ err_no_env_func }
+# define ERR_DIRECTORY_STACK_FUNC	{ err_directory_func }
+# define ERR_GIVEN_FUNC				{ err_given_func }
+# define ERR_NO_SUCH_USER_FUNC		{ err_no_user_func }
+# define ERR_AMBIGUOUS_FUNC			{ err_ambigous_func }
+# define ERR_PIPE_FUNC				{ err_pipe_func }
+# define ERR_FCNTL_FUNC				{ err_fcntl_func }
+# define ERR_FORK_FUNC				{ err_fork_func }
+# define ERR_NO_MATCH_FUNC			{ err_no_match_func }
 
 typedef struct	s_error
 {
-	int			error;
 	void		(*handler)(t_ret *, t_exp *);
 }				t_error;
 
