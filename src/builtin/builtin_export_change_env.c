@@ -6,7 +6,7 @@
 /*   By: tsisadag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 18:08:03 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/04/25 23:34:29 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/28 15:34:49 by tsisadag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,5 +142,4 @@ void	change_public(char *arg, t_s_env ****e)
 		free(tmp1);
 		free(tmp2);
 	}
-	printf("errror\n");
 }

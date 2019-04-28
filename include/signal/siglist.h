@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   siglist.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/12 17:21:48 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/20 09:05:03 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 17:29:51 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 # include <signal.h>
 
 # define SGHUP		"hangup"
-# define SINT		"interrupt"	
+# define SINT		"interrupt"
 # define SQUIT		"quit"
 # define SILL		"illegal instruction"
 # define STRAP		"BPT trace/trap"
-# define SABRT		"ABORT instruction"
-# define SEMT		"EMT instruction"
+# define SABRT		"ABORT trap"
+# define SEMT		"EMT trap"
 # define SFPE		"Floating point exception"
 # define SKILL		"Killed"
 # define SBUS		"Bus error"
@@ -31,20 +31,20 @@
 # define SALRM		"Alarm clock"
 # define STERM		"Terminated"
 # define SURG		"Urgent IO condition"
-# define SSTOP		"Stopped (signal)"
+# define SSTOP		"Stopped"
 # define STSTP		"Stopped"
 # define SCONT		"Continue"
 # define SCHLD		"Child death or stop"
-# define STTIN		"Stopped (tty input)"
-# define STTOU		"Stopped (tty output)"
+# define STTIN		"Stopped"
+# define STTOU		"Stopped"
 # define SIO		"I/O ready"
-# define SXCPU		"CPU limit"
+# define SXCPU		"Cputime limit exceeded"
 # define SXFSZ		"File limit"
-# define SVTALRM	"Alarm (virtual)"
-# define SPROF		"Alarm (profile)"
+# define SVTALRM	"Virtual timer expired"
+# define SPROF		"Profiling timer expired"
 # define SWINCH		"Window changed"
 # define SLOST		"Record lock"
-# define SUSR1		"User signal 1"
-# define SUSR2		"User signal 2"
+# define SUSR1		"User defined signal 1"
+# define SUSR2		"User defined signal 2"
 
 #endif

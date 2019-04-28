@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 21:33:49 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/25 11:15:52 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/26 15:02:30 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_jobs		*job_insert(t_s_env *e)
 		return (0);
 	job->id = 1;
 	job->pgid = e->pid;
+	job->save = e->save;
 	if (!e->jobs)
 		e->jobs = job;
 	else

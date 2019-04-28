@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 13:38:06 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/23 10:04:34 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 17:53:54 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 #include "builtin_jobs.h"
 #include "builtins.h"
 
-static int		bg(const t_jobs *jobs, t_s_env *e)
+static int		bg(const t_jobs *jobs, t_m_process *m_p, t_s_env *e)
 {
-	return (job_background((t_jobs *)jobs, e, 1));
+	return (job_background((t_jobs *)jobs, m_p, e, 1));
 }
 
 static int		bg_no_arg(t_s_env *e, t_execute *exec)
 {
 	t_jobs		*jobs;
-	
+
 	jobs = e->jobs;
 	while (jobs)
 	{
 		if (job_is_curr((t_jobs *)jobs, exec))
 			;
 		else
-			return (bg(jobs, e));
+			return (bg(jobs, jobs->m_process, e));
 		jobs = jobs->next;
 	}
 	return (1);
@@ -45,7 +45,7 @@ static int		bg_spe_arg(t_s_env *e, t_execute *exec, int i)
 	cmd = exec->cmd;
 	if (!(curr = jobs_expansions(cmd[i], exec, e)))
 		return (bg_error(2, cmd[i], e));
-	return (bg(curr, e));
+	return (bg(curr, curr->m_process, e));
 }
 
 static int		bg_opts(char **arg, t_s_env *e)
@@ -55,7 +55,7 @@ static int		bg_opts(char **arg, t_s_env *e)
 	return (0);
 }
 
-int		builtin_bg(t_execute *exec, t_s_env *e)
+int				builtin_bg(t_execute *exec, t_s_env *e)
 {
 	int		i;
 

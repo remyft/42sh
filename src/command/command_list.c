@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/26 10:13:30 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 17:43:58 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 #include "command.h"
 #include "operator_types.h"
 #include "expansion.h"
-#include <stdio.h>
 #include "redirection.h"
+#include <stdio.h>
 
-static int	prepare_redirect(t_redirection *cmd, t_s_env *e, t_jobs *job)
+static int		prepare_redirect(t_redirection *cmd, t_s_env *e, t_jobs *job)
 {
 	if (!cmd)
 		return (0);
@@ -31,7 +31,7 @@ static int	prepare_redirect(t_redirection *cmd, t_s_env *e, t_jobs *job)
 	return (prepare_redirect(cmd->next, e, job));
 }
 
-static int	prepare_command(void *cmd, t_s_env *e, t_jobs *job)
+static int		prepare_command(void *cmd, t_s_env *e, t_jobs *job)
 {
 	if (!cmd)
 		return (0);
@@ -45,7 +45,8 @@ static int	prepare_command(void *cmd, t_s_env *e, t_jobs *job)
 	return (0);
 }
 
-static int	execute_ao_list(t_ao_list *aolist, t_s_env *e, t_jobs *job)
+static int		execute_ao_list(t_ao_list *aolist,
+		t_s_env *e, t_jobs *job)
 {
 	if (!aolist)
 		return (0);
@@ -57,9 +58,9 @@ static int	execute_ao_list(t_ao_list *aolist, t_s_env *e, t_jobs *job)
 
 static char		*get_command(t_m_list *list)
 {
-	t_ao_list	*ao;
-	t_command	*cmd;
-	t_argument	*arg;
+	t_ao_list		*ao;
+	t_command		*cmd;
+	t_argument		*arg;
 	const char		*head;
 	const char		*tail;
 
@@ -67,35 +68,45 @@ static char		*get_command(t_m_list *list)
 		return (NULL);
 	cmd = (t_command *)list->aolist->cmd;
 	if (cmd->type == IS_A_PIPE)
+	{
+		if (!((t_command *)((t_pipeline *)cmd)->left)->args)
+			return (NULL);
 		head = ((t_command *)((t_pipeline *)cmd)->left)->args->token->head;
+	}
 	else
+	{
+		if (!cmd->args || !cmd->args->token)
+			return (NULL);
 		head = cmd->args->token->head;
+	}
 	ao = list->aolist;
 	while (ao->next)
 		ao = ao->next;
 	cmd = ao->cmd;
 	while (cmd->type == IS_A_PIPE)
 		cmd = ((t_pipeline *)cmd)->right;
-	arg = cmd->args;
+	if (!(arg = cmd->args))
+		return (NULL);
 	while (arg->next)
 		arg = arg->next;
 	tail = arg->token->head + arg->token->len;
 	return (ft_strndup((char *)head, tail - head));
 }
 
-int			execute_list(t_m_list *list, t_s_env *e)
+int				execute_list(t_m_list *list, t_s_env *e)
 {
-	int		ret;
 	t_jobs	*job;
 
-	if (!list)
+	if (!list || e->shell_loop == 0)
 		return (0);
 	job = jobs_prepare(e);
+	job->status |= JOB_CURR;
 	job->cmd_name = get_command(list);
 	job->foreground = list->async;
 	if (execute_ao_list(list->aolist, e, job))
 		return (1);
-	if (!e->err_exp && (ret = command_job(job, e)) != 0)
-		return (ret);
+	if (!e->err_exp)
+		command_job(job, e);
+	e->err_exp = 0;
 	return (execute_list(list->next, e));
 }

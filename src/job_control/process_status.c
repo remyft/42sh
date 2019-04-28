@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:15:24 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/26 10:27:24 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 18:09:25 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,13 @@ int			process_set_status(t_jobs *job, t_process *p,
 		{
 			p->status = STATUS_FINISHED;
 			if (WIFSIGNALED(status))
+			{
 				p->s_signal = WTERMSIG(status);
+				write(1, "\n", 1);
+			}
 		}
 	}
-	if (job_suspended(job, m_p) && !job_finished(job))
+	if (job_suspended(job, m_p) && !job_finished(job, m_p))
 	{
 		job->status &= ~JOB_FOREGROUND;
 		job->status &= ~JOB_NOTIFIED;
@@ -75,9 +78,9 @@ static int	process_update(t_jobs *job, t_m_process *m_p,
 	}
 	return (-1);
 }
-#include "shell_lib.h"
 
-void		process_status(t_jobs *job, t_m_process *m_p, t_process *p, t_s_env *e)
+void		process_status(t_jobs *job, t_m_process *m_p,
+		t_process *p, t_s_env *e)
 {
 	int		status;
 	pid_t	pid;

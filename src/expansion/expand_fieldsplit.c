@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/05 15:31:37 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/25 14:09:24 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/28 15:09:01 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char		check_quote(char c, char quote)
 	return (quote);
 }
 
-static char		*check_word(char *str, const char *ifs, t_ret *ret)
+static char		*check_word(char *str, const char *ifs, t_ret **ret)
 {
 	char		quote;
 
@@ -36,12 +36,12 @@ static char		*check_word(char *str, const char *ifs, t_ret *ret)
 			quote = check_quote(*str, quote);
 		else if (*str == '\\')
 		{
-			if (param_addchar(*str++, ret))
+			if (param_addchar(*str++, *ret))
 				return (NULL);
 		}
 		if (quote == 0 && ft_strchr(ifs, *str))
 			return (str);
-		if (param_addchar(*str, ret))
+		if (param_addchar(*str, *ret))
 			return (NULL);
 		str++;
 	}
@@ -54,7 +54,7 @@ static int		get_word(char *str, const char *ifs, t_ret **ret)
 	{
 		while (ft_strchr(ifs, *str))
 			str++;
-		if (!*str || !(str = check_word(str, ifs, *ret)) || !*str)
+		if (!*str || !(str = check_word(str, ifs, ret)) || !*str)
 			break ;
 		if (!((*ret)->next = ft_memalloc(sizeof(**ret))))
 			return (ERR_MALLOC);

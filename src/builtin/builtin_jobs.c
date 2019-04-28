@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_jobs.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/28 17:52:21 by dbaffier          #+#    #+#             */
+/*   Updated: 2019/04/28 17:56:43 by dbaffier         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell_env.h"
 #include "ft_dprintf.h"
 #include "ft_printf.h"
@@ -5,7 +17,7 @@
 #include "job_control.h"
 #include "builtins.h"
 
-static int	jobs_opts_loop(char *arg, int *opts, t_s_env *e)
+static int		jobs_opts_loop(char *arg, int *opts, t_s_env *e)
 {
 	size_t		i;
 
@@ -47,12 +59,13 @@ static int		jobs_opts(char **args, int *opts, t_s_env *e)
 	return (i);
 }
 
-int		builtin_jobs(t_execute *exec, t_s_env *e)
+int				builtin_jobs(t_execute *exec, t_s_env *e)
 {
 	int		opts;
 	int		i;
 
 	opts = 0;
+	e->g_notif = 1;
 	if (!(i = jobs_opts(exec->cmd, &opts, e)))
 		return (1);
 	if (!exec->cmd[i])

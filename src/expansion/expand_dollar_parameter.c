@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 04:44:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/24 20:32:38 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/28 17:09:16 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,11 @@ static int		expand_final(char *str, int hash, t_ret *ret)
 	return (error);
 }
 
-static int		expand_dollar_parameter_error(int error, t_ret *parameter)
+static int		expand_dollar_parameter_error(int err, t_ret *para, t_ret *ret)
 {
-	expand_free_t_ret(parameter, 0);
-	return (error);
+	expand_free_t_ret(ret, 0);
+	ft_memcpy(ret, para, sizeof(*ret));
+	return (err);
 }
 
 int				expand_dollar_parameter(t_exp *param, t_ret *ret)
@@ -42,15 +43,17 @@ int				expand_dollar_parameter(t_exp *param, t_ret *ret)
 
 	ft_memset(&parameter, 0, sizeof(parameter));
 	if ((error = expand_dollar_parameter_init(&parameter, param)) != ERR_NONE)
-		return (expand_dollar_parameter_error(error, &parameter));
+		return (expand_dollar_parameter_error(error, &parameter, ret));
+	if (!parameter.brace)
+		param->i--;
 	if (parameter.brace || !is_expand_null(&parameter) || parameter.hash)
 	{
 		if ((error = expand_dollar_parameter_value(&parameter, param))
-		|| (error = expand_dollar_get_action(&parameter, param))
-		|| (parameter.brace
+		|| ((error = expand_dollar_get_action(&parameter)))
+		|| (parameter.brace && parameter.action
 			&& (error = expand_dollar_word_value(&parameter, param)))
 		|| (error = expand_final(parameter.substitute, parameter.hash, ret)))
-			return (expand_dollar_parameter_error(error, &parameter));
+			return (expand_dollar_parameter_error(error, &parameter, ret));
 	}
 	else
 		error = expand_final(parameter.word, parameter.hash, ret);
@@ -59,6 +62,5 @@ int				expand_dollar_parameter(t_exp *param, t_ret *ret)
 	ret->substitute = (ret->substitute) ?
 		ft_strjoinfree(ret->substitute, parameter.word, 3) : parameter.word;
 	ret->freeable = 1;
-	--param->i;
 	return (error);
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:50:33 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/25 18:21:38 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/27 16:05:56 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,8 @@
 #include "put.h"
 #include "shell.h"
 
-static void	sig_interrupt(int sig)
-{
-	t_line	*line;
-
-	line = get_struct();
-	*line->ret = 128 + sig;
-}
-
 void		set_signal(sig_t *signals)
 {
-	signals[SIGINT] = signal(SIGINT, sig_interrupt);
 	signals[SIGWINCH] = signal(SIGWINCH, sig_winch);
 }
 

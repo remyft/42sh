@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 17:17:32 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/25 17:41:04 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/27 18:04:59 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static void		remove_m_proc(t_m_process *p)
 		remove_m_proc(p->next);
 		free(p);
 	}
-
 }
 
 static void		remove_job(t_jobs **job, t_jobs *node)
@@ -60,6 +59,8 @@ void			jobs_remove(t_jobs **jobs, int n)
 	curr = *jobs;
 	while (curr)
 	{
+		if (curr->status & JOB_CURR)
+			curr->status &= ~JOB_CURR;
 		save = curr->next;
 		if (n == 0 || (curr->status & JOB_NOTIFIED))
 		{

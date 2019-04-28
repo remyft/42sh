@@ -5,28 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/08 14:13:22 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/26 01:12:02 by dbaffier         ###   ########.fr       */
+/*   Created: 2019/04/27 15:49:44 by dbaffier          #+#    #+#             */
+/*   Updated: 2019/04/27 21:26:55 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "job_control.h"
 #include "signal_intern.h"
 #include "builtin_jobs.h"
-
-static int			job_ch_suspended(t_jobs *job)
-{
-	t_m_process	*m_p;
-	
-	m_p = job->m_process;
-	while (m_p)
-	{
-		if (job_suspended(job, m_p))
-			return (job_notify(job, m_p));
-		m_p = m_p->next;
-	}
-	return (1);
-}
 
 static t_m_process	*m_proc_by_pid(t_m_process *begin, pid_t pid)
 {
@@ -63,17 +49,39 @@ static void			jobs_status_set(t_jobs *job, int status, pid_t pid)
 	}
 }
 
-int					jobs_notify_ended(t_jobs *jobs)
+void				update_jobs(const t_jobs *jobs)
 {
 	int			status;
 	t_jobs		*job;
 	pid_t		pid;
 
-	while ((pid = waitpid(WAIT_ANY, &status, WCONTINUED | WUNTRACED | WNOHANG)) > 0)
+	while ((pid = waitpid(WAIT_ANY, &status,
+					WCONTINUED | WUNTRACED | WNOHANG)) > 0)
+	{
+		job = job_by_pid((t_jobs *)jobs, pid);
+		jobs_status_set((t_jobs *)job, status, pid);
+		if (job_finished(job, job->m_process))
+			job->status |= JOB_NOTIFIED;
+	}
+}
+
+int					jobs_notify_ended(t_jobs *jobs, t_s_env *e)
+{
+	int			status;
+	t_jobs		*job;
+	pid_t		pid;
+
+	if (e->g_notif)
+	{
+		e->g_notif = 0;
+		return (1);
+	}
+	while ((pid = waitpid(WAIT_ANY, &status,
+					WCONTINUED | WUNTRACED | WNOHANG)) > 0)
 	{
 		job = job_by_pid(jobs, pid);
 		jobs_status_set(job, status, pid);
-		if (job_finished(job))
+		if (job_finished(job, job->m_process))
 		{
 			job->status |= JOB_NOTIFIED;
 			job_no_opt(job);

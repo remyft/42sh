@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/31 23:11:59 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/26 01:25:44 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/27 16:01:04 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 #include "shell_lib.h"
 #include "job_control.h"
 
-int				command_builtin(t_builtin builtin, t_jobs *job, t_process *p, t_s_env *e)
+int				command_builtin(t_builtin builtin, t_jobs *job,
+		t_process *p, t_s_env *e)
 {
 	int			error;
 	t_execute	*exec;
@@ -29,6 +30,6 @@ int				command_builtin(t_builtin builtin, t_jobs *job, t_process *p, t_s_env *e)
 		*e->ret = builtin(exec, e);
 	if ((error = command_restore_fds(exec->fds)) != ERR_OK)
 		command_error(e->progname, error, NULL, e);
-	job->status |= JOB_NOTIFIED; 
+	job->status |= JOB_NOTIFIED;
 	return (ERR_OK);
 }

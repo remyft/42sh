@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 11:02:15 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/26 01:12:01 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/27 14:11:18 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 int		jobs_no_arg(const t_jobs *jobs, t_execute *exec, const int *opts)
 {
+	update_jobs(jobs);
 	while (jobs)
 	{
 		if (job_is_curr((t_jobs *)jobs, exec))
@@ -51,12 +52,7 @@ int		jobs_spe_arg(t_execute *exec, t_s_env *e, int i, const int *opts)
 		else if (*opts & JOB_OPT_L)
 			job_opt_l(curr);
 		else
-		{
-			if (jobs_notify_ended(e->jobs))
-				;
-			else
-				job_no_opt(curr);
-		}
+			job_no_opt(curr);
 		i++;
 	}
 	return (err);

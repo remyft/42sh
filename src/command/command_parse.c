@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 01:23:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/26 10:15:04 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/27 17:20:16 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ static int		command_piped(void *cmd, t_s_env *e, int type)
 	return (0);
 }
 
-#include <stdio.h>
-
 int				command_parse(void *cmd, t_s_env *e, int type)
 {
 	int			ret;
@@ -44,7 +42,6 @@ int				command_parse(void *cmd, t_s_env *e, int type)
 		ret = command_piped(cmd, e, type);
 	else
 	{
-		//command_debug(cmd);
 		if (((t_command *)cmd)->args)
 		{
 			if (!(exec = ft_memalloc(sizeof(t_execute))))
@@ -54,7 +51,6 @@ int				command_parse(void *cmd, t_s_env *e, int type)
 			exec->redirection = ((t_command *)cmd)->redir;
 			ret = command_prepare(exec, e, type);
 		}
-
 	}
 	return (ret);
 }

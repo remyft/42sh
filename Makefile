@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/04/28 18:29:58 by rfontain         ###   ########.fr        #
+#    Updated: 2019/04/28 19:09:23 by rfontain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -187,7 +187,6 @@ SRCS += command_access.c					\
 		command_dup.c						\
 		command_process.c					\
 		command_m_process.c					\
-		command_mprocess_background.c		\
 		environment_modify.c				\
 		quote_removal.c						\
 
@@ -362,6 +361,7 @@ SRCS	+= job_insert.c						\
 		   jobs_remove.c					\
 		   jobs_is_curr.c					\
 		   process_translate.c				\
+		   job_update.c						\
 
 SIGNAL_DIR	= signal/
 SRCS		+= signal_reset.c				\

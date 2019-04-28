@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 15:19:44 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/24 18:01:20 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 17:51:21 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "builtin_jobs.h"
 #include "signal_intern.h"
 
-static void	job_opt_l_print(const t_jobs *job, const t_process *p)
+static void		job_opt_l_print(const t_jobs *job, const t_process *p)
 {
 	ft_printf("[%d]", job->id);
 	if (job->status & JOB_LAST)
@@ -27,23 +27,22 @@ static void	job_opt_l_print(const t_jobs *job, const t_process *p)
 	ft_printf("%d ", p->pid);
 	if (p->status == STATUS_STOPPED)
 	{
-		if (p->s_suspended == 17 || p->s_suspended == 18)
-			ft_printf("%s %d ", STR_SUSPENDED, p->s_suspended);
-		else
-			ft_printf("%s: %d ", sig_err_translate(p->s_suspended), p->s_suspended);
+		(p->s_suspended == 17 || p->s_suspended == 18)
+		? ft_printf("%s %-12d", STR_SUSPENDED, p->s_suspended)
+		: ft_printf("%s %s, %-20d", STR_STOPPED,
+				sig_err_translate(p->s_suspended), p->s_suspended);
 	}
 	else
 	{
-		if (p->s_signal > 0)
-			ft_printf("%-32s", sig_err_translate(p->s_signal));
-		else
-			ft_printf("%-22s", process_translate_status(p->status));
+		(p->s_signal > 0)
+		? ft_printf("%-24s", sig_err_translate(p->s_signal))
+		: ft_printf("%-22s", process_translate_status(p->status));
 	}
 	ft_printf("%s", job->cmd_name);
 	ft_printf("\n");
 }
 
-void	job_opt_l(const t_jobs *job)
+void			job_opt_l(const t_jobs *job)
 {
 	t_process	*p;
 
@@ -56,21 +55,16 @@ void	job_opt_l(const t_jobs *job)
 		ft_printf("      ");
 		ft_printf("%d ", p->pid);
 		if (p->status == STATUS_STOPPED)
-		{
-			if (p->s_suspended == 17 || p->s_suspended == 18)
-				ft_printf("%s %-12d", STR_SUSPENDED, p->s_suspended);
-			else
-				ft_printf("%s %s, %-20d", STR_STOPPED, sig_err_translate(p->s_suspended), p->s_suspended);
-		}
+			(p->s_suspended == 17 || p->s_suspended == 18)
+			? ft_printf("%s %-12d", STR_SUSPENDED, p->s_suspended)
+			: ft_printf("%s %s, %-20d", STR_STOPPED,
+					sig_err_translate(p->s_suspended), p->s_suspended);
 		else
-		{
-			if (p->s_signal > 0)
-				ft_printf("%-24s", sig_err_translate(p->s_signal));
-			else
-				ft_printf("%-22s", process_translate_status(p->status));
-		}
+			(p->s_signal > 0)
+			? ft_printf("%-24s", sig_err_translate(p->s_signal))
+			: ft_printf("%-22s", process_translate_status(p->status));
 		ft_printf("%s", job->cmd_name);
 		ft_printf("\n");
-		p = p ->next;
+		p = p->next;
 	}
 }

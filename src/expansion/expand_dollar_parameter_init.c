@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 22:07:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/25 16:10:37 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/28 17:25:21 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,17 @@ static t_end	get_func(int brace, char c)
 	return (NULL);
 }
 
+static int		init_parameter(t_ret *parameter, t_exp *param)
+{
+	if (param_addchar(param->buff[param->i++], parameter)
+	|| ((parameter->brace = param->buff[param->i] == '{')
+		&& param_addchar(param->buff[param->i++], parameter))
+	|| (parameter->brace && (parameter->hash = param->buff[param->i] == '#')
+		&& param_addchar(param->buff[param->i++], parameter)))
+		return (ERR_MALLOC);
+	return (ERR_NONE);
+}
+
 int				expand_dollar_parameter_init(t_ret *parameter, t_exp *param)
 {
 	t_ret		ret;
@@ -46,22 +57,21 @@ int				expand_dollar_parameter_init(t_ret *parameter, t_exp *param)
 
 	error = ERR_NONE;
 	ft_memset(&ret, 0, sizeof(ret));
-	if (param_addchar(param->buff[param->i++], parameter)
-	|| ((parameter->brace = param->buff[param->i] == '{')
-		&& param_addchar(param->buff[param->i++], parameter))
-	|| ((parameter->hash = param->buff[param->i] == '#')
-		&& param_addchar(param->buff[param->i++], parameter)))
+	parameter->head = param->buff + param->i;
+	if (init_parameter(parameter, param))
 		return (ERR_MALLOC);
 	ret.brace = parameter->brace;
 	if ((end_func = get_func(parameter->brace, param->buff[param->i])))
 	{
-		if ((error = expand_loop(&ret, param, end_func)) == ERR_NONE)
+		if (parameter->brace && param->buff[param->i] == '$'
+		&& !ft_strchr("}:-=?+#%", param->buff[param->i + 1]))
+			error = ERR_SYNTAX;
+		else if ((error = expand_loop(&ret, param, end_func)) == ERR_NONE)
 			error = param_addstr(ret.word, parameter);
-ft_putnbr(param->buff[param->i]);ft_putchar('\n');
 	}
 	else if (((is_expand_null(parameter) && is_special(param->buff[param->i]))
 		|| ft_isdigit(param->buff[param->i]))
-		&& param_addchar(param->buff[param->i++], parameter))
+	&& param_addchar(param->buff[param->i++], parameter))
 		error = ERR_MALLOC;
 	expand_free_t_ret(&ret, 0);
 	return (error);

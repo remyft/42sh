@@ -5,6 +5,7 @@ echo '***************************************************************'
 echo 'EXPAND DOLLAR WITH NO BRACE'
 echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
 echo $/$
+echo $\$
 echo $PATH
 echo coucou-$SHLVL-coucou
 echo "NOVAR->$NOTAGOODVAR"
@@ -15,10 +16,14 @@ echo -e '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n'
 echo 'EXPAND DOLLAR SPECIAL CHARACTERS : @*#?-$!0'
 echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
 echo @=$@
-echo "@"="$@"
+ls $@
+echo "\"@\""="$@"
+ls "abc$@def"
 echo @@=$@@
 echo '*'=$*
+ls $*
 echo "\"*\""="$*"
+ls "abc$*def"
 echo '*'/=$*/
 echo #=$#
 echo ##=$##
@@ -31,20 +36,113 @@ echo '$$'=$$$
 echo '!'=$!
 echo '!!'=$!!
 echo '0'=$0
-echo '00'=$00
-echo '01'=$01
-
-ls $@
-ls "$@"
-ls $*
-ls "$*"
+echo '00'=$0000
+echo '01'=$0001
 echo -e '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n'
 
 echo 'EXPAND DOLLAR PARAMETER ${...}'
 echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
 echo ${}
+echo "${}"
 echo ${ }
-echo "${PATH}"
+echo "${ }"
+ls ${PATH}
+ls "${PATH}"
 echo coucou-${SHLVL}-coucou
 echo "NOVAR->${NOTAGOODVAR}"
 echo one"${NOTAGOODVAR}"two
+
+echo @=${@}
+ls ${@}
+echo "@"="${@}"
+ls "${@}"
+echo @@=${@@}
+echo '*'=${*}
+ls abc${*}def
+echo "\"*\""="${*}"
+ls abc"${*}"def
+echo #=${#}
+echo ##=${##}
+echo '?'=${?}
+echo '??'=${??}
+echo -=${-}
+echo --=${--}
+echo \$=${$}
+echo '$$'=${$$}
+echo '!'=${!}
+echo '!!'=${!!}
+echo '0'=${0}
+echo '00'=${00000}
+echo '01'=${00001}
+echo -e '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n'
+
+echo 'EXPAND DOLLAR PARAMETER WITH MODIFIERS ${...:-...}'
+echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+
+NULLVAR=
+
+# NON implemented math substitution ':'
+#echo LS-${PWD:7}-LS
+#echo LS-${PWD:$SHLVL+4}-LS
+#echo LS-${PWD:$OLDPWD}-LS
+#echo LS-${$PWD:$SHLVL}-LS
+#echo LS-${PWDS:$SHLVL}-LS
+
+echo
+echo 'TEST ${...:-...}'
+echo '--------------------------'
+echo LS-${PWD:-$SHLVL}-LS
+echo LS-${NULLVAR:-$SHLVL}-LS
+echo LS-${PWDS:-$SHLVL}-LS
+echo '$NULLVAR='$NULLVAR
+NULLVAR=
+
+echo
+echo 'TEST ${...-...}'
+echo '--------------------------'
+echo LS-${PWD-$SHLVL}-LS
+echo LS-${NULLVAR-$SHLVL}-LS
+echo LS-${PWDS-$SHLVL}-LS
+echo '$NULLVAR='$NULLVAR
+NULLVAR=
+
+echo
+echo 'TEST ${...:=...}'
+echo '--------------------------'
+echo LS-${PWD:=$SHLVL}-LS
+echo LS-${NULLVAR:=$SHLVL}-LS
+echo LS-${PWDS:=$SHLVL}-LS
+echo '$NULLVAR='$NULLVAR
+NULLVAR=
+
+echo
+echo 'TEST ${...=...}'
+echo '--------------------------'
+echo LS-${PWD=$SHLVL}-LS
+echo LS-${NULLVAR=$SHLVL}-LS
+echo LS-${PWDS=$SHLVL}-LS
+echo '$NULLVAR='$NULLVAR
+NULLVAR=
+
+echo
+echo 'TEST ${...:?...}'
+echo '--------------------------'
+echo LS-${PWD:?$SHLVL}-LS
+echo LS-${NULLVAR:?$SHLVL}-LS
+echo LS-${PWDS:?$SHLVL}-LS
+echo '$NULLVAR='$NULLVAR
+NULLVAR=
+
+echo
+echo 'TEST ${...?...}'
+echo '--------------------------'
+echo LS-${PWD?$SHLVL}-LS
+echo LS-${NULLVAR?$SHLVL}-LS
+echo LS-${PWDS?$SHLVL}-LS
+echo '$NULLVAR='$NULLVAR
+NULLVAR=
+
+echo
+echo 'TEST ERRORS'
+echo '--------------------------'
+echo LS-${$PWD:-$SHLVL}-LS

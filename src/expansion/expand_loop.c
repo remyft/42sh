@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/02 12:00:40 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/25 09:07:42 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 17:09:53 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ static int		expand_rules(t_e_character *charact, t_exp *param, t_ret **ret)
 
 static size_t	expand_i_value(t_exp *param, t_ret *ret, size_t size)
 {
-	if (quote_type(param->quote) == DOUBLE_QUOTE
-	|| ret->brace)
+	if (quote_type(param->quote) == DOUBLE_QUOTE || ret->brace)
 		return (5);
 	return (size);
 }
