@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 18:08:03 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/04/28 19:15:49 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/28 20:16:09 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,61 +19,50 @@ void	delete_local(char *arg, t_s_env *e, int i, int j)
 {
 	char	**save;
 	char	*name;
-	char	*value;
+	char	**value;
 
+	if ((name = ft_strchr(arg, '=')))
+		*name = '\0';
+	if (!(value = sh_getnenvaddr(arg, e->private_env)))
+		return ;
 	if (!(save = e->private_env))
 		return ;
 	e->private_env = ft_memalloc(sizeof(char **) * (count_strarr(save)));
-	name = ft_strsub(arg, 0, var_name_len(arg));
 	while (save[i])
 	{
-		value = ft_strsub(save[i], 0,
-				var_name_len(save[i]));
-		(ft_strcmp(name, value) == 0) ? i++ : i;
+		(save[i] == *value) ? i++ : i;
 		if (!(save[i]))
-		{
-			free(value);
 			break ;
-		}
-		e->private_env[j++] = ft_strdup(save[i++]);
-		free(value);
+		e->private_env[j++] = save[i++];
 	}
-	free(name);
+	free(*value);
 	e->private_env[j] = NULL;
 	free(save);
-	// sh_freetab(&save);
-	// save = clone_arr(e->private_env);
-	// sh_freetab(&e->private_env);
 }
 
 void	delete_exported(char *arg, t_s_env *e, int i, int j)
 {
 	char	**save;
 	char	*name;
-	char	*value;
+	char	**value;
 
+	if ((name = ft_strchr(arg, '=')))
+		*name = '\0';
+	if (!(value = sh_getnenvaddr(arg, e->exported_env)))
+		return ;
 	if (!(save = e->exported_env))
 		return ;
 	e->exported_env = ft_memalloc(sizeof(char **) * (count_strarr(save)));
-	name = ft_strsub(arg, 0, var_name_len(arg));
 	while (save[i])
 	{
-		value = ft_strsub(save[i], 0, var_name_len(save[i]));
-		(ft_strcmp(name, value) == 0) ? i++ : i;
+		(save[i] == *value) ? i++ : i;
 		if (!(save[i]))
-		{
-			free(value);
 			break ;
-		}
 		e->exported_env[j++] = save[i++];
-		free(value);
 	}
-	free(name);
+	free(*value);
 	e->exported_env[j] = NULL;
 	free(save);
-	// sh_freetab(&save);
-	// save = clone_arr(clone);
-	// sh_freetab(&clone);
 }
 
 void	add_public(char *arg, t_s_env *e)
@@ -98,8 +87,6 @@ void	add_public(char *arg, t_s_env *e)
 	e->public_env[i] = NULL;
 	if (save)
 		free(save);
-	// e->public_env = clone_arr(clone);
-	// sh_freetab(&clone);
 }
 
 void	add_exported(char *arg, t_s_env *e)
