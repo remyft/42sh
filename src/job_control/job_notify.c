@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 16:08:47 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/28 15:27:37 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 18:10:55 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int				job_notify(t_jobs *job, t_m_process *m_p)
 		sig = job_signaled(job);
 		if (sig || (job_suspended(job, m_p) && !job_finished(job, m_p)))
 		{
-			if (sig != SIGINT)
+			if (sig != SIGINT && sig != SIGPIPE)
 				job_show_status(job, sig);
 		}
 		return (sig);
