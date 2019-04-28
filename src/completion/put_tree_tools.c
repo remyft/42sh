@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:46:51 by rfontain          #+#    #+#             */
-/*   Updated: 2019/01/25 01:44:30 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/28 16:58:55 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	get_put(t_tree *tern, int *ret, char c)
 int		get_tstr(t_tree *tern, char *str)
 {
 	int i;
-
+	
 	i = 0;
 	while (str[i])
 		i++;

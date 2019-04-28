@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 16:54:10 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/23 16:08:31 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/28 17:47:42 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,11 @@ static int	deal_ret_psb(t_line *line, t_tree *tern, t_cpl_e env)
 	char	*tmp;
 	char	*chr;
 
-	tmp = NULL;
 	if ((chr = sh_strrchr(line->curr->buff, ' ')))
 		tmp = sh_strchr(chr, '/') ? sh_strrchr(chr, '/') : chr;
+	else
+		tmp = sh_strchr(line->curr->buff, '/')
+			? sh_strrchr(line->curr->buff, '/') : line->curr->buff;
 	if (tern->value != '.')
 		get_tstr(tern, tmp);
 	else
