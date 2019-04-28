@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   job_wait.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:33:20 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/26 18:35:11 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 22:29:04 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "job_control.h"
-#include <stdio.h>
 
 int		job_wait(t_jobs *job, t_m_process *m_p, t_s_env *e)
 {

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   job_signaled.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 16:10:02 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/28 15:10:51 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 22:32:31 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "job_control.h"
-#include <stdio.h>
 
 static int	job_forked_sig(t_jobs *job)
 {

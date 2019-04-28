@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   signal_reset.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 16:07:57 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/26 18:36:59 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 22:30:25 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "signal.h"
 #include "signal_intern.h"
-#include <stdio.h>
 
 int		signal_to_default(void)
 {

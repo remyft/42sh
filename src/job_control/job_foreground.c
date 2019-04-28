@@ -3,21 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   job_foreground.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:36:31 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/28 18:09:19 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 22:28:43 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <signal.h>
+#include <sys/ioctl.h>
 #include "libft.h"
 #include "ft_dprintf.h"
 #include "job_control.h"
-#include <signal.h>
-#include <sys/ioctl.h>
-#include <stdio.h>
 #include "signal_intern.h"
-#include <stdio.h>
 
 static int	job_fg_cont(t_jobs *job, t_s_env *e, int cont)
 {
@@ -27,7 +25,7 @@ static int	job_fg_cont(t_jobs *job, t_s_env *e, int cont)
 	{
 		tcsetattr(0, TCSADRAIN, &job->save);
 		job->notify = 1;
-		printf("CONT on %d\n", job->pgid);
+		// printf("CONT on %d\n", job->pgid);
 		if (kill(-job->pgid, SIGCONT) < 0)
 		{
 			ft_dprintf(2, "failed to continue job [%d]\n", job->pgid);

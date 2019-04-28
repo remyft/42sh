@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:02:57 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/28 17:43:42 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 22:27:17 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "builtins.h"
 #include "job_control.h"
 #include "redirection.h"
-#include <stdio.h>
 
 static int		cmd_ch_builtin(int (*handler)(t_execute *, t_s_env *),
 		t_jobs *job, t_process *p, t_s_env *e)

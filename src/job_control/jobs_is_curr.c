@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   jobs_is_curr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 16:23:01 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/19 09:08:53 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 22:29:08 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "job_control.h"
-#include <stdio.h>
 
 int		job_is_curr(t_jobs *job, t_execute *exec)
 {

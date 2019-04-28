@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_jobs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 15:57:35 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/28 18:10:58 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 22:27:28 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "command.h"
 #include "operator_types.h"
 #include "command_error.h"
-#include <stdio.h>
 
 static void		set_fds(int *fds, int size)
 {
