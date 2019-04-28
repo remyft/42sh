@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/27 18:53:40 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/28 10:36:46 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ static void		command_exec_job(char *name, t_jobs *job,
 		*e->ret = command_error(e->progname, ERR_FORK, exec->cmd, e);
 	else if (e->interactive)
 		command_process(p->pid, e->pid, job, p);
-	e->bg_val = p->pid;
+	if (job->foreground)
+		e->bg_val = p->pid;
 }
 
 int				command_system(t_jobs *job, t_process *p, t_s_env *e)
