@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 17:00:18 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/28 18:36:27 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/28 19:18:57 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "shell_term.h"
 #include "shell.h"
 #include "shell_lib.h"
-
 
 int			check_is_file(char *buff, t_line *line)
 {

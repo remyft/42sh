@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 17:13:29 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/28 18:37:39 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/28 19:17:23 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ static int	deal_set(t_line *line, char *ptr, DIR *dir)
 		free(tmp);
 	return (0);
 }
-
 
 void		set_complet(t_line *line, int set)
 {

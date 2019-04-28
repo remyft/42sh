@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 16:54:10 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/28 18:35:23 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/28 19:15:37 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,14 @@ static char	*find_chr_buff(t_line *line)
 
 	if (have_to_expand(line))
 	{
-		return (*(ptr = sh_strrchr(line->curr->buff, '$') + 1) == '{' ?
-				ptr + 1 : ptr);
+		return (*(ptr = sh_strrchr(line->curr->buff, '$') + 1) == '{'
+				? ptr + 1 : ptr);
 	}
 	if (!(ptr = sh_strrchr(line->curr->buff, ' ')))
 		ptr = line->curr->buff;
 	return (sh_strchr(ptr, '/')
 			? sh_strrchr(ptr, '/') + 1 : ptr + 1);
 }
-
 
 static int	deal_select(t_slct *select, t_cpl_e env, t_line *line)
 {
