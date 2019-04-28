@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export_check_2.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsisadag <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 18:28:31 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/04/26 01:20:40 by tsisadag         ###   ########.fr       */
+/*   Updated: 2019/04/28 19:02:38 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ int		count_strarr(char **str_array)
 	int i;
 
 	i = 0;
-	while (str_array[i])
-		i++;
+	if (str_array)
+		while (str_array[i])
+			i++;
 	return (i);
 }

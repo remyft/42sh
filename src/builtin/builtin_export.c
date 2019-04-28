@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsisadag <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 16:22:25 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/04/25 16:55:16 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/28 18:38:07 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,10 @@ int			builtin_export(t_execute *exec, t_s_env *e)
 	if (exec->cmd[i--] && ret != 2)
 	{
 		while (exec->cmd[++i])
-			ret += exec_export(exec->cmd[i], &e);
+			ret += exec_export(exec->cmd[i], e);
 		get_tree_env();
 		free(export);
+sh_puttab((const char **)e->public_env);
 		return ((ret > 0) ? 1 : 0);
 	}
 	if (ret != 2)
