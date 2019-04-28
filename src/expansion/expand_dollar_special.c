@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 23:02:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/28 17:14:36 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/28 22:43:00 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,16 +71,20 @@ int				special_argv(t_ret *para, t_exp *param)
 {
 	t_ret		sub;
 	size_t		j;
+	int			qtype;
 
 	ft_memset(&sub, 0, sizeof(sub));
 	j = (param->e->filein) ? 2 : 1;
+	qtype = quote_type(param->quote);
 	while (param->e->av[j])
 	{
 		if (param_addstr(param->e->av[j], &sub))
 			return (special_error(ERR_MALLOC, sub.word));
 		j++;
-		if (param->e->av[j] && param_addchar(' ', &sub))
-			return (special_error(ERR_MALLOC, sub.word));
+		if (param->e->av[j])
+			if ((qtype == DOUBLE_QUOTE && param_addstr("\" \"", &sub))
+			|| (qtype != DOUBLE_QUOTE && param_addchar(' ', &sub)))
+				return (special_error(ERR_MALLOC, sub.word));
 	}
 	para->freeable = 1;
 	para->substitute = sub.word;
