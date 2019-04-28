@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/04 02:29:39 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/08 16:21:49 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/28 21:48:09 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int				word_null_assign(t_ret *subs, t_ret *para, t_exp *param)
 	expand_free_t_ret(para, 0);
 	para->word = subs->substitute;
 	para->substitute = subs->word;
-	para->freeable = 0;
+	para->freeable = 1;
 	ft_memset(subs, 0, sizeof(*subs));
 	return (ERR_NONE);
 }

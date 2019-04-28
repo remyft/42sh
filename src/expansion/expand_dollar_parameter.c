@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 04:44:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/28 19:26:50 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/28 21:57:35 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int				expand_dollar_parameter(t_exp *param, t_ret *ret)
 	if (parameter.brace || !is_expand_null(&parameter) || parameter.hash)
 	{
 		if ((error = expand_dollar_parameter_value(&parameter, param))
-		|| ((error = expand_dollar_get_action(&parameter)))
+		|| ((error = expand_dollar_get_action(&parameter, param)))
 		|| (parameter.brace && parameter.action
 			&& (error = expand_dollar_word_value(&parameter, param)))
 		|| (error = expand_final(parameter.substitute, parameter.hash, ret)))

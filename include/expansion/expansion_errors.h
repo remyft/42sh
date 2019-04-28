@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 17:39:24 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/26 18:32:36 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/28 21:59:42 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,16 @@
 
 # define ERR_NONE_STR				"???"
 # define ERR_SYNTAX_STR				"bad substitution"
-# define ERR_MODIFIER_STR			"unrecognized modifier."
-# define ERR_UNHANDLED_STR			"pattern not handled yet."
-# define ERR_MALLOC_STR				"malloc error."
-# define ERR_NO_ENV_STR				"variable not set."
-# define ERR_DIRECTORY_STACK_STR	"not enough directory stack entries."
+# define ERR_MODIFIER_STR			"unrecognized modifier"
+# define ERR_UNHANDLED_STR			"pattern not handled"
+# define ERR_MALLOC_STR				"malloc failed"
+# define ERR_DIRECTORY_STACK_STR	"not enough directory stack entries"
 # define ERR_GIVEN_STR				""
 # define ERR_NO_SUCH_USER_STR		"no such user or named directory:"
-# define ERR_AMBIGUOUS_STR			"ambiguous redirect."
-# define ERR_PIPE_STR				"pipe failed."
-# define ERR_FCNTL_STR				"fcntl failed."
-# define ERR_FORK_STR				"fork failed."
+# define ERR_AMBIGUOUS_STR			"ambiguous redirect"
+# define ERR_PIPE_STR				"pipe failed"
+# define ERR_FCNTL_STR				"fcntl failed"
+# define ERR_FORK_STR				"fork failed"
 # define ERR_NO_MATCH_FOUND_STR		"no matches found"
 
 /*
@@ -38,7 +37,6 @@ enum
 	ERR_MODIFIER,
 	ERR_UNHANDLED,
 	ERR_MALLOC,
-	ERR_NO_ENV = 5,
 	ERR_DIRECTORY_STACK,
 	ERR_GIVEN,
 	ERR_NO_SUCH_USER,
@@ -54,7 +52,6 @@ enum
 # define ERR_MODIFIER_FUNC			{ err_modifier_func }
 # define ERR_UNHANDLED_FUNC			{ err_unhandled_func }
 # define ERR_MALLOC_FUNC			{ err_malloc_func }
-# define ERR_NO_ENV_FUNC			{ err_no_env_func }
 # define ERR_DIRECTORY_STACK_FUNC	{ err_directory_func }
 # define ERR_GIVEN_FUNC				{ err_given_func }
 # define ERR_NO_SUCH_USER_FUNC		{ err_no_user_func }
@@ -74,7 +71,6 @@ void			err_syntax_func(t_ret *ret, t_exp *par);
 void			err_modifier_func(t_ret *ret, t_exp *par);
 void			err_unhandled_func(t_ret *ret, t_exp *par);
 void			err_malloc_func(t_ret *ret, t_exp *par);
-void			err_no_env_func(t_ret *ret, t_exp *par);
 void			err_directory_func(t_ret *ret, t_exp *par);
 void			err_given_func(t_ret *ret, t_exp *par);
 void			err_no_user_func(t_ret *ret, t_exp *par);
