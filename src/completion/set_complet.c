@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 17:13:29 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/26 18:40:13 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/28 18:37:39 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,23 @@
 #include "libft.h"
 #include "shell_lib.h"
 #include "shell_term.h"
+#include "quote_removal.h"
 
 static char	get_char(char *ptr, DIR *dir, char *buff)
 {
 	char	c;
+	char	*tmp;
 
 	if (ptr && ptr != buff)
 		ptr++;
+	tmp = ft_strdup(ptr);
+	check_str(ptr);
 	if (ptr && (dir = opendir(ptr)))
 		c = '/';
 	else
 		c = ' ';
+	ft_strcpy(ptr, tmp);
+	free(tmp);
 	if (dir)
 		closedir(dir);
 	return (c);
@@ -71,7 +77,8 @@ void		set_complet(t_line *line, int set)
 	tmp = line->tmp[0];
 	*(line->e_cmpl) &= ~COMPLETION;
 	line->is_putb = 0;
-	ptr = find_start_pos(line->curr->buff);
+	if (!(ptr = sh_strrchr(line->curr->buff, ' ')))
+		ptr = line->curr->buff;
 	line->tmp[0] = deal_set(line, ptr, dir);
 	if (!set)
 		line->tmp[0] = tmp;

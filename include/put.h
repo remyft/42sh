@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:50:35 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/23 14:08:35 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/28 18:11:59 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ void			put_tree_branch(t_tree *tree, t_cpl_e env, t_line *line);
 void			free_select(t_slct *select);
 int				get_select(t_line *line, t_tree *tern, t_cpl_e *env, t_slct
 		**select);
+
+int				deal_change(t_slct *select, t_tree *tern, t_cpl_e *env);
 
 void			change_buff(t_slct *select, t_cpl_e *env, t_line *line,
 		t_tree *tern);
