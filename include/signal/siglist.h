@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   siglist.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/12 17:21:48 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/27 17:55:11 by tsisadag         ###   ########.fr       */
+/*   Updated: 2019/04/28 17:23:38 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <signal.h>
 
 # define SGHUP		"hangup"
-# define SINT		"interrupt"	
+# define SINT		"interrupt"
 # define SQUIT		"quit"
 # define SILL		"illegal instruction"
 # define STRAP		"BPT trace/trap"
