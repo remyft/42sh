@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/27 22:28:47 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 15:46:01 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "operator_types.h"
 #include "expansion.h"
 #include "redirection.h"
+#include <stdio.h>
 
 static int		prepare_redirect(t_redirection *cmd, t_s_env *e, t_jobs *job)
 {
@@ -107,6 +108,5 @@ int				execute_list(t_m_list *list, t_s_env *e)
 	if (!e->err_exp)
 		command_job(job, e);
 	e->err_exp = 0;
-	jobs_notify_ended(e->jobs, e);
 	return (execute_list(list->next, e));
 }

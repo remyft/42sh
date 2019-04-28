@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:02:57 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/27 16:05:39 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 14:47:52 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,8 @@ int				command_check(t_jobs *job, t_process *p, t_s_env *e)
 					return (command_check_builtin(builtins[i].handler, job, p, e));
 			i++;
 		}
-		ret = command_system(job, p, e);
+	//	ret = command_system(job, p, e);
+		ret = command_bys(job, p, e);
 		if ((len = sh_tablen((const char **)exec->cmd)))
 			len--;
 		sh_setenv("_", exec->cmd[len], &e->public_env);

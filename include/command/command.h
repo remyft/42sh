@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:17:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/27 21:10:27 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 15:35:39 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int				command_m_process(t_s_env *e, t_jobs *job, int type);
 int				command_mprocess_background(t_jobs *job, t_s_env *e);
 int				command_redirect_test(t_process *p);
 int				command_is_builtin(t_process *p);
+int				command_bys(t_jobs *jobs, t_process *p, t_s_env *e);
 void			command_process(pid_t pid, pid_t s_pid, t_jobs *job, t_process *p);
 void			command_rd_forked(t_redirection *r, t_s_env *e);
 void			command_setup(t_process *p);

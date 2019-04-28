@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:36:31 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/27 15:41:30 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 16:48:10 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 static int	job_fg_cont(t_jobs *job, t_s_env *e, int cont)
 {
-	sig_to_pgid(job->pgid);
+	//sig_to_pgid(job->pgid);
 	job->status |= JOB_FOREGROUND;
 	job->status |= JOB_NOTIFIED;
 	if (cont)
@@ -69,6 +69,6 @@ int			job_foreground(t_jobs *job, t_m_process *m_p, t_s_env *e, int cont)
 		return (job_kill(job, e));
 	}
 	tcsetattr(0, TCSADRAIN, &e->save);
-	sig_to_pgid(0);
+	//sig_to_pgid(0);
 	return (*e->ret);
 }
