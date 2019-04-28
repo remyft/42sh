@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 22:07:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/28 17:19:29 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/28 17:25:21 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static t_end	get_func(int brace, char c)
 	return (NULL);
 }
 
-static int		get_char(t_ret *parameter, t_exp *param)
+static int		init_parameter(t_ret *parameter, t_exp *param)
 {
 	if (param_addchar(param->buff[param->i++], parameter)
 	|| ((parameter->brace = param->buff[param->i] == '{')
