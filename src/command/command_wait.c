@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_wait.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 09:43:12 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/28 15:00:22 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 22:27:49 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include "command.h"
-#include <stdio.h>
 #include "signal_intern.h"
 
 int		command_ret(int status)

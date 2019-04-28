@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   process_status.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:15:24 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/28 18:09:25 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 22:32:17 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "job_control.h"
-#include <stdio.h>
 #include <errno.h>
 
 int			process_set_status(t_jobs *job, t_process *p,

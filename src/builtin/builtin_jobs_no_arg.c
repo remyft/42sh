@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_jobs_no_arg.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 11:02:15 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/27 14:11:18 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 22:27:01 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "job_control.h"
 #include "builtin_jobs.h"
-#include <stdio.h>
 
 int		jobs_no_arg(const t_jobs *jobs, t_execute *exec, const int *opts)
 {

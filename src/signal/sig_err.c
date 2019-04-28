@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   sig_err.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:41:03 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/28 15:15:50 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 22:30:11 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "siglist.h"
 #include "signal_intern.h"
-#include <stdio.h>
 
 char	*sig_err_translate(int sig)
 {

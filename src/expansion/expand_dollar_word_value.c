@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 09:45:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/28 17:13:05 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/28 21:41:16 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,12 @@ static void		set_new_t_exp(t_exp *newp, t_exp *param, t_ret *par)
 	newp->expand = expand_dollar_do_expansion(par);
 }
 
+static void			expand_dollar_word_free(t_ret *subs, t_exp *newp)
+{
+	expand_free_t_ret(subs, 0);
+	free_quote(&newp->quote);
+}
+
 int				expand_dollar_word_value(t_ret *parameter, t_exp *param)
 {
 	static t_word	word[] = {
@@ -99,6 +105,6 @@ int				expand_dollar_word_value(t_ret *parameter, t_exp *param)
 			i++;
 		}
 	}
-	expand_free_t_ret(&subs, 0);
+	expand_dollar_word_free(&subs, &newp);
 	return (error);
 }

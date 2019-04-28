@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 06:50:11 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/28 17:08:56 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/28 21:57:15 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,56 +16,59 @@
 #include "expansion_errors.h"
 #include "expansion_dollar.h"
 
-static int		action_percent(t_ret *parameter, int value)
+static int		action_percent(t_exp *param, t_ret *ret, int value)
 {
-	++parameter->i;
-	parameter->action = REMOVE_SMALLEST_SUFFIX_PATTERN;
-	value = parameter->head[parameter->brace + parameter->hash + parameter->i];
+	(void)param;
+	++ret->i;
+	ret->action = REMOVE_SMALLEST_SUFFIX_PATTERN;
+	value = ret->head[ret->brace + ret->hash + ret->i];
 	if (value == '%')
 	{
-		parameter->action = REMOVE_LARGEST_SUFFIX_PATTERN;
-		++parameter->i;
+		ret->action = REMOVE_LARGEST_SUFFIX_PATTERN;
+		++ret->i;
 	}
 	return (ERR_NONE);
 }
 
-static int		action_hash(t_ret *parameter, int value)
+static int		action_hash(t_exp *param, t_ret *ret, int value)
 {
-	++parameter->i;
-	parameter->action = REMOVE_SMALLEST_PREFIX_PATTERN;
-	value = parameter->head[parameter->brace + parameter->hash + parameter->i];
+	(void)param;
+	++ret->i;
+	ret->action = REMOVE_SMALLEST_PREFIX_PATTERN;
+	value = ret->head[ret->brace + ret->hash + ret->i];
 	if (value == '#')
 	{
-		parameter->action = REMOVE_LARGEST_PREFIX_PATTERN;
-		++parameter->i;
+		ret->action = REMOVE_LARGEST_PREFIX_PATTERN;
+		++ret->i;
 	}
 	return (ERR_NONE);
 }
 
-static int		action_values(t_ret *parameter, int value)
+static int		action_values(t_exp *param, t_ret *ret, int value)
 {
+	(void)param;
 	if (value == '-')
-		parameter->action |= ACT_NULL_SUBST;
+		ret->action |= ACT_NULL_SUBST;
 	else if (value == '=')
-		parameter->action |= ACT_NULL_ASSIGN;
+		ret->action |= ACT_NULL_ASSIGN;
 	else if (value == '?')
-		parameter->action |= ACT_NULL_ERROR;
+		ret->action |= ACT_NULL_ERROR;
 	else if (value == '+')
-		parameter->action |= ACT_NONNULL_SUBST;
-	++parameter->i;
+		ret->action |= ACT_NONNULL_SUBST;
+	++ret->i;
 	return (ERR_NONE);
 }
 
-static int		action_colon(t_ret *parameter, int value)
+static int		action_colon(t_exp *param, t_ret *ret, int value)
 {
-	parameter->action = COLON_ACTION;
-	value = parameter->head[++parameter->i];
+	ret->action = COLON_ACTION;
+	value = ret->head[++ret->i];
 	if (ft_strchr("-=?+", value))
-		return (action_values(parameter, value));
-	return (ERR_MODIFIER);
+		return (action_values(param, ret, value));
+	return (expand_arithmetic(param, ret));
 }
 
-int				expand_dollar_get_action(t_ret *parameter)
+int				expand_dollar_get_action(t_ret *ret, t_exp *param)
 {
 	static t_action	action[] = {
 		{ ":", action_colon }, { "-=?+", action_values },
@@ -75,15 +78,15 @@ int				expand_dollar_get_action(t_ret *parameter)
 	int				value;
 
 	i = 0;
-	value = parameter->head[parameter->i];
-	if (!parameter->brace
-	|| is_expand_null(parameter)
+	value = ret->head[ret->i];
+	if (!ret->brace
+	|| is_expand_null(ret)
 	|| value == '}')
 		return (ERR_NONE);
 	while (i < sizeof(action) / sizeof(action[0]))
 	{
 		if (ft_strchr(action[i].value, value))
-			return (action[i].handler(parameter, value));
+			return (action[i].handler(param, ret, value));
 		i++;
 	}
 	return (ERR_NONE);

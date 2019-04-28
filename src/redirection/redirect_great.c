@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 07:27:38 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/26 12:25:25 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 22:29:52 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include "redirection.h"
 #include "redirection_errors.h"
 #include <sys/stat.h>
-#include <stdio.h>
-#include <errno.h>
 
 /*
 ** Lines of code for bash 5.0.7 compliance :
@@ -27,7 +25,6 @@
 
 int				redirect_great(t_redirection **redir, t_s_env *e)
 {
-	int			errno;
 	int			mode;
 
 	mode = O_CREAT | O_TRUNC | O_WRONLY;

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   job_finished.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:38:04 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/28 15:23:15 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 22:28:08 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "job_control.h"
-#include <stdio.h>
 
 static int	job_forked_finished(t_jobs *job)
 {

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   job_suspended.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 15:40:39 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/26 14:34:30 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 22:28:56 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "job_control.h"
-#include <stdio.h>
 
 static int	job_forked_suspended(t_jobs *job)
 {

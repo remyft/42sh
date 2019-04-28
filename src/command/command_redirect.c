@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:10:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/27 13:53:31 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 22:27:43 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "redirection.h"
 #include "command.h"
 #include "command_error.h"
-#include <stdio.h>
 
 int				command_redirect(int fds[3], t_redirection *redir)
 {

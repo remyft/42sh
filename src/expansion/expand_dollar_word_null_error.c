@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 19:00:54 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/28 17:14:21 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/28 21:49:26 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int				word_null_error(t_ret *subs, t_ret *para, t_exp *param)
 		free(para->substitute);
 	if (!(para->substitute = subs->word) || !para->substitute[0])
 		para->substitute = "parameter null or not set";
+	else
+		para->freeable = 1;
 	subs->word = NULL;
 	return (ERR_GIVEN);
 }
