@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:17:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/27 18:55:52 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/28 17:22:58 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,14 @@ typedef int		(*t_builtin)(t_execute *, t_s_env *);
 
 int				execute_list(t_m_list *list, t_s_env *e);
 int				command_access(char *path, char *absolute_path);
-int				command_builtin(t_builtin builtin, t_jobs *job, t_process *p, t_s_env *e);
+int				command_builtin(t_builtin builtin, t_jobs *job, t_process *p,
+t_s_env *e);
 int				command_builtin_forked(t_jobs *job, t_process *p, t_s_env *e);
 int				command_check(t_jobs *job, t_process *p, t_s_env *e);
 int				command_job(t_jobs *job, t_s_env *e);
 int				command_job_wait(t_jobs *job, t_m_process *m_p, t_s_env *e);
-int				command_pipe_dup(t_jobs *job, t_process *p, t_s_env *e, int *fds);
+int				command_pipe_dup(t_jobs *job, t_process *p, t_s_env *e,
+int *fds);
 int				command_error(char *progname, int err, char **cmd, t_s_env *e);
 void			command_execute(t_execute *exec, t_s_env *e);
 void			command_free(t_execute *exec, char *name);
@@ -61,7 +63,8 @@ int				command_m_process(t_s_env *e, t_jobs *job, int type);
 int				command_mprocess_background(t_jobs *job, t_s_env *e);
 int				command_redirect_test(t_process *p);
 int				command_is_builtin(t_process *p);
-void			command_process(pid_t pid, pid_t s_pid, t_jobs *job, t_process *p);
+void			command_process(pid_t pid, pid_t s_pid, t_jobs *job,
+t_process *p);
 void			command_rd_forked(t_redirection *r, t_s_env *e);
 void			command_setup(t_process *p);
 

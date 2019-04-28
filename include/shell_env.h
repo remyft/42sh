@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/23 21:57:01 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/27 18:04:10 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 17:23:24 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ typedef struct	s_m_process
 	struct s_process	*p;
 	struct s_m_process	*next;
 }				t_m_process;
-
 
 typedef struct	s_jobs
 {

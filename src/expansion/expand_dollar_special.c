@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 23:02:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/27 18:21:14 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/28 17:14:36 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,12 @@
 #include "expansion_errors.h"
 #include "expansion_dollar.h"
 
-
 int				special_error(int error, char *save)
 {
 	free(save);
 	return (error);
 }
-#include <stdio.h>
+
 int				expand_dollar_special(t_ret *para, t_exp *param)
 {
 	static t_special	special[] = {
@@ -34,7 +33,6 @@ int				expand_dollar_special(t_ret *para, t_exp *param)
 
 	i = 0;
 	word = &para->word[para->i];
-	// printf("[%c%c]\n", word[0], word[1]);
 	if (word[1] && !ft_strchr("}:-=?+#%", word[1]))
 		return (ERR_SYNTAX);
 	while (i < sizeof(special) / sizeof(special[0]))
@@ -46,7 +44,7 @@ int				expand_dollar_special(t_ret *para, t_exp *param)
 	return (ERR_NONE);
 }
 
-int			special_argc(t_ret *para, t_exp *param)
+int				special_argc(t_ret *para, t_exp *param)
 {
 	t_ret		sub;
 	char		*nbr;
@@ -62,7 +60,8 @@ int			special_argc(t_ret *para, t_exp *param)
 		free(nbr);
 	if (error)
 		return (special_error(error, sub.word));
-	para->hash = 0;
+	if (!para->word[para->i])
+		para->hash = 0;
 	para->freeable = 1;
 	para->substitute = sub.word;
 	return (ERR_NONE);
@@ -71,7 +70,7 @@ int			special_argc(t_ret *para, t_exp *param)
 int				special_argv(t_ret *para, t_exp *param)
 {
 	t_ret		sub;
-	size_t	j;
+	size_t		j;
 
 	ft_memset(&sub, 0, sizeof(sub));
 	j = (param->e->filein) ? 2 : 1;
@@ -91,7 +90,7 @@ int				special_argv(t_ret *para, t_exp *param)
 int				special_argvs(t_ret *para, t_exp *param)
 {
 	t_ret		sub;
-	size_t	j;
+	size_t		j;
 
 	ft_memset(&sub, 0, sizeof(sub));
 	j = (param->e->filein) ? 2 : 1;
