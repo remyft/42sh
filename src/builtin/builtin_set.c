@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_set.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsisadag <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 20:01:54 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/04/26 09:25:59 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 19:20:26 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	print_set(char *s)
 	ft_putstr("\n");
 }
 
-void	exec_unset(char *arg, t_s_env **e)
+void	exec_unset(char *arg, t_s_env *e)
 {
-	exec_unset_check(arg, &e);
+	exec_unset_check(arg, e);
 }

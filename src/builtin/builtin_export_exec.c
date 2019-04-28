@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export_exec.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsisadag <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 18:34:19 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/04/22 18:06:56 by tsisadag         ###   ########.fr       */
+/*   Updated: 2019/04/28 18:56:47 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,34 +20,38 @@
 ** adding public should check if its exported
 */
 
-int		exec_export(char *arg, t_s_env **e)
+int		exec_export(char *arg, t_s_env *e)
 {
 	if (!valid_id(arg))
 		return (1);
-	if (!is_local(arg, (*e)->private_env) &&
-		!is_public(arg, (*e)->public_env) && (!has_value(arg)))
+	if (!is_local(arg, e->private_env) &&
+		!is_public(arg, e->public_env) && (!has_value(arg)))
 	{
-		if (!is_exported(arg, (*e)->exported_env))
-			add_exported(arg, &(e));
+		if (!is_exported(arg, e->exported_env))
+			add_exported(arg, e);
 	}
 	else
-		change_public_env(arg, &(e));
+		change_public_env(arg, e);
 	return (0);
 }
 
-void	change_public_env(char *arg, t_s_env ***e)
+void	change_public_env(char *arg, t_s_env *e)
 {
 	int		i;
 
 	i = 0;
-	if (is_public(arg, (**e)->public_env))
-		change_public(arg, &(e));
+	if (is_public(arg, e->public_env))
+	{
+		if (arg[var_name_len(arg)] != '\0'
+		&& ft_strcmp(*sh_getnenvaddr(arg, e->public_env), arg) != 0)
+			change_public(arg, e);
+	}
 	else
 	{
-		add_public(arg, &(e));
-		if (is_local(arg, (**e)->private_env))
-			delete_local(arg, &(e), 0, 0);
-		if (is_exported(arg, (**e)->exported_env))
-			delete_exported(arg, &(e), 0, 0);
+		add_public(arg, e);
+		if (is_local(arg, e->private_env))
+			delete_local(arg, e, 0, 0);
+		if (is_exported(arg, e->exported_env))
+			delete_exported(arg, e, 0, 0);
 	}
 }
