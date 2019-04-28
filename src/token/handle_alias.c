@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 21:08:51 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/27 18:41:21 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/27 21:07:32 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static void		alias_new_tokens(t_param *param, t_token *save)
 	}
 }
 
-#include "ft_printf.h"
 t_token			*handle_alias(t_param *param, t_s_env *e)
 {
 	t_alias		*alias;
@@ -44,7 +43,6 @@ t_token			*handle_alias(t_param *param, t_s_env *e)
 	alias = alias_get(param->token->head, param->token->len, e->alias_list);
 	if (!alias)
 		return (param->token);
-ft_printf("ALIAS [%p=%s] [%p=%s]\n", (void *)alias->key, alias->key, (void *)alias->value, alias->value);
 	if (!param->token->alias)
 		param->token->alias = alias;
 	save = param->token;

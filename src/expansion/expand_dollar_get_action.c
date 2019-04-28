@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 06:50:11 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/27 17:17:17 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/28 17:08:56 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,8 @@ static int		action_values(t_ret *parameter, int value)
 
 static int		action_colon(t_ret *parameter, int value)
 {
-	++parameter->i;
 	parameter->action = COLON_ACTION;
-	value = parameter->head[parameter->brace + parameter->hash + parameter->i];
+	value = parameter->head[++parameter->i];
 	if (ft_strchr("-=?+", value))
 		return (action_values(parameter, value));
 	return (ERR_MODIFIER);
@@ -76,7 +75,7 @@ int				expand_dollar_get_action(t_ret *parameter)
 	int				value;
 
 	i = 0;
-	value = parameter->head[++parameter->i];
+	value = parameter->head[parameter->i];
 	if (!parameter->brace
 	|| is_expand_null(parameter)
 	|| value == '}')

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 22:09:45 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/16 21:01:36 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/28 16:09:26 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void			err_directory_func(t_ret *ret, t_exp *par)
 void			err_given_func(t_ret *ret, t_exp *par)
 {
 	(void)par;
-	ft_dprintf(STDERR_FILENO, "%s\n", ret ? ret->word : "");
+	ft_dprintf(STDERR_FILENO, "%s: %s\n",
+	ret->word + 1 + ret->brace + ret->hash, ret->substitute);
 }
 
 void			err_no_user_func(t_ret *ret, t_exp *par)
