@@ -6,12 +6,13 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 20:44:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/28 21:24:34 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 21:26:16 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "shell_lib.h"
+#include "shell.h"
 #include "command.h"
 #include "command_error.h"
 #include "operator_types.h"
@@ -32,29 +33,29 @@ static int		modify_env(char **cmd, t_s_env *e)
 	*equal = '=';
 	*ptr = *cmd;
 	*cmd = NULL;
+	get_tree_env();
 	return (0);
 }
 
 static int		modify_public_env(t_execute *exec, t_s_env *e)
 {
 	t_argument	*var;
-	int			ret;
 	size_t		i;
 
 	var = exec->variable;
-	ret = 0;
+	*e->ret = 0;
 	while (var)
 	{
 		i = 0;
 		while (var->cmd[i])
-			if ((ret = modify_env(&var->cmd[i], e)))
+			if ((*e->ret = modify_env(&var->cmd[i], e)))
 				break ;
 			else
 				i++;
 		var = var->next;
 	}
 	free(exec);
-	return (ret);
+	return (*e->ret);
 }
 
 int				command_prepare(t_execute *exec, t_s_env *e, int type)
