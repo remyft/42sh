@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:34:09 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/26 15:46:03 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/28 19:04:30 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ char		*find_start_pos(char *buff)
 	while (i > 0)
 	{
 		if (ft_strchr("&|; /${", buff[i]) && buff[i - 1] != '\\')
-				return (buff + i + 1);
+			return (buff + i + 1);
 		i--;
 	}
-	return (*buff == ' ' ? buff + 1 : buff);
+	return (buff);
 }
 
 static void	get_new_file(t_tree *tern, t_cpl_e env, t_line *line)

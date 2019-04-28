@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 13:38:06 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/26 11:17:17 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 17:53:54 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int		bg(const t_jobs *jobs, t_m_process *m_p, t_s_env *e)
 static int		bg_no_arg(t_s_env *e, t_execute *exec)
 {
 	t_jobs		*jobs;
-	
+
 	jobs = e->jobs;
 	while (jobs)
 	{
@@ -55,7 +55,7 @@ static int		bg_opts(char **arg, t_s_env *e)
 	return (0);
 }
 
-int		builtin_bg(t_execute *exec, t_s_env *e)
+int				builtin_bg(t_execute *exec, t_s_env *e)
 {
 	int		i;
 

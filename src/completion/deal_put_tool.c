@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 16:54:10 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/26 15:42:19 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/28 19:15:37 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ static char	*find_chr_buff(t_line *line)
 
 	if (have_to_expand(line))
 	{
-		return (*(ptr = sh_strrchr(line->curr->buff, '$') + 1) == '{' ?
-				ptr + 1 : ptr);
+		return (*(ptr = sh_strrchr(line->curr->buff, '$') + 1) == '{'
+				? ptr + 1 : ptr);
 	}
 	if (!(ptr = sh_strrchr(line->curr->buff, ' ')))
 		ptr = line->curr->buff;
-	return (find_start_pos(ptr));
+	return (sh_strchr(ptr, '/')
+			? sh_strrchr(ptr, '/') + 1 : ptr + 1);
 }
-
 
 static int	deal_select(t_slct *select, t_cpl_e env, t_line *line)
 {
@@ -62,9 +62,11 @@ static int	deal_ret_psb(t_line *line, t_tree *tern, t_cpl_e env)
 	char	*tmp;
 	char	*chr;
 
-	tmp = NULL;
 	if ((chr = sh_strrchr(line->curr->buff, ' ')))
 		tmp = sh_strchr(chr, '/') ? sh_strrchr(chr, '/') : chr;
+	else
+		tmp = sh_strchr(line->curr->buff, '/')
+			? sh_strrchr(line->curr->buff, '/') : line->curr->buff;
 	if (tern->value != '.')
 		get_tstr(tern, tmp);
 	else

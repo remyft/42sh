@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 11:20:18 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/27 14:03:01 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 17:52:02 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ static t_jobs		*jobs_get_prev(t_jobs *jobs)
 	return (NULL);
 }
 
-static t_jobs		*jobs_get_arg(t_jobs *jobs, const char *arg, t_execute *exec)
+static t_jobs		*jobs_get_arg(t_jobs *jobs,
+		const char *arg, t_execute *exec)
 {
 	int		id;
 
@@ -53,7 +54,8 @@ static t_jobs		*jobs_get_arg(t_jobs *jobs, const char *arg, t_execute *exec)
 	return (NULL);
 }
 
-t_jobs		*jobs_expansions(const char *arg, t_execute *exec, t_s_env *e)
+t_jobs				*jobs_expansions(const char *arg,
+		t_execute *exec, t_s_env *e)
 {
 	if (arg[0] == '%')
 	{

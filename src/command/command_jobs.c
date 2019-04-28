@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 15:57:35 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/27 18:00:10 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 18:10:58 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ static int		command_launch_mp_b(t_jobs *job, t_s_env *e)
 		}
 		if ((ret = launch_m_process(job, m_p, e)) != 0)
 			return (ret);
-		job->notify = 1;
 		if ((ret = job_wait(job, m_p, e)) != 0)
 			return (ret);
 		ret = m_p->ret;

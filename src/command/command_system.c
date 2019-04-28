@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/27 18:53:40 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/28 18:09:18 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 static void		command_execve(char *name, t_jobs *job,
 		t_process *p, t_s_env *e)
 {
-	e->forked = 1;
 	p->pid = getpid();
 	if (job->pgid == 0)
 		job->pgid = p->pid;
@@ -44,22 +43,14 @@ static void		command_exec_job(char *name, t_jobs *job,
 	t_execute	*exec;
 
 	exec = (t_execute *)p->exec;
-	if (e->forked || (p->pid = fork()) == 0)
-	{
-		if (signal_to_default() == 1)
-			exit(EXIT_FAILURE);
-		len = sh_tablen((const char **)exec->env);
-		len -= sh_tablen((const char **)e->private_env);
-		exec->env[len] = NULL;
-		if (job->foreground)
-			command_rd_forked(((t_execute *)p->exec)->redirection, e);
-		command_execve(name, job, p, e);
-	}
-	else if (p->pid < 0)
-		*e->ret = command_error(e->progname, ERR_FORK, exec->cmd, e);
-	else if (e->interactive)
-		command_process(p->pid, e->pid, job, p);
-	e->bg_val = p->pid;
+	if (signal_to_default() == 1)
+		exit(EXIT_FAILURE);
+	len = sh_tablen((const char **)exec->env);
+	len -= sh_tablen((const char **)e->private_env);
+	exec->env[len] = NULL;
+	if (job->foreground)
+		command_rd_forked(((t_execute *)p->exec)->redirection, e);
+	command_execve(name, job, p, e);
 }
 
 int				command_system(t_jobs *job, t_process *p, t_s_env *e)
@@ -89,4 +80,22 @@ int				command_system(t_jobs *job, t_process *p, t_s_env *e)
 	if ((error = command_restore_fds(exec->fds)))
 		status = command_error(e->progname, error, NULL, e);
 	return (status);
+}
+
+int				command_bys(t_jobs *job, t_process *p, t_s_env *e)
+{
+	int		ret;
+
+	ret = 0;
+	if (e->forked || (p->pid = fork()) == 0)
+	{
+		e->forked = 1;
+		ret = command_system(job, p, e);
+		exit(*e->ret);
+	}
+	else if (e->interactive)
+		command_process(p->pid, e->pid, job, p);
+	if (job->foreground)
+		e->bg_val = p->pid;
+	return (0);
 }

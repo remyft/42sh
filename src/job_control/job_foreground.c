@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:36:31 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/27 15:41:30 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 18:09:19 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,17 @@
 #include <sys/ioctl.h>
 #include <stdio.h>
 #include "signal_intern.h"
+#include <stdio.h>
 
 static int	job_fg_cont(t_jobs *job, t_s_env *e, int cont)
 {
-	sig_to_pgid(job->pgid);
 	job->status |= JOB_FOREGROUND;
 	job->status |= JOB_NOTIFIED;
 	if (cont)
 	{
 		tcsetattr(0, TCSADRAIN, &job->save);
 		job->notify = 1;
+		printf("CONT on %d\n", job->pgid);
 		if (kill(-job->pgid, SIGCONT) < 0)
 		{
 			ft_dprintf(2, "failed to continue job [%d]\n", job->pgid);
@@ -69,6 +70,5 @@ int			job_foreground(t_jobs *job, t_m_process *m_p, t_s_env *e, int cont)
 		return (job_kill(job, e));
 	}
 	tcsetattr(0, TCSADRAIN, &e->save);
-	sig_to_pgid(0);
 	return (*e->ret);
 }
