@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 20:28:26 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/04/28 19:34:56 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/28 19:52:35 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,27 +75,25 @@ void	exec_unset_check(char *arg, t_s_env *e)
 
 void	delete_public(char *arg, t_s_env *e, int i, int j)
 {
-	char	**save;
 	char	*name;
-	char	*value;
+	char	**value;
+	char	**save;
 
+	if ((name = ft_strchr(arg, '=')))
+		*name = '\0';
+	if (!(value = sh_getnenvaddr(arg, e->public_env)))
+		return ;
 	if (!(save = e->public_env))
 		return ;
 	e->public_env = ft_memalloc(sizeof(char **) * (count_strarr(save)));
-	name = ft_strsub(arg, 0, var_name_len(arg));
 	while (save[i])
 	{
-		value = ft_strsub(save[i], 0, var_name_len(save[i]));
-		(ft_strcmp(name, value) == 0) ? i++ : i;
+		(save[i] == *value) ? i++ : i;
 		if (!(save[i]))
-		{
-			free(value);
 			break ;
-		}
 		e->public_env[j++] = save[i++];
-		free(value);
 	}
-	free(name);
+	free(*value);
 	e->public_env[j] = NULL;
 	free(save);
 }
