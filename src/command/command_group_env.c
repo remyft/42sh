@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/21 18:14:27 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/28 18:28:11 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/28 19:26:40 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static void		break_equals(char **env)
 	if (env)
 		while (env[i])
 		{
-			if ((tmp = ft_strchr(env[i], '=')))
-				*tmp = '\0';
+			tmp = ft_strchr(env[i], '=');
+			*tmp = '\0';
 			i++;
 		}
 }

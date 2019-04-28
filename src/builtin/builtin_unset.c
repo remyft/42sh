@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 20:28:26 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/04/28 19:19:44 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/28 19:34:56 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,10 @@ void	delete_public(char *arg, t_s_env *e, int i, int j)
 			free(value);
 			break ;
 		}
-		e->public_env[j++] = ft_strdup(save[i++]);
+		e->public_env[j++] = save[i++];
 		free(value);
 	}
 	free(name);
 	e->public_env[j] = NULL;
 	free(save);
-	// sh_freetab(&save);
-	// save = e->public_env_arr(e->public_env);
-	// sh_freetab(&e->public_env);
 }
