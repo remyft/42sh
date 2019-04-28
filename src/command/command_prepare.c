@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 20:44:25 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/28 10:37:07 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 21:24:34 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int				command_prepare(t_execute *exec, t_s_env *e, int type)
 	if (!(exec->env = command_group_env(exec->variable, exec->command,
 	(const char **)e->public_env)))
 		return (command_error(e->progname, ERR_MALLOC, exec->cmd, e));
+	exec->pv_env = e->private_env;
 	if (!(create_process(e, exec, type)))
 		return (command_error(e->progname, ERR_MALLOC, exec->cmd, e));
 	return (0);

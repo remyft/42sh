@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 19:47:39 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/03/19 17:53:17 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/28 18:59:27 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ static int		check_access(char **path, char *cmd, char *paths, size_t len)
 	return (error);
 }
 
-int				command_path(char **path, char *cmd, char *paths)
+#include <stdio.h>
+
+int				command_path(char **path, char *cmd, char *paths, t_execute *exec)
 {
 	char		*ptr;
 
@@ -43,7 +45,7 @@ int				command_path(char **path, char *cmd, char *paths)
 		return (ERR_NO_SUCH_FILE);
 	if (sh_strrchr(cmd, '/'))
 		return ((*path = ft_strdup(cmd)) ? ERR_OK : ERR_MALLOC);
-	if (!paths)
+	if (!paths && !((paths = sh_getnenv("PATH", exec->pv_env))))
 		return (ERR_NO_SUCH_FILE);
 	ptr = paths;
 	while (*ptr)
