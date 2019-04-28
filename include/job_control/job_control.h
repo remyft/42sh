@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 14:09:06 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/27 15:47:51 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 17:56:05 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ enum
 	STATUS_FINISHED = 1 << 0,
 	STATUS_RUNNING = 1 << 1,
 	STATUS_SUSPENDED = 1 << 2,
-	STATUS_CONTINUED =  1 << 3,
+	STATUS_CONTINUED = 1 << 3,
 	STATUS_STOPPED = 1 << 4,
-	STATUS_TERMINATED =  1 << 5,
+	STATUS_TERMINATED = 1 << 5,
 };
 
 enum
@@ -68,8 +68,10 @@ void			job_print_status(t_jobs *job);
 
 int				job_wait(t_jobs *job, t_m_process *m_p, t_s_env *e);
 int				job_kill(t_jobs *job, t_s_env *e);
-int				job_background(t_jobs *job, t_m_process *m_p, t_s_env *e, int cont);
-int				job_foreground(t_jobs *job, t_m_process *m_p, t_s_env *e, int cont);
+int				job_background(t_jobs *job, t_m_process *m_p,
+		t_s_env *e, int cont);
+int				job_foreground(t_jobs *job, t_m_process *m_p,
+		t_s_env *e, int cont);
 int				job_finished(t_jobs *job, t_m_process *m_p);
 int				jobs_notify_ended(t_jobs *jobs, t_s_env *e);
 int				jobs_terminated(t_s_env *e);
@@ -92,10 +94,12 @@ t_jobs			*job_by_pid(t_jobs *jobs, pid_t pid);
 t_process		*process_by_pid(t_m_process *m_p, pid_t pid);
 
 int				create_process(t_s_env *e, t_execute *exec, int type);
-int				process_set_status(t_jobs *jobs, t_process *p, int status, t_m_process *m_p);
+int				process_set_status(t_jobs *jobs, t_process *p,
+		int status, t_m_process *m_p);
 
 char			*process_translate_status(int status);
-void			process_status(t_jobs *job, t_m_process *m_p, t_process *p, t_s_env *e);
+void			process_status(t_jobs *job, t_m_process *m_p,
+		t_process *p, t_s_env *e);
 int				proc_update(t_s_env *e, t_jobs *job, pid_t pid, int status);
 
 #endif

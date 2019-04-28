@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 09:06:34 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/27 18:03:14 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 17:53:11 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static int		fg(const t_jobs *jobs, t_m_process *m_p, t_s_env *e)
 {
 	return (job_foreground((t_jobs *)jobs, m_p, e, 1));
 }
-
 
 static int		fg_no_arg(t_s_env *e, t_execute *exec)
 {
@@ -56,7 +55,7 @@ static int		fg_opts(char **arg, t_s_env *e)
 	return (0);
 }
 
-int		builtin_fg(t_execute *exec, t_s_env *e)
+int				builtin_fg(t_execute *exec, t_s_env *e)
 {
 	int		err;
 	int		i;

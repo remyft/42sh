@@ -6,7 +6,7 @@
 /*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 16:52:47 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/19 13:52:27 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/28 17:56:49 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,5 @@ int		jobs_evaluate_sig(t_m_process *m_p);
 void	job_opt_l(const t_jobs *job);
 void	job_opt_p(const t_jobs *job);
 void	job_no_opt(const t_jobs *job);
-
 
 #endif
