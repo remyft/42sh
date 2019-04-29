@@ -6,7 +6,7 @@
 /*   By: tsisadag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 18:59:02 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/04/22 16:17:21 by tsisadag         ###   ########.fr       */
+/*   Updated: 2019/04/29 20:57:54 by tsisadag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int		is_file(char *arg, char **paths, t_type *type, int ret)
 	char	*tmp2;
 
 	i = -1;
-	while (paths[++i])
+	while (paths && paths[++i])
 	{
 		tmp1 = ft_strjoin(paths[i], "/");
 		tmp2 = ft_strjoinfree(tmp1, arg, 1);
