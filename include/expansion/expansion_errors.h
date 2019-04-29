@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 17:39:24 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/28 21:59:42 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 13:42:02 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ enum
 	ERR_GIVEN,
 	ERR_NO_SUCH_USER,
 	ERR_AMBIGUOUS,
-	ERR_PIPE = 10,
-	ERR_FCNTL,
+	ERR_PIPE,
+	ERR_FCNTL = 10,
 	ERR_FORK,
 	ERR_NO_MATCH_FOUND
 };
