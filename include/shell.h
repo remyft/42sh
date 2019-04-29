@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 20:49:03 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/25 23:40:55 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/29 13:34:46 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@
 # include "struct.h"
 # include "shell_env.h"
 
-# define SHELL_NAME		"21sh"
-# define RC_NAME		".21shrc"
-# define MALLOC_MAX		10000000
+# define SHELL_NAME		"42sh"
+# define RC_NAME		".42shrc"
 # define CANCEL			"\x3"
 # define EXIT			"\x4"
 # define GET_COMPLETION	"\x9"
