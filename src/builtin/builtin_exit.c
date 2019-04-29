@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 16:42:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/29 01:38:57 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 17:05:47 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static int		job_on(t_jobs *jobs, t_execute *exec)
 
 int				builtin_exit(t_execute *exec, t_s_env *e)
 {
-	if (!e->forked)
+	if (!e->forked && !e->interactive)
 		ft_putendl_fd("exit", STDERR_FILENO);
 	if (job_on(e->jobs, exec))
 		return (1);
