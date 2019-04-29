@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 17:13:29 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/29 14:50:37 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/29 14:56:30 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,11 @@ static void	end_set(t_line *line, char *ptr, DIR *dir, int tilde)
 	}
 	else
 		line->curr->buff[line->len] = '\0';
-
 }
 
 static int	deal_set(t_line *line, char *ptr, DIR *dir)
 {
 	char	*tmp;
-//	char	c;
 	int		tilde;
 
 	tmp = NULL;
@@ -66,20 +64,11 @@ static int	deal_set(t_line *line, char *ptr, DIR *dir)
 		return (10);
 	if (ptr && (*(ptr + 1) == '~' || (ptr == line->curr->buff && *ptr == '~')))
 	{
-		tilde  = (ptr == line->curr->buff && *ptr == '~') ? 1 : 0;
+		tilde = (ptr == line->curr->buff && *ptr == '~') ? 1 : 0;
 		ptr = replace_tilde(ptr, getenv("HOME"));
 		tmp = ptr;
 	}
 	end_set(line, ptr, dir, tilde);
-//	line->tree[2] = free_tree(line->tree[2]);
-/*	c = get_char(ptr, dir, line->curr->buff, tilde);
-	if (line->tmp[0] != ' ' && line->tmp[0] != '/')
-	{
-		ft_putchar(line->curr->buff[(line->len)] = c);
-		line->curr->buff[++(line->len)] = '\0';
-	}
-	else
-		line->curr->buff[line->len] = '\0';*/
 	if (tmp)
 		free(tmp);
 	return (0);
