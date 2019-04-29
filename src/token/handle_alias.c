@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 21:08:51 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/29 21:15:13 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 21:16:12 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void		alias_new_tokens(t_param *param, t_token *save)
 		param->token = param->token->next;
 	}
 	param->token->oldhd = param->line + param->i;
-	param->token->oldlen = 0;//param->line + param->i - save->head;
+	param->token->oldlen = 0;
 	param->token->alias = save->alias;
 	if (param->token->quote)
 	{
