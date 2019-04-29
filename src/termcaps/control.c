@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:46:41 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/23 07:32:52 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/29 12:39:05 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@ void			deal_exit(t_line *line)
 		return ;
 	}
 	if (line->curr->buff[0])
-	{
-		get_complet(line);
 		return ;
-	}
 	term_restore(&line->save);
 	line->shell_loop = 0;
 }
