@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_bg.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 13:38:06 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/28 17:53:54 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/29 01:39:49 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ static int		bg_no_arg(t_s_env *e, t_execute *exec)
 	while (jobs)
 	{
 		if (job_is_curr((t_jobs *)jobs, exec))
+		{
 			;
+		}
 		else
 			return (bg(jobs, jobs->m_process, e));
 		jobs = jobs->next;
@@ -37,11 +39,9 @@ static int		bg_no_arg(t_s_env *e, t_execute *exec)
 
 static int		bg_spe_arg(t_s_env *e, t_execute *exec, int i)
 {
-	int		err;
 	char	**cmd;
 	t_jobs	*curr;
 
-	err = 0;
 	cmd = exec->cmd;
 	if (!(curr = jobs_expansions(cmd[i], exec, e)))
 		return (bg_error(2, cmd[i], e));

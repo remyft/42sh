@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 20:16:45 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/28 18:14:46 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/29 01:35:34 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,8 @@ static void	change_select(t_slct *select, int tmp, t_cpl_e *env)
 int			deal_change(t_slct *select, t_tree *tern, t_cpl_e *env)
 {
 	int		tmp;
-	int		len;
 
 	tmp = 1;
-	len = 0;
 	if (select)
 		change_select(select, tmp, env);
 	else if (tern)

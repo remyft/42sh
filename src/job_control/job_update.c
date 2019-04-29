@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   job_update.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 15:44:17 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/27 15:49:17 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/29 01:54:39 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ int				jobs_notify(t_jobs *jobs, t_m_process *m_p)
 			job_no_opt(jobs);
 		}
 		else if (job_ch_suspended(jobs))
+		{
 			;
+		}
 		jobs = jobs->next;
 	}
 	return (1);
