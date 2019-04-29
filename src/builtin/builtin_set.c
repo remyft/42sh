@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 20:01:54 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/04/28 19:20:26 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 13:11:16 by tsisadag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,15 @@ int		builtin_set(t_execute *exec, t_s_env *e)
 {
 	int		i;
 	char	**clone;
-	char	**sorted;
 
 	if (!exec->cmd[1])
 	{
 		clone = clone_2_arr(e->private_env, e->public_env);
-		sorted = clone_2_arr(clone, e->exported_env);
-		sh_freetab(&clone);
-		export_sort(&sorted);
+		export_sort(&clone);
 		i = -1;
-		while (sorted[++i])
-			print_set(sorted[i]);
-		sh_freetab(&sorted);
+		while (clone[++i])
+			print_set(clone[i]);
+		sh_freetab(&clone);
 	}
 	return (0);
 }
