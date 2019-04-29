@@ -177,7 +177,7 @@ echo LS-${PWD:?$SHLVL}-LS
 ##
 ### The next test will exit the shell because of their implementation
 ##
-#echo LS-${NULLVAR:?"Exiting like a pro !"}-LS
+echo LS-${NULLVAR:?"Exiting like a pro !"}-LS
 #echo LS-${NULLVAR:?}-LS
 #echo LS-${NULL:?"Exiting like a pro !"}-LS
 #echo LS-${NULL:?}-LS
