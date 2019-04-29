@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 23:38:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/24 15:58:13 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 02:35:23 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int		get_new_line(void *quote, int type, t_line *line)
 	line->lprompt = ft_strlen(line->prompt);
 	if (line->tmp[0] == -1)
 		return (ERR_FREE_ALL);
-	if (line->tmp[0] == 4)
+	if (line->tmp[0] == 4 && quote_type(quote) != BACKSLASH)
 		return ((type == HEREDOCUMENT) ? ERR_HEREDOC_EOF : ERR_MATCHING_EOF);
 	return (ERR_NONE);
 }
