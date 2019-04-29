@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 23:02:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/29 17:53:49 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 19:42:27 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int				expand_dollar_special(t_ret *para, t_exp *param)
 	char				*word;
 
 	i = 0;
-	word = &para->word[para->i];
+	word = &para->word[para->i--];
 	if (word[1] && !ft_strchr("}:-=?+#%", word[1]))
 		return (ERR_SYNTAX);
 	while (i < sizeof(special) / sizeof(special[0]))

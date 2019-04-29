@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 06:50:11 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/29 18:14:56 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 20:00:26 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,15 @@ static int		action_values(t_exp *param, t_ret *ret, int value)
 		ret->action |= ACT_NULL_ERROR;
 	else if (value == '+')
 		ret->action |= ACT_NONNULL_SUBST;
-	ret->i += 2;
+	ret->i += 1 + !(ret->action & COLON_ACTION);
 	return (ERR_NONE);
 }
 
 static int		action_colon(t_exp *param, t_ret *ret, int value)
 {
 	ret->action = COLON_ACTION;
-	ret->i++;
-	value = ret->word[ret->brace + ret->i + 1];
+	ret->i += 2;
+	value = ret->head[ret->brace + ret->i];
 	if (ft_strchr("-=?+", value))
 		return (action_values(param, ret, value));
 	return (expand_arithmetic(param, ret));
