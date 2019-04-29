@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 02:19:16 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/28 22:27:35 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 09:30:08 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,43 +53,6 @@ static int		execute_ao_list(t_ao_list *aolist,
 		&& !prepare_command(aolist->cmd, e, job))
 		command_parse(aolist->cmd, e, aolist->type);
 	return (execute_ao_list(aolist->next, e, job));
-}
-
-static char		*get_command(t_m_list *list)
-{
-	t_ao_list		*ao;
-	t_command		*cmd;
-	t_argument		*arg;
-	const char		*head;
-	const char		*tail;
-
-	if (!list || !list->aolist || !list->aolist->cmd)
-		return (NULL);
-	cmd = (t_command *)list->aolist->cmd;
-	if (cmd->type == IS_A_PIPE)
-	{
-		if (!((t_command *)((t_pipeline *)cmd)->left)->args)
-			return (NULL);
-		head = ((t_command *)((t_pipeline *)cmd)->left)->args->token->head;
-	}
-	else
-	{
-		if (!cmd->args || !cmd->args->token)
-			return (NULL);
-		head = cmd->args->token->head;
-	}
-	ao = list->aolist;
-	while (ao->next)
-		ao = ao->next;
-	cmd = ao->cmd;
-	while (cmd->type == IS_A_PIPE)
-		cmd = ((t_pipeline *)cmd)->right;
-	if (!(arg = cmd->args))
-		return (NULL);
-	while (arg->next)
-		arg = arg->next;
-	tail = arg->token->head + arg->token->len;
-	return (ft_strndup((char *)head, tail - head));
 }
 
 int				execute_list(t_m_list *list, t_s_env *e)

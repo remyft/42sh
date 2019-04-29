@@ -6,19 +6,17 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 00:07:32 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/27 17:59:47 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/29 09:42:17 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/param.h>
-#include <signal.h>
 #include "libft.h"
 #include "ft_dprintf.h"
 #include "free_env.h"
 #include "shell_lib.h"
 #include "shell_env.h"
 #include "shell.h"
-#include <sys/ioctl.h>
 
 static char		*get_path(char *prog)
 {
@@ -104,43 +102,6 @@ static char		**check_env(char **env)
 		if (sh_setenv("SHLVL", "1", &env))
 			exit(2);
 	return (env);
-}
-
-void			init_job(t_s_env *e)
-{
-	if (e->interactive)
-	{
-		while (tcgetpgrp(STDIN_FILENO) != (e->pgid = getpgrp()))
-			kill (-e->pgid, SIGTTIN);
-		signal(SIGCHLD, SIG_DFL);
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGTSTP, SIG_IGN);
-		signal(SIGTTIN, SIG_IGN);
-		signal(SIGTTOU, SIG_IGN);
-		e->pgid = getpid();
-		if (setpgid(e->pgid, e->pgid) < 0)
-		{
-			ft_dprintf(2, "%s: setpgid error\n", e->progname);
-			exit(1);
-		}
-		ioctl(STDIN_FILENO, TIOCSPGRP, &e->pid);
-	}
-}
-
-void			init_fd(t_s_env *e)
-{
-	char	*tty_name;
-	int		fd;
-
-	if (e->interactive)
-	{
-		tty_name = ttyname(STDIN_FILENO);
-		fd = open(tty_name, O_RDWR);
-	}
-	else
-		fd = STDIN_FILENO;
-	e->fd = fd;
 }
 
 void			init_shell_env(t_s_env *e, int ac, char **av, char **env)

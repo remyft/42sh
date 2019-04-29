@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 09:45:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/28 21:41:16 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 09:47:44 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,54 +17,6 @@
 #include "expansion_action.h"
 #include "expansion_errors.h"
 
-/*
-** %
-*/
-
-int				word_small_suffix(t_ret *subs, t_ret *para, t_exp *param)
-{
-	(void)subs;
-	(void)para;
-	(void)param;
-	return (0);
-}
-
-/*
-** %%
-*/
-
-int				word_large_suffix(t_ret *subs, t_ret *para, t_exp *param)
-{
-	(void)subs;
-	(void)para;
-	(void)param;
-	return (0);
-}
-
-/*
-** #
-*/
-
-int				word_small_prefix(t_ret *subs, t_ret *para, t_exp *param)
-{
-	(void)subs;
-	(void)para;
-	(void)param;
-	return (0);
-}
-
-/*
-** ##
-*/
-
-int				word_large_prefix(t_ret *subs, t_ret *para, t_exp *param)
-{
-	(void)subs;
-	(void)para;
-	(void)param;
-	return (0);
-}
-
 static void		set_new_t_exp(t_exp *newp, t_exp *param, t_ret *par)
 {
 	ft_memset(newp, 0, sizeof(*newp));
@@ -74,7 +26,7 @@ static void		set_new_t_exp(t_exp *newp, t_exp *param, t_ret *par)
 	newp->expand = expand_dollar_do_expansion(par);
 }
 
-static void			expand_dollar_word_free(t_ret *subs, t_exp *newp)
+static void		expand_dollar_word_free(t_ret *subs, t_exp *newp)
 {
 	expand_free_t_ret(subs, 0);
 	free_quote(&newp->quote);
@@ -83,8 +35,7 @@ static void			expand_dollar_word_free(t_ret *subs, t_exp *newp)
 int				expand_dollar_word_value(t_ret *parameter, t_exp *param)
 {
 	static t_word	word[] = {
-		WORD_SMALL_SUFFIX, WORD_LARGE_SUFFIX, WORD_SMALL_PREFIX,
-		WORD_LARGE_PREFIX, WORD_NULL_SUBST, WORD_NULL_ASSIGN, WORD_NULL_ERROR,
+		WORD_NULL_SUBST, WORD_NULL_ASSIGN, WORD_NULL_ERROR,
 		WORD_NONNULL_SUBST,
 	};
 	size_t			i;

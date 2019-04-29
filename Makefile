@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/04/28 19:25:46 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/04/29 10:21:54 by dbaffier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,7 @@ ENV_DIR = $(SRCS_DIR)environment/
 SRCS += collect_env.c						\
 		free_shell_env.c					\
 		shell_env.c							\
+		init_job.c							\
 
 # LINE EDITION
 LINE_DIR = $(SRCS_DIR)line_edition/
@@ -187,6 +188,7 @@ SRCS += command_access.c					\
 		command_dup.c						\
 		command_process.c					\
 		command_m_process.c					\
+		command_get_cmd.c					\
 		environment_modify.c				\
 		quote_removal.c						\
 

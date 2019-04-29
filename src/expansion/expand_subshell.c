@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 20:24:31 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/27 15:52:07 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/29 10:12:36 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ int				expand_subshell(t_exp *param, t_ret *ret)
 	{
 		ioctl(param->e->fd, TIOCSPGRP, &pid);
 		*param->e->ret = expand_subshell_father(pfd, pid, ret);
+		tcsetattr(0, TCSADRAIN, &param->e->save);
 		ioctl(param->e->fd, TIOCSPGRP, &param->e->pid);
 	}
 	param->i = i;

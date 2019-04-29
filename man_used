@@ -18,7 +18,6 @@
                  U _kill	(1)
                  U _lstat	(2)
                  U _malloc		(3) (authorised since 21sh)
-                 U _memcpy		(3) ???
                  U _open	(1)
                  U _opendir		(3) (authorised since 21sh)
                  U _pipe		(8) (authorised since 21sh)

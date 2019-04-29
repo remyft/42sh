@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:36:31 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/28 22:28:43 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 10:12:37 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static int	job_fg_cont(t_jobs *job, t_s_env *e, int cont)
 	{
 		tcsetattr(0, TCSADRAIN, &job->save);
 		job->notify = 1;
-		// printf("CONT on %d\n", job->pgid);
 		if (kill(-job->pgid, SIGCONT) < 0)
 		{
 			ft_dprintf(2, "failed to continue job [%d]\n", job->pgid);

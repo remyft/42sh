@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 19:47:39 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/28 18:59:27 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/29 09:37:27 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,8 @@ static int		check_access(char **path, char *cmd, char *paths, size_t len)
 	return (error);
 }
 
-#include <stdio.h>
-
-int				command_path(char **path, char *cmd, char *paths, t_execute *exec)
+int				command_path(char **path, char *cmd,
+		char *paths, t_execute *exec)
 {
 	char		*ptr;
 
