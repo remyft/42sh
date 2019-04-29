@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/29 09:26:39 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/29 13:25:14 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 19:00:38 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,13 @@ static const char	*get_head(t_m_list *list)
 	return (head);
 }
 
+static char			*check_head_tail(const char *head, const char *tail)
+{
+	if (tail > head)
+		return (ft_strndup((char *)head, tail - head));
+	return (ft_strndup((char *)head, head - tail));
+}
+
 char				*get_command(t_m_list *list)
 {
 	t_ao_list		*ao;
@@ -66,5 +73,5 @@ char				*get_command(t_m_list *list)
 		tail = arg->token->head + arg->token->len;
 	else
 		tail = arg->token->oldhd + arg->token->oldlen;
-	return (ft_strndup((char *)head, tail - head));
+	return (check_head_tail(head, tail));
 }
