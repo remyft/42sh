@@ -1,7 +1,7 @@
 .vscode/
 .deps/
-21sh
+42sh
 */*.a
 **/objs/
-21sh.dSYM/
+42sh.dSYM/
 **/*.swp

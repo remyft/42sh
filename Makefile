@@ -6,11 +6,11 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/04/29 10:21:54 by dbaffier         ###   ########.fr        #
+#    Updated: 2019/04/29 13:39:13 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = 21sh
+NAME = 42sh
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror

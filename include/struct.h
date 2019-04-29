@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/29 10:28:55 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/29 13:34:44 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define GET_TREE(x, y) x[y]
 
 # define MAX_SHELL_LEN	8192
+# define MALLOC_MAX		10000000
 
 typedef enum	e_state
 {
