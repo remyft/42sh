@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:02:57 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/28 22:27:17 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 15:05:40 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ static int		cmd_ch_builtin(int (*handler)(t_execute *, t_s_env *),
 	ret = command_builtin(handler, job, p, e);
 	if ((len = sh_tablen((const char **)exec->cmd)))
 		len--;
-	sh_setenv("_", exec->cmd[len], &e->public_env);
+	if (!e->forked)
+		sh_setenv("_", exec->cmd[len], &e->public_env);
 	return (ret);
 }
 
