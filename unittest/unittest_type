@@ -12,8 +12,8 @@ type
 echo "ret : $?"
 echo "echo type > type_test :"
 echo type > type_test
-echo "bash type_test 2>&1 > bash_res ; ./21sh type_test 2>&1 > 42sh_res"
-bash type_test 2>&1 > bash_res ; ./21sh type_test 2>&1 > 42sh_res
+echo "bash type_test 2>&1 > bash_res ; ./42sh type_test 2>&1 > 42sh_res"
+bash type_test 2>&1 > bash_res ; ./42sh type_test 2>&1 > 42sh_res
 echo "diff :"
 diff bash_res 42sh_res
 

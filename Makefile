@@ -6,7 +6,7 @@
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/28 20:50:45 by rfontain          #+#    #+#              #
-#    Updated: 2019/04/29 13:39:13 by gbourgeo         ###   ########.fr        #
+#    Updated: 2019/04/29 16:47:53 by gbourgeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -402,7 +402,7 @@ TSITSI = 	$(eval DONE=$(shell echo $$(($(INDEX)*$(COL)/$(NB)))))  \
 							elif [ $(CLOCK) == 🕗 ]; then echo 🕘; \
 							elif [ $(CLOCK) == 🕘 ]; then echo 🕙; \
 							elif [ $(CLOCK) == 🕙 ]; then echo 🕛; fi )) \
-	printf "\r\033[38;5;11m%s  MAKE : %3d%% \033[48;5;%dm%*s\033[0m%*s%s  21sh/%.*s\033[0m\033[K" $(MOON) $(PERCENT) $(COLOR) $(DONE) "" $(TO_DO) "" $(CLOCK) $(DELTA) "$<" \
+	printf "\r\033[38;5;11m%s  MAKE : %3d%% \033[48;5;%dm%*s\033[0m%*s%s  $(NAME)/%.*s\033[0m\033[K" $(MOON) $(PERCENT) $(COLOR) $(DONE) "" $(TO_DO) "" $(CLOCK) $(DELTA) "$<" \
 	$(eval INDEX=$(shell echo $$(($(INDEX)+1)))) \
 
 RESET	= \x1b[0m

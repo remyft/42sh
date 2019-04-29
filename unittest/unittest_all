@@ -4,88 +4,88 @@ echo "------------------------------------------------"
 
 mkdir result_unittest
 
-./21sh unittest/unittest_echo
-./21sh unittest/unittest_echo > result_unittest/echo_21sh 2>&1
+./42sh unittest/unittest_echo
+./42sh unittest/unittest_echo > result_unittest/echo_42sh 2>&1
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-./21sh unittest/unittest_env
-./21sh unittest/unittest_env > result_unittest/env_21sh 2>&1
+./42sh unittest/unittest_env
+./42sh unittest/unittest_env > result_unittest/env_42sh 2>&1
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-./21sh unittest/unittest_setenv
-./21sh unittest/unittest_setenv > result_unittest/setenv_21sh 2>&1
+./42sh unittest/unittest_setenv
+./42sh unittest/unittest_setenv > result_unittest/setenv_42sh 2>&1
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-./21sh unittest/unittest_unsetenv
-./21sh unittest/unittest_unsetenv > result_unittest/unsetenv_21sh 2>&1
+./42sh unittest/unittest_unsetenv
+./42sh unittest/unittest_unsetenv > result_unittest/unsetenv_42sh 2>&1
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-./21sh unittest/unittest_exit
-./21sh unittest/unittest_exit > result_unittest/exit_21sh 2>&1
+./42sh unittest/unittest_exit
+./42sh unittest/unittest_exit > result_unittest/exit_42sh 2>&1
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-./21sh unittest/unittest_cd
-./21sh unittest/unittest_cd > result_unittest/cd_21sh 2>&1
+./42sh unittest/unittest_cd
+./42sh unittest/unittest_cd > result_unittest/cd_42sh 2>&1
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-./21sh unittest/unittest_source
-./21sh unittest/unittest_source > result_unittest/source_21sh 2>&1
+./42sh unittest/unittest_source
+./42sh unittest/unittest_source > result_unittest/source_42sh 2>&1
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-./21sh unittest/unittest_globbing
-./21sh unittest/unittest_globbing > result_unittest/globbing_21sh 2>&1
+./42sh unittest/unittest_globbing
+./42sh unittest/unittest_globbing > result_unittest/globbing_42sh 2>&1
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-./21sh unittest/unittest_operator
-./21sh unittest/unittest_operator > result_unittest/operator_21sh 2>&1
+./42sh unittest/unittest_operator
+./42sh unittest/unittest_operator > result_unittest/operator_42sh 2>&1
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-./21sh unittest/unittest_separator
-./21sh unittest/unittest_separator > result_unittest/separator_21sh 2>&1
+./42sh unittest/unittest_separator
+./42sh unittest/unittest_separator > result_unittest/separator_42sh 2>&1
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-./21sh unittest/unittest_redirection
-./21sh unittest/unittest_redirection > result_unittest/redirection_21sh 2>&1
+./42sh unittest/unittest_redirection
+./42sh unittest/unittest_redirection > result_unittest/redirection_42sh 2>&1
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-./21sh unittest/unittest_pipe
-./21sh unittest/unittest_pipe > result_unittest/pipe_21sh 2>&1
+./42sh unittest/unittest_pipe
+./42sh unittest/unittest_pipe > result_unittest/pipe_42sh 2>&1
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-./21sh unittest/unittest_test
-./21sh unittest/unittest_test > result_unittest/test_21sh 2>&1
+./42sh unittest/unittest_test
+./42sh unittest/unittest_test > result_unittest/test_42sh 2>&1
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-./21sh unittest/unittest_type
-./21sh unittest/unittest_type > result_unittest/type_21sh 2>&1
+./42sh unittest/unittest_type
+./42sh unittest/unittest_type > result_unittest/type_42sh 2>&1
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-./21sh unittest/unittest_set
-./21sh unittest/unittest_set > result_unittest/set_21sh 2>&1
+./42sh unittest/unittest_set
+./42sh unittest/unittest_set > result_unittest/set_42sh 2>&1
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-./21sh unittest/unittest_unset
-./21sh unittest/unittest_unset > result_unittest/unset_21sh 2>&1
+./42sh unittest/unittest_unset
+./42sh unittest/unittest_unset > result_unittest/unset_42sh 2>&1
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-./21sh unittest/unittest_export
-./21sh unittest/unittest_export > result_unittest/export_21sh 2>&1
+./42sh unittest/unittest_export
+./42sh unittest/unittest_export > result_unittest/export_42sh 2>&1
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo "------------------------------------------------"

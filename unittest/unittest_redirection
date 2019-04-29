@@ -4,7 +4,7 @@ echo "------------------------------------------------"
 
 echo -e "\n> NO ARG ( ls > )"
 echo "ls >" > tmp
-./21sh tmp
+./42sh tmp
 rm tmp
 
 echo -e "\n> ARG ( ls > tmp )"
@@ -21,7 +21,7 @@ rm tmp
 
 echo -e "\n>& NO ARG ( ls >& )"
 echo "ls >&" > tmp
-./21sh tmp
+./42sh tmp
 rm tmp
 
 echo -e "\n>& ARG ( ls >& tmp )"
@@ -70,7 +70,7 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "< NO ARG"
 echo "cat <" > tmp
-./21sh tmp
+./42sh tmp
 rm tmp
 
 echo "< ARG ( cat < auteur )"
@@ -78,7 +78,7 @@ cat < auteur
 
 echo "<& NO ARG"
 echo "cat <&" > tmp
-./21sh tmp
+./42sh tmp
 rm tmp
 
 echo "<& ARG ( cat <& auteur )"
@@ -112,7 +112,7 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo ">> NO ARG"
 echo "ls >>" > tmp
-./21sh tmp
+./42sh tmp
 rm tmp
 
 echo ">> ARG ( ls >> tmp )"
@@ -161,19 +161,19 @@ rm tmp
 
 echo ">>& NO ARG"
 echo "ls >>& libft" > tmp
-./21sh tmp
+./42sh tmp
 rm tmp
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "<< NO ARG"
 echo "ls <<" > tmp
-./21sh tmp
+./42sh tmp
 rm tmp
 
 echo "<<- NO ARG"
 echo "ls <<-" > tmp
-./21sh tmp
+./42sh tmp
 rm tmp
 
 echo "------------------------------------------------"

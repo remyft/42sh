@@ -40,7 +40,7 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "& ls"
 echo "& ls" > tmp
-./21sh tmp
+./42sh tmp
 echo "ret : $?"
 rm tmp
 
@@ -72,7 +72,7 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "; ls"
 echo "; ls" > tmp
-./21sh tmp
+./42sh tmp
 echo "ret : $?"
 
 rm tmp
