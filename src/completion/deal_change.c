@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 20:16:45 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/29 01:35:34 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 13:56:03 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static void	get_ptr_tree(t_tree *tree, char **ptr)
 		return ;
 	if (tree->value == '.')
 		if (!tree->left || !tree->right)
-			tree->left ?
-				get_ptr_tree(tree->left, ptr) : get_ptr_tree(tree->right, ptr);
+			tree->left ? get_ptr_tree(tree->left, ptr)
+				: get_ptr_tree(tree->right, ptr);
 	if (tree->left && tree->left->value != '.')
 		return ;
 	if (tree->right && tree->right->value != '.')

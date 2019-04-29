@@ -6,7 +6,7 @@
 /*   By: rfontain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 23:14:29 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/25 23:15:58 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/29 13:59:47 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void		del_lines(t_line *line)
 	index = line->index;
 	tputs(tgetstr("vi", NULL), 1, ft_pchar);
 	tputs(tgetstr("cd", NULL), 1, ft_pchar);
-	line->index < line->len ?
-		ft_putstr(&(line->curr->buff[line->index])) : ft_putstr("");
+	line->index < line->len
+		? ft_putstr(&(line->curr->buff[line->index])) : ft_putstr("");
 	line->index = line->len;
 	while (line->index > index)
 		get_to_left(line);

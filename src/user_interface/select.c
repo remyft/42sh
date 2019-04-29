@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 05:18:39 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/23 12:38:11 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/29 13:48:01 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ void		select_left(t_line *line)
 			line->slct_end -= 1;
 			line->index -= 1;
 			if (line->index
-					&& (line->index + line->lprompt) % line->nb_col ==
-					line->nb_col - 1)
+					&& (line->index + line->lprompt) % line->nb_col
+					== line->nb_col - 1)
 				deal_scroll(line, 1, 1);
 			tputs(tgoto(tgetstr("ch", NULL), 0,
 						(line->lprompt + line->index) % line->nb_col), 1,
@@ -111,8 +111,8 @@ void		select_right(t_line *line)
 			ft_putchar(line->curr->buff[line->index]);
 			line->slct_beg += 1;
 			line->index += 1;
-			if (line->index && (line->index + line->lprompt) % line->nb_col ==
-					0)
+			if (line->index && (line->index + line->lprompt) % line->nb_col
+					== 0)
 				deal_scroll(line, 0, line->nb_line);
 			tputs(tgoto(tgetstr("ch", NULL), 0,
 						(line->lprompt + line->index) % line->nb_col), 1,
