@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_get_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/29 09:26:39 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/29 09:33:48 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/29 13:25:14 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,20 @@ static const char	*get_head(t_m_list *list)
 	{
 		if (!((t_command *)((t_pipeline *)cmd)->left)->args)
 			return (NULL);
-		head = ((t_command *)((t_pipeline *)cmd)->left)->args->token->head;
+		if (!((t_command *)((t_pipeline *)cmd)->left)->args->token->oldhd
+		|| !((t_command *)((t_pipeline *)cmd)->left)->args->token->oldhd[0])
+			head = ((t_command *)((t_pipeline *)cmd)->left)->args->token->head;
+		else
+			head = ((t_command *)((t_pipeline *)cmd)->left)->args->token->oldhd;
 	}
 	else
 	{
 		if (!cmd->args || !cmd->args->token)
 			return (NULL);
-		head = cmd->args->token->head;
+		if (!cmd->args->token->oldhd || !cmd->args->token->oldhd[0])
+			head = cmd->args->token->head;
+		else
+			head = cmd->args->token->oldhd;
 	}
 	return (head);
 }
@@ -55,6 +62,9 @@ char				*get_command(t_m_list *list)
 		return (NULL);
 	while (arg->next)
 		arg = arg->next;
-	tail = arg->token->head + arg->token->len;
+	if (!arg->token->oldhd || !arg->token->oldhd[0])
+		tail = arg->token->head + arg->token->len;
+	else
+		tail = arg->token->oldhd + arg->token->oldlen;
 	return (ft_strndup((char *)head, tail - head));
 }
