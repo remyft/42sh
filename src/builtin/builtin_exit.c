@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 16:42:07 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/28 18:13:34 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/29 01:38:57 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ static int		job_on(t_jobs *jobs, t_execute *exec)
 	while (jobs)
 	{
 		if (job_is_curr(jobs, exec))
+		{
 			;
+		}
 		if (jobs->status & JOB_LAST)
 		{
 			if (jobs->last_exit)

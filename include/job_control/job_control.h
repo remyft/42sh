@@ -3,15 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   job_control.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 14:09:06 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/28 17:56:05 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/29 01:54:02 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef JOB_CONTROL_H
 # define JOB_CONTROL_H
+
+# ifdef __linux
+#  include <sys/wait.h>
+#  define WAIT_ANY	-1
+# endif
 
 # include "libft.h"
 # include "shell_env.h"

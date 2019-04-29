@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_fg.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 09:06:34 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/28 17:53:11 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/29 01:39:14 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,9 @@ static int		fg_no_arg(t_s_env *e, t_execute *exec)
 
 static int		fg_spe_arg(t_s_env *e, t_execute *exec, int i)
 {
-	int		err;
 	char	**cmd;
 	t_jobs	*curr;
 
-	err = 0;
 	cmd = exec->cmd;
 	if (!(curr = jobs_expansions(cmd[i], exec, e)))
 		return (fg_error(2, cmd[i], e));

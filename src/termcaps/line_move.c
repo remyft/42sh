@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/30 16:59:39 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/25 23:10:52 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/29 01:36:10 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,10 @@ int			get_cursor_line(void)
 static void	ft_putbuff_len(t_line *line)
 {
 	int		i;
-	int		len;
 
 	i = line->index;
 	while ((i + line->lprompt) % line->nb_col != 0 && i > 0)
 		i--;
-	len = i > 0 ? line->nb_col : line->nb_col - line->lprompt;
 	write(0, &line->curr->buff[i], line->nb_col);
 }
 

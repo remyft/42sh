@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 18:34:19 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/04/28 18:56:47 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 01:40:31 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,6 @@ int		exec_export(char *arg, t_s_env *e)
 
 void	change_public_env(char *arg, t_s_env *e)
 {
-	int		i;
-
-	i = 0;
 	if (is_public(arg, e->public_env))
 	{
 		if (arg[var_name_len(arg)] != '\0'

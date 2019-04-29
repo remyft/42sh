@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   job_insert.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaffier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 21:33:49 by dbaffier          #+#    #+#             */
-/*   Updated: 2019/04/26 15:02:30 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/29 01:49:47 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@ static void	add_job(t_jobs *jobs, t_jobs *new)
 t_jobs		*job_insert(t_s_env *e)
 {
 	t_jobs		*job;
-	int			id;
 
-	id = 1;
 	job = NULL;
 	if (!(job = ft_memalloc(sizeof(t_jobs))))
 		return (0);

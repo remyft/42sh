@@ -3,18 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_test.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsisadag <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 18:22:38 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/04/26 01:10:59 by tsisadag         ###   ########.fr       */
+/*   Updated: 2019/04/29 01:49:09 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_TEST_H
 # define BUILTIN_TEST_H
+# ifdef __linux
+#  define S_IREAD	S_IRUSR
+#  define S_IWRITE	S_IWUSR
+#  define S_IEXEC	S_IXUSR
+# endif
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <unistd.h>
 # include "ft_printf.h"
 # include "ft_dprintf.h"
-# include <sys/stat.h>
 
 # define OPERATOR_B			{ "-b"	, operator_b }
 # define OPERATOR_C			{ "-c"	, operator_c }

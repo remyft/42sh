@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 02:42:37 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/28 16:05:00 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/29 02:22:11 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,12 @@
 # include <unistd.h>
 
 # ifdef __linux
+#  include <time.h>
 #  define NSIG _NSIG
 
 /*
-** typedef __sighandler_t	sig_t;
-*/
+***/ typedef __sighandler_t	sig_t;
+/**/
 # endif
 
 # define LEFT 1 << 0

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/28 18:09:18 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/29 01:36:58 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,10 @@ int				command_system(t_jobs *job, t_process *p, t_s_env *e)
 
 int				command_bys(t_jobs *job, t_process *p, t_s_env *e)
 {
-	int		ret;
-
-	ret = 0;
 	if (e->forked || (p->pid = fork()) == 0)
 	{
 		e->forked = 1;
-		ret = command_system(job, p, e);
+		command_system(job, p, e);
 		exit(*e->ret);
 	}
 	else if (e->interactive)
