@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 17:13:29 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/28 19:17:23 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/29 14:50:37 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@
 #include "shell_term.h"
 #include "quote_removal.h"
 
-static char	get_char(char *ptr, DIR *dir, char *buff)
+static char	get_char(char *ptr, DIR *dir, char *buff, int tilde)
 {
 	char	c;
 	char	*tmp;
 
-	if (ptr && ptr != buff)
+	if (ptr && ptr != buff && !tilde)
 		ptr++;
 	tmp = ft_strdup(ptr);
 	check_str(ptr);
@@ -37,22 +37,12 @@ static char	get_char(char *ptr, DIR *dir, char *buff)
 	return (c);
 }
 
-static int	deal_set(t_line *line, char *ptr, DIR *dir)
+static void	end_set(t_line *line, char *ptr, DIR *dir, int tilde)
 {
-	char	*tmp;
 	char	c;
 
-	tmp = NULL;
-	if (line->curr->buff[line->len - 1] == '/'
-			|| line->curr->buff[line->len - 1] == ' ')
-		return (10);
-	if (ptr && *(ptr + 1) == '~')
-	{
-		ptr = replace_tilde(ptr, getenv("HOME"));
-		tmp = ptr;
-	}
 	line->tree[2] = free_tree(line->tree[2]);
-	c = get_char(ptr, dir, line->curr->buff);
+	c = get_char(ptr, dir, line->curr->buff, tilde);
 	if (line->tmp[0] != ' ' && line->tmp[0] != '/')
 	{
 		ft_putchar(line->curr->buff[(line->len)] = c);
@@ -60,6 +50,36 @@ static int	deal_set(t_line *line, char *ptr, DIR *dir)
 	}
 	else
 		line->curr->buff[line->len] = '\0';
+
+}
+
+static int	deal_set(t_line *line, char *ptr, DIR *dir)
+{
+	char	*tmp;
+//	char	c;
+	int		tilde;
+
+	tmp = NULL;
+	tilde = 0;
+	if (line->curr->buff[line->len - 1] == '/'
+			|| line->curr->buff[line->len - 1] == ' ')
+		return (10);
+	if (ptr && (*(ptr + 1) == '~' || (ptr == line->curr->buff && *ptr == '~')))
+	{
+		tilde  = (ptr == line->curr->buff && *ptr == '~') ? 1 : 0;
+		ptr = replace_tilde(ptr, getenv("HOME"));
+		tmp = ptr;
+	}
+	end_set(line, ptr, dir, tilde);
+//	line->tree[2] = free_tree(line->tree[2]);
+/*	c = get_char(ptr, dir, line->curr->buff, tilde);
+	if (line->tmp[0] != ' ' && line->tmp[0] != '/')
+	{
+		ft_putchar(line->curr->buff[(line->len)] = c);
+		line->curr->buff[++(line->len)] = '\0';
+	}
+	else
+		line->curr->buff[line->len] = '\0';*/
 	if (tmp)
 		free(tmp);
 	return (0);
