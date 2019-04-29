@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/04 02:29:39 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/29 13:58:19 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 18:15:21 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static int		replace_env_value(t_ret *parameter, t_ret *word, t_exp *param)
 	size_t		len;
 
 	name = parameter->word + parameter->brace + parameter->hash + 1;
+	name[parameter->i - 2 - (parameter->action & COLON_ACTION)] = '\0';
 	if (!(ret = sh_getnenvaddr(name, param->e->public_env)))
 		if (!(ret = sh_getnenvaddr(name, param->e->private_env)))
 			if (!(ret = sh_newenv(&param->e->private_env)))

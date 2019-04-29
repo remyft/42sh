@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 23:02:58 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/28 22:43:00 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 17:53:49 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int				special_argc(t_ret *para, t_exp *param)
 
 	ft_memset(&sub, 0, sizeof(sub));
 	if (param->e->filein)
-		nbr = ft_itoa(param->e->ac - 2);
+		nbr = ft_itoa(param->e->ac - 1);
 	else
 		nbr = ft_itoa(param->e->ac - 1);
 	error = param_addstr(nbr, &sub);

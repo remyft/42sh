@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 04:42:31 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/29 01:37:42 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 18:15:09 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int		expand_argv(t_ret *para, t_exp *param)
 	char		*digits;
 	int			nb;
 
-	digits = &para->word[para->brace + para->hash + para->i];
+	digits = &para->word[para->brace + para->hash + 1];
 	nb = (para->brace) ? ft_atoi(digits) : *digits - '0';
 	if (param->e->filein)
 		nb++;
@@ -37,17 +37,20 @@ static int		expand_argv(t_ret *para, t_exp *param)
 static int		expand_env(t_ret *para, t_exp *param)
 {
 	char		*word;
-	char		*pos;
+	char		c;
 
 	word = &para->word[para->i];
-	pos = para->word;
 	if (para->brace)
 	{
-		while (pos[para->i] && is_valid_name(pos[para->i]))
+		while (word[para->i] && is_valid_name(word[para->i]))
 			para->i++;
+		c = word[para->i];
+		word[para->i] = '\0';
 	}
 	if (!(para->substitute = sh_getnenv(word, param->e->public_env)))
 		para->substitute = sh_getnenv(word, param->e->private_env);
+	if (para->brace)
+		word[para->i] = c;
 	para->freeable = 0;
 	return (ERR_NONE);
 }

@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 09:45:43 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/29 09:47:44 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/29 18:04:58 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void		set_new_t_exp(t_exp *newp, t_exp *param, t_ret *par)
 {
 	ft_memset(newp, 0, sizeof(*newp));
 	newp->e = param->e;
-	newp->buff = par->head + par->i;
+	newp->buff = par->head + par->i + 1;
 	newp->buff_len = (param->buff + param->buff_len) - (par->head + par->i);
 	newp->expand = expand_dollar_do_expansion(par);
 }
