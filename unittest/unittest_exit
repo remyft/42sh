@@ -3,37 +3,52 @@ echo "TESTING EXIT"
 echo "------------------------------------------------"
 
 echo "Simple exit :"
-exit
-
-echo "echo \$? : $?"
+echo exit > tmp
+./42sh tmp
+echo "42sh: echo \$? : $?"
+bash tmp
+echo "bash: echo \$? : $?"
+rm tmp
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "Exit 8 :"
-exit 8
-
-echo "echo \$? : $?"
+echo 'exit 8' > tmp
+./42sh tmp
+echo "42sh: echo \$? : $?"
+bash tmp
+echo "bash: echo \$? : $?"
+rm tmp
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "Exit 8192 :"
-exit 8192
-
-echo "echo \$? : $?"
+echo 'exit 8192' > tmp
+./42sh tmp
+echo "42sh: echo \$? : $?"
+bash tmp
+echo "bash: echo \$? : $?"
+rm tmp
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "Exit abc :"
-exit abc
-
-echo "echo \$? : $?"
+echo 'exit abc' > tmp
+./42sh tmp
+echo "42sh: echo \$? : $?"
+bash tmp
+echo "bash: echo \$? : $?"
+rm tmp
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 echo "Exit -2143 :"
-exit -2143
-
-echo "echo \$? : $?"
+echo 'exit -2143' > tmp
+./42sh tmp
+echo "42sh: echo \$? : $?"
+bash tmp
+echo "bash: echo \$? : $?"
+rm tmp
 
 echo "------------------------------------------------"
 echo "EXITING EXIT..."
