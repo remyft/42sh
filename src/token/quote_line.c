@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 23:38:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/29 02:35:23 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 14:00:22 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static char		*get_new_prompt(t_quote *quote)
 		&& !(ret = ft_strjoinfree(ret, " ", 1)))
 			return (NULL);
 		i = quote->type;
-		if (!(ret = (ret) ?
-			ft_strjoinfree(ret, prompt[i], 1) : ft_strdup(prompt[i])))
+		if (!(ret = (ret)
+			? ft_strjoinfree(ret, prompt[i], 1) : ft_strdup(prompt[i])))
 			return (NULL);
 		quote = quote->next;
 	}

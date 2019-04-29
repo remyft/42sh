@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export_tools.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsisadag <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 21:42:11 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/03/09 19:00:50 by tsisadag         ###   ########.fr       */
+/*   Updated: 2019/04/29 14:05:02 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ char	**clone_2_arr(char **arr1, char **arr2)
 
 	i = 0;
 	j = 0;
-	clone = ft_memalloc(sizeof(char **) *
-			(count_strarr(arr1) + count_strarr(arr2) + 2));
+	clone = ft_memalloc(sizeof(char **)
+		* (count_strarr(arr1) + count_strarr(arr2) + 2));
 	while (arr1[i])
 	{
 		clone[j] = ft_strdup(arr1[i]);

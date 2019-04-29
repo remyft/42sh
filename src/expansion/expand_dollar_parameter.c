@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 04:44:56 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/28 21:57:35 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 13:57:00 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ int				expand_dollar_parameter(t_exp *param, t_ret *ret)
 		error = expand_final(parameter.word, parameter.hash, ret);
 	if (parameter.substitute && parameter.freeable)
 		free(parameter.substitute);
-	ret->substitute = (ret->substitute) ?
-		ft_strjoinfree(ret->substitute, parameter.word, 3) : parameter.word;
+	ret->substitute = (ret->substitute)
+		? ft_strjoinfree(ret->substitute, parameter.word, 3) : parameter.word;
 	ret->freeable = 1;
 	return (error);
 }

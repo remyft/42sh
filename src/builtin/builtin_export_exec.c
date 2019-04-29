@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 18:34:19 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/04/29 01:40:31 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 13:49:00 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int		exec_export(char *arg, t_s_env *e)
 {
 	if (!valid_id(arg))
 		return (1);
-	if (!is_local(arg, e->private_env) &&
-		!is_public(arg, e->public_env) && (!has_value(arg)))
+	if (!is_local(arg, e->private_env)
+	&& !is_public(arg, e->public_env) && (!has_value(arg)))
 	{
 		if (!is_exported(arg, e->exported_env))
 			add_exported(arg, e);

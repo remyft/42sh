@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 20:28:26 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/04/29 02:27:26 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 13:50:13 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int		builtin_unset(t_execute *exec, t_s_env *e)
 
 int		valid_id_unset(char *arg)
 {
-	if ((!ft_isalpha(arg[0]) && arg[0] != '_') ||
-		(!has_invalid_id_unset(arg)))
+	if ((!ft_isalpha(arg[0]) && arg[0] != '_')
+	|| (!has_invalid_id_unset(arg)))
 	{
 		ft_dprintf(2, "42sh: unset: `%s': not a valid identifier\n",
 				arg);

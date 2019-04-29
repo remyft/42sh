@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/04 02:29:39 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/28 21:48:09 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 13:58:19 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ static int		replace_env_value(t_ret *parameter, t_ret *word, t_exp *param)
 				return (ERR_MALLOC);
 	save = *ret;
 	len = ft_strlen(name) + 2;
-	len += (word->word) ?
-		ft_strlen(word->word) : ft_strlen(word->substitute);
+	len += (word->word)
+		? ft_strlen(word->word) : ft_strlen(word->substitute);
 	if (!(*ret = ft_memalloc(len)))
 	{
 		*ret = save;
