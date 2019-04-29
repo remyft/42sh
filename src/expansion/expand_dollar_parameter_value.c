@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 04:42:31 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/29 19:40:05 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 20:44:50 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,23 @@ static int		expand_argv(t_ret *para, t_exp *param)
 
 static int		expand_env(t_ret *para, t_exp *param)
 {
-	char		*word;
+	char		*start;
+	char		*end;
 	char		c;
 
-	word = &para->word[para->i];
+	start = para->word + para->i;
+	end = para->word;
 	if (para->brace)
 	{
-		while (word[para->i] && is_valid_name(word[para->i]))
+		while (end[para->i] && is_valid_name(end[para->i]))
 			para->i++;
-		c = word[para->i];
-		word[para->i] = '\0';
+		c = end[para->i];
+		end[para->i] = '\0';
 	}
-	if (!(para->substitute = sh_getnenv(word, param->e->public_env)))
-		para->substitute = sh_getnenv(word, param->e->private_env);
+	if (!(para->substitute = sh_getnenv(start, param->e->public_env)))
+		para->substitute = sh_getnenv(start, param->e->private_env);
 	if (para->brace)
-		word[para->i] = c;
+		end[para->i] = c;
 	para->freeable = 0;
 	return (ERR_NONE);
 }
