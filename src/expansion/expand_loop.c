@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/02 12:00:40 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/28 17:09:53 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 16:56:36 by dbaffier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ int				expand_loop(t_ret *ret, t_exp *param, int (*end_loop)(t_exp *))
 			error = param_addchar(param->buff[param->i], ret);
 		param->i++;
 	}
+	param->e->err_exp = error;
 	return (error);
 }
