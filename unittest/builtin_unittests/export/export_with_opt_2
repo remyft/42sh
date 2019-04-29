@@ -1,2 +1,0 @@
-export -p 32 kj 0 s
-echo "ret: $?"

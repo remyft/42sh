@@ -1,4 +1,0 @@
-export ku
-echo "ret: $?"
-export
-echo "ret: $?"

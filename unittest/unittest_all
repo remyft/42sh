@@ -68,6 +68,25 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 ./21sh unittest/unittest_test > result_unittest/test_21sh 2>&1
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+./21sh unittest/unittest_type
+./21sh unittest/unittest_type > result_unittest/type_21sh 2>&1
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+./21sh unittest/unittest_set
+./21sh unittest/unittest_set > result_unittest/set_21sh 2>&1
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+./21sh unittest/unittest_unset
+./21sh unittest/unittest_unset > result_unittest/unset_21sh 2>&1
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+./21sh unittest/unittest_export
+./21sh unittest/unittest_export > result_unittest/export_21sh 2>&1
+
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo "------------------------------------------------"
 echo "EXITING..."
