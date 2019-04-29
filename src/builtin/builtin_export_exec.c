@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 18:34:19 by tsisadag          #+#    #+#             */
-/*   Updated: 2019/04/29 13:49:00 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 16:08:25 by tsisadag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ void	change_public_env(char *arg, t_s_env *e)
 {
 	if (is_public(arg, e->public_env))
 	{
-		if (arg[var_name_len(arg)] != '\0'
-		&& ft_strcmp(*sh_getnenvaddr(arg, e->public_env), arg) != 0)
+		if (arg[var_name_len(arg)] != '\0')
 			change_public(arg, e);
 	}
 	else
