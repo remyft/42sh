@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 04:42:50 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/25 23:36:02 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/29 16:23:42 by rfontain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,8 @@ void		check_path(t_s_env *e)
 
 	line = get_struct();
 	path = sh_getnenv("PATH", e->public_env);
-	if ((path && ft_strcmp(path, line->path) != 0) || !path)
-	{
-		free_tree(line->tree[0]);
-		line->tree[0] = create_bin_tree(e->public_env);
-		fill_alias_tree(e->alias_list, line);
-		line->path = path;
-	}
+	free_tree(line->tree[0]);
+	line->tree[0] = create_bin_tree(e->public_env);
+	fill_alias_tree(e->alias_list, line);
+	line->path = path;
 }
