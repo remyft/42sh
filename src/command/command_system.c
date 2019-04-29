@@ -6,18 +6,18 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 08:13:28 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/29 02:27:49 by gbourgeo         ###   ########.fr       */
+/*   Updated: 2019/04/29 12:41:54 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <sys/ioctl.h>
+#include "ft_dprintf.h"
 #include "shell_lib.h"
 #include "command.h"
 #include "command_error.h"
 #include "shell_env.h"
 #include "job_control.h"
-#include <sys/ioctl.h>
-#include "ft_dprintf.h"
 #include "signal_intern.h"
 #include "redirection.h"
 
@@ -39,15 +39,11 @@ static void		command_execve(char *name, t_jobs *job,
 static void		command_exec_job(char *name, t_jobs *job,
 		t_process *p, t_s_env *e)
 {
-	size_t		len;
 	t_execute	*exec;
 
 	exec = (t_execute *)p->exec;
 	if (signal_to_default() == 1)
 		exit(EXIT_FAILURE);
-	len = sh_tablen((const char **)exec->env);
-	len -= sh_tablen((const char **)e->private_env);
-	exec->env[len] = NULL;
 	if (job->foreground)
 		command_rd_forked(((t_execute *)p->exec)->redirection, e);
 	command_execve(name, job, p, e);
