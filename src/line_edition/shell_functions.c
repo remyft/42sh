@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/24 20:10:26 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/28 16:25:27 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/29 21:58:17 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void			shell_loop(t_line *line, t_s_env *e)
 			*e->ret = 130;
 		put_prompt(line->prompt, *line->ret);
 		deal_typing(line);
-		write(1, "\n", 1);
+		write(STDIN_FILENO, "\n", 1);
 		if (line->curr->buff && line->curr->buff[0] && line->tmp[0] != -1
 				&& line->curr->buff[0] != 10)
 			get_new_cmd(line, e);

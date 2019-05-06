@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:57:17 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/25 23:17:46 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/29 21:50:09 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void	get_to_len(t_line *line, char tchar)
 		j++;
 	}
 	j = (int)line->index;
-	ft_putstr(&(line->curr->buff[line->index]));
+	ft_putstr_fd(&(line->curr->buff[line->index]), 0);
 	line->index = line->len;
 	while ((int)line->index > j)
 	{
@@ -82,7 +82,7 @@ static void	get_to_buff(t_line *line, int *cp)
 		line->curr->buff[line->index + 1] = line->curr->buff[line->index];
 	line->curr->buff[line->index++] = line->tmp[*cp];
 	line->len++;
-	ft_putchar(line->tmp[*cp]);
+	ft_putchar_fd(line->tmp[*cp], 0);
 	*cp += 1;
 	if (line->index != line->len)
 		get_to_len(line, tchar);

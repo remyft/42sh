@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 17:13:29 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/29 14:56:30 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/29 21:54:36 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	end_set(t_line *line, char *ptr, DIR *dir, int tilde)
 	c = get_char(ptr, dir, line->curr->buff, tilde);
 	if (line->tmp[0] != ' ' && line->tmp[0] != '/')
 	{
-		ft_putchar(line->curr->buff[(line->len)] = c);
+		ft_putchar_fd(line->curr->buff[(line->len)] = c, 0);
 		line->curr->buff[++(line->len)] = '\0';
 	}
 	else

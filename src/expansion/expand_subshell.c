@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 20:24:31 by gbourgeo          #+#    #+#             */
-/*   Updated: 2019/04/29 10:12:36 by dbaffier         ###   ########.fr       */
+/*   Updated: 2019/04/29 22:00:42 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,10 @@ static void		expand_subshell_child(int pfd[2], size_t i, t_exp *param)
 	dup2(pfd[1], STDOUT_FILENO);
 	close(pfd[1]);
 	line = ft_strndup((char *)param->buff + param->i + 2, i - param->i - 2);
+	define_new_term(&param->e->save);
 	if (line)
 		launch_new_cmd(&line, &newe);
+	term_restore(&param->e->save);
 	close(STDOUT_FILENO);
 	sh_freetab(&newe.public_env);
 	sh_freetab(&newe.private_env);

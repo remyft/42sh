@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 04:51:36 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/25 23:16:08 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/29 21:55:26 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	del_left_tool(t_line *line)
 			&& line->index == line->len)
 	{
 		tputs(tgetstr("sc", NULL), 1, ft_pchar);
-		ft_putchar(' ');
+		ft_putchar_fd(' ', 0);
 		tputs(tgetstr("rc", NULL), 1, ft_pchar);
 	}
 	if (line->len + line->lprompt > line->nb_col - 1)

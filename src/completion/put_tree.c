@@ -6,7 +6,7 @@
 /*   By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 01:34:09 by rfontain          #+#    #+#             */
-/*   Updated: 2019/04/28 19:32:40 by rfontain         ###   ########.fr       */
+/*   Updated: 2019/04/29 21:54:02 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,23 @@ static void	get_new_buff(t_tree *tern, t_cpl_e env, t_line *line)
 
 static void	put_space(t_cpl_e env, int *car_ret)
 {
+	int		nb;
+
 	if (*car_ret < env.nb_col - 1)
 	{
-		ft_putchars(' ', env.lenm - ft_strlen(env.bru) + 1);
+		nb = env.lenm - ft_strlen(env.bru) + 1;
+		while (nb--)
+			write(0, " ", 1);
+		// ft_putchars(' ', env.lenm - ft_strlen(env.bru) + 1);
 		*car_ret += 1;
 	}
 	else
 	{
-		ft_putchars(' ', env.lenm - ft_strlen(env.bru) + 1);
-		ft_putchar('\n');
+		nb = env.lenm - ft_strlen(env.bru) + 1;
+		while (nb--)
+			write(0, " ", 1);
+		// ft_putchars(' ', env.lenm - ft_strlen(env.bru) + 1);
+		ft_putchar_fd('\n', 0);
 		*car_ret = 0;
 		*env.nb_ret += 1;
 	}
