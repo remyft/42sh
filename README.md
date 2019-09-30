@@ -4,7 +4,7 @@ _A fully functional shell from scratch in C_
 ## Build & Run
 
 ```bash
-git clone https://github.com/remyft/42sh
+git clone https://github.com/remyft/42sh.git
 cd 42sh && make
 ```
 Now you can run your shell, or test it with unit test.
