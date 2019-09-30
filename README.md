@@ -8,16 +8,16 @@ git clone https://github.com/remyft/42sh
 cd 42sh && make
 ```
 Now you can run your shell, or test it with unit test.
-
 **Launch:**
 ```bash
 ./42sh
 ```
-
 **Unit testing :**
 ```bash
 ./42sh unittest/unittest_all
 ```
+
+## Project's details
 
 *Mandatory part:*
 - Full edition of commands line
